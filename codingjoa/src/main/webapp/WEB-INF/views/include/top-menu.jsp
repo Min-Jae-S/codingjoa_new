@@ -24,7 +24,7 @@
 						</div>
 					</li>
 				</c:forEach>
-				<li class="nav-item dropdown test">
+				<li class="nav-item dropdown category test">
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
@@ -42,44 +42,62 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authentication property="principal" var="principal"/>
-				<li class="nav-item dropdown member-menu">
-					<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
-						<img class="nav-member-image" src="${principal.imageUrl}">
-						<span class="font-weight-bold">
-							<c:out value="${principal.nickname}"/>
-						</span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-end">
-						<li>
-							<div class="dropdown-item">
-								<img class="nav-member-image" src="${principal.imageUrl}">
-								<div>
-									<span class="font-weight-bold text-body">
-										<c:out value="${principal.nickname}"/>
-									</span></br>
-									<span class="text-muted">
-										<c:out value="${principal.email}"/>
-									</span>
+				<c:if test="${empty principal}">
+					<li class="nav-item">
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
+					</li>
+					<li class="nav-item">
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+					</li>
+				</c:if>
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item">
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
+					</li>
+					<li class="nav-item">
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+					</li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item dropdown member-menu">
+						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
+							<img class="nav-member-image" src="${principal.imageUrl}">
+							<span class="font-weight-bold">
+								<c:out value="${principal.nickname}"/>
+							</span>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li>
+								<div class="dropdown-item">
+									<img class="nav-member-image" src="${principal.imageUrl}">
+									<div>
+										<span class="font-weight-bold text-body">
+											<c:out value="${principal.nickname}"/>
+										</span></br>
+										<span class="text-muted">
+											<c:out value="${principal.email}"/>
+										</span>
+									</div>
 								</div>
-							</div>
-						</li>			
-						<hr class="dropdown-divider">
-						<li>
-							<a href="${contextPath}/member/message" class="dropdown-item message">
-								메시지
-							</a>
-						</li>
-						<hr class="dropdown-divider">
-						<li>
-							<a href="${contextPath}/member/account" class="dropdown-item account">
-								계정 관리
-							</a>
-							<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-								로그아웃
-							</a>
-						</li>
-					</ul>
-				</li>
+							</li>			
+							<hr class="dropdown-divider">
+							<li>
+								<a href="${contextPath}/member/message" class="dropdown-item message">
+									메시지
+								</a>
+							</li>
+							<hr class="dropdown-divider">
+							<li>
+								<a href="${contextPath}/member/account" class="dropdown-item account">
+									계정 관리
+								</a>
+								<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
+									로그아웃
+								</a>
+							</li>
+						</ul>
+					</li>
+				</sec:authorize>
 			</ul>
 		</div>
 	</div>
@@ -91,13 +109,19 @@
 	$(function() {
 		let timer; 
 		let delay = 200; // 0.2s
-		let $dropdowns = $("li.category div.dropdown-menu");
+		let $dropdowns = $(".category .dropdown-menu");
 		
-		$("li.category").on("mouseenter", function() {
+		$(".category").on("mouseenter", function() {
 			clearTimeout(timer);
 			$(this).addClass("active");
+			
 			let category = $(this).data("category");
-			let $dropdown = $(this).find("div.dropdown-menu");
+			let $dropdown = $(this).find(".dropdown-menu");
+			
+			if ($(this).hasClass("test")) {
+				 $dropdown.addClass("show");
+				 return;
+			}
 			
 			timer = setTimeout(function() {
 				categoryService.getCategoryListByParent(category, function(result) {
@@ -110,26 +134,15 @@
 			}, delay);
 		});
 		
-		$("li.category").on("mouseleave", function() {
+		$(".category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			//$dropdowns.removeClass("show").empty();
+			$dropdowns.removeClass("show").empty();
 		});
-
 		
-		$(document).on("click", "li.category button.dropdown-item", function() {
-			let parentPath = $(this).closest("li.dropdown").data("path");
+		$(document).on("click", ".category .dropdown-item", function() {
+			let parentPath = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
-		});
-		
-		$("li.test").on("mouseenter", function() {
-			$(this).addClass("active");
-			$(this).find("div.dropdown-menu").addClass("show");
-		});
-
-		$("li.test").on("mouseleave", function() {
-			$(this).removeClass("active");
-			$(this).find("div.dropdown-menu").removeClass("show");
 		});
 		
 	});

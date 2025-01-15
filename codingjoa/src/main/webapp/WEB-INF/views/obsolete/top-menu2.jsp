@@ -42,40 +42,7 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authentication property="principal" var="principal"/>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
-						<img class="nav-member-image" src="${principal.imageUrl}">
-						<span class="font-weight-bold">
-							<c:out value="${principal.nickname}"/>
-						</span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-end">
-						<li>
-							<div class="dropdown-item">
-								<img class="nav-member-image" src="${principal.imageUrl}">
-								<div>
-									<span class="font-weight-bold text-body">
-										<c:out value="${principal.nickname}"/>
-									</span></br>
-									<span class="text-muted">
-										<c:out value="${principal.email}"/>
-									</span>
-								</div>
-							</div>
-						</li>			
-						<hr class="dropdown-divider">
-						<li>
-							<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
-						</li>
-						<hr class="dropdown-divider">
-						<li>
-							<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
-							<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
-						</li>
-					</ul>
-				</li>
-				
-				<%-- <c:if test="${empty principal}">
+				<c:if test="${empty principal}">
 					<li class="nav-item">
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
@@ -122,7 +89,7 @@
 					<li class="nav-item">
 						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="nav-link">로그아웃</a>
 					</li>
-				</sec:authorize> --%>
+				</sec:authorize>
 			</ul>
 		</div>
 	</div>
