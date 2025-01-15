@@ -43,8 +43,11 @@
 		<ul class="navbar-nav ms-auto me-3"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-				<i class="fas fa-user-large fa-fw"></i>
+			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+				<img class="nav-member-image" src="${principal.imageUrl}">
+				<span class="font-weight-bold">
+					<c:out value="${principal.nickname}"/>
+				</span>
 			</a>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
@@ -60,18 +63,14 @@
 							</div>
 						</div>
 					</li>			
+					<hr class="dropdown-divider">
 					<li>
-						<hr class="dropdown-divider">
+						<a href="${contextPath}/member/message" class="dropdown-item message">쪽지</a>
 					</li>
-					<li class="pt-2">
-						<a href="${contextPath}/member/account" class="dropdown-item my-info">
-							<!-- <i class="fa-solid fa-user-large fa-fw mr-3"></i> -->계정 관리
-						</a>
-					</li>
-					<li class="pb-2">
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-							<!-- <i class="fa-solid fa-arrow-right-from-bracket fa-fw mr-3"></i> -->로그아웃
-						</a>
+					<hr class="dropdown-divider">
+					<li>
+						<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 					</li>
 				</ul>
 			</li>
