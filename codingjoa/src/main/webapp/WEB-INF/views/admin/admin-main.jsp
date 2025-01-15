@@ -65,12 +65,18 @@
 					</li>			
 					<hr class="dropdown-divider">
 					<li>
-						<a href="${contextPath}/member/message" class="dropdown-item message">쪽지</a>
+						<a href="${contextPath}/member/message" class="dropdown-item message">
+							메시지
+						</a>
 					</li>
 					<hr class="dropdown-divider">
 					<li>
-						<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
+						<a href="${contextPath}/member/account" class="dropdown-item account">
+							계정 관리
+						</a>
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
+							로그아웃
+						</a>
 					</li>
 				</ul>
 			</li>

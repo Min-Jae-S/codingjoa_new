@@ -42,7 +42,7 @@
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<sec:authentication property="principal" var="principal"/>
-				<li class="nav-item dropdown member-menu">
+				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
 						<img class="nav-member-image" src="${principal.imageUrl}">
 						<span class="font-weight-bold">
@@ -65,21 +65,64 @@
 						</li>			
 						<hr class="dropdown-divider">
 						<li>
-							<a href="${contextPath}/member/message" class="dropdown-item message">
-								메시지
-							</a>
+							<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
 						</li>
 						<hr class="dropdown-divider">
 						<li>
-							<a href="${contextPath}/member/account" class="dropdown-item account">
-								계정 관리
-							</a>
-							<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-								로그아웃
-							</a>
+							<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+							<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 						</li>
 					</ul>
 				</li>
+				
+				<%-- <c:if test="${empty principal}">
+					<li class="nav-item">
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
+					</li>
+					<li class="nav-item">
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+					</li>
+				</c:if>
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item">
+						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
+					</li>
+					<li class="nav-item">
+						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+					</li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item">
+						<a href="${contextPath}/member/account" class="nav-link nav-member-profile">
+							<c:choose>
+								<c:when test="${not empty principal.imageUrl}">
+									<img class="nav-member-image" id="navMemberImage" src="${principal.imageUrl}">
+								</c:when>
+								<c:otherwise>
+									<img class="nav-member-image"" id="navMemberImage" 
+										src="${contextPath}/resources/images/img_profile.png">
+								</c:otherwise>
+							</c:choose>
+							<span class="font-weight-bold text-body" id="navMemberNickname">
+								<c:out value="${principal.nickname}"/>
+							</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<span class="nav-link vertical-divider"></span>
+					</li>
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<li class="nav-item">
+							<a href="${contextPath}/admin" class="nav-link">관리자 모드</a>
+						</li>
+					</sec:authorize>
+					<li class="nav-item">
+						<a href="${contextPath}/member/account" class="nav-link">계정 관리</a>
+					</li>
+					<li class="nav-item">
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="nav-link">로그아웃</a>
+					</li>
+				</sec:authorize> --%>
 			</ul>
 		</div>
 	</div>
@@ -113,7 +156,7 @@
 		$("li.category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			//$dropdowns.removeClass("show").empty();
+			$dropdowns.removeClass("show").empty();
 		});
 
 		
