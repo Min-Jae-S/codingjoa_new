@@ -24,7 +24,7 @@
 						</div>
 					</li>
 				</c:forEach>
-				<li class="nav-item dropdown category test">
+				<li class="nav-item dropdown test">
 					<a href="#" class="nav-link">TEST</a>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
@@ -113,15 +113,11 @@
 		
 		$(".category").on("mouseenter", function() {
 			clearTimeout(timer);
+			//$dropdowns.removeClass("show").empty();
 			$(this).addClass("active");
 			
 			let category = $(this).data("category");
 			let $dropdown = $(this).find(".dropdown-menu");
-			
-			if ($(this).hasClass("test")) {
-				 $dropdown.addClass("show");
-				 return;
-			}
 			
 			timer = setTimeout(function() {
 				categoryService.getCategoryListByParent(category, function(result) {
@@ -137,12 +133,23 @@
 		$(".category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			$dropdowns.removeClass("show").empty();
+			//$dropdowns.removeClass("show").empty();
 		});
 		
 		$(document).on("click", ".category .dropdown-item", function() {
 			let parentPath = $(this).closest(".dropdown").data("path");
 			location.href = "${contextPath}" + parentPath + $(this).data("path");
+		});
+		
+		$(".test").on("mouseenter", function() {
+			$dropdowns.removeClass("show").empty();
+			$(this).addClass("active");
+			$(this).find(".dropdown-menu").addClass("show");
+		});
+
+		$(".test").on("mouseleave", function() {
+			$(this).removeClass("active");
+			$(this).find(".dropdown-menu").removeClass("show");
 		});
 		
 	});
