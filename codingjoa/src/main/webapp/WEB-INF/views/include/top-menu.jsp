@@ -73,7 +73,8 @@
 									<div>
 										<span class="font-weight-bold text-body">
 											<c:out value="${principal.nickname}"/>
-										</span></br>
+										</span>
+										</br>
 										<span class="text-muted">
 											<c:out value="${principal.email}"/>
 										</span>
@@ -81,19 +82,19 @@
 								</div>
 							</li>			
 							<hr class="dropdown-divider">
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<li>
+									<a href="${contextPath}/admin" class="dropdown-item admin">관리자</a>
+								</li>
+								<hr class="dropdown-divider">
+							</sec:authorize>
 							<li>
-								<a href="${contextPath}/member/message" class="dropdown-item message">
-									메시지
-								</a>
+								<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
 							</li>
 							<hr class="dropdown-divider">
 							<li>
-								<a href="${contextPath}/member/account" class="dropdown-item account">
-									계정 관리
-								</a>
-								<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-									로그아웃
-								</a>
+								<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+								<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 							</li>
 						</ul>
 					</li>
@@ -113,7 +114,7 @@
 		
 		$(".category").on("mouseenter", function() {
 			clearTimeout(timer);
-			//$dropdowns.removeClass("show").empty();
+			//$dropdowns.empty();
 			$(this).addClass("active");
 			
 			let category = $(this).data("category");
@@ -133,7 +134,7 @@
 		$(".category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			//$dropdowns.removeClass("show").empty();
+			//$dropdowns.empty();
 		});
 		
 		$(document).on("click", ".category .dropdown-item", function() {

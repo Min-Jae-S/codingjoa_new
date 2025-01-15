@@ -363,6 +363,11 @@ textarea:focus::-webkit-input-placeholder {
 	background-image: url(../images/logout.svg);
 }
 
+.navbar-custom .member-menu a.dropdown-item.admin::before {
+	background-image: url(../images/admin.svg);
+	/* background-image: url(../images/admin.jpg); */
+}
+
 .navbar-custom .member-menu .nav-member-profile::after {
 	margin-left: 8px;
 }
