@@ -24,6 +24,7 @@
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
 <style>
+	/* ... */
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -51,10 +52,10 @@
 							<img class="nav-member-image" src="${principal.imageUrl}">
 							<div>
 								<span class="font-weight-bold text-body">
-									<c:out value="${principal.email}"/>
-								</span></br>
-								<span class="font-weight-bold text-muted">
 									<c:out value="${principal.nickname}"/>
+								</span></br>
+								<span class="text-muted">
+									<c:out value="${principal.email}"/>
 								</span>
 							</div>
 						</div>
@@ -69,7 +70,7 @@
 					</li>
 					<li class="pb-2">
 						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-							<!-- <i class="fa-solid fa-arrow-right-from-bracket fa-fw mr-3"> --></i>로그아웃
+							<!-- <i class="fa-solid fa-arrow-right-from-bracket fa-fw mr-3"></i> -->로그아웃
 						</a>
 					</li>
 				</ul>
@@ -109,7 +110,7 @@
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages">
 							<div class="sb-nav-link-icon">
-								<i class="fas fa-book-open fa-fw""></i>
+								<i class="fas fa-book-open fa-fw"></i>
 							</div>
 							<span>공지사항 관리</span>
 							<div class="sb-sidenav-collapse-arrow">
