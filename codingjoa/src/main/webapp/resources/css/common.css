@@ -123,7 +123,7 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .navbar-custom .navbar-nav .nav-item:not(:last-of-type) {
-	margin-right: 0.5rem; /* mr-2 */
+	margin-right: 1rem; /* mr-2 */
 }
 
 .navbar-custom .navbar-nav .nav-item.active {

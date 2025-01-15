@@ -63,13 +63,13 @@
 						<hr class="dropdown-divider">
 					</li>
 					<li class="pt-2">
-						<a href="${contextPath}/member/account" class="dropdown-item">
-							<i class="fa-solid fa-user-large fa-fw mr-3"></i>계정 관리
+						<a href="${contextPath}/member/account" class="dropdown-item my-info">
+							<!-- <i class="fa-solid fa-user-large fa-fw mr-3"></i> -->계정 관리
 						</a>
 					</li>
 					<li class="pb-2">
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item">
-							<i class="fa-solid fa-arrow-right-from-bracket fa-fw mr-3"></i>로그아웃
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
+							<!-- <i class="fa-solid fa-arrow-right-from-bracket fa-fw mr-3"> --></i>로그아웃
 						</a>
 					</li>
 				</ul>
