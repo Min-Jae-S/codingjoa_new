@@ -372,12 +372,6 @@ textarea:focus::-webkit-input-placeholder {
 	margin-left: 8px;
 }
 
-
-
-
-
-
-
 .w-10 {
 	width: 10% !important;	
 }
@@ -407,7 +401,6 @@ footer {
 }
 
 #layoutSidenav {
-	/* height: 100% !important; */
 	min-height: calc(100% - 56px);
 }
 
@@ -539,7 +532,4 @@ footer {
 .sb-topnav .nav-member-profile .nav-member-image {
 	border-color: transparent;
 }
-
-
-
 
