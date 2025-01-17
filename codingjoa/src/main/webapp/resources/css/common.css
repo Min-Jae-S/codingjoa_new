@@ -200,7 +200,7 @@ textarea:focus::-webkit-input-placeholder {
 
 .navbar-custom .navbar-nav {
 	flex-shrink: 0;
-	column-gap: 1rem;
+	column-gap: 1.5rem;
 }
 
 .navbar-custom .navbar-nav .nav-item {
