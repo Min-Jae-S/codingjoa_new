@@ -47,9 +47,9 @@ html, body {
     font-weight: 600;
     font-display: block;
     src: local("Pretendard SemiBold"), 
-    	url(..font/Pretendard-SemiBold.subset.woff2) format("woff2"), 
-    	url(..font/Pretendard-SemiBold.woff2) format("woff2"), 
-    	url(..font/Pretendard-SemiBold.woff) format("woff") 
+    	url(../font/Pretendard-SemiBold.subset.woff2) format("woff2"), 
+    	url(../font/Pretendard-SemiBold.woff2) format("woff2"), 
+    	url(../font/Pretendard-SemiBold.woff) format("woff") 
 }
 
 @font-face {
@@ -198,9 +198,17 @@ textarea:focus::-webkit-input-placeholder {
 	padding: .5rem;
 }
 
-.navbar-custom .navbar-nav {
+.navbar-custom .navbar-nav  {
 	flex-shrink: 0;
+}
+
+.navbar-custom .navbar-nav.categories {
 	column-gap: 1.5rem;
+}
+
+.navbar-custom .navbar-nav.member-utils {
+	column-gap: 0.25rem;
+	margin-left: auto;
 }
 
 .navbar-custom .navbar-nav .nav-item {
@@ -267,7 +275,6 @@ textarea:focus::-webkit-input-placeholder {
 .navbar-nav .test .dropdown-menu {
 	line-height: 40px;
 }
-
 
 .navbar-nav .member-menu .dropdown-menu { /* .dropdown-menu-end */
 	right: 0;
@@ -342,6 +349,35 @@ textarea:focus::-webkit-input-placeholder {
     background-size: 100% 100%;
 }
 
+.navbar-custom button.notification {
+	border: 0;
+    width: 40px;
+    height: 40px;
+	border-radius: 50%;
+	background: transparent;
+	cursor: pointer;
+	padding: 0;
+	margin: 0;
+}
+
+.navbar-custom button.notification span {
+	display: block;
+	height: 40px;
+	width: 40px;
+	content: "";
+	border-radius: 50%;
+	background-position: 51% 50%;
+    background-repeat: no-repeat;
+    background-size: 28px 28px;
+    background-image: url(../images/notification.svg);
+    transition: filter;
+}
+
+.navbar-custom button.notification span:hover {
+    /* background-image: url(../images/notification_hover.svg); */
+    filter: invert(31%) sepia(0%) saturate(100%) hue-rotate(-186deg) brightness(100%) contrast(100%);
+}
+
 .navbar-custom .member-menu a.dropdown-item.message::before {
 	background-image: url(../images/message.svg);
 }
@@ -355,6 +391,8 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .navbar-custom .member-menu a.dropdown-item.admin::before {
+	margin-left: 1px;
+	margin-right: 11px;
 	background-image: url(../images/admin.svg);
 	/* background-image: url(../images/admin.jpg); */
 }

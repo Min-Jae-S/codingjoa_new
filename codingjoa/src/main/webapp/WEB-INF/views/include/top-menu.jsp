@@ -10,7 +10,7 @@
 			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
 		</div>
 		<div class="collapse navbar-collapse">
-			<ul class="navbar-nav">
+			<ul class="navbar-nav categories">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown category" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
 						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
@@ -40,7 +40,7 @@
 					</div>
 				</li>
 			</ul>
-			<ul class="navbar-nav ml-auto">
+			<ul class="navbar-nav member-utils">
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item">
@@ -59,6 +59,11 @@
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item">
+						<button href="${contextPath}/notifications" class="notification">
+							<span></span>
+						</button>
+					</li>
 					<li class="nav-item dropdown member-menu">
 						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
 							<img class="nav-member-image" src="${principal.imageUrl}">
@@ -153,6 +158,10 @@
 			$(this).find(".dropdown-menu").removeClass("show");
 		});
 		
+		$("button.notification").on("click", function() {
+			console.log("## notification button click");
+			location.href = "${contextPath}/notifications";
+		});
 	});
 	
 	function adminApi() {
