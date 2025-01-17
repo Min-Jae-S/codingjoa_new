@@ -77,16 +77,16 @@
 	
 	.dropright .dropdown-item {
 		font-size: 0.875rem;
-		padding: .25rem 1.5rem !important;
+		padding: 0.25rem 1.5rem !important;
 	}
 
 	/* :first-child and :nth-child(1) do not function */
 	.dropright .dropdown-item:first-of-type {
-		margin-top: 0.25rem;
+		margin-top: 0.35rem;
 	}
 	
 	.dropright .dropdown-item:last-of-type {
-		margin-bottom: 0.25rem;
+		margin-bottom: 0.35rem;
 	}
 	
 	.title {
@@ -279,18 +279,18 @@
         transform: translate(-50%, -50%);
 	}
 	
-	.text-grey {
-		color: #868e96;
-	}
-	
-	button[name="commentLikesBtn"] i {
-		font-size: 1.1rem;
-	}
-	
 	.ck-read-only {
    		--ck-widget-outline-thickness: 0;
    		border: none !important;
    		padding: 0 !important;
+	}
+	
+	button[name=commentLikesBtn] svg {
+		color: #868e96;
+	}
+	
+	button[name=commentLikesBtn] svg.liked {
+		color: #007bff;
 	}
 	
 	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
@@ -843,8 +843,15 @@
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
-				let cssClass = (commentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
-				$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
+				//let cssClass = (commentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
+				//$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
+				
+				let $svg = $li.find("button[name=commentLikesBtn] svg");
+				if (commentLiked) {
+					$svg.addClass("liked");
+				} else {
+					$svg.removeClass("liked");
+				}
 				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$li.find(".comment-likes-cnt").text(result.data);
