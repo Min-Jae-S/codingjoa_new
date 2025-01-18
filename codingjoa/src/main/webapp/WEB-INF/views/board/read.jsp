@@ -397,7 +397,7 @@
 			<div class="header-group">
 				<div class="board-utils mb-3">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
-						<c:out value="${category.categoryName}"/><i class="fa-solid fa-angle-right fa-fw"></i>
+						<c:out value="${category.categoryName}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
 					<div class="dropright ml-auto">
 						<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
@@ -429,7 +429,7 @@
 						</div>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 							<span class="icon">
-								<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid' : 'fa-regular'}"/></i>
+								<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
 							</span>
 							<span>좋아요</span>
 							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
@@ -843,12 +843,12 @@
 				if (boardLiked) {
 					icon += "<i class='fa-heart fa-fw fa-solid text-danger'></i>";
 				} else {
-					icon += "<i class='fa-heart fa-fw fa-regular text-grey'></i>";
+					icon += "<i class='fa-heart fa-fw fa-regular'></i>";
 				}
 				$("#boardLikesBtn .icon").html(icon);
 				
 				
-				//let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
+				//let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular";
 				//$("#boardLikesBtn i").removeClass().addClass(cssClass);
 				
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
