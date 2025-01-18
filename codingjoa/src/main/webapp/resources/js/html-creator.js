@@ -95,14 +95,16 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
+	html += "<button type='button' name='commentLikesBtn'>";
+	html += "<span class='icon'>";
 	if (commentDetails.isCommentLiked) {
-		html += "<button type='button' name='commentLikesBtn' class='on'>";
+		html += "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>";
 	} else {
-		html += "<button type='button' name='commentLikesBtn'>";
+		html += "<i class='fa-thumbs-up fa-fw fa-regular'></i>";
 	}
 
-	html += "<i class='fa-thumbs-up fa-fw fa-regular'></i>";
-	html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가		
+	html += "</span>";
+	html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";	
 	html += "</button>";
 	html += "</div>";
 	html += "</div>";

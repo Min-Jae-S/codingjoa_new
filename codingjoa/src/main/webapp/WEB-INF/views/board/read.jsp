@@ -296,12 +296,9 @@
 		margin-left: auto;
 	}
 	
-	button[name=commentLikesBtn] svg { 
+	button[name=commentLikesBtn] .icon { 
 		color: #868e96;
-	}
-	
-	button[name=commentLikesBtn].on svg {
-		color: #007bff;
+		margin-right: 2px;
 	}
 	
 	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
@@ -838,18 +835,11 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
-				let icon = "";
 				let boardLiked = result.data;
-				if (boardLiked) {
-					icon += "<i class='fa-heart fa-fw fa-solid text-danger'></i>";
-				} else {
-					icon += "<i class='fa-heart fa-fw fa-regular'></i>";
-				}
-				$("#boardLikesBtn .icon").html(icon);
-				
-				
-				//let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular";
-				//$("#boardLikesBtn i").removeClass().addClass(cssClass);
+				let iconClass = boardLiked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
+
+				//$("#boardLikesBtn .icon").html('<i class="${iconClass}"></i>');
+				$("#boardLikesBtn .icon").html('<i class="' + iconClass + '"></i>');
 				
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$(".board-likes-cnt").text(result.data);
@@ -865,11 +855,8 @@
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
-				if (commentLiked) {
-					$this.addClass("on");
-				} else {
-					$this.removeClass();
-				}
+				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primaryr" : "fa-thumbs-up fa-fw fa-regular";
+				$this.find(".icon").html('<i class="' + iconClass + '"></i>');
 				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$this.find(".comment-likes-cnt").text(result.data);
