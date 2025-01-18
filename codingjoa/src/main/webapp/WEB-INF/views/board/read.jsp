@@ -66,6 +66,10 @@
 		color: #007bff;
 	}
 	
+	.board-category svg { /* .svg-inline--fa : vertical-align: -.125em; */
+		vertical-align: -.2em;
+	} 
+	
 	.board-utils-btn {
 		box-shadow: none !important;
 		padding-top: 0 !important;
