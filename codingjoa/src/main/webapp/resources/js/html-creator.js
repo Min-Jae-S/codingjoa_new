@@ -52,10 +52,13 @@ function createPagedCommentHtml(pagedComment) {
 }
 
 function createCommentHtml(commentDetails) {
+	console.log("## createCommentHtml");
+	console.log(commentDetails);
+	
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='../images/img_profile.png'>";
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
 		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}
@@ -95,13 +98,13 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
-	html += "<button class='btn border-0 p-0 shadow-none ml-auto' type='button' name='commentLikesBtn'>";
 	if (commentDetails.isCommentLiked) {
-		html += "<i class='fa-thumbs-up fa-regular liked'></i>";
+		html += "<button type='button' name='commentLikesBtn' class='on'>";
 	} else {
-		html += "<i class='fa-thumbs-up fa-regular'></i>";
+		html += "<button type='button' name='commentLikesBtn'>";
 	}
-	
+
+	html += "<i class='fa-thumbs-up fa-regular'></i>";
 	html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가		
 	html += "</button>";
 	html += "</div>";
@@ -113,7 +116,7 @@ function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='../images/img_profile.png'>";
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
 		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}
@@ -142,7 +145,7 @@ function createEditCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='../images/img_profile.png'>";
+		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 	} else {
 		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}

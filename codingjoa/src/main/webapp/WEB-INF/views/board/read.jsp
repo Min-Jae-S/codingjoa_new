@@ -285,11 +285,19 @@
    		padding: 0 !important;
 	}
 	
-	button[name=commentLikesBtn] svg {
-		color: #868e96;
+	button[name=commentLikesBtn] { /* btn border-0 p-0 shadow-none ml-auto */
+		padding: 0;
+		border: 0;
+		background-color: transparent;
+		margin-left: auto;
 	}
 	
-	button[name=commentLikesBtn] svg.liked {
+	button[name=commentLikesBtn] svg { 
+		color: #868e96;
+		margin-right: 2px;
+	}
+	
+	button[name=commentLikesBtn].on svg {
 		color: #007bff;
 	}
 	
@@ -837,24 +845,20 @@
 		
 		// toggleCommentLikes
 		$(document).on("click", "button[name=commentLikesBtn]", function() {
-			let $li = $(this).closest("li");
-			let commentIdx = $li.data("idx");
+			let $this = $(this);
+			let commentIdx = $(this).closest("li").data("idx");
 			
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
-				//let cssClass = (commentLiked) ? "fa-regular fa-thumbs-up text-primary" : "fa-regular fa-thumbs-up text-grey";
-				//$li.find("button[name=commentLikesBtn] i").removeClass().addClass(cssClass);
-				
-				let $svg = $li.find("button[name=commentLikesBtn] svg");
 				if (commentLiked) {
-					$svg.addClass("liked");
+					$this.addClass("on");
 				} else {
-					$svg.removeClass("liked");
+					$this.removeClass();
 				}
 				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
-					$li.find(".comment-likes-cnt").text(result.data);
+					$this.find(".comment-likes-cnt").text(result.data);
 				});
 			});
 		});
