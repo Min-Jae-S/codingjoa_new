@@ -143,7 +143,7 @@
 										<span><c:out value="${boardDetails.boardViews}"/></span>
 									</td>
 									<td class="d-md-table-cell">
-										<i class="fa-heart ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
+										<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
 										<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 									</td>
 								</tr>

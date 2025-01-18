@@ -298,7 +298,6 @@
 	
 	button[name=commentLikesBtn] svg { 
 		color: #868e96;
-		margin-right: 2px;
 	}
 	
 	button[name=commentLikesBtn].on svg {
@@ -402,7 +401,7 @@
 					</a>
 					<div class="dropright ml-auto">
 						<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
-							<i class="fa-solid fa-ellipsis-vertical"></i>
+							<i class="fa-ellipsis-vertical fa-solid"></i>
 						</button>
 						<div class="dropdown-menu">
 							<h6 class="dropdown-header">게시글 관리</h6>
@@ -424,12 +423,14 @@
 					</div>
 					<div class="board-info-right">
 						<div>
-							<i class="fa-regular fa-comment-dots"></i>
+							<span><i class="fa-comment-dots fa-fw fa-regular"></i></span>
 							<span>댓글</span>
 							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
 						</div>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
-							<i class="fa-heart ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
+							<span class="icon">
+								<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid' : 'fa-regular'}"/></i>
+							</span>
 							<span>좋아요</span>
 							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
 						</button>
@@ -837,9 +838,18 @@
 		$("#boardLikesBtn").on("click", function() {
 			likesService.toggleBoardLikes(boardIdx, function(result) {
 				alert(result.message);
+				let icon = "";
 				let boardLiked = result.data;
-				let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
-				$("#boardLikesBtn i").removeClass().addClass(cssClass);
+				if (boardLiked) {
+					icon += "<i class='fa-heart fa-fw fa-solid text-danger'></i>";
+				} else {
+					icon += "<i class='fa-heart fa-fw fa-regular text-grey'></i>";
+				}
+				$("#boardLikesBtn .icon").html(icon);
+				
+				
+				//let cssClass = (boardLiked) ? "fa-heart fa-solid text-danger" : "fa-heart fa-regular text-grey";
+				//$("#boardLikesBtn i").removeClass().addClass(cssClass);
 				
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$(".board-likes-cnt").text(result.data);

@@ -52,9 +52,6 @@ function createPagedCommentHtml(pagedComment) {
 }
 
 function createCommentHtml(commentDetails) {
-	console.log("## createCommentHtml");
-	console.log(commentDetails);
-	
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
@@ -83,7 +80,7 @@ function createCommentHtml(commentDetails) {
 		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' disabled>";
 	}
 	
-	html += "<i class='fa-solid fa-ellipsis-vertical'></i>";
+	html += "<i class='fa-ellipsis-vertical fa-solid'></i>";
 	html += "</button>";
 	html += "<div class='dropdown-menu'>";
 	html += "<h6 class='dropdown-header'>댓글 관리</h6>";
@@ -104,7 +101,7 @@ function createCommentHtml(commentDetails) {
 		html += "<button type='button' name='commentLikesBtn'>";
 	}
 
-	html += "<i class='fa-thumbs-up fa-regular'></i>";
+	html += "<i class='fa-thumbs-up fa-fw fa-regular'></i>";
 	html += " <span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>"; // 앞의 공백을 의도적으로 추가		
 	html += "</button>";
 	html += "</div>";
@@ -191,7 +188,7 @@ function createPaginationHtml(pagination) {
 	if (pagination.prev) {
 		html += "<li class='page-item'>";
 		html += "<a class='page-link' href='#' data-page='" + pagination.prevPage + "'>";
-		html += "<i class='fa-solid fa-chevron-left'></i>";
+		html += "<i class='fa-chevron-left fa-solid'></i>";
 		html += "</a>";
 		html += "</li>";
 	}
@@ -209,7 +206,7 @@ function createPaginationHtml(pagination) {
 	if (pagination.next) {
 		html += "<li class='page-item'>";
 		html += "<a class='page-link' href='#' data-page='" + pagination.nextPage + "'>";
-		html += "<i class='fa-solid fa-chevron-right'></i>";
+		html += "<i class='fa-chevron-right fa-solid'></i>";
 		html += "</a>";
 		html += "</li>";
 	}

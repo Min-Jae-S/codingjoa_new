@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -118,7 +117,7 @@
 											<span><c:out value="${boardDetails.boardViews}"/></span>
 										</td>
 										<td class="d-md-table-cell">
-											<i class="fa-heart ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
+											<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
 											<span><c:out value="${boardDetails.boardLikesCnt}"/></span>
 										</td>
 									</tr>
