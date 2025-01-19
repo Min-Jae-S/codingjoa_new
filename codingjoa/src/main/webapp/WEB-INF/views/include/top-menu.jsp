@@ -13,9 +13,7 @@
 			<ul class="navbar-nav categories">
 				<c:forEach var="parentCategory" items="${parentCategoryList}">
 					<li class="nav-item dropdown category" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
-						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link">
-							<c:out value="${parentCategory.categoryName}"/>
-						</a>
+						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link"><c:out value="${parentCategory.categoryName}"/></a>
 						<div class="dropdown-menu">
 							<!-- categories -->
 							<!-- <button class="dropdown-item" type="button" data-path="/?boardCategoryCode=4">공지 게시판</button>
