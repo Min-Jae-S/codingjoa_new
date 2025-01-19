@@ -67,16 +67,17 @@
 	}
 	
 	.board-category svg { /* .svg-inline--fa : vertical-align: -.125em; */
-		vertical-align: -.2em;
+		vertical-align: -.15em;
 	} 
 	
 	.board-utils-btn {
 		box-shadow: none !important;
-		padding-top: 0 !important;
-		padding-bottom: 0 !important;;
-		margin: 0 !important;;
+		margin: 0;
+		padding: 0 !important;
 		vertical-align: top !important;;
 		border: none !important;
+		width: 20px;
+		text-align: right;
 	}
 	
 	.dropright .dropdown-item {
@@ -252,8 +253,7 @@
 	
 	.comment-utils-btn {
 		box-shadow: none !important;
-		padding-top: 0 !important;
-		padding-bottom: 0 !important;
+		padding: 0 !important;
 		margin: 0 !important;
 		vertical-align: top !important;
 		border: none !important;
@@ -261,10 +261,6 @@
 	
 	.textarea-border {
 		border: 1px solid #868e96;
-	}
-	
-	.dropright button {
-		padding-right: 0;
 	}
 	
 	.dropright button:disabled {
@@ -298,7 +294,7 @@
 	
 	button[name=commentLikesBtn] .icon { 
 		color: #868e96;
-		margin-right: 2px;
+		margin-right: 4px;
 	}
 	
 	/* https://stackoverflow.com/questions/54272325/how-to-style-ckeditor-content-for-read-only-display */
@@ -711,10 +707,8 @@
 			
 			let $submitBtn = $(this).closest("div").find("button[type='submit']");
 			if ($(this).val() != "") {
-				//$submitBtn.prop("disabled", false).removeClass().addClass("btn btn-sm btn-outline-primary");
 				$submitBtn.removeClass().addClass("btn btn-sm btn-primary");
 			} else {
-				//$submitBtn.prop("disabled", true).removeClass().addClass("btn btn-sm btn-outline-secondary");
 				$submitBtn.removeClass().addClass("btn btn-sm btn-outline-secondary");
 			}
 		});
@@ -855,7 +849,7 @@
 			likesService.toggleCommentLikes(commentIdx, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
-				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primaryr" : "fa-thumbs-up fa-fw fa-regular";
+				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
 				$this.find(".icon").html('<i class="' + iconClass + '"></i>');
 				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
