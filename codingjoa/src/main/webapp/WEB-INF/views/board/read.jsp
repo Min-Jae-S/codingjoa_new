@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -283,6 +282,11 @@
 	.comment-area-header .dropdown-item {
 		color: #17191c;
 		font-size: 0.9rem;
+	}
+
+	.board-utils .dropdown-item:active,
+	.comment-area-header .dropdown-item:active {
+		background-color: #e9ecef;
 	}
 	
 	button[name=commentLikesBtn] { /* btn border-0 p-0 shadow-none ml-auto */
@@ -718,8 +722,10 @@
 		
 		// show editComment form
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
-			let $li = $(this).closest("li");
+			let $li = $(this).closest("li.list-group-item");
 			let commentDetails = commentMap.get($li.data("idx"));
+			console.log(commentDetails);
+			
 			let editCommentHtml = createEditCommentHtml(commentDetails);
 			$li.html(editCommentHtml);
 			$li.find("textarea").trigger("input").focus();
@@ -727,7 +733,7 @@
 
 		// close editComment form
 		$(document).on("click", ".comment-edit-wrap button[type='button']", function() {
-			let $li = $(this).closest("li");
+			let $li = $(this).closest("li.list-group-item");
 			let commentDetails = commentMap.get($li.data("idx"));
 			let commentHtml = createCommentHtml(commentDetails);
 			$li.html(createCommentHtml(commentDetails));
@@ -763,7 +769,7 @@
 		$(document).on("submit", ".comment-edit-wrap form", function(e) {
 			e.preventDefault();
 			let comment = $(this).serializeObject();
-			let commentIdx = $(this).closest("li").data("idx");
+			let commentIdx = $(this).closest("li.list-group-item").data("idx");
 			
 			commentService.modifyComment(commentIdx, comment, function(result) {
 				alert(result.message);
@@ -789,7 +795,7 @@
 				return;
 			}
 			
-			let commentIdx = $(this).closest("li").data("idx");
+			let commentIdx = $(this).closest("li.list-group-item").data("idx");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
 				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
