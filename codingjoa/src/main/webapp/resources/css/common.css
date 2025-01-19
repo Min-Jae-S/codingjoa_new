@@ -178,12 +178,6 @@ textarea:focus::-webkit-input-placeholder {
 	position: sticky;
 }
 
-/* .navbar-custom a.navbar-brand, 
-.navbar-custom a.nav-link, {
-.navbar-custom a.nav-member-profile {
-	line-height: 56px;
-} */
-
 .navbar-custom div.container-fluid, 
 .navbar-custom div.collapse, 
 .navbar-custom ul.navbar-nav {
@@ -202,7 +196,8 @@ textarea:focus::-webkit-input-placeholder {
 	color: black;
 	font-weight: bold;
 	margin: 0;
-	padding: .5rem;
+	padding: 0.5rem;
+	line-height: 1;
 }
 
 .navbar-custom .navbar-nav  {
