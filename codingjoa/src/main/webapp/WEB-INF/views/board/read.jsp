@@ -50,6 +50,11 @@
 	.board-utils {
 		display: flex;
 	}
+	
+	.title {
+		color: black;
+		font-weight: bold;
+	}
 
 	.board-category {
 		color: #007bff;
@@ -69,50 +74,6 @@
 	.board-category svg { /* .svg-inline--fa : vertical-align: -.125em; */
 		vertical-align: -.15em;
 	} 
-	
-	.board-utils-btn {
-		box-shadow: none !important;
-		margin: 0;
-		padding: 0 !important;
-		vertical-align: top !important;;
-		border: none !important;
-		width: 20px;
-		text-align: right;
-	}
-	
-	.dropright .dropdown-item {
-		font-size: 0.875rem;
-		padding: 0.25rem 1.5rem !important;
-	}
-
-	/* :first-child and :nth-child(1) do not function */
-	.dropright .dropdown-item:first-of-type {
-		margin-top: 0.35rem;
-	}
-	
-	.dropright .dropdown-item:last-of-type {
-		margin-bottom: 0.35rem;
-	}
-	
-	.title {
-		color: black;
-		font-weight: bold;
-	}
-	
-	.board-utils .dropdown-menu,
-	.comment-area-header .dropdown-menu {
-		padding-top :0;
-		padding-bottom: 0;
-		text-align: center;
-	}
-
-	.board-utils .dropdown-header,
-	.comment-area-header .dropdown-header {
-		color: black; 
-		font-weight: bold;
-		border-bottom: 1px solid #e9ecef;
-		text-align: center;
-	}
 	
 	.board-info {
 		display: flex;
@@ -251,14 +212,6 @@
 		gap: 0.5rem;
 	}
 	
-	.comment-utils-btn {
-		box-shadow: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		vertical-align: top !important;
-		border: none !important;
-	}
-	
 	.textarea-border {
 		border: 1px solid #868e96;
 	}
@@ -283,6 +236,52 @@
    		--ck-widget-outline-thickness: 0;
    		border: none !important;
    		padding: 0 !important;
+	}
+	
+	.board-utils-btn, .comment-utils-btn {
+		margin: 0;
+		padding: 0;
+		border: none;
+		background: transparent;
+		width: 20px;
+		text-align: right;
+	}
+	
+	.board-utils .dropdown-menu,
+	.comment-area-header .dropdown-menu {
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		width: 140px;
+	}
+	
+	.board-utils .dropdown-menu[x-placement="right-start"],
+	.comment-area-header .dropdown-menu[x-placement="right-start"] {
+		transform: translate3d(37px, 0px, 0px) !important;
+	}
+
+	.board-utils .dropdown-menu[x-placement="left-start"],
+	.comment-area-header .dropdown-menu[x-placement="left-start"] {
+		transform: translate3d(-162px, 0px, 0px) !important;
+	}
+	
+	.board-utils .dropdown-menu li,
+	.comment-area-header .dropdown-menu li {
+		margin: 0;
+    	padding: 4px 0;
+	}
+
+	.board-utils .dropdown-header,
+	.comment-area-header .dropdown-header {
+		color: black;
+		font-weight: 600;
+		font-size: 0.9rem;
+	}
+
+	.board-utils .dropdown-item,
+	.comment-area-header .dropdown-item {
+		color: #17191c;
+		font-size: 0.9rem;
 	}
 	
 	button[name=commentLikesBtn] { /* btn border-0 p-0 shadow-none ml-auto */
@@ -393,18 +392,21 @@
 						<c:out value="${category.categoryName}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
 					<div class="dropright ml-auto">
-						<button class="board-utils-btn btn" data-toggle="dropdown" data-offset="0,10" ${boardDetails.boardWriter ? '' : 'disabled'}>
+						<button class="board-utils-btn" data-toggle="dropdown" ${boardDetails.boardWriter ? '' : 'disabled'}>
 							<i class="fa-ellipsis-vertical fa-solid"></i>
 						</button>
-						<div class="dropdown-menu">
+						<ul class="dropdown-menu">
 							<h6 class="dropdown-header">게시글 관리</h6>
-							<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
-								수정하기
-							</a>
-					      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
-					      		삭제하기
-					     	</a>
-					     </div>
+							<hr class="dropdown-divider">
+							<li>
+								<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
+									수정하기
+								</a>
+						      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
+						      		삭제하기
+						     	</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>

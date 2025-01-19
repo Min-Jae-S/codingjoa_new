@@ -178,6 +178,12 @@ textarea:focus::-webkit-input-placeholder {
 	position: sticky;
 }
 
+/* .navbar-custom a.navbar-brand, 
+.navbar-custom a.nav-link, {
+.navbar-custom a.nav-member-profile {
+	line-height: 56px;
+} */
+
 .navbar-custom div.container-fluid, 
 .navbar-custom div.collapse, 
 .navbar-custom ul.navbar-nav {
@@ -334,6 +340,7 @@ textarea:focus::-webkit-input-placeholder {
 .navbar-custom .member-menu a.dropdown-item {
 	justify-content: flex-start;
 	height: 48px;
+	line-height: 48px;
 	padding-top: 0;
 	padding-bottom: 0;
 	color: #17191c;
@@ -526,7 +533,9 @@ footer {
 
 .sb-topnav a.dropdown-item {
 	justify-content: flex-start;
+	align-items: center;
 	height: 48px;
+	line-height: 48px;
 	padding-top: 0;
 	padding-bottom: 0;
 	color: #17191c;

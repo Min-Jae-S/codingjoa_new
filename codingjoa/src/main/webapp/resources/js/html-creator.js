@@ -75,9 +75,9 @@ function createCommentHtml(commentDetails) {
 	html += "<div class='dropright ml-auto'>";
 	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' ${commentDetails.isCommentWriter ? '' : 'disabled'}>";
 	if (commentDetails.isCommentWriter) {
-		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false'>";
+		html += "<button class='comment-utils-btn' data-toggle='dropdown'>";
 	} else {
-		html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' aria-expanded='false' disabled>";
+		html += "<button class='comment-utils-btn' data-toggle='dropdown' disabled>";
 	}
 	
 	html += "<i class='fa-ellipsis-vertical fa-solid'></i>";
