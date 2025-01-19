@@ -117,7 +117,7 @@
 		
 		$(".category").on("mouseenter", function() {
 			clearTimeout(timer);
-			$dropdowns.removeClass("show").empty();
+			//$dropdowns.removeClass("show").empty();
 			$(this).addClass("active");
 			
 			let category = $(this).data("category");
@@ -137,7 +137,7 @@
 		$(".category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			$dropdowns.removeClass("show").empty();
+			//$dropdowns.removeClass("show").empty();
 		});
 		
 		$(document).on("click", ".category .dropdown-item", function() {

@@ -150,7 +150,7 @@
 		font-weight: bold;
 	}
 	
-	.comment-list ul {
+	.comment-list > ul {
 		border-radius: 0.5rem;
 	}
 	
@@ -269,6 +269,7 @@
 	.comment-area-header .dropdown-menu li {
 		margin: 0;
     	padding: 4px 0;
+    	background-color: white;
 	}
 
 	.board-utils .dropdown-header,

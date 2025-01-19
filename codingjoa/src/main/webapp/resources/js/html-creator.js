@@ -82,11 +82,14 @@ function createCommentHtml(commentDetails) {
 	
 	html += "<i class='fa-ellipsis-vertical fa-solid'></i>";
 	html += "</button>";
-	html += "<div class='dropdown-menu'>";
+	html += "<ul class='dropdown-menu'>";
 	html += "<h6 class='dropdown-header'>댓글 관리</h6>";
+	html += "<hr class='dropdown-divider'>";
+	html += "<li>";
 	html += "<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>";
 	html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
-	html += "</div>";
+	html += "</li>";
+	html += "</ul>";
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-body'>";
