@@ -92,7 +92,7 @@
 							<span>사용자 관리</span>
 						</a>
 						<div class="sb-sidenav-menu-heading">Contents</div>
-						<a class="nav-link collapsed depth-0" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContents">
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContents">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-columns fa-fw"></i>
 							</div>
@@ -101,13 +101,13 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse depth-1" id="collapseContents"> <!-- data-bs-parent="#sidenavAccordion" -->
+						<div class="collapse" id="collapseContents"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="layout-static.html">Static Navigation</a>
 								<a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
 							</nav>
 						</div>
-						<a class="nav-link collapsed depth-0" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-book-open fa-fw"></i>
 							</div>
@@ -116,7 +116,7 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse depth-1" id="collapseNotifications"> <!-- data-bs-parent="#sidenavAccordion" -->
+						<div class="collapse" id="collapseNotifications"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth">
 									<span>Authentication</span>
@@ -124,11 +124,11 @@
 										<i class="fas fa-angle-down fa-fw"></i>
 									</div>
 								</a>
-								<div class="collapse depth-2" id="pagesCollapseAuth"> <!-- data-bs-parent="#sidenavAccordionPages" -->
+								<div class="collapse" id="pagesCollapseAuth"> <!-- data-bs-parent="#sidenavAccordionPages" -->
 									<nav class="sb-sidenav-menu-nested nav">
 										<a class="nav-link" href="login.html">Login</a> 
 										<a class="nav-link" href="register.html">Register</a>
-										<a class="nav-link" href="password.html">Forgot Password</a>
+										<a class="nav-link" href="password.html">Password</a>
 									</nav>
 								</div>
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError">

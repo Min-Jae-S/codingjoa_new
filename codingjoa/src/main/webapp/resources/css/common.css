@@ -10,6 +10,7 @@ html, body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    overflow-y: overlay;
 }
 
 @font-face {
@@ -105,6 +106,7 @@ html, body {
 html * {
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, Malgun Gothic, 맑은 고딕, helvetica, sans-serif;
     font-variant-numeric: tabular-nums;
+    scrollbar-width: thin;
 }
 
 .container {
@@ -605,14 +607,12 @@ footer {
 	font-size: 1rem;	
 }
 
-.sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-nested {
-	/* margin-left: 2rem; */
+.sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested {
+	margin-left: 2rem !important;
 }
 
-.sb-sidenav .sb-sidenav-menu .depth-0 .collapse.show {
+.sb-sidenav .sb-sidenav-menu .nav-link:has(+ .collapse.show) {
 	color: black !important;
     font-weight: bold;
 }
-
-
 
