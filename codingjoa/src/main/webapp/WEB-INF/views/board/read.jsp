@@ -694,7 +694,6 @@
 			let paginationHtml = createPaginationHtml(pagination);
 			$commentPageDiv.html(paginationHtml);
 			$(".comment-cnt").text(pagination.totalCnt);
-			
 		});
 		
 		$("#deleteBoardLink").on("click", function() {

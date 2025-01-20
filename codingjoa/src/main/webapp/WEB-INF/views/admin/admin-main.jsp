@@ -65,18 +65,12 @@
 					</li>			
 					<hr class="dropdown-divider">
 					<li>
-						<a href="${contextPath}/member/message" class="dropdown-item message">
-							메시지
-						</a>
+						<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
 					</li>
 					<hr class="dropdown-divider">
 					<li>
-						<a href="${contextPath}/member/account" class="dropdown-item account">
-							계정 관리
-						</a>
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">
-							로그아웃
-						</a>
+						<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 					</li>
 				</ul>
 			</li>
@@ -98,7 +92,7 @@
 							<span>사용자 관리</span>
 						</a>
 						<div class="sb-sidenav-menu-heading">Contents</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts">
+						<a class="nav-link collapsed depth-0" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContents">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-columns fa-fw"></i>
 							</div>
@@ -107,13 +101,13 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapseLayouts" data-bs-parent="#sidenavAccordion">
+						<div class="collapse depth-1" id="collapseContents"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="layout-static.html">Static Navigation</a>
 								<a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
 							</nav>
 						</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages">
+						<a class="nav-link collapsed depth-0" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-book-open fa-fw"></i>
 							</div>
@@ -122,7 +116,7 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapsePages" data-bs-parent="#sidenavAccordion">
+						<div class="collapse depth-1" id="collapseNotifications"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth">
 									<span>Authentication</span>
@@ -130,7 +124,7 @@
 										<i class="fas fa-angle-down fa-fw"></i>
 									</div>
 								</a>
-								<div class="collapse" id="pagesCollapseAuth" data-bs-parent="#sidenavAccordionPages">
+								<div class="collapse depth-2" id="pagesCollapseAuth"> <!-- data-bs-parent="#sidenavAccordionPages" -->
 									<nav class="sb-sidenav-menu-nested nav">
 										<a class="nav-link" href="login.html">Login</a> 
 										<a class="nav-link" href="register.html">Register</a>
@@ -143,7 +137,7 @@
 										<i class="fas fa-angle-down fa-fw"></i>
 									</div>
 								</a>
-								<div class="collapse" id="pagesCollapseError" data-bs-parent="#sidenavAccordionPages">
+								<div class="collapse" id="pagesCollapseError"> <!-- data-bs-parent="#sidenavAccordionPages" -->
 									<nav class="sb-sidenav-menu-nested nav">
 										<a class="nav-link" href="401.html">401 Page</a> 
 										<a class="nav-link" href="404.html">404 Page</a> 
@@ -174,19 +168,7 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">Sidenav Light</h1>
-					<ol class="breadcrumb mb-4">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-						<li class="breadcrumb-item active">Sidenav Light</li>
-					</ol>
-					<div class="card mb-4">
-						<div class="card-body">
-							This page is an example of using the light side navigation option. 
-							By appending the <code>.sb-sidenav-light</code> class to the <code>.sb-sidenav</code> class, 
-							the side navigation will take on a light color scheme. 
-							The <code>.sb-sidenav-dark</code> is also available for a darker option.
-						</div>
-					</div>
+					<!-- content -->
 				</div>
 			</main>
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

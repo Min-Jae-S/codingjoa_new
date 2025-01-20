@@ -499,26 +499,6 @@ footer {
 	box-shadow: none;
 }
 
-.sb-sidenav-menu .nav-link {
-	color: #525661;
-}
-
-.sb-sidenav-menu .nav-link:hover {
-	color: black !important;
-	font-weight: bold;
-}
-
-.sb-sidenav-menu .sb-sidenav-menu-heading {
-	color: #525661 !important;
-	font-size: 0.9rem !important;
-}
-
-.sb-sidenav-menu .sb-nav-link-icon {
-	margin-left: 0.5rem;
-	margin-right: 0.65rem !important;
-	font-size: 1rem;	
-}
-
 .sb-topnav .dropdown-menu {
 	width: 270px;
 }
@@ -604,4 +584,35 @@ footer {
 .sb-topnav .member-menu .nickname-email-box span.email {
 	color: #6c757d; /* .text-muted */
 }
+
+.sb-sidenav .sb-sidenav-menu .nav-link {
+	color: #525661;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav-link:hover {
+	color: black !important;
+	font-weight: bold;
+}
+
+.sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-heading {
+	color: #525661 !important;
+	font-size: 0.9rem !important;
+}
+
+.sb-sidenav .sb-sidenav-menu .sb-nav-link-icon {
+	margin-left: 0.5rem;
+	margin-right: 0.65rem !important;
+	font-size: 1rem;	
+}
+
+.sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-nested {
+	/* margin-left: 2rem; */
+}
+
+.sb-sidenav .sb-sidenav-menu .depth-0 .collapse.show {
+	color: black !important;
+    font-weight: bold;
+}
+
+
 
