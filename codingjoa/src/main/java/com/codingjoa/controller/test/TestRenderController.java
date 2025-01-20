@@ -28,6 +28,6 @@ public class TestRenderController {
 			model.addAttribute("nickname", "no nickname");
 		}
 		
-		return "template/test1";
+		return "template/test-template1";
 	}
 }

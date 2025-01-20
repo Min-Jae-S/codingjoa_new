@@ -32,6 +32,10 @@
 	div.test button {
 		width: 230px;
 	}
+	
+	#testDiv {
+		min-height: 400px;
+	}
 </style>
 </head>
 <body>
@@ -40,12 +44,12 @@
 	<p>render.jsp</p>
 	<div class="test mt-5">
 		<button class="btn btn-primary btn-lg mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="test3()">test3</button>
+		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="test2()">test2</button>
+		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="test3()">test3</button>
 	</div>
 	<div class="test mt-5">
-		<button class="btn btn-secondary btn-lg mx-3" onclick="#">#</button>
-		<button class="btn btn-secondary btn-lg mx-3" onclick="#">#</button>
+		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
+		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
 	</div>
 	<div class="container border border-dark rounded-xl mt-5" id="testDiv">
@@ -56,7 +60,7 @@
 <script>
 	function test1() {
 		console.log("## test1");
-		$("#testDiv").load("${contextPath}/test/render/test1", function(result) {
+		$("#testDiv").load("${contextPath}/test/render/test1", function(responseText, status, ) {
 			console.log(result);
 		});
 	}

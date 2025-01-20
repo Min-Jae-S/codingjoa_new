@@ -197,5 +197,11 @@ public class TestViewController {
 		log.info("## sse main");
 		return "test/sse";
 	}
+
+	@GetMapping("/render")
+	public String render() {
+		log.info("## render main");
+		return "test/render";
+	}
 	
 }
