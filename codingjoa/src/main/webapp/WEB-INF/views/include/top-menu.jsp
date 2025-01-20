@@ -73,12 +73,11 @@
 							<li>
 								<div class="dropdown-item">
 									<img class="nav-member-image" src="${principal.imageUrl}">
-									<div>
-										<span class="font-weight-bold text-body">
+									<div class="nickname-email-box">
+										<span class="nickname">
 											<c:out value="${principal.nickname}"/>
 										</span>
-										</br>
-										<span class="text-muted">
+										<span class="email">
 											<c:out value="${principal.email}"/>
 										</span>
 									</div>
@@ -117,7 +116,7 @@
 		
 		$(".category").on("mouseenter", function() {
 			clearTimeout(timer);
-			//$dropdowns.removeClass("show").empty();
+			$dropdowns.removeClass("show").empty();
 			$(this).addClass("active");
 			
 			let category = $(this).data("category");
@@ -137,7 +136,7 @@
 		$(".category").on("mouseleave", function() {
 			clearTimeout(timer);
 			$(this).removeClass("active");
-			//$dropdowns.removeClass("show").empty();
+			$dropdowns.removeClass("show").empty();
 		});
 		
 		$(document).on("click", ".category .dropdown-item", function() {
@@ -157,7 +156,6 @@
 		});
 		
 		$("button.notification").on("click", function() {
-			console.log("## notification button click");
 			location.href = "${contextPath}/notifications";
 		});
 	});

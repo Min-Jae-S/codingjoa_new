@@ -396,6 +396,27 @@ textarea:focus::-webkit-input-placeholder {
 	margin-left: 8px;
 }
 
+.navbar-custom .member-menu .nickname-email-box {
+	height: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.navbar-custom .member-menu .nickname-email-box span.nickname {
+	color: #212529; /* .text-body */ 
+	font-weight: bold;
+}
+
+.navbar-custom .member-menu .nickname-email-box span.email {
+	color: #6c757d; /* .text-muted */
+}
+
+.navbar-custom .member-menu.show .nav-link {
+	color: black;
+	font-weight: bold;
+}
+
 .w-10 {
 	width: 10% !important;	
 }
@@ -468,6 +489,10 @@ footer {
 .sb-topnav .navbar-nav .nav-link {
 	padding-top: 0;
 	padding-bottom: 0;
+}
+
+.sb-topnav .navbar-nav .nav-link:hover {
+	color: white;
 }
 
 #sidebarToggle:focus {
@@ -562,5 +587,21 @@ footer {
 
 .sb-topnav .nav-member-profile .nav-member-image {
 	border-color: transparent;
+}
+
+.sb-topnav .member-menu .nickname-email-box {
+	height: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.sb-topnav .member-menu .nickname-email-box span.nickname {
+	color: #212529; /* .text-body */ 
+	font-weight: bold;
+}
+
+.sb-topnav .member-menu .nickname-email-box span.email {
+	color: #6c757d; /* .text-muted */
 }
 

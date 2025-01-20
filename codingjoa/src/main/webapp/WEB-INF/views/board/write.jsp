@@ -53,7 +53,7 @@
 	}
 	
 	.ck-button__label {
-		font-size: 1rem !important;
+		font-size: 0.9rem !important;
 	}
 	
 	.ck-tooltip {

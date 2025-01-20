@@ -42,7 +42,7 @@
 		<!-- Navbar-->
 		<ul class="navbar-nav ms-auto me-3"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
-			<li class="nav-item dropdown">
+			<li class="nav-item dropdown member-menu">
 			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
 				<img class="nav-member-image" src="${principal.imageUrl}">
 				<span class="font-weight-bold">
@@ -53,11 +53,11 @@
 					<li>
 						<div class="dropdown-item">
 							<img class="nav-member-image" src="${principal.imageUrl}">
-							<div>
-								<span class="font-weight-bold text-body">
+							<div class="nickname-email-box">
+								<span class="nickname">
 									<c:out value="${principal.nickname}"/>
-								</span></br>
-								<span class="text-muted">
+								</span>
+								<span class="email">
 									<c:out value="${principal.email}"/>
 								</span>
 							</div>

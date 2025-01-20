@@ -724,9 +724,8 @@
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li = $(this).closest("li.list-group-item");
 			let commentDetails = commentMap.get($li.data("idx"));
-			console.log(commentDetails);
-			
 			let editCommentHtml = createEditCommentHtml(commentDetails);
+			
 			$li.html(editCommentHtml);
 			$li.find("textarea").trigger("input").focus();
 		});
@@ -736,6 +735,7 @@
 			let $li = $(this).closest("li.list-group-item");
 			let commentDetails = commentMap.get($li.data("idx"));
 			let commentHtml = createCommentHtml(commentDetails);
+			
 			$li.html(createCommentHtml(commentDetails));
 		});
 		
