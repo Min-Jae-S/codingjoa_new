@@ -23,10 +23,10 @@
 	}
 	
 	div.test {
-		display: flex;
-		justify-content: center;
 		padding-left: 1.3rem;
 		padding-right: 1.3rem;
+		display: flex;
+		justify-content: space-between;
 	}
 	
 	div.test button {
@@ -43,24 +43,27 @@
 <div class="container my-5">
 	<p>render.jsp</p>
 	<div class="test mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="test1()">test1</button>
-		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="test2()">test2</button>
-		<button class="btn btn-primary btn-lg mx-3 invisible" onclick="test3()">test3</button>
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-primary btn-lg invisible" onclick="#">#</button>
+		<button class="btn btn-primary btn-lg invisible" onclick="#">#</button>
+	</div>
+	<div class="test mt-5 d-none">
+		<button class="btn btn-secondary btn-lg invisible" onclick="#">#</button>
+		<button class="btn btn-secondary btn-lg invisible" onclick="#">#</button>
+		<button class="btn btn-secondary btn-lg invisible" onclick="#">#</button>
 	</div>
 	<div class="test mt-5">
-		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
-		<button class="btn btn-secondary btn-lg mx-3 invisible" onclick="#">#</button>
-	</div>
-	<div class="container border border-dark rounded-xl mt-5" id="testDiv">
-	
+		<div class="container border border-dark rounded-xl" id="testDiv">
+			<!-- contents -->
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	function test1() {
 		console.log("## test1");
-		$("#testDiv").load("${contextPath}/test/render/test1", function(responseText, status, ) {
+		$("#testDiv").load("${contextPath}/test/render/test1", function(result, status, jqXHR) {
+			console.log(jqXHR);
 			console.log(result);
 		});
 	}
