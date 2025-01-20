@@ -28,8 +28,8 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<h1 class="email"><c:out value="${email}"/></h1>
-	<h1 class="nickname"><c:out value="${nickname}"/></h1>
+	<h1 class="email">email: <c:out value="${empty email ? 'no email' : email}"/></h1>
+	<h1 class="nickname">nickname: <c:out value="${empty nickname ? 'no nickname' : nickname}"/></h1>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 </body>
