@@ -64,7 +64,8 @@
 					</li>
 					<li class="nav-item dropdown member-menu">
 						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
-							<img class="nav-member-image" src="${principal.imageUrl}">
+							<img class="nav-member-image" 
+								src ="${empty principal.imageUrl ? contextPath.concat('/resources/images/img_profile.png') : principal.imageUrl}">
 							<span class="font-weight-bold">
 								<c:out value="${principal.nickname}"/>
 							</span>
@@ -72,7 +73,8 @@
 						<ul class="dropdown-menu dropdown-menu-end">
 							<li>
 								<div class="dropdown-item">
-									<img class="nav-member-image" src="${principal.imageUrl}">
+									<img class="nav-member-image" 
+										src ="${empty principal.imageUrl ? contextPath.concat('/resources/images/img_profile.png') : principal.imageUrl}">
 									<div class="nickname-email-box">
 										<span class="nickname">
 											<c:out value="${principal.nickname}"/>

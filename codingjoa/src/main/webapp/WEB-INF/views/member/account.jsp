@@ -137,8 +137,7 @@
 		border-radius: 50%;
 		background-image: url(../resources/images/img_camera.png);
 		background-size: contain;
-		background-position: 50% 50%;
-    	background-repeat: no-repeat;
+    	background-repeat: round;
 	}
 	
 	.account-wrap {
