@@ -21,8 +21,8 @@
 	input[type="text"] {
 		border: none;
 		width: 100%;
-		/* padding: 3px 0 3px 7px; */
-		padding: 0;
+		padding: 3px 0 3px 7px;
+		/* padding: 0; */
 	}
 	
 	input[type="text"]:focus {
@@ -35,7 +35,7 @@
 	}
 	
 	dd.error, dd.success {
-		/* padding-left: 7px; */
+		padding-left: 7px;
 	}
 	
 	dd.input-group {

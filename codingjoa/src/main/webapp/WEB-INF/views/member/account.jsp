@@ -135,8 +135,10 @@
 		height: 35px;
 		border: 1px solid white;
 		border-radius: 50%;
-		background-image: url(../images/img_camera3.png);
+		background-image: url(../resources/images/img_camera.png);
 		background-size: contain;
+		background-position: 50% 50%;
+    	background-repeat: no-repeat;
 	}
 	
 	.account-wrap {

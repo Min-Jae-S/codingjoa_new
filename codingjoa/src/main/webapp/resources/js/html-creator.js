@@ -55,7 +55,8 @@ function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+		html += "<img src='../resources/images/img_profile.png'>";
 	} else {
 		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}
@@ -73,7 +74,6 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
-	//html += "<button class='comment-utils-btn btn' data-toggle='dropdown' data-offset='0,10' ${commentDetails.isCommentWriter ? '' : 'disabled'}>";
 	if (commentDetails.isCommentWriter) {
 		html += "<button class='comment-utils-btn' data-toggle='dropdown'>";
 	} else {
@@ -147,7 +147,8 @@ function createEditCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
+		html += "<img src='../resources/images/img_profile.png'>";
 	} else {
 		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
 	}
