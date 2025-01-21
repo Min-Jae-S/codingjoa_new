@@ -21,7 +21,8 @@
 	input[type="text"] {
 		border: none;
 		width: 100%;
-		padding: 3px 0 3px 7px;
+		/* padding: 3px 0 3px 7px; */
+		padding: 0;
 	}
 	
 	input[type="text"]:focus {
@@ -34,7 +35,7 @@
 	}
 	
 	dd.error, dd.success {
-		padding-left: 7px;
+		/* padding-left: 7px; */
 	}
 	
 	dd.input-group {
@@ -46,13 +47,6 @@
 		margin-bottom: 40px;
 		font-size: 14px;
 		font-weight: bold;
-	}
-	
-	.btn-sm {
-		font-size: 0.75rem;
-		border-radius: 0.5rem;
-		align-self: center;
-		margin-left: 5px;
 	}
 	
 	.find-password-wrap {

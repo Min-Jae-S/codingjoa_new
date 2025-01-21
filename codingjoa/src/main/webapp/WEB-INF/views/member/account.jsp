@@ -19,8 +19,7 @@
 <script src="${contextPath}/resources/js/member.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	.form-wrap input[type="text"], 
-	.form-wrap input[type="password"] {
+	.form-wrap input[type="text"], .form-wrap input[type="password"] {
 		border: none;
 		flex-grow: 1;
 		padding: 5px 0 5px 7px;
@@ -97,8 +96,7 @@
 		margin-left: 5px;
 	}
 	
-	input[name="memberZipcode"], 
-	input[name="memberAddr"] {
+	input[name="memberZipcode"], input[name="memberAddr"] {
 		cursor: pointer;
 	}
 	
@@ -137,7 +135,7 @@
 		height: 35px;
 		border: 1px solid white;
 		border-radius: 50%;
-		background-image: url(/codingjoa/resources/images/img_camera3.png);
+		background-image: url(../images/img_camera3.png);
 		background-size: contain;
 	}
 	
