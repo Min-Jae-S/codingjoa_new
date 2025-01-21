@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +43,8 @@
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown member-menu">
 			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-				<img class="nav-member-image" src="${principal.imageUrl}">
+				<img class="nav-member-image" 
+					src ="${empty principal.imageUrl ? contextPath.concat('/resources/images/img_profile.png') : principal.imageUrl}">
 				<span class="font-weight-bold">
 					<c:out value="${principal.nickname}"/>
 				</span>
@@ -52,7 +52,8 @@
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
 						<div class="dropdown-item">
-							<img class="nav-member-image" src="${principal.imageUrl}">
+							<img class="nav-member-image" 
+								src ="${empty principal.imageUrl ? contextPath.concat('/resources/images/img_profile.png') : principal.imageUrl}">
 							<div class="nickname-email-box">
 								<span class="nickname">
 									<c:out value="${principal.nickname}"/>
@@ -64,6 +65,12 @@
 						</div>
 					</li>			
 					<hr class="dropdown-divider">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<li>
+							<a href="${contextPath}/admin" class="dropdown-item admin">관리자</a>
+						</li>
+						<hr class="dropdown-divider">
+					</sec:authorize>
 					<li>
 						<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
 					</li>

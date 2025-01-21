@@ -93,7 +93,7 @@
 								<hr class="dropdown-divider">
 							</sec:authorize>
 							<li>
-								<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
+								<a href="${contextPath}/member/messages" class="dropdown-item message">메시지</a>
 							</li>
 							<hr class="dropdown-divider">
 							<li>
