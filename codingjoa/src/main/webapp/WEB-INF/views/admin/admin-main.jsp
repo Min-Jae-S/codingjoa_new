@@ -110,8 +110,8 @@
 						</a>
 						<div class="collapse" id="collapseContents"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="layout-static.html">Static Navigation</a>
-								<a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
 							</nav>
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
@@ -181,5 +181,13 @@
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
+<script>
+	$(function() {
+		$("sb-sidenav-menu a.nav-link").on("click", function(e) {
+			e.preventDefault();
+			console.log("## url = %s", $(this).attr(href));
+		});
+	});
+</script>
 </body>
 </html>
