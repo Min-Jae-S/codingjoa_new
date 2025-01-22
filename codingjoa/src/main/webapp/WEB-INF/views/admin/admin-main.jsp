@@ -22,6 +22,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
+<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	/* ... */
 </style>
@@ -185,7 +186,22 @@
 	$(function() {
 		$("sb-sidenav-menu a.nav-link").on("click", function(e) {
 			e.preventDefault();
-			console.log("## url = %s", $(this).attr(href));
+			let url = $(this).attr(href);
+			console.log("## url = %s",url);
+			
+			$.ajax({
+				type : "GET",
+				url : url,
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
 		});
 	});
 </script>
