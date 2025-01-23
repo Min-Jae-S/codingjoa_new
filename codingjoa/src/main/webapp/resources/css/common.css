@@ -627,10 +627,7 @@ footer {
 .sb-sidenav .sb-sidenav-menu .nav-link .sb-nav-link-icon {
 	color: #525661;
 	font-size: 1rem !important;	
-	padding-left: 0.5rem;
-	padding-right: 0.65rem !important;
-	margin-right: 0;
-	width: 2.5rem;
+	width: 1.5rem;
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested {
@@ -638,7 +635,7 @@ footer {
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested .nav-link {
-	/* sb-nav-link-icon width : 2.5rem, nav-link: 1rem */
+	/* sb-nav-link-icon: width(1.5rem) margin-right(0.5rem), nav-link(padding: 1rem) */
 	padding-left: 3.5rem;
 }
 

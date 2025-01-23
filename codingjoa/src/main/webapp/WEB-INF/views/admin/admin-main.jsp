@@ -93,14 +93,14 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link">
+						<button type="button" class="nav-link" data-bs-parent="#sidenavAccordion" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt fa-fw"></i>
 							</div>
 							<span>사용자 관리</span>
 						</button>
 						<div class="sb-sidenav-menu-heading">Contents</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-columns fa-fw"></i>
 							</div>
@@ -115,7 +115,7 @@
 								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
 							</nav>
 						</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-book-open fa-fw"></i>
 							</div>
@@ -132,13 +132,13 @@
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link">
+						<button type="button" class="nav-link" data-bs-parent="#sidenavAccordion" aria-expanded="false" >
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</button> 
-						<button type="button" class="nav-link">
+						<button type="button" class="nav-link" data-bs-parent="#sidenavAccordion" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -161,6 +161,11 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
+		$(".sb-sidenav-menu button.nav-link").on("click", function() {
+			$(".sb-sidenav-menu button.nav-link").attr("aria-expanded", "false");
+			$(this).attr("aria-expanded", "true");	
+		});
+		
 		$(".sb-sidenav-menu a.nav-link").on("click", function(e) {
 			e.preventDefault();
 			let url = $(this).attr("href");
