@@ -592,15 +592,19 @@ footer {
 	color: #525661 !important;
 }
 
+.sb-sidenav .sb-sidenav-menu .nav-link.collapsed {
+	color: #525661 !important;
+}
+
 .sb-sidenav .sb-sidenav-menu .nav-link:hover {
-	color: #525661;
-	background-color: #2c88de0f;
+	color: #2c88de;
+	background-color: rgba(44, 136, 222, .06);
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link:has(+ .collapse.show) {
     font-weight: bold;
     color: #2c88de !important;
-    background-color: #2c88de0f;
+    background-color: rgba(44, 136, 222, .06);
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-heading {
@@ -608,16 +612,35 @@ footer {
 	font-size: 0.9rem !important;
 }
 
-.sb-sidenav .sb-sidenav-menu .sb-nav-link-icon {
-	color: #525661 !important;
+.sb-sidenav .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+	color: #525661;
 	font-size: 1rem !important;	
-	margin-left: 0.5rem;
-	margin-right: 0.65rem !important;
+	padding-left: 0.5rem;
+	padding-right: 0.65rem !important;
+	margin-right: 0;
+	width: 2.5rem;
+}
+
+.sb-sidenav .sb-sidenav-menu .nav-link .sb-nav-link-icon {
+	color: #525661;
+	font-size: 1rem !important;	
+	padding-left: 0.5rem;
+	padding-right: 0.65rem !important;
+	margin-right: 0;
+	width: 2.5rem;
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested {
-	margin-left: 2.5rem !important;
+	margin-left: 0 !important;
 }
 
+.sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested .nav-link {
+	/* sb-nav-link-icon width : 2.5rem, nav-link: 1rem */
+	padding-left: 3.5rem;
+}
+
+.sb-sidenav-light .sb-sidenav-menu .nav-link .sb-sidenav-collapse-arrow {
+	color: #525661;
+}
 
 
