@@ -184,12 +184,12 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		$("sb-sidenav-menu a.nav-link").on("click", function(e) {
+		$(".sb-sidenav-menu a.nav-link").on("click", function(e) {
 			e.preventDefault();
-			let url = $(this).attr(href);
-			console.log("## url = %s",url);
+			let url = $(this).attr("href");
+			console.log("## url = %s", url);
 			
-			$.ajax({
+			/* $.ajax({
 				type : "GET",
 				url : url,
 				dataType : "json",
@@ -201,7 +201,7 @@
 					console.log("%c> ERROR", "color:red");
 					parseError(jqXHR);
 				}
-			});
+			}); */
 		});
 	});
 </script>
