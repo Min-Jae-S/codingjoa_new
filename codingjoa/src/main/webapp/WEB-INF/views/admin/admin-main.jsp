@@ -109,7 +109,7 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapseContents"> <!-- data-bs-parent="#sidenavAccordion" -->
+						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
 								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
@@ -124,34 +124,11 @@
 								<i class="fas fa-angle-down fa-fw"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapseNotifications"> <!-- data-bs-parent="#sidenavAccordion" -->
-							<nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth">
-									<span>Authentication</span>
-									<div class="sb-sidenav-collapse-arrow">
-										<i class="fas fa-angle-down fa-fw"></i>
-									</div>
-								</a>
-								<div class="collapse" id="pagesCollapseAuth"> <!-- data-bs-parent="#sidenavAccordionPages" -->
-									<nav class="sb-sidenav-menu-nested nav">
-										<a class="nav-link" href="login.html">Login</a> 
-										<a class="nav-link" href="register.html">Register</a>
-										<a class="nav-link" href="password.html">Password</a>
-									</nav>
-								</div>
-								<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError">
-									<span>Error</span>
-									<div class="sb-sidenav-collapse-arrow">
-										<i class="fas fa-angle-down fa-fw"></i>
-									</div>
-								</a>
-								<div class="collapse" id="pagesCollapseError"> <!-- data-bs-parent="#sidenavAccordionPages" -->
-									<nav class="sb-sidenav-menu-nested nav">
-										<a class="nav-link" href="401.html">401 Page</a> 
-										<a class="nav-link" href="404.html">404 Page</a> 
-										<a class="nav-link" href="500.html">500 Page</a>
-									</nav>
-								</div>
+						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="${contextPath}/api/admin/test3">test3</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test4">test4</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test4">test5</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
