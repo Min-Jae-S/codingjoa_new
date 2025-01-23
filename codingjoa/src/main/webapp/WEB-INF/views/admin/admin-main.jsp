@@ -93,37 +93,37 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<a class="nav-link" href="index.html">
+						<button type="button" class="nav-link">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt fa-fw"></i>
 							</div>
 							<span>사용자 관리</span>
-						</a>
+						</button>
 						<div class="sb-sidenav-menu-heading">Contents</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContents">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-columns fa-fw"></i>
 							</div>
 							<span>콘텐츠 관리</span>
 							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down fa-fw"></i>
+								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
-						</a>
+						</button>
 						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
 								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
 							</nav>
 						</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-book-open fa-fw"></i>
 							</div>
 							<span>공지사항 관리</span>
 							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down fa-fw"></i>
+								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
-						</a>
+						</button>
 						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${contextPath}/api/admin/test3">test3</a>
@@ -132,18 +132,18 @@
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<a class="nav-link" href="charts.html">
+						<button type="button" class="nav-link">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
-						</a> 
-						<a class="nav-link" href="tables.html">
+						</button> 
+						<button type="button" class="nav-link">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
 							<span>Tables</span> 
-						</a>
+						</button>
 					</div>
 				</div>
 			</nav>
