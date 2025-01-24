@@ -161,28 +161,28 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		const collapsibleBtns = $('#layoutSidenav_nav button[data-bs-toggle="collapse"]');
-		const nonCollapsibleBtns = $('#layoutSidenav_nav button:not([data-bs-toggle="collapse"])');
+		const collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
+		const nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		
 		collapsibleBtns.on("click", function() {
-			collapsibleBtns.attr("aria-pressed", "false");
+			nonCollapsibleBtns.attr("aria-pressed", "false");
 		});
 		
 		nonCollapsibleBtns.on("click", function() {
-			console.log("## collapsible btns")
-			console.log(collapsibleBtns);
-			console.log("## non-collapsible btns")
-			console.log(nonCollapsibleBtns);
 			nonCollapsibleBtns.attr("aria-pressed", "false");
-			collapsibleBtns.hide();
+			collapsibleBtns.each(function() {
+				let target = $(this).attr("data-bs-target") || $(this).attr("href");
+				let collapseInstance = bootstrap.Collapse.getInstance($(target)[0]);
+				if (collapseInstance) {
+					collapseInstance.hide();
+				}
+			});
+			
 			$(this).attr("aria-pressed", "true");
 		});
 		
-		/* $(".sb-sidenav-menu a.nav-link").on("click", function(e) {
+		$("#sidenavAccordion .collapse.show .nav-link").on("click", function(e) {
 			e.preventDefault();
-			let url = $(this).attr("href");
-			console.log("## url = %s", url);
-			
 			$.ajax({
 				type : "GET",
 				url : url,
@@ -196,7 +196,7 @@
 					parseError(jqXHR);
 				}
 			});
-		}); */
+		});
 	});
 </script>
 </body>
