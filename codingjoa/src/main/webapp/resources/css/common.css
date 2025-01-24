@@ -603,11 +603,14 @@ footer {
 	background-color: transparent;
 }
 
+.sb-sidenav .sb-sidenav-menu .nav-link[aria-pressed="true"], 
 .sb-sidenav .sb-sidenav-menu .nav-link[aria-expanded="true"] {
 	 font-weight: bold;
 	 background-color: rgba(44, 136, 222, .06);
 }
 
+.sb-sidenav .sb-sidenav-menu .nav-link[aria-pressed="true"] span, 
+.sb-sidenav .sb-sidenav-menu .nav-link[aria-pressed="true"] svg, 
 .sb-sidenav .sb-sidenav-menu .nav-link[aria-expanded="true"] span,
 .sb-sidenav .sb-sidenav-menu .nav-link[aria-expanded="true"] svg {
 	color: #2c88de !important;

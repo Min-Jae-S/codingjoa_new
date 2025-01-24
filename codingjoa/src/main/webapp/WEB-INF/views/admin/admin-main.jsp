@@ -93,7 +93,7 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link" data-bs-toggle="collapse" aria-expanded="false">
+						<button type="button" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt fa-fw"></i>
 							</div>
@@ -132,13 +132,13 @@
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link" data-bs-toggle="collapse" aria-expanded="false" >
+						<button type="button" class="nav-link" aria-pressed="false" >
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</button> 
-						<button type="button" class="nav-link" data-bs-toggle="collapse" aria-expanded="false">
+						<button type="button" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -161,16 +161,16 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		$(".sb-sidenav-menu button[data-bs-toggle='collapse']").on("click", function() {
+		/* $(".sb-sidenav-menu button[data-bs-toggle='collapse']").on("click", function() {
 			// ...
-		});
+		}); */
 		
-		$(".sb-sidenav-menu a.nav-link").on("click", function(e) {
+		/* $(".sb-sidenav-menu a.nav-link").on("click", function(e) {
 			e.preventDefault();
 			let url = $(this).attr("href");
 			console.log("## url = %s", url);
 			
-			/* $.ajax({
+			$.ajax({
 				type : "GET",
 				url : url,
 				dataType : "json",
@@ -182,8 +182,8 @@
 					console.log("%c> ERROR", "color:red");
 					parseError(jqXHR);
 				}
-			}); */
-		});
+			});
+		}); */
 	});
 </script>
 </body>
