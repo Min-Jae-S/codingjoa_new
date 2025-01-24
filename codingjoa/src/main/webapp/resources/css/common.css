@@ -615,8 +615,8 @@ footer {
 .sb-sidenav .sb-sidenav-menu button.nav-link[aria-pressed="true"] svg, 
 .sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] span,
 .sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] svg {
-	/* color: #2c88de !important; */
-	color: #0c63e4;
+	color: #2c88de
+	/* color: #0c63e4; */
 }
 
 /* .sb-sidenav .sb-sidenav-menu .nav-link:has(+ .collapse.show) {
@@ -646,7 +646,8 @@ footer {
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-nested a.nav-link[aria-pressed="true"] {
-	color: #0c63e4;
+	color: #2c88de
+	/* color: #0c63e4; */
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link.collapsed .sb-sidenav-collapse-arrow {
