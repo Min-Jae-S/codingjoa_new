@@ -181,11 +181,11 @@
 			$(this).attr("aria-pressed", "true");
 		});
 		
-		$("#sidenavAccordion .collapse.show .nav-link").on("click", function(e) {
+		$(document).on("click", "#sidenavAccordion .collapse.show a.nav-link", function(e) {
 			e.preventDefault();
 			$.ajax({
 				type : "GET",
-				url : url,
+				url : $(this).attr("href"),
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
