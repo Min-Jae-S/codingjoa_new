@@ -165,11 +165,11 @@
 		const nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		
 		collapsibleBtns.on("click", function() {
-			nonCollapsibleBtns.attr("aria-pressed", "false");
+			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 		});
 		
 		nonCollapsibleBtns.on("click", function() {
-			nonCollapsibleBtns.attr("aria-pressed", "false");
+			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			collapsibleBtns.each(function() {
 				let target = $(this).attr("data-bs-target") || $(this).attr("href");
 				let collapseInstance = bootstrap.Collapse.getInstance($(target)[0]);
@@ -181,8 +181,11 @@
 			$(this).attr("aria-pressed", "true");
 		});
 		
-		$(document).on("click", "#sidenavAccordion .collapse.show a.nav-link", function(e) {
+		$(document).on("click", "#sidenavAccordion .collapse a.nav-link", function(e) {
 			e.preventDefault();
+			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
+			$(this).attr("aria-pressed", "true");
+			
 			$.ajax({
 				type : "GET",
 				url : $(this).attr("href"),
