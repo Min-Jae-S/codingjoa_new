@@ -161,9 +161,22 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		/* $(".sb-sidenav-menu button[data-bs-toggle='collapse']").on("click", function() {
-			// ...
-		}); */
+		const collapsibleBtns = $('#layoutSidenav_nav button[data-bs-toggle="collapse"]');
+		const nonCollapsibleBtns = $('#layoutSidenav_nav button:not([data-bs-toggle="collapse"])');
+		
+		collapsibleBtns.on("click", function() {
+			collapsibleBtns.attr("aria-pressed", "false");
+		});
+		
+		nonCollapsibleBtns.on("click", function() {
+			console.log("## collapsible btns")
+			console.log(collapsibleBtns);
+			console.log("## non-collapsible btns")
+			console.log(nonCollapsibleBtns);
+			nonCollapsibleBtns.attr("aria-pressed", "false");
+			collapsibleBtns.hide();
+			$(this).attr("aria-pressed", "true");
+		});
 		
 		/* $(".sb-sidenav-menu a.nav-link").on("click", function(e) {
 			e.preventDefault();
