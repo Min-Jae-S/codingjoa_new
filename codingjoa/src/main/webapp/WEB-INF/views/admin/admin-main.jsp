@@ -128,7 +128,7 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${contextPath}/api/admin/test3">test3</a>
 								<a class="nav-link" href="${contextPath}/api/admin/test4">test4</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test4">test5</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test5">test5</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
@@ -170,6 +170,8 @@
 		
 		nonCollapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
+			$(this).attr("aria-pressed", "true");
+			
 			collapsibleBtns.each(function() {
 				let target = $(this).attr("data-bs-target") || $(this).attr("href");
 				let collapseInstance = bootstrap.Collapse.getInstance($(target)[0]);
@@ -178,13 +180,19 @@
 				}
 			});
 			
-			$(this).attr("aria-pressed", "true");
+			if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+		        document.body.classList.toggle('sb-sidenav-toggled');
+		    }
 		});
 		
 		$(document).on("click", "#sidenavAccordion .collapse a.nav-link", function(e) {
 			e.preventDefault();
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
+			
+			if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+		        document.body.classList.toggle('sb-sidenav-toggled');
+		    }
 			
 			$.ajax({
 				type : "GET",
