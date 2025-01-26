@@ -180,6 +180,7 @@
 				}
 			});
 			
+			// ref) resources/sb/js/script.js
 			if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
 		        document.body.classList.toggle('sb-sidenav-toggled');
 		    }
@@ -190,6 +191,7 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
+			// ref) resources/sb/js/script.js
 			if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
 		        document.body.classList.toggle('sb-sidenav-toggled');
 		    }
