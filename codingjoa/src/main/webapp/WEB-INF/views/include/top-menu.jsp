@@ -5,7 +5,7 @@
 
 <!-- navbar -->
 <nav class="navbar navbar-custom navbar-expand-sm bg-light">
-	<div class="container-fluid px-5">
+	<div class="container-fluid">
 		<div class="logo-wrap">
 			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
 		</div>

@@ -175,7 +175,7 @@ textarea:focus::-webkit-input-placeholder {
 	top: 0;
 	border-bottom: 1px solid #dedede !important;
 	z-index: 1039;
-	padding: 0;
+	padding: 0 4rem;
 	/* min-height: 56px; */
 	height: 56px;
 	position: sticky;
@@ -461,8 +461,7 @@ footer {
 }
 
 .sb-topnav {
-	padding-top: 0;
-	padding-bottom: 0;
+	padding: 0 4rem;
 }
 
 .sb-topnav div.logo-wrap {
@@ -476,7 +475,7 @@ footer {
 	font-weight: bold;
 	margin: 0;
 	padding: 0.5rem;
-	width: calc(225px - 3rem); /* sb-topnav (px-5, 3rem) */
+	width: calc(225px - 4rem); /* sb-topnav (padding-x: 4rem) */
 }
 
 .sb-topnav .navbar-nav {

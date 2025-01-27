@@ -28,19 +28,19 @@
 </style>
 </head>
 <body class="sb-nav-fixed">
-	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark px-5">
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 		<!-- Navbar Brand-->
 		<div class="logo-wrap">
 			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
 		</div>
 		
 		<!-- Sidebar Toggle-->
-		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-lg-0" id="sidebarToggle" href="#!">
 			<i class="fas fa-bars"></i>
 		</button>
 		
 		<!-- Navbar-->
-		<ul class="navbar-nav ms-auto me-3"> <!-- ms-md-0 me-lg-4 -->
+		<ul class="navbar-nav ms-auto me-2"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown member-menu">
 			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
