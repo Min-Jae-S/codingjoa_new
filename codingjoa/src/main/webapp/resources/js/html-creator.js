@@ -9,8 +9,9 @@ function createCategoryMenuHtml(categoryList) {
 		let categoryCode = categoryList[i].categoryCode;
 		let categoryPath = categoryList[i].categoryPath;
 		let categoryName = categoryList[i].categoryName;
-		let path = (categoryCode == categoryPath) ? "/?boardCategoryCode=" + categoryCode : categoryPath;
-		html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
+		let path = (categoryCode == categoryPath) ? `/?boardCategoryCode=${categoryCode}` : categoryPath;
+		//html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
+		html += `<button class='dropdown-item' type='button' data-path='${path}'>${categoryName}</button>`;
 	});
 	
 	return html;
