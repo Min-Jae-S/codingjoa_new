@@ -61,7 +61,7 @@ public class CommentRestController {
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedComment", pagedComment);
 		data.put("pagination", pagination);
-
+		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	

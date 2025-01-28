@@ -1,11 +1,17 @@
 package com.codingjoa.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -56,9 +62,18 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/member/all")
-	public ResponseEntity<Object> getAllMembers() {
-		log.info("## getAllMembers");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	@GetMapping("/members")
+	public ResponseEntity<Object> getPagedMembers() {
+		log.info("## getPagedMembers");
+		List<MemberInfoDto> pagedMembers = adminService.getPagedMembers();
+		
+		Pagination pagination = adminService.getPagination();
+		log.info("\t > member pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedMembers", pagedMembers);
+		data.put("pagination", pagination);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 }
