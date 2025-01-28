@@ -55,4 +55,10 @@ public class AdminRestController {
 		log.info("## test5");
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
+
+	@GetMapping("/member/all")
+	public ResponseEntity<Object> getAllMembers() {
+		log.info("## getAllMembers");
+		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
 }
