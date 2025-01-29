@@ -93,7 +93,7 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/members">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/members">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt fa-fw"></i>
 							</div>
@@ -132,13 +132,13 @@
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/charts">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/charts">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</button> 
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/tables">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/tables">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>

@@ -20,7 +20,6 @@ import com.codingjoa.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
@@ -28,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
+	
+	@SuppressWarnings("unused")
 	private final BoardService boardSerivce;
 	
 	@GetMapping
