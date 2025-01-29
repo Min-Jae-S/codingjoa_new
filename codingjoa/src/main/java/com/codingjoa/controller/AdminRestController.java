@@ -92,7 +92,7 @@ public class AdminRestController {
 		log.info("\t > comment pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("pagedBoards", pagedComments);
+		data.put("pagedComments", pagedComments);
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
