@@ -93,7 +93,7 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link" aria-pressed="false">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/members">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt fa-fw"></i>
 							</div>
@@ -111,8 +111,8 @@
 						</button>
 						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
+								<a class="nav-link" href="${contextPath}/api/admin/boards">게시글 관리</a>
+								<a class="nav-link" href="${contextPath}/api/admin/comments">댓글 관리</a>
 							</nav>
 						</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
@@ -126,19 +126,19 @@
 						</button>
 						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
+								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
+								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
 								<a class="nav-link" href="${contextPath}/api/admin/test3">test3</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test4">test4</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test5">test5</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link" aria-pressed="false" >
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/charts">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</button> 
-						<button type="button" class="nav-link" aria-pressed="false">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/tables">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -180,11 +180,24 @@
 				}
 			});
 			
-			let mediaQuery = window.matchMedia("(min-width: 992px)");
-			if (!mediaQuery.matches) {
-				$("#sidebarToggle").trigger("click");
-			}
-			
+			$.ajax({
+				type : "GET",
+				url : $(this).data("url"),
+				dataType : "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+					
+					let mediaQuery = window.matchMedia("(min-width: 992px)");
+					if (!mediaQuery.matches) {
+						$("#sidebarToggle").trigger("click");
+					}
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					parseError(jqXHR);
+				}
+			});
 		});
 		
 		$(document).on("click", "#sidenavAccordion .collapse a.nav-link", function(e) {

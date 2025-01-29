@@ -15,6 +15,7 @@ import com.codingjoa.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
@@ -26,18 +27,21 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<MemberInfoDto> getPagedMembers() {
 		log.info("\t > find pagedMembers");
-		return adminMapper.findPagedMembers()
-				.stream()
-				.map(memberInfoMap -> MemberInfoDto.from(memberInfoMap))
-				.collect(Collectors.toList());
+		return null;
+//		return adminMapper.findPagedMembers()
+//				.stream()
+//				.map(memberInfoMap -> MemberInfoDto.from(memberInfoMap))
+//				.collect(Collectors.toList());
 	}
 	
 	@Override
 	public List<BoardDetailsDto> getPagedBoards() {
-		return adminMapper.findPagedBoards()
-				.stream()
-				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
-				.collect(Collectors.toList());
+		log.info("\t > find pagedBoards");
+		return null;
+//		return adminMapper.findPagedBoards()
+//				.stream()
+//				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
+//				.collect(Collectors.toList());
 	}
 
 	@Override

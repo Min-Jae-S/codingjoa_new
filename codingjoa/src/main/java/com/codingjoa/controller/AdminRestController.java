@@ -53,18 +53,6 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 	
-	@GetMapping("/test4")
-	public ResponseEntity<Object> test4() {
-		log.info("## test4");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
-	@GetMapping("/test5")
-	public ResponseEntity<Object> test5() {
-		log.info("## test5");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
 	@GetMapping("/members")
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
