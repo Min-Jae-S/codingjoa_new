@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardDetailsDto;
+import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.Pagination;
@@ -77,6 +78,20 @@ public class AdminRestController {
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedBoards", pagedBoards);
+		data.put("pagination", pagination);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+
+	@GetMapping("/comments")
+	public ResponseEntity<Object> getPagedComments() {
+		log.info("## getPagedComments");
+		List<CommentDetailsDto> pagedComments = adminService.getPagedComments();
+		Pagination pagination = adminService.getCommentPagination();
+		log.info("\t > comment pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedBoards", pagedComments);
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());

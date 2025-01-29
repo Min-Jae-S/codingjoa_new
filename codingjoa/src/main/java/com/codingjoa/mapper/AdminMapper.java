@@ -11,5 +11,7 @@ public interface AdminMapper {
 	List<Map<String, Object>> findPagedMembers();
 
 	List<Map<String, Object>> findPagedBoards();
+
+	List<Map<String, Object>> findPagedComments();
 	
 }

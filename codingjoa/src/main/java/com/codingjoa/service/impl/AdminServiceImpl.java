@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardDetailsDto;
+import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.Pagination;
@@ -30,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 //		return adminMapper.findPagedMembers()
 //				.stream()
-//				.map(memberInfoMap -> MemberInfoDto.from(memberInfoMap))
+//				.map(map -> MemberInfoDto.from(map))
 //				.collect(Collectors.toList());
 	}
 	
@@ -40,7 +41,17 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 //		return adminMapper.findPagedBoards()
 //				.stream()
-//				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
+//				.map(map -> BoardDetailsDto.from(map))
+//				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<CommentDetailsDto> getPagedComments() {
+		log.info("\t > find pagedComments");
+		return null;
+//		return adminMapper.findPagedComments()
+//				.stream()
+//				.map(map -> CommentDetailsDto.from(map))
 //				.collect(Collectors.toList());
 	}
 
@@ -51,6 +62,11 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Pagination getBoardPagination() {
+		return null;
+	}
+
+	@Override
+	public Pagination getCommentPagination() {
 		return null;
 	}
 
