@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.Pagination;
@@ -30,9 +31,22 @@ public class AdminServiceImpl implements AdminService {
 				.map(memberInfoMap -> MemberInfoDto.from(memberInfoMap))
 				.collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<BoardDetailsDto> getPagedBoards() {
+		return adminMapper.findPagedBoards()
+				.stream()
+				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
+				.collect(Collectors.toList());
+	}
 
 	@Override
-	public Pagination getPagination() {
+	public Pagination getMemberPagination() {
+		return null;
+	}
+
+	@Override
+	public Pagination getBoardPagination() {
 		return null;
 	}
 

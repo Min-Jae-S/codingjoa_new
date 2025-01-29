@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
+	private final BoardService boardSerivce;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
@@ -67,11 +70,25 @@ public class AdminRestController {
 		log.info("## getPagedMembers");
 		List<MemberInfoDto> pagedMembers = adminService.getPagedMembers();
 		
-		Pagination pagination = adminService.getPagination();
+		Pagination pagination = adminService.getMemberPagination();
 		log.info("\t > member pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedMembers", pagedMembers);
+		data.put("pagination", pagination);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+
+	@GetMapping("/boards")
+	public ResponseEntity<Object> getPagedBoards() {
+		log.info("## getPagedMembers");
+		List<BoardDetailsDto> pagedBoards = adminService.getPagedBoards();
+		Pagination pagination = adminService.getBoardPagination();
+		log.info("\t > board pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());

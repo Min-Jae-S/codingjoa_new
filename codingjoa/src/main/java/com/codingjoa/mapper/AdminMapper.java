@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AdminMapper {
 	
 	List<Map<String, Object>> findPagedMembers();
+
+	List<Map<String, Object>> findPagedBoards();
 	
 }
