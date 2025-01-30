@@ -11,6 +11,7 @@ import com.codingjoa.dto.BoardInfoDto;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.entity.BoardInfo;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
@@ -36,7 +37,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<BoardInfoDto> getPagedBoards() {
 		log.info("\t > find pagedBoards");
-		log.info("\t > {}", adminMapper.findPagedMembers());
+		List<BoardInfo> pagedBoards = adminMapper.findPagedBoards();
+		pagedBoards.forEach(boardInfo -> log.info("\t > {}", boardInfo));
 		return null;
 	}
 
