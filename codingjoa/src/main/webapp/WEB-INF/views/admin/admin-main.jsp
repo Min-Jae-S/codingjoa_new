@@ -187,11 +187,10 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
-					
-					let mediaQuery = window.matchMedia("(min-width: 992px)");
+					/* let mediaQuery = window.matchMedia("(min-width: 992px)");
 					if (!mediaQuery.matches) {
 						$("#sidebarToggle").trigger("click");
-					}
+					} */
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
@@ -212,11 +211,10 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
-					
-					let mediaQuery = window.matchMedia("(min-width: 992px)");
+					/* let mediaQuery = window.matchMedia("(min-width: 992px)");
 					if (!mediaQuery.matches) {
 						$("#sidebarToggle").trigger("click");
-					}
+					} */
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
