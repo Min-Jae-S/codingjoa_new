@@ -2,21 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
-	<resultMap type="map" id="boardInfoMap">
-		<id property="boardIdx" column="board_idx" javaType="int"/>
-		<result property="boardTitle" column="board_title" javaType="string"/>
-		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
-		<result property="boardViews" column="board_views" javaType="int"/>
-		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
-		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
-		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="categoryName" column="category_name" javaType="string"/>
-		<result property="boardWriterNickname" column="board_writer_nickname" javaType="string"/>
-		<result property="commentCnt" column="comment_cnt" javaType="int"/>
-		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
-	</resultMap>
+	<!-- <resultMap type="map" id="boardInfoMap">
+		<association property="board" javaType="Board">
+			<id column="board_idx" property="boardIdx" />
+			<result column="board_writer_idx" property="boardWriterIdx" />
+			<result column="board_title" property="boardTitle" />
+			<result column="board_content" property="boardContent" />
+			<result column="board_content_text" property="boardContentText" />
+			<result column="board_category_code" property="boardCategoryCode" />
+			<result column="board_views" property="boardViews" />
+			<result column="created_at" property="createdAt" />
+			<result column="updated_at" property="updatedAt" />
+		</association>
+		<association property="category" javaType="Category">
+			<id column="catergory_code" property="categoryCode" />
+			<result column="catergory_parent_code" property="catergoryParentCode" />
+			<result column="catergory_name" property="catergoryName" />
+			<result column="category_path" property="categoryPath" />
+		</association>
+		<association property="writer" javaType="Member">
+			...
+		</association>
+	</resultMap> -->
 
-	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
+	<select id="findPagedBoards" parameterType="map" resultType="boardInfo">
 		SELECT 
 			a.*, 
 			b.*, 

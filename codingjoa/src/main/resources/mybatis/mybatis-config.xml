@@ -46,10 +46,15 @@
 		<typeAlias type="com.codingjoa.entity.Comment" alias="comment"/>
 		<typeAlias type="com.codingjoa.entity.BoardLikes" alias="boardLikes"/>
 		<typeAlias type="com.codingjoa.entity.CommentLikes" alias="commentLikes"/>
-		
+
 		<!-- pagination -->
 		<typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="boardCri"/>
 		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri"/>
+		
+		<!-- admin -->
+		<typeAlias type="com.codingjoa.entity.MemberInfo" alias="memberInfo"/>
+		<typeAlias type="com.codingjoa.entity.BoardInfo" alias="boardInfo"/>
+		<typeAlias type="com.codingjoa.entity.CommentInfo" alias="commentInfo"/>
 
 		<!-- test -->
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>

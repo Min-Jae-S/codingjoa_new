@@ -1,17 +1,20 @@
 package com.codingjoa.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import com.codingjoa.entity.BoardInfo;
+import com.codingjoa.entity.CommentInfo;
+import com.codingjoa.entity.MemberInfo;
 
 @Mapper
 public interface AdminMapper {
 	
-	List<Map<String, Object>> findPagedMembers();
+	List<MemberInfo> findPagedMembers();
 
-	List<Map<String, Object>> findPagedBoards();
+	List<BoardInfo> findPagedBoards();
 
-	List<Map<String, Object>> findPagedComments();
+	List<CommentInfo> findPagedComments();
 	
 }

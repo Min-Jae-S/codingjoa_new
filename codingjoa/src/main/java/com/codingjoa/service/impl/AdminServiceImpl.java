@@ -30,26 +30,20 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<MemberInfoDto> getPagedMembers() {
 		log.info("\t > find pagedMembers");
-		return adminMapper.findPagedMembers()
-				.stream()
-				.map(map -> MemberInfoDto.from(map))
-				.collect(Collectors.toList());
+		return null;
 	}
 	
 	@Override
 	public List<BoardInfoDto> getPagedBoards() {
 		log.info("\t > find pagedBoards");
-		log.info("\t > {}", adminMapper.findPagedBoards());
+		log.info("\t > {}", adminMapper.findPagedMembers());
 		return null;
 	}
 
 	@Override
 	public List<CommentInfoDto> getPagedComments() {
 		log.info("\t > find pagedComments");
-		return adminMapper.findPagedComments()
-				.stream()
-				.map(map -> CommentInfoDto.from(map))
-				.collect(Collectors.toList());
+		return null;
 	}
 
 	@Override
