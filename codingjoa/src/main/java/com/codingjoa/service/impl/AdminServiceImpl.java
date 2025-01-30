@@ -39,10 +39,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<BoardInfoDto> getPagedBoards() {
 		log.info("\t > find pagedBoards");
-		return adminMapper.findPagedBoards()
-				.stream()
-				.map(map -> BoardInfoDto.from(map))
-				.collect(Collectors.toList());
+		log.info("\t > {}", adminMapper.findPagedBoards());
+		return null;
 	}
 
 	@Override
