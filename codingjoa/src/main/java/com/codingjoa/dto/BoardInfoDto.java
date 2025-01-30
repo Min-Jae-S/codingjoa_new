@@ -1,9 +1,9 @@
 package com.codingjoa.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,8 +16,13 @@ public class BoardInfoDto {
 	private String boardContent;
 	private int boardViews;
 	private int boardCategoryCode;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime createdAt;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
+	
 	private String boardWriterNickname;	// from INNER JOIN with member
 	private int commentCnt;				// from LEFT OUTER JOIN with comment
 	private int boardLikesCnt;			// from LEFT OUTER JOIN with board_likes
@@ -59,26 +64,6 @@ public class BoardInfoDto {
 				.commentCnt((int) map.get("commentCnt"))
 				.boardLikesCnt((int) map.get("boardLikesCnt"))
 				.build();
-	}
-	
-	public String getCreatedAt() {
-		return format(this.createdAt);
-	}
-
-	public String getUpdatedAt() {
-		return format(this.updatedAt);
-	}
-	
-	public String getFullCreatedAt() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-		return this.createdAt.format(formatter);
-	}
-	
-	private String format(LocalDateTime dateTime) {
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-		LocalDate today = LocalDate.now();
-		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
 	
 }

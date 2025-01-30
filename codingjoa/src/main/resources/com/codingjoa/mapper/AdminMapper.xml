@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
-	<select id="findBoardInfo" parameterType="map" resultMap="boardInfoMap">
+	<resultMap type="map" id="boardInfoMap">
+		<id property="boardIdx" column="board_idx" javaType="int"/>
+		<result property="boardTitle" column="board_title" javaType="string"/>
+		<result property="boardContent" column="board_content" jdbcType="CLOB" javaType="string"/>
+		<result property="boardViews" column="board_views" javaType="int"/>
+		<result property="boardCategoryCode" column="board_category_code" javaType="int"/>
+		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
+		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
+		<result property="boardWriterNickname" column="board_writer_nickname" javaType="string"/>
+		<result property="commentCnt" column="comment_cnt" javaType="int"/>
+		<result property="boardLikesCnt" column="board_likes_cnt" javaType="int"/>
+	</resultMap>
+
+	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
 		SELECT 
 			a.board_idx,
 			a.board_title, 
@@ -13,20 +26,7 @@
 			a.updated_at,
 			b.member_nickname AS board_writer_nickname,
 			NVL(c.cnt, 0) AS comment_cnt,
-    		NVL(d.cnt, 0) AS board_likes_cnt,
-    		CASE
-    			WHEN a.board_writer_idx = #{memberIdx} THEN 1
-    			ELSE 0
-    		END AS is_board_writer,
-    		CASE
-    			WHEN EXISTS ( 
-    				SELECT 1 
-    				FROM board_likes e 
-    				WHERE e.board_idx = a.board_idx 
-    				AND e.member_idx = #{memberIdx} 
-    			) THEN 1
-    			ELSE 0
-    		END AS is_board_liked
+    		NVL(d.cnt, 0) AS board_likes_cnt
 		FROM
 			board a
 		INNER JOIN
@@ -55,7 +55,5 @@
     	) d
 		ON 
 			a.board_idx = d.board_idx
-		WHERE
-			a.board_idx = #{boardIdx} 
 	</select>
 </mapper>

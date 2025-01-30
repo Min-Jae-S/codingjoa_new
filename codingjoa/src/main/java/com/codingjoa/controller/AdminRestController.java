@@ -72,7 +72,7 @@ public class AdminRestController {
 
 	@GetMapping("/boards")
 	public ResponseEntity<Object> getPagedBoards() {
-		log.info("## getPagedMembers");
+		log.info("## getPagedBoards");
 		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards();
 		Pagination pagination = adminService.getBoardPagination();
 		log.info("\t > board pagination = {}", pagination);
