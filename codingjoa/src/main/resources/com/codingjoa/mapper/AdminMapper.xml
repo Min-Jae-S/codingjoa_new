@@ -3,6 +3,8 @@
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
 	<resultMap type="map" id="boardInfoMap">
+		<result column="comment_cnt" property="commentCnt"/>
+		<result column="board_likes_cnt" property="boardLikesCnt"/>
 		<association property="board" javaType="board">
 			<id column="board_idx" property="boardIdx"/>
 			<result column="board_writer_idx" property="boardWriterIdx"/>
@@ -25,8 +27,6 @@
 			<result column="member_email" property="memberEmail"/>
 			<result column="member_nickname" property="memberNickname"/>
 		</association>
-		<result column="comment_cnt" property="commentCnt"/>
-		<result column="board_likes_cnt" property="boardLikesCnt"/>
 	</resultMap>
 
 	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
