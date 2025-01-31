@@ -136,8 +136,7 @@ html * {
 }
 
 .admin-container {
-	margin-top: 8rem;
-	margin-bottom: 8rem;
+	padding: 3rem; /* p-5 */
 }
 
 input::placeholder, 
