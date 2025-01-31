@@ -52,10 +52,6 @@ public class BoardDetailsDto {
 				+ ", isBoardWriter=" + isBoardWriter + ", isBoardLiked=" + isBoardLiked + "]";
 	}
 	
-	public String getInfo() {
-		return "boardIdx=" + boardIdx + ", isBoardLiked=" + isBoardLiked + ", isBoardWriter=" + isBoardWriter;
-	}
-	
 	public static BoardDetailsDto from(Map<String, Object> map) {
 		return BoardDetailsDto.builder()
 				.boardIdx((int) map.get("boardIdx"))
