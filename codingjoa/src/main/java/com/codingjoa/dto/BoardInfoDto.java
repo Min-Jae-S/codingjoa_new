@@ -3,6 +3,7 @@ package com.codingjoa.dto;
 import java.time.LocalDateTime;
 
 import com.codingjoa.entity.BoardInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,11 @@ public class BoardInfoDto {
 	private int boardIdx;
 	private String boardTitle;
 	private int boardViews;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime createdAt;
+	
+	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
 	// category
@@ -51,14 +56,17 @@ public class BoardInfoDto {
 		return BoardInfoDto.builder()
 				.boardIdx(boardInfo.getBoard().getBoardIdx())
 				.boardTitle(boardInfo.getBoard().getBoardTitle())
+				.boardViews(boardInfo.getBoard().getBoardViews())
+				.createdAt(boardInfo.getBoard().getCreatedAt())
+				.updatedAt(boardInfo.getBoard().getUpdatedAt())
 				.categoryCode(boardInfo.getCategory().getCategoryCode())
 				.categoryName(boardInfo.getCategory().getCategoryName())
 				.writerIdx(boardInfo.getWriter().getMemberIdx())
 				.writerEmail(boardInfo.getWriter().getMemberEmail())
 				.writerNickname(boardInfo.getWriter().getMemberNickname())
+				.commentCnt(boardInfo.getCommentCnt())
+				.boardLikesCnt(boardInfo.getBoardLikesCnt())
 				.build();
 	}
-	
-	
 	
 }

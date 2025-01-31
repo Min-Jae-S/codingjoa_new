@@ -15,7 +15,6 @@ import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
-import com.codingjoa.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
-	
-	@SuppressWarnings("unused")
-	private final BoardService boardSerivce;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
@@ -49,12 +45,6 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test3")
-	public ResponseEntity<Object> test3() {
-		log.info("## test3");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-	
 	@GetMapping("/members")
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");

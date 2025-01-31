@@ -390,9 +390,9 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .navbar-custom .member-menu a.dropdown-item.admin::before {
-	margin-left: 1px;
-	margin-right: 11px;
-	background-image: url(../images/admin.svg);
+	margin-right: 12px;
+	/* background-image: url(../images/admin.svg); */
+	background-image: url(../images/admin2.svg);
 }
 
 .navbar-custom .member-menu .nav-member-profile::after {
@@ -627,6 +627,7 @@ footer {
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-heading {
 	color: #525661 !important;
 	font-size: 0.9rem !important;
+	padding: 1.75rem 1rem 0.35rem !important;
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link .sb-nav-link-icon {

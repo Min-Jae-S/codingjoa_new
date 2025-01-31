@@ -95,7 +95,7 @@
 						<div class="sb-sidenav-menu-heading">Users</div>
 						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/members">
 							<div class="sb-nav-link-icon">
-								<i class="fas fa-tachometer-alt fa-fw"></i>
+								<i class="fas fa-user-gear"></i>
 							</div>
 							<span>사용자 관리</span>
 						</button>
@@ -128,9 +128,15 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
 								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test3">test3</a>
 							</nav>
 						</div>
+						<div class="sb-sidenav-menu-heading">Systems</div>
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/categories">
+							<div class="sb-nav-link-icon">
+								<i class="fa-solid fa-list fa-fw"></i>
+							</div>
+							<span>카테고리 관리</span>
+						</button>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
 						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/charts">
 							<div class="sb-nav-link-icon">
