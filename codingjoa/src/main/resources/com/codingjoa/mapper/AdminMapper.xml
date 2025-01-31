@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
-	<resultMap type="map" id="boardInfoMap">
+	<resultMap type="boardInfo" id="boardInfoMap">
 		<result column="comment_cnt" property="commentCnt"/>
 		<result column="board_likes_cnt" property="boardLikesCnt"/>
 		<association property="board" javaType="board">
@@ -29,7 +29,7 @@
 		</association>
 	</resultMap>
 
-	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
+	<select id="findPagedBoards" resultMap="boardInfoMap">
 		SELECT 
 			a.*, 
 			b.*, 
