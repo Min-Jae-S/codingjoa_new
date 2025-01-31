@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.MemberMapper">
+<!--
+    member_idx              NUMBER,
+    member_email            VARCHAR2(100)   UNIQUE  NOT NULL,
+    member_password         VARCHAR2(200)           NULL,
+    member_nickname         VARCHAR2(50)    UNIQUE  NOT NULL,
+    member_zipcode          CHAR(5)                 NULL,
+    member_addr             VARCHAR2(150)           NULL,
+    member_addr_detail      VARCHAR2(150)           NULL,
+    member_agree            CHAR(1)                 NOT NULL,
+    created_at              DATE                    NOT NULL,
+    updated_at              DATE                    NULL,   	-- NOT NULL >> NULL
+-->
 
 	<insert id="insertMember" parameterType="member">
 		<selectKey keyProperty="memberIdx" resultType="int" order="BEFORE">
@@ -21,7 +33,7 @@
 			#{memberNickname},
 			#{memberAgree},
 			SYSDATE,
-			SYSDATE
+			NULL
 		)
 	</insert>
 	

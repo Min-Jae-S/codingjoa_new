@@ -8,7 +8,7 @@
 	comment_content          VARCHAR2(2000)               NOT NULL,
     comment_use              CHAR(1)                      NOT NULL,
 	created_at               DATE                         NOT NULL,
-    updated_at               DATE                         NOT NULL,
+    updated_at               DATE                         NULL,         -- NOT NULL >> NULL
 -->
 
 	<insert id="insertComment" parameterType="comment">
@@ -30,7 +30,7 @@
 			#{commentContent},
 			#{commentUse},
 			SYSDATE,
-			SYSDATE
+			NULL
 		)
 	</insert>
 	

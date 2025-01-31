@@ -1,9 +1,10 @@
 package com.codingjoa.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,19 +16,23 @@ public class CommentDetailsDto {
 
 	private int commentIdx;
 	private String commentContent;
+	
+	@JsonIgnore
 	private boolean isCommentInUse;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime createdAt;
-	
-	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 	private LocalDateTime updatedAt;
-
 	private String commentWriterNickname;	// from INNER JOIN with member
 	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
+	
+	@JsonProperty("isBoardWriter")
 	private boolean isBoardWriter;
+	
+	@JsonProperty("isCommentWriter")
 	private boolean isCommentWriter;
+	
+	@JsonProperty("isCommentLiked")
 	private boolean isCommentLiked;			
 	
 	@Builder
@@ -73,30 +78,50 @@ public class CommentDetailsDto {
 				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
 	
-	@JsonIgnore
-	public String getInfo() {
-		return "commentIdx=" + commentIdx + ", isCommentInUse=" + isCommentInUse + ", isBoardWriter=" + isBoardWriter
-				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked;
-	}
-	
-	@JsonIgnore
-	public boolean isCommentInUse() {
-		return isCommentInUse;
-	}
-	
-	@JsonProperty("isBoardWriter")
-	public boolean isBoardWriter() {
-		return isBoardWriter;
+	public String getCreatedAt() {
+		return format(this.createdAt);
 	}
 
-	@JsonProperty("isCommentWriter")
-	public boolean isCommentWriter() {
-		return isCommentWriter;
+	public String getUpdatedAt() {
+		return format(this.updatedAt);
 	}
+	
+	private String format(LocalDateTime dateTime) {
+		if (dateTime == null) {
+			return null;
+		}
+		
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		LocalDate today = LocalDate.now();
+		
+		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
+	}
+	
+//	@JsonIgnore
+//	public String getInfo() {
+//		return "commentIdx=" + commentIdx + ", isCommentInUse=" + isCommentInUse + ", isBoardWriter=" + isBoardWriter
+//				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked;
+//	}
+	
+//	@JsonIgnore
+//	public boolean isCommentInUse() {
+//		return isCommentInUse;
+//	}
+	
+//	@JsonProperty("isBoardWriter")
+//	public boolean isBoardWriter() {
+//		return isBoardWriter;
+//	}
 
-	@JsonProperty("isCommentLiked")
-	public boolean isCommentLiked() {
-		return isCommentLiked;
-	}
+//	@JsonProperty("isCommentWriter")
+//	public boolean isCommentWriter() {
+//		return isCommentWriter;
+//	}
+
+//	@JsonProperty("isCommentLiked")
+//	public boolean isCommentLiked() {
+//		return isCommentLiked;
+//	}
 	
 }
