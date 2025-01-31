@@ -1,11 +1,56 @@
 package com.codingjoa.dto;
 
+import java.time.LocalDateTime;
+
+import com.codingjoa.entity.BoardInfo;
+
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class BoardInfoDto {
+	
+	// board
+	private int boardIdx;
+	private String boardTitle;
+	private int boardViews;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
+	
+	// category
+	private int categoryCode;
+	private String categoryName;
+	
+	// member
+	private int boardWriterIdx;
+	private String boardWriterEmail;
+	private String boardWriterNickname;
+	
+	private int commentCnt;
+	private int boardLikesCnt;
+	
+	@Builder
+	private BoardInfoDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
+			LocalDateTime updatedAt, int categoryCode, String categoryName, int boardWriterIdx, String boardWriterEmail,
+			String boardWriterNickname, int commentCnt, int boardLikesCnt) {
+		this.boardIdx = boardIdx;
+		this.boardTitle = boardTitle;
+		this.boardViews = boardViews;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.categoryCode = categoryCode;
+		this.categoryName = categoryName;
+		this.boardWriterIdx = boardWriterIdx;
+		this.boardWriterEmail = boardWriterEmail;
+		this.boardWriterNickname = boardWriterNickname;
+		this.commentCnt = commentCnt;
+		this.boardLikesCnt = boardLikesCnt;
+	}
+	
+	public static BoardInfoDto from(BoardInfo boardInfo) {
+		return BoardInfoDto.builder().build();
+	}
+	
 	
 	
 }
