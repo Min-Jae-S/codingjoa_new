@@ -22,17 +22,17 @@ public class BoardInfoDto {
 	private String categoryName;
 	
 	// member
-	private int boardWriterIdx;
-	private String boardWriterEmail;
-	private String boardWriterNickname;
+	private int writerIdx;
+	private String writerEmail;
+	private String writerNickname;
 	
 	private int commentCnt;
 	private int boardLikesCnt;
 	
 	@Builder
 	private BoardInfoDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
-			LocalDateTime updatedAt, int categoryCode, String categoryName, int boardWriterIdx, String boardWriterEmail,
-			String boardWriterNickname, int commentCnt, int boardLikesCnt) {
+			LocalDateTime updatedAt, int categoryCode, String categoryName, int writerIdx, String writerEmail,
+			String writerNickname, int commentCnt, int boardLikesCnt) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardViews = boardViews;
@@ -40,15 +40,23 @@ public class BoardInfoDto {
 		this.updatedAt = updatedAt;
 		this.categoryCode = categoryCode;
 		this.categoryName = categoryName;
-		this.boardWriterIdx = boardWriterIdx;
-		this.boardWriterEmail = boardWriterEmail;
-		this.boardWriterNickname = boardWriterNickname;
+		this.writerIdx = writerIdx;
+		this.writerEmail = writerEmail;
+		this.writerNickname = writerNickname;
 		this.commentCnt = commentCnt;
 		this.boardLikesCnt = boardLikesCnt;
 	}
 	
 	public static BoardInfoDto from(BoardInfo boardInfo) {
-		return BoardInfoDto.builder().build();
+		return BoardInfoDto.builder()
+				.boardIdx(boardInfo.getBoard().getBoardIdx())
+				.boardTitle(boardInfo.getBoard().getBoardTitle())
+				.categoryCode(boardInfo.getCategory().getCategoryCode())
+				.categoryName(boardInfo.getCategory().getCategoryName())
+				.writerIdx(boardInfo.getWriter().getMemberIdx())
+				.writerEmail(boardInfo.getWriter().getMemberEmail())
+				.writerNickname(boardInfo.getWriter().getMemberNickname())
+				.build();
 	}
 	
 	
