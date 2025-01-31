@@ -390,9 +390,8 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .navbar-custom .member-menu a.dropdown-item.admin::before {
-	margin-right: 12px;
-	/* background-image: url(../images/admin.svg); */
-	background-image: url(../images/admin2.svg);
+	background-image: url(../images/admin-tie.svg);
+	background-size: 85% 85%;
 }
 
 .navbar-custom .member-menu .nav-member-profile::after {
@@ -564,7 +563,8 @@ footer {
 }
 
 .sb-topnav a.dropdown-item.admin::before {
-	background-image: url(../images/admin.svg);
+	background-image: url(../images/admin-tie.svg);
+	background-size: 85% 85%;
 }
 
 .sb-topnav .nav-member-profile::after {
