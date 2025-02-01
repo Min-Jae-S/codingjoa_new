@@ -135,7 +135,7 @@ html * {
 	margin-bottom: 6rem;
 }
 
-.admin-container {
+.admin-content-container {
 	padding: 3rem; /* p-5 */
 }
 
@@ -444,6 +444,11 @@ footer {
 
 .dropdown-divider {
 	margin: 0;
+}
+
+#layoutSidenav_content main {
+	display: flex;
+	height: 100%;
 }
 
 #layoutSidenav {

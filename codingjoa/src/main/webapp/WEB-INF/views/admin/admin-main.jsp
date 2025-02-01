@@ -158,8 +158,8 @@
 		<!-- Sidenav_conent -->
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container-fluid admin-container">
-					<h1>ADMIN HOME</h1>
+				<div class="container-fluid admin-content-container">
+					<!-- content -->
 				</div>
 			</main>
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
