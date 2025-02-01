@@ -1,7 +1,9 @@
 package com.codingjoa.entity;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public class BoardInfo {
 	
@@ -11,10 +13,4 @@ public class BoardInfo {
 	private Integer commentCnt;
 	private Integer boardLikesCnt;
 	
-	@Override
-	public String toString() {
-		return "BoardInfo [board=" + board + ", category=" + category + ", writer=" + writer + ", commentCnt="
-				+ commentCnt + ", boardLikesCnt=" + boardLikesCnt + "]";
-	}
-
 }

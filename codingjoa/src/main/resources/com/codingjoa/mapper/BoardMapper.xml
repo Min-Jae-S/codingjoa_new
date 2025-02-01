@@ -63,9 +63,9 @@
 			a.board_category_code, 
 			a.created_at, 
 			a.updated_at,
-			b.member_nickname AS board_writer_nickname,
-			NVL(c.cnt, 0) AS comment_cnt,
-    		NVL(d.cnt, 0) AS board_likes_cnt,
+			b.member_nickname 		AS board_writer_nickname,
+			NVL(c.cnt, 0) 			AS comment_cnt,
+    		NVL(d.cnt, 0) 			AS board_likes_cnt,
     		CASE
     			WHEN a.board_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
@@ -152,9 +152,9 @@
 			a.board_category_code,
 			a.created_at,
 			a.updated_at,
-			a.member_nickname AS board_writer_nickname,
-    		NVL(b.cnt, 0) AS comment_cnt,
-    		NVL(c.cnt, 0) AS board_likes_cnt,
+			a.member_nickname 		AS board_writer_nickname,
+    		NVL(b.cnt, 0) 			AS comment_cnt,
+    		NVL(c.cnt, 0)			AS board_likes_cnt,
     		CASE
     			WHEN a.board_writer_idx = #{memberIdx} THEN 1
     			ELSE 0

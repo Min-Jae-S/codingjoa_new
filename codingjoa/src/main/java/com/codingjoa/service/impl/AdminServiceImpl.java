@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codingjoa.dto.BoardInfoDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.entity.BoardInfo;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
@@ -34,8 +35,11 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<BoardInfoDto> getPagedBoards() {
 		log.info("\t > find pagedBoards");
-		return adminMapper.findPagedBoards()
-				.stream()
+		List<BoardInfo> pagedBoards = adminMapper.findPagedBoards();
+		pagedBoards.forEach(boardInfo -> log.info("\t\t - {}", boardInfo));
+		log.info("=============================================================");
+		
+		return pagedBoards.stream()
 				.map(boardInfo -> BoardInfoDto.from(boardInfo))
 				.collect(Collectors.toList());
 	}
