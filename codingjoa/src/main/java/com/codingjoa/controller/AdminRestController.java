@@ -64,8 +64,6 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedBoards() {
 		log.info("## getPagedBoards");
 		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards();
-		pagedBoards.forEach(boardInfo -> log.info("\t\t - {}", boardInfo));
-		
 		Pagination pagination = adminService.getBoardPagination();
 		log.info("\t > board pagination = {}", pagination);
 		

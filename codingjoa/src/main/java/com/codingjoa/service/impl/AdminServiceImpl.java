@@ -35,11 +35,8 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<BoardInfoDto> getPagedBoards() {
 		log.info("\t > find pagedBoards");
-		List<BoardInfo> pagedBoards = adminMapper.findPagedBoards();
-		pagedBoards.forEach(boardInfo -> log.info("\t\t - {}", boardInfo));
-		log.info("=============================================================");
-		
-		return pagedBoards.stream()
+		return adminMapper.findPagedBoards()
+				.stream()
 				.map(boardInfo -> BoardInfoDto.from(boardInfo))
 				.collect(Collectors.toList());
 	}

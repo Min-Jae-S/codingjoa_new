@@ -3,6 +3,7 @@
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
 	<resultMap id="boardInfoMap" type="boardInfo">
+		<id column="board_idx" property="boardIdx"/>
 		<result column="board_writer_idx" property="boardWriterIdx"/>
 		<result column="board_title" property="boardTitle"/>
 		<result column="board_content" property="boardContent"/>
@@ -20,7 +21,7 @@
 			<result column="category_path" property="categoryPath"/>
 		</association>
 		<association property="writer" javaType="member">
-			<id column="member_idx" property="memberId"/>
+			<id column="member_idx" property="memberIdx"/>
 			<result column="member_email" property="memberEmail"/>
 			<result column="member_password" property="memberPassword"/>
 			<result column="member_nickname" property="memberNickname"/>
