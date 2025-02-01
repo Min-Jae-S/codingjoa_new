@@ -1,5 +1,7 @@
 package com.codingjoa.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.ToString;
 
@@ -7,7 +9,15 @@ import lombok.ToString;
 @Getter
 public class BoardInfo {
 	
-	private Board board;
+	private Integer boardIdx;
+	private Integer boardWriterIdx;
+	private String boardTitle;
+	private String boardContent;
+	private String boardContentText;
+	private Integer boardCategoryCode;
+	private Integer boardViews;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	private Category category;
 	private Member writer;
 	private Integer commentCnt;

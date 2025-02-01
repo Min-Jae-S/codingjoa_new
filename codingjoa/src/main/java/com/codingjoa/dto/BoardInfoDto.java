@@ -56,11 +56,11 @@ public class BoardInfoDto {
 	
 	public static BoardInfoDto from(BoardInfo boardInfo) {
 		return BoardInfoDto.builder()
-				.boardIdx(boardInfo.getBoard().getBoardIdx())
-				.boardTitle(boardInfo.getBoard().getBoardTitle())
-				.boardViews(boardInfo.getBoard().getBoardViews())
-				.createdAt(boardInfo.getBoard().getCreatedAt())
-				.updatedAt(boardInfo.getBoard().getUpdatedAt())
+				.boardIdx(boardInfo.getBoardIdx())
+				.boardTitle(boardInfo.getBoardTitle())
+				.boardViews(boardInfo.getBoardViews())
+				.createdAt(boardInfo.getCreatedAt())
+				.updatedAt(boardInfo.getUpdatedAt())
 				.categoryCode(boardInfo.getCategory().getCategoryCode())
 				.categoryName(boardInfo.getCategory().getCategoryName())
 				.writerIdx(boardInfo.getWriter().getMemberIdx())

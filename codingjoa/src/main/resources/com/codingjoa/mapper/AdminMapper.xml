@@ -3,24 +3,24 @@
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
 	<resultMap id="boardInfoMap" type="boardInfo">
+		<result column="board_writer_idx" property="boardWriterIdx"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_content_text" property="boardContentText"/>
+		<result column="board_category_code" property="boardCategoryCode"/>
+		<result column="board_views" property="boardViews"/>
+		<result column="created_at" property="createdAt"/>
+		<result column="updated_at" property="updatedAt"/>
 		<result column="comment_cnt" property="commentCnt"/>
 		<result column="board_likes_cnt" property="boardLikesCnt"/>
-		<association column="board_idx" property="board" javaType="board" >
-			<result column="board_writer_idx" property="boardWriterIdx"/>
-			<result column="board_title" property="boardTitle"/>
-			<result column="board_content" property="boardContent"/>
-			<result column="board_content_text" property="boardContentText"/>
-			<result column="board_code" property="boardCategoryCode"/>
-			<result column="board_views" property="boardViews"/>
-			<result column="board_created_at" property="createdAt"/>
-			<result column="board_updated_at" property="updatedAt"/>
-		</association>
-		<association column="category_code" property="category" javaType="category">
+		<association property="category" javaType="category">
+			<id column="category_code" property="categoryCode"/>
 			<result column="category_parent_code" property="categoryParentCode"/>
 			<result column="category_name" property="categoryName"/>
 			<result column="category_path" property="categoryPath"/>
 		</association>
-		<association column="member_idx" property="writer" javaType="member">
+		<association property="writer" javaType="member">
+			<id column="member_idx" property="memberId"/>
 			<result column="member_email" property="memberEmail"/>
 			<result column="member_password" property="memberPassword"/>
 			<result column="member_nickname" property="memberNickname"/>
@@ -35,19 +35,8 @@
 
 	<select id="findPagedBoards" resultMap="boardInfoMap">
 		SELECT 
-			board.board_idx,
-			board.board_writer_idx,
-			board.board_title,
-			board.board_content,
-			board.board_content_text,
-			board.board_category_code,
-			board.board_views,
-			board.created_at				AS board_created_at,
-			board.updated_at				AS board_updated_at,
-			category.category_code,
-			category.category_parent_code, 
-			category.category_name, 
-			category.category_path,
+			board.*,
+			category.*,
 			member.member_idx,
 			member.member_email,
 			member.member_password,
