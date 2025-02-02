@@ -48,6 +48,7 @@
 	
 	.board-utils {
 		display: flex;
+		margin-bottom: 0.5rem;
 	}
 	
 	.title {
@@ -153,7 +154,7 @@
 		border-radius: 0.5rem;
 	}
 	
-	.comment-list li {
+	.comment-list > ul > li {
 		padding: 28px 28px 28px 98px;
 		background-color: #f1f5fc;
 	}
@@ -252,6 +253,7 @@
 		padding: 0;
 		text-align: center;
 		width: 140px;
+		border-radius: 0.5rem;
 	}
 	
 	.board-utils .dropdown-menu[x-placement="right-start"],
@@ -268,7 +270,6 @@
 	.comment-area-header .dropdown-menu li {
 		margin: 0;
     	padding: 4px 0;
-    	background-color: white;
 	}
 
 	.board-utils .dropdown-header,
@@ -390,9 +391,9 @@
 
 <div class="container board-container" onselectstart="return false" ondragstart="return false">
 	<div class="read-wrap">
-		<div class="card rounded-md">
+		<div class="card rounded-xl">
 			<div class="header-group">
-				<div class="board-utils mb-3">
+				<div class="board-utils">
 					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
 						<c:out value="${category.categoryName}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
