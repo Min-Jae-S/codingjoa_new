@@ -137,6 +137,10 @@ html * {
 
 .admin-content-container {
 	padding: 3rem; /* p-5 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 input::placeholder, 
@@ -434,6 +438,10 @@ textarea:focus::-webkit-input-placeholder {
 	border-radius: 1rem;
 }
 
+.dropdown-divider {
+	margin: 0;
+}
+
 footer {
 	border-top: 1px solid #dedede !important;
 	min-height: 56px;
@@ -442,13 +450,11 @@ footer {
 	color: #525661;
 }
 
-.dropdown-divider {
-	margin: 0;
-}
-
 #layoutSidenav_content main {
 	display: flex;
 	height: 100%;
+	/* background-color: #e9ecef; */
+	background-color: #f1f3f5;
 }
 
 #layoutSidenav {
@@ -461,6 +467,7 @@ footer {
 
 #layoutSidenav_nav .sb-sidenav-menu {
 	border-right: 1px solid #dedede !important;
+	background-color: #fff;
 }
 
 .sb-topnav {
@@ -589,6 +596,10 @@ footer {
 
 .sb-topnav .member-menu .nickname-email-box span.email {
 	color: #6c757d; /* .text-muted */
+}
+
+.sb-sidenav {
+	background-color: #fff;
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link {

@@ -4,7 +4,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!-- navbar -->
-<nav class="navbar navbar-custom navbar-expand-sm bg-light">
+<nav class="navbar navbar-custom navbar-expand-sm">
 	<div class="container-fluid">
 		<div class="logo-wrap">
 			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>

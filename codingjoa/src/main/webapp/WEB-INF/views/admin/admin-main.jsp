@@ -89,7 +89,7 @@
 	<div id="layoutSidenav">
 		<!-- Sidenav_nav -->
 		<div id="layoutSidenav_nav">
-			<nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+			<nav class="sb-sidenav accordion" id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
@@ -160,6 +160,9 @@
 			<main>
 				<div class="container-fluid admin-content-container">
 					<!-- content -->
+					<div class="test-div" style="width:50px;height:50px;background-color:blue;"></div>
+					<div class="test-div" style="width:50px;height:50px;background-color:red;"></div>
+					<div class="test-div" style="width:50px;height:50px;background-color:black;"></div>
 				</div>
 			</main>
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
