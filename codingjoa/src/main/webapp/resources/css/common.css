@@ -136,11 +136,10 @@ html * {
 }
 
 .admin-content-container {
-	padding: 3rem; /* p-5 */
+	padding: 4rem;
 	display: flex;
-	align-items: center;
-	justify-content: center;
 	flex-direction: column;
+	justify-content: center;
 }
 
 input::placeholder, 
@@ -444,6 +443,7 @@ textarea:focus::-webkit-input-placeholder {
 
 .title-wrap {
 	border-bottom: 2px solid #343a40;
+	margin-bottom: 2rem;
 }
 
 footer {

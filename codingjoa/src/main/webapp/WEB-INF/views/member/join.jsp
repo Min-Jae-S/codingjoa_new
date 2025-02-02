@@ -16,6 +16,11 @@
 <script src="${contextPath}/resources/js/member.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
+	.join-wrap {
+		min-width: 620px;
+		margin: 0 auto;
+	}
+	
 	.form-control:disabled {
 		background-color: #f2f2f2;
 	}
@@ -23,15 +28,6 @@
 	span.error, span.success {
 		display: inline-block;
 		padding-top: 7px;
-	}
-	
-	.join-wrap {
-		min-width: 620px;
-		margin: 0 auto;
-	}
-	
-	.join-wrap .card {
-		margin-top: 2rem;
 	}
 </style>
 </head>

@@ -24,7 +24,14 @@
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	/* ... */
+	.admin-content-wrap {
+		min-width: 780px;
+		margin: 0 auto;
+	}
+	
+	.admin-content-wrap .card {
+		min-height: 400px;
+	}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -160,30 +167,13 @@
 			<main>
 				<div class="container-fluid admin-content-container">
 					<!-- content -->
-					<div class="card rounded-xl">
-						<div class="card-body p-5">
-							<form id="loginForm">
-								<div class="id_pw_wrap">
-									<div class="form-group mb-4">
-										<label class="font-weight-bold" for="memberEmail">이메일</label>
-										<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요">
-									</div>
-									<div class="form-group mb-4">
-										<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-										<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력해주세요" autocomplete="off">
-									</div>
-								</div>
-								<div class="form-group pt-3 mb-3">
-									<button type="submit" class="btn btn-primary btn-block rounded-md">로그인</button>
-								</div>
-							</form>
-							<div class="info-member">
-								<a class="link-join" href="/codingjoa/member/join">회원가입</a>
-								<ul class="link-ul">
-									<li class="link-li">
-										<a href="/codingjoa/member/findPassword">비밀번호 찾기</a>
-									</li>
-								</ul>
+					<div class="admin-content-wrap">
+						<div class="title-wrap">
+							<h3 class="font-weight-bold">게시판 관리</h3>
+						</div>
+						<div class="card rounded-xl">
+							<div class="card-body p-5">
+								
 							</div>
 						</div>
 					</div>
