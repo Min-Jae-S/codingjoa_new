@@ -159,7 +159,7 @@
 
 <div class="container account-container">
 	<div class="account-wrap">
-		<div class="border-bottom border-dark pb-2">
+		<div class="title-wrap">
 			<h3 class="font-weight-bold">계정 관리</h3>
 		</div>
 		<div class="profile-wrap">

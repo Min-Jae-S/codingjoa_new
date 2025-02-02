@@ -41,7 +41,7 @@
 
 <div class="container join-container">
 	<div class="join-wrap">
-		<div class="border-bottom border-dark pb-2">
+		<div class="title-wrap">
 			<h3 class="font-weight-bold">회원 가입</h3>
 		</div>
 		<div class="card rounded-xl">
@@ -82,23 +82,26 @@
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
-					<div class="form-check small mb-1">
-						<label class="form-check-label">
-							<form:checkbox class="form-check-input" path="memberAgree"/> 마케팅 활용 및 광고 수신 동의 (선택)
-						</label>
+					<div class="form-group mb-4">
+						<div class="form-check small mb-1">
+							<label class="form-check-label">
+								<form:checkbox class="form-check-input" path="memberAgree"/>
+								<span>마케팅 활용 및 광고 수신 동의 (선택)</span>
+							</label>
+						</div>
+						<div class="form-check small">
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
+								<span><a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의</span>
+							</label>
+						</div>
 					</div>
-					<div class="form-check small mb-1">
-						<label class="form-check-label">
-							<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
-							<a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의
-						</label>
-					</div>
-					<div class="form-group pt-4">
-						<form:button class="btn btn-primary btn-block rounded-md mb-4" id="joinBtn" disabled="true">회원가입</form:button>
+					<div class="mb-3">
+						<form:button class="btn btn-primary btn-block rounded-md" id="joinBtn" disabled="true">회원가입</form:button>
 					</div>
 				</form:form>
 				<p class="text-center small mb-0">
-					<span>이미 회원이신가요?</span>
+					<span class="mr-1">이미 회원이신가요?</span>
 					<span><a href="${contextPath}/member/login">로그인 하기</a></span>
 				</p>
 			</div>

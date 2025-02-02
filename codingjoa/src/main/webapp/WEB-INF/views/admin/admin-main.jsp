@@ -160,9 +160,33 @@
 			<main>
 				<div class="container-fluid admin-content-container">
 					<!-- content -->
-					<div class="test-div" style="width:50px;height:50px;background-color:blue;"></div>
-					<div class="test-div" style="width:50px;height:50px;background-color:red;"></div>
-					<div class="test-div" style="width:50px;height:50px;background-color:black;"></div>
+					<div class="card rounded-xl">
+						<div class="card-body p-5">
+							<form id="loginForm">
+								<div class="id_pw_wrap">
+									<div class="form-group mb-4">
+										<label class="font-weight-bold" for="memberEmail">이메일</label>
+										<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요">
+									</div>
+									<div class="form-group mb-4">
+										<label class="font-weight-bold" for="memberPassword">비밀번호</label>
+										<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력해주세요" autocomplete="off">
+									</div>
+								</div>
+								<div class="form-group pt-3 mb-3">
+									<button type="submit" class="btn btn-primary btn-block rounded-md">로그인</button>
+								</div>
+							</form>
+							<div class="info-member">
+								<a class="link-join" href="/codingjoa/member/join">회원가입</a>
+								<ul class="link-ul">
+									<li class="link-li">
+										<a href="/codingjoa/member/findPassword">비밀번호 찾기</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 				</div>
 			</main>
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>

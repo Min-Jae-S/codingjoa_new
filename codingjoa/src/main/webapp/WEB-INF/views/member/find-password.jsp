@@ -63,7 +63,7 @@
 	<div class="find-password-wrap">
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
-				<div class="border-bottom border-dark pb-2">
+				<div class="title-wrap">
 					<h4 class="font-weight-bold">비밀번호 찾기</h4>
 				</div>
 				<div class="pt-3">
@@ -74,13 +74,13 @@
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 						<dd class="input-group" id="editId">
-							<input type="text" id="memberId" name="memberId" placeholder="아이디 입력"/>
+							<input type="text" id="memberId" name="memberId" placeholder="아이디를 입력해주세요"/>
 						</dd>
 					</dl>
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 						<dd class="input-group" id="editEmail">
-							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력 하세요"/>
+							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요"/>
 						</dd>
 					</dl>
 					<div class="pt-3">
