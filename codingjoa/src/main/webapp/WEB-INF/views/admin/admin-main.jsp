@@ -32,6 +32,21 @@
 	.admin-content-wrap .card {
 		min-height: 500px;
 	}
+	
+	.table thead th {
+    	text-align: center;
+   	 	vertical-align: middle;
+    	border-top: 1px solid black;
+    	border-bottom: 1px solid #dee2e6;
+    }
+    
+    .table tbody td {
+    	text-align: center;
+    	vertical-align: middle;
+    	border-top: none;
+    	border-bottom: 1px solid #dee2e6;
+	}
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -168,15 +183,6 @@
 				<div class="container-fluid admin-content-container">
 					<div class="admin-content-wrap" id="contentWrapDiv">
 						<!-- content -->
-						<div class="title-wrap">
-							<h3 class="font-weight-bold">게시판 관리</h3>
-						</div>
-						<div class="card rounded-xl">
-							<div class="card-body p-5">
-								
-							</div>
-						</div>
-						<!-- /content -->
 					</div>
 				</div>
 			</main>
@@ -185,7 +191,6 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		//const contextPath = "${contextPath}";
 		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		const $contentWrapDiv = $('#contentWrapDiv');
@@ -213,6 +218,7 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
+					
 					if (!window.matchMedia("(min-width: 992px)").matches) { // mediaQuery
 						$("#sidebarToggle").trigger("click");
 					}
@@ -236,10 +242,10 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
+					
 					if (!window.matchMedia("(min-width: 992px)").matches) {
 						$("#sidebarToggle").trigger("click");
 					}
-					
 					
 					let pagedBoards = result.data.pagedBoards || [];
 					console.log(pagedBoards);
@@ -251,13 +257,13 @@
 								<a href="${contextPath}/board/read?boardIdx=\${boardInfo.boardIdx}">\${boardInfo.boardTitle}</a>
 							</td>
 							<td class="d-md-table-cell">
-								<span>\${boardInfo.writerNickname}</span></br>;
-								<span>( \${boardInfo.writerEmail} )</span>
+								<span>\${boardInfo.writerNickname}</span></br>
+								<span>(\${boardInfo.writerEmail})</span>
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.categoryName}</span></td>
 							<td class="d-md-table-cell">
 								<span>\${boardInfo.createdAt}</span></br>
-								\${boardInfo.updatedAt ? `<span>( \${boardInfo.updatedAt} )</span>` : `<span>( - )</span>`}
+								\${boardInfo.updatedAt ? `<span>(\${boardInfo.updatedAt})</span>` : ``}
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardViews}</span></td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardLikesCnt}</span></td>
@@ -280,11 +286,13 @@
 							<thead>
 								<tr>
 									<th class="d-md-table-cell">번호</th>
-									<th class="d-md-table-cell w-40">제목</th>
+									<th class="d-md-table-cell">제목</th>
 									<th class="d-md-table-cell">작성자</th>
-									<th class="d-md-table-cell">작성일</th>
+									<th class="d-md-table-cell">게시판</th>
+									<th class="d-md-table-cell">작성일 (수정일)</th>
 									<th class="d-md-table-cell">조회</th>
 									<th class="d-md-table-cell">좋아요</th>
+									<th class="d-md-table-cell">댓글</th>
 								</tr>
 							</thead>
 							<tbody>

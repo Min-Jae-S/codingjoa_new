@@ -43,14 +43,14 @@
 		border-bottom: 1px solid #dee2e6;
 	}
 
-	.table td {
+	.table tbody td {
 		text-align: center;
 		vertical-align: middle;
 		border-top: none;
 		border-bottom: 1px solid #dee2e6;
 	}
 	
-	.table td:not(:first-child) {
+	.table tbody td:not(:first-child) {
 		color: #757575;
 	}
 	
