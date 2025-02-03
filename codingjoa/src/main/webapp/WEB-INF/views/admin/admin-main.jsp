@@ -25,7 +25,7 @@
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	.admin-content-wrap {
-		min-width: 780px;
+		min-width: 1100px;
 		margin: 0 auto;
 	}
 	
