@@ -5,10 +5,10 @@ function createCategoryMenuHtml(categoryList) {
 		return html;
 	}
 	
-	$.each(categoryList, function(i, value) {
-		let categoryCode = categoryList[i].categoryCode;
-		let categoryPath = categoryList[i].categoryPath;
-		let categoryName = categoryList[i].categoryName;
+	$.each(categoryList, function(index, value) {
+		let categoryCode = categoryList[index].categoryCode;
+		let categoryPath = categoryList[index].categoryPath;
+		let categoryName = categoryList[index].categoryName;
 		let path = (categoryCode == categoryPath) ? `/?boardCategoryCode=${categoryCode}` : categoryPath;
 		//html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
 		html += `<button class='dropdown-item' type='button' data-path='${path}'>${categoryName}</button>`;
@@ -25,7 +25,7 @@ function createPagedCommentHtml(pagedComment) {
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
-	$.each(pagedComment, function(i, commentDetails) {
+	$.each(pagedComment, function(index, commentDetails) {
 		if (commentDetails == "") {
 			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
