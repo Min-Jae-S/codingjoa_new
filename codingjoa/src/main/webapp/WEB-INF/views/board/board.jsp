@@ -51,7 +51,7 @@
 		display: flex;
 	}
 	
-	.board_title, .board_title:hover {
+	.board-title, .board-title:hover {
 		color: black;
 	}
 	
@@ -126,7 +126,7 @@
 										<span><c:out value="${boardDetails.boardIdx}"/></span>
 									</td>
 									<td class="d-md-table-cell text-left">
-										<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
+										<a class="board-title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
 											${boardCri.queryString}"><c:out value="${boardDetails.boardTitle}"/>
 										</a>
 										<c:if test="${boardDetails.commentCnt > 0}">

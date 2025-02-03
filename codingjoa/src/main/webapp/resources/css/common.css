@@ -136,7 +136,8 @@ html * {
 }
 
 .admin-content-container {
-	padding: 4rem;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

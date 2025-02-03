@@ -38,6 +38,7 @@
    	 	vertical-align: middle;
     	border-top: 1px solid black;
     	border-bottom: 1px solid #dee2e6;
+    	padding: 0.75rem;
     }
     
     .table tbody td {
@@ -45,7 +46,13 @@
     	vertical-align: middle;
     	border-top: none;
     	border-bottom: 1px solid #dee2e6;
+    	padding: 0.75rem;
 	}
+	
+	.table .email, .table .updated-at {
+		color: #969691;
+	}
+	
 }
 </style>
 </head>
@@ -258,12 +265,12 @@
 							</td>
 							<td class="d-md-table-cell">
 								<span>\${boardInfo.writerNickname}</span></br>
-								<span>(\${boardInfo.writerEmail})</span>
+								<span class="email">\${boardInfo.writerEmail}</span>
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.categoryName}</span></td>
 							<td class="d-md-table-cell">
 								<span>\${boardInfo.createdAt}</span></br>
-								\${boardInfo.updatedAt ? `<span>(\${boardInfo.updatedAt})</span>` : ``}
+								\${boardInfo.updatedAt ? `<span class="updated-at">\${boardInfo.updatedAt}</span>` : ``}
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardViews}</span></td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardLikesCnt}</span></td>
