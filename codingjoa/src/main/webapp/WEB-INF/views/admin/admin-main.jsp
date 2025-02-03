@@ -185,6 +185,7 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
+		//const contextPath = "${contextPath}";
 		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		const $contentWrapDiv = $('#contentWrapDiv');
@@ -212,8 +213,7 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
-					let mediaQuery = window.matchMedia("(min-width: 992px)");
-					if (!mediaQuery.matches) {
+					if (!window.matchMedia("(min-width: 992px)").matches) { // mediaQuery
 						$("#sidebarToggle").trigger("click");
 					}
 				},
@@ -236,87 +236,75 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
-					
-					let mediaQuery = window.matchMedia("(min-width: 992px)");
-					if (!mediaQuery.matches) {
+					if (!window.matchMedia("(min-width: 992px)").matches) {
 						$("#sidebarToggle").trigger("click");
 					}
 					
-					let table = '<table class="table">';
-					table += '		<thead>';
-					table += '			<tr>';
-					table += '				<th class="d-md-table-cell">번호</th>';
-					table += '				<th class="d-md-table-cell">제목</th>';
-					table += '				<th class="d-md-table-cell">작성자</th>';
-					table += '				<th class="d-md-table-cell">게시판</th>';
-					table += '				<th class="d-md-table-cell">작성일</br>(수정일)</th>';
-					table += '				<th class="d-md-table-cell">조회</th>';
-					table += '				<th class="d-md-table-cell">좋아요</th>';
-					table += '				<th class="d-md-table-cell">댓글</th>';
-					table += '			</tr>';
-					table += '		</thead>';
-					table += '		<tbody>';
 					
-					let pagedBoards = result.data.pagedBoards;
+					let pagedBoards = result.data.pagedBoards || [];
 					console.log(pagedBoards);
 					
-					if (pagedBoards) {
-						$.each(pagedBoards, function(index, boardInfo) {
-							console.log(boardInfo);
-							table += '<tr>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.boardIdx}</span>`; 
-							table += '	</td>'; 
-							table += '	<td class="d-md-table-cell text-left">';
-							table += `		<a href="${contextPath}/board/read?boardIdx=${boardInfo.boardIdx}">${boardInfo.boardTitle}</a>`;
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.writerNickname}</span></br>`;
-							table += `		<span>(${boardInfo.writerEmail})</span></br>`;
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.categoryName}</span>`; 
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.createdAt}</span></br>`;
-							if (boardInfo.updatedAt) {
-								table += `	<span>(${boardInfo.updatedAt})</span></br>`;
-							}
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.boardViews}</span>`; 
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.boardLikesCnt}</span>`; 
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.boardViews}</span>`; 
-							table += '	</td>';
-							table += '	<td class="d-md-table-cell">';
-							table += `		<span>${boardInfo.commentCnt}</span>`; 
-							table += '	</td>';
-							table += '</tr>'; */
-						});
-					} else {
-						table += '		<tr>';
-						table += '			<td colspan="8">';
-						table += '				<div class="no-board py-5">등록된 게시글이 없습니다.</div>';
-						table += '			</td>';
-						table += '		</tr>';
+					let rows = pagedBoards.map(boardInfo => ` 
+						<tr>
+							<td class="d-md-table-cell"><span>\${boardInfo.boardIdx}</span></td>
+							<td class="d-md-table-cell text-left">
+								<a href="${contextPath}/board/read?boardIdx=\${boardInfo.boardIdx}">\${boardInfo.boardTitle}</a>
+							</td>
+							<td class="d-md-table-cell">
+								<span>\${boardInfo.writerNickname}</span></br>;
+								<span>( \${boardInfo.writerEmail} )</span>
+							</td>
+							<td class="d-md-table-cell"><span>\${boardInfo.categoryName}</span></td>
+							<td class="d-md-table-cell">
+								<span>\${boardInfo.createdAt}</span></br>
+								\${boardInfo.updatedAt ? `<span>( \${boardInfo.updatedAt} )</span>` : `<span>( - )</span>`}
+							</td>
+							<td class="d-md-table-cell"><span>\${boardInfo.boardViews}</span></td>
+							<td class="d-md-table-cell"><span>\${boardInfo.boardLikesCnt}</span></td>
+							<td class="d-md-table-cell"><span>\${boardInfo.commentCnt}</span></td>
+						</tr>
+					`).join('');
+						
+					if (!pagedBoards.length) {
+						rows = `
+							<tr>
+								<td colspan="8">
+									<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+								</td>
+							</tr>
+						`;
 					}
-					table += '		</tbody>';
-					table += '</table>';
 					
-					let outerHtml = '<div class="title-wrap">'
-					outerHtml += '		<h3 class="font-weight-bold">게시판 관리</h3>';
-					outerHtml += '	</div>';
-					outerHtml += '	<div class="card rounded-xl">';
-					outerHtml += '		<div class="card-body p-5"></div>';
-					outerHtml += '	</div>';
+					let table = `
+						<table class="table">
+							<thead>
+								<tr>
+									<th class="d-md-table-cell">번호</th>
+									<th class="d-md-table-cell w-40">제목</th>
+									<th class="d-md-table-cell">작성자</th>
+									<th class="d-md-table-cell">작성일</th>
+									<th class="d-md-table-cell">조회</th>
+									<th class="d-md-table-cell">좋아요</th>
+								</tr>
+							</thead>
+							<tbody>
+								\${rows}
+							</tbody>
+						</table>
+					`;
 					
-					let $outerHtml = $(outerHtml);
-					$outerHtml.find("div.card-body").append(table);
-					$contentWrapDiv.html($outerHtml);
+					let html = ` 
+						<div class="title-wrap">
+							<h3 class="font-weight-bold">게시판 관리</h3>
+						</div>
+						<div class="card rounded-xl">
+							<div class="card-body p-5">
+								\${table}
+							</div>
+						</div>
+					`;
+					
+					$contentWrapDiv.html(html);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
