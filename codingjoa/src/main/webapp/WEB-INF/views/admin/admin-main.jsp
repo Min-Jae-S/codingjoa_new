@@ -30,7 +30,7 @@
 	}
 	
 	.admin-content-wrap .card {
-		min-height: 400px;
+		min-height: 500px;
 	}
 </style>
 </head>
@@ -214,6 +214,64 @@
 					if (!mediaQuery.matches) {
 						$("#sidebarToggle").trigger("click");
 					} */
+					
+					let html = '';
+					html += '<table class="table">';
+					html += '	<thead>';
+					html += '		<tr>';
+					html += '			<th class="d-md-table-cell">번호</th>';
+					html += '			<th class="d-md-table-cell w-40">제목</th>';
+					html += '			<th class="d-md-table-cell">작성자</th>';
+					html += '			<th class="d-md-table-cell">작성일</th>';
+					html += '			<th class="d-md-table-cell">조회</th>';
+					html += '			<th class="d-md-table-cell">좋아요</th>';
+					html += '		</tr>';
+					html += '	</thead>';
+					html += '	<tbody>';
+					
+					let pagedBoards = result.data.pagedBoards;
+					if (pagedBoards) {
+						/* <c:forEach var='boardDetails' items="${pagedBoard}">
+						<tr>
+							<td class="d-md-table-cell">
+								<span><c:out value="${boardDetails.boardIdx}"/></span>
+							</td>
+							<td class="d-md-table-cell text-left">
+								<a class="board_title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
+									${boardCri.queryString}"><c:out value="${boardDetails.boardTitle}"/>
+								</a>
+								<c:if test="${boardDetails.commentCnt > 0}">
+									<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+								</c:if>
+							</td>
+							<td class="d-md-table-cell">
+								<span><c:out value="${boardDetails.boardWriterNickname}"/></span>
+							</td>
+							<td class="d-md-table-cell">
+								<span><c:out value="${boardDetails.createdAt}"/></span>
+							</td>
+							<td class="d-md-table-cell">
+								<span><c:out value="${boardDetails.boardViews}"/></span>
+							</td>
+							<td class="d-md-table-cell">
+								<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
+								<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
+							</td>
+						</tr>
+						</c:forEach> */
+					} else {
+						html += '		<tr>';
+						html += '			<td colspan="6">';
+						html += '				<div class="no-board py-5">등록된 게시글이 없습니다.</div>';
+						html += '			</td>';
+						html += '		</tr>';
+					}
+					
+					html += '	</tbody>';
+					html += '</table>';
+					
+					// container.empty();
+					// container.html(html);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
