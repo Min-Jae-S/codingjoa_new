@@ -136,11 +136,11 @@ html * {
 }
 
 .admin-content-container {
-	padding-top: 3rem;
-	padding-bottom: 3rem;
+	padding: 3rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 }
 
 input::placeholder, 
