@@ -4,10 +4,9 @@ function createCategoryMenuHtml(categoryList) {
 		return "";
 	}
 	
-	return categoryList.map(category => {
-		let path = (category.categoryCode == category.categoryPath) ? 
-				`/?boardCategoryCode=${category.categoryCode}` : category.categoryPath;
-		return `<button class='dropdown-item' type='button' data-path='${path}'>${category.categoryName}</button>`;
+	return categoryList.map(({ categoryCode, categoryPath, categoryName }) => {
+		let path = (categoryCode == categoryPath) ? `/?boardCategoryCode=${categoryCode}` : categoryPath;
+		return `<button class='dropdown-item' type='button' data-path='${path}'>${categoryName}</button>`;
 	}).join("");
 }
 
@@ -15,7 +14,7 @@ function createPagedCommentHtml(pagedComment) {
 	console.log("## createPagedCommentHtml");
 	let html = "";
 	if (!pagedComment || pagedComment.length == 0) {
-		return html;
+		return "";
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
@@ -109,34 +108,6 @@ function createCommentHtml(commentDetails) {
 	return html;
 }
 
-/*function createEditCommentHtml(commentDetails) {
-	let html = "";
-	html += "<div class='comment-thum'>";
-	if (commentDetails.commentWriterImageUrl == "") {
-		html += "<img src='/codingjoa/resources/images/img_profile.png'>";
-	} else {
-		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
-	}
-	
-	html += "</div>";
-	html += "<div class='comment-edit-wrap'>";
-	html += "<form>"
-	html += "<div class='input-group'>";
-	html += "<div class='comment-edit form-control'>";
-	html += "<p class='font-weight-bold mb-2'>" + commentDetails.commentWriterNickname + "</p>";
-	//html += "<textarea rows='1' style='white-space:pre;style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
-	html += "<textarea name='commentContent' rows='1' style='line-height:180%;'>" + commentDetails.commentContent + "</textarea>";
-	html += "<div class='mt-2'>";
-	html += "<button class='btn btn-sm btn-outline-primary' type='submit'>수정</button>";
-	html += "<button class='btn btn-sm btn-outline-secondary ml-2' type='button'>취소</button>";
-	html += "</div>";		
-	html += "</div>";			
-	html += "</div>";	
-	html += "</form>";
-	html += "</div>";
-	return html;
-}*/
-
 function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
 	let html = "";
@@ -180,37 +151,36 @@ function createEditCommentHtml(commentDetails) {
 
 function createPaginationHtml(pagination) {
 	console.log("## createPaginationHtml");
-	let html = "";
-	if (pagination == "") {
-		return html;
+	if (!pagination) {
+		return "";
 	}
 	
-	html += "<ul class='pagination my-0'>";
-	if (pagination.prev) {
-		html += "<li class='page-item'>";
-		html += "<a class='page-link' href='#' data-page='" + pagination.prevPage + "'>";
-		html += "<i class='fa-chevron-left fa-solid'></i>";
-		html += "</a>";
-		html += "</li>";
+	let {startPage, endPage, prevPage, nextPage, page, pageCnt, totalCnt, prev, next} = pagination;
+	
+	let prevBtn = "";
+	if (prev) {
+		prevBtn = `<li class='page-item'>
+						<a class='page-link' href='#' data-page='${prevPage}'>
+							<i class='fa-chevron-left fa-solid'></i>
+						</a>
+					</li>';
 	}
 	
-	for (let i = pagination.startPage; i <= pagination.endPage; i++) {
-		if (i == pagination.page) {
-			html += "<li class='page-item active'>";
-		} else {
-			html += "<li class='page-item'>";
-		}
-		html += "<a class='page-link' href='#' data-page='" + i + "'>" + i + "</a>";
-		html += "</li>";
+	let pageBtns = "";
+	for (let i = startPage; i <= endPage; i++) {
+		pageBtns += `<li class='page-item' ${i == page ? 'active' : ''}>
+						<a class='page-link' href='#' data-page='${i}'>${i}</a>;
+					 </li>`;
 	}
 	
-	if (pagination.next) {
-		html += "<li class='page-item'>";
-		html += "<a class='page-link' href='#' data-page='" + pagination.nextPage + "'>";
-		html += "<i class='fa-chevron-right fa-solid'></i>";
-		html += "</a>";
-		html += "</li>";
+	let nextBtn = "";
+	if (next) {
+		nextBtn = `<li class='page-item'>
+						<a class='page-link' href='#' data-page='${nextPage}'>
+							<i class='fa-chevron-right fa-solid'></i>
+						</a>
+					</li>`;
 	}
-	html += "</ul>";
-	return html;
+
+	return `<ul class='pagination my-0'>${prevBtn}${pageBtns}${nextBtn}</ul>`;
 }

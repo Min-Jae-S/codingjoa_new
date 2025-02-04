@@ -841,9 +841,8 @@
 				alert(result.message);
 				let boardLiked = result.data;
 				let iconClass = boardLiked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
-
-				//$("#boardLikesBtn .icon").html('<i class="${iconClass}"></i>');
-				$("#boardLikesBtn .icon").html('<i class="' + iconClass + '"></i>');
+				$("#boardLikesBtn .icon").html(`<i class="\${iconClass}"></i>`);
+				//$("#boardLikesBtn .icon").html('<i class="' + iconClass + '"></i>');
 				
 				likesService.getBoardLikesCnt(boardIdx, function(result) {
 					$(".board-likes-cnt").text(result.data);
@@ -860,7 +859,8 @@
 				alert(result.message);
 				let commentLiked = result.data;
 				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
-				$this.find(".icon").html('<i class="' + iconClass + '"></i>');
+				$this.find(".icon").html(`<i class="\${iconClass}"></i>`);
+				//$this.find(".icon").html('<i class="' + iconClass + '"></i>');
 				
 				likesService.getCommentLikesCnt(commentIdx, function(result) {
 					$this.find(".comment-likes-cnt").text(result.data);

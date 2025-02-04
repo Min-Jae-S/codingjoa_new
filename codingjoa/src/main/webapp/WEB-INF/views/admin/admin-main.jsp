@@ -292,13 +292,11 @@
 					`).join('');
 						
 					if (pagedBoards.length == 0) {
-						rows = `
-							<tr>
-								<td colspan="9">
-									<div class="no-board py-5">등록된 게시글이 없습니다.</div>
-								</td>
-							</tr>
-						`;
+						rows = `<tr>
+									<td colspan="9">
+										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+									</td>	
+								</tr>`;
 					}
 					
 					let table = `
@@ -326,24 +324,20 @@
 						</table>
 					`;
 					
-					/* let html = ` 
-						<div class="title-wrap">
-							<h3 class="font-weight-bold">게시판 관리</h3>
-						</div>
-						<div class="card rounded-xl">
-							<div class="card-body p-5">
-								\${table}
-							</div>
-						</div>
-					`; */
+					/* let html = `<div class="title-wrap">
+									<h3 class="font-weight-bold">게시판 관리</h3>
+								</div>
+								<div class="card rounded-xl">
+									<div class="card-body p-5">
+										\${table}
+									</div>
+								</div>`; */
 					
-					let html = `
-						<div class="card rounded-xl">
-							<div class="card-body p-5">
-								\${table}
-							</div>
-						</div>
-					`;
+					let html = `<div class="card rounded-xl">
+									<div class="card-body p-5">
+										\${table}
+									</div>
+								</div>`;
 					
 					//$contentWrapDiv.html(html);
 					$contentContainer.html(html);
