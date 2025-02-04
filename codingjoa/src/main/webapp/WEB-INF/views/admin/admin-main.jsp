@@ -291,7 +291,7 @@
 						</tr>
 					`).join('');
 						
-					if (!pagedBoards.length) {
+					if (pagedBoards.length == 0) {
 						rows = `
 							<tr>
 								<td colspan="9">

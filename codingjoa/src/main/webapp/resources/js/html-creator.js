@@ -1,26 +1,20 @@
 function createCategoryMenuHtml(categoryList) {
 	console.log("## createCategoryMenuHtml");
-	let html = "";
-	if (categoryList.length == 0) {
-		return html;
+	if (!categoryList || categoryList.length == 0) {
+		return "";
 	}
 	
-	$.each(categoryList, function(index, value) {
-		let categoryCode = categoryList[index].categoryCode;
-		let categoryPath = categoryList[index].categoryPath;
-		let categoryName = categoryList[index].categoryName;
-		let path = (categoryCode == categoryPath) ? `/?boardCategoryCode=${categoryCode}` : categoryPath;
-		//html += "<button class='dropdown-item' type='button' data-path='" + path + "'>" + categoryName + "</button>";
-		html += `<button class='dropdown-item' type='button' data-path='${path}'>${categoryName}</button>`;
-	});
-	
-	return html;
+	return categoryList.map(category => {
+		let path = (category.categoryCode == category.categoryPath) ? 
+				`/?boardCategoryCode=${category.categoryCode}` : category.categoryPath;
+		return `<button class='dropdown-item' type='button' data-path='${path}'>${category.categoryName}</button>`;
+	}).join("");
 }
 
 function createPagedCommentHtml(pagedComment) {
 	console.log("## createPagedCommentHtml");
 	let html = "";
-	if (pagedComment.length == 0) {
+	if (!pagedComment || pagedComment.length == 0) {
 		return html;
 	}
 	
