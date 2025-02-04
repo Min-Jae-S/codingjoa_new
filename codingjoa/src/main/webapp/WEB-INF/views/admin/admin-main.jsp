@@ -60,6 +60,21 @@
 		float: none;
 	}
 	
+	.table-content {
+		margin-bottom: 2rem;
+	} 
+	
+	.table-footer {
+		position: relative;
+	}
+	
+	.table-footer .pagination {
+		position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+	}
+	
 }
 </style>
 </head>
@@ -324,8 +339,15 @@
 							</tbody>
 						</table>`;
 					
-					let pagination = result.data.pagination;
-					if
+					let pagination = result.data.pagination || 
+							`<ul class="pagination my-0">
+								<li class="page-item active">
+									<button type="button" class="page-link" data-page="1">1</button>
+								</li>
+								<li class="page-item ">
+									<button type="button" class="page-link" data-page="2">2</button>
+								</li>
+							</ul>`;
 					
 					/* let html = `<div class="title-wrap">
 									<h3 class="font-weight-bold">게시판 관리</h3>
@@ -339,11 +361,15 @@
 					let html = `
 						<div class="card rounded-xl">
 							<div class="card-body p-5">
-								\${table}
-								</div class="mb-3">
+								<div class="table-content">
+									\${table}
+								</div>
+								<div class="table-footer">
 									<button type="submit" class="btn btn-primary rounded-md">삭제</button>
-								<div>
-								\${pagination}
+									<div class="pagination">
+										\${pagination}
+									</div>
+								</div>
 							</div>
 						</div>`;
 					

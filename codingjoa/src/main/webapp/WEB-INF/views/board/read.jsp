@@ -816,8 +816,7 @@
 		});
 		
 		// pagination
-		$(document).on("click", "a.page-link", function(e) {
-			e.preventDefault();
+		$(document).on("click", ".comment-pagination .page-link", function() {
 			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
 				let pagedComment = result.data.pagedComment;
 				saveCommentsAsMap(pagedComment, commentMap);
