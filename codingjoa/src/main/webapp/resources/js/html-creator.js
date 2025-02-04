@@ -14,7 +14,7 @@ function createPagedCommentHtml(pagedComment) {
 	console.log("## createPagedCommentHtml");
 	let html = "";
 	if (!pagedComment || pagedComment.length == 0) {
-		return "";
+		return html;
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
@@ -155,7 +155,7 @@ function createPaginationHtml(pagination) {
 		return "";
 	}
 	
-	let {startPage, endPage, prevPage, nextPage, page, pageCnt, totalCnt, prev, next} = pagination;
+	let { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next } = pagination;
 	
 	let prevBtn = "";
 	if (prev) {
@@ -163,13 +163,13 @@ function createPaginationHtml(pagination) {
 						<a class='page-link' href='#' data-page='${prevPage}'>
 							<i class='fa-chevron-left fa-solid'></i>
 						</a>
-					</li>';
+					</li>`;
 	}
 	
 	let pageBtns = "";
 	for (let i = startPage; i <= endPage; i++) {
-		pageBtns += `<li class='page-item' ${i == page ? 'active' : ''}>
-						<a class='page-link' href='#' data-page='${i}'>${i}</a>;
+		pageBtns += `<li class='page-item ${i == page ? "active" : ""}'>
+						<a class='page-link' href='#' data-page='${i}'>${i}</a>
 					 </li>`;
 	}
 	
