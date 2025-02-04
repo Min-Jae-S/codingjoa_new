@@ -195,8 +195,10 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid admin-content-container" id="contentContainer">
-					<!-- content -->
 					<!-- <div class="admin-content-wrap" id="contentWrapDiv"></div> -->
+					<!------------------------>
+					<!----    contents    ---->
+					<!------------------------>
 				</div>
 			</main>
 			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -263,8 +265,6 @@
 					}
 					
 					let pagedBoards = result.data.pagedBoards || [];
-					console.log(pagedBoards);
-					
 					let rows = pagedBoards.map(boardInfo => ` 
 						<tr>
 							<td class="d-md-table-cell">
@@ -288,15 +288,16 @@
 							<td class="d-md-table-cell"><span>\${boardInfo.boardViews}</span></td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardLikesCnt}</span></td>
 							<td class="d-md-table-cell"><span>\${boardInfo.commentCnt}</span></td>
-						</tr>
-					`).join('');
+						</tr>`
+					).join('');
 						
 					if (pagedBoards.length == 0) {
-						rows = `<tr>
-									<td colspan="9">
-										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
-									</td>	
-								</tr>`;
+						rows = `
+							<tr>
+								<td colspan="9">
+									<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+								</td>	
+							</tr>`;
 					}
 					
 					let table = `
@@ -321,8 +322,10 @@
 							<tbody>
 								\${rows}
 							</tbody>
-						</table>
-					`;
+						</table>`;
+					
+					let pagination = result.data.pagination;
+					if
 					
 					/* let html = `<div class="title-wrap">
 									<h3 class="font-weight-bold">게시판 관리</h3>
@@ -333,11 +336,16 @@
 									</div>
 								</div>`; */
 					
-					let html = `<div class="card rounded-xl">
-									<div class="card-body p-5">
-										\${table}
-									</div>
-								</div>`;
+					let html = `
+						<div class="card rounded-xl">
+							<div class="card-body p-5">
+								\${table}
+								</div class="mb-3">
+									<button type="submit" class="btn btn-primary rounded-md">삭제</button>
+								<div>
+								\${pagination}
+							</div>
+						</div>`;
 					
 					//$contentWrapDiv.html(html);
 					$contentContainer.html(html);

@@ -134,10 +134,12 @@
 					</tbody>
 				</table>
 				<c:if test="${not empty board}">
-					<a class="btn btn-primary rounded-md" 
-						href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
-						게시글 더보기
-					</a>
+					<div>
+						<a class="btn btn-primary rounded-md" 
+							href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
+							게시글 더보기
+						</a>
+					</div>
 				</c:if>
 			</div>
 		</c:forEach>

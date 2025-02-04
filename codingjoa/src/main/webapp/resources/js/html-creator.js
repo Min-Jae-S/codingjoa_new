@@ -159,28 +159,52 @@ function createPaginationHtml(pagination) {
 	
 	let prevBtn = "";
 	if (prev) {
-		prevBtn = `<li class='page-item'>
-						<a class='page-link' href='#' data-page='${prevPage}'>
-							<i class='fa-chevron-left fa-solid'></i>
-						</a>
-					</li>`;
+//		prevBtn = `
+//			<li class='page-item'>
+//				<a class='page-link' href='#' data-page='${prevPage}'>
+//					<i class='fa-chevron-left fa-solid'></i>
+//				</a>
+//			</li>`;
+		prevBtn = `
+			<li class='page-item'>
+				<button type='button' class='page-link' data-page='${prevPage}'>
+					<i class='fa-chevron-left fa-solid'></i>
+				</button>
+			</li>`;
 	}
 	
 	let pageBtns = "";
 	for (let i = startPage; i <= endPage; i++) {
-		pageBtns += `<li class='page-item ${i == page ? "active" : ""}'>
-						<a class='page-link' href='#' data-page='${i}'>${i}</a>
-					 </li>`;
+//		pageBtns += `
+//			<li class='page-item ${i == page ? "active" : ""}' >
+//				<a class='page-link' href='#' data-page='${i}'>${i}</a>
+//			</li>`;
+		pageBtns += `
+			<li class='page-item ${i == page ? "active" : ""}' >
+				<button type='button' class='page-link' data-page='${i}'>${i}</button>
+			</li>`;
 	}
 	
 	let nextBtn = "";
 	if (next) {
-		nextBtn = `<li class='page-item'>
-						<a class='page-link' href='#' data-page='${nextPage}'>
-							<i class='fa-chevron-right fa-solid'></i>
-						</a>
-					</li>`;
+//		nextBtn = `
+//			<li class='page-item'>
+//				<a class='page-link' href='#' data-page='${nextPage}'>
+//					<i class='fa-chevron-right fa-solid'></i>
+//				</a>
+//			</li>`;
+		nextBtn = `
+			<li class='page-item'>
+				<button type'button' class='page-link' data-page='${nextPage}'>
+					<i class='fa-chevron-right fa-solid'></i>
+				</button>
+			</li>`;
 	}
 
-	return `<ul class='pagination my-0'>${prevBtn}${pageBtns}${nextBtn}</ul>`;
+	return `
+		<ul class='pagination my-0'>
+			${prevBtn}
+			${pageBtns}
+			${nextBtn}
+		</ul>`;
 }

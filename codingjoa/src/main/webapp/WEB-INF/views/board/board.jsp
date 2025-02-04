@@ -160,7 +160,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mb-3" style="height:38px;">
+		<div class="mb-3">
 			<a class="btn btn-primary rounded-md" 
 				href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
