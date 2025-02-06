@@ -216,9 +216,8 @@
 					<!------------------------>
 				</div>
 			</main>
-			
 			<!-- footer -->
-			<%-- <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/> --%>
+			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 			
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
@@ -368,7 +367,7 @@
 									\${table}
 								</div>
 								<div class="table-footer">
-									<button type="submit" class="btn btn-primary rounded-md">삭제</button>
+									<button type="submit" class="btn btn-primary rounded-md" disabled>삭제</button>
 									<div class="pagination">
 										\${pagination}
 									</div>
