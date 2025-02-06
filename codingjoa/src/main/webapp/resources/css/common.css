@@ -10,7 +10,7 @@ html, body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: overlay;
+    /* overflow-y: overlay; */
 }
 
 @font-face {
@@ -455,15 +455,9 @@ footer {
 	color: #525661;
 }
 
-#layoutSidenav_content main {
-	display: flex;
-	height: 100%;
-	/* background-color: #e9ecef; */
-	background-color: #f1f3f5;
-}
-
 #layoutSidenav {
-	min-height: calc(100% - 56px);
+	height: 100%;
+	overflow: auto;
 }
 
 #layoutSidenav_nav {
@@ -473,6 +467,13 @@ footer {
 #layoutSidenav_nav .sb-sidenav-menu {
 	border-right: 1px solid #dedede !important;
 	background-color: #fff;
+}
+
+#layoutSidenav_content main {
+	/* display: flex;
+	height: 100%;
+	background-color: #f1f3f5; */
+	/* background-color: #e9ecef; */
 }
 
 .sb-topnav {

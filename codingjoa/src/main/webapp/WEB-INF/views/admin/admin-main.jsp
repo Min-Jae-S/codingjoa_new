@@ -216,7 +216,10 @@
 					<!------------------------>
 				</div>
 			</main>
-			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+			
+			<!-- footer -->
+			<%-- <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/> --%>
+			
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 <script>
