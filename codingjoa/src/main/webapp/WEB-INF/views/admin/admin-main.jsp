@@ -286,7 +286,7 @@
 						<tr>
 							<td class="d-md-table-cell">
 								<div class="form-check">
-					  				<input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+					  				<input class="form-check-input position-static" type="checkbox" name="boardIdxList" value="\${boardInfo.boardIdx}">
 								</div>
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardIdx}</span></td>
@@ -323,7 +323,7 @@
 								<tr>
 									<th class="d-md-table-cell">
 										<div class="form-check">
-									  		<input class="form-check-input position-static" type="checkbox" id="blankCheckbox" value="option1">
+									  		<input class="form-check-input position-static" type="checkbox" id="toggleAllBoards">
 										</div>
 									</th>
 									<th class="d-md-table-cell">번호</th>
@@ -384,6 +384,14 @@
 				}
 			});
 		});
+	});
+	
+	$(document).on("change", "input[type='checkbox']#toggleAllBoards", function() {
+		console.log("## toggleAllBoards checkbox");
+	});
+
+	$(document).on("change", "input[type='checkbox'][name='boardIdxList']", function() {
+		console.log("## boardIdxList checkbox");
 	});
 </script>
 </body>
