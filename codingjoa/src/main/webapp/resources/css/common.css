@@ -456,7 +456,8 @@ footer {
 }
 
 #layoutSidenav {
-
+	display: block;
+	height: 100%;
 }
 
 #layoutSidenav #layoutSidenav_content {
@@ -465,7 +466,7 @@ footer {
 }
 
 #layoutSidenav #layoutSidenav_nav {
-	height: 100% !importatn;
+	height: 100% !important;
 }
 
 #layoutSidenav  #layoutSidenav_nav .sb-sidenav-menu {
@@ -477,7 +478,7 @@ footer {
 	padding: 0 4rem;
 }
 
-.sb-topnav div.logo-wrap {
+.sb-topnav .logo-wrap {
 	display: flex;
 	align-items: center;
 	height: 100%;
