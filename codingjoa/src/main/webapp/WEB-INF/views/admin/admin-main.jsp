@@ -64,11 +64,23 @@
 		margin-bottom: 2rem;
 	} 
 	
-	.table-footer {
+	/* .table-footer {
 		position: relative;
 	}
 	
 	.table-footer .pagination {
+		position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+	} */
+	
+	
+	.board-pagination {
+		position: relative;
+	}
+	
+	.board-pagination .pagination {
 		position: absolute;
         top: 50%;
         left: 50%;
@@ -216,8 +228,9 @@
 					<!------------------------>
 				</div>
 			</main>
+			
 			<!-- footer -->
-			<c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
+			<%-- <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/> --%>
 			
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
@@ -286,7 +299,7 @@
 						<tr>
 							<td class="d-md-table-cell">
 								<div class="form-check">
-					  				<input class="form-check-input position-static" type="checkbox" name="boardIdxList" value="\${boardInfo.boardIdx}">
+					  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="\${boardInfo.boardIdx}">
 								</div>
 							</td>
 							<td class="d-md-table-cell"><span>\${boardInfo.boardIdx}</span></td>
@@ -323,7 +336,7 @@
 								<tr>
 									<th class="d-md-table-cell">
 										<div class="form-check">
-									  		<input class="form-check-input position-static" type="checkbox" id="toggleAllBoards">
+									  		<input class="form-check-input position-static" type="checkbox" id="toggleBoards">
 										</div>
 									</th>
 									<th class="d-md-table-cell">번호</th>
@@ -360,17 +373,32 @@
 									</div>
 								</div>`; */
 					
+					/* let html = `
+						<div class="card rounded-xl">
+							<div class="card-body p-5">
+								<form>
+									<div class="table-content">
+										\${table}
+									</div>
+									<div class="table-footer">
+										<button type="submit" class="btn btn-warning rounded-md" disabled>삭제</button>
+										<div class="board-pagination">
+											\${pagination}
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>`; */
+
 					let html = `
 						<div class="card rounded-xl">
 							<div class="card-body p-5">
-								<div class="table-content">
+								<form>
 									\${table}
-								</div>
-								<div class="table-footer">
-									<button type="submit" class="btn btn-primary rounded-md" disabled>삭제</button>
-									<div class="pagination">
-										\${pagination}
-									</div>
+									<button type="submit" class="btn btn-warning rounded-md" disabled>삭제</button>
+								</form>
+								<div class="board-pagination">
+									\${pagination}
 								</div>
 							</div>
 						</div>`;
@@ -386,12 +414,12 @@
 		});
 	});
 	
-	$(document).on("change", "input[type='checkbox']#toggleAllBoards", function() {
-		console.log("## toggleAllBoards checkbox");
+	$(document).on("change", "#toggleBoards", function() {
+		console.log("## toggleBoards");
 	});
 
-	$(document).on("change", "input[type='checkbox'][name='boardIdxList']", function() {
-		console.log("## boardIdxList checkbox");
+	$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
+		console.log("## boardIds chk, idx = %s", $(this).val());
 	});
 </script>
 </body>

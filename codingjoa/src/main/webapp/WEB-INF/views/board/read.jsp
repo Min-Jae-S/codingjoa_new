@@ -232,6 +232,10 @@
         transform: translate(-50%, -50%);
 	}
 	
+	.comment-group-footer .comment-pagination .pagination {
+		margin-bottom: 0;
+	}
+	
 	.ck-read-only {
    		--ck-widget-outline-thickness: 0;
    		border: none !important;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,5 +87,15 @@ public class AdminRestController {
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+	
+	@DeleteMapping("/boards")
+	public ResponseEntity<Object> deleteBoards(List<Integer> boardIds) {
+		log.info("## deleteBoards");
+		log.info("\t > boardIds = {}", boardIds);
+		
+		adminService.deleteBoards(boardIds);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data("success.admin.DeleteBoards").build());
 	}
 }

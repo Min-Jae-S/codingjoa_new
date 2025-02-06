@@ -202,7 +202,7 @@ function createPaginationHtml(pagination) {
 	}
 
 	return `
-		<ul class='pagination my-0'>
+		<ul class='pagination'>
 			${prevBtn}
 			${pageBtns}
 			${nextBtn}

@@ -20,4 +20,6 @@ public interface AdminService {
 	Pagination getBoardPagination();
 
 	Pagination getCommentPagination();
+	
+	void deleteBoards(List<Integer> boardIds);
 }

@@ -62,4 +62,9 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 	}
 
+	@Override
+	public void deleteBoards(List<Integer> boardIds) {
+		
+	}
+
 }

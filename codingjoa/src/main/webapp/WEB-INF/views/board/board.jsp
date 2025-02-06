@@ -75,6 +75,15 @@
 		color: black;
 		text-decoration: none;
 	}
+	
+	.board-pagination {
+		display: flex;
+		justify-content: center;
+	}
+	
+	.board-pagination .pagination {
+		margin-bottom: 0;
+	}
 </style>
 </head>
 <body>
@@ -166,8 +175,8 @@
 				href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
 		<c:if test="${not empty pagination}">
-			<div class="pt-3">
-				<ul class="pagination justify-content-center">
+			<div class="board-pagination">
+				<ul class="pagination">
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
