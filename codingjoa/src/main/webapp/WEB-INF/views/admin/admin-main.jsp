@@ -368,12 +368,12 @@
 					let html = `
 						<div class="card rounded-xl">
 							<div class="card-body p-5">
-								<form>
+								<form id="deleteBoardsForm">
 									<div class="table-content">
 										\${table}
 									</div>
 									<div class="table-footer">
-										<button type="submit" id="deleteBoardBtn" class="btn btn-warning rounded-md" disabled="true">삭제</button>
+										<button type="submit" class="btn btn-warning rounded-md" disabled="true">삭제</button>
 										<div class="board-pagination">
 											\${pagination}
 										</div>
@@ -400,7 +400,14 @@
 			console.log("## boardIds chk, idx = %s", $(this).val());
 			
 			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
-			$("#deleteBoardBtn").prop("disabled", !anyChecked);
+			$("#deleteBoardsForm button[type='submit']").prop("disabled", !anyChecked);
+		});
+		
+		$(document).on("submit", "#deleteBoardsForm", function(e) {
+			e.preventDefault();
+			console.log("## submit deleteBoardsForm");
+			
+			
 		});
 		
 	});

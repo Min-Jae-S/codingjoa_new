@@ -129,8 +129,9 @@
 		});
 		
 		$("#agreeJoinCheck").on("change", function() {
-			let agree = $(this).prop("checked");
-			$("#joinBtn").prop("disabled", !agree);
+			let agreed = $(this).prop("checked");
+			$("#joinBtn").prop("disabled", !agreed);
+			
 			/* if ($(this).is(":checked")) {
 				$("#joinBtn").prop("disabled", false);
 			} else {

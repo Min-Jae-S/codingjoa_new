@@ -511,13 +511,9 @@
 			memberService.updateAgree(obj, function(result) {
 				alert(result.message);
 				memberService.getMemberInfo(function(result) {
-					if (result.data.memberAgree) {
-						$("#memberAgree").attr("checked", "checked");
-						$("#showAgree input[type='checkbox']").attr("checked", "checked");
-					} else {
-						$("#memberAgree").removeAttr("checked");
-						$("#showAgree input[type='checkbox']").removeAttr("checked");
-					}
+					let agree = result.data.memberAgree;
+					$("#memberAgree").prop("checked", agree);
+					$("#showAgree input[type='checkbox']").prop("checked", agree);
 					$("#agreeForm button[type='reset']").click();
 				});
 			});
