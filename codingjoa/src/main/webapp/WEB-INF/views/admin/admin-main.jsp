@@ -328,7 +328,7 @@
 								<tr>
 									<th class="d-md-table-cell">
 										<div class="form-check">
-									  		<input class="form-check-input position-static" type="checkbox" id="toggleBoards">
+									  		<input class="form-check-input position-static" type="checkbox" id="toggleAllBoards">
 										</div>
 									</th>
 									<th class="d-md-table-cell">번호</th>
@@ -373,7 +373,7 @@
 										\${table}
 									</div>
 									<div class="table-footer">
-										<button type="submit" class="btn btn-warning rounded-md" disabled>삭제</button>
+										<button type="submit" id="deleteBoardBtn" class="btn btn-warning rounded-md" disabled="true">삭제</button>
 										<div class="board-pagination">
 											\${pagination}
 										</div>
@@ -391,15 +391,19 @@
 				}
 			});
 		});
-	});
 	
-	$(document).on("change", "#toggleBoards", function() {
-		console.log("## toggleBoards");
-	});
+		$(document).on("change", "#toggleAllBoards", function() {
+			console.log("## toggleAllBoards");
+		});
 
-	$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
-		console.log("## boardIds chk, idx = %s", $(this).val());
+		$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
+			console.log("## boardIds chk, idx = %s", $(this).val());
+			
+			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
+			$("#deleteBoardBtn").prop("disabled", !anyChecked);
+		});
+		
 	});
 </script>
-</body>
+		=
 </html>
