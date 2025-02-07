@@ -6,16 +6,16 @@ function getContextPath() {
 let adminService = (function() {
 	const contextPath = getContextPath();
 
-	function deletBoards(obj, callback) {
-		console.log("## deletBoards");
+	function deleteBoards(boardIds, callback) {
+		console.log("## deleteBoards");
 		let url = contextPath + "/api/admin/boards";
 		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
+		console.log("> sendData = %s", JSON.stringify(boardIds, null, 2));
 		
 		$.ajax({
 			type : "DELETE",
 			url : url,
-			data : JSON.stringify(obj),
+			data : JSON.stringify(boardIds),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			success : function(result) {
@@ -32,7 +32,7 @@ let adminService = (function() {
 	}
 
 	return {
-		deletBoards:deletBoards
+		deleteBoards:deleteBoards
 	};
 	
 })();

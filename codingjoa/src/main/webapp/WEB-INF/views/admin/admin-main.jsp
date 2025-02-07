@@ -408,13 +408,13 @@
 		
 		$(document).on("submit", "#deleteBoardsForm", function(e) {
 			e.preventDefault();
-			console.log("## submit deleteBoardsForm");
+			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
+				.get()
+				.map(element => $(element).val());
+			console.log(boardIds);
 			
-			let formData = $(this).serializeObject();
-			console.log(formData);
-			
-			adminService.deleteBoards(formData, function(result) {
-				console.log("## adminService.deleteBoards calback");
+			adminService.deleteBoards(boardIds, function(result) {
+				console.log("## adminService.deleteBoards callback");
 				console.log(result);
 			});
 		});
