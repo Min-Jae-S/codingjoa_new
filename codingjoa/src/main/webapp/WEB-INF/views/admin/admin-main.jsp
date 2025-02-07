@@ -14,12 +14,15 @@
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <!-- data-toggle, data-target >> data-bs-toggle, data-bs-target -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> --> 
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
+
+<script src="${contextPath}/resources/js/admin.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	.admin-content-container .card {
@@ -407,7 +410,13 @@
 			e.preventDefault();
 			console.log("## submit deleteBoardsForm");
 			
+			let formData = $(this).serializeObject();
+			console.log(formData);
 			
+			adminService.deleteBoards(formData, function(result) {
+				console.log("## adminService.deleteBoards calback");
+				console.log(result);
+			});
 		});
 		
 	});

@@ -90,11 +90,11 @@ public class AdminRestController {
 	}
 	
 	@DeleteMapping("/boards")
-	public ResponseEntity<Object> deleteBoards(List<Integer> boardIds) {
+	public ResponseEntity<Object> deleteBoards(List<Integer> list) {
 		log.info("## deleteBoards");
-		log.info("\t > boardIds = {}", boardIds);
+		log.info("\t > boardIds = {}", list);
 		
-		adminService.deleteBoards(boardIds);
+		//adminService.deleteBoards(list);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data("success.admin.DeleteBoards").build());
 	}
