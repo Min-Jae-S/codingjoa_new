@@ -93,7 +93,7 @@
 						</div>
 					</div>
 					<div class="mb-3">
-						<form:button class="btn btn-primary btn-block rounded-md" id="joinBtn" disabled="true">회원가입</form:button>
+						<form:button class="btn btn-primary btn-block rounded-md" id="joinBtn" disabled>회원가입</form:button>
 					</div>
 				</form:form>
 				<p class="text-center small mb-0">
@@ -130,9 +130,9 @@
 		
 		$("#agreeJoinCheck").on("change", function() {
 			if ($(this).is(":checked")) {
-				$("#joinBtn").attr("disabled", false);
+				$("#joinBtn").prop("disabled", false);
 			} else {
-				$("#joinBtn").attr("disabled", true);
+				$("#joinBtn").prop("disabled", true);
 			}
 		});
 	});

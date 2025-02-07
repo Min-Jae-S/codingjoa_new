@@ -64,27 +64,19 @@
 		margin-bottom: 2rem;
 	} 
 	
-	/* .table-footer {
+	.table-footer {
 		position: relative;
 	}
 	
-	.table-footer .pagination {
+	.table-footer .board-pagination {
 		position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-	} */
-	
-	
-	.board-pagination {
-		position: relative;
 	}
 	
-	.board-pagination .pagination {
-		position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+	.table-footer .board-pagination .pagination {
+		margin-bottom: 0;
 	}
 	
 }
@@ -355,7 +347,7 @@
 						</table>`;
 					
 					let pagination = result.data.pagination || 
-							`<ul class="pagination my-0">
+							`<ul class="pagination">
 								<li class="page-item active">
 									<button type="button" class="page-link" data-page="1">1</button>
 								</li>
@@ -373,7 +365,7 @@
 									</div>
 								</div>`; */
 					
-					/* let html = `
+					let html = `
 						<div class="card rounded-xl">
 							<div class="card-body p-5">
 								<form>
@@ -387,19 +379,6 @@
 										</div>
 									</div>
 								</form>
-							</div>
-						</div>`; */
-
-					let html = `
-						<div class="card rounded-xl">
-							<div class="card-body p-5">
-								<form>
-									\${table}
-									<button type="submit" class="btn btn-warning rounded-md" disabled>삭제</button>
-								</form>
-								<div class="board-pagination">
-									\${pagination}
-								</div>
 							</div>
 						</div>`;
 					
