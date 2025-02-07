@@ -17,4 +17,6 @@ public interface AdminMapper {
 
 	List<CommentInfo> findPagedComments();
 	
+	void deleteBoards(List<Integer> boardIds);
+	
 }

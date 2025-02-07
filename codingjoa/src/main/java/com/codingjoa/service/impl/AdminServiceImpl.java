@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codingjoa.dto.BoardInfoDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardInfo;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.Pagination;
@@ -63,8 +64,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void deleteBoards(List<Integer> boardIds) {
-		
+	public List<Board> deleteBoards(List<Integer> boardIds) {
+		adminMapper.deleteBoards(boardIds);
+		return null;
 	}
 
 }

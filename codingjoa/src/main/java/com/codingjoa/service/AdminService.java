@@ -5,6 +5,7 @@ import java.util.List;
 import com.codingjoa.dto.BoardInfoDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.entity.Board;
 import com.codingjoa.pagination.Pagination;
 
 public interface AdminService {
@@ -21,5 +22,5 @@ public interface AdminService {
 
 	Pagination getCommentPagination();
 	
-	void deleteBoards(List<Integer> boardIds);
+	List<Board> deleteBoards(List<Integer> boardIds);
 }

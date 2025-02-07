@@ -414,8 +414,7 @@
 			console.log(boardIds);
 			
 			adminService.deleteBoards(boardIds, function(result) {
-				console.log("## adminService.deleteBoards callback");
-				console.log(result);
+				alert(result.message);
 			});
 		});
 		

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
@@ -11,7 +12,9 @@ import com.codingjoa.util.MessageUtils;
 
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ToString
 @Getter
 //@NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -68,7 +71,12 @@ public class ErrorResponse {
 		}
 		
 		public ErrorResponseBuilder messageByCode(String code) {
-			errorResponse.message = MessageUtils.getMessage(code);
+			try {
+				errorResponse.message = MessageUtils.getMessage(code);
+			} catch (NoSuchMessageException e) {
+				log.info("## {}, message not found for code: {}", e.getClass().getSimpleName(), code);
+			}
+			
 			return this;
 		}
 		

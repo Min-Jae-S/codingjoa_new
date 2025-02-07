@@ -15,6 +15,7 @@ import com.codingjoa.dto.BoardInfoDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.entity.Board;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
@@ -95,7 +96,8 @@ public class AdminRestController {
 		log.info("## deleteBoards");
 		log.info("\t > boardIds = {}", boardIds);
 		
-		//adminService.deleteBoards(boardIds);
+		List<Board> deletedBoards = adminService.deleteBoards(boardIds);
+		log.info("\t > deletedBoards = {}", deletedBoards);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.admin.DeleteBoards").build());
 	}

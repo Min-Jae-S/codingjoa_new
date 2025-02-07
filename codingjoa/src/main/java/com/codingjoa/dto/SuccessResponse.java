@@ -2,13 +2,16 @@ package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpStatus;
 
 import com.codingjoa.util.MessageUtils;
 
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @ToString
 @Getter
 //@NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -65,7 +68,12 @@ public class SuccessResponse {
 		}
 		
 		public SuccessResponseBuilder messageByCode(String code) {
-			successResponse.message = MessageUtils.getMessage(code);
+			try {
+				successResponse.message = MessageUtils.getMessage(code);
+			} catch (NoSuchMessageException e) {
+				log.info("## {}, message not found for code: {}", e.getClass().getSimpleName(), code);
+			}
+			
 			return this;
 		}
 
