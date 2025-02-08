@@ -99,6 +99,9 @@ public class AdminRestController {
 		List<Board> deletedBoards = adminService.deleteBoards(boardIds);
 		log.info("\t > deletedBoards = {}", deletedBoards);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.admin.DeleteBoards").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.data(deletedBoards)
+				.messageByCode("success.admin.DeleteBoards")
+				.build());
 	}
 }

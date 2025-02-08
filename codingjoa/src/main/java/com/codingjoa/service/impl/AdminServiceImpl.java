@@ -65,8 +65,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<Board> deleteBoards(List<Integer> boardIds) {
-		adminMapper.deleteBoards(boardIds);
-		return null;
+		return adminMapper.deleteBoards(boardIds);
 	}
 
 }
