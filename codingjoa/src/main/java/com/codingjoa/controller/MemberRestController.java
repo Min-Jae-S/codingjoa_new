@@ -116,7 +116,9 @@ public class MemberRestController {
 		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveKeyAndValue(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.SendAuthCode")
+				.build());
 	}
 	
 	@PostMapping("/account/email/auth")
@@ -134,7 +136,9 @@ public class MemberRestController {
 		emailService.sendAuthCode(memberEmail, authCode);
 		redisService.saveKeyAndValue(memberEmail, authCode);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.SendAuthCode").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.SendAuthCode")
+				.build());
 	}
 	
 	@PutMapping("/account/image")
@@ -146,7 +150,9 @@ public class MemberRestController {
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateMemberImage").build());
+		return ResponseEntity.ok().body(SuccessResponse.builder()
+				.messageByCode("success.UpdateMemberImage")
+				.build());
 	}
 	
 	@PutMapping("/account/nickname")
@@ -159,7 +165,8 @@ public class MemberRestController {
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateNickname").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.UpdateNickname").build());
 	}
 	
 	@PutMapping("/account/email")
@@ -173,7 +180,9 @@ public class MemberRestController {
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdateEmail").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.UpdateEmail")
+				.build());
 	}
 	
 	@PutMapping("/account/address")
@@ -183,7 +192,9 @@ public class MemberRestController {
 		log.info("\t > addrDto = {}", addrDto);
 		memberService.updateAddr(addrDto, principal.getIdx());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAddress").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.UpdateAddress")
+				.build());
 	}
 	
 	@PutMapping("/account/agree")
@@ -193,7 +204,9 @@ public class MemberRestController {
 		log.info("\t > agreeDto = {}", agreeDto);
 		memberService.updateAgree(agreeDto, principal.getIdx());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.UpdateAgree").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.UpdateAgree")
+				.build());
 	}
 	
 	@PutMapping("/account/password")
@@ -206,7 +219,9 @@ public class MemberRestController {
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.UpdatePassword").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.UpdatePassword")
+				.build());
 	}
 	
 	@PostMapping("/account/password")
@@ -219,7 +234,9 @@ public class MemberRestController {
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
 		addJwtCookie(newPrincipal, request, response);
 		
-		return ResponseEntity.ok().body(SuccessResponse.builder().messageByCode("success.SavePassword").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.SavePassword")
+				.build());
 	}
 	
 	@GetMapping("/account")
@@ -267,7 +284,9 @@ public class MemberRestController {
 		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
 		redisService.saveKeyAndValue(key, memberIdx.toString());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindPassword").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.FindPassword")
+				.build());
 	}
 	
 	@PutMapping("/reset/password")
@@ -281,7 +300,9 @@ public class MemberRestController {
 		memberService.updatePassword(passwordChangeDto, memberIdx);
 		redisService.deleteKey(key);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.ResetPassword").build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.ResetPassword")
+				.build());
 	}
 	
 	private void addJwtCookie(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {

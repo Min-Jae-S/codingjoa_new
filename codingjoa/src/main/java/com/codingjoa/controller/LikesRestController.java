@@ -36,7 +36,10 @@ public class LikesRestController {
 		String code = (isBooardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
 		//resetAuthentication(principal.getMember().getMemberId());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(isBooardLiked).build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode(code)
+				.data(isBooardLiked)
+				.build());
 	}
 	
 	@GetMapping("/boards/{boardIdx}/likes")
@@ -56,7 +59,10 @@ public class LikesRestController {
 		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
 		//resetAuthentication(principal.getMember().getMemberId());
 
-		return ResponseEntity.ok(SuccessResponse.builder().messageByCode(code).data(isCommentLiked).build());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode(code)
+				.data(isCommentLiked)
+				.build());
 	}
 
 	@GetMapping("/comments/{commentIdx}/likes")
