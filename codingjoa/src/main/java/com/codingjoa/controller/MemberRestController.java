@@ -145,6 +145,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> updateMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateMemberImage");
+		
 		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
@@ -160,6 +161,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateNickname");
 		log.info("\t > nicknameDto = {}", nicknameDto);
+		
 		memberService.updateNickname(nicknameDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
@@ -174,6 +176,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateEmail");
 		log.info("\t > emailAuthDto = {}", emailAuthDto);
+		
 		memberService.updateEmail(emailAuthDto, principal.getIdx());
 		redisService.deleteKey(emailAuthDto.getMemberEmail());
 		
@@ -190,6 +193,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddress");
 		log.info("\t > addrDto = {}", addrDto);
+		
 		memberService.updateAddr(addrDto, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -202,6 +206,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
 		log.info("\t > agreeDto = {}", agreeDto);
+		
 		memberService.updateAgree(agreeDto, principal.getIdx());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -214,6 +219,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updatePassword");
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
+		
 		memberService.updatePassword(passwordChangeDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
@@ -229,6 +235,7 @@ public class MemberRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## savePassword");
 		log.info("\t > passwordDto = {}", passwordDto);
+		
 		memberService.savePassword(passwordDto, principal.getIdx());
 		
 		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
@@ -242,8 +249,10 @@ public class MemberRestController {
 	@GetMapping("/account")
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
+		
 		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		log.info("\t > memberInfo = {}", memberInfo);
+		
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
 	}
 	

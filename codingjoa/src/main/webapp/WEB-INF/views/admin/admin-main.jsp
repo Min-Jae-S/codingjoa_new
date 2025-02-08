@@ -397,12 +397,16 @@
 	
 		$(document).on("change", "#toggleAllBoards", function() {
 			console.log("## toggleAllBoards");
+			$("input[type='checkbox'][name='boardIds']").prop("checked", this.checked);
 		});
 
 		$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
 			console.log("## boardIds chk, idx = %s", $(this).val());
+			let total =  $("input[type='checkbox'][name='boardIds']").length;
+			let checked = $("input[type='checkbox'][name='boardIds']:checked").length;
+			$("#toggleAllBoards").prop("checked", total == checked);
 			
-			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
+			let anyChecked = checked > 0;
 			$("#deleteBoardsForm button[type='submit']").prop("disabled", !anyChecked);
 		});
 		

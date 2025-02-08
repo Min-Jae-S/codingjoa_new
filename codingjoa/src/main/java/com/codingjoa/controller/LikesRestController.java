@@ -32,6 +32,7 @@ public class LikesRestController {
 	@PostMapping("/boards/{boardIdx}/likes")
 	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLikes, boardIdx = {}", boardIdx);
+		
 		boolean isBooardLiked = likesService.toggleBoardLikes(boardIdx, principal.getIdx());
 		String code = (isBooardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
 		//resetAuthentication(principal.getMember().getMemberId());
@@ -55,6 +56,7 @@ public class LikesRestController {
 	@PostMapping("/comments/{commentIdx}/likes")
 	public ResponseEntity<Object> toggleCommentLikes(@PathVariable int commentIdx, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLikes, commentIdx = {}", commentIdx);
+		
 		boolean isCommentLiked = likesService.toggleCommentLikes(commentIdx, principal.getIdx());
 		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
 		//resetAuthentication(principal.getMember().getMemberId());

@@ -51,10 +51,10 @@ public class AdminRestController {
 	@GetMapping("/members")
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
-		List<MemberInfoDto> pagedMembers = adminService.getPagedMembers();
 		
+		List<MemberInfoDto> pagedMembers = adminService.getPagedMembers();
 		Pagination pagination = adminService.getMemberPagination();
-		log.info("\t > member pagination = {}", pagination);
+		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedMembers", pagedMembers);
@@ -66,9 +66,10 @@ public class AdminRestController {
 	@GetMapping("/boards")
 	public ResponseEntity<Object> getPagedBoards() {
 		log.info("## getPagedBoards");
+		
 		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards();
 		Pagination pagination = adminService.getBoardPagination();
-		log.info("\t > board pagination = {}", pagination);
+		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedBoards", pagedBoards);
@@ -80,9 +81,10 @@ public class AdminRestController {
 	@GetMapping("/comments")
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
+		
 		List<CommentInfoDto> pagedComments = adminService.getPagedComments();
 		Pagination pagination = adminService.getCommentPagination();
-		log.info("\t > comment pagination = {}", pagination);
+		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedComments", pagedComments);
