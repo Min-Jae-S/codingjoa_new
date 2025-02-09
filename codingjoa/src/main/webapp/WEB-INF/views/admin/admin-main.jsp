@@ -24,6 +24,7 @@
 
 <script src="${contextPath}/resources/js/admin.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
+<script src="${contextPath}/resources/js/html-creator.js"></script>
 <style>
 	.admin-content-container .card {
 		min-height: 600px;

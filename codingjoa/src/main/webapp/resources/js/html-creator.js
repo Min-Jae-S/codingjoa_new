@@ -1,3 +1,5 @@
+const contextPath = getContextPath();
+
 function createCategoryMenuHtml(categoryList) {
 	console.log("## createCategoryMenuHtml");
 	if (!categoryList || categoryList.length == 0) {

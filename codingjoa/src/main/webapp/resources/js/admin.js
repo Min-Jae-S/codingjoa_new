@@ -8,16 +8,12 @@ let adminService = (function() {
 	
 	function getPagedBoards(page, recordCnt, callback) {
 		console.log("## getPagedBoards");
-		let url = contextPath + "/api/admin/boards
+		let url = `${contextPath}/api/admin/boards?page=${page}&recordCnt=${recordCnt}`;
 		console.log("> URL = '%s'", url);
 		
 		$.ajax({
 			type : "GET",
 			url : url,
-			data : {
-				page : page,
-				recordCnt: recordCnt
-			},
 			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -34,7 +30,7 @@ let adminService = (function() {
 
 	function deleteBoards(boardIds, callback) {
 		console.log("## deleteBoards");
-		let url = contextPath + "/api/admin/boards";
+		let url = `${contextPath}/api/admin/boards`;
 		console.log("> URL = '%s'", url);
 		console.log("> sendData = %s", JSON.stringify(boardIds, null, 2));
 		
