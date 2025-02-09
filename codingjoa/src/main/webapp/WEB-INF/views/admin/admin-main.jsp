@@ -277,121 +277,13 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			$.ajax({
-				type : "GET",
-				url : $(this).attr("href"),
-				dataType : "json",
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-					
-					if (!window.matchMedia("(min-width: 992px)").matches) {
-						$("#sidebarToggle").trigger("click");
-					}
-					
-					let pagedBoards = result.data.pagedBoards || [];
-					let rows = pagedBoards.map(boardInfo => ` 
-						<tr>
-							<td class="d-md-table-cell">
-								<div class="form-check">
-					  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="\${boardInfo.boardIdx}">
-								</div>
-							</td>
-							<td class="d-md-table-cell"><span>\${boardInfo.boardIdx}</span></td>
-							<td class="d-md-table-cell text-left">
-								<a href="${contextPath}/board/read?boardIdx=\${boardInfo.boardIdx}">\${boardInfo.boardTitle}</a>
-							</td>
-							<td class="d-md-table-cell">
-								<span>\${boardInfo.writerNickname}</span></br>
-								<span class="email">\${boardInfo.writerEmail}</span>
-							</td>
-							<td class="d-md-table-cell"><span>\${boardInfo.categoryName}</span></td>
-							<td class="d-md-table-cell">
-								<span class="created-at">\${boardInfo.createdAt}</span></br>
-								<span class="updated-at">\${boardInfo.updatedAt}</span>
-							</td>
-							<td class="d-md-table-cell"><span>\${boardInfo.boardViews}</span></td>
-							<td class="d-md-table-cell"><span>\${boardInfo.boardLikesCnt}</span></td>
-							<td class="d-md-table-cell"><span>\${boardInfo.commentCnt}</span></td>
-						</tr>`
-					).join('');
-						
-					if (pagedBoards.length == 0) {
-						rows = `
-							<tr>
-								<td colspan="9">
-									<div class="no-board py-5">등록된 게시글이 없습니다.</div>
-								</td>	
-							</tr>`;
-					}
-					
-					let table = `
-						<table class="table">
-							<thead>
-								<tr>
-									<th class="d-md-table-cell">
-										<div class="form-check">
-									  		<input class="form-check-input position-static" type="checkbox" id="toggleAllBoards">
-										</div>
-									</th>
-									<th class="d-md-table-cell">번호</th>
-									<th class="d-md-table-cell">제목</th>
-									<th class="d-md-table-cell">작성자</th>
-									<th class="d-md-table-cell">게시판</th>
-									<th class="d-md-table-cell">작성일 (수정일)</th>
-									<th class="d-md-table-cell">조회</th>
-									<th class="d-md-table-cell">좋아요</th>
-									<th class="d-md-table-cell">댓글</th>
-								</tr>
-							</thead>
-							<tbody>
-								\${rows}
-							</tbody>
-						</table>`;
-					
-					let pagination = result.data.pagination || 
-							`<ul class="pagination">
-								<li class="page-item active">
-									<button type="button" class="page-link" data-page="1">1</button>
-								</li>
-								<li class="page-item ">
-									<button type="button" class="page-link" data-page="2">2</button>
-								</li>
-							</ul>`;
-					
-					/* let html = `<div class="title-wrap">
-									<h3 class="font-weight-bold">게시판 관리</h3>
-								</div>
-								<div class="card rounded-xl">
-									<div class="card-body p-5">
-										\${table}
-									</div>
-								</div>`; */
-					
-					let html = `
-						<div class="card rounded-xl">
-							<div class="card-body p-5">
-								<form id="deleteBoardsForm">
-									<div class="table-content">
-										\${table}
-									</div>
-									<div class="table-footer">
-										<button type="submit" class="btn btn-warning rounded-md" disabled="true">삭제</button>
-										<div class="board-pagination">
-											\${pagination}
-										</div>
-									</div>
-								</form>
-							</div>
-						</div>`;
-					
-					//$contentWrapDiv.html(html);
-					$contentContainer.html(html);
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
+			adminService.getPagedBoards(1, 10, function(result) {
+				if (!window.matchMedia("(min-width: 992px)").matches) {
+					$("#sidebarToggle").trigger("click");
 				}
+				
+				let pagedBoardsHtml = createdPagedBoardsHtml(result);
+				$contentContainer.html(pagedBoardsHtml);
 			});
 		});
 	

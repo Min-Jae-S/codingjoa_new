@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardInfoDto;
@@ -63,8 +64,9 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards() {
+	public ResponseEntity<Object> getPagedBoards(@RequestParam int page, @RequestParam int recordCnt) {
 		log.info("## getPagedBoards");
+		log.info("\t > page = {}, recordCnt = {}", page, recordCnt);
 		
 		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards();
 		Pagination pagination = adminService.getBoardPagination();

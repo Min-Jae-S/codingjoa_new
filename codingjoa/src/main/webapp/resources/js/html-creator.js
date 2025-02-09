@@ -159,44 +159,28 @@ function createPaginationHtml(pagination) {
 	
 	let prevBtn = "";
 	if (prev) {
-//		prevBtn = `
-//			<li class='page-item'>
-//				<a class='page-link' href='#' data-page='${prevPage}'>
-//					<i class='fa-chevron-left fa-solid'></i>
-//				</a>
-//			</li>`;
 		prevBtn = `
 			<li class='page-item'>
 				<button type='button' class='page-link' data-page='${prevPage}'>
-					<i class='fa-chevron-left fa-solid'></i>
+					<i class='fa-solid fa-fw fa-angle-left'></i>
 				</button>
 			</li>`;
 	}
 	
 	let pageBtns = "";
 	for (let i = startPage; i <= endPage; i++) {
-//		pageBtns += `
-//			<li class='page-item ${i == page ? "active" : ""}' >
-//				<a class='page-link' href='#' data-page='${i}'>${i}</a>
-//			</li>`;
 		pageBtns += `
-			<li class='page-item ${i == page ? "active" : ""}' >
+			<li class='page-item ${i == page ? "active" : ""}'>
 				<button type='button' class='page-link' data-page='${i}'>${i}</button>
 			</li>`;
 	}
 	
 	let nextBtn = "";
 	if (next) {
-//		nextBtn = `
-//			<li class='page-item'>
-//				<a class='page-link' href='#' data-page='${nextPage}'>
-//					<i class='fa-chevron-right fa-solid'></i>
-//				</a>
-//			</li>`;
 		nextBtn = `
 			<li class='page-item'>
 				<button type'button' class='page-link' data-page='${nextPage}'>
-					<i class='fa-chevron-right fa-solid'></i>
+					<i class='fa-solid fa-fw fa-angle-right'></i>
 				</button>
 			</li>`;
 	}
@@ -207,4 +191,111 @@ function createPaginationHtml(pagination) {
 			${pageBtns}
 			${nextBtn}
 		</ul>`;
+}
+
+
+// ========================================================================
+//							ADMIN HTML CREATOR
+// ========================================================================
+
+function createdPagedBoardsHtml(result) {
+	console.log("## createPaginationHtml");
+	let pagedBoards = result.data.pagedBoards || [];
+	let rows = pagedBoards.map(boardInfo => ` 
+		<tr>
+			<td class="d-md-table-cell">
+				<div class="form-check">
+	  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${boardInfo.boardIdx}">
+				</div>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.boardIdx}</span>
+			</td>
+			<td class="d-md-table-cell text-left">
+				<a href="${contextPath}/board/read?boardIdx=\${boardInfo.boardIdx}">${boardInfo.boardTitle}</a>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.writerNickname}</span></br>
+				<span class="email">${boardInfo.writerEmail}</span>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.categoryName}</span>
+			</td>
+			<td class="d-md-table-cell">
+				<span class="created-at">${boardInfo.createdAt}</span></br>
+				<span class="updated-at">${boardInfo.updatedAt}</span>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.boardViews}</span>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.boardLikesCnt}</span>
+			</td>
+			<td class="d-md-table-cell">
+				<span>${boardInfo.commentCnt}</span>
+			</td>
+		</tr>`
+	).join("");
+		
+	if (pagedBoards.length == 0) {
+		rows = `
+			<tr>
+				<td colspan="9">
+					<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+				</td>	
+			</tr>`;
+	}
+	
+	let table = `
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="d-md-table-cell">
+						<div class="form-check">
+					  		<input class="form-check-input position-static" type="checkbox" id="toggleAllBoards">
+						</div>
+					</th>
+					<th class="d-md-table-cell">번호</th>
+					<th class="d-md-table-cell">제목</th>
+					<th class="d-md-table-cell">작성자</th>
+					<th class="d-md-table-cell">게시판</th>
+					<th class="d-md-table-cell">작성일 (수정일)</th>
+					<th class="d-md-table-cell">조회</th>
+					<th class="d-md-table-cell">좋아요</th>
+					<th class="d-md-table-cell">댓글</th>
+				</tr>
+			</thead>
+			<tbody>
+				${rows}
+			</tbody>
+		</table>`;
+	
+	let pagination = result.data.pagination || 
+			`<ul class="pagination">
+				<li class="page-item active">
+					<button type="button" class="page-link" data-page="1">1</button>
+				</li>
+				<li class="page-item">
+					<button type="button" class="page-link" data-page="2">2</button>
+				</li>
+			</ul>`;
+	
+	let html = `
+		<div class="card rounded-xl">
+			<div class="card-body p-5">
+				<form id="deleteBoardsForm">
+					<div class="table-content">
+						${table}
+					</div>
+					<div class="table-footer">
+						<button type="submit" class="btn btn-warning rounded-md" disabled="true">삭제</button>
+						<div class="board-pagination">
+							${pagination}
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>`;
+	
+	return html;
 }

@@ -5,6 +5,32 @@ function getContextPath() {
 
 let adminService = (function() {
 	const contextPath = getContextPath();
+	
+	function getPagedBoards(page, recordCnt, callback) {
+		console.log("## getPagedBoards");
+		let url = contextPath + "/api/admin/boards
+		console.log("> URL = '%s'", url);
+		
+		$.ajax({
+			type : "GET",
+			url : url,
+			data : {
+				page : page,
+				recordCnt: recordCnt
+			},
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = parseError(jqXHR);
+				console.log(errorResponse);
+			}
+		});
+	}
 
 	function deleteBoards(boardIds, callback) {
 		console.log("## deleteBoards");
@@ -32,6 +58,7 @@ let adminService = (function() {
 	}
 
 	return {
+		getPagedBoards:getPagedBoards,
 		deleteBoards:deleteBoards
 	};
 	

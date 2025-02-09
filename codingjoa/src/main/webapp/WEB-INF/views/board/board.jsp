@@ -176,7 +176,7 @@
 		<c:if test="${not empty pagination}">
 			<div class="board-pagination">
 				<ul class="pagination">
-					<c:if test="${pagination.page ne 1}">
+					<c:if test="${pagination.startPage ne 1}">
 						<li class="page-item">
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(1)}"><i class="fa-solid fa-fw fa-angles-left"></i>
@@ -206,7 +206,7 @@
 							</a>
 						</li>
 					</c:if>
-					<c:if test="${pagination.page ne pagination.pageCnt}">
+					<c:if test="${pagination.endPage ne pagination.pageCnt}">
 						<li class="page-item">
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(pagination.pageCnt)}"><i class="fa-solid fa-fw fa-angles-right"></i>
