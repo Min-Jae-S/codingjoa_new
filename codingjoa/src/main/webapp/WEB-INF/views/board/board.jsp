@@ -171,21 +171,28 @@
 			</table>
 		</div>
 		<div class="mb-3">
-			<a class="btn btn-primary rounded-md" 
-				href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
+			<a class="btn btn-primary rounded-md" href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}">글쓰기</a>
 		</div>
 		<c:if test="${not empty pagination}">
 			<div class="board-pagination">
 				<ul class="pagination">
-					<c:if test="${pagination.prev}">
+					<c:if test="${pagination.page ne 1}">
 						<li class="page-item">
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-								${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-chevron-left"></i>
+								${boardCri.getQueryString(1)}"><i class="fa-solid fa-fw fa-angles-left"></i>
+							</a>
+						</li>
+					</c:if>
+					<c:if test="${pagination.prev}">
+						<li class="page-item">
+							<!-- fa-chevron-left  -->
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.prevPage)}"><i class="fa-solid fa-fw fa-angle-left"></i>
 							</a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
-						<li class="page-item ${item eq pagination.page ? 'active' : ''}">
+						<li class="page-item ${pagination.page eq item ? 'active' : ''}">
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
 								${boardCri.getQueryString(item)}">${item}
 							</a>
@@ -193,8 +200,16 @@
 					</c:forEach>
 					<c:if test="${pagination.next}">
 						<li class="page-item">
+							<!-- fa-chevron-right -->
 							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-								${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-chevron-right"></i>
+								${boardCri.getQueryString(pagination.nextPage)}"><i class="fa-solid fa-fw fa-angle-right"></i>
+							</a>
+						</li>
+					</c:if>
+					<c:if test="${pagination.page ne pagination.pageCnt}">
+						<li class="page-item">
+							<a class="page-link" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
+								${boardCri.getQueryString(pagination.pageCnt)}"><i class="fa-solid fa-fw fa-angles-right"></i>
 							</a>
 						</li>
 					</c:if>

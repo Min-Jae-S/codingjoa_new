@@ -31,7 +31,7 @@ public class Pagination {
 		// 556/10 = 55 --> 56
 		pageCnt = totalCnt / recordCnt;
 		if (totalCnt % recordCnt > 0) {
-			pageCnt++;
+			pageCnt +=1;
 		}
 		
 		// | 	 RANGE		|	START	|	 END	|

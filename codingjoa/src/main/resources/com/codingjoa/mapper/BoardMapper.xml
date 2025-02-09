@@ -158,16 +158,19 @@
     		CASE
     			WHEN a.board_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
-    		END AS is_board_writer,
+    		END 					AS is_board_writer,
    			CASE
     			WHEN EXISTS ( 
     				SELECT 1 
-    				FROM board_likes d
-    				WHERE d.board_idx = a.board_idx 
-    				AND d.member_idx = #{memberIdx} 
+    				FROM 
+    					board_likes d
+    				WHERE 
+    					d.board_idx = a.board_idx 
+    				AND 
+    					d.member_idx = #{memberIdx} 
     			) THEN 1
     			ELSE 0
-    		END AS is_board_liked
+    		END 					AS is_board_liked
 		FROM (
 		    SELECT
 		    	a_depth.board_idx,

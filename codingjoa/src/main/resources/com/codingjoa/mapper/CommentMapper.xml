@@ -59,17 +59,17 @@
 	        a.created_at,
 	        a.updated_at,
 	        a.board_writer_idx,
-    		b.member_nickname AS comment_writer_nickname,
-    		c.member_image_url AS comment_writer_image_url,
-    		NVL(d.cnt, 0) AS comment_likes_cnt,
+    		b.member_nickname 			AS comment_writer_nickname,
+    		c.member_image_url 			AS comment_writer_image_url,
+    		NVL(d.cnt, 0) 				AS comment_likes_cnt,
     		CASE
     			WHEN a.comment_writer_idx = a.board_writer_idx THEN 1
     			ELSE 0
-    		END AS is_board_writer,
+    		END 						AS is_board_writer,
     		CASE
     			WHEN a.comment_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
-    		END AS is_comment_writer,
+    		END 						AS is_comment_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
@@ -78,7 +78,7 @@
     				AND e.member_idx = #{memberIdx} 
     			) THEN 1
     			ELSE 0
-    		END AS is_comment_liked
+    		END 						AS is_comment_liked
 		FROM (
 			SELECT
 				a_depth.comment_idx,
