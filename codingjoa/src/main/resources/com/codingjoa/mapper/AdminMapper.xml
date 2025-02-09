@@ -84,12 +84,12 @@
 			board.board_idx = board_likes_group.board_idx
 	</select>
 	
-	<delete id="deleteBoards" parameterType="int">
+	<delete id="deleteBoards" parameterType="list">
 		DELETE FROM 
 			board 
 		WHERE
 			board_idx IN
-		 	<foreach collection="boardIds" item="boardIdx" separator="," open="(" close=")">	
+		 	<foreach collection="list" item="boardIdx" separator="," open="(" close=")">	
 				#{boardIdx}
 			</foreach>
 	</delete>

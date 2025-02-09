@@ -77,6 +77,16 @@ public class SuccessResponse {
 			return this;
 		}
 
+		public SuccessResponseBuilder messageByCode(String code, Object... args) {
+			try {
+				successResponse.message = MessageUtils.getMessage(code, args);
+			} catch (NoSuchMessageException e) {
+				log.info("## {}, message not found for code: {}", e.getClass().getSimpleName(), code);
+			}
+			
+			return this;
+		}
+
 		public SuccessResponseBuilder data(Object data) {
 			successResponse.data = data;
 			return this;

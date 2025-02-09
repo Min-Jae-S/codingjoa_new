@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardInfo;
 import com.codingjoa.entity.CommentInfo;
 import com.codingjoa.entity.MemberInfo;
@@ -18,6 +17,6 @@ public interface AdminMapper {
 
 	List<CommentInfo> findPagedComments();
 	
-	List<Board> deleteBoards(List<Integer> boardIds);
+	int deleteBoards(List<Integer> boardIds);
 	
 }
