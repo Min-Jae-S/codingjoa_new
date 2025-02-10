@@ -13,7 +13,7 @@
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
 		<result column="comment_cnt" property="commentCnt"/>
-		<result column="board_likes_cnt" property="boardLikesCnt"/>
+		<result column="likes_cnt" property="likesCnt"/>
 		<association property="category" javaType="category">
 			<id column="category_code" property="categoryCode"/>
 			<result column="category_parent_code" property="categoryParentCode"/>
@@ -34,9 +34,9 @@
 		</association>
 	</resultMap>
 
-	<select id="findPagedBoards" resultMap="boardInfoMap">
+	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
 		SELECT 
-			board.*,
+			paged_board.*,
 			category.*,
 			member.member_idx,
 			member.member_email,
@@ -49,17 +49,30 @@
 			member.created_at				AS member_created_at,
 			member.updated_at				AS member_updated_at,
 			NVL(comment_group.cnt, 0) 		AS comment_cnt,
-    		NVL(board_likes_group.cnt, 0) 	AS board_likes_cnt
-		FROM
-			board board
+    		NVL(likes_group.cnt, 0) 		AS likes_cnt
+		FROM (
+			SELECT *
+			FROM (
+				SELCET
+					/*+ INDEX_DESC(board pk_board) */
+					ROWNUM rn,
+					board.*
+				FROM 
+					board
+				WHERE 
+					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+			) 
+			WHERE 
+				rn > ( (#{page} - 1) * #{recordCnt} )
+		) paged_board
 		INNER JOIN
 			category category
 		ON
-			board.board_category_code = category.category_code
+			paged_board.board_category_code = category.category_code
 		INNER JOIN
 			member member
 		ON
-			board.board_writer_idx = member.member_idx
+			paged_board.board_writer_idx = member.member_idx
 		LEFT OUTER JOIN (
 			SELECT 
 				board_idx, 
@@ -70,7 +83,7 @@
 				board_idx
 		) comment_group
 		ON 
-			board.board_idx = comment_group.board_idx
+			paged_board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT 
     			board_idx,
@@ -79,9 +92,9 @@
     			board_likes
     		GROUP BY 
 				board_idx
-    	) board_likes_group
+    	) likes_group
 		ON 
-			board.board_idx = board_likes_group.board_idx
+			paged_board.board_idx = likes_group.board_idx
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">

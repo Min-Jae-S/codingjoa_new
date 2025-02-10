@@ -34,12 +34,12 @@ public class BoardInfoDto {
 	private String writerNickname;
 	
 	private int commentCnt;
-	private int boardLikesCnt;
+	private int likesCnt;
 	
 	@Builder
 	private BoardInfoDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
 			LocalDateTime updatedAt, int categoryCode, String categoryName, int writerIdx, String writerEmail,
-			String writerNickname, int commentCnt, int boardLikesCnt) {
+			String writerNickname, int commentCnt, int likesCnt) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardViews = boardViews;
@@ -51,7 +51,7 @@ public class BoardInfoDto {
 		this.writerEmail = writerEmail;
 		this.writerNickname = writerNickname;
 		this.commentCnt = commentCnt;
-		this.boardLikesCnt = boardLikesCnt;
+		this.likesCnt = likesCnt;
 	}
 	
 	public static BoardInfoDto from(BoardInfo boardInfo) {
@@ -67,7 +67,7 @@ public class BoardInfoDto {
 				.writerEmail(boardInfo.getWriter().getMemberEmail())
 				.writerNickname(boardInfo.getWriter().getMemberNickname())
 				.commentCnt(boardInfo.getCommentCnt())
-				.boardLikesCnt(boardInfo.getBoardLikesCnt())
+				.likesCnt(boardInfo.getLikesCnt())
 				.build();
 	}
 	

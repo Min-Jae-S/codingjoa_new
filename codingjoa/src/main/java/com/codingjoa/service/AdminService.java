@@ -11,7 +11,7 @@ public interface AdminService {
 	
 	List<MemberInfoDto> getPagedMembers();
 	
-	List<BoardInfoDto> getPagedBoards();
+	List<BoardInfoDto> getPagedBoards(int page, int recordCnt);
 
 	List<CommentInfoDto> getPagedComments();
 	

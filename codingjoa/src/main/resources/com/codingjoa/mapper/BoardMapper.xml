@@ -69,7 +69,7 @@
     		CASE
     			WHEN a.board_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
-    		END AS is_board_writer,
+    		END 					AS is_board_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
@@ -78,7 +78,7 @@
     				AND e.member_idx = #{memberIdx} 
     			) THEN 1
     			ELSE 0
-    		END AS is_board_liked
+    		END 					AS is_board_liked
 		FROM
 			board a
 		INNER JOIN
@@ -204,12 +204,10 @@
 		        	<include refid="searchCriteria"/>
 					board.board_category_code = #{boardCategoryCode} 
 				AND
-					<![CDATA[
-					ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} )
-					]]>
+					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
 		    ) a_depth
 		    WHERE 
-		    	a_depth.rn > ( ( #{boardCri.page} - 1 ) * #{boardCri.recordCnt} )
+		    	a_depth.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 		) a
 		LEFT OUTER JOIN (
 			SELECT 

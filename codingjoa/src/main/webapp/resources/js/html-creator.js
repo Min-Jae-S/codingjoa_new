@@ -231,7 +231,7 @@ function createdPagedBoardsHtml(result) {
 				<span>${boardInfo.boardViews}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.boardLikesCnt}</span>
+				<span>${boardInfo.likesCnt}</span>
 			</td>
 			<td class="d-md-table-cell">
 				<span>${boardInfo.commentCnt}</span>

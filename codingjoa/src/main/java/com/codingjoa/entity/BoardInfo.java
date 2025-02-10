@@ -21,6 +21,6 @@ public class BoardInfo {
 	private Category category;
 	private Member writer;
 	private Integer commentCnt;
-	private Integer boardLikesCnt;
+	private Integer likesCnt;
 	
 }

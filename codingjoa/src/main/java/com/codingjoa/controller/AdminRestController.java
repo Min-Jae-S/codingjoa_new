@@ -68,7 +68,7 @@ public class AdminRestController {
 		log.info("## getPagedBoards");
 		log.info("\t > page = {}, recordCnt = {}", page, recordCnt);
 		
-		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards();
+		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards(page, recordCnt);
 		Pagination pagination = adminService.getBoardPagination();
 		log.info("\t > pagination = {}", pagination);
 		
