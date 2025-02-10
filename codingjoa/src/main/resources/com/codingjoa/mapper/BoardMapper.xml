@@ -40,14 +40,14 @@
 	
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="boardIdx" column="board_idx" javaType="int"/>
-		<result property="boardTitle" column="board_title" javaType="string"/>
+		<result column="board_title" property="boardTitle" javaType="string"/>
 		<!-- <result column="board_content" property="boardContent" typeHandler="clobTypeHandler"/> -->
 		<result column="board_content" property="boardContent" javaType="string" jdbcType="CLOB" />
 		<result column="board_views" property="boardViews" javaType="int"/>
 		<result column="board_category_code" property="boardCategoryCode" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
-		<result column="member_nickname" property="boardWriterNickname"  javaType="string"/>
+		<result column="member_nickname" property="boardWriterNickname" javaType="string"/>
 		<result column="comment_cnt" property="commentCnt" javaType="int"/>
 		<result column="likes_cnt" property="boardLikesCnt" javaType="int"/>
 		<result column="is_board_writer" property="isBoardWriter" javaType="boolean"/>
@@ -64,8 +64,8 @@
 			board.created_at, 
 			board.updated_at,
 			member.member_nickname, 
-			NVL(comment_group.cnt, 0) AS comment_cnt,
-    		NVL(likes_group.cnt, 0) AS likes_cnt,
+			NVL(comment_group.cnt, 0) 	AS comment_cnt,
+    		NVL(likes_group.cnt, 0) 	AS likes_cnt,
     		CASE
     			WHEN board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
@@ -136,7 +136,7 @@
 
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(b) USE_NL(c) */
+			/*+ ORDERED USE_NL(comment_group) USE_NL(likes_group) */
 			paged_board.board_idx,
 			paged_board.board_title,
 			paged_board.board_views,
@@ -144,8 +144,8 @@
 			paged_board.created_at,
 			paged_board.updated_at,
 			paged_board.member_nickname,
-    		NVL(b.cnt, 0) AS comment_cnt,
-    		NVL(c.cnt, 0) AS board_likes_cnt,
+    		NVL(comment_group.cnt, 0) 		AS comment_cnt,
+    		NVL(likes_group.cnt, 0) 		AS likes_cnt,
     		CASE
     			WHEN paged_board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
@@ -159,8 +159,7 @@
     			) THEN 1 ELSE 0
     		END AS is_board_liked
 		FROM (
-		    SELECT
-		    	board_subset.*
+		    SELECT board_subset.*
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */

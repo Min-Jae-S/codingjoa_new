@@ -65,11 +65,11 @@
     		CASE
     			WHEN a.comment_writer_idx = a.board_writer_idx THEN 1
     			ELSE 0
-    		END 						AS is_board_writer,
+    		END AS is_board_writer,
     		CASE
     			WHEN a.comment_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
-    		END 						AS is_comment_writer,
+    		END AS is_comment_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
