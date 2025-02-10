@@ -53,7 +53,7 @@
 		FROM (
 			SELECT *
 			FROM (
-				SELCET
+				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 					ROWNUM rn,
 					board.*
@@ -66,32 +66,24 @@
 				rn > ( (#{page} - 1) * #{recordCnt} )
 		) paged_board
 		INNER JOIN
-			category category
+			category
 		ON
 			paged_board.board_category_code = category.category_code
-		INNER JOIN
-			member member
+		INNER JOIN	
+			member
 		ON
 			paged_board.board_writer_idx = member.member_idx
 		LEFT OUTER JOIN (
-			SELECT 
-				board_idx, 
-				COUNT(*) cnt
-			FROM
-				"comment"
-			GROUP BY 
-				board_idx
+			SELECT board_idx, COUNT(*) cnt
+			FROM "comment"
+			GROUP BY board_idx
 		) comment_group
 		ON 
 			paged_board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
-			SELECT 
-    			board_idx,
-    			COUNT(*) cnt
-    		FROM 
-    			board_likes
-    		GROUP BY 
-				board_idx
+			SELECT board_idx, COUNT(*) cnt
+    		FROM board_likes
+    		GROUP BY board_idx
     	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
