@@ -47,11 +47,11 @@
 		<result column="board_category_code" property="boardCategoryCode" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
-		<result column="member_nickname" property="boardWriterNickname" javaType="string"/>
+		<result column="member_nickname" property="writerNickname" javaType="string"/>
 		<result column="comment_cnt" property="commentCnt" javaType="int"/>
-		<result column="likes_cnt" property="boardLikesCnt" javaType="int"/>
-		<result column="is_board_writer" property="isBoardWriter" javaType="boolean"/>
-		<result column="is_board_liked" property="isBoardLiked" javaType="boolean"/>
+		<result column="likes_cnt" property="likesCnt" javaType="int"/>
+		<result column="is_writer" property="isWriter" javaType="boolean"/>
+		<result column="is_liked" property="isLiked" javaType="boolean"/>
 	</resultMap>
 	
 	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
@@ -69,7 +69,7 @@
     		CASE
     			WHEN board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
-    		END AS is_board_writer,
+    		END AS is_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
@@ -77,7 +77,7 @@
     				WHERE board_likes.board_idx = board.board_idx 
     				AND board_likes.member_idx = #{memberIdx} 
     			) THEN 1 ELSE 0
-    		END AS is_board_liked
+    		END AS is_liked
 		FROM
 			board
 		INNER JOIN
@@ -149,7 +149,7 @@
     		CASE
     			WHEN paged_board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
-    		END AS is_board_writer,
+    		END AS is_writer,
    			CASE
     			WHEN EXISTS ( 
     				SELECT 1 
@@ -157,7 +157,7 @@
     				WHERE board_likes.board_idx = paged_board.board_idx 
     				AND board_likes.member_idx = #{memberIdx} 
     			) THEN 1 ELSE 0
-    		END AS is_board_liked
+    		END AS is_liked
 		FROM (
 		    SELECT board_subset.*
 		    FROM (

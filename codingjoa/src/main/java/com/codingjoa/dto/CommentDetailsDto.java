@@ -23,7 +23,7 @@ public class CommentDetailsDto {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private String commentWriterNickname;	// from INNER JOIN with member
-	private String commentWriterImageUrl;	// from LEFT OUTER JOIN wiht member_image
+	private String commentWriterImageUrl;	// from LEFT OUTER JOIN with member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
 	
 	@JsonProperty("isBoardWriter")

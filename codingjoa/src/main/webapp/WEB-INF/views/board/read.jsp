@@ -402,7 +402,7 @@
 						<c:out value="${category.categoryName}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
 					<div class="dropright ml-auto">
-						<button class="board-utils-btn" data-toggle="dropdown" ${boardDetails.boardWriter ? '' : 'disabled'}>
+						<button class="board-utils-btn" data-toggle="dropdown" ${boardDetails.writer ? '' : 'disabled'}>
 							<i class="fa-ellipsis-vertical fa-solid"></i>
 						</button>
 						<ul class="dropdown-menu">
@@ -422,7 +422,7 @@
 				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
 				<div class="board-info">
 					<div class="board-info-left">
-						<span><c:out value="${boardDetails.boardWriterNickname}"/></span>
+						<span><c:out value="${boardDetails.writerNickname}"/></span>
 						<span><c:out value="${boardDetails.fullCreatedAt}"/></span>
 						<span>조회 <c:out value="${boardDetails.boardViews}"/></span>
 					</div>
@@ -434,10 +434,10 @@
 						</div>
 						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
 							<span class="icon">
-								<i class="fa-heart fa-fw ${boardDetails.boardLiked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
+								<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
 							</span>
 							<span>좋아요</span>
-							<span class="board-likes-cnt"><c:out value="${boardDetails.boardLikesCnt}"/></span>
+							<span class="board-likes-cnt"><c:out value="${boardDetails.likesCnt}"/></span>
 						</button>
 					</div>
 				</div>
