@@ -203,38 +203,38 @@ function createPaginationHtml(pagination) {
 function createdPagedBoardsHtml(result) {
 	console.log("## createPaginationHtml");
 	let pagedBoards = result.data.pagedBoards || [];
-	let rows = pagedBoards.map(boardInfo => ` 
+	let rows = pagedBoards.map(adminBoard => ` 
 		<tr>
 			<td class="d-md-table-cell">
 				<div class="form-check">
-	  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${boardInfo.boardIdx}">
+	  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${adminBoard.boardIdx}">
 				</div>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.boardIdx}</span>
+				<span>${adminBoard.boardIdx}</span>
 			</td>
 			<td class="d-md-table-cell text-left">
-				<a href="${contextPath}/board/read?boardIdx=\${boardInfo.boardIdx}">${boardInfo.boardTitle}</a>
+				<a href="${contextPath}/board/read?boardIdx=${adminBoard.boardIdx}">${adminBoard.boardTitle}</a>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.writerNickname}</span></br>
-				<span class="email">${boardInfo.writerEmail}</span>
+				<span>${adminBoard.writerNickname}</span></br>
+				<span class="email">${adminBoard.writerEmail}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.categoryName}</span>
+				<span>${adminBoard.categoryName}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span class="created-at">${boardInfo.createdAt}</span></br>
-				<span class="updated-at">${boardInfo.updatedAt}</span>
+				<span class="created-at">${adminBoard.createdAt}</span></br>
+				<span class="updated-at">${adminBoard.updatedAt}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.boardViews}</span>
+				<span>${adminBoard.boardViews}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.likesCnt}</span>
+				<span>${adminBoard.likesCnt}</span>
 			</td>
 			<td class="d-md-table-cell">
-				<span>${boardInfo.commentCnt}</span>
+				<span>${adminBoard.commentCnt}</span>
 			</td>
 		</tr>`
 	).join("");

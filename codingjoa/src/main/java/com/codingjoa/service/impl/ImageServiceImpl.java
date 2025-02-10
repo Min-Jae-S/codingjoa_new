@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,6 @@ public class ImageServiceImpl implements ImageService {
 	private final String boardImageDir; 	// D:/Dev/upload/board/images/
 	private final String memberImageDir; 	// D:/Dev/upload/member/images/
 	
-	@Autowired
 	public ImageServiceImpl(ImageMapper imageMapper, 
 			@Value("${upload.dir.board.image}") String boardImageDir,
 			@Value("${upload.dir.member.image}") String memberImageDir) {

@@ -3,30 +3,33 @@ package com.codingjoa.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.BoardInfoDto;
+import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
-import com.codingjoa.entity.Board;
-import com.codingjoa.entity.BoardInfo;
 import com.codingjoa.mapper.AdminMapper;
+import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Transactional
-@RequiredArgsConstructor
 @Service
 public class AdminServiceImpl implements AdminService {
 
 	private final AdminMapper adminMapper;
+	private final int pageRange;
 	
+	public AdminServiceImpl(AdminMapper adminMapper, @Value("${pagination.pageRange}") int pageRange) {
+		this.adminMapper = adminMapper;
+		this.pageRange = pageRange;
+	}
+
 	@Override
 	public List<MemberInfoDto> getPagedMembers() {
 		log.info("\t > find pagedMembers");
@@ -34,12 +37,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<BoardInfoDto> getPagedBoards(int page, int recordCnt) {
+	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
 		log.info("\t > find pagedBoards");
-		return adminMapper.findPagedBoards(page, recordCnt)
+		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
-				.map(boardInfo -> BoardInfoDto.from(boardInfo))
+				.map(boardInfo -> AdminBoardDto.from(boardInfo))
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public Pagination getBoardPagination(AdminBoardCriteria adminBoardCri) {
+		int totalCnt = adminMapper.findPagedBoardsTotalCnt(adminBoardCri);
+		return (totalCnt > 0) ? new Pagination(totalCnt, adminBoardCri.getPage(), adminBoardCri.getRecordCnt(), pageRange) : null;
 	}
 
 	@Override
@@ -50,11 +59,6 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Pagination getMemberPagination() {
-		return null;
-	}
-
-	@Override
-	public Pagination getBoardPagination() {
 		return null;
 	}
 

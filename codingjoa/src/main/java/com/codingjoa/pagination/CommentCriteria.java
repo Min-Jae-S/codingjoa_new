@@ -10,11 +10,12 @@ public class CommentCriteria {
 	private int page;
 	private int recordCnt;
 	
-	public CommentCriteria() { }
-	
 	public CommentCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}
-
+	
+	public CommentCriteria() { 
+		this(1, 10);
+	}
 }

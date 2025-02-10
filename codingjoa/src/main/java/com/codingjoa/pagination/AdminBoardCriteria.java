@@ -6,25 +6,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 import lombok.Getter;
 
 @Getter
-public class BoardCriteria {
+public class AdminBoardCriteria {
 	
 	private int page;
 	private int recordCnt;
 	private String type;
 	private String keyword;
 	
-	public BoardCriteria(int page, int recordCnt, String type, String keyword) {
+	public AdminBoardCriteria(int page, int recordCnt, String type, String keyword) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 		this.type = type;
 		this.keyword = keyword;
 	}
 	
-	public BoardCriteria(int page, int recordCnt) {
+	public AdminBoardCriteria(int page, int recordCnt) {
 		this(page, recordCnt, null, null);
 	}
 	
-	public BoardCriteria() {
+	public AdminBoardCriteria() {
 		this(1, 10, null, null);
 	}
 

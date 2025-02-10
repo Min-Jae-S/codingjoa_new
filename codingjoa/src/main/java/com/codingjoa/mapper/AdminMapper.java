@@ -3,20 +3,22 @@ package com.codingjoa.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import com.codingjoa.entity.BoardInfo;
-import com.codingjoa.entity.CommentInfo;
-import com.codingjoa.entity.MemberInfo;
+import com.codingjoa.entity.AdminBoard;
+import com.codingjoa.entity.AdminComment;
+import com.codingjoa.entity.AdminMember;
+import com.codingjoa.pagination.AdminBoardCriteria;
 
 @Mapper
 public interface AdminMapper {
 	
-	List<MemberInfo> findPagedMembers();
+	List<AdminMember> findPagedMembers();
 
-	List<BoardInfo> findPagedBoards(@Param("page") int page, @Param("recordCnt") int recordCnt);
+	List<AdminBoard> findPagedBoards(AdminBoardCriteria adminBoardCri);
+	
+	int findPagedBoardsTotalCnt(AdminBoardCriteria adminBoardCri);
 
-	List<CommentInfo> findPagedComments();
+	List<AdminComment> findPagedComments();
 	
 	int deleteBoards(List<Integer> boardIds);
 	

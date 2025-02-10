@@ -3,7 +3,6 @@ package com.codingjoa.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,6 @@ public class CommentServiceImpl implements CommentService {
 	private final BoardMapper boardMapper;
 	private final int pageRange;
 	
-	@Autowired
 	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;

@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class BoardInfo {
+public class AdminBoard {
 	
 	private Integer boardIdx;
 	private Integer boardWriterIdx;

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.dto.BoardInfoDto;
+import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.CommentInfoDto;
 import com.codingjoa.dto.MemberInfoDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
@@ -36,18 +36,6 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
 
-	@GetMapping("/test1")
-	public ResponseEntity<Object> test1() {
-		log.info("## test1");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
-	@GetMapping("/test2")
-	public ResponseEntity<Object> test2() {
-		log.info("## test2");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
 	@GetMapping("/members")
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
@@ -64,12 +52,12 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@RequestParam int page, @RequestParam int recordCnt) {
+	public ResponseEntity<Object> getPagedBoards(AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
-		log.info("\t > page = {}, recordCnt = {}", page, recordCnt);
+		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		List<BoardInfoDto> pagedBoards = adminService.getPagedBoards(page, recordCnt);
-		Pagination pagination = adminService.getBoardPagination();
+		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();

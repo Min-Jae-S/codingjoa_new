@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
-	<resultMap id="boardInfoMap" type="boardInfo">
+	<resultMap id="adminBoardMap" type="AdminBoard">
 		<id column="board_idx" property="boardIdx"/>
 		<result column="board_writer_idx" property="boardWriterIdx"/>
 		<result column="board_title" property="boardTitle"/>
@@ -34,7 +34,7 @@
 		</association>
 	</resultMap>
 
-	<select id="findPagedBoards" parameterType="map" resultMap="boardInfoMap">
+	<select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT 
 			paged_board.*,
 			category.*,
@@ -87,6 +87,13 @@
     	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
+	</select>
+	
+	<select id="findPagedBoardsTotalCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">

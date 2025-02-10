@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +30,6 @@ public class BoardServiceImpl implements BoardService {
 	private final ImageService imageService;
 	private final int pageRange;
 	
-	@Autowired
 	public BoardServiceImpl(BoardMapper boardMapper, ImageService imageService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.boardMapper = boardMapper;

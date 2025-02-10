@@ -2,7 +2,7 @@ package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 
-import com.codingjoa.entity.BoardInfo;
+import com.codingjoa.entity.AdminBoard;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class BoardInfoDto {
+public class AdminBoardDto {
 	
 	// board
 	private int boardIdx;
@@ -37,7 +37,7 @@ public class BoardInfoDto {
 	private int likesCnt;
 	
 	@Builder
-	private BoardInfoDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
+	private AdminBoardDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
 			LocalDateTime updatedAt, int categoryCode, String categoryName, int writerIdx, String writerEmail,
 			String writerNickname, int commentCnt, int likesCnt) {
 		this.boardIdx = boardIdx;
@@ -54,8 +54,8 @@ public class BoardInfoDto {
 		this.likesCnt = likesCnt;
 	}
 	
-	public static BoardInfoDto from(BoardInfo boardInfo) {
-		return BoardInfoDto.builder()
+	public static AdminBoardDto from(AdminBoard boardInfo) {
+		return AdminBoardDto.builder()
 				.boardIdx(boardInfo.getBoardIdx())
 				.boardTitle(boardInfo.getBoardTitle())
 				.boardViews(boardInfo.getBoardViews())
