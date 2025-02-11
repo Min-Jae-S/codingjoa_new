@@ -283,7 +283,7 @@
 					$("#sidebarToggle").trigger("click");
 				}
 				
-				let boardPage = createBoardPageHtml(result);
+				let boardPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardPage);
 			});
 		});

@@ -157,7 +157,7 @@ function createPaginationHtml(pagination) {
 		return "";
 	}
 	
-	let { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next } = pagination;
+	const { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next } = pagination;
 	
 	let prevBtn = "";
 	if (prev) {
@@ -196,12 +196,12 @@ function createPaginationHtml(pagination) {
 }
 
 
-// ========================================================================
-//							ADMIN HTML CREATOR
-// ========================================================================
+// =============================================
+//				ADMIN HTML CREATOR
+// =============================================
 
-function createBoardPageHtml(result) {
-	console.log("## createBoardPageHtml");
+function createBoardsPageHtml(result) {
+	console.log("## createBoardsPageHtml");
 	let pagedBoards = result.data.pagedBoards || [];
 	let rows = pagedBoards.map(adminBoard => ` 
 		<tr>
@@ -272,15 +272,7 @@ function createBoardPageHtml(result) {
 			</tbody>
 		</table>`;
 	
-	let pagination = result.data.pagination || 
-			`<ul class="pagination">
-				<li class="page-item active">
-					<button type="button" class="page-link" data-page="1">1</button>
-				</li>
-				<li class="page-item">
-					<button type="button" class="page-link" data-page="2">2</button>
-				</li>
-			</ul>`;
+	let pagination = createPaginationHtml(result.data.pagination);
 	
 	let html = `
 		<div class="card rounded-xl">

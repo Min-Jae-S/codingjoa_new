@@ -13,7 +13,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -30,16 +30,16 @@ let adminService = (function() {
 
 	function deleteBoards(boardIds, callback) {
 		console.log("## deleteBoards");
-		let url = `${contextPath}/api/admin/boards`;
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(boardIds, null, 2));
-		
 		$.ajax({
 			type : "DELETE",
-			url : url,
+			url : `${contextPath}/api/admin/boards`,
 			data : JSON.stringify(boardIds),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
