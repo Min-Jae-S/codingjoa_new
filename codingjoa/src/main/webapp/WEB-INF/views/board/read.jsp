@@ -786,7 +786,7 @@
 					$commentListDiv.html(pagedCommentHtml);
 
 					let pagination = result.data.pagination;
-					let paginationHtml = createPaginationHtml(pagination);
+					let paginationHtml = createPaginationHtml(result.data.pagination);
 					$commentPageDiv.html(paginationHtml);
 					
 					$(".comment-cnt").text(pagination.totalCnt);	

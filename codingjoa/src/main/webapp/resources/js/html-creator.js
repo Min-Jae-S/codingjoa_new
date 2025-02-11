@@ -152,7 +152,6 @@ function createEditCommentHtml(commentDetails) {
 }
 
 function createPaginationHtml(pagination) {
-	console.log("## createPaginationHtml");
 	if (!pagination) {
 		return "";
 	}
@@ -181,7 +180,7 @@ function createPaginationHtml(pagination) {
 	if (next) {
 		nextBtn = `
 			<li class='page-item'>
-				<button type'button' class='page-link' data-page='${nextPage}'>
+				<button type='button' class='page-link' data-page='${nextPage}'>
 					<i class='fa-solid fa-fw fa-angle-right'></i>
 				</button>
 			</li>`;
@@ -194,7 +193,6 @@ function createPaginationHtml(pagination) {
 			${nextBtn}
 		</ul>`;
 }
-
 
 // =============================================
 //				ADMIN HTML CREATOR

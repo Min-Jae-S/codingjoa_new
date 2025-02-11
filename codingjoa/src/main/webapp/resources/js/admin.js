@@ -1,8 +1,8 @@
 let adminService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 	
-	function getBoards(page, recordCnt, callback) {
-		console.log("## getBoards");
+	function getPagedBoards(page, recordCnt, callback) {
+		console.log("## getPagedBoards");
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,

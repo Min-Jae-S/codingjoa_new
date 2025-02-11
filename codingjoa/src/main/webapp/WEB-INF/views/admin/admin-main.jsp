@@ -12,15 +12,15 @@
 <link href="${contextPath}/resources/sb/css/styles.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
-<script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <!-- data-toggle, data-target >> data-bs-toggle, data-bs-target -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> --> 
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
+<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
+<script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 
 <script src="${contextPath}/resources/js/admin.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
@@ -81,6 +81,10 @@
 	
 	.table-footer .board-pagination .pagination {
 		margin-bottom: 0;
+	}
+	
+	.page-link {
+		padding: .5rem .75rem;
 	}
 	
 }
@@ -278,13 +282,13 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			adminService.getBoards(1, 10, function(result) {
+			adminService.getPagedBoards(1, 10, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
 				
-				let boardPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardPage);
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
 			});
 		});
 	
@@ -320,7 +324,10 @@
 			});
 		});
 		
+		$(document).on("click", ".board-pagination .page-link", function() {
+			adminService.get
+		});
+		
 	});
 </script>
-		=
 </html>
