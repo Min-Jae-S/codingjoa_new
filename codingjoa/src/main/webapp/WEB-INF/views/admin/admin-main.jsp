@@ -74,8 +74,8 @@
 		float: none;
 	}
 	
-	.table-content {
-		margin-bottom: 2rem;
+	.table-header, .table-content {
+		margin-bottom: 1.5rem;
 	} 
 	
 	.table-footer {
@@ -335,10 +335,18 @@
 		
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
+			
+			adminService.getPagedBoards(1, 10, function(result) {
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
+			});
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
-			adminService.getPagedBoards
+			adminService.getPagedBoards(1, 10, function(result) {
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
+			});
 		});
 		
 	});
