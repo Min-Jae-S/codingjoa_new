@@ -27,8 +27,9 @@
 <script src="${contextPath}/resources/js/html-creator.js"></script>
 <style>
 	.admin-content-container .card {
-		width: 960px;
+		width: 1020px;
 		margin: 0 auto;
+		padding: 4rem;
 	}
 	
 	.admin-content-container .card * {
@@ -51,13 +52,18 @@
     	padding: 0.75rem;
 	}
 	
-	.table .email, .table .updated-at {
-		color: #969691;
-		font-size: 90%;
+	.table .created-at {
+		/* font-size: 90%; */
 	}
 	
-	.table .created-at {
+	.table .updated-at {
+		/* font-size: 90%; */
+		color: #969691;
+	}
+	
+	.table .email {
 		font-size: 90%;
+		color: #969691; 
 	}
 	
 	.table .form-check {
@@ -300,7 +306,7 @@
 			$("input[type='checkbox'][name='boardIds']").prop("checked", this.checked);
 			
 			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
-			$("#deleteBoardsForm button[type='submit']").prop("disabled", !anyChecked);
+			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
 
 		$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
@@ -309,23 +315,26 @@
 			$("#toggleAllBoards").prop("checked", totalCnt > 0 && totalCnt == checkedCnt);
 			
 			let anyChecked = checkedCnt > 0;
-			$("#deleteBoardsForm button[type='submit']").prop("disabled", !anyChecked);
+			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
 		
-		$(document).on("submit", "#deleteBoardsForm", function(e) {
-			e.preventDefault();
+		$(document).on("click", "#deleteBoardsBtn", function() {
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
 				.map(element => $(element).val());
-			
+		
 			if (!boardIds.length) {
 				alert("삭제할 게시물을 선택해주세요.");
 				return;
 			}
-			
+		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
 			});
+		});
+		
+		$(document).on("submit", "#adminBoardsForm", function(e) {
+			e.preventDefault();
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
