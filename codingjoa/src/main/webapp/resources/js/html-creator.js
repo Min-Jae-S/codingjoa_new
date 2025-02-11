@@ -200,8 +200,8 @@ function createPaginationHtml(pagination) {
 //							ADMIN HTML CREATOR
 // ========================================================================
 
-function createdPagedBoardsHtml(result) {
-	console.log("## createPaginationHtml");
+function createBoardPageHtml(result) {
+	console.log("## createBoardPageHtml");
 	let pagedBoards = result.data.pagedBoards || [];
 	let rows = pagedBoards.map(adminBoard => ` 
 		<tr>

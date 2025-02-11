@@ -278,18 +278,17 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			adminService.getPagedBoards(1, 10, function(result) {
+			adminService.getBoards(1, 10, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
 				
-				let pagedBoardsHtml = createdPagedBoardsHtml(result);
-				$contentContainer.html(pagedBoardsHtml);
+				let boardPage = createBoardPageHtml(result);
+				$contentContainer.html(boardPage);
 			});
 		});
 	
 		$(document).on("change", "#toggleAllBoards", function() {
-			console.log("## toggleAllBoards");
 			$("input[type='checkbox'][name='boardIds']").prop("checked", this.checked);
 			
 			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
@@ -297,7 +296,6 @@
 		});
 
 		$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
-			console.log("## boardIds chk, idx = %s", $(this).val());
 			let totalCnt =  $("input[type='checkbox'][name='boardIds']").length;
 			let checkedCnt = $("input[type='checkbox'][name='boardIds']:checked").length;
 			$("#toggleAllBoards").prop("checked", totalCnt > 0 && totalCnt == checkedCnt);
@@ -311,7 +309,11 @@
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
 				.map(element => $(element).val());
-			console.log(boardIds);
+			
+			if (!boardIds.length) {
+				alert("삭제할 게시물을 선택해주세요.");
+				return;
+			}
 			
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);

@@ -1,15 +1,20 @@
 let adminService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 	
-	function getPagedBoards(page, recordCnt, callback) {
-		console.log("## getPagedBoards");
-		let url = `${contextPath}/api/admin/boards?page=${page}&recordCnt=${recordCnt}`;
-		console.log("> URL = '%s'", url);
-		
+	function getBoards(page, recordCnt, callback) {
+		console.log("## getBoards");
 		$.ajax({
 			type : "GET",
-			url : url,
+			url : `${contextPath}/api/admin/boards`,
+			data : {
+				page : page,
+				recordCnt : recordCnt
+			},
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -49,7 +54,7 @@ let adminService = (function() {
 	}
 
 	return {
-		getPagedBoards:getPagedBoards,
+		getBoards:getBoards,
 		deleteBoards:deleteBoards
 	};
 	
