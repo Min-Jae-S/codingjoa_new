@@ -276,6 +276,9 @@ function createBoardsPageHtml(result) {
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
 				<form id="deleteBoardsForm">
+					<div class="table-header">
+					
+					</div>
 					<div class="table-content">
 						${table}
 					</div>

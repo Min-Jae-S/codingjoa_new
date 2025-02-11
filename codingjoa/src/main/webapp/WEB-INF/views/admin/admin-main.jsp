@@ -27,8 +27,12 @@
 <script src="${contextPath}/resources/js/html-creator.js"></script>
 <style>
 	.admin-content-container .card {
-		min-height: 600px;
-		min-width: 1150px;
+		width: 960px;
+		margin: 0 auto;
+	}
+	
+	.admin-content-container .card * {
+		font-size: 15px;
 	}
 	
 	.table thead th {
@@ -221,7 +225,7 @@
 		<!-- Sidenav_conent -->
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container-fluid admin-content-container" id="contentContainer">
+				<div class="admin-content-container" id="contentContainer">
 					<!-- <div class="admin-content-wrap" id="contentWrapDiv"></div> -->
 					<!------------------------>
 					<!----    contents    ---->
@@ -325,7 +329,7 @@
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
-			adminService.get
+			adminService.getPagedBoards
 		});
 		
 	});

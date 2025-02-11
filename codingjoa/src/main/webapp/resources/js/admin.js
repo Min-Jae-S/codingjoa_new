@@ -54,7 +54,7 @@ let adminService = (function() {
 	}
 
 	return {
-		getBoards:getBoards,
+		getPagedBoards:getPagedBoards,
 		deleteBoards:deleteBoards
 	};
 	
