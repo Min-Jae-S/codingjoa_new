@@ -1,4 +1,4 @@
-const contextPath = getContextPath();
+const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
 function createCategoryMenuHtml(categoryList) {
 	console.log("## createCategoryMenuHtml");
@@ -290,7 +290,7 @@ function createdPagedBoardsHtml(result) {
 						${table}
 					</div>
 					<div class="table-footer">
-						<button type="submit" class="btn btn-warning rounded-md" disabled="true">삭제</button>
+						<button type="submit" class="btn btn-warning rounded-md" disabled="true">선택삭제</button>
 						<div class="board-pagination">
 							${pagination}
 						</div>
