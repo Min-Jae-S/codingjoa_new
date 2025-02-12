@@ -104,16 +104,16 @@ let memberService = (function() {
 	
 	function updateNickname(obj, callback) {
 		console.log("## updateNickname");
-		let url = contextPath + "/api/member/account/nickname";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/nickname`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
