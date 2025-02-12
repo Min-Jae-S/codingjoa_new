@@ -3,17 +3,17 @@ let memberService = (function() {
 
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## sendAuthCodeForJoin");
-		let url = contextPath + "/api/member/join/auth";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `{contextPath}/api/member/join/auth`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			success : function(result) {
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+ 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
 				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
@@ -43,16 +43,16 @@ let memberService = (function() {
 	
 	function sendAuthCodeForEmailUpdate(obj, callback) {
 		console.log("## sendAuthCodeForEmailUpdate");
-		let url = contextPath + "/api/member/account/email/auth";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/member/account/email/auth`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
