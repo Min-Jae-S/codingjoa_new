@@ -135,16 +135,16 @@ let memberService = (function() {
 	
 	function updateEmail(obj, callback) {
 		console.log("## updateEmail");
-		let url = contextPath + "/api/member/account/email";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/email`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -166,16 +166,16 @@ let memberService = (function() {
 
 	function updateAddr(obj, callback) {
 		console.log("## updateAddr");
-		let url = contextPath + "/api/member/account/address";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/address`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -197,16 +197,16 @@ let memberService = (function() {
 
 	function updateAgree(obj, callback) {
 		console.log("## updateAgree");
-		let url = contextPath + "/api/member/account/agree";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/agree`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -228,16 +228,16 @@ let memberService = (function() {
 	
 	function updatePassword(obj, callback) {
 		console.log("## updatePassword");
-		let url = contextPath + "/api/member/account/password";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
@@ -259,16 +259,16 @@ let memberService = (function() {
 	
 	function savePassword(obj, callback) {
 		console.log("## saveePassword");
-		let url = contextPath + "/api/member/account/password";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/member/account/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();
@@ -290,13 +290,14 @@ let memberService = (function() {
 	
 	function getMemberInfo(callback) {
 		console.log("## getMemberInfo");
-		let url = contextPath + "/api/member/account";
-		console.log("> URL = '%s'", url);
-		
 		$.ajax({
 			type : "GET",
-			url : url,
+			url : `${contextPath}/api/member/account`,
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -316,16 +317,16 @@ let memberService = (function() {
 	
 	function confirmPassword(obj, callback) {
 		console.log("## confirmPassword");
-		let url = contextPath + "/api/member/confirm/password";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/member/confirm/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS","color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -347,16 +348,16 @@ let memberService = (function() {
 	
 	function findAccount(obj, callback) {
 		console.log("## findAccount");
-		let url = contextPath + "/api/member/find/account";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/member/find/account"`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -378,16 +379,16 @@ let memberService = (function() {
 	
 	function findPassword(obj, callback) {
 		console.log("## findPassword");
-		let url = contextPath + "/api/member/find/password";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/member/find/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -409,16 +410,16 @@ let memberService = (function() {
 	
 	function resetPassword(key, obj, callback) {
 		console.log("## resetPassword");
-		let url = contextPath + "/api/member/reset/password?key=" + key;
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(obj, null, 2));
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/reset/password?key=${key}`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

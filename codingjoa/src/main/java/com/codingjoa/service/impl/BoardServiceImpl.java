@@ -95,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
 		Board board = boardMapper.findBoardByIdx(boardIdx);
 		log.info("\t > find board = {}", board);
-
+		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
