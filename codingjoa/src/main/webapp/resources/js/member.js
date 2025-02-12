@@ -74,16 +74,17 @@ let memberService = (function() {
 	
 	function updateMemberImage(formData, callback) {
 		console.log("## updateMemberImage");
-		let url = contextPath + "/api/member/account/image";
-		console.log("> URL = '%s'", url);
-		
 		$.ajax({
 			type : "PUT",
-			url : url,
+			url : `${contextPath}/api/member/account/image`;
 			processData: false,
 		    contentType: false,
 			data : formData,
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
