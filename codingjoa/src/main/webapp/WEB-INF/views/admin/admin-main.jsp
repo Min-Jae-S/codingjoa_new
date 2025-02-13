@@ -29,7 +29,7 @@
 	.admin-content-container .card {
 		width: 1020px;
 		margin: 0 auto;
-		padding: 4rem;
+		padding: 3rem;
 	}
 	
 	.admin-content-container .card * {
@@ -74,8 +74,12 @@
 		float: none;
 	}
 	
-	.table-header, .table-content {
+	.table-header {
 		margin-bottom: 1.5rem;
+	}
+	
+	.table-content {
+		margin-bottom: 3rem;
 	} 
 	
 	.table-footer {
