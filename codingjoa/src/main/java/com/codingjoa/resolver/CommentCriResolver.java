@@ -20,12 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class CommentCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
+public class CommentCriResolver implements HandlerMethodArgumentResolver {
 
 	private final int defaultPage;
 	private final int defaultRecordCnt;
 	
-	public CommentCriteriaArgumentResolver(
+	public CommentCriResolver(
 			@Value("${criteria.comment.page}") int defaultPage, 
 			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt) {
 		this.defaultPage = defaultPage;

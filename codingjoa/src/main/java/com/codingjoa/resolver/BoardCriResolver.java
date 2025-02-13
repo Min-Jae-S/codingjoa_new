@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResolver {
+public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
 	private final int defaultRecordCnt;
@@ -26,7 +26,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 	private final Map<String, Object> recordCntGroup; 
 	private final Map<String, Object> typeGroup;
 	
-	public BoardCriteriaArgumentResolver(
+	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,

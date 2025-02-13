@@ -42,8 +42,8 @@ import com.codingjoa.exception.PreExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
-import com.codingjoa.resolver.BoardCriteriaArgumentResolver;
-import com.codingjoa.resolver.CommentCriteriaArgumentResolver;
+import com.codingjoa.resolver.BoardCriResolver;
+import com.codingjoa.resolver.CommentCriResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -65,8 +65,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
-	private final BoardCriteriaArgumentResolver boardCriteriaArgumentResolver;
-	private final CommentCriteriaArgumentResolver commentCriteriaArgumentResolver;
+	private final BoardCriResolver boardCriResolver;
+	private final CommentCriResolver commentCriResolver;
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
 
@@ -179,8 +179,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-		resolvers.add(boardCriteriaArgumentResolver);
-		resolvers.add(commentCriteriaArgumentResolver);
+		resolvers.add(boardCriResolver);
+		resolvers.add(commentCriResolver);
 	}
 	
 	@Bean
