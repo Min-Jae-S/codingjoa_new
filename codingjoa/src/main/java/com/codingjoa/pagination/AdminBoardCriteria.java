@@ -17,12 +17,13 @@ public class AdminBoardCriteria {
 	private String type;
 	private String keyword;
 	
-	public AdminBoardCriteria() {
-		log.info("## AdminBoardCriteria()");
-	}
+//	public AdminBoardCriteria() {
+//		log.info("## AdminBoardCriteria()");
+//	}
 	
 	public AdminBoardCriteria(int page, int recordCnt, String type, String keyword) {
 		log.info("## AdminBoardCriteria(int page, int recordCnt, String type, String keyword)");
+		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		this.page = page;
 		this.recordCnt = recordCnt;
 		this.type = type;

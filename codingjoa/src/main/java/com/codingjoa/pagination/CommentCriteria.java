@@ -15,7 +15,4 @@ public class CommentCriteria {
 		this.recordCnt = recordCnt;
 	}
 	
-	public CommentCriteria() { 
-		this(1, 10);
-	}
 }

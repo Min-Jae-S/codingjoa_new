@@ -71,8 +71,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 
 		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
 		mavContainer.addAttribute("typeGroup", typeGroup);
-		mavContainer.addAttribute("boardCri", boardCri);
-		log.info("\t > add model attrs = recordCntGroup, typeGroup, boardCri");
+		log.info("\t > add model attrs = recordCntGroup, typeGroup");
 		
 		return boardCri;
 	}

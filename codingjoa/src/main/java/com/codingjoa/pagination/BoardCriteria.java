@@ -24,10 +24,6 @@ public class BoardCriteria {
 		this(page, recordCnt, null, null);
 	}
 	
-	public BoardCriteria() {
-		this(1, 10, null, null);
-	}
-
 	public String getQueryString() {
 		return getQueryString(this.page);
 	}

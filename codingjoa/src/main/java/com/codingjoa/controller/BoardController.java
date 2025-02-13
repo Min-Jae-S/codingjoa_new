@@ -73,6 +73,7 @@ public class BoardController {
 			@BoardCri BoardCriteria boardCri, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getPagedBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
+		model.addAttribute("boardCri", boardCri);
 	
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
