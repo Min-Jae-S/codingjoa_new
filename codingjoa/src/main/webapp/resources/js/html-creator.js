@@ -271,6 +271,7 @@ function createBoardsPageHtml(result) {
 		</table>`;
 	
 	let pagination = createPaginationHtml(result.data.pagination);
+	let adminBoardCri = result.data.adminBoardCri;
 	
 	let html = `
 		<div class="card rounded-xl">
@@ -280,21 +281,22 @@ function createBoardsPageHtml(result) {
 						<button type="button" id="deleteBoardsBtn" class="btn btn-warning rounded-md mr-auto" disabled="true">선택삭제</button>
 						<div class="d-flex">
 							<select id="type" name="type" class="custom-select mr-3 rounded-md">
-								<option value="title">제목</option>
-								<option value="content">내용</option>
-								<option value="writer">작성자</option>
-								<option value="title_content">제목 + 내용</option>
+								<option value="title" 	${adminBoardCri.type == "title" ? "selected" : ""}>제목</option>
+								<option value="content" ${adminBoardCri.type == "content" ? "selected" : ""}>내용</option>
+								<option value="writer" 	${adminBoardCri.type == "writer" ? "selected" : ""}>작성자</option>
+								<option value="title_content" ${adminBoardCri.type == "title_content" ? "selected" : ""}>제목 + 내용</option>
 							</select>
 							<div class="input-group mr-3">
-								<input id="keyword" name="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요"/>
+								<input id="keyword" name="keyword" class="form-control rounded-md" 
+									value=${adminBoardCri.keyword} placeholder="검색어를 입력해주세요"/>
 								<div class="input-group-append">
 									<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 								</div>
 							</div>
 							<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
-								<option value="10" selected="selected">10개씩</option>
-								<option value="20">20개씩</option>
-								<option value="30">30개씩</option>
+								<option value="10" ${adminBoardCri.recordCnt == 10 ? "selected" : ""}>10개씩</option>
+								<option value="20" ${adminBoardCri.recordCnt == 20 ? "selected" : ""}>20개씩</option>
+								<option value="30" ${adminBoardCri.recordCnt == 30 ? "selected" : ""}>30개씩</option>
 							</select>
 						</div>
 					</form>

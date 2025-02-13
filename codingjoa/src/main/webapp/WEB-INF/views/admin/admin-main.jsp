@@ -291,12 +291,7 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			let adminBoardCri = {
-				page : 1,
-				recordCnt : 10
-			}
-			
-			adminService.getPagedBoards(adminBoardCri, function(result) {
+			adminService.getPagedBoards({ }, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
@@ -339,23 +334,14 @@
 		
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			
-			let adminBoardCri = $(this).serializeObject();
-			console.log(adminBoardCri);
-			return;
-			
-			adminService.getPagedBoards(adminBoardCri, function(result) {
+			adminService.getPagedBoards($(this).serializeObject(), function(result) {
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
-			let adminBoardCri = $(this).serializeObject();
-			console.log(adminBoardCri);
-			return;
-			
-			adminService.getPagedBoards(adminBoardCri, function(result) {
+			adminService.getPagedBoards({ page : $(this).data("page") }, function(result) {
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
