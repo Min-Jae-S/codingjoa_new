@@ -63,6 +63,7 @@ public class AdminRestController {
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
+		data.put("adminBoardCri", adminBoardCri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}

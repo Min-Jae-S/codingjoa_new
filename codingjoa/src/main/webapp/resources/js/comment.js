@@ -11,7 +11,7 @@ let commentService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.dir(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -125,7 +125,7 @@ let commentService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-			}
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

@@ -12,7 +12,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.BoardCri;
 import com.codingjoa.pagination.BoardCriteria;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +54,7 @@ public class BoardCriteriaArgumentResolver implements HandlerMethodArgumentResol
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, FormatUtils.formatString(keyword));
+		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();

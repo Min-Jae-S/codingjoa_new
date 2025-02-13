@@ -1,15 +1,12 @@
 let adminService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 	
-	function getPagedBoards(page, recordCnt, callback) {
+	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,
-			data : {
-				page : page,
-				recordCnt : recordCnt
-			},
+			data : adminBoardCri,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
