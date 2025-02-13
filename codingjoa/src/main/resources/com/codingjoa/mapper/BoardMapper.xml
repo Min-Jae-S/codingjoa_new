@@ -10,7 +10,7 @@
 	board_category_code     NUMBER                      NOT NULL,
     board_views             NUMBER          DEFAULT 0   NOT NULL,
 	created_at              DATE                        NOT NULL,
-    updated_at              DATE                        NOT NULL,	NOT NULL >> NULL
+    updated_at              DATE                        NOT NULL
 -->
 
 	<insert id="insertBoard" parameterType="board">
@@ -34,7 +34,7 @@
 			#{boardContentText},
 			#{boardCategoryCode},
 			SYSDATE,
-			NULL
+			SYSDATE
 		)
 	</insert>
 	

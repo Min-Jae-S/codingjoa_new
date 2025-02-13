@@ -11,7 +11,7 @@
     member_addr_detail      VARCHAR2(150)           NULL,
     member_agree            CHAR(1)                 NOT NULL,
     created_at              DATE                    NOT NULL,
-    updated_at              DATE                    NULL,   	NOT NULL >> NULL
+    updated_at              DATE                    NOT NULL
 -->
 
 	<insert id="insertMember" parameterType="member">
@@ -33,7 +33,7 @@
 			#{memberNickname},
 			#{memberAgree},
 			SYSDATE,
-			NULL
+			SYSDATE
 		)
 	</insert>
 	
