@@ -83,10 +83,6 @@ public class BoardDetailsDto {
 	}
 	
 	private String format(LocalDateTime dateTime) {
-		if (dateTime == null) {
-			return null;
-		}
-		
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		LocalDate today = LocalDate.now();

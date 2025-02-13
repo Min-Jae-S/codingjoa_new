@@ -16,24 +16,15 @@ public class CommentDetailsDto {
 
 	private int commentIdx;
 	private String commentContent;
-	
-	@JsonIgnore
 	private boolean isCommentInUse;
-	
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private String commentWriterNickname;	// from INNER JOIN with member
 	private String commentWriterImageUrl;	// from LEFT OUTER JOIN with member_image
 	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
-	
-	@JsonProperty("isBoardWriter")
 	private boolean isBoardWriter;
-	
-	@JsonProperty("isCommentWriter")
 	private boolean isCommentWriter;
-	
-	@JsonProperty("isCommentLiked")
-	private boolean isCommentLiked;			
+	private boolean isCommentLiked;	
 	
 	@Builder
 	private CommentDetailsDto(int commentIdx, String commentContent, boolean isCommentInUse, LocalDateTime createdAt,
@@ -78,6 +69,26 @@ public class CommentDetailsDto {
 				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
 	}
 	
+	@JsonIgnore
+	public boolean isCommentInUse() {
+		return isCommentInUse;
+	}
+	
+	@JsonProperty("isBoardWriter")
+	public boolean isBoardWriter() {
+		return isBoardWriter;
+	}
+
+	@JsonProperty("isCommentWriter")
+	public boolean isCommentWriter() {
+		return isCommentWriter;
+	}
+
+	@JsonProperty("isCommentLiked")
+	public boolean isCommentLiked() {
+		return isCommentLiked;
+	}
+	
 	public String getCreatedAt() {
 		return format(this.createdAt);
 	}
@@ -87,41 +98,11 @@ public class CommentDetailsDto {
 	}
 	
 	private String format(LocalDateTime dateTime) {
-		if (dateTime == null) {
-			return null;
-		}
-		
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 		LocalDate today = LocalDate.now();
 		
 		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
-	
-//	@JsonIgnore
-//	public String getInfo() {
-//		return "commentIdx=" + commentIdx + ", isCommentInUse=" + isCommentInUse + ", isBoardWriter=" + isBoardWriter
-//				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked;
-//	}
-	
-//	@JsonIgnore
-//	public boolean isCommentInUse() {
-//		return isCommentInUse;
-//	}
-	
-//	@JsonProperty("isBoardWriter")
-//	public boolean isBoardWriter() {
-//		return isBoardWriter;
-//	}
-
-//	@JsonProperty("isCommentWriter")
-//	public boolean isCommentWriter() {
-//		return isCommentWriter;
-//	}
-
-//	@JsonProperty("isCommentLiked")
-//	public boolean isCommentLiked() {
-//		return isCommentLiked;
-//	}
 	
 }

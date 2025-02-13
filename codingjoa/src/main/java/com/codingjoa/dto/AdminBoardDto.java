@@ -36,8 +36,6 @@ public class AdminBoardDto {
 	
 	private int commentCnt;
 	private int likesCnt;
-	
-	@JsonProperty("isUpdated")
 	private boolean isUpdated;
 	
 	@Builder
@@ -74,6 +72,11 @@ public class AdminBoardDto {
 				.commentCnt(adminBoard.getCommentCnt())
 				.likesCnt(adminBoard.getLikesCnt())
 				.build();
+	}
+
+	@JsonProperty("isUpdated")
+	public boolean isUpdated() {
+		return isUpdated;
 	}
 	
 }
