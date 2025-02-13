@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class MemberInfoDto {
+public class AdminMemberDto {
 	
 	private int memberIdx;
 	private String memberEmail;
@@ -29,7 +29,7 @@ public class MemberInfoDto {
 	private String memberImageUrl;
 	
 	@Builder
-	private MemberInfoDto(int memberIdx, String memberEmail, boolean hasPassword, String memberNickname,
+	private AdminMemberDto(int memberIdx, String memberEmail, boolean hasPassword, String memberNickname,
 			String memberZipcode, String memberAddr, String memberAddrDetail, String memberImageUrl,
 			boolean memberAgree, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.memberIdx = memberIdx;
@@ -45,8 +45,8 @@ public class MemberInfoDto {
 		this.memberImageUrl = memberImageUrl;
 	}
 	
-	public static MemberInfoDto from(Map<String, Object> map) {
-		return MemberInfoDto.builder()
+	public static AdminMemberDto from(Map<String, Object> map) {
+		return AdminMemberDto.builder()
 				.memberIdx((int) map.get("memberIdx"))
 				.memberEmail((String) map.get("memberEmail"))
 				.hasPassword(map.get("memberPassword") == null ? false : true)

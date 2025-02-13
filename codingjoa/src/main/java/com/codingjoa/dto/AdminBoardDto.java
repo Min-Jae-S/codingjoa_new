@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.codingjoa.entity.AdminBoard;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class AdminBoardDto {
 	private int commentCnt;
 	private int likesCnt;
 	
+	@JsonProperty("isUpdated")
+	private boolean isUpdated;
+	
 	@Builder
 	private AdminBoardDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
 			LocalDateTime updatedAt, int categoryCode, String categoryName, int writerIdx, String writerEmail,
@@ -52,22 +56,23 @@ public class AdminBoardDto {
 		this.writerNickname = writerNickname;
 		this.commentCnt = commentCnt;
 		this.likesCnt = likesCnt;
+		this.isUpdated = !createdAt.isEqual(updatedAt);
 	}
 	
-	public static AdminBoardDto from(AdminBoard boardInfo) {
+	public static AdminBoardDto from(AdminBoard adminBoard) {
 		return AdminBoardDto.builder()
-				.boardIdx(boardInfo.getBoardIdx())
-				.boardTitle(boardInfo.getBoardTitle())
-				.boardViews(boardInfo.getBoardViews())
-				.createdAt(boardInfo.getCreatedAt())
-				.updatedAt(boardInfo.getUpdatedAt())
-				.categoryCode(boardInfo.getCategory().getCategoryCode())
-				.categoryName(boardInfo.getCategory().getCategoryName())
-				.writerIdx(boardInfo.getWriter().getMemberIdx())
-				.writerEmail(boardInfo.getWriter().getMemberEmail())
-				.writerNickname(boardInfo.getWriter().getMemberNickname())
-				.commentCnt(boardInfo.getCommentCnt())
-				.likesCnt(boardInfo.getLikesCnt())
+				.boardIdx(adminBoard.getBoardIdx())
+				.boardTitle(adminBoard.getBoardTitle())
+				.boardViews(adminBoard.getBoardViews())
+				.createdAt(adminBoard.getCreatedAt())
+				.updatedAt(adminBoard.getUpdatedAt())
+				.categoryCode(adminBoard.getCategory().getCategoryCode())
+				.categoryName(adminBoard.getCategory().getCategoryName())
+				.writerIdx(adminBoard.getWriter().getMemberIdx())
+				.writerEmail(adminBoard.getWriter().getMemberEmail())
+				.writerNickname(adminBoard.getWriter().getMemberNickname())
+				.commentCnt(adminBoard.getCommentCnt())
+				.likesCnt(adminBoard.getLikesCnt())
 				.build();
 	}
 	

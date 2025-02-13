@@ -223,7 +223,7 @@ function createBoardsPageHtml(result) {
 			</td>
 			<td class="d-md-table-cell">
 				<span class="created-at">${adminBoard.createdAt}</span></br>
-				<span class="updated-at">${adminBoard.updatedAt}</span>
+				${adminBoard.isUpdated ? `<span class="updated-at">${adminBoard.updatedAt}</span>` : ``}
 			</td>
 			<td class="d-md-table-cell">
 				<span>${adminBoard.boardViews}</span>

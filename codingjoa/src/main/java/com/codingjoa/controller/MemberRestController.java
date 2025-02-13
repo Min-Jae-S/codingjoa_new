@@ -29,7 +29,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.AdminMemberDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -250,7 +250,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
 		
-		MemberInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
+		AdminMemberDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		log.info("\t > memberInfo = {}", memberInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());

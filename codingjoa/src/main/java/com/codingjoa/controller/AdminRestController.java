@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.CommentInfoDto;
-import com.codingjoa.dto.MemberInfoDto;
+import com.codingjoa.dto.AdminCommentDto;
+import com.codingjoa.dto.AdminMemberDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.Pagination;
@@ -40,7 +40,7 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
 		
-		List<MemberInfoDto> pagedMembers = adminService.getPagedMembers();
+		List<AdminMemberDto> pagedMembers = adminService.getPagedMembers();
 		Pagination pagination = adminService.getMemberPagination();
 		log.info("\t > pagination = {}", pagination);
 		
@@ -71,7 +71,7 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
 		
-		List<CommentInfoDto> pagedComments = adminService.getPagedComments();
+		List<AdminCommentDto> pagedComments = adminService.getPagedComments();
 		Pagination pagination = adminService.getCommentPagination();
 		log.info("\t > pagination = {}", pagination);
 		
