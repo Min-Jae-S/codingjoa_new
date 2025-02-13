@@ -3,16 +3,16 @@ let commentService = (function() {
 	
 	function writeComment(comment, callback) {
 		console.log("## writeComment");
-		let url = contextPath + "/api/comments";
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(comment, null, 2));
-		
 		$.ajax({
 			type : "POST",
-			url : url,
+			url : `${contextPath}/api/comments`,
 			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -62,13 +62,14 @@ let commentService = (function() {
 	
 	function getPagedComment(boardIdx, page, callback) {
 		console.log("## getPagedComment");
-		let url = contextPath + "/api/boards/" + boardIdx + "/comments?page=" + page;
-		console.log("> URL = '%s'", url);
-		
 		$.ajax({
 			type : "GET",
-			url : url,
+			url : `${contextPath}/api/boards/${boardIdx}/comments?page=${page}`,
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -88,16 +89,16 @@ let commentService = (function() {
 
 	function modifyComment(commentIdx, comment, callback) {
 		console.log("## modifyComment");
-		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> URL = '%s'", url);
-		console.log("> sendData = %s", JSON.stringify(comment, null, 2));
-		
 		$.ajax({
 			type : "PATCH",
-			url : url,
+			url : `${contextPath}/api/comments/${commentIdx}`,
 			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -117,13 +118,14 @@ let commentService = (function() {
 	
 	function deleteComment(commentIdx, callback) {
 		console.log("## deleteComment");
-		let url = contextPath + "/api/comments/" + commentIdx;
-		console.log("> URL = '%s'", url);
-		
 		$.ajax({
 			type : "DELETE",
-			url : url,
+			url : `${contextPath}/api/comments/${commentIdx}`,
 			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			}
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

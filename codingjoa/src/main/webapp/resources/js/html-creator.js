@@ -275,35 +275,35 @@ function createBoardsPageHtml(result) {
 	let html = `
 		<div class="card rounded-xl">
 			<div class="card-body">
-				<div class="table-header">
+				<div class="form-wrap">
 					<form id="adminBoardsForm" class="form-inline">
-						<select id="type" name="type" class="custom-select mr-3 rounded-md">
-							<option value="title">제목</option>
-							<option value="content">내용</option>
-							<option value="writer">작성자</option>
-							<option value="title_content">제목 + 내용</option>
-						</select>
-						<div class="input-group">
-							<input id="keyword" name="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요"/>
-				  			<div class="input-group-append">
-				  				<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
+						<button type="button" id="deleteBoardsBtn" class="btn btn-warning rounded-md mr-auto" disabled="true">선택삭제</button>
+						<div class="d-flex">
+							<select id="type" name="type" class="custom-select mr-3 rounded-md">
+								<option value="title">제목</option>
+								<option value="content">내용</option>
+								<option value="writer">작성자</option>
+								<option value="title_content">제목 + 내용</option>
+							</select>
+							<div class="input-group mr-3">
+								<input id="keyword" name="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요"/>
+								<div class="input-group-append">
+									<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
+								</div>
 							</div>
+							<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
+								<option value="10" selected="selected">10개씩</option>
+								<option value="20">20개씩</option>
+								<option value="30">30개씩</option>
+							</select>
 						</div>
-						<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
-							<option value="10" selected="selected">10개씩</option>
-							<option value="20">20개씩</option>
-							<option value="30">30개씩</option>
-        				</select>
 					</form>
 				</div>
-				<div class="table-content">
+				<div class="table-wrap">
 					${table}
 				</div>
-				<div class="table-footer">
-					<button type="button" id="deleteBoardsBtn" class="btn btn-warning rounded-md" disabled="true">선택삭제</button>
-					<div class="board-pagination">
-						${pagination}
-					</div>
+				<div class="board-pagination">
+					${pagination}
 				</div>
 			</div>
 		</div>`;

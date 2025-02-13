@@ -30,6 +30,7 @@
 		width: 1020px;
 		margin: 0 auto;
 		padding: 3rem;
+		justify-content: center;
 	}
 	
 	.admin-content-container .card * {
@@ -74,26 +75,20 @@
 		float: none;
 	}
 	
-	.table-header {
+	.form-wrap {
 		margin-bottom: 1.5rem;
 	}
 	
-	.table-content {
-		margin-bottom: 3rem;
-	} 
-	
-	.table-footer {
-		position: relative;
+	.table-wrap {
+		margin-bottom: 2.5rem;
 	}
 	
-	.table-footer .board-pagination {
-		position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+	.board-pagination {
+		display: flex;   
+		justify-content: center;
 	}
 	
-	.table-footer .board-pagination .pagination {
+	.board-pagination .pagination {
 		margin-bottom: 0;
 	}
 	
