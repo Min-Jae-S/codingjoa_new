@@ -29,13 +29,7 @@ public class BoardCriteria {
 	}
 
 	public String getQueryString() {
-		return UriComponentsBuilder.newInstance()
-				.queryParam("page", this.page)
-				.queryParam("recordCnt", this.recordCnt)
-				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword)
-				.toUriString()
-				.split("\\?")[1];
+		return getQueryString(this.page);
 	}
 	
 	public String getQueryString(int page) {

@@ -288,7 +288,7 @@ function createBoardsPageHtml(result) {
 							</select>
 							<div class="input-group mr-3">
 								<input id="keyword" name="keyword" class="form-control rounded-md" 
-									value=${adminBoardCri.keyword} placeholder="검색어를 입력해주세요"/>
+									value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요"/>
 								<div class="input-group-append">
 									<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 								</div>
