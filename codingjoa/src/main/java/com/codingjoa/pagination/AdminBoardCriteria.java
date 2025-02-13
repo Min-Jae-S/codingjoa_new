@@ -6,9 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Getter
 public class AdminBoardCriteria {
 	
@@ -18,12 +16,10 @@ public class AdminBoardCriteria {
 	private String keyword;
 	
 //	public AdminBoardCriteria() {
-//		log.info("## AdminBoardCriteria()");
+//	
 //	}
 	
 	public AdminBoardCriteria(int page, int recordCnt, String type, String keyword) {
-		log.info("## AdminBoardCriteria(int page, int recordCnt, String type, String keyword)");
-		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		this.page = page;
 		this.recordCnt = recordCnt;
 		this.type = type;

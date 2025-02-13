@@ -10,15 +10,15 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.BoardCri;
-import com.codingjoa.pagination.BoardCriteria;
+import com.codingjoa.annotation.AdminBoardCri;
+import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class BoardCriResolver implements HandlerMethodArgumentResolver {
+public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
 	private final int defaultRecordCnt;
@@ -26,7 +26,7 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, Object> recordCntGroup; 
 	private final Map<String, Object> typeGroup;
 	
-	public BoardCriResolver(
+	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
@@ -41,8 +41,8 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(BoardCriteria.class) && 
-				parameter.hasParameterAnnotation(BoardCri.class);
+		return parameter.getParameterType().equals(AdminBoardCriteria.class) && 
+				parameter.hasParameterAnnotation(AdminBoardCri.class);
 	}
 
 	@Override
@@ -61,19 +61,19 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 
-		BoardCriteria boardCri = new BoardCriteria(
+		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeGroup.containsKey(type) ? type : defaultType,
 			keyword
 		);
 		
-		log.info("\t > resolved boardCri = {}", boardCri);
+		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 
-		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
-		mavContainer.addAttribute("typeGroup", typeGroup);
-		log.info("\t > add model attrs = recordCntGroup, typeGroup");
+		//mavContainer.addAttribute("recordCntGroup", recordCntGroup);
+		//mavContainer.addAttribute("typeGroup", typeGroup);
+		//log.info("\t > add model attrs = recordCntGroup, typeGroup");
 		
-		return boardCri;
+		return adminBoardCri;
 	}
 }

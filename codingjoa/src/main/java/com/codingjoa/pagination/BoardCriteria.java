@@ -21,7 +21,7 @@ public class BoardCriteria {
 	}
 	
 	public BoardCriteria(int page, int recordCnt) {
-		this(page, recordCnt, null, null);
+		this(page, recordCnt, "", "");
 	}
 	
 	public String getQueryString() {

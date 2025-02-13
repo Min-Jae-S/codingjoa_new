@@ -10,28 +10,29 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.BoardCri;
-import com.codingjoa.pagination.BoardCriteria;
+import com.codingjoa.annotation.AdminCommentCri;
+import com.codingjoa.pagination.AdminCommentCriteria;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Component
-public class BoardCriResolver implements HandlerMethodArgumentResolver {
-	
+public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
+
 	private final int defaultPage;
 	private final int defaultRecordCnt;
 	private final String defaultType;
-	private final Map<String, Object> recordCntGroup; 
+	private final Map<String, Object> recordCntGroup;
 	private final Map<String, Object> typeGroup;
 	
-	public BoardCriResolver(
-			@Value("${criteria.board.page}") int defaultPage, 
-			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
-			@Value("${criteria.board.type}") String defaultType,
-			@Value("#{${criteria.board.recordCntGroup}}") Map<String, Object> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup) {
+	public AdminCommentCriResolver(
+			@Value("${criteria.comment.page}") int defaultPage, 
+			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt, 
+			@Value("${criteria.comment.type}") String defaultType,
+			@Value("#{${criteria.comment.recordCntGroup}}") Map<String, Object> recordCntGroup, 
+			@Value("#{${criteria.comment.typeGroup}}") Map<String, Object> typeGroup) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
@@ -41,8 +42,8 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(BoardCriteria.class) && 
-				parameter.hasParameterAnnotation(BoardCri.class);
+		return parameter.getParameterType().equals(AdminCommentCriResolver.class) &&
+				parameter.hasParameterAnnotation(AdminCommentCri.class);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		String page = webRequest.getParameter("page");
-		String recordCnt = webRequest.getParameter("recordCnt");
+		String recordCnt =  webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
@@ -60,20 +61,14 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
-
-		BoardCriteria boardCri = new BoardCriteria(
+		
+		AdminCommentCriteria adminCommentCri = new AdminCommentCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeGroup.containsKey(type) ? type : defaultType,
-			keyword
+			defaultRecordCnt
 		);
 		
-		log.info("\t > resolved boardCri = {}", boardCri);
-
-		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
-		mavContainer.addAttribute("typeGroup", typeGroup);
-		log.info("\t > add model attrs = recordCntGroup, typeGroup");
+		log.info("\t > resolved adminCommentCri = {}", adminCommentCri);
 		
-		return boardCri;
+		return adminCommentCri;
 	}
 }

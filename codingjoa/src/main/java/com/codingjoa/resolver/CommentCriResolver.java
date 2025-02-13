@@ -51,6 +51,7 @@ public class CommentCriResolver implements HandlerMethodArgumentResolver {
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
+		
 		log.info("\t > resolved commentCri = {}", commentCri);
 		
 		return commentCri;
