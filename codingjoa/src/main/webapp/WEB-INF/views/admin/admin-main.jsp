@@ -298,7 +298,7 @@
 				}
 				
 				let boardsPage = createBoardsPageHtml(result);
-				$boardsContainer.find(".form-wrap").append(boardsPage);
+				$boardsContainer.find(".card-body").append(boardsPage);
 				$contentContainer.html($boardsContainer);
 			});
 		});

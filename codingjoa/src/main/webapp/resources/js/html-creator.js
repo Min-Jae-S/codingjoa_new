@@ -230,55 +230,54 @@ function createBoardsContainer() {
 		</div>`;
 }
 
-function createBoardsPageHtml(result) {
-	console.log("## createBoardsPageHtml");
-	let pagedBoards = result.data.pagedBoards || [];
-	let rows = pagedBoards.map(adminBoard => ` 
-		<tr>
-			<td class="d-md-table-cell">
-				<div class="form-check">
-	  				<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${adminBoard.boardIdx}">
-				</div>
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.boardIdx}</span>
-			</td>
-			<td class="d-md-table-cell text-left">
-				<a href="${contextPath}/board/read?boardIdx=${adminBoard.boardIdx}">${adminBoard.boardTitle}</a>
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.writerNickname}</span></br>
-				<span class="email">${adminBoard.writerEmail}</span>
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.categoryName}</span>
-			</td>
-			<td class="d-md-table-cell">
-				<span class="created-at">${adminBoard.createdAt}</span></br>
-				${adminBoard.isUpdated ? `<span class="updated-at">${adminBoard.updatedAt}</span>` : ``}
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.boardViews}</span>
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.likesCnt}</span>
-			</td>
-			<td class="d-md-table-cell">
-				<span>${adminBoard.commentCnt}</span>
-			</td>
-		</tr>`
-	).join("");
-		
-	if (pagedBoards.length == 0) {
+function createdBoardsTableHtml(pagedBoards) {
+	console.log("## createdBoardsTableHtml");
+	let rows = "";
+	if (!pagedBoards || pagedBoards.length == 0) {
 		rows = `
 			<tr>
 				<td colspan="9">
 					<div class="no-board py-5">등록된 게시글이 없습니다.</div>
 				</td>	
 			</tr>`;
+	} else {
+		rows = pagedBoards.map(adminBoard => `
+			<tr>
+				<td class="d-md-table-cell">
+					<div class="form-check">
+						<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${adminBoard.boardIdx}">
+					</div>
+				</td>		
+				<td class="d-md-table-cell">
+					<span>${adminBoard.boardIdx}</span>
+				</td>
+				<td class="d-md-table-cell text-left">
+					<a href="${contextPath}/board/read?boardIdx=${adminBoard.boardIdx}">${adminBoard.boardTitle}</a>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.writerNickname}</span></br>
+					<span class="email">${adminBoard.writerEmail}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.categoryName}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span class="created-at">${adminBoard.createdAt}</span></br>
+					${adminBoard.isUpdated ? `<span class="updated-at">${adminBoard.updatedAt}</span>` : ``}
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.boardViews}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.likesCnt}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.commentCnt}</span>
+				</td>
+			</tr>`).join("");
 	}
 	
-	let table = `
+	return `
 		<table class="table">
 			<thead>
 				<tr>
@@ -301,20 +300,18 @@ function createBoardsPageHtml(result) {
 				${rows}
 			</tbody>
 		</table>`;
-	
+}
+
+function createPagedBoardsHtml(result) {
+	console.log("## createBoardsPageHtml");
+	let table = createdBoardsTableHtml(result.data.pagedBoards);
 	let pagination = createPaginationHtml(result.data.pagination);
 	
-	let html = `
+	return `
 		<div class="table-wrap">
 			${table}
 		</div>
 		<div class="board-pagination">
 			${pagination}
 		</div>`;
-	
-	return html;
-}
-
-function createBoardsForm() {
-	
 }
