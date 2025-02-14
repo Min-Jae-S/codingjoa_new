@@ -25,18 +25,21 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	private final String defaultType;
 	private final Map<String, Object> recordCntGroup; 
 	private final Map<String, Object> typeGroup;
+	private final Object boardOptions;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
 			@Value("#{${criteria.board.recordCntGroup}}") Map<String, Object> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup) {
+			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup, 
+			@Value("${criteria.board.options}") Object boardOptions) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
 		this.recordCntGroup = recordCntGroup;
 		this.typeGroup = typeGroup;
+		this.boardOptions = boardOptions;
 	}
 	
 	@Override
@@ -55,6 +58,11 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
+		log.info("\t > boardOptions = {}", boardOptions);
+		
+//		boardOptions.forEach((key, value) -> {
+//			log.info("\t\t - key: {}, value: {}, map-type: {}", key, value, value.getClass());
+//		});
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();

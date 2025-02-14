@@ -12,13 +12,13 @@ import org.springframework.core.io.support.ResourcePropertySource;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * The ApplicationContext processes properties during its initialization. 
+ * The ApplicationContext processes properties during its initialization.
  * If property processing is needed before the ApplicationContext initialization (refresh), use ApplicationContextInitializer."
- * 
  */
 
 @Slf4j
-public class PropertiesApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> { // EnviromentPostProcessor
+public class PropertiesApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> { 
+	// EnviromentPostProcessor
 	
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {
