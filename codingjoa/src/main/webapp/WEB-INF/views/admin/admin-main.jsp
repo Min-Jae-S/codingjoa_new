@@ -250,6 +250,7 @@
 
 		const $contentWrapDiv = $('#contentWrapDiv');
 		const $contentContainer = $('#contentContainer');
+		const $boardsContainer = $(createBoardsContainer());
 		
 		$collapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
@@ -297,7 +298,8 @@
 				}
 				
 				let boardsPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardsPage);
+				$boardsContainer.find(".form-wrap").append(boardsPage);
+				$contentContainer.html($boardsContainer);
 			});
 		});
 	
@@ -336,14 +338,16 @@
 			e.preventDefault();
 			adminService.getPagedBoards($(this).serializeObject(), function(result) {
 				let boardsPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardsPage);
+				$boardsContainer.find(".form-wrap").append(boardsPage);
+				$contentContainer.html($boardsContainer);
 			});
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
 			adminService.getPagedBoards({ page : $(this).data("page") }, function(result) {
 				let boardsPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardsPage);
+				$boardsContainer.find(".form-wrap").append(boardsPage);
+				$contentContainer.html($boardsContainer);
 			});
 		});
 		

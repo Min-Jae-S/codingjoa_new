@@ -42,8 +42,6 @@ import com.codingjoa.exception.PreExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetKeyInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.interceptor.test.TestAopInterceptor;
-import com.codingjoa.resolver.BoardCriResolver;
-import com.codingjoa.resolver.CommentCriResolver;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
 import com.fasterxml.jackson.core.JsonEncoding;
@@ -53,9 +51,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ComponentScan("com.codingjoa.controller") 
-@ComponentScan("com.codingjoa.resolver")
-@ComponentScan("com.codingjoa.exception")
+@ComponentScan({
+	"com.codingjoa.controller",
+	"com.codingjoa.resolver",
+	"com.codingjoa.exception"
+})
 @RequiredArgsConstructor
 @EnableAspectJAutoProxy
 @EnableWebMvc 
@@ -65,10 +65,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	private final Environment env;
 	private final CategoryService categoryService;
 	private final RedisService redisService;
-	private final BoardCriResolver boardCriResolver;
-	private final CommentCriResolver commentCriResolver;
 	private final MessageSource messageSource;
 	private final ObjectMapper objectMapper;
+	private final List<HandlerMethodArgumentResolver> argumentResolvers; 
 
 	// instance class --> interface (issue at proxy, AOP)
 	//private final HandlerExceptionResolver preHandlerExceptionResolver;
@@ -178,9 +177,9 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-		resolvers.add(boardCriResolver);
-		resolvers.add(commentCriResolver);
+		log.info("## addArgumentResolvers");
+		resolvers.addAll(argumentResolvers);
+		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
 	
 	@Bean
@@ -199,7 +198,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy @Qualifier("localValidator") Validator validator) {
+	public static MethodValidationPostProcessor methodValidationPostProcessor(
+			@Lazy @Qualifier("localValidator") Validator validator) {
 		log.info("## methodValidationPostProcessor");
 		//log.info("\t > validator = {}", validator);
 		log.info("\t > isAopProxy = {}", AopUtils.isAopProxy(validator));
