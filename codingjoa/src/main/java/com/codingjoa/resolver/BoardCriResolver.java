@@ -23,16 +23,16 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	private final int defaultPage;
 	private final int defaultRecordCnt;
 	private final String defaultType;
-	private final Map<String, Object> recordCntGroup; 
-	private final Map<String, Object> typeGroup;
+	private final Map<String, String> recordCntGroup; 
+	private final Map<String, String> typeGroup;
 	private final Object boardOptions;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
-			@Value("#{${criteria.board.recordCntGroup}}") Map<String, Object> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup, 
+			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
+			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup, 
 			@Value("${criteria.board.options}") Object boardOptions) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
@@ -58,6 +58,8 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
+		log.info("\t > recordCntGroup = {}", recordCntGroup);
+		log.info("\t > typeGroup = {}", typeGroup);
 		log.info("\t > boardOptions = {}", boardOptions);
 		
 //		boardOptions.forEach((key, value) -> {

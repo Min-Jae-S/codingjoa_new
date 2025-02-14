@@ -23,15 +23,15 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final int defaultPage;
 	private final int defaultRecordCnt;
 	private final String defaultType;
-	private final Map<String, Object> recordCntGroup; 
-	private final Map<String, Object> typeGroup;
+	private final Map<String, String> recordCntGroup; 
+	private final Map<String, String> typeGroup;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
-			@Value("#{${criteria.board.recordCntGroup}}") Map<String, Object> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, Object> typeGroup) {
+			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
+			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
