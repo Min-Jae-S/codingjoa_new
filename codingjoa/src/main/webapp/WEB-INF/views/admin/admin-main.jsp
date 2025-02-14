@@ -247,10 +247,7 @@
 	$(function() {
 		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
-
-		const $contentWrapDiv = $('#contentWrapDiv');
 		const $contentContainer = $('#contentContainer');
-		const $boardsContainer = $(createBoardsContainer());
 		
 		$collapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
@@ -297,9 +294,8 @@
 					$("#sidebarToggle").trigger("click");
 				}
 				
-				let boardsPage = createBoardsPageHtml(result);
-				$boardsContainer.find(".card-body").append(boardsPage);
-				$contentContainer.html($boardsContainer);
+				let boardsPage = createBoardsPageHtml(result.data);
+				$contentContainer.html(boardsPage);
 			});
 		});
 	
@@ -336,18 +332,26 @@
 		
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			adminService.getPagedBoards($(this).serializeObject(), function(result) {
-				let boardsPage = createBoardsPageHtml(result);
-				$boardsContainer.find(".form-wrap").append(boardsPage);
-				$contentContainer.html($boardsContainer);
+			let adminBoardCri = $(this).serializeObject();
+			
+			adminService.getPagedBoards(adminBoardCri, function(result) {
+				let table = createBoardsTableHtml(result.data.pagedBoards);
+				let pagination = createPaginationHtml(result.data.pagination);
+				$contentContainer.find(".table-wrap").html(table);
+				$contentContainer.find(".board-pagination").html(pagination);
 			});
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
-			adminService.getPagedBoards({ page : $(this).data("page") }, function(result) {
-				let boardsPage = createBoardsPageHtml(result);
-				$boardsContainer.find(".form-wrap").append(boardsPage);
-				$contentContainer.html($boardsContainer);
+			let adminBoardCri = {
+				page : $(this).data("page")	
+			};
+			
+			adminService.getPagedBoards(adminBoardCri, function(result) {
+				let table = createBoardsTableHtml(result.data.pagedBoards);
+				let pagination = createPaginationHtml(result.data.pagination);
+				$contentContainer.find(".table-wrap").html(table);
+				$contentContainer.find(".board-pagination").html(pagination);
 			});
 		});
 		
