@@ -58,8 +58,8 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
-		log.info("\t > recordCntGroup = {}", recordCntGroup);
-		log.info("\t > typeGroup = {}", typeGroup);
+		log.info("\t > map-type = {}, recordCntGroup = {}", recordCntGroup.getClass().getSimpleName(), recordCntGroup);
+		log.info("\t > map-type = {}, typeGroup = {}", typeGroup.getClass().getSimpleName(), typeGroup);
 		log.info("\t > boardOptions = {}", boardOptions);
 		
 //		boardOptions.forEach((key, value) -> {
