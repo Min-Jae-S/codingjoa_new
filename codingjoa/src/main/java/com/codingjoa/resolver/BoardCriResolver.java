@@ -71,6 +71,10 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
+		
+		String defaultRecordCnt2 = options.get("recordCntOption").keySet().iterator().next();
+		String defaultType2 = options.get("typeOption").keySet().iterator().next();
+		log.info("\t > defaultRecordCnt2 = {}, defaultType2 = {}", defaultRecordCnt2, defaultType2);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
