@@ -33,13 +33,17 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
 			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup) {
+			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup,
+			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOptions, 
+			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOptions) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
 		this.recordCntGroup = recordCntGroup;
 		this.typeGroup = typeGroup;
-		this.boardOptions = null;
+		this.boardOptions = new LinkedHashMap<>();
+		this.boardOptions.put("recordCntOptions", new LinkedHashMap<>(recordCntOptions));
+		this.boardOptions.put("typeOptions", new LinkedHashMap<>(typeOptions));
 	}
 	
 	@Override
@@ -58,13 +62,11 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
-		log.info("\t > map-type = {}, recordCntGroup = {}", recordCntGroup.getClass().getSimpleName(), recordCntGroup);
-		log.info("\t > map-type = {}, typeGroup = {}", typeGroup.getClass().getSimpleName(), typeGroup);
 		log.info("\t > boardOptions = {}", boardOptions);
 		
-//		boardOptions.forEach((key, value) -> {
-//			log.info("\t\t - key: {}, value: {}, map-type: {}", key, value, value.getClass());
-//		});
+		boardOptions.forEach((key, value) -> {
+			log.info("\t\t - key: {}, value: {}, map-type: {}", key, value, value.getClass());
+		});
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
