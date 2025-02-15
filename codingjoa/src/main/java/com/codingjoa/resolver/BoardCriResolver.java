@@ -1,5 +1,6 @@
 package com.codingjoa.resolver;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,21 +26,20 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	private final String defaultType;
 	private final Map<String, String> recordCntGroup; 
 	private final Map<String, String> typeGroup;
-	private final Object boardOptions;
+	private final Map<String, LinkedHashMap<String, String>> boardOptions;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.board.type}") String defaultType,
 			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup, 
-			@Value("${criteria.board.options}") Object boardOptions) {
+			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 		this.defaultType = defaultType;
 		this.recordCntGroup = recordCntGroup;
 		this.typeGroup = typeGroup;
-		this.boardOptions = boardOptions;
+		this.boardOptions = null;
 	}
 	
 	@Override
