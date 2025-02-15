@@ -22,23 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final int defaultRecordCnt;
-	private final String defaultType;
 	private final Map<String, String> recordCntGroup; 
 	private final Map<String, String> typeGroup;
 	private final Map<String, LinkedHashMap<String, String>> options;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
-			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
-			@Value("${criteria.board.type}") String defaultType,
 			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
 			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup,
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.defaultRecordCnt = defaultRecordCnt;
-		this.defaultType = defaultType;
 		this.recordCntGroup = recordCntGroup;
 		this.typeGroup = typeGroup;
 		this.options = Map.of("recordCntOption", new LinkedHashMap<>(recordCntOption), 
@@ -61,20 +55,16 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
-		log.info("\t > options = {}", options);
-		
-		options.forEach((key, value) -> {
-			log.info("\t\t - key: {}, value: {}, map-type: {}", key, value, value.getClass());
-		});
 		
 		page = (page == null) ? "" : page.strip();
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 		
-		String defaultRecordCnt2 = options.get("recordCntOption").keySet().iterator().next();
-		String defaultType2 = options.get("typeOption").keySet().iterator().next();
-		log.info("\t > defaultRecordCnt2 = {}, defaultType2 = {}", defaultRecordCnt2, defaultType2);
+		int defaultRecordCnt = Integer.parseInt(
+				options.get("recordCntOption").keySet().iterator().next());
+		String defaultType = options.get("typeOption").keySet().iterator().next();
+		log.info("\t > defaultRecordCnt = {}, defaultType = {}", defaultRecordCnt, defaultType);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -92,4 +82,5 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		
 		return boardCri;
 	}
+	
 }
