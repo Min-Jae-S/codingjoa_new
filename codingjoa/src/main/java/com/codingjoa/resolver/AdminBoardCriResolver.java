@@ -1,5 +1,6 @@
 package com.codingjoa.resolver;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -21,22 +22,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final int defaultRecordCnt;
-	private final String defaultType;
-	private final Map<String, String> recordCntGroup; 
-	private final Map<String, String> typeGroup;
+	private final LinkedHashMap<String, String> recordCntOption;
+	private final LinkedHashMap<String, String> typeOption;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
-			@Value("${criteria.board.recordCnt}") int defaultRecordCnt, 
-			@Value("${criteria.board.type}") String defaultType,
-			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup) {
+			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
+			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.defaultRecordCnt = defaultRecordCnt;
-		this.defaultType = defaultType;
-		this.recordCntGroup = recordCntGroup;
-		this.typeGroup = typeGroup;
+		this.recordCntOption = new LinkedHashMap<>(recordCntOption);
+		this.typeOption = new LinkedHashMap<>(typeOption);
 	}
 	
 	@Override
@@ -60,20 +55,19 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
+		
+		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
+		String defaultType = typeOption.keySet().iterator().next();
 
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeGroup.containsKey(type) ? type : defaultType,
+			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			typeOption.containsKey(type) ? type : defaultType,
 			keyword
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 
-		//mavContainer.addAttribute("recordCntGroup", recordCntGroup);
-		//mavContainer.addAttribute("typeGroup", typeGroup);
-		//log.info("\t > add model attrs = recordCntGroup, typeGroup");
-		
 		return adminBoardCri;
 	}
 }

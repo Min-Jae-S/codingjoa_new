@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final LinkedHashMap<String, String> recordOption;
+	private final LinkedHashMap<String, String> recordCntOption;
 	private final LinkedHashMap<String, String> typeOption;
 	
 	public BoardCriResolver(
@@ -30,10 +30,10 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.recordOption = new LinkedHashMap<>(recordCntOption);
+		this.recordCntOption = new LinkedHashMap<>(recordCntOption);
 		this.typeOption = new LinkedHashMap<>(typeOption);
-		log.info("## recordOption = {}", recordCntOption.getClass());
-		log.info("## typeOption = {}", typeOption.getClass());
+		log.info("## injected type (recordCntOption) = {}", recordCntOption.getClass());
+		log.info("## injected type (typeOption) = {}", typeOption.getClass());
 	}
 	
 	@Override
@@ -58,21 +58,20 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 		
-		int defaultRecordCnt = Integer.parseInt(recordOption.keySet().iterator().next());
+		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 		log.info("\t > defaultRecordCnt = {}, defaultType = {}", defaultRecordCnt, defaultType);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeOption.containsKey(type) ? type : defaultType,
 			keyword
 		);
 		
 		log.info("\t > resolved boardCri = {}", boardCri);
 
-		Map<String, Map<String, String>> options = Map.of("recordOption", recordOption, 
-				"typeOption", typeOption);
+		Map<String, Map<String, String>> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
 		mavContainer.addAttribute("options", options);
 		log.info("\t > add model attr = options [{}]", options.keySet());
 		
