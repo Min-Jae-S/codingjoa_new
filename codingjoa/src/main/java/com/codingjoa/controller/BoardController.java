@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -73,7 +74,6 @@ public class BoardController {
 			@BoardCri BoardCriteria boardCri, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getPagedBoard, boardCategoryCode = {}", boardCategoryCode);
 		log.info("\t > boardCri = {}", boardCri);
-		model.addAttribute("boardCri", boardCri);
 	
 		Integer memberIdx = (principal == null) ? null : principal.getIdx();
 		log.info("\t > memberIdx = {}", memberIdx);
@@ -84,9 +84,10 @@ public class BoardController {
 		log.info("\t > board pagination = {}", pagination);
 		
 		Category category = categoryService.getCategory(boardCategoryCode);
-		model.addAttribute("pagedBoard", pagedBoard);
-		model.addAttribute("pagination", pagination);
-		model.addAttribute("category", category);
+		
+		Map<String, ?> attrs = Map.of("boardCri", boardCri, "pagedBoard", pagedBoard, 
+				"pagination", pagination, "category", category);
+		model.addAllAttributes(attrs);
 		
 		return "board/board";
 	}

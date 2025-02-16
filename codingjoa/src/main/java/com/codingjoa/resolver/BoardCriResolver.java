@@ -22,21 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final Map<String, String> recordCntGroup; 
-	private final Map<String, String> typeGroup;
-	private final Map<String, LinkedHashMap<String, String>> options;
+	private final LinkedHashMap<String, String> recordOption;
+	private final LinkedHashMap<String, String> typeOption;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
-			@Value("#{${criteria.board.recordCntGroup}}") Map<String, String> recordCntGroup, 
-			@Value("#{${criteria.board.typeGroup}}") Map<String, String> typeGroup,
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.recordCntGroup = recordCntGroup;
-		this.typeGroup = typeGroup;
-		this.options = Map.of("recordCntOption", new LinkedHashMap<>(recordCntOption), 
-				"typeOption", new LinkedHashMap<>(typeOption));
+		this.recordOption = new LinkedHashMap<>(recordCntOption);
+		this.typeOption = new LinkedHashMap<>(typeOption);
+		log.info("## recordOption = {}", recordCntOption.getClass());
+		log.info("## typeOption = {}", typeOption.getClass());
 	}
 	
 	@Override
@@ -61,24 +58,23 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 		
-		int defaultRecordCnt = Integer.parseInt(
-				options.get("recordCntOption").keySet().iterator().next());
-		String defaultType = options.get("typeOption").keySet().iterator().next();
+		int defaultRecordCnt = Integer.parseInt(recordOption.keySet().iterator().next());
+		String defaultType = typeOption.keySet().iterator().next();
 		log.info("\t > defaultRecordCnt = {}, defaultType = {}", defaultRecordCnt, defaultType);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntGroup.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeGroup.containsKey(type) ? type : defaultType,
+			recordOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			typeOption.containsKey(type) ? type : defaultType,
 			keyword
 		);
 		
 		log.info("\t > resolved boardCri = {}", boardCri);
 
-		mavContainer.addAttribute("recordCntGroup", recordCntGroup);
-		mavContainer.addAttribute("typeGroup", typeGroup);
+		Map<String, Map<String, String>> options = Map.of("recordOption", recordOption, 
+				"typeOption", typeOption);
 		mavContainer.addAttribute("options", options);
-		log.info("\t > add model attrs = recordCntGroup, typeGroup, options");
+		log.info("\t > add model attr = options [{}]", options.keySet());
 		
 		return boardCri;
 	}
