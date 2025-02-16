@@ -294,7 +294,7 @@
 					$("#sidebarToggle").trigger("click");
 				}
 				
-				let boardsPage = createBoardsPageHtml(result.data);
+				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
 		});
@@ -335,10 +335,8 @@
 			let adminBoardCri = $(this).serializeObject();
 			
 			adminService.getPagedBoards(adminBoardCri, function(result) {
-				let table = createBoardsTableHtml(result.data.pagedBoards);
-				let pagination = createPaginationHtml(result.data.pagination);
-				$contentContainer.find(".table-wrap").html(table);
-				$contentContainer.find(".board-pagination").html(pagination);
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
 			});
 		});
 		

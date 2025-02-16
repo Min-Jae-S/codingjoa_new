@@ -66,10 +66,10 @@ public class AdminRestController {
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
+		data.put("options", model.getAttribute("options"));
+		data.put("adminBoardCri", adminBoardCri);
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
-		data.put("adminBoardCri", adminBoardCri);
-		data.put("options", model.getAttribute("options"));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}

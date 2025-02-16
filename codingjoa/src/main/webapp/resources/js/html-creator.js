@@ -198,44 +198,75 @@ function createPaginationHtml(pagination) {
 //				ADMIN HTML CREATOR
 // =============================================
 
-function createBoardsFormHtml(adminBoardCri) {
-	const { page, recordCnt, type, keyword } = adminBoardCri;
+function createBoardsPageHtml(result) {
+	console.log("## createBoardsPageHtml");
+	const { options, adminBoardCri, pagedBoards, pagination } = result.data;
+	
+	let formHtml = createBoardsFormHtml(options, adminBoardCri);
+	let tableHtml = createBoardsTableHtml(pagedBoards);
+	let paginationHtml = createPaginationHtml(pagination);
+	
+	return `
+		<div class="card rounded-xl">
+			<div class="card-body">
+				<div class="form-wrap">
+					${formHtml}
+				</div>
+				<div class="table-wrap">
+					${tableHtml}
+				</div>
+				<div class="board-pagination">
+					${paginationHtml}
+				</div>
+			</div>
+		</div>`;
+}
+
+function createBoardsFormHtml(options, adminBoardCri) {
+	let typeOptionHtml = Object.entries(options.typeOption)
+		.map(([key, value]) => 
+			`<option value="${key}" ${key == adminBoardCri.type ? "selected" : ""}>${value}</option>`
+		)
+		.join("");
+	
+	let recordCntOptionHtml = Object.entries(options.recordCntOption)
+		.map(([key, value]) => 
+			`<option value="${key}" ${key == adminBoardCri.recordCnt ? "selected" : ""}>${value}</option>`
+		)
+		.join("");
+	
 	return `
 		<form id="adminBoardsForm" class="form-inline">
 			<button type="button" id="deleteBoardsBtn" class="btn btn-warning rounded-md mr-auto" disabled>선택삭제</button>
 			<div class="d-flex">
 				<select id="type" name="type" class="custom-select mr-3 rounded-md">
-					<option value="title" ${type == "title" ? "selected" : ""}>제목</option>
-					<option value="content" ${type == "content" ? "selected" : ""}>내용</option>
-					<option value="writer" ${type == "writer" ? "selected" : ""}>작성자</option>
-					<option value="title_content" ${type == "title_content" ? "selected" : ""}>제목 + 내용</option>
+					${typeOptionHtml}
 				</select>
 				<div class="input-group mr-3">
-					<input id="keyword" name="keyword" class="form-control rounded-md" value="${keyword}" placeholder="검색어를 입력해주세요"/>
+					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" 
+						placeholder="검색어를 입력해주세요"/>
 					<div class="input-group-append">
 						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 					</div>
 				</div>
 				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
-					<option value="10" ${recordCnt == "10" ? "selected" : ""}>10개씩</option>
-					<option value="20" ${recordCnt == "20" ? "selected" : ""}>20개씩</option>
-					<option value="30" ${recordCnt == "30" ? "selected" : ""}>30개씩</option>
+					${recordCntOptionHtml}
 				</select>
 			</div>
 		</form>`;
 }
 
 function createBoardsTableHtml(pagedBoards) {
-	let rows = "";
+	let rowsHtml = "";
 	if (!pagedBoards || pagedBoards.length == 0) {
-		rows = `
+		rowsHtml = `
 			<tr>
 				<td colspan="9">
 					<div class="no-board py-5">등록된 게시글이 없습니다.</div>
 				</td>	
 			</tr>`;
 	} else {
-		rows = pagedBoards.map(adminBoard => `
+		rowsHtml = pagedBoards.map(adminBoard => `
 			<tr>
 				<td class="d-md-table-cell">
 					<div class="form-check">
@@ -291,29 +322,9 @@ function createBoardsTableHtml(pagedBoards) {
 				</tr>
 			</thead>
 			<tbody>
-				${rows}
+				${rowsHtml}
 			</tbody>
 		</table>`;
 }
 
-function createBoardsPageHtml(data) {
-	console.log("## createBoardsPageHtml");
-	let form = createBoardsFormHtml(data.adminBoardCri);
-	let table = createBoardsTableHtml(data.pagedBoards);
-	let pagination = createPaginationHtml(data.pagination);
-	
-	return `
-		<div class="card rounded-xl">
-			<div class="card-body">
-				<div class="form-wrap">
-					${form}
-				</div>
-				<div class="table-wrap">
-					${table}
-				</div>
-				<div class="board-pagination">
-					${pagination}
-				</div>
-			</div>
-		</div>`;
-}
+
