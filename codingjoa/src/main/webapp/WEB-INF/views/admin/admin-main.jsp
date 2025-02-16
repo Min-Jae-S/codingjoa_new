@@ -249,6 +249,8 @@
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		const $contentContainer = $('#contentContainer');
 		
+		let adminBoardCri;
+		
 		$collapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 		});
@@ -289,11 +291,12 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			adminService.getPagedBoards({ }, function(result) {
+			adminService.getPagedBoards(adminBoardCri, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
 				
+				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
@@ -327,29 +330,30 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
+				adminService.getPagedBoards(adminBoardCri, function(result) {
+					adminBoardCri = result.data.adminBoardCri;
+					let boardsPage = createBoardsPageHtml(result);
+					$contentContainer.html(boardsPage);
+				});
 			});
 		});
 		
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			let adminBoardCri = $(this).serializeObject();
-			
-			adminService.getPagedBoards(adminBoardCri, function(result) {
+			adminService.getPagedBoards($(this).serializeObject(), function(result) {
+				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
 		});
 		
 		$(document).on("click", ".board-pagination .page-link", function() {
-			let adminBoardCri = {
-				page : $(this).data("page")	
-			};
+			adminBoardCri.page($(this).data("page"));
 			
 			adminService.getPagedBoards(adminBoardCri, function(result) {
-				let table = createBoardsTableHtml(result.data.pagedBoards);
-				let pagination = createPaginationHtml(result.data.pagination);
-				$contentContainer.find(".table-wrap").html(table);
-				$contentContainer.find(".board-pagination").html(pagination);
+				adminBoardCri = result.data.adminBoardCri;
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
 			});
 		});
 		
