@@ -1,6 +1,5 @@
 package com.codingjoa.resolver;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,16 +21,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final LinkedHashMap<String, String> recordCntOption;
-	private final LinkedHashMap<String, String> typeOption;
+	private final Map<String, String> recordCntOption;
+	private final Map<String, String> typeOption;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.recordCntOption = new LinkedHashMap<>(recordCntOption);
-		this.typeOption = new LinkedHashMap<>(typeOption);
+		this.recordCntOption = recordCntOption;
+		this.typeOption = typeOption;
 	}
 	
 	@Override
@@ -51,10 +50,10 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		
-		page = (page == null) ? "" : page.strip();
-		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
-		type = (type == null) ? "" : type.strip();
-		keyword = (keyword == null) ? "" : keyword.strip();
+		page = normalize(page);
+		recordCnt = normalize(recordCnt);
+		type = normalize(type);
+		keyword = normalize(keyword);
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
@@ -69,5 +68,9 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 
 		return adminBoardCri;
+	}
+	
+	private String normalize(String value) {
+		return (value == null) ? "" : value.trim();
 	}
 }

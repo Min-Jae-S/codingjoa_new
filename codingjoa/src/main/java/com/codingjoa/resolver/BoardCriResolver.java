@@ -1,6 +1,5 @@
 package com.codingjoa.resolver;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,18 +21,16 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
-	private final LinkedHashMap<String, String> recordCntOption;
-	private final LinkedHashMap<String, String> typeOption;
+	private final Map<String, String> recordCntOption;
+	private final Map<String, String> typeOption;
 	
 	public BoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
 		this.defaultPage = defaultPage;
-		this.recordCntOption = new LinkedHashMap<>(recordCntOption);
-		this.typeOption = new LinkedHashMap<>(typeOption);
-		log.info("## injected type (recordCntOption) = {}", recordCntOption.getClass());
-		log.info("## injected type (typeOption) = {}", typeOption.getClass());
+		this.recordCntOption = recordCntOption; // Collections$UnmodifiableMap
+		this.typeOption = typeOption;			// Collections$UnmodifiableMap
 	}
 	
 	@Override
@@ -53,14 +50,14 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		
-		page = (page == null) ? "" : page.strip();
-		recordCnt = (recordCnt == null) ? "" : recordCnt.strip();
-		type = (type == null) ? "" : type.strip();
-		keyword = (keyword == null) ? "" : keyword.strip();
+		page = normalize(page);
+		recordCnt = normalize(recordCnt);
+		type = normalize(type);
+		keyword = normalize(keyword);
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
-		log.info("\t > defaultRecordCnt = {}, defaultType = {}", defaultRecordCnt, defaultType);
+		log.info("\t > default recordCnt = {}, default type = {}", defaultRecordCnt, defaultType);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -73,9 +70,12 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 
 		Map<String, Map<String, String>> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
 		mavContainer.addAttribute("options", options);
-		log.info("\t > add model attr = options [{}]", options.keySet());
 		
 		return boardCri;
+	}
+	
+	private String normalize(String value) {
+		return (value == null) ? "" : value.trim();
 	}
 	
 }
