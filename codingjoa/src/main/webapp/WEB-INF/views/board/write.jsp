@@ -164,7 +164,7 @@
 			$form.submit();
 		});
 		
-		// test (attrchange.js, attrchange_ext.js) 
+		// attrchange.js, attrchange_ext.js 
 		$(".navbar-custom").attrchange({
 			trackValues: true,
 			callback: function(e) {

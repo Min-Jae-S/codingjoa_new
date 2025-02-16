@@ -1,9 +1,12 @@
-const hostIndex = location.href.indexOf(location.host) + location.host.length;
-const contextPath = location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-
 class UploadAdapter {
     constructor(loader) {
         this.loader = loader;
+        this.contextPath = this._getContextPath();
+    }
+    
+    _getContextPath() {
+    	const hostIndex = location.href.indexOf(location.host) + location.host.length;
+    	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
     }
 
     upload() {
@@ -19,7 +22,7 @@ class UploadAdapter {
      	// Note that your request may look different. It is up to you and your editor integration to choose the right communication channel. 
     	// This example uses a POST request with JSON as a data structure but your configuration could be different.
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', contextPath + "/api/board/image", true);
+        xhr.open('POST', `${this.contextPath}/api/board/image`, true);
         xhr.responseType = 'json';
     }
 

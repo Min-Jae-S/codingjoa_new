@@ -21,7 +21,6 @@
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/likes.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
-<script src="${contextPath}/resources/js/html-creator.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <style>

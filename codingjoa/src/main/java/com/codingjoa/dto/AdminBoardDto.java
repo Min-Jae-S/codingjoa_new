@@ -19,10 +19,10 @@ public class AdminBoardDto {
 	private String boardTitle;
 	private int boardViews;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createdAt;
 	
-	@JsonFormat(pattern = "yyyy.MM.dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
 	// category

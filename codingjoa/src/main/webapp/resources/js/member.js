@@ -76,7 +76,7 @@ let memberService = (function() {
 		console.log("## updateMemberImage");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/image`;
+			url : `${contextPath}/api/member/account/image`,
 			processData: false,
 		    contentType: false,
 			data : formData,
