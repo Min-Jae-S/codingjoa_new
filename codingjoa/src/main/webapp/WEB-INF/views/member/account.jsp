@@ -342,7 +342,7 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	const defaultMemberImageUrl = "${contextPath}/resources/images/img_profile.png";
+	const defaultMemberImageUrl = "../resources/images/img_profile.png";
 
 	memberService.getMemberInfo(function(result) {
 		let memberInfo = result.data;
