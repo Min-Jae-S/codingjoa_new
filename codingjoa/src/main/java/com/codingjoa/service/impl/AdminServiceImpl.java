@@ -25,7 +25,8 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminMapper adminMapper;
 	private final int pageRange;
 	
-	public AdminServiceImpl(AdminMapper adminMapper, @Value("${pagination.pageRange}") int pageRange) {
+	public AdminServiceImpl(AdminMapper adminMapper, 
+			@Value("${pagination.pageRange}") int pageRange) {
 		this.adminMapper = adminMapper;
 		this.pageRange = pageRange;
 	}

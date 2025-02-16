@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,11 +56,12 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri, Model model) {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
 		
@@ -67,6 +69,7 @@ public class AdminRestController {
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
 		data.put("adminBoardCri", adminBoardCri);
+		data.put("options", model.getAttribute("options"));
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
@@ -77,6 +80,7 @@ public class AdminRestController {
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		
 		List<AdminCommentDto> pagedComments = adminService.getPagedComments();
+		
 		Pagination pagination = adminService.getCommentPagination();
 		log.info("\t > pagination = {}", pagination);
 		

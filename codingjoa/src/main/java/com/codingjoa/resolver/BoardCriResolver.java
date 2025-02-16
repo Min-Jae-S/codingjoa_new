@@ -70,6 +70,7 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 
 		Map<String, Map<String, String>> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
 		mavContainer.addAttribute("options", options);
+		log.info("\t > add attr to mavContainer: options {}", options);
 		
 		return boardCri;
 	}

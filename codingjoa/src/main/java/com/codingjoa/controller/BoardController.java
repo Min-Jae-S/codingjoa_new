@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -81,13 +80,14 @@ public class BoardController {
 		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
 		
 		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
-		log.info("\t > board pagination = {}", pagination);
+		log.info("\t > pagination = {}", pagination);
 		
 		Category category = categoryService.getCategory(boardCategoryCode);
 		
-		Map<String, ?> attrs = Map.of("boardCri", boardCri, "pagedBoard", pagedBoard, 
-				"pagination", pagination, "category", category);
-		model.addAllAttributes(attrs);
+		model.addAttribute("boardCri", boardCri);
+		model.addAttribute("pagedBoard", pagedBoard);
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("category", category);
 		
 		return "board/board";
 	}
