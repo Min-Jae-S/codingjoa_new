@@ -114,7 +114,7 @@
 		<ul class="navbar-nav ms-auto me-2"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown member-menu">
-			<button type="button" class="btn btn-sm btn-info" id="adminBoardCriBtn">adminBoardCriBtn</button>
+			<button type="button" class="btn btn-sm btn-info" onclick="checkAdminBoardCri()">adminBoardCriBtn</button>
 			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
 				<img class="nav-member-image" 
 					src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
@@ -251,10 +251,10 @@
 		
 		let adminBoardCri = null;
 		
-		$("#adminBoardCriBtn").on("click", function() {
+		window.checkAdminBoardCri = function() {
 			console.log("## adminBoardCri");
 			console.log(adminBoardCri);
-		});
+		}
 		
 		$collapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
@@ -296,7 +296,7 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
-			console.log(adminBoardCri);
+			checkAdminBoardCri();
 			
 			adminService.getPagedBoards(adminBoardCri, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
@@ -325,23 +325,24 @@
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
 		
+		// delete boards
 		$(document).on("click", "#deleteBoardsBtn", function() {
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
-				.map(element => $(element).val());
+				.map(element => element.value);
 		
 			if (!boardIds.length) {
 				alert("삭제할 게시물을 선택해주세요.");
 				return;
 			}
 			
-			if (!confirm(`${boardIds.length}개의 게시글을 삭제하기겠습니까?`)) {
+			if (!confirm(boardIds.length + "개의 게시글을 삭제하시겠습니까?")) {
 				return;
 			}
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				console.log(adminBoardCri);
+				checkAdminBoardCri();
 				
 				adminService.getPagedBoards(adminBoardCri, function(result) {
 					adminBoardCri = result.data.adminBoardCri;
@@ -351,21 +352,11 @@
 			});
 		});
 		
-		// search
+		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			adminService.getPagedBoards($(this).serializeObject(), function(result) {
-				adminBoardCri = result.data.adminBoardCri;
-				let boardsPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardsPage);
-			});
-		});
-		
-		
-		// pagination
-		$(document).on("click", ".board-pagination .page-link", function() {
-			adminBoardCri.page($(this).data("page"));
-			console.log(adminBoardCri);
+			adminBoardCri = $(this).serializeObject();
+			checkAdminBoardCri();
 			
 			adminService.getPagedBoards(adminBoardCri, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
@@ -374,8 +365,28 @@
 			});
 		});
 		
-		$(document).on("change", "#recordCnt", function() {
+		// click pagination
+		$(document).on("click", ".board-pagination .page-link", function() {
+			adminBoardCri.page = $(this).data("page");
+			checkAdminBoardCri();
 			
+			adminService.getPagedBoards(adminBoardCri, function(result) {
+				adminBoardCri = result.data.adminBoardCri;
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
+			});
+		});
+		
+		// change recordCnt
+		$(document).on("change", "#recordCnt", function() {
+			adminBoardCri.recordCnt = $(this).val();
+			checkAdminBoardCri();
+			
+			adminService.getPagedBoards(adminBoardCri, function(result) {
+				adminBoardCri = result.data.adminBoardCri;
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
+			});
 		});
 		
 	});
