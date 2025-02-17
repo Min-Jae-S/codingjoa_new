@@ -21,7 +21,7 @@ public class BoardCriteria {
 	}
 	
 	public BoardCriteria(int page, int recordCnt) {
-		this(page, recordCnt, "", "");
+		this(page, recordCnt, "title", null);
 	}
 	
 	public String getQueryString() {
@@ -39,7 +39,11 @@ public class BoardCriteria {
 	}
 	
 	public String getKeywordRegexp() {
-		return StringUtils.hasText(keyword) ? String.join("|", keyword.split("\\s+")) : null;
+		if (!StringUtils.hasText(keyword)) {
+			return null;
+		}
+		
+		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 
 	@Override

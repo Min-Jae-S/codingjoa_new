@@ -112,10 +112,14 @@
 	</update>
 
 	<sql id="searchCriteria">
-		<!-- for cases where criteria are resolved without using the BoardCriteriaArgumentResolver 			-->
-		<!-- 1) new BoardCriteria(1,5) ==> boardCri.type = null 											-->
-		<!-- 2) boardCri.keyword = null or boardCri.keyword = '' ==> boardCri.boardCri.keywordRegexp = null -->
-		<if test='boardCri.type != null and boardCri.keywordRegexp != null'>
+		<!-- [OUTDATED COMMENT] -->
+		<!-- For cases where criteria are resolved without using the BoardCriteriaArgumentResolver 	 	-->
+		<!--   	* new BoardCriteria(1,5) 							==> boardCri.type = null 									 	-->
+		<!--   	* boardCri.keyword = null or boardCri.keyword = '' 	==> boardCri.keywordRegexp = null 	-->
+		
+		<!-- [UPDATED COMMENT] -->
+		<!-- 	* new BoardCriteria(1,5) ==> this(1,5,"title",null) ==> boardCri.keywordRegexp = null 	-->
+		<if test='boardCri.keywordRegexp != null'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -126,7 +130,8 @@
 							REGEXP_LIKE( board.board_content_text, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("writer")'>
-							member.member_nickname LIKE '%' || #{boardCri.keyword} || '%'
+							<!-- member.member_nickname LIKE '%' || #{boardCri.keyword} || '%' -->
+							REGEXP_LIKE( member.member_nickname, #{boardCri.keywordRegexp} )
 						</if> 
 					</trim>
 				</foreach>
