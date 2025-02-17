@@ -24,6 +24,7 @@
 			<id column="member_idx" property="memberIdx"/>
 			<result column="member_email" property="memberEmail"/>
 			<result column="member_nickname" property="memberNickname"/>
+			<result column="member_password" property="memberPassword"/>
 			<result column="member_zipcode" property="memberZipcode" />
 			<result column="member_addr" property="memberAddr" />
 			<result column="member_addr_detail" property="memberAddrDetail"/>
@@ -77,6 +78,7 @@
 					board.updated_at,
 					member.member_idx,
 					member.member_email,
+					member.member_password,
 					member.member_nickname,
 					member.member_zipcode,
 					member.member_addr,
@@ -92,12 +94,11 @@
 					board.board_writer_idx = member.member_idx
 				WHERE 
 					<include refid="searchCriteria"/>
-				AND
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
 			) filtered_board
 			WHERE 
 				filtered_board.rn > ( (#{page} - 1) * #{recordCnt} )
-		) paged_baord
+		) paged_board
 		INNER JOIN
 			category
 		ON
@@ -123,6 +124,12 @@
 			COUNT(*)
 		FROM
 			board
+		INNER JOIN
+			member
+		ON
+			board.board_writer_idx = member.member_idx
+		WHERE
+			<include refid="searchCriteria"/>
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">
