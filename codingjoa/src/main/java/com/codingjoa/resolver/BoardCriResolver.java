@@ -57,7 +57,6 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
-		log.info("\t > default recordCnt = {}, default type = {}", defaultRecordCnt, defaultType);
 
 		BoardCriteria boardCri = new BoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -70,7 +69,7 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 
 		Map<String, Map<String, String>> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
 		mavContainer.addAttribute("options", options);
-		log.info("\t > add attr to mavContainer: options {}", options);
+		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 		
 		return boardCri;
 	}

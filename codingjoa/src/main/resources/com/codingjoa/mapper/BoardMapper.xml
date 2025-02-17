@@ -159,7 +159,8 @@
     			) THEN 1 ELSE 0
     		END AS is_liked
 		FROM (
-		    SELECT board_subset.*
+		    SELECT 
+		    	board_subset.*
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */

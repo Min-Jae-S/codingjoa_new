@@ -45,7 +45,7 @@ public class BoardCriteria {
 	@Override
 	public String toString() {
 		return "BoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
-				+ ", getKeywordRegexp()=" + getKeywordRegexp() + "]";
+				+ ", keywordRegexp=" + getKeywordRegexp() + "]";
 	}
 
 }

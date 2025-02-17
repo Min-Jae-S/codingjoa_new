@@ -28,8 +28,8 @@ public class AdminBoardCriteria {
 
 	@Override
 	public String toString() {
-		return "BoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
-				+ ", getKeywordRegexp()=" + getKeywordRegexp() + "]";
+		return "AdminBoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
+				+ ", keywordRegexp=" + getKeywordRegexp() + "]";
 	}
 
 }
