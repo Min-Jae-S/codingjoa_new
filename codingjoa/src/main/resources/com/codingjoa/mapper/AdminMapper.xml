@@ -23,7 +23,6 @@
 		<association property="writer" javaType="member">
 			<id column="member_idx" property="memberIdx"/>
 			<result column="member_email" property="memberEmail"/>
-			<result column="member_password" property="memberPassword"/>
 			<result column="member_nickname" property="memberNickname"/>
 			<result column="member_zipcode" property="memberZipcode" />
 			<result column="member_addr" property="memberAddr" />
@@ -33,46 +32,76 @@
 			<result column="member_updated_at" property="updatedAt"/>
 		</association>
 	</resultMap>
+	
+	<sql id="searchCriteria">
+		<if test='keywordRegexp != null'>
+			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
+				<foreach collection='type.split("_")' item="item">
+					<trim suffix="OR">
+						<if test='item.equals("title")'>
+							REGEXP_LIKE( board.board_title, #{keywordRegexp} )
+						</if>
+						<if test='item.equals("content")'>
+							REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
+						</if>
+						<if test='item.equals("writer")'>
+							REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
+						</if> 
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT 
 			paged_board.*,
 			category.*,
-			member.member_idx,
-			member.member_email,
-			member.member_password,
-			member.member_nickname,
-			member.member_zipcode,
-			member.member_addr,
-			member.member_addr_detail,
-			member.member_agree,
-			member.created_at				AS member_created_at,
-			member.updated_at				AS member_updated_at,
-			NVL(comment_group.cnt, 0) 		AS comment_cnt,
-    		NVL(likes_group.cnt, 0) 		AS likes_cnt
+			NVL(comment_group.cnt, 0) 	AS comment_cnt,
+    		NVL(likes_group.cnt, 0) 	AS likes_cnt
 		FROM (
-			SELECT *
+			SELECT
+				filtered_board.*
 			FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 					ROWNUM rn,
-					board.*
+					board.board_idx,
+					board.board_writer_idx,
+					board.board_title,
+					board.board_content,
+					board.board_content_text,
+					board.board_category_code,
+					board.board_views,
+					board.created_at,
+					board.updated_at,
+					member.member_idx,
+					member.member_email,
+					member.member_nickname,
+					member.member_zipcode,
+					member.member_addr,
+					member.member_addr_detail,
+					member.member_agree,
+					member.created_at	AS member_created_at,
+					member.updated_at	AS member_updated_at
 				FROM 
 					board
+				INNER JOIN
+					member
+				ON
+					board.board_writer_idx = member.member_idx
 				WHERE 
+					<include refid="searchCriteria"/>
+				AND
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-			) 
+			) filtered_board
 			WHERE 
-				rn > ( (#{page} - 1) * #{recordCnt} )
-		) paged_board
+				filtered_board.rn > ( (#{page} - 1) * #{recordCnt} )
+		) paged_baord
 		INNER JOIN
 			category
 		ON
 			paged_board.board_category_code = category.category_code
-		INNER JOIN	
-			member
-		ON
-			paged_board.board_writer_idx = member.member_idx
 		LEFT OUTER JOIN (
 			SELECT board_idx, COUNT(*) cnt
 			FROM "comment"

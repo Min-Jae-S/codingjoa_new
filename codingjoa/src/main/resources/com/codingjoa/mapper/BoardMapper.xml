@@ -56,13 +56,7 @@
 	
 	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
-			board.board_idx,
-			board.board_title, 
-			board.board_content, 
-			board.board_views, 
-			board.board_category_code, 
-			board.created_at, 
-			board.updated_at,
+			board.*
 			member.member_nickname, 
 			NVL(comment_group.cnt, 0) 	AS comment_cnt,
     		NVL(likes_group.cnt, 0) 	AS likes_cnt,
@@ -142,15 +136,9 @@
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
 			/*+ ORDERED USE_NL(comment_group) USE_NL(likes_group) */
-			paged_board.board_idx,
-			paged_board.board_title,
-			paged_board.board_views,
-			paged_board.board_category_code,
-			paged_board.created_at,
-			paged_board.updated_at,
-			paged_board.member_nickname,
-    		NVL(comment_group.cnt, 0) 		AS comment_cnt,
-    		NVL(likes_group.cnt, 0) 		AS likes_cnt,
+			paged_board.*
+    		NVL(comment_group.cnt, 0) 	AS comment_cnt,
+    		NVL(likes_group.cnt, 0) 	AS likes_cnt,
     		CASE
     			WHEN paged_board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
@@ -165,12 +153,20 @@
     		END AS is_liked
 		FROM (
 		    SELECT 
-		    	board_subset.*
+		    	filtered_board.*
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
-		        	board.*,
+		        	board.board_idx,
+					board.board_writer_idx,
+					board.board_title,
+					board.board_content,
+					board.board_content_text,
+					board.board_category_code,
+					board.board_views,
+					board.created_at,
+					board.updated_at,
 		        	member.member_nickname
 		    	FROM 
 		        	board
@@ -183,9 +179,9 @@
 					board.board_category_code = #{boardCategoryCode} 
 				AND
 					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
-		    ) board_subset
+		    ) filtered_board
 		    WHERE 
-		    	board_subset.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 		) paged_board
 		LEFT OUTER JOIN (
 			SELECT board_idx, COUNT(*) cnt
