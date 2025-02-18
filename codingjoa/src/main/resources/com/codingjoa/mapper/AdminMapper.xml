@@ -36,19 +36,17 @@
 	
 	<sql id="searchCriteria">
 		<if test='keywordRegexp != null'>
-			<trim prefix="(" suffix=") AND ">
-				<foreach collection='type.split("_")' item="item" separator="OR">
-					<if test='item.equals("title")'>
-						REGEXP_LIKE( board.board_title, #{keywordRegexp} )
-					</if>
-					<if test='item.equals("content")'>
-						REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
-					</if>
-					<if test='item.equals("writer")'>
-						REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
-					</if> 
-				</foreach>
-			</trim>
+			<foreach collection='type.split("_")' item="item" open="(" close=") AND" separator="OR">
+				<if test='item.equals("title")'>
+					REGEXP_LIKE( board.board_title, #{keywordRegexp} )
+				</if>
+				<if test='item.equals("content")'>
+					REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
+				</if>
+				<if test='item.equals("writer")'>
+					REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
+				</if> 
+			</foreach>
 		</if>
 	</sql>
 
@@ -57,7 +55,7 @@
 			paged_board.*,
 			category.*,
 			NVL(comment_group.cnt, 0) 	AS comment_cnt,
-    		NVL(likes_group.cnt, 0) 	AS likes_cnt
+			NVL(likes_group.cnt, 0) 	AS likes_cnt
 		FROM (
 			SELECT
 				filtered_board.*
@@ -110,8 +108,8 @@
 			paged_board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
 			SELECT board_idx, COUNT(*) cnt
-    		FROM board_likes
-    		GROUP BY board_idx
+			FROM board_likes
+			GROUP BY board_idx
     	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
@@ -126,9 +124,9 @@
 			member
 		ON
 			board.board_writer_idx = member.member_idx
-		<where>
+		WHERE
 			<include refid="searchCriteria"/>
-		</where>
+			1 = 1
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">
@@ -136,7 +134,7 @@
 			board 
 		WHERE
 			board_idx IN
-		 	<foreach collection="list" item="boardIdx" separator="," open="(" close=")">	
+		 	<foreach collection="list" item="boardIdx" open="(" close=")" separator=",">	
 				#{boardIdx}
 			</foreach>
 	</delete>
