@@ -51,7 +51,8 @@
 	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
-		SELECT 
+		SELECT
+			/*+ ORDERED USE_NL(category) USE_NL(comment_group) USE_NL(likes_group) */
 			paged_board.*,
 			category.*,
 			NVL(comment_group.cnt, 0) 	AS comment_cnt,

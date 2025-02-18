@@ -248,13 +248,7 @@
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		const $contentContainer = $('#contentContainer');
 		
-		let adminBoardCri = {
-			page : 1,
-			recordCnt : 10,
-			type : "title",
-			keyword : ""
-		};
-
+		let adminBoardCri = null;
 		
 		$("#adminBoardCriBtn").on("click", function() {
 			console.log("## adminBoardCri");
@@ -278,24 +272,6 @@
 					collapseInstance.hide();
 				}
 			});
-			
-			$.ajax({
-				type : "GET",
-				url : $(this).data("url"),
-				dataType : "json",
-				success : function(result) {
-					console.log("%c> SUCCESS", "color:green");
-					console.log(JSON.stringify(result, null, 2));
-					
-					if (!window.matchMedia("(min-width: 992px)").matches) { // mediaQuery
-						$("#sidebarToggle").trigger("click");
-					}
-				},
-				error : function(jqXHR) {
-					console.log("%c> ERROR", "color:red");
-					parseError(jqXHR);
-				}
-			});
 		});
 		
 		
@@ -304,7 +280,7 @@
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 
-			adminService.getPagedBoards(adminBoardCri, function(result) {
+			adminService.getPagedBoards({ }, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
