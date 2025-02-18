@@ -36,19 +36,17 @@
 	
 	<sql id="searchCriteria">
 		<if test='keywordRegexp != null'>
-			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='type.split("_")' item="item">
-					<trim suffix="OR">
-						<if test='item.equals("title")'>
-							REGEXP_LIKE( board.board_title, #{keywordRegexp} )
-						</if>
-						<if test='item.equals("content")'>
-							REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
-						</if>
-						<if test='item.equals("writer")'>
-							REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
-						</if> 
-					</trim>
+			<trim prefix="(" suffix=") AND ">
+				<foreach collection='type.split("_")' item="item" separator="OR">
+					<if test='item.equals("title")'>
+						REGEXP_LIKE( board.board_title, #{keywordRegexp} )
+					</if>
+					<if test='item.equals("content")'>
+						REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
+					</if>
+					<if test='item.equals("writer")'>
+						REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
+					</if> 
 				</foreach>
 			</trim>
 		</if>
@@ -128,8 +126,9 @@
 			member
 		ON
 			board.board_writer_idx = member.member_idx
-		WHERE
+		<where>
 			<include refid="searchCriteria"/>
+		</where>
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">
