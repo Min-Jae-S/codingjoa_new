@@ -351,7 +351,7 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				adminService.getPagedBoards({ ...adminBoardCri, page: 1 }, function(result) {
+				adminService.getPagedBoards({ ...adminBoardCri, page : 1 }, function(result) {
 					adminBoardCri = result.data.adminBoardCri;
 					let boardsPage = createBoardsPageHtml(result);
 					$contentContainer.html(boardsPage);
@@ -373,7 +373,7 @@
 		
 		// click pagination
 		$(document).on("click", ".board-pagination .page-link", function() {
-			adminService.getPagedBoards({ ...adminBoardCri, page: $(this).data("page") }, function(result) {
+			adminService.getPagedBoards({ ...adminBoardCri, page : $(this).data("page") }, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
@@ -383,7 +383,7 @@
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
-			adminService.getPagedBoards({ ...adminBoardCri, page: 2 , recordCnt: $(this).val() }, function(result) {
+			adminService.getPagedBoards({ ...adminBoardCri, page : 1 , recordCnt : $(this).val() }, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);

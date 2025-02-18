@@ -110,7 +110,7 @@
 			SELECT board_idx, COUNT(*) cnt
 			FROM board_likes
 			GROUP BY board_idx
-    	) likes_group
+		) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
 	</select>
