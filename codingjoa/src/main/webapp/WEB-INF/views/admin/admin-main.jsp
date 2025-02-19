@@ -165,12 +165,21 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/members">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseMembers" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-user-gear fa-fw pl-1"></i>
 							</div>
-							<span>사용자 / 권한 관리</span>
+							<span>회원 관리</span>
+							<div class="sb-sidenav-collapse-arrow">
+								<i class="fas fa-angle-up fa-fw"></i>
+							</div>
 						</button>
+						<div class="collapse" id="collapseMembers" data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a href="${contextPath}/admin/members" class="nav-link" aria-pressed="false">회원 정보 관리</a>
+								<a href="${contextPath}/admin/comments" class="nav-link" aria-pressed="false">권한 관리</a>
+							</nav>
+						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents" aria-expanded="false">
 							<div class="sb-nav-link-icon">
@@ -183,8 +192,8 @@
 						</button>
 						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${contextPath}/admin/boards">게시글 관리</a>
-								<a class="nav-link" href="${contextPath}/admin/comments">댓글 관리</a>
+								<a href="${contextPath}/admin/boards"  class="nav-link" aria-pressed="false">게시글 관리</a>
+								<a class="nav-link"  aria-pressed="false">댓글 관리</a>
 							</nav>
 						</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
@@ -198,30 +207,39 @@
 						</button>
 						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${contextPath}/admin/test1">공지사항1</a>
-								<a class="nav-link" href="${contextPath}/admin/test2">공지사항2</a>
+								<a href="${contextPath}/admin/test1" class="nav-link" aria-pressed="false">공지사항1</a>
+								<a href="${contextPath}/admin/test2" class="nav-link" aria-pressed="false">공지사항2</a>
 							</nav>
 						</div>
-						<div class="sb-sidenav-menu-heading" id="collapseSystems" data-bs-parent="#sidenavAccordion">Systems</div>
-						<button type="button" class="nav-link" aria-pressed="false">
+						<div class="sb-sidenav-menu-heading">Systems</div>
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseSystems" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fa-solid fa-list fa-fw"></i>
 							</div>
 							<span>시스템 관리</span>
+							<div class="sb-sidenav-collapse-arrow">
+								<i class="fas fa-angle-up fa-fw"></i>
+							</div>
 						</button>
+						<div class="collapse" id="collapseSystems" data-bs-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<a href="${contextPath}/admin/categories" class="nav-link" aria-pressed="false">카테고리 관리</a>
+								<a href="${contextPath}/admin/menus" class="nav-link" aria-pressed="false">메뉴 관리</a>
+							</nav>
+						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/charts">
+						<a href="${contextPath}/admin/charts" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
-						</button> 
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/tables">
+						</a>
+						<a href="${contextPath}/admin/tables" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
 							<span>Tables</span> 
-						</button>
+						</a>
 					</div>
 				</div>
 			</nav>
@@ -264,8 +282,8 @@
 	};
 
 	$(function() {
-		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
-		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
+		//const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
+		//const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
 		const $contentContainer = $('#contentContainer');
 		
 		let adminBoardCri = null;
@@ -275,11 +293,11 @@
 			console.log(adminBoardCri);
 		});
 		
-		$collapsibleBtns.on("click", function() {
-			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
-		});
+		/* $collapsibleBtns.on("click", function() {
+			$("#sidenavAccordion *[aria-pressed='true']").attr("aria-pressed", false);
+		}); */
 		
-		$nonCollapsibleBtns.on("click", function() {
+		/* $nonCollapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
 			
@@ -290,12 +308,12 @@
 					collapseInstance.hide();
 				}
 			});
-		});
+		}); */
 		
-		$(document).on("click", "#sidenavAccordion .collapse a.nav-link", function(e) {
+		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
-			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
-			$(this).attr("aria-pressed", "true");
+			$("#sidenavAccordion *[aria-pressed='true']").attr("aria-pressed", false);
+			$(this).attr("aria-pressed", true);
 			
 			let url = $(this).attr("href");
 			history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
