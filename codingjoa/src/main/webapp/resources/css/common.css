@@ -467,11 +467,6 @@ footer {
 	height: 100% !important;
 }
 
-#layoutSidenav  #layoutSidenav_nav .sb-sidenav-menu {
-	border-right: 1px solid #dedede !important;
-	background-color: #fff;
-}
-
 .sb-topnav {
 	padding: 0 4rem;
 }
@@ -602,6 +597,12 @@ footer {
 
 .sb-sidenav {
 	background-color: #fff;
+}
+
+.sb-sidenav .sb-sidenav-menu {
+	border-right: 1px solid #dedede !important;
+	background-color: #fff;
+	padding-top: 15px;
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link {

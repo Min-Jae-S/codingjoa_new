@@ -136,19 +136,19 @@
 	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
 			/*+ ORDERED USE_NL(comment_group) USE_NL(likes_group) */
-			paged_board.*
-    		NVL(comment_group.cnt, 0) 	AS comment_cnt,
-    		NVL(likes_group.cnt, 0) 	AS likes_cnt,
-    		CASE
-    			WHEN paged_board.board_writer_idx = #{memberIdx} 
-    			THEN 1 ELSE 0
-    		END AS is_writer,
-   			CASE
-    			WHEN EXISTS ( 
-    				SELECT 1 
-    				FROM board_likes
-    				WHERE board_likes.board_idx = paged_board.board_idx 
-    				AND board_likes.member_idx = #{memberIdx} 
+			paged_board.*,
+			NVL(comment_group.cnt, 0) 	AS comment_cnt,
+			NVL(likes_group.cnt, 0) 	AS likes_cnt,
+			CASE
+				WHEN paged_board.board_writer_idx = #{memberIdx} 
+				THEN 1 ELSE 0
+			END AS is_writer,
+			CASE
+				WHEN EXISTS (
+					SELECT 1
+					FROM board_likes
+					WHERE board_likes.board_idx = paged_board.board_idx 
+					AND board_likes.member_idx = #{memberIdx} 
     			) THEN 1 ELSE 0
     		END AS is_liked
 		FROM (

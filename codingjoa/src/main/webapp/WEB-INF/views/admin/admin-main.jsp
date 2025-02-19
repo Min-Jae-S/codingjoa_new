@@ -167,9 +167,9 @@
 						<div class="sb-sidenav-menu-heading">Users</div>
 						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/members">
 							<div class="sb-nav-link-icon">
-								<i class="fas fa-user-gear"></i>
+								<i class="fas fa-user-gear fa-fw pl-1"></i>
 							</div>
-							<span>사용자 관리</span>
+							<span>사용자 / 권한 관리</span>
 						</button>
 						<div class="sb-sidenav-menu-heading">Contents</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents" aria-expanded="false">
@@ -198,16 +198,16 @@
 						</button>
 						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${contextPath}/api/admin/test1">test1</a>
-								<a class="nav-link" href="${contextPath}/api/admin/test2">test2</a>
+								<a class="nav-link" href="${contextPath}/admin/test1">공지사항1</a>
+								<a class="nav-link" href="${contextPath}/admin/test2">공지사항2</a>
 							</nav>
 						</div>
-						<div class="sb-sidenav-menu-heading">Systems</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/categories">
+						<div class="sb-sidenav-menu-heading" id="collapseSystems" data-bs-parent="#sidenavAccordion">Systems</div>
+						<button type="button" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fa-solid fa-list fa-fw"></i>
 							</div>
-							<span>카테고리 관리</span>
+							<span>시스템 관리</span>
 						</button>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
 						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/charts">
@@ -243,12 +243,7 @@
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 <script>
-	console.log("${contextPath}");
-	console.log("\${contextPath}");
-	console.log(`${contextPath}`);
-	console.log(`\${contextPath}`);
-	
-	const router {
+	const router = {
 		routes: {},
 		
 		register(path, callback) {
@@ -268,7 +263,6 @@
 		}
 	};
 
-
 	$(function() {
 		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
@@ -281,11 +275,9 @@
 			console.log(adminBoardCri);
 		});
 		
-		
 		$collapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 		});
-		
 		
 		$nonCollapsibleBtns.on("click", function() {
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
@@ -299,7 +291,6 @@
 				}
 			});
 		});
-		
 		
 		$(document).on("click", "#sidenavAccordion .collapse a.nav-link", function(e) {
 			e.preventDefault();
@@ -319,7 +310,6 @@
 				$contentContainer.html(boardsPage);
 			});
 		});
-		
 	
 		$(document).on("change", "#toggleAllBoards", function() {
 			$("input[type='checkbox'][name='boardIds']").prop("checked", this.checked);
@@ -327,7 +317,6 @@
 			let anyChecked = $("input[type='checkbox'][name='boardIds']:checked").length > 0;
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
-
 		
 		$(document).on("change", "input[type='checkbox'][name='boardIds']", function() {
 			let totalCnt =  $("input[type='checkbox'][name='boardIds']").length;
@@ -337,7 +326,6 @@
 			let anyChecked = checkedCnt > 0;
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
-		
 		
 		// delete boards
 		$(document).on("click", "#deleteBoardsBtn", function() {
@@ -364,7 +352,6 @@
 			});
 		});
 		
-		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
@@ -375,7 +362,6 @@
 			});
 		});
 		
-		
 		// click pagination
 		$(document).on("click", ".board-pagination .page-link", function() {
 			adminService.getPagedBoards({ ...adminBoardCri, page : $(this).data("page") }, function(result) {
@@ -384,7 +370,6 @@
 				$contentContainer.html(boardsPage);
 			});
 		});
-		
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
