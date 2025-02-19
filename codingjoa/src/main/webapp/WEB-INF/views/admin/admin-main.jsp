@@ -282,8 +282,8 @@
 	};
 
 	$(function() {
-		//const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
-		//const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
+		const $sidenav = $("#sidenavAccordion");
+		const $collapsibleBtns = $sidenav.find('button[data-bs-toggle="collapse"]');
 		const $contentContainer = $('#contentContainer');
 		
 		let adminBoardCri = null;
@@ -293,30 +293,22 @@
 			console.log(adminBoardCri);
 		});
 		
-		/* $collapsibleBtns.on("click", function() {
-			$("#sidenavAccordion *[aria-pressed='true']").attr("aria-pressed", false);
-		}); */
-		
-		/* $nonCollapsibleBtns.on("click", function() {
-			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
-			$(this).attr("aria-pressed", "true");
-			
-			$collapsibleBtns.each(function() {
-				let target = $(this).attr("data-bs-target") || $(this).attr("href");
-				let collapseInstance = bootstrap.Collapse.getInstance($(target)[0]);
-				if (collapseInstance) {
-					collapseInstance.hide();
-				}
-			});
-		}); */
+		$collapsibleBtns.on("click", function() {
+			$sidenav.find("a.nav-link").not(".collapse a.nav-link").attr("aria-pressed", false);
+		});
 		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
-			$("#sidenavAccordion *[aria-pressed='true']").attr("aria-pressed", false);
+			$sidenav.find("a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
+			let isInCollapse = $(this).is(".collapse a.nav-link"); // $(this).closest(".collapse").length > 0
+			if (!isInCollapse) {
+				$sidenav.find(".collapse").collapse("hide");
+			}
+			
 			let url = $(this).attr("href");
-			history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
+			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
 
 			adminService.getPagedBoards({}, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {

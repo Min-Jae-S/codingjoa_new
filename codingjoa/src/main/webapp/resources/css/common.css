@@ -615,10 +615,14 @@ footer {
     background-color: #e7f1ff;
 }
 
-.sb-sidenav .sb-sidenav-menu .nav-link[aria-pressed="true"] {
+.sb-sidenav .sb-sidenav-menu a.nav-link[aria-pressed="true"] {
 	font-weight: bold;
-	color: #2c88de
+	color: #2c88de;
 	/* color: #0c63e4; */
+}
+
+.sb-sidenav .sb-sidenav-menu a.nav-link[aria-pressed="true"] .sb-nav-link-icon {
+	color: #2c88de;
 }
 
 .sb-sidenav .sb-sidenav-menu button.nav-link {
@@ -629,16 +633,13 @@ footer {
 
 .sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] {
 	 font-weight: bold;
+	 color: #2c88de;
 	 background-color: #e7f1ff;
 	 /* background-color: rgba(44, 136, 222, .06); */
 }
 
-.sb-sidenav .sb-sidenav-menu button.nav-link[aria-pressed="true"] span, 
-.sb-sidenav .sb-sidenav-menu button.nav-link[aria-pressed="true"] svg, 
-.sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] span,
-.sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] svg {
-	color: #2c88de
-	/* color: #0c63e4; */
+.sb-sidenav .sb-sidenav-menu button.nav-link[aria-expanded="true"] .sb-nav-link-icon {
+	color: #2c88de;
 }
 
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-heading {
