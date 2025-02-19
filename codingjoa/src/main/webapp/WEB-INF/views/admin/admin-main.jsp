@@ -290,11 +290,15 @@
 		
 		$("#adminBoardCriBtn").on("click", function() {
 			console.log("## adminBoardCri");
-			console.log(adminBoardCri);
+			console.log(JSON.stringify(adminBoardCri, null, 2));
 		});
 		
 		$collapsibleBtns.on("click", function() {
-			$sidenav.find("a.nav-link").not(".collapse a.nav-link").attr("aria-pressed", false);
+			let $pressedLink = $sidenav.find("a.nav-link[aria-pressed='true']");
+			let isInCollapse = $pressedLink.closest(".collapse").length > 0;
+			if (!isInCollapse) {
+				$pressedLink.attr("aria-pressed", false);
+			}
 		});
 		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
@@ -302,7 +306,7 @@
 			$sidenav.find("a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			let isInCollapse = $(this).is(".collapse a.nav-link"); // $(this).closest(".collapse").length > 0
+			let isInCollapse = $(this).closest(".collapse").length > 0; // $(this).is(".collapse a.nav-link")
 			if (!isInCollapse) {
 				$sidenav.find(".collapse").collapse("hide");
 			}
