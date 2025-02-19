@@ -165,7 +165,7 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/members">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/members">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-user-gear"></i>
 							</div>
@@ -183,8 +183,8 @@
 						</button>
 						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${contextPath}/api/admin/boards">게시글 관리</a>
-								<a class="nav-link" href="${contextPath}/api/admin/comments">댓글 관리</a>
+								<a class="nav-link" href="${contextPath}/admin/boards">게시글 관리</a>
+								<a class="nav-link" href="${contextPath}/admin/comments">댓글 관리</a>
 							</nav>
 						</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
@@ -203,20 +203,20 @@
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Systems</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/categories">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/categories">
 							<div class="sb-nav-link-icon">
 								<i class="fa-solid fa-list fa-fw"></i>
 							</div>
 							<span>카테고리 관리</span>
 						</button>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/charts">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/charts">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</button> 
-						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/api/admin/tables">
+						<button type="button" class="nav-link" aria-pressed="false" data-url="${contextPath}/admin/tables">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -243,6 +243,32 @@
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 <script>
+	console.log("${contextPath}");
+	console.log("\${contextPath}");
+	console.log(`${contextPath}`);
+	console.log(`\${contextPath}`);
+	
+	const router {
+		routes: {},
+		
+		register(path, callback) {
+			this.routes[path] = callback;
+		},
+		
+		navigate(path) {
+			
+		},
+		
+		onPopState() {
+			
+		},
+		
+		init() {
+			
+		}
+	};
+
+
 	$(function() {
 		const $collapsibleBtns = $('#sidenavAccordion button[data-bs-toggle="collapse"]');
 		const $nonCollapsibleBtns = $('#sidenavAccordion button:not([data-bs-toggle="collapse"])');
@@ -279,8 +305,11 @@
 			e.preventDefault();
 			$("#sidenavAccordion *[aria-pressed='true']").removeAttr("aria-pressed");
 			$(this).attr("aria-pressed", "true");
+			
+			let url = $(this).attr("href");
+			history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
 
-			adminService.getPagedBoards({ }, function(result) {
+			adminService.getPagedBoards({}, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}

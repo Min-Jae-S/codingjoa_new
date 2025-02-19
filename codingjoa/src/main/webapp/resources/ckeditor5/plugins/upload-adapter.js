@@ -1,5 +1,6 @@
 class UploadAdapter {
     constructor(loader) {
+    	console.log("## UploadAdapter.constructor");
         this.loader = loader;
         this.contextPath = this._getContextPath();
     }
@@ -10,6 +11,7 @@ class UploadAdapter {
     }
 
     upload() {
+    	console.log("## UploadAdapter.upload");
         return this.loader.file
         	.then(file => new Promise((resolve, reject) => {
             	this._initRequest();
@@ -19,6 +21,7 @@ class UploadAdapter {
     }
 
     _initRequest() {
+    	console.log("\t > _initRequest");
      	// Note that your request may look different. It is up to you and your editor integration to choose the right communication channel. 
     	// This example uses a POST request with JSON as a data structure but your configuration could be different.
         const xhr = this.xhr = new XMLHttpRequest();
@@ -27,6 +30,7 @@ class UploadAdapter {
     }
 
     _initListeners(resolve, reject, file) {
+    	console.log("\t > _initListeners");
         const xhr = this.xhr;
         const loader = this.loader;
         const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
@@ -72,6 +76,7 @@ class UploadAdapter {
     }
 
     _sendRequest(file) {
+    	console.log("\t > _sendRequest");
         const data = new FormData();
         data.append("file", file);
         
@@ -81,7 +86,6 @@ class UploadAdapter {
      	// containing the CSRF token generated earlier by your application.
 
         // Send the request.
-        console.log("## send upload request");
         this.xhr.send(data);
     }
 }
