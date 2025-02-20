@@ -295,7 +295,15 @@
 		
 		$collapsibleBtns.on("click", function() {
 			let $pressedLink = $sidenav.find("a.nav-link[aria-pressed='true']");
+			console.log($pressedLink);
+			
+			if (!$pressedLink.length) {
+				return;
+			}
+			
 			let isInCollapse = $pressedLink.closest(".collapse").length > 0;
+			console.log(isInCollapse);
+			
 			if (!isInCollapse) {
 				$pressedLink.attr("aria-pressed", false);
 			}
