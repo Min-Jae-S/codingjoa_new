@@ -174,7 +174,7 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseMembers" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapseMembers">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/members" class="nav-link" aria-pressed="false">회원 정보 관리</a>
 								<a href="${contextPath}/admin/comments" class="nav-link" aria-pressed="false">권한 관리</a>
@@ -190,7 +190,7 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseContents" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapseContents">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/boards"  class="nav-link" aria-pressed="false">게시글 관리</a>
 								<a class="nav-link"  aria-pressed="false">댓글 관리</a>
@@ -205,7 +205,7 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseNotifications" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapseNotifications">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/test1" class="nav-link" aria-pressed="false">공지사항1</a>
 								<a href="${contextPath}/admin/test2" class="nav-link" aria-pressed="false">공지사항2</a>
@@ -221,7 +221,7 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseSystems" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapseSystems"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/categories" class="nav-link" aria-pressed="false">카테고리 관리</a>
 								<a href="${contextPath}/admin/menus" class="nav-link" aria-pressed="false">메뉴 관리</a>
@@ -282,10 +282,7 @@
 	};
 
 	$(function() {
-		const $sidenav = $("#sidenavAccordion");
-		const $collapsibleBtns = $sidenav.find('button[data-bs-toggle="collapse"]');
 		const $contentContainer = $('#contentContainer');
-		
 		let adminBoardCri = null;
 		
 		$("#adminBoardCriBtn").on("click", function() {
@@ -293,31 +290,16 @@
 			console.log(JSON.stringify(adminBoardCri, null, 2));
 		});
 		
-		$collapsibleBtns.on("click", function() {
-			let $pressedLink = $sidenav.find("a.nav-link[aria-pressed='true']");
-			console.log($pressedLink);
-			
-			if (!$pressedLink.length) {
-				return;
-			}
-			
-			let isInCollapse = $pressedLink.closest(".collapse").length > 0;
-			console.log(isInCollapse);
-			
-			if (!isInCollapse) {
-				$pressedLink.attr("aria-pressed", false);
-			}
-		});
-		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
-			$sidenav.find("a.nav-link").attr("aria-pressed", false);
+			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			let isInCollapse = $(this).closest(".collapse").length > 0; // $(this).is(".collapse a.nav-link")
+			// $(this).is(".collapse a.nav-link")
+			/* let isInCollapse = $(this).closest(".collapse").length > 0; 
 			if (!isInCollapse) {
-				$sidenav.find(".collapse").collapse("hide");
-			}
+				$("#sidenavAccordion .collapse").collapse("hide");
+			} */
 			
 			let url = $(this).attr("href");
 			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
