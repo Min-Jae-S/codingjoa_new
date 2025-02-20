@@ -607,6 +607,8 @@ footer {
 
 .sb-sidenav .sb-sidenav-menu .nav-link {
 	color: #525661;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
 }
 
 .sb-sidenav .sb-sidenav-menu a.nav-link {
@@ -622,6 +624,7 @@ footer {
 	background-color: #e7f1ff;
 }
 
+.sb-sidenav .sb-sidenav-menu a.nav-link:hover .sb-nav-link-icon,
 .sb-sidenav .sb-sidenav-menu a.nav-link[aria-pressed="true"] .sb-nav-link-icon {
 	color: #2c88de;
 }
@@ -635,7 +638,7 @@ footer {
 .sb-sidenav .sb-sidenav-menu .sb-sidenav-menu-heading {
 	color: #525661 !important;
 	font-size: 0.9rem !important;
-	padding: 1.75rem 1rem 0.35rem !important;
+	padding: 1.75rem 1.25rem 0.35rem !important;
 }
 
 .sb-sidenav .sb-sidenav-menu .nav-link .sb-nav-link-icon {

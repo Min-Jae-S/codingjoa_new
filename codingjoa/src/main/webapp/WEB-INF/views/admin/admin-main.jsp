@@ -295,13 +295,7 @@
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			// $(this).is(".collapse a.nav-link")
-			/* let isInCollapse = $(this).closest(".collapse").length > 0; 
-			if (!isInCollapse) {
-				$("#sidenavAccordion .collapse").collapse("hide");
-			} */
-			
-			let url = $(this).attr("href");
+			//let url = $(this).attr("href");
 			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
 
 			adminService.getPagedBoards({}, function(result) {
@@ -348,7 +342,7 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				adminService.getPagedBoards({ ...adminBoardCri, page : 1 }, function(result) {
+				adminService.getPagedBoards({ ...adminBoardCri, page: 1 }, function(result) {
 					adminBoardCri = result.data.adminBoardCri;
 					let boardsPage = createBoardsPageHtml(result);
 					$contentContainer.html(boardsPage);
@@ -368,7 +362,7 @@
 		
 		// click pagination
 		$(document).on("click", ".board-pagination .page-link", function() {
-			adminService.getPagedBoards({ ...adminBoardCri, page : $(this).data("page") }, function(result) {
+			adminService.getPagedBoards({ ...adminBoardCri, page: $(this).data("page") }, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
@@ -377,7 +371,7 @@
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
-			adminService.getPagedBoards({ ...adminBoardCri, page : 1 , recordCnt : $(this).val() }, function(result) {
+			adminService.getPagedBoards({ ...adminBoardCri, page: 1 , recordCnt: $(this).val() }, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);

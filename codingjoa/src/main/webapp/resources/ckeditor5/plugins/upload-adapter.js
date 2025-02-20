@@ -2,14 +2,8 @@ class UploadAdapter {
     constructor(loader) {
     	console.log("## UploadAdapter.constructor");
         this.loader = loader;
-        this.contextPath = this._getContextPath();
     }
     
-    _getContextPath() {
-    	const hostIndex = location.href.indexOf(location.host) + location.host.length;
-    	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
-    }
-
     upload() {
     	console.log("## UploadAdapter.upload");
         return this.loader.file
@@ -19,13 +13,19 @@ class UploadAdapter {
             	this._sendRequest(file);
         	}));
     }
+    
+    _getContextPath() {
+    	const hostIndex = location.href.indexOf(location.host) + location.host.length;
+    	return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1));
+    }
 
     _initRequest() {
     	console.log("\t > _initRequest");
      	// Note that your request may look different. It is up to you and your editor integration to choose the right communication channel. 
     	// This example uses a POST request with JSON as a data structure but your configuration could be different.
+    	const contextPath = this._getContextPath();
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', `${this.contextPath}/api/board/image`, true);
+        xhr.open('POST', `${contextPath}/api/board/image`, true);
         xhr.responseType = 'json';
     }
 
@@ -63,10 +63,6 @@ class UploadAdapter {
             // Learn more in the UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
-//            	urls: {
-//            		default: getContextPath() + response.data.returnUrl
-//            	},
-            	
             	// response.data : BoardImageDto(int boardImageIdx, String boardImageUrl)
             	idx: response.data.boardImageIdx,
             	url: response.data.boardImageUrl
