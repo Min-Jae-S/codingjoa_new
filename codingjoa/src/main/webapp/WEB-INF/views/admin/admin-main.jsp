@@ -267,7 +267,7 @@
 		let adminBoardCri = null;
 		
 		const pageRouter = new PageRouter();
-		pageRouter.addRoute("/admin/boards", function() {
+		pageRouter.addRoute("${contextPath}/admin/boards", function() {
 			adminService.getPagedBoards({}, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
@@ -276,6 +276,7 @@
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
+			});
 		});
 		
 		$("#adminBoardCriBtn").on("click", function() {

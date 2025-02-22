@@ -9,11 +9,12 @@ class PageRouter {
 	}
 	
 	navigate(path, params = {}) {
+		console.log(`## navigating to route: ${path} with params:`, params);
 		const handler = this.routes.get(path);
 		if (handler) {
 			handler(params);
 		} else {
-			console.log(`## route: ${path} is not registerd`);
+			console.log(`## no handler found for route: ${path}`);
 		}
 	}
 }
