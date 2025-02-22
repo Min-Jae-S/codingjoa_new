@@ -261,26 +261,6 @@
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 <script>
-	const router = {
-		routes: {},
-		
-		register(path, callback) {
-			this.routes[path] = callback;
-		},
-		
-		navigate(path) {
-			
-		},
-		
-		onPopState() {
-			
-		},
-		
-		init() {
-			
-		}
-	};
-
 	$(function() {
 		const $contentContainer = $('#contentContainer');
 		let adminBoardCri = null;

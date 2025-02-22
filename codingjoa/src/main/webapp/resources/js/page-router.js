@@ -1,6 +1,7 @@
 class PageRouter {
-	constructor() {
+	constructor(containerSelector) {
 		console.log("## PageRouter.constructor");
+		this.$container = $(containerSelector);
 		this.rotues = {};
 	}
 	
@@ -9,13 +10,19 @@ class PageRouter {
 	}
 	
 	navigate(path) {
-		if (this.routes[path]) {
-            this.routes[path]();
-            history.pushState({ path: path }, '', path);
-        } else {
-            //console.log("404 페이지 없음");
-            //this.routes['/404']();
-        }
+		this.navigate(path, true);
+	}
+	
+	navigate(path, pushState) {
+		if (this.route[path]) {
+
+			if (pushState) {
+				history.pushState({ path }, "", path);
+			}
+		} else {
+			console.log(`## route ${path} is not registerd`);
+		}
+
 	}
 	
 	onPopstate() {
