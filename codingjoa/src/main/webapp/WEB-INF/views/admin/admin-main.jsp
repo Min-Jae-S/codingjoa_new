@@ -25,6 +25,7 @@
 <script src="${contextPath}/resources/js/admin.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/html-creator.js"></script>
+<script src="${contextPath}/resources/js/page-router.js"></script>
 <style>
 	.admin-content-container .card {
 		width: 1020px;
@@ -262,8 +263,20 @@
 	</div> <!-- /Sidenav -->
 <script>
 	$(function() {
-		const $contentContainer = $('#contentContainer');
+		const $contentContainer = $("#contentContainer");
 		let adminBoardCri = null;
+		
+		const pageRouter = new PageRouter();
+		pageRouter.addRoute("/admin/boards", function() {
+			adminService.getPagedBoards({}, function(result) {
+				if (!window.matchMedia("(min-width: 992px)").matches) {
+					$("#sidebarToggle").trigger("click");
+				}
+				
+				adminBoardCri = result.data.adminBoardCri;
+				let boardsPage = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPage);
+		});
 		
 		$("#adminBoardCriBtn").on("click", function() {
 			console.log("## adminBoardCri");
@@ -275,10 +288,16 @@
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
+			let url = $(this).attr("href");
+			if (url) {
+				history.pushState({ page : url }, "", url);
+				pageRouter.navigate(url);
+			}
+			
 			//let url = $(this).attr("href");
 			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
 
-			adminService.getPagedBoards({}, function(result) {
+			/* adminService.getPagedBoards({}, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
@@ -286,7 +305,7 @@
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
-			});
+			}); */
 		});
 	
 		$(document).on("change", "#toggleAllBoards", function() {

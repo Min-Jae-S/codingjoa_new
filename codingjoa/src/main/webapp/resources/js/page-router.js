@@ -1,40 +1,19 @@
 class PageRouter {
 	constructor(containerSelector) {
 		console.log("## PageRouter.constructor");
-		this.$container = $(containerSelector);
-		this.rotues = {};
+		this.routes = new Map();
 	}
 	
-	register(path, callback) {
-		this.routes[path] = callback;
+	addRoute(path, handler) {
+		this.routes.set(path, handler);
 	}
 	
-	navigate(path) {
-		this.navigate(path, true);
-	}
-	
-	navigate(path, pushState) {
-		if (this.route[path]) {
-
-			if (pushState) {
-				history.pushState({ path }, "", path);
-			}
+	navigate(path, params = {}) {
+		const handler = this.routes.get(path);
+		if (handler) {
+			handler(params);
 		} else {
-			console.log(`## route ${path} is not registerd`);
-		}
-
-	}
-	
-	onPopstate() {
-		const path = window.location.pathname;
-		if (this.routes[path]) {
-			this.routes[path]();
+			console.log(`## route: ${path} is not registerd`);
 		}
 	}
-	
-	init() {
-		window.addEvnetListener("popstate", this.onPopstate.bind(this));
-		this.navigate(whindow.location.pathname);
-	}
-	
 }
