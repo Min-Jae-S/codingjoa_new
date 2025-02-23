@@ -32,6 +32,7 @@
 		margin: 0 auto;
 		padding: 3rem;
 		justify-content: center;
+		min-height: 100%;
 	}
 	
 	.admin-content-container .card * {
@@ -95,6 +96,13 @@
 	
 	.page-link {
 		padding: .5rem .75rem;
+	}
+	
+	.no-board {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 350px;
 	}
 }
 </style>
@@ -272,10 +280,6 @@
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
-				
-				if (!window.matchMedia("(min-width: 992px)").matches) {
-					$("#sidebarToggle").trigger("click");
-				}
 			});
 		});
 		
@@ -292,6 +296,10 @@
 			let url = $(this).attr("href");
 			pageRouter.navigate(url);
 			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
+			
+			if (!window.matchMedia("(min-width: 992px)").matches) {
+				$("#sidebarToggle").trigger("click");
+			}
 		});
 	
 		$(document).on("change", "#toggleAllBoards", function() {

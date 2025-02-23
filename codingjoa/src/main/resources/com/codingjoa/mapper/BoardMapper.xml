@@ -56,7 +56,7 @@
 	
 	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
-			board.*
+			board.*,
 			member.member_nickname, 
 			NVL(comment_group.cnt, 0) 	AS comment_cnt, 
 			NVL(likes_group.cnt, 0) 	AS likes_cnt,

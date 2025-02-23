@@ -69,6 +69,13 @@
 	.comment-cnt:after {
 		content: ")";
 	}
+	
+	.no-board {
+		display: flex;
+	    flex-direction: column;
+    	justify-content: center;
+    	min-height: 208px; /* 41.6*5 */
+	}
 </style>
 </head>
 <body>
@@ -126,7 +133,7 @@
 							<c:otherwise>
 								<tr>
 									<td colspan="6">
-										<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+										<div class="no-board">등록된 게시글이 없습니다.</div>
 									</td>
 								</tr>
 							</c:otherwise>

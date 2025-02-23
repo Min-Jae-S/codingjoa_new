@@ -237,7 +237,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	
 	return `
 		<form id="adminBoardsForm" class="form-inline">
-			<button type="button" id="deleteBoardsBtn" class="btn btn-warning rounded-md mr-auto" disabled>선택삭제</button>
+			<button type="button" id="deleteBoardsBtn" class="btn btn-outline-secondary rounded-md mr-auto" disabled>선택삭제</button>
 			<div class="d-flex">
 				<select id="type" name="type" class="custom-select mr-3 rounded-md">
 					${typeOptionHtml}
@@ -262,7 +262,7 @@ function createBoardsTableHtml(pagedBoards) {
 		rowsHtml = `
 			<tr>
 				<td colspan="9">
-					<div class="no-board py-5">등록된 게시글이 없습니다.</div>
+					<div class="no-board">등록된 게시글이 없습니다.</div>
 				</td>	
 			</tr>`;
 	} else {
