@@ -32,7 +32,6 @@
 		margin: 0 auto;
 		padding: 3rem;
 		justify-content: center;
-		min-height: 100%;
 	}
 	
 	.admin-content-container .card * {
@@ -275,7 +274,7 @@
 		let adminBoardCri;
 		
 		const pageRouter = new PageRouter();
-		pageRouter.addRoute("${contextPath}/admin/boards", function(params = {}) {
+		pageRouter.addRouter("${contextPath}/admin/boards", function(params = {}) {
 			adminService.getPagedBoards(params, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);

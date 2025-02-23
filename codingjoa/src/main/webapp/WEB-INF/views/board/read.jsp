@@ -463,7 +463,7 @@
 										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
 										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
 										<div class="mt-2">
-											<button class="btn btn-sm btn-outline-secondary" type="submit">등록</button>
+											<button class="btn btn-sm btn-outline-secondary" type="submit" disabled>등록</button>
 										</div>
 									</div>
 								</div>
@@ -718,9 +718,11 @@
 			
 			let $submitBtn = $(this).closest("div").find("button[type='submit']");
 			if ($(this).val() != "") {
-				$submitBtn.removeClass().addClass("btn btn-sm btn-primary");
+				//$submitBtn.removeClass().addClass("btn btn-sm btn-primary");
+				$submitBtn.prop("disabled", false);
 			} else {
-				$submitBtn.removeClass().addClass("btn btn-sm btn-outline-secondary");
+				//$submitBtn.removeClass().addClass("btn btn-sm btn-outline-secondary");
+				$submitBtn.prop("disabled", true);
 			}
 		});
 		
