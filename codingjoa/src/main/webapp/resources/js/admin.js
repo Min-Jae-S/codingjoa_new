@@ -10,7 +10,6 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(adminBoardCri);
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
 			},
 			success : function(result) {

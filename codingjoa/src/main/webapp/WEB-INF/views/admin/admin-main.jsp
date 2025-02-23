@@ -264,11 +264,11 @@
 <script>
 	$(function() {
 		const $contentContainer = $("#contentContainer");
-		let adminBoardCri = null;
+		let adminBoardCri;
 		
 		const pageRouter = new PageRouter();
-		pageRouter.addRoute("${contextPath}/admin/boards", function() {
-			adminService.getPagedBoards({}, function(result) {
+		pageRouter.addRoute("${contextPath}/admin/boards", function(params = {}) {
+			adminService.getPagedBoards(params, function(result) {
 				if (!window.matchMedia("(min-width: 992px)").matches) {
 					$("#sidebarToggle").trigger("click");
 				}
