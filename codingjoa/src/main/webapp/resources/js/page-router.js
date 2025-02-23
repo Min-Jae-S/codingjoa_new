@@ -1,6 +1,5 @@
 class PageRouter {
-	constructor(containerSelector) {
-		console.log("## PageRouter.constructor");
+	constructor() {
 		this.routes = new Map();
 	}
 	
@@ -9,7 +8,10 @@ class PageRouter {
 	}
 	
 	navigate(path, params = {}) {
-		console.log(`## navigating to route: ${path} with params:`, params);
+		console.log("## pageRouter.navigate");
+		console.log("\t > path: ", path);
+		console.log("\t > params: ", params);
+		
 		const handler = this.routes.get(path);
 		if (handler) {
 			handler(params);
@@ -17,4 +19,5 @@ class PageRouter {
 			console.log(`## no handler found for route: ${path}`);
 		}
 	}
+	
 }
