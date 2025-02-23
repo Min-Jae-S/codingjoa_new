@@ -1,10 +1,10 @@
 class PageRouter {
 	constructor() {
-		this.routes = new Map();
+		this.routers = new Map();
 	}
 	
 	addRoute(path, handler) {
-		this.routes.set(path, handler);
+		this.routers.set(path, handler);
 	}
 	
 	navigate(path, params = {}) {
@@ -12,11 +12,11 @@ class PageRouter {
 		console.log("\t > path: ", path);
 		console.log("\t > params: ", params);
 		
-		const handler = this.routes.get(path);
+		const handler = this.routers.get(path);
 		if (handler) {
 			handler(params);
 		} else {
-			console.log(`## no handler found for route: ${path}`);
+			console.log("## no handler found for path: ", path);
 		}
 	}
 	
