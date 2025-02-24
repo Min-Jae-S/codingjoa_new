@@ -8,18 +8,15 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 	
-	route(path, params, pushState = false) {
-		console.log("## route");
-		console.log("\t > path:", path);
-		console.log("\t > params:", params);
-		console.log("\t > pushState:", pushState);
+	route(path, params, pushState = true) {
+		console.log("## routing to URL:", path, ", pushState: ", pushState);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
 		
-		if (pushState) {
+		if (pushState && !this._isSameUrl(url)) {
 			history.pushState(params, "", url.toString());
 		}
 		
@@ -38,8 +35,12 @@ class PageRouter {
 			const state = e.state || {};
 			const path = window.location.pathname;
 			
-			this.route(path, state);
+			this.route(path, state, false);
 		});
+	}
+	
+	_isSameUrl(url) {
+		return window.location.href == url.toString();
 	}
 	
 }

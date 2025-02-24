@@ -198,6 +198,10 @@ function createPaginationHtml(pagination) {
 //				ADMIN HTML CREATOR
 // =============================================
 
+function createWelcomePage() {
+	return `<h1 class='px-5'>Welcome to Admin Dashboard</h1>`;
+}
+
 function createBoardsPageHtml(result) {
 	console.log("## createBoardsPageHtml");
 	const { options, adminBoardCri, pagedBoards, pagination } = result.data;

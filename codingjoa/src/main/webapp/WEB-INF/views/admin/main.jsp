@@ -270,7 +270,8 @@
 		let adminBoardCri;
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
-			$contentContainer.html("<h1 class='px-5'>Welcome to Admin Dashboard</h1>");
+			let welcomePage = createWelcomePage();
+			$contentContainer.html(welcomePage);
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
@@ -281,16 +282,17 @@
 			});
 		});
 		
-		console.log("## page load, starting initial page route for URL:", window.location.pathname);
-		pageRouter.route(window.location.pathname, {});
+		console.log("## initializing page route for URL:", window.location.pathname);
+		const urlParams = Object.fromEntries(new URLSearchParams(window.location.search));
+		pageRouter.route(window.location.pathname, urlParams, false);
 		
-		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
+		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
 			let url = $(this).attr("href");
-			pageRouter.route(url, {}, true);
+			pageRouter.route(url, {});
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");
@@ -330,24 +332,24 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1 }, true);
+				pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1 });
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject(), true);
+			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject());
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination .page-link", function() {
-			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: $(this).data("page") }, true);
+			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: $(this).data("page") });
 		});
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
-			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1, recordCnt: $(this).val() }, true);
+			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1, recordCnt: $(this).val() });
 		});
 		
 	});
