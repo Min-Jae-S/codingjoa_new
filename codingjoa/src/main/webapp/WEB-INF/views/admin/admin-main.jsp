@@ -266,9 +266,9 @@
 <script>
 	$(function() {
 		const $contentContainer = $("#contentContainer");
+		const pageRouter = new PageRouter();
 		let adminBoardCri;
 		
-		const pageRouter = new PageRouter();
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params = {}) {
 			adminService.getPagedBoards(params, function(result) {
 				adminBoardCri = result.data.adminBoardCri;

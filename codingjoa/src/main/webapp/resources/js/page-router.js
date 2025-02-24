@@ -1,8 +1,11 @@
 class PageRouter {
-	constructor() {
+	constructor(container) {
 		this.routers = new Map();
 		this._initPopState();
-		this._initRouters();
+	}
+	
+	addRouter(path, handler) {
+		this.routers.set(path, handler);
 	}
 	
 	navigate(path, params = {}) {
@@ -11,7 +14,7 @@ class PageRouter {
 		console.log("\t > params: ", params);
 		
 		let url = new URL(path, window.location.origin);
-		$.each(params, function(key, value) {
+		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
 		
@@ -35,24 +38,9 @@ class PageRouter {
 			console.log("## popstate triggered");
 			const state = e.state || {};
 			const path = window.location.pathname;
-			console.log("\t > state: ", state);
-			console.log("\t > path: ", path);
 			
-			const handler = this.routers.get(path);
-			if (handler) {
-				handler(state);
-			} else {
-				console.log("## no handler found for path: ", path);
-			}
+			this.navigate(path, state);
 		});
-	}
-	
-	_initRouters() {
-		
-	}
-	
-	_addRouter(path, handler) {
-		this.routers.set(path, handler);
 	}
 	
 }
