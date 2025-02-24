@@ -270,7 +270,7 @@
 		let adminBoardCri;
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
-			location.href = "${contextPath}/admin";
+			$contentContainer.html("<h1 class='px-5'>Admin Dashboard</h1>");
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params = {}) {
@@ -280,6 +280,9 @@
 				$contentContainer.html(boardsPage);
 			});
 		});
+		
+		console.log("## page load, starting initial page render for URL:", window.location.pathname);
+		pageRouter.navigate(window.location.pathname);
 		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
