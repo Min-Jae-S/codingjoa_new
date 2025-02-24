@@ -110,7 +110,7 @@
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 		<!-- Navbar Brand-->
 		<div class="logo-wrap">
-			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
+			<a class="navbar-brand" href="${contextPath}/admin">Codingjoa</a>
 		</div>
 		
 		<!-- Sidebar Toggle-->
@@ -122,14 +122,13 @@
 		<ul class="navbar-nav ms-auto me-2"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown member-menu">
-			<button type="button" class="btn btn-sm btn-info mx-3" id="adminBoardCriBtn">adminBoardCri</button>
-			<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-				<img class="nav-member-image" 
-					src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
-				<span class="font-weight-bold">
-					<c:out value="${principal.nickname}"/>
-				</span>
-			</a>
+				<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
+					<img class="nav-member-image" 
+						src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
+					<span class="font-weight-bold">
+						<c:out value="${principal.nickname}"/>
+					</span>
+				</a>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
 						<div class="dropdown-item">
@@ -200,8 +199,8 @@
 						</button>
 						<div class="collapse" id="collapseContents">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/boards"  class="nav-link" aria-pressed="false">게시글 관리</a>
-								<a class="nav-link"  aria-pressed="false">댓글 관리</a>
+								<a href="${contextPath}/admin/boards" class="nav-link" aria-pressed="false">게시글 관리</a>
+								<a href="#" class="nav-link" aria-pressed="false">댓글 관리</a>
 							</nav>
 						</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
@@ -215,8 +214,8 @@
 						</button>
 						<div class="collapse" id="collapseNotifications">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/test1" class="nav-link" aria-pressed="false">공지사항1</a>
-								<a href="${contextPath}/admin/test2" class="nav-link" aria-pressed="false">공지사항2</a>
+								<a href="#" class="nav-link" aria-pressed="false">공지사항1</a>
+								<a href="#" class="nav-link" aria-pressed="false">공지사항2</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Systems</div>
@@ -231,18 +230,18 @@
 						</button>
 						<div class="collapse" id="collapseSystems"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/categories" class="nav-link" aria-pressed="false">카테고리 관리</a>
-								<a href="${contextPath}/admin/menus" class="nav-link" aria-pressed="false">메뉴 관리</a>
+								<a href="#" class="nav-link" aria-pressed="false">카테고리 관리</a>
+								<a href="#" class="nav-link" aria-pressed="false">메뉴 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<a href="${contextPath}/admin/charts" class="nav-link" aria-pressed="false">
+						<a href="#" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</a>
-						<a href="${contextPath}/admin/tables" class="nav-link" aria-pressed="false">
+						<a href="#" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -262,10 +261,6 @@
 					<!------------------------>
 				</div>
 			</main>
-			
-			<!-- footer -->
-			<%-- <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/> --%>
-			
 		</div> <!-- /Sidenav_conent -->
 	</div> <!-- /Sidenav -->
 <script>
@@ -282,11 +277,6 @@
 			});
 		});
 		
-		$("#adminBoardCriBtn").on("click", function() {
-			console.log("## adminBoardCri");
-			console.log(JSON.stringify(adminBoardCri, null, 2));
-		});
-		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
@@ -294,7 +284,6 @@
 			
 			let url = $(this).attr("href");
 			pageRouter.navigate(url);
-			//history.pushState({ page : url }, "", url); // history.pushState(state, title, url)
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");

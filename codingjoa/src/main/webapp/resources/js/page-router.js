@@ -2,10 +2,7 @@ class PageRouter {
 	constructor() {
 		this.routers = new Map();
 		this._initPopState();
-	}
-	
-	addRouter(path, handler) {
-		this.routers.set(path, handler);
+		this._initRouters();
 	}
 	
 	navigate(path, params = {}) {
@@ -48,6 +45,14 @@ class PageRouter {
 				console.log("## no handler found for path: ", path);
 			}
 		});
+	}
+	
+	_initRouters() {
+		
+	}
+	
+	_addRouter(path, handler) {
+		this.routers.set(path, handler);
 	}
 	
 }
