@@ -18,7 +18,7 @@ class PageRouter {
 			url.searchParams.set(key, value);
 		});
 		
-		history.pushState(params, "", url.toString());
+		history.pushState(params, null, url.toString());
 		
 		const handler = this.routers.get(path);
 		if (handler) {

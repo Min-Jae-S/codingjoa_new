@@ -269,6 +269,10 @@
 		const pageRouter = new PageRouter();
 		let adminBoardCri;
 		
+		pageRouter.addRouter("${contextPath}/admin", function() {
+			location.href = "${contextPath}/admin";
+		});
+		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params = {}) {
 			adminService.getPagedBoards(params, function(result) {
 				adminBoardCri = result.data.adminBoardCri;

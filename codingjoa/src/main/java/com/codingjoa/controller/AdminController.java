@@ -14,13 +14,8 @@ public class AdminController {
 	@GetMapping
 	public String main() {
 		log.info("## main");
-		return "admin/admin-main";
+		return "admin/main";
 	}
 	
-	@GetMapping("/index")
-	public String index() {
-		log.info("## main");
-		return "admin/index";
-	}
 	
 }
