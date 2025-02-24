@@ -1,5 +1,5 @@
 class PageRouter {
-	constructor(container) {
+	constructor() {
 		this.routers = new Map();
 		this._initPopState();
 	}
@@ -8,17 +8,22 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 	
-	navigate(path, params = {}) {
-		console.log("## pageRouter.navigate");
+	navigate(path, params = {}, replaceState = false) {
+		console.log("## navigate");
 		console.log("\t > path: ", path);
 		console.log("\t > params: ", params);
+		console.log("\t > replaceState: ", replaceState);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
 		
-		history.pushState(params, null, url.toString());
+		if (replaceState) {
+			history.replaceState(params, null, url.toString());
+		} else {
+			history.pushState(params, null, url.toString());
+		}
 		
 		const handler = this.routers.get(path);
 		if (handler) {
@@ -30,16 +35,14 @@ class PageRouter {
 	
 	_initPopState() {
 		window.addEventListener("popstate", (e) => {
-			if (this.routers.size == 0) {
-				console.log("## no routers registerd yet, skipping popstate event handler");
-				return;
-			}
-			
 			console.log("## popstate triggered");
+			
 			const state = e.state || {};
 			const path = window.location.pathname;
+			console.log("\t > state: ", state);
+			console.log("\t > path: ", path);
 			
-			this.navigate(path, state);
+			this.navigate(path, state, true);
 		});
 	}
 	

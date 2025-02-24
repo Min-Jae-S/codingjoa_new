@@ -200,7 +200,7 @@
 						<div class="collapse" id="collapseContents">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/boards" class="nav-link" aria-pressed="false">게시글 관리</a>
-								<a href="#" class="nav-link" aria-pressed="false">댓글 관리</a>
+								<a href="${contextPath}/admin/comments" class="nav-link" aria-pressed="false">댓글 관리</a>
 							</nav>
 						</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
@@ -214,8 +214,8 @@
 						</button>
 						<div class="collapse" id="collapseNotifications">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="#" class="nav-link" aria-pressed="false">공지사항1</a>
-								<a href="#" class="nav-link" aria-pressed="false">공지사항2</a>
+								<a href="${contextPath}/admin/notifications1" class="nav-link" aria-pressed="false">공지사항1</a>
+								<a href="${contextPath}/admin/notifications2" class="nav-link" aria-pressed="false">공지사항2</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Systems</div>
@@ -230,18 +230,18 @@
 						</button>
 						<div class="collapse" id="collapseSystems"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="#" class="nav-link" aria-pressed="false">카테고리 관리</a>
-								<a href="#" class="nav-link" aria-pressed="false">메뉴 관리</a>
+								<a href="${contextPath}/admin/categories" class="nav-link" aria-pressed="false">카테고리 관리</a>
+								<a href="${contextPath}/admin/menues" class="nav-link" aria-pressed="false">메뉴 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Analystics</div>
-						<a href="#" class="nav-link" aria-pressed="false">
+						<a href="${contextPath}/admin/charts" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-chart-area fa-fw"></i>
 							</div>
 							<span>Charts</span>
 						</a>
-						<a href="#" class="nav-link" aria-pressed="false">
+						<a href="${contextPath}/admin/tables" class="nav-link" aria-pressed="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-table fa-fw"></i>
 							</div>
@@ -270,10 +270,10 @@
 		let adminBoardCri;
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
-			$contentContainer.html("<h1 class='px-5'>Admin Dashboard</h1>");
+			$contentContainer.html("<h1 class='px-5'>Welcome to Admin Dashboard</h1>");
 		});
 		
-		pageRouter.addRouter("${contextPath}/admin/boards", function(params = {}) {
+		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
 			adminService.getPagedBoards(params, function(result) {
 				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
