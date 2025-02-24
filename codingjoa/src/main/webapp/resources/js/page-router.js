@@ -29,11 +29,14 @@ class PageRouter {
 	}
 	
 	_initPopState() {
-		window.addEventListener("popstate", function(e) {
-			console.log("## popstate triggered");
-			console.log(e);
+		window.addEventListener("popstate", (e) => {
+			if (this.routers.size == 0) {
+				console.log("## no routers registerd yet, skipping popstate event handler");
+				return;
+			}
 			
-			const state = e.state;
+			console.log("## popstate triggered");
+			const state = e.state || {};
 			const path = window.location.pathname;
 			console.log("\t > state: ", state);
 			console.log("\t > path: ", path);
