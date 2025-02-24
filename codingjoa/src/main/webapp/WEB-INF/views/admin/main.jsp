@@ -281,8 +281,8 @@
 			});
 		});
 		
-		console.log("## page load, starting initial page render for URL:", window.location.pathname);
-		pageRouter.navigate(window.location.pathname);
+		console.log("## page load, starting initial page route for URL:", window.location.pathname);
+		pageRouter.route(window.location.pathname, {});
 		
 		$(document).on("click", "#sidenavAccordion a.nav-link", function(e) {
 			e.preventDefault();
@@ -290,7 +290,7 @@
 			$(this).attr("aria-pressed", true);
 			
 			let url = $(this).attr("href");
-			pageRouter.navigate(url);
+			pageRouter.route(url, {}, true);
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");
@@ -330,24 +330,24 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				pageRouter.navigate("${contextPath}/admin/boards", { ...adminBoardCri, page: 1 });
+				pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1 }, true);
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.navigate("${contextPath}/admin/boards", $(this).serializeObject());
+			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject(), true);
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination .page-link", function() {
-			pageRouter.navigate("${contextPath}/admin/boards", { ...adminBoardCri, page: $(this).data("page") });
+			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: $(this).data("page") }, true);
 		});
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
-			pageRouter.navigate("${contextPath}/admin/boards", { ...adminBoardCri, page: 1, recordCnt: $(this).val() });
+			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1, recordCnt: $(this).val() }, true);
 		});
 		
 	});

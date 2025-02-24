@@ -8,28 +8,26 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 	
-	navigate(path, params = {}, replaceState = false) {
-		console.log("## navigate");
-		console.log("\t > path: ", path);
-		console.log("\t > params: ", params);
-		console.log("\t > replaceState: ", replaceState);
+	route(path, params, pushState = false) {
+		console.log("## route");
+		console.log("\t > path:", path);
+		console.log("\t > params:", params);
+		console.log("\t > pushState:", pushState);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
 		
-		if (replaceState) {
-			history.replaceState(params, null, url.toString());
-		} else {
-			history.pushState(params, null, url.toString());
+		if (pushState) {
+			history.pushState(params, "", url.toString());
 		}
 		
 		const handler = this.routers.get(path);
 		if (handler) {
 			handler(params);
 		} else {
-			console.log("## no handler found for path: ", path);
+			console.log("## no handler found for path:", path);
 		}
 	}
 	
@@ -39,10 +37,8 @@ class PageRouter {
 			
 			const state = e.state || {};
 			const path = window.location.pathname;
-			console.log("\t > state: ", state);
-			console.log("\t > path: ", path);
 			
-			this.navigate(path, state, true);
+			this.route(path, state);
 		});
 	}
 	
