@@ -458,13 +458,20 @@ footer {
 	height: 100%;
 }
 
+#layoutSidenav #layoutSidenav_nav {
+	height: 100% !important;
+}
+
 #layoutSidenav #layoutSidenav_content {
 	min-height: calc(100% - 56px);
 	background-color: #f1f3f5;
 }
 
-#layoutSidenav #layoutSidenav_nav {
-	height: 100% !important;
+#layoutSidenav #layoutSidenav_content main {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .sb-topnav {

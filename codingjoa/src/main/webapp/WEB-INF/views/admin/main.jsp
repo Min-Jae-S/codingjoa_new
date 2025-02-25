@@ -104,13 +104,11 @@
 		min-height: 350px;
 	}
 	
-	.error-wrap {
-		width: 900px;
-		margin: 0 auto;
+	#contentContainer .error-wrap {
 		padding-bottom: 4rem;
 	}
 	
-	.error-code {
+	#contentContainer .error-code {
 		color: #dc3545 !important;
 		font-weight: bold;
 		font-size: 9.5rem;

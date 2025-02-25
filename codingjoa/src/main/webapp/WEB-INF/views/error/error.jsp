@@ -20,6 +20,7 @@
 		width: 900px;
 		margin: 0 auto;
 		padding-bottom: 4rem;
+		text-align: center;
 	}
 	
 	.error-code {

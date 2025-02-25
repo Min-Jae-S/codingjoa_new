@@ -23,12 +23,13 @@ class PageRouter {
 		
 		const handler = this.routers.get(path);
 		if (handler) {
+			console.log(`\t > handler found for path: ${path}`);
 			handler(params);
 		} else if(this.errorHandler) {
-			console.log(`## no handler found for path: ${path}, using errorHandler`);
+			console.log(`\t > no handler found for path: ${path}, using errorHandler`);
 			this.errorHandler();
 		} else {
-			console.log(`## no handler found for path: ${path}, and no errorHandler set`);
+			console.log(`\t > no handler found for path: ${path}, and no errorHandler set`);
 			alert("오류가 발생했습니다.");
 		}
 	}
