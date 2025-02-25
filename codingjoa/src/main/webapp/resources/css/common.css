@@ -463,14 +463,19 @@ footer {
 
 #layoutSidenav #layoutSidenav_content {
 	min-height: calc(100% - 56px);
-	background-color: #f1f3f5;
 }
 
-#layoutSidenav #layoutSidenav_content main,
+#layoutSidenav #layoutSidenav_content main {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
 #layoutSidenav #layoutSidenav_content main #contentContainer {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	background-color: #f1f3f5;
 }
 
 .sb-topnav {

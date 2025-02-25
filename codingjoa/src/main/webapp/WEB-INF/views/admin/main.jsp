@@ -110,6 +110,7 @@
 	}
 	
 	#contentContainer .error-wrap {
+		margin: auto;
 		padding-bottom: 2rem;
 	}
 	
