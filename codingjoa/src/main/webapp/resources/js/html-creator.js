@@ -156,11 +156,22 @@ function createPaginationHtml(pagination) {
 		return "";
 	}
 	
-	const { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next } = pagination;
+	const { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next, first, last } = pagination;
 	
-	let prevBtn = "";
+	
+	let firstPageBtn = "";
+	if (first) {
+		firstPageBtn = `
+			<li class="page-item">
+				<button type='button' class='page-link' data-page='1'>
+					<i class='fa-solid fa-fw fa-angles-left'></i>
+				</button>
+			</li>`;
+	}
+	
+	let prevPageBtn = "";
 	if (prev) {
-		prevBtn = `
+		prevPageBtn = `
 			<li class='page-item'>
 				<button type='button' class='page-link' data-page='${prevPage}'>
 					<i class='fa-solid fa-fw fa-angle-left'></i>
@@ -176,9 +187,9 @@ function createPaginationHtml(pagination) {
 			</li>`;
 	}
 	
-	let nextBtn = "";
+	let nextPageBtn = "";
 	if (next) {
-		nextBtn = `
+		nextPageBtn = `
 			<li class='page-item'>
 				<button type='button' class='page-link' data-page='${nextPage}'>
 					<i class='fa-solid fa-fw fa-angle-right'></i>
@@ -186,11 +197,23 @@ function createPaginationHtml(pagination) {
 			</li>`;
 	}
 
+	let lastPageBtn = "";
+	if (last) {
+		lastPageBtn = `
+			<li class='page-item'>
+				<button type='button' class='page-link' data-page='${pageCnt}'>
+					<i class='fa-solid fa-fw fa-angles-right'></i>
+				</button>
+			</li>`;
+	}
+
 	return `
 		<ul class='pagination'>
-			${prevBtn}
+			${firstPageBtn}
+			${prevPageBtn}
 			${pageBtns}
-			${nextBtn}
+			${nextPageBtn}
+			${lastPageBtn}
 		</ul>`;
 }
 

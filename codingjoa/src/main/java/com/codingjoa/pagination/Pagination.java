@@ -16,6 +16,8 @@ public class Pagination {
 	private int totalCnt;		// 전체 레코드 개수
 	private boolean prev; 		// 이전 페이지 이동 가능 여부
 	private boolean next;		// 다음 페이지 이동 가능 여부
+	private boolean first;		// 처음 페이지 이동 가능 여부
+	private boolean last;		// 마지막 페이지 이동 가능 여부
 	
 	/*
 	 * totalCnt 	: 전체 레코드 개수
@@ -26,13 +28,22 @@ public class Pagination {
 	
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
 		this.totalCnt = totalCnt;
-		this.page = page;
 		
 		// 556/10 = 55 --> 56
 		pageCnt = totalCnt / recordCnt;
 		if (totalCnt % recordCnt > 0) {
 			pageCnt += 1; // pageCnt++
 		}
+		
+		if (page < 1) {
+			page = 1;
+		}
+		
+		if (page > pageCnt) {
+			page = pageCnt;
+		}
+		
+		this.page = page;
 		
 		// | 	 RANGE		|	START	|	 END	|
 		// ------------------------------------------
@@ -47,7 +58,7 @@ public class Pagination {
 			endPage = pageCnt;
 		}
 		
-		prevPage = startPage - 1;
+		prevPage = startPage -1;
 		if (prevPage < 1) {
 			prevPage = startPage;
 			prev = false;
@@ -62,5 +73,8 @@ public class Pagination {
 		} else {
 			next = true;
 		}
+		
+		first = startPage > 1;
+		last = endPage < pageCnt;
 	}
 }
