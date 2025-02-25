@@ -30,7 +30,7 @@
 	.admin-content-container .card {
 		width: 1020px;
 		margin: 0 auto;
-		padding: 3rem;
+		padding: 2.5rem;
 		justify-content: center;
 	}
 	
@@ -105,13 +105,21 @@
 	}
 	
 	#contentContainer .error-wrap {
-		padding-bottom: 4rem;
+		padding-bottom: 2rem;
 	}
 	
 	#contentContainer .error-code {
 		color: #dc3545 !important;
 		font-weight: bold;
 		font-size: 9.5rem;
+		text-align: center;
+		line-height: 1;
+	}
+	
+	#contentContainer .error-message {
+		font-weight: bold;
+		font-size: 1.75rem; /* h3 */
+		text-align: center;
 	}
 }
 </style>

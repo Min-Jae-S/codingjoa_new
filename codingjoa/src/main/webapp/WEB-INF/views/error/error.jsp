@@ -19,14 +19,21 @@
 	.error-wrap {
 		width: 900px;
 		margin: 0 auto;
-		padding-bottom: 4rem;
-		text-align: center;
+		padding-bottom: 2rem;
 	}
 	
 	.error-code {
 		color: #dc3545 !important;
 		font-weight: bold;
 		font-size: 9.5rem;
+		text-align: center;
+		line-height: 1;
+	}
+	
+	.error-message {
+		font-weight: bold;
+		font-size: 1.75rem; /* h3 */
+		text-align: center;
 	}
 
 	.error-field::before {
@@ -43,27 +50,23 @@
 
 <div class="container error-container">
 	<div class="error-wrap">
-		<div class="text-center">
-			<h3 class="error-code"><c:out value="${errorResponse.status}"/></h3>
-		</div>
-		<div class="text-center px-5">
-			<c:choose>
-				<c:when test="${fn:length(errorResponse.details) > 0}">
-					<c:forEach items="${errorResponse.details}" var="errorDetails">
-						<h3 class="font-weight-bold">
-							<span class="error-field"><c:out value="${errorDetails.field}"/></span>
-							<span><c:out value="${errorDetails.message}"/></span>
-						</h3>
-					</c:forEach>
-				</c:when>
-				<c:when test="${fn:length(errorResponse.details) == 0}">
-					<h3 class="font-weight-bold"><c:out value="${errorResponse.message}"/></h3>
-				</c:when>
-				<c:otherwise>
-					<h3 class="font-weight-bold">오류가 발생하였습니다.</h3>
-				</c:otherwise>
-			</c:choose>
-		</div>
+		<p class="error-code"><c:out value="${errorResponse.status}"/></p>
+		<c:choose>
+			<c:when test="${fn:length(errorResponse.details) > 0}">
+				<c:forEach items="${errorResponse.details}" var="errorDetails">
+					<p class="error-message">
+						<span class="error-field"><c:out value="${errorDetails.field}"/></span>
+						<span><c:out value="${errorDetails.message}"/></span>
+					</p>
+				</c:forEach>
+			</c:when>
+			<c:when test="${fn:length(errorResponse.details) == 0}">
+				<p class="error-message"><c:out value="${errorResponse.message}"/></p>
+			</c:when>
+			<c:otherwise>
+				<p class="error-message">오류가 발생하였습니다.</p>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </div>
 

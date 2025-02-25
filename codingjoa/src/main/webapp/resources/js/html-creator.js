@@ -201,12 +201,8 @@ function createPaginationHtml(pagination) {
 function createErrorPage() {
 	return `
 		<div class="error-wrap">
-			<div class="text-center">
-				<h3 class="error-code">404</h3>
-			</div>
-			<div class="text-center px-5">
-				<h3 class="font-weight-bold">요청한 페이지를 찾을 수 없습니다.</h3>
-			</div>
+			<p class="error-code">404</p>
+			<p class="error-message">요청한 페이지를 찾을 수 없습니다.</p>
 		</div>`;
 }
 
