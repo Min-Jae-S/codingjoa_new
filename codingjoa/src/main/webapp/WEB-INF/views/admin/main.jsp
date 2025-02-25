@@ -28,9 +28,9 @@
 <script src="${contextPath}/resources/js/page-router.js"></script>
 <style>
 	.admin-content-container .card {
-		width: 1020px;
+		min-width: 1020px;
 		margin: 0 auto;
-		padding: 2.5rem;
+		padding: 3rem;
 		justify-content: center;
 	}
 	
@@ -101,7 +101,12 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		min-height: 350px;
+		min-height: 250px;
+	}
+	
+	.welcome {
+		font-size: 50px;
+		font-weight: bold;
 	}
 	
 	#contentContainer .error-wrap {

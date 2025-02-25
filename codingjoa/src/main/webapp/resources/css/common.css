@@ -136,9 +136,7 @@ html * {
 }
 
 .admin-content-container {
-	/* padding-top: 4rem;
-	padding-bottom: 4rem; */
-	padding: 4rem;
+	padding: 6rem;
 }
 
 input::placeholder, 
@@ -468,11 +466,11 @@ footer {
 	background-color: #f1f3f5;
 }
 
-#layoutSidenav #layoutSidenav_content main {
+#layoutSidenav #layoutSidenav_content main,
+#layoutSidenav #layoutSidenav_content main #contentContainer {
 	display: flex;
-	flex-grow: 1;
 	flex-direction: column;
-	justify-content: center;
+	flex: 1;
 }
 
 .sb-topnav {

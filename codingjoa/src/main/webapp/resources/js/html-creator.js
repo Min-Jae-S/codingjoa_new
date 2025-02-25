@@ -207,7 +207,7 @@ function createErrorPage() {
 }
 
 function createWelcomePage() {
-	return `<h1 class='px-5'>Welcome to Admin Dashboard</h1>`;
+	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;
 }
 
 function createBoardsPageHtml(result) {
