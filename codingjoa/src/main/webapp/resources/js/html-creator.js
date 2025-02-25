@@ -201,7 +201,7 @@ function createPaginationHtml(pagination) {
 	if (last) {
 		lastPageBtn = `
 			<li class='page-item'>
-				<button type='button' class='page-link' data-page='${pageCnt}'>
+				<button type='button' class='page-link' data-page='${endPage}'>
 					<i class='fa-solid fa-fw fa-angles-right'></i>
 				</button>
 			</li>`;

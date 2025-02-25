@@ -208,7 +208,7 @@
 						</a>
 					</li>
 					<li class="page-item ${pagination.last ? '' : 'disabled'}">
-						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.pageCnt)}"
+						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.endPage)}"
 							class="page-link"><i class="fa-solid fa-fw fa-angles-right"></i>
 						</a>
 					</li>
