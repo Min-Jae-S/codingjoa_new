@@ -9,7 +9,7 @@ class PageRouter {
 	}
 	
 	route(path, params, pushState = true) {
-		console.log("## routing to URL:", path, ", pushState: ", pushState);
+		console.log("## route, to URL:", path, ", pushState: ", pushState);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {

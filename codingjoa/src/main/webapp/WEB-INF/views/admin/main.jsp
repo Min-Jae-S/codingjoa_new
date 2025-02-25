@@ -282,7 +282,7 @@
 			});
 		});
 		
-		console.log("## initializing page route for URL:", window.location.pathname);
+		console.log("## initializing page, routing to URL:", window.location.pathname);
 		const urlParams = Object.fromEntries(new URLSearchParams(window.location.search));
 		pageRouter.route(window.location.pathname, urlParams, false);
 		
