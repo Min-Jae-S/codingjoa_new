@@ -2,6 +2,7 @@ class PageRouter {
 	constructor() {
 		this.routers = new Map();
 		this._initPopState();
+		this.errorHandler = null;
 	}
 	
 	addRouter(path, handler) {
@@ -9,7 +10,7 @@ class PageRouter {
 	}
 	
 	route(path, params, pushState = true) {
-		console.log("## route, to URL:", path, ", pushState: ", pushState);
+		console.log(`## route, URL: ${path}, pushState: ${pushState}`);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
@@ -23,8 +24,12 @@ class PageRouter {
 		const handler = this.routers.get(path);
 		if (handler) {
 			handler(params);
+		} else if(this.errorHandler) {
+			console.log(`## no handler found for path: ${path}, using errorHandler`);
+			this.errorHandler();
 		} else {
-			console.log("## no handler found for path:", path);
+			console.log(`## no handler found for path: ${path}, and no errorHandler set`);
+			alert("오류가 발생했습니다.");
 		}
 	}
 	
@@ -41,6 +46,10 @@ class PageRouter {
 	
 	_isSameUrl(url) {
 		return window.location.href == url.toString();
+	}
+	
+	setErrorHandler(handler) {
+		this.errorHandler = handler;
 	}
 	
 }

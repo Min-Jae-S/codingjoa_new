@@ -198,6 +198,18 @@ function createPaginationHtml(pagination) {
 //				ADMIN HTML CREATOR
 // =============================================
 
+function createErrorPage() {
+	return `
+		<div class="error-wrap">
+			<div class="text-center">
+				<h3 class="error-code">404</h3>
+			</div>
+			<div class="text-center px-5">
+				<h3 class="font-weight-bold">요청한 페이지를 찾을 수 없습니다.</h3>
+			</div>
+		</div>`;
+}
+
 function createWelcomePage() {
 	return `<h1 class='px-5'>Welcome to Admin Dashboard</h1>`;
 }

@@ -103,6 +103,18 @@
 		justify-content: center;
 		min-height: 350px;
 	}
+	
+	.error-wrap {
+		width: 900px;
+		margin: 0 auto;
+		padding-bottom: 4rem;
+	}
+	
+	.error-code {
+		color: #dc3545 !important;
+		font-weight: bold;
+		font-size: 9.5rem;
+	}
 }
 </style>
 </head>
@@ -266,8 +278,13 @@
 <script>
 	$(function() {
 		const $contentContainer = $("#contentContainer");
-		const pageRouter = new PageRouter();
 		let adminBoardCri;
+
+		const pageRouter = new PageRouter();
+		pageRouter.setErrorHandler(function() {
+			let errorPage = createErrorPage();
+			$contentContainer.html(errorPage);
+		});
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
 			let welcomePage = createWelcomePage();

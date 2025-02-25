@@ -43,9 +43,7 @@
 <div class="container error-container">
 	<div class="error-wrap">
 		<div class="text-center">
-			<h3 class="error-code">
-				<span><c:out value="${errorResponse.status}"/></span>
-			</h3>
+			<h3 class="error-code"><c:out value="${errorResponse.status}"/></h3>
 		</div>
 		<div class="text-center px-5">
 			<c:choose>
@@ -58,14 +56,10 @@
 					</c:forEach>
 				</c:when>
 				<c:when test="${fn:length(errorResponse.details) == 0}">
-					<h3 class="font-weight-bold">
-						<span><c:out value="${errorResponse.message}"/></span>
-					</h3>
+					<h3 class="font-weight-bold"><c:out value="${errorResponse.message}"/></h3>
 				</c:when>
 				<c:otherwise>
-					<h3 class="font-weight-bold">
-						<span>오류가 발생하였습니다.</span>
-					</h3>
+					<h3 class="font-weight-bold">오류가 발생하였습니다.</h3>
 				</c:otherwise>
 			</c:choose>
 		</div>
