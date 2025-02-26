@@ -60,7 +60,6 @@ public class AdminRestController {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
