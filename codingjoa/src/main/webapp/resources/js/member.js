@@ -5,7 +5,7 @@ let memberService = (function() {
 		console.log("## sendAuthCodeForJoin");
 		$.ajax({
 			type : "POST",
-			url : `{contextPath}/api/member/join/auth`,
+			url : `${contextPath}/api/member/join/auth`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
