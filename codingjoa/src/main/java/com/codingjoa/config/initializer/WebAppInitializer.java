@@ -110,7 +110,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		log.info("## register filters");
 		registerCharacterEncodingFilter(servletContext);
 		registerErrorHandlingFilter(servletContext);
-		registerTestAopFilter(servletContext);
+		//registerTestAopFilter(servletContext);
 	}
 	
 	/*
@@ -170,6 +170,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 
+	@SuppressWarnings("unused")
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("\t > testAopFilter");
 		FilterRegistration.Dynamic registration = servletContext.addFilter("TestAopFilter", new TestAopFilter());
