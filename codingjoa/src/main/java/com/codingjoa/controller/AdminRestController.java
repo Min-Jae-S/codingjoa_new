@@ -71,6 +71,7 @@ public class AdminRestController {
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
 		
+		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
