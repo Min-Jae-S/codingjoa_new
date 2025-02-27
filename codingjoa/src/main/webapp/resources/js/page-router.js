@@ -8,9 +8,9 @@ class PageRouter {
 	addRouter(path, handler) {
 		this.routers.set(path, handler);
 	}
-	
+
 	route(path, params = {}, pushState = true) {
-		console.log(`## route, URL: ${path}, pushState: ${pushState}`);
+		console.log(`## route, path: ${path}, pushState: ${pushState}`);
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
@@ -38,10 +38,10 @@ class PageRouter {
 		window.addEventListener("popstate", (e) => {
 			console.log("## popstate triggered");
 			
-			const state = e.state || {};
+			const params = e.state || {};
 			const path = window.location.pathname;
 			
-			this.route(path, state, false);
+			this.route(path, params, false);
 		});
 	}
 	

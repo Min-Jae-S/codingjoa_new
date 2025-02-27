@@ -290,7 +290,6 @@
 <script>
 	$(function() {
 		const $contentContainer = $("#contentContainer");
-		let adminBoardCri;
 
 		const pageRouter = new PageRouter();
 		pageRouter.setErrorHandler(function() {
@@ -305,23 +304,22 @@
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
 			adminService.getPagedBoards(params, function(result) {
-				adminBoardCri = result.data.adminBoardCri;
 				let boardsPage = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPage);
 			});
 		});
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
-		const urlParams = Object.fromEntries(new URLSearchParams(window.location.search));
-		pageRouter.route(window.location.pathname, urlParams, false);
+		let initialParams = new URLSearchParams(window.location.search);
+		pageRouter.route(window.location.pathname, Object.fromEntries(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			let url = $(this).attr("href");
-			pageRouter.route(url, {});
+			let path = $(this).attr("href");
+			pageRouter.route(path, {});
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");
@@ -361,24 +359,32 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1 });
+				let currentParams = new URLSearchParams(window.location.search);
+				currentParams.set("page", 1);
+				pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject());
+			let params = $(this).serializeObject();
+			pageRouter.route("${contextPath}/admin/boards", params);
 		});
 		
 		// click pagination
-		$(document).on("click", ".board-pagination .page-link", function() {
-			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: $(this).data("page") });
+		$(document).on("click", ".board-pagination button.page-link", function() {
+			let currentParams = new URLSearchParams(window.location.search);
+			currentParams.set("page", $(this).data("page"));
+			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 		});
 		
 		// change recordCnt
 		$(document).on("change", "#recordCnt", function() {
-			pageRouter.route("${contextPath}/admin/boards", { ...adminBoardCri, page: 1, recordCnt: $(this).val() });
+			let currentParams = new URLSearchParams(window.location.search);
+			currentParams.set("page", 1);
+			currentParams.set("recordCnt", $(this).val());
+			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 		});
 		
 	});
