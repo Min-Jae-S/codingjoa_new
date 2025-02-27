@@ -10,7 +10,7 @@ class PageRouter {
 	}
 
 	route(path, params = {}, pushState = true) {
-		console.log(`## route, path: ${path}, pushState: ${pushState}`);
+		console.log("## route");
 		
 		let url = new URL(path, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
@@ -18,18 +18,21 @@ class PageRouter {
 		});
 		
 		if (pushState && !this._isSameUrl(url)) {
+			console.log("\t > push state:", url.toString());
 			history.pushState(params, "", url.toString());
+		} else {
+			console.log("\t > no push state");
 		}
 		
 		const handler = this.routers.get(path);
 		if (handler) {
-			console.log(`\t > handler found for path: ${path}`);
+			console.log("\t > handler found");
 			handler(params);
 		} else if(this.errorHandler) {
-			console.log(`\t > no handler found for path: ${path}, using errorHandler`);
+			console.log("\t no handler found, using errorHandler");
 			this.errorHandler();
 		} else {
-			console.log(`\t > no handler found for path: ${path}, and no errorHandler set`);
+			console.log("\t no handler found, and no errorHandler set");
 			alert("오류가 발생했습니다.");
 		}
 	}
@@ -45,8 +48,14 @@ class PageRouter {
 		});
 	}
 	
-	_isSameUrl(url) {
-		return window.location.href == url.toString();
+	_isSameUrl(targetUrl) {
+		const currentUrl = new URL(window.location.href);
+		
+		// sort query params for comparison
+		currentUrl.searchParams.sort();
+		targetUrl.searchParams.sort();
+		
+		return (currentUrl.pathname == targetUrl.pathname) && (currentUrl.search == targetUrl.search);
 	}
 	
 	setErrorHandler(handler) {
