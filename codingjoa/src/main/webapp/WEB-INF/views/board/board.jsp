@@ -183,17 +183,21 @@
 		<c:if test="${not empty pagination}">
 			<div class="board-pagination">
 				<ul class="pagination">
-					<li class="page-item ${pagination.first ? '' : 'disabled'}">
-						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(1)}"
-							class="page-link"><i class="fa-solid fa-fw fa-angles-left"></i>
-						</a>
-					</li>
-					<li class="page-item ${pagination.prev ? '' : 'disabled'}">
-						<!-- fa-chevron-left  -->
-						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.prevPage)}"
-							class="page-link"><i class="fa-solid fa-fw fa-angle-left"></i>
-						</a>
-					</li>
+					<c:if test="${pagination.first}">
+						<li class="page-item">
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(1)}"
+								class="page-link"><i class="fa-solid fa-fw fa-angles-left"></i>
+							</a>
+						</li>
+					</c:if>
+					<c:if test="${pagination.prev}">
+						<li class="page-item">
+							<!-- fa-chevron-left  -->
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.prevPage)}"
+								class="page-link"><i class="fa-solid fa-fw fa-angle-left"></i>
+							</a>
+						</li>
+					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${pagination.page eq item ? 'active' : ''}">
 							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(item)}" 
@@ -201,17 +205,21 @@
 							</a>
 						</li>
 					</c:forEach>
-					<li class="page-item ${pagination.next ? '' : 'disabled'}">
-						<!-- fa-chevron-right -->
-						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.nextPage)}"
-							class="page-link"><i class="fa-solid fa-fw fa-angle-right"></i>
-						</a>
-					</li>
-					<li class="page-item ${pagination.last ? '' : 'disabled'}">
-						<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.endPage)}"
-							class="page-link"><i class="fa-solid fa-fw fa-angles-right"></i>
-						</a>
-					</li>
+					<c:if test="${pagination.next}">
+						<li class="page-item">
+							<!-- fa-chevron-right -->
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.nextPage)}"
+								class="page-link"><i class="fa-solid fa-fw fa-angle-right"></i>
+							</a>
+						</li>
+					</c:if>
+					<c:if test="${pagination.last}">
+						<li class="page-item">
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.pageCnt)}"
+								class="page-link"><i class="fa-solid fa-fw fa-angles-right"></i>
+							</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
 		</c:if>
