@@ -127,6 +127,10 @@
 		font-size: 1.75rem; /* h3 */
 		text-align: center;
 	}
+	
+	#adminBoardsForm input, #adminBoardsForm select,  #adminBoardsForm button {
+		height: 38px;
+	}
 }
 </style>
 </head>

@@ -271,24 +271,46 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		.join("");
 	
 	return `
-		<form id="adminBoardsForm" class="form-inline">
-			<button type="button" id="deleteBoardsBtn" class="btn btn-outline-secondary rounded-md mr-auto" disabled>선택삭제</button>
-			<div class="d-flex">
-				<select id="type" name="type" class="custom-select mr-3 rounded-md">
+		<form id="adminBoardsForm">
+			<div class="d-flex mb-3">
+				<select id="type" name="type" class="custom-select mr-4 rounded-md w-20">
 					${typeOptionHtml}
 				</select>
-				<div class="input-group mr-3">
+				<div class="input-group">
 					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" 
 						placeholder="검색어를 입력해주세요"/>
 					<div class="input-group-append">
 						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 					</div>
 				</div>
+			</div>
+			<div>
 				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
 					${recordCntOptionHtml}
 				</select>
 			</div>
 		</form>`;
+	
+//	return `
+//		<form id="adminBoardsForm" class="form-inline">
+//			<button type="button" id="deleteBoardsBtn" class="btn btn-outline-secondary rounded-md mr-auto" disabled>선택삭제</button>
+//			<div class="d-flex">
+//				<select id="type" name="type" class="custom-select mr-3 rounded-md">
+//					${typeOptionHtml}
+//				</select>
+//				<div class="input-group mr-3">
+//					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" 
+//						placeholder="검색어를 입력해주세요"/>
+//					<div class="input-group-append">
+//						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
+//					</div>
+//				</div>
+//				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
+//					${recordCntOptionHtml}
+//				</select>
+//			</div>
+//		</form>`;
+
 }
 
 function createBoardsTableHtml(pagedBoards) {
