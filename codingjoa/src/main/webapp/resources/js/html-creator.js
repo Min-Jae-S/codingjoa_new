@@ -285,7 +285,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</div>
 			</div>
 			<div>
-				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
+				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-20 ml-auto">
 					${recordCntOptionHtml}
 				</select>
 			</div>

@@ -1,5 +1,6 @@
 package com.codingjoa.resolver;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +25,17 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final int defaultPage;
 	private final Map<String, String> recordCntOption;
 	private final Map<String, String> typeOption;
+	private final CategoryService categoryService;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
-			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption) {
+			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption,
+			CategoryService categoryService) {
 		this.defaultPage = defaultPage;
 		this.recordCntOption = recordCntOption;
 		this.typeOption = typeOption;
+		this.categoryService = categoryService;
 	}
 	
 	@Override
@@ -49,6 +54,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
+		log.info("\t > categories = {}", webRequest.getParameter("categories"));
 		
 		page = normalize(page);
 		recordCnt = normalize(recordCnt);
@@ -62,12 +68,17 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeOption.containsKey(type) ? type : defaultType,
-			keyword
+			keyword,
+			Collections.emptyList()
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 		
-		Map<String, Map<String, String>> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
+		Map<String, Object> options = Map.of(
+				"recordCntOption", recordCntOption, 
+				"typeOption", typeOption,
+				"categoryOptions", categoryService.getBoardCategoryList()
+			);
 		mavContainer.addAttribute("options", options);
 		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 

@@ -22,10 +22,12 @@ import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminCommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
+	private final CategoryService categoryService;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
