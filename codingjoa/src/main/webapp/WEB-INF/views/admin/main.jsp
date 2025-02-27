@@ -342,7 +342,7 @@
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
 		
-		// delete boards
+		// click board delete
 		$(document).on("click", "#deleteBoardsBtn", function() {
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
@@ -365,21 +365,21 @@
 			});
 		});
 		
-		// click search
+		// click board search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let params = $(this).serializeObject();
 			pageRouter.route("${contextPath}/admin/boards", params);
 		});
 		
-		// click pagination
+		// click board pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
 			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 		});
 		
-		// change recordCnt
+		// change board recordCnt
 		$(document).on("change", "#recordCnt", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
