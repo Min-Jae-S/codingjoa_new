@@ -9,7 +9,7 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 	
-	route(path, params, pushState = true) {
+	route(path, params = {}, pushState = true) {
 		console.log(`## route, URL: ${path}, pushState: ${pushState}`);
 		
 		let url = new URL(path, window.location.origin);

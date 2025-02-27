@@ -208,7 +208,7 @@
 						<div class="collapse" id="collapseMembers">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/members" class="nav-link" aria-pressed="false">회원 정보 관리</a>
-								<a href="${contextPath}/admin/comments" class="nav-link" aria-pressed="false">권한 관리</a>
+								<a href="${contextPath}/admin/members/role" class="nav-link" aria-pressed="false">권한 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>
