@@ -270,6 +270,12 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		)
 		.join("");
 	
+//	let categoryOptionHtml = Object.entries(options.categoryOption)
+//		.map(([key, value]) => 
+//			// ...
+//		)
+//		.join("");
+	
 	return `
 		<form id="adminBoardsForm">
 			<div class="d-flex mb-3">
