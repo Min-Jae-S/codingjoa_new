@@ -270,11 +270,11 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		)
 		.join("");
 	
-//	let categoryOptionHtml = Object.entries(options.categoryOption)
-//		.map(([key, value]) => 
-//			// ...
-//		)
-//		.join("");
+	let categoryOptionHtml = Object.entries(options.categoryOption)
+		.map(([key, value]) => 
+			`<option value="${key}">${value}</option>`
+		)
+		.join("");
 	
 	return `
 		<form id="adminBoardsForm">
@@ -293,6 +293,11 @@ function createBoardsFormHtml(options, adminBoardCri) {
 			<div>
 				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-20 ml-auto">
 					${recordCntOptionHtml}
+				</select>
+			</div>
+			<div>
+				<select id="categories" name="categories" class="custom-select rounded-md w-20 ml-auto">
+					${categoryOptionHtml}
 				</select>
 			</div>
 		</form>`;
