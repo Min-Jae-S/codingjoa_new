@@ -2,6 +2,7 @@ package com.codingjoa.resolver;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
@@ -74,10 +75,16 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 		
+		Map<String, String> categoryOption = categoryService.getBoardCategoryList()
+				.stream()
+				.collect(Collectors.toMap(
+						// ...
+				));
+		
 		Map<String, Object> options = Map.of(
 				"recordCntOption", recordCntOption, 
 				"typeOption", typeOption,
-				"categoryOptions", categoryService.getBoardCategoryList()
+				"categoryOption", categoryService.getBoardCategoryList()
 			);
 		mavContainer.addAttribute("options", options);
 		log.info("\t > add attr to mavContainer: options {}", options.keySet());
