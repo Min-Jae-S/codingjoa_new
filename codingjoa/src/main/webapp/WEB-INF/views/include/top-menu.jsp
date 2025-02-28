@@ -65,7 +65,7 @@
 					<li class="nav-item dropdown member-menu">
 						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
 							<img class="nav-member-image" 
-								src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}"
+								src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
 							<span class="font-weight-bold">
 								<c:out value="${principal.nickname}"/>
 							</span>

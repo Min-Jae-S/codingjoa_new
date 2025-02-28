@@ -420,7 +420,7 @@
 			memberService.updateMemberImage(formData, function(result) {
 				alert(result.message);
 				memberService.getMemberInfo(function(result) {
-					$("#memberThumbImage, #navMemberImage").attr("src", result.data.memberImageUrl);
+					$("#navbardDropdown .nav-member-image, #memberThumbImage").attr("src", result.data.memberImageUrl);
 				});
 			});
 		});
