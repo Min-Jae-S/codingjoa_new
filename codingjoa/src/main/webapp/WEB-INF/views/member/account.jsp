@@ -342,14 +342,12 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	const defaultMemberImageUrl = "../resources/images/img_profile.png";
-
 	memberService.getMemberInfo(function(result) {
 		let memberInfo = result.data;
 		if (memberInfo.memberImageUrl != "") {
 			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
 		} else {
-			$("#memberThumbImage").attr("src", defaultMemberImageUrl);
+			$("#memberThumbImage").attr("src", "${contextPath}/resources/images/image_profile.png");
 		}
 		
 		$("#memberNickname").attr("value", memberInfo.memberNickname);
