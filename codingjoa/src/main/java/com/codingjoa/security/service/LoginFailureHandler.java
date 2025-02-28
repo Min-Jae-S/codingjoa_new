@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
-	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
+	private static final String FORWARD_PATH = "/WEB-INF/views/feedback/alert-and-redirect.jsp";
 	private final ObjectMapper objectMapper;
 	Set<Class<?>> handledExceptions = 
 			Set.of(LoginRequireFieldException.class, UsernameNotFoundException.class, BadCredentialsException.class);

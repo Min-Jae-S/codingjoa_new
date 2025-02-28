@@ -60,7 +60,7 @@ public class MemberController {
 		request.setAttribute("message", MessageUtils.getMessage("success.Join"));
 		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
 		
-		return "feedback";
+		return "feedback/alert-and-redirect";
 	}
 	
 	@GetMapping("/account")

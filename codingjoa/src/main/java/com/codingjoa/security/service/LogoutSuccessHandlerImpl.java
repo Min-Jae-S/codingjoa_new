@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	
-	private static final String FORWARD_PATH = "/WEB-INF/views/router/alert-and-redirect.jsp";
+	private static final String FORWARD_PATH = "/WEB-INF/views/feedback/alert-and-redirect.jsp";
 	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
