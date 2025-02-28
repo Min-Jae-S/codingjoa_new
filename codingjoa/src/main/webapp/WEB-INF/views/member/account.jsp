@@ -347,7 +347,7 @@
 		if (memberInfo.memberImageUrl != "") {
 			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
 		} else {
-			$("#memberThumbImage").attr("src", "${contextPath}/resources/images/image_profile.png");
+			$("#memberThumbImage").attr("src", "${contextPath}/resources/images/img_profile.png");
 		}
 		
 		$("#memberNickname").attr("value", memberInfo.memberNickname);
