@@ -13,18 +13,17 @@ public class AdminBoardCriteria {
 	
 	private int page;
 	private int recordCnt;
-	private String type;
 	private String keyword;
+	private String type;
 	private String sort;
 	private List<Integer> categories;
 	//private List<Integer> categories = new ArrayList<>();
 	
-	public AdminBoardCriteria(int page, int recordCnt, String type, String keyword, String sort,
-			List<Integer> categories) {
+	public AdminBoardCriteria(int page, int recordCnt, String keyword, String type, String sort, List<Integer> categories) {
 		this.page = page;
 		this.recordCnt = recordCnt;
-		this.type = type;
 		this.keyword = keyword;
+		this.type = type;
 		this.sort = sort;
 		this.categories = categories;
 	}
@@ -40,9 +39,9 @@ public class AdminBoardCriteria {
 
 	@Override
 	public String toString() {
-		return "AdminBoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword="
-				+ keyword + ", sort=" + sort + ", categories=" + categories + ", getKeywordRegexp()="
-				+ getKeywordRegexp() + "]";
+		return "AdminBoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", keyword=" + keyword + ", type="
+				+ type + ", sort=" + sort + ", categories=" + categories + ", getKeywordRegexp()=" + getKeywordRegexp()
+				+ "]";
 	}
-
+	
 }

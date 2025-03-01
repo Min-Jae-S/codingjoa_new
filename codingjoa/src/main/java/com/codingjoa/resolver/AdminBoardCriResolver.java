@@ -26,16 +26,19 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final int defaultPage;
 	private final Map<String, String> recordCntOption;
 	private final Map<String, String> typeOption;
+	private final Map<String, String> sortOption;
 	private final CategoryService categoryService;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
-			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption,
+			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption, 
+			@Value("#{${criteria.board.options.sort}}") Map<String, String> sortOption, 
 			CategoryService categoryService) {
 		this.defaultPage = defaultPage;
 		this.recordCntOption = recordCntOption;
 		this.typeOption = typeOption;
+		this.sortOption = sortOption;
 		this.categoryService = categoryService;
 	}
 	
@@ -54,22 +57,26 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
+		String sort = webRequest.getParameter("sort");
+		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}", page, recordCnt, keyword, type, sort);
 		log.info("\t > categories = {}", webRequest.getParameter("categories"));
 		
 		page = normalize(page);
 		recordCnt = normalize(recordCnt);
-		type = normalize(type);
 		keyword = normalize(keyword);
+		type = normalize(type);
+		sort = normalize(sort);
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
+		String defaultSort = sortOption.keySet().iterator().next();
 
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			typeOption.containsKey(type) ? type : defaultType,
 			keyword,
+			typeOption.containsKey(type) ? type : defaultType,
+			sortOption.containsKey(sort) ? sort : defaultSort,
 			Collections.emptyList()
 		);
 		
