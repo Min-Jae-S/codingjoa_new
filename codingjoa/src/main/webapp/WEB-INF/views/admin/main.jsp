@@ -370,25 +370,26 @@
 			});
 		});
 		
-		// click board search
+		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let params = $(this).serializeObject();
+			conosole.log(params);
 			pageRouter.route("${contextPath}/admin/boards", params);
 		});
 		
-		// click board pagination
+		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
 			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 		});
 		
-		// change board recordCnt
-		$(document).on("change", "#recordCnt", function() {
+		// change recordCnt, sort
+		$(document).on("change", "#recordCnt, #sort", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
-			currentParams.set("recordCnt", $(this).val());
+			currentParams.set($(this).attr("name"), $(this).val());
 			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
 		});
 		

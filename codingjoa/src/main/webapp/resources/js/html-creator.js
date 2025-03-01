@@ -276,6 +276,12 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		)
 		.join("");
 	
+	let sortOptionHtml = Object.entries(options.sortOption)
+			.map(([key, value]) => 
+				`<option value="${key}">${value}</option>`
+			)
+			.join("");
+	
 	return `
 		<form id="adminBoardsForm">
 			<div class="d-flex mb-3">
@@ -297,10 +303,8 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					</select>
 				</div>
 				<div>
-					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-3">
-						<option value="desc">최신순</option>
-						<option value="like">좋아요순</option>
-						<option value="comment">댓글순</option>
+					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">
+						${sortOptionHtml}
 					</select>
 					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-auto">
 						${recordCntOptionHtml}

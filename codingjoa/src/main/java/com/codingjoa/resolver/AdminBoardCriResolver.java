@@ -93,6 +93,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		Map<String, Object> options = Map.of(
 				"recordCntOption", recordCntOption, 
 				"typeOption", typeOption,
+				"sortOption", sortOption,
 				"categoryOption", categoryOption
 			);
 		
