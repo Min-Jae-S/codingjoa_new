@@ -58,8 +58,9 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		String sort = webRequest.getParameter("sort");
-		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}", page, recordCnt, keyword, type, sort);
-		log.info("\t > categories = {}", webRequest.getParameter("categories"));
+		String categories = webRequest.getParameter("categories");
+		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
+				page, recordCnt, keyword, type, sort, categories);
 		
 		page = normalize(page);
 		recordCnt = normalize(recordCnt);
@@ -88,7 +89,6 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 					category -> category.getCategoryCode().toString(), 
 					category -> category.getCategoryName()
 			));
-		log.info("\t > categoryOption = {}", categoryOption);
 		
 		Map<String, Object> options = Map.of(
 				"recordCntOption", recordCntOption, 

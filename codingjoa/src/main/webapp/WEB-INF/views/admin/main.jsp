@@ -82,7 +82,7 @@
 	}
 	
 	.table-wrap {
-		margin-bottom: 2.5rem;
+		margin-bottom: 1.5rem;
 	}
 	
 	.board-pagination {
@@ -374,7 +374,7 @@
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let params = $(this).serializeObject();
-			conosole.log(params);
+			console.log(params);
 			pageRouter.route("${contextPath}/admin/boards", params);
 		});
 		

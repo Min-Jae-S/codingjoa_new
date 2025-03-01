@@ -250,6 +250,9 @@ function createBoardsPageHtml(result) {
 				<div class="table-wrap">
 					${tableHtml}
 				</div>
+				<div class="mb-3">
+					<button type="button" id="deleteBoardsBtn" class="btn btn-primary rounded-md mr-auto" disabled>선택삭제</button>
+				</div>
 				<div class="board-pagination">
 					${paginationHtml}
 				</div>
@@ -278,7 +281,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	
 	let sortOptionHtml = Object.entries(options.sortOption)
 			.map(([key, value]) => 
-				`<option value="${key}">${value}</option>`
+			`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
 			)
 			.join("");
 	
