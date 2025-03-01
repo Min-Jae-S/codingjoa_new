@@ -1,5 +1,6 @@
 package com.codingjoa.resolver;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,9 +60,8 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		String sort = webRequest.getParameter("sort");
 		String[] categories = webRequest.getParameterValues("categories");
-		String[] hobbies = webRequest.getParameterValues("hobbies");
-		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}, hobbies = {}", 
-				page, recordCnt, keyword, type, sort, categories, hobbies);
+		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
+				page, recordCnt, keyword, type, sort, Arrays.toString(categories));
 		
 		page = normalize(page);
 		recordCnt = normalize(recordCnt);
