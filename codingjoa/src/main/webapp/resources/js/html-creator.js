@@ -304,6 +304,14 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					<select id="categories" name="categories" class="custom-select rounded-md w-auto">
 						${categoryOptionHtml}
 					</select>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="hobbies" id="riding" value="riding">
+						<label class="form-check-label" for="riding">riding</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="checkbox" name="hobbies" id="gaming" value="gaming">
+						<label class="form-check-label" for="gaming">gaming</label>
+					</div>
 				</div>
 				<div>
 					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">

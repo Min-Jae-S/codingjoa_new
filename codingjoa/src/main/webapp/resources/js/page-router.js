@@ -18,8 +18,9 @@ class PageRouter {
 		});
 		
 		if (pushState && !this._isSameUrl(url)) {
-			console.log("\t > push state:", url.toString());
-			history.pushState(params, "", url.toString());
+			let decodedUrl = decodeURIComponent(url.toString());
+			console.log("\t > push state:", decodedUrl);
+			history.pushState(params, "", decodedUrl);
 		} else {
 			console.log("\t > no push state");
 		}

@@ -170,6 +170,10 @@ textarea:focus::-webkit-input-placeholder {
 	font-size: 13px;
 }
 
+.form-check-input {
+	margin-top: .15rem !important;
+}
+
 .navbar-custom {
 	top: 0;
 	border-bottom: 1px solid #dedede !important;

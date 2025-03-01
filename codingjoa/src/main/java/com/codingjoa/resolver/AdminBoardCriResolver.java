@@ -58,9 +58,10 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
 		String sort = webRequest.getParameter("sort");
-		String categories = webRequest.getParameter("categories");
-		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
-				page, recordCnt, keyword, type, sort, categories);
+		String[] categories = webRequest.getParameterValues("categories");
+		String[] hobbies = webRequest.getParameterValues("hobbies");
+		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}, hobbies = {}", 
+				page, recordCnt, keyword, type, sort, categories, hobbies);
 		
 		page = normalize(page);
 		recordCnt = normalize(recordCnt);

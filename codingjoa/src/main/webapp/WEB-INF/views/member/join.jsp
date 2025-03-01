@@ -87,7 +87,7 @@
 						</div>
 						<div class="form-check small">
 							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" id="agreeJoinCheck">
+								<input class="form-check-input" type="checkbox" id="agreeJoin">
 								<span><a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의</span>
 							</label>
 						</div>
@@ -128,15 +128,9 @@
 			}
 		});
 		
-		$("#agreeJoinCheck").on("change", function() {
+		$("#agreeJoin").on("change", function() {
 			let agreed = $(this).prop("checked");
 			$("#joinBtn").prop("disabled", !agreed);
-			
-			/* if ($(this).is(":checked")) {
-				$("#joinBtn").prop("disabled", false);
-			} else {
-				$("#joinBtn").prop("disabled", true);
-			} */
 		});
 	});
 </script>
