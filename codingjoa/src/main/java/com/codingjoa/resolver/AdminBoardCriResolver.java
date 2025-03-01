@@ -1,7 +1,6 @@
 package com.codingjoa.resolver;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -63,12 +62,6 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
 				page, recordCnt, keyword, type, sort, Arrays.toString(categories));
 		
-		page = normalize(page);
-		recordCnt = normalize(recordCnt);
-		keyword = normalize(keyword);
-		type = normalize(type);
-		sort = normalize(sort);
-		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
@@ -76,10 +69,12 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
-			keyword,
+			keyword == null ? "" : keyword.trim(),
 			typeOption.containsKey(type) ? type : defaultType,
 			sortOption.containsKey(sort) ? sort : defaultSort,
-			Collections.emptyList()
+			Arrays.stream(categories)
+				.map(s -> Integer.parseInt(s))
+				.collect(Collectors.toList())
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
@@ -104,7 +99,4 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		return adminBoardCri;
 	}
 	
-	private String normalize(String value) {
-		return (value == null) ? "" : value.trim();
-	}
 }
