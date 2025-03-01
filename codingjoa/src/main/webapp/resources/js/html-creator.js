@@ -281,7 +281,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	
 	let sortOptionHtml = Object.entries(options.sortOption)
 			.map(([key, value]) => 
-			`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
+				`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
 			)
 			.join("");
 	
@@ -292,8 +292,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					${typeOptionHtml}
 				</select>
 				<div class="input-group">
-					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" 
-						placeholder="검색어를 입력해주세요"/>
+					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요"/>
 					<div class="input-group-append">
 						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 					</div>

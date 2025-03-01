@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +30,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, String> recordCntOption;
 	private final Map<String, String> typeOption;
 	private final Map<String, String> sortOption;
-	private final Map<String, String> categoryOption;
+	private final Map<Integer, String> categoryOption;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
@@ -44,7 +45,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		this.categoryOption = categoryService.getBoardCategoryList()
 				.stream()
 				.collect(Collectors.toMap(
-					category -> category.getCategoryCode().toString(),
+					category -> category.getCategoryCode(),
 					category -> category.getCategoryName()
 				));
 	}
@@ -69,18 +70,24 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
 				page, recordCnt, keyword, type, sort, Arrays.toString(categories));
 		
-		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
+		String defaultRecordCnt = recordCntOption.keySet().iterator().next();
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
 		List<Integer> defaultCategories = Collections.emptyList();
 		
+//		List<Integer> categoryList = Optional.ofNullable(categories)
+//				.map(arr -> Arrays.asList(arr))
+//				.map(s -> Integer.parseInt(s))
+//				.orElse(Collections.emptyList());
+		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
+			Integer.parseInt(recordCntOption.getOrDefault(recordCnt, defaultRecordCnt)),
 			keyword == null ? "" : keyword.trim(),
-			typeOption.containsKey(type) ? type : defaultType,
-			sortOption.containsKey(sort) ? sort : defaultSort,
-			Arrays.stream(categories).map(s -> Integer.parseInt(s)).collect(Collectors.toList())
+			typeOption.getOrDefault(keyword, defaultType),
+			sortOption.getOrDefault(keyword, defaultSort),
+			/*categoryOption.keySet().containsAll(categoryList) ? categoryList : defaultCategories*/
+			defaultCategories
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);

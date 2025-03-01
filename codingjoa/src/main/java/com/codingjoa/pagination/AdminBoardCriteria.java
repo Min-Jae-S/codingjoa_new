@@ -5,13 +5,10 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Getter;
 
 @Getter
-@JsonInclude(value = Include.NON_EMPTY)
 public class AdminBoardCriteria {
 	
 	private int page;
