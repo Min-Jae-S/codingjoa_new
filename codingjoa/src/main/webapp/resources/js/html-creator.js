@@ -304,6 +304,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					<select id="categories" name="categories" class="custom-select rounded-md w-auto">
 						${categoryOptionHtml}
 					</select>
+				</div>
 				<div>
 					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">
 						${sortOptionHtml}
