@@ -1,6 +1,8 @@
 package com.codingjoa.resolver;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -70,6 +72,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
+		List<Integer> defaultCategories = Collections.emptyList();
 		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -77,9 +80,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 			keyword == null ? "" : keyword.trim(),
 			typeOption.containsKey(type) ? type : defaultType,
 			sortOption.containsKey(sort) ? sort : defaultSort,
-			Arrays.stream(categories)
-				.map(s -> Integer.parseInt(s))
-				.collect(Collectors.toList())
+			Arrays.stream(categories).map(s -> Integer.parseInt(s)).collect(Collectors.toList())
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
