@@ -279,7 +279,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	return `
 		<form id="adminBoardsForm">
 			<div class="d-flex mb-3">
-				<select id="type" name="type" class="custom-select mr-4 rounded-md w-20">
+				<select id="type" name="type" class="custom-select mr-3 rounded-md w-auto">
 					${typeOptionHtml}
 				</select>
 				<div class="input-group">
@@ -290,15 +290,22 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					</div>
 				</div>
 			</div>
-			<div>
-				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-20 ml-auto">
-					${recordCntOptionHtml}
-				</select>
-			</div>
-			<div>
-				<select id="categories" name="categories" class="custom-select rounded-md w-20 ml-auto">
-					${categoryOptionHtml}
-				</select>
+			<div class="d-flex justify-content-between">
+				<div>
+					<select id="categories" name="categories" class="custom-select rounded-md w-auto">
+						${categoryOptionHtml}
+					</select>
+				</div>
+				<div>
+					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-3">
+						<option value="desc">최신순</option>
+						<option value="like">좋아요순</option>
+						<option value="comment">댓글순</option>
+					</select>
+					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-auto">
+						${recordCntOptionHtml}
+					</select>
+				</div>
 			</div>
 		</form>`;
 	
