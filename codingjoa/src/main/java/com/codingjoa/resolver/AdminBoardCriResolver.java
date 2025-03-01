@@ -27,7 +27,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, String> recordCntOption;
 	private final Map<String, String> typeOption;
 	private final Map<String, String> sortOption;
-	private final CategoryService categoryService;
+	private final Map<String, String> categoryOption;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
@@ -39,7 +39,12 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		this.recordCntOption = recordCntOption;
 		this.typeOption = typeOption;
 		this.sortOption = sortOption;
-		this.categoryService = categoryService;
+		this.categoryOption = categoryService.getBoardCategoryList()
+				.stream()
+				.collect(Collectors.toMap(
+					category -> category.getCategoryCode().toString(),
+					category -> category.getCategoryName()
+				));
 	}
 	
 	@Override
@@ -65,7 +70,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
-
+		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
@@ -79,20 +84,8 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
 		
-		Map<String, String> categoryOption = categoryService.getBoardCategoryList()
-			.stream()
-			.collect(Collectors.toMap(
-					category -> category.getCategoryCode().toString(), 
-					category -> category.getCategoryName()
-			));
-		
-		Map<String, Object> options = Map.of(
-				"recordCntOption", recordCntOption, 
-				"typeOption", typeOption,
-				"sortOption", sortOption,
-				"categoryOption", categoryOption
-			);
-		
+		Map<String, Object> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption, 
+				"sortOption", sortOption, "categoryOption", categoryOption);
 		mavContainer.addAttribute("options", options);
 		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 

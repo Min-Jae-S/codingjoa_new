@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Getter;
 
 @Getter
+@JsonInclude(value = Include.NON_EMPTY)
 public class AdminBoardCriteria {
 	
 	private int page;
@@ -17,7 +20,6 @@ public class AdminBoardCriteria {
 	private String type;
 	private String sort;
 	private List<Integer> categories;
-	//private List<Integer> categories = new ArrayList<>();
 	
 	public AdminBoardCriteria(int page, int recordCnt, String keyword, String type, String sort, List<Integer> categories) {
 		this.page = page;
