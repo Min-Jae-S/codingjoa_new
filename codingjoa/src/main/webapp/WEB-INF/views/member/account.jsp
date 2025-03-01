@@ -108,7 +108,7 @@
 		width: 85px;
 		height: 85px;
 		border: 1px solid #dee2e6 !important;
-		border-radius: 0.5rem;
+		border-radius: 1rem;
 	}	
 	
 	.member-image-wrap {

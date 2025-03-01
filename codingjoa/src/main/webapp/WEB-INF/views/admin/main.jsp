@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="defaultImageUrl" value="${pageContext.request.contextPath}/resources/images/img_profile.png"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,7 +153,7 @@
 			<li class="nav-item dropdown member-menu">
 				<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
 					<img class="nav-member-image" 
-						src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
+						src="${empty principal.imageUrl ? defaultImageUrl : principal.imageUrl}">
 					<span class="font-weight-bold">
 						<c:out value="${principal.nickname}"/>
 					</span>
@@ -161,7 +162,7 @@
 					<li>
 						<div class="dropdown-item">
 							<img class="nav-member-image" 
-								src="${empty principal.imageUrl ? '../resources/images/img_profile.png' : principal.imageUrl}">
+								src="${empty principal.imageUrl ? defaultImageUrl : principal.imageUrl}">
 							<div class="nickname-email-box">
 								<span class="nickname">
 									<c:out value="${principal.nickname}"/>
