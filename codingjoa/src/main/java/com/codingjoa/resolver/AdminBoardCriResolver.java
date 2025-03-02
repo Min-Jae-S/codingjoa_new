@@ -69,7 +69,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
 				page, recordCnt, keyword, type, sort, Arrays.toString(categories));
 		
-		String defaultRecordCnt = recordCntOption.keySet().iterator().next();
+		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
 		
@@ -79,10 +79,10 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
-			Integer.parseInt(recordCntOption.getOrDefault(recordCnt, defaultRecordCnt)),
+			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt, 
 			keyword == null ? "" : keyword.trim(),
-			typeOption.getOrDefault(keyword, defaultType),
-			sortOption.getOrDefault(keyword, defaultSort),
+			typeOption.containsKey(type) ? type : defaultType,
+			sortOption.containsKey(sort) ? sort : defaultSort,
 			parsedCategories
 		);
 		
