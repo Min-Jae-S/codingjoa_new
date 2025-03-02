@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -73,9 +72,10 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String defaultRecordCnt = recordCntOption.keySet().iterator().next();
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
-		List<Integer> defaultCategories = Collections.emptyList();
 		
 		List<String> categoryList = categories != null ? Arrays.asList(categories) : Collections.emptyList();
+		List<Integer> parsedCategories = categoryOption.keySet().containsAll(categoryList) ? 
+				categoryList.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList()) : Collections.emptyList();
 		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -83,7 +83,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 			keyword == null ? "" : keyword.trim(),
 			typeOption.getOrDefault(keyword, defaultType),
 			sortOption.getOrDefault(keyword, defaultSort),
-			defaultCategories
+			parsedCategories
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
