@@ -30,7 +30,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, String> recordCntOption;
 	private final Map<String, String> typeOption;
 	private final Map<String, String> sortOption;
-	private final Map<Integer, String> categoryOption;
+	private final Map<String, String> categoryOption;
 	
 	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
@@ -45,7 +45,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		this.categoryOption = categoryService.getBoardCategoryList()
 				.stream()
 				.collect(Collectors.toMap(
-					category -> category.getCategoryCode(),
+					category -> category.getCategoryCode().toString(),
 					category -> category.getCategoryName()
 				));
 	}
@@ -75,10 +75,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String defaultSort = sortOption.keySet().iterator().next();
 		List<Integer> defaultCategories = Collections.emptyList();
 		
-//		List<Integer> categoryList = Optional.ofNullable(categories)
-//				.map(arr -> Arrays.asList(arr))
-//				.map(s -> Integer.parseInt(s))
-//				.orElse(Collections.emptyList());
+		List<String> categoryList = categories != null ? Arrays.asList(categories) : Collections.emptyList();
 		
 		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
@@ -86,7 +83,6 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 			keyword == null ? "" : keyword.trim(),
 			typeOption.getOrDefault(keyword, defaultType),
 			sortOption.getOrDefault(keyword, defaultSort),
-			/*categoryOption.keySet().containsAll(categoryList) ? categoryList : defaultCategories*/
 			defaultCategories
 		);
 		
