@@ -21,6 +21,10 @@
 		margin: 0 auto;
 	}
 	
+	.join-wrap .form-check-input {
+		margin-top: .15rem !important;
+	}
+	
 	.form-control:disabled {
 		background-color: #f2f2f2;
 	}

@@ -273,22 +273,22 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		)
 		.join("");
 	
-//	let categoryOptionHtml = Object.entries(options.categoryOption)
-//		.map(([key, value]) => 
-//			`<option value="${key}">${value}</option>`
-//		)
-//		.join("");
 	let categoryOptionHtml = Object.entries(options.categoryOption)
-			.map(([key, value]) => 
-				`<option value="${key}">${value}</option>`
-			)
-			.join("");
+		.map(([key, value]) => 
+			`<li class="form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" type="checkbox" value="${key}" name="categories">
+					${value}
+				</label>
+			</li>`
+		)
+		.join("");
 	
 	let sortOptionHtml = Object.entries(options.sortOption)
-			.map(([key, value]) => 
-				`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
-			)
-			.join("");
+		.map(([key, value]) => 
+			`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
+		)
+		.join("");
 	
 	return `
 		<form id="adminBoardsForm">
@@ -304,13 +304,11 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</div>
 			</div>
 			<div class="d-flex justify-content-between">
-				<div class="dropdown">
-					<button class="category-btn custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown">게시판</button>
-					<div class="dropdown-menu p-3">
-						<label><input type="checkbox" class="filter-checkbox" value="option1">옵션 1</label><br>
-						<label><input type="checkbox" class="filter-checkbox" value="option2">옵션 2</label><br>
-						<label><input type="checkbox" class="filter-checkbox" value="option3">옵션 3</label><br>
-					</div>
+				<div class="dropdown categories">
+					<button class="custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown">게시판</button>
+					<ul class="dropdown-menu rounded-md">
+						${categoryOptionHtml}
+					</ul>
 				</div>
 				<div>
 					<select id="sort" name="sort" class="custom-select rounded-md mr-2">
@@ -322,37 +320,6 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</div>
 			</div>
 		</form>`;
-
-		/*return `
-				<form id="adminBoardsForm">
-					<div class="d-flex mb-3">
-						<select id="type" name="type" class="custom-select mr-3 rounded-md w-auto">
-							${typeOptionHtml}
-						</select>
-						<div class="input-group">
-							<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요"/>
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
-							</div>
-						</div>
-					</div>
-					<div class="d-flex justify-content-between">
-						<div>
-							<select id="categories" name="categories" class="custom-select rounded-md w-auto">
-								${categoryOptionHtml}
-							</select>
-						</div>
-						<div>
-							<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">
-								${sortOptionHtml}
-							</select>
-							<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-auto">
-								${recordCntOptionHtml}
-							</select>
-						</div>
-					</div>
-				</form>`;*/
-
 }
 
 function createBoardsTableHtml(pagedBoards) {

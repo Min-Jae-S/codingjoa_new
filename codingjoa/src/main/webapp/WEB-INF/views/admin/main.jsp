@@ -129,30 +129,43 @@
 		text-align: center;
 	}
 	
-	#adminBoardsForm input, #adminBoardsForm select, #adminBoardsForm button {
+	#adminBoardsForm #keyword {
 		height: 38px;
 	}
 	
 	#adminBoardsForm #sort, #adminBoardsForm #recordCnt {
 		width: 95px;
+		height: 38px;
 	}
 	
 	#adminBoardsForm #type {
 		width: 110px;
+		height: 38px;
 	}
 	
-	#adminBoardsForm .category-btn {
+	#adminBoardsForm .categories.dropdown button.custom-select {
 		width: 110px;
+		height: 38px;
 		text-align: left;
+		background-image: url(../resources/images/down-triangle-solid.svg);
+		/* background-image: url(../resources/images/down-triangle.svg); */
 	}
 	
-	#adminBoardsForm .category-btn.dropdown-toggle::after {
+	#adminBoardsForm .categories.dropdown button.dropdown-toggle::after {
 		display: none !important;
 	}
 	
-	#adminBoardsForm .category-btn.custom-select {
-		background-image: url(../resources/images/down-triangle-solid.svg);
-		/* background-image: url(../resources/images/down-triangle.svg); */
+	#adminBoardsForm .categories.dropdown .dropdown-menu {
+		border-radius: 0.5rem;
+	}
+	
+	#adminBoardsForm .categories.dropdown .dropdown-menu li {
+		color: #495057;
+	}
+	
+	#adminBoardsForm .categories.dropdown .dropdown-menu li:hover {
+		background-color: #0a58ca;
+		color: #fff;
 	}
 }
 </style>
