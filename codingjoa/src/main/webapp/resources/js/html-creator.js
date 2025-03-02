@@ -273,11 +273,16 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		)
 		.join("");
 	
+//	let categoryOptionHtml = Object.entries(options.categoryOption)
+//		.map(([key, value]) => 
+//			`<option value="${key}">${value}</option>`
+//		)
+//		.join("");
 	let categoryOptionHtml = Object.entries(options.categoryOption)
-		.map(([key, value]) => 
-			`<option value="${key}">${value}</option>`
-		)
-		.join("");
+			.map(([key, value]) => 
+				`<option value="${key}">${value}</option>`
+			)
+			.join("");
 	
 	let sortOptionHtml = Object.entries(options.sortOption)
 			.map(([key, value]) => 
@@ -288,7 +293,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	return `
 		<form id="adminBoardsForm">
 			<div class="d-flex mb-3">
-				<select id="type" name="type" class="custom-select mr-3 rounded-md w-auto">
+				<select id="type" name="type" class="custom-select mr-3 rounded-md">
 					${typeOptionHtml}
 				</select>
 				<div class="input-group">
@@ -299,41 +304,54 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</div>
 			</div>
 			<div class="d-flex justify-content-between">
-				<div>
-					<select id="categories" name="categories" class="custom-select rounded-md w-auto">
-						${categoryOptionHtml}
-					</select>
+				<div class="dropdown">
+					<button class="category-btn custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown">게시판</button>
+					<div class="dropdown-menu p-3">
+						<label><input type="checkbox" class="filter-checkbox" value="option1">옵션 1</label><br>
+						<label><input type="checkbox" class="filter-checkbox" value="option2">옵션 2</label><br>
+						<label><input type="checkbox" class="filter-checkbox" value="option3">옵션 3</label><br>
+					</div>
 				</div>
 				<div>
-					<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">
+					<select id="sort" name="sort" class="custom-select rounded-md mr-2">
 						${sortOptionHtml}
 					</select>
-					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-auto">
+					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md">
 						${recordCntOptionHtml}
 					</select>
 				</div>
 			</div>
 		</form>`;
-	
-//	return `
-//		<form id="adminBoardsForm" class="form-inline">
-//			<button type="button" id="deleteBoardsBtn" class="btn btn-outline-secondary rounded-md mr-auto" disabled>선택삭제</button>
-//			<div class="d-flex">
-//				<select id="type" name="type" class="custom-select mr-3 rounded-md">
-//					${typeOptionHtml}
-//				</select>
-//				<div class="input-group mr-3">
-//					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" 
-//						placeholder="검색어를 입력해주세요"/>
-//					<div class="input-group-append">
-//						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
-//					</div>
-//				</div>
-//				<select id="recordCnt" name="recordCnt" class="custom-select rounded-md ml-auto">
-//					${recordCntOptionHtml}
-//				</select>
-//			</div>
-//		</form>`;
+
+		/*return `
+				<form id="adminBoardsForm">
+					<div class="d-flex mb-3">
+						<select id="type" name="type" class="custom-select mr-3 rounded-md w-auto">
+							${typeOptionHtml}
+						</select>
+						<div class="input-group">
+							<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요"/>
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between">
+						<div>
+							<select id="categories" name="categories" class="custom-select rounded-md w-auto">
+								${categoryOptionHtml}
+							</select>
+						</div>
+						<div>
+							<select id="sort" name="sort" class="custom-select rounded-md w-auto mr-2">
+								${sortOptionHtml}
+							</select>
+							<select id="recordCnt" name="recordCnt" class="custom-select rounded-md w-auto">
+								${recordCntOptionHtml}
+							</select>
+						</div>
+					</div>
+				</form>`;*/
 
 }
 

@@ -50,11 +50,6 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		String keyword = webRequest.getParameter("keyword");
 		log.info("\t > page = {}, recordCnt = {}, type = {}, keyword = {}", page, recordCnt, type, keyword);
 		
-		page = normalize(page);
-		recordCnt = normalize(recordCnt);
-		type = normalize(type);
-		keyword = normalize(keyword);
-		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
 
@@ -62,7 +57,7 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt,
 			typeOption.containsKey(type) ? type : defaultType,
-			keyword
+			keyword == null ? "" : keyword.trim()
 		);
 		
 		log.info("\t > resolved boardCri = {}", boardCri);
@@ -72,10 +67,6 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 		
 		return boardCri;
-	}
-	
-	private String normalize(String value) {
-		return (value == null) ? "" : value.trim();
 	}
 	
 }

@@ -129,8 +129,30 @@
 		text-align: center;
 	}
 	
-	#adminBoardsForm input, #adminBoardsForm select,  #adminBoardsForm button {
+	#adminBoardsForm input, #adminBoardsForm select, #adminBoardsForm button {
 		height: 38px;
+	}
+	
+	#adminBoardsForm #sort, #adminBoardsForm #recordCnt {
+		width: 95px;
+	}
+	
+	#adminBoardsForm #type {
+		width: 110px;
+	}
+	
+	#adminBoardsForm .category-btn {
+		width: 110px;
+		text-align: left;
+	}
+	
+	#adminBoardsForm .category-btn.dropdown-toggle::after {
+		display: none !important;
+	}
+	
+	#adminBoardsForm .category-btn.custom-select {
+		background-image: url(../resources/images/down-triangle-solid.svg);
+		/* background-image: url(../resources/images/down-triangle.svg); */
 	}
 }
 </style>
