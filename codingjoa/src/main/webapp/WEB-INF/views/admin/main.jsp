@@ -460,15 +460,13 @@
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
-			console.log("## categories changed");
 			let categories = $("input[name='categories']:checked").map(function() {
 				return $(this).val();
 			}).get();
-			console.log("\t > checked categories =", categories);
 			
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
-			currentParams.set("categories", $(this).val());
+			currentParams.set("categories", categories);
 			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
