@@ -283,7 +283,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		.map(([key, value]) => {
 			//let checked = adminBoardCri.categories && adminBoardCri.categories.includes(key) ? "checked" : ""; // adminBoardCri.categories always not null
 			//let checked = adminBoardCri.categories.includes(key) ? "checked" : ""; // categories is number arr, key is string, includes compares values using '==='
-			let checked = adminBoardCri.categories.some(category => category == key) ? "checked" : "";
+			let checked = adminBoardCri.categories.some(categoryId => categoryId == key) ? "checked" : "";
 			return `
 				<li class="form-check">
 					<label class="form-check-label">
@@ -293,12 +293,12 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		}).join("");
 	
 	let selectedCategories = adminBoardCri.categories
-		.map(category => {
-			let categoryName = options.categoryOption[category];
+		.map(categoryId => {
+			let categoryName = options.categoryOption[categoryId];
 			return `
 				<span class="badge category-badge">
 					${categoryName}
-					<button class="remove-category-btn" type="button"></button>
+					<button class="remove-category-btn" type="button" name="removeCategoryBtn" data-category-id="${categoryId}"></button>
 				</span>`;
 		}).join("");
 	

@@ -202,7 +202,7 @@
 		column-gap: 10px;
 	}
 	
-	#adminBoardsForm .selected-categories .category-badge {
+	#adminBoardsForm .selected-categories .badge.category-badge {
 		/* color: rgb(0, 196, 113); */
 		/* background-color: rgb(229, 249, 241); */
 		color: #fff;
@@ -504,6 +504,12 @@
 			currentParams.set("page", 1);
 			currentParams.set("categories", categories);
 			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+		});
+		
+		// click remove category
+		$(document).on("click", "button[name='removeCategoryBtn']", function() {
+			let categoryId = $(this).data("category-id");
+			console.log("## removeCategoryBtn clicked, categoryId =", categoryId);
 		});
 		
 	});
