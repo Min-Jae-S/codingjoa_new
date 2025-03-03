@@ -161,9 +161,11 @@
 	}
 	
 	#adminBoardsForm .categories.dropdown .dropdown-menu li {
-		color: #495057;
+		display: flex;
+		align-items: center;
 		height: 30px;
 		margin: 0;
+		color: #495057;
 	}
 	
 	#adminBoardsForm .categories.dropdown .dropdown-menu li:first-child {
@@ -177,6 +179,11 @@
 	#adminBoardsForm .categories.dropdown .dropdown-menu li:hover {
 		background-color: #0a58ca;
 		color: #fff;
+	}
+	
+	#adminBoardsForm .categories.dropdown .form-check .form-check-input {
+		margin-left: -0.5em;
+		margin-right: 0.5em;
 	}
 }
 </style>

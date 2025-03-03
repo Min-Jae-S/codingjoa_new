@@ -278,7 +278,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 			`<li class="form-check">
 				<label class="form-check-label">
 					<input class="form-check-input position-static" type="checkbox" value="${key}" name="categories">
-					${value}
+					<span>${value}<span>
 				</label>
 			</li>`
 		)
