@@ -295,10 +295,11 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	let selectedCategories = adminBoardCri.categories
 		.map(category => {
 			let categoryName = options.categoryOption[category];
-			return `<span>
-						${categoryName}
-						<button class="remove-category-btn" type="button"></button>
-					</span>`;
+			return `
+				<span class="badge category-badge">
+					${categoryName}
+					<button class="remove-category-btn" type="button"></button>
+				</span>`;
 		}).join("");
 	
 	return `

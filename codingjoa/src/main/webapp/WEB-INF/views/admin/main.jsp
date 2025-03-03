@@ -202,13 +202,15 @@
 		column-gap: 10px;
 	}
 	
-	#adminBoardsForm .selected-categories span {
-		color: rgb(0, 196, 113);
-		background-color: rgb(229, 249, 241);
-		border: 0;
+	#adminBoardsForm .selected-categories .category-badge {
+		/* color: rgb(0, 196, 113); */
+		/* background-color: rgb(229, 249, 241); */
+		color: #fff;
+		background-color: rgba(108, 117, 125, 1);
 		border-radius: 0.5rem;
-		padding: 0.2rem 1rem;
-		font-weight: 500;
+		line-height: 0;
+		font-weight: 600;
+		font-size: 95%;
 	}
 	
 	#adminBoardsForm .selected-categories .remove-category-btn {
