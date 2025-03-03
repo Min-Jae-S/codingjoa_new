@@ -354,8 +354,8 @@
 <script>
 	$(function() {
 		const $contentContainer = $("#contentContainer");
-
 		const pageRouter = new PageRouter();
+		
 		pageRouter.setErrorHandler(function() {
 			let errorPage = createErrorPage();
 			$contentContainer.html(errorPage);
@@ -373,9 +373,17 @@
 			});
 		});
 		
+		function parseParams(urlSearchParams) {
+			return Object.fromEntries(
+				Arrays.from(urlSearchParams).map([key, value] => {
+					return [key, value.includes(",") ? value.split(",") : value)]
+				});
+			);
+		}
+		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
 		let initialParams = new URLSearchParams(window.location.search);
-		pageRouter.route(window.location.pathname, Object.fromEntries(initialParams), false);
+		pageRouter.route(window.location.pathname, parseParms(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -425,23 +433,21 @@
 				alert(result.message);
 				let currentParams = new URLSearchParams(window.location.search);
 				currentParams.set("page", 1);
-				pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
+				pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			let params = $(this).serializeObject();
-			console.log(params);
-			pageRouter.route("${contextPath}/admin/boards", params);
+			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject());
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
-			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
+			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
 		// change recordCnt, sort
@@ -449,7 +455,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
 			currentParams.set($(this).attr("name"), $(this).val());
-			pageRouter.route("${contextPath}/admin/boards", Object.fromEntries(currentParams));
+			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
 	});

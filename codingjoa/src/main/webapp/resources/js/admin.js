@@ -3,10 +3,13 @@ let adminService = (function() {
 	
 	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
+		console.log(adminBoardCri);
+		
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,
 			data : adminBoardCri,
+			traditional : true,		// categories[]=4&categories[]=5 -> categories=4&categories=5
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
