@@ -185,6 +185,12 @@
 		margin-left: -0.5em;
 		margin-right: 0.5em;
 	}
+
+	#adminBoardsForm .categories.dropdown .form-check .form-check-input:checked {
+		background-image: url(../resources/images/checked.svg);
+		background-color: #fff;
+	}
+
 }
 </style>
 </head>

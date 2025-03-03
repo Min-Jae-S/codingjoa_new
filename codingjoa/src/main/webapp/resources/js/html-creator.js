@@ -277,8 +277,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		.map(([key, value]) => 
 			`<li class="form-check">
 				<label class="form-check-label">
-					<input class="form-check-input position-static" type="checkbox" value="${key}" name="categories">
-					<span>${value}<span>
+					<input class="form-check-input position-static" type="checkbox" value="${key}" name="categories">${value}
 				</label>
 			</li>`
 		)
@@ -305,7 +304,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 			</div>
 			<div class="d-flex justify-content-between">
 				<div class="dropdown categories">
-					<button class="custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown">게시판</button>
+					<button class="custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">게시판</button>
 					<ul class="dropdown-menu rounded-md">
 						${categoryOptionHtml}
 					</ul>
