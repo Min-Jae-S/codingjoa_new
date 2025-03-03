@@ -262,32 +262,33 @@ function createBoardsPageHtml(result) {
 
 function createBoardsFormHtml(options, adminBoardCri) {
 	let typeOptionHtml = Object.entries(options.typeOption)
-		.map(([key, value]) => 
-			`<option value="${key}" ${key == adminBoardCri.type ? "selected" : ""}>${value}</option>`
-		)
-		.join("");
+		.map(([key, value]) => {
+			let selected = (adminBoardCri.type == key) ? "selected" : "";
+			return `<option value="${key}" ${selected}>${value}</option>`;
+		}).join("");
 	
 	let recordCntOptionHtml = Object.entries(options.recordCntOption)
-		.map(([key, value]) => 
-			`<option value="${key}" ${key == adminBoardCri.recordCnt ? "selected" : ""}>${value}</option>`
-		)
-		.join("");
-	
-	let categoryOptionHtml = Object.entries(options.categoryOption)
-		.map(([key, value]) => 
-			`<li class="form-check">
-				<label class="form-check-label">
-					<input class="form-check-input position-static" type="checkbox" name="categories" value="${key}">${value}
-				</label>
-			</li>`
-		)
-		.join("");
+		.map(([key, value]) => {
+			let selected = (adminBoardCri.recordCnt == key) ? "selected" : "";
+			return `<option value="${key}" ${selected}>${value}</option>`;
+		}).join("");
 	
 	let sortOptionHtml = Object.entries(options.sortOption)
-		.map(([key, value]) => 
-			`<option value="${key}" ${key == adminBoardCri.sort ? "selected" : ""}>${value}</option>`
-		)
-		.join("");
+		.map(([key, value]) => {
+			let selected = (adminBoardCri.sort == key) ? "selected" : "";
+			return `<option value="${key}" ${selected}>${value}</option>`;
+		}).join("");
+	
+	let categoryOptionHtml = Object.entries(options.categoryOption)
+		.map(([key, value]) => {
+			let checked = adminBoardCri.categories.includes(key) ? "checked" : "";
+			return `
+				<li class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input position-static" type="checkbox" name="categories" value="${key}" ${checked">${value}
+					</label>
+				</li>`;
+		}).join("");
 	
 	return `
 		<form id="adminBoardsForm">
@@ -309,8 +310,8 @@ function createBoardsFormHtml(options, adminBoardCri) {
 						${categoryOptionHtml}
 					</ul>
 				</div>
-				<div>
-					<select id="sort" name="sort" class="custom-select rounded-md mr-2">
+				<div class="d-flex">
+					<select id="sort" name="sort" class="custom-select rounded-md mr-3">
 						${sortOptionHtml}
 					</select>
 					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md">

@@ -375,15 +375,15 @@
 		
 		function parseParams(urlSearchParams) {
 			return Object.fromEntries(
-				Arrays.from(urlSearchParams).map(([key, value]) => {
-					return [key, value.includes(",") ? value.split(",") : value)]
-				});
+				Array.from(urlSearchParams).map(([key, value]) => {
+					return [key, value.includes(",") ? value.split(",") : value];
+				})
 			);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
 		let initialParams = new URLSearchParams(window.location.search);
-		pageRouter.route(window.location.pathname, parseParms(initialParams), false);
+		pageRouter.route(window.location.pathname, parseParams(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -455,6 +455,20 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
 			currentParams.set($(this).attr("name"), $(this).val());
+			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+		});
+		
+		// change categories
+		$(document).on("change", "input[name='categories']", function() {
+			console.log("## categories changed");
+			let categories = $("input[name='categories']:checked").map(function() {
+				return $(this).val();
+			}).get();
+			console.log("\t > checked categories =", categories);
+			
+			let currentParams = new URLSearchParams(window.location.search);
+			currentParams.set("page", 1);
+			currentParams.set("categories", $(this).val());
 			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		

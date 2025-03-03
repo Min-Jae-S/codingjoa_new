@@ -68,7 +68,6 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String[] categories = webRequest.getParameterValues("categories");
 		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}, sort = {}, categories = {}", 
 				page, recordCnt, keyword, type, sort, Arrays.toString(categories));
-		log.info("\t > categoryOption = {}", categoryOption);
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());
 		String defaultType = typeOption.keySet().iterator().next();
