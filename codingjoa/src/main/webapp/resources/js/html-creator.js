@@ -292,6 +292,12 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</li>`;
 		}).join("");
 	
+	let selectedCategories = adminBoardCri.categories
+		.map(category => {
+			let categoryName = options.categoryOption[category];
+			return `<span class="badge rounded-pill text-bg-dark">${categoryName}</span>`;
+		}).join("");
+	
 	return `
 		<form id="adminBoardsForm">
 			<div class="d-flex mb-3">
@@ -306,11 +312,16 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</div>
 			</div>
 			<div class="d-flex justify-content-between">
-				<div class="dropdown categories">
-					<button class="custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">게시판</button>
-					<ul class="dropdown-menu rounded-md">
-						${categoryOptionHtml}
-					</ul>
+				<div class="d-flex">
+					<div class="dropdown categories">
+						<button class="custom-select rounded-md dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">게시판</button>
+						<ul class="dropdown-menu rounded-md">
+							${categoryOptionHtml}
+						</ul>
+					</div>
+					<div class="selected-categories">
+						${selectedCategories}
+					</div>
 				</div>
 				<div class="d-flex">
 					<select id="sort" name="sort" class="custom-select rounded-md mr-3">
