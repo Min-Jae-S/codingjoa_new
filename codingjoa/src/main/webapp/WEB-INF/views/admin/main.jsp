@@ -136,6 +136,7 @@
 	#adminBoardsForm #sort, #adminBoardsForm #recordCnt {
 		width: 95px;
 		height: 38px;
+		margin: 0;
 	}
 	
 	#adminBoardsForm #type {
@@ -143,11 +144,15 @@
 		height: 38px;
 	}
 	
+	#adminBoardsForm .categories.dropdown {
+		margin-right: 1rem;
+	}
+	
 	#adminBoardsForm .categories.dropdown button.custom-select {
 		width: 110px;
 		height: 38px;
 		text-align: left;
-		background-image: url(../resources/images/down-triangle-solid.svg);
+		background-image: url(/codingjoa/resources/images/down-triangle-solid.svg);
 		/* background-image: url(../resources/images/down-triangle.svg); */
 	}
 	
@@ -187,8 +192,37 @@
 	}
 
 	#adminBoardsForm .categories.dropdown .form-check .form-check-input:checked {
-		background-image: url(../resources/images/checked.svg);
+		background-image: url(/codingjoa/resources/images/checked.svg);
 		background-color: #fff;
+	}
+	
+	#adminBoardsForm .selected-categories {
+		display: flex;
+		align-items: center;
+		column-gap: 10px;
+	}
+	
+	#adminBoardsForm .selected-categories span {
+		color: rgb(0, 196, 113);
+		background-color: rgb(229, 249, 241);
+		border: 0;
+		border-radius: 0.5rem;
+		padding: 0.2rem 1rem;
+		font-weight: 500;
+	}
+	
+	#adminBoardsForm .selected-categories .remove-category-btn {
+		width: 12px;
+		height: 12px;
+		border: 0;
+		background-color: transparent;
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: 4px;
+		background-image: url(/codingjoa/resources/images/remove.svg);
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
 	}
 
 }
