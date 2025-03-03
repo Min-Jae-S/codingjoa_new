@@ -277,7 +277,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		.map(([key, value]) => 
 			`<li class="form-check">
 				<label class="form-check-label">
-					<input class="form-check-input" type="checkbox" value="${key}" name="categories">
+					<input class="form-check-input position-static" type="checkbox" value="${key}" name="categories">
 					${value}
 				</label>
 			</li>`

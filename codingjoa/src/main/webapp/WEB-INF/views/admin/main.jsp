@@ -156,11 +156,22 @@
 	}
 	
 	#adminBoardsForm .categories.dropdown .dropdown-menu {
+		padding: 0;
 		border-radius: 0.5rem;
 	}
 	
 	#adminBoardsForm .categories.dropdown .dropdown-menu li {
 		color: #495057;
+		height: 30px;
+		margin: 0;
+	}
+	
+	#adminBoardsForm .categories.dropdown .dropdown-menu li:first-child {
+		border-radius: .5rem .5rem 0 0;
+	}
+
+	#adminBoardsForm .categories.dropdown .dropdown-menu li:last-child {
+		border-radius: 0 0 .5rem .5rem;
 	}
 	
 	#adminBoardsForm .categories.dropdown .dropdown-menu li:hover {
