@@ -375,7 +375,7 @@
 		
 		function parseParams(urlSearchParams) {
 			return Object.fromEntries(
-				Arrays.from(urlSearchParams).map([key, value] => {
+				Arrays.from(urlSearchParams).map(([key, value]) => {
 					return [key, value.includes(",") ? value.split(",") : value)]
 				});
 			);
