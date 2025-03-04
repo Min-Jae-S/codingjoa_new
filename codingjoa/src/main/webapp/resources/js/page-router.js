@@ -30,7 +30,7 @@ class PageRouter {
 			console.log("\t > no push state");
 		}
 		
-		const handler = this.routers.get(url.pathname);
+		const handler = this.routers.get(path); // not url.pathname
 		if (handler) {
 			console.log("\t > handler found");
 			handler(params);

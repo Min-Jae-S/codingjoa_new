@@ -79,8 +79,8 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoardsOnly(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
-		log.info("## getPagedBoardsOnly");
+	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);

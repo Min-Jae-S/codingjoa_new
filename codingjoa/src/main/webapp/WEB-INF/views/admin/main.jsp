@@ -410,7 +410,7 @@
 		});
 
 		pageRouter.addRouter("${contextPath}/admin/boards/", function(params) {
-			adminService.getPagedBoardsOnly(params, function(result) {
+			adminService.getPagedBoardsBySearch(params, function(result) {
 				let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
 				let paginationHtml = createPaginationHtml(result.data.pagination);
 				$(".table-wrap").html(boardsTableHtml);
@@ -477,7 +477,7 @@
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
 				let currentParams = new URLSearchParams(window.location.search);
-				currentParams.set("page", 1);
+				currentParams.delete("page");
 				pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 			});
 		});
@@ -498,8 +498,8 @@
 		// change recordCnt, sort
 		$(document).on("change", "#recordCnt, #sort", function() {
 			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("page", 1);
 			currentParams.set($(this).attr("name"), $(this).val());
+			currentParams.delete("page");
 			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 		});
 		
@@ -510,8 +510,8 @@
 			}).get();
 			
 			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("page", 1);
 			currentParams.set("categories", categories);
+			currentParams.delete("page");
 			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 		});
 		

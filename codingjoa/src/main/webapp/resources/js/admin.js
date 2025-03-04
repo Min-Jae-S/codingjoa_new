@@ -28,8 +28,8 @@ let adminService = (function() {
 		});
 	}
 
-	function getPagedBoardsOnly(adminBoardCri, callback) {
-		console.log("## getPagedBoardsOnly");
+	function getPagedBoardsBySearch(adminBoardCri, callback) {
+		console.log("## getPagedBoardsBySearch");
 		console.log(adminBoardCri);
 		
 		$.ajax({
@@ -82,7 +82,7 @@ let adminService = (function() {
 
 	return {
 		getPagedBoards:getPagedBoards,
-		getPagedBoardsOnly:getPagedBoardsOnly,
+		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteBoards:deleteBoards
 	};
 	
