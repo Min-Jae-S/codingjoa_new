@@ -438,8 +438,7 @@
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			let path = $(this).attr("href");
-			pageRouter.route(path, {});
+			pageRouter.route($(this).attr("href"), null, {});
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");
@@ -481,6 +480,7 @@
 				alert(result.message);
 				let currentParams = new URLSearchParams(window.location.search);
 				currentParams.delete("page");
+				
 				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 			});
 		});
@@ -495,6 +495,7 @@
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
@@ -503,6 +504,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set($(this).attr("name"), $(this).val());
 			currentParams.delete("page");
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
@@ -511,15 +513,17 @@
 			console.log("## input[name='categories'] changed");
 			
 			let categoryId = $(this).val();
+			let checked = $(this).prop("checked");
+			console.log("\t > categoryId: %s, checked: %s", categoryId, checked);
 			
 			let categoryIds = $("input[name='categories']:checked").map(function() {
 				return $(this).val();
 			}).get();
-			console.log("\t > categories =", categoryIds);
 			
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("categories", categoryIds);
 			currentParams.delete("page");
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
