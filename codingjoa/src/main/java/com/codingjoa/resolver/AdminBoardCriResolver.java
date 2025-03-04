@@ -19,9 +19,11 @@ import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
 @Component
 public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
@@ -94,6 +96,15 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 
 		return adminBoardCri;
+	}
+	
+	public Map<String, Object> getOptions() {
+		return Map.of(
+			"recordCntOption", recordCntOption, 
+			"typeOption", typeOption, 
+			"sortOption", sortOption, 
+			"categoryOption", categoryOption
+		);
 	}
 	
 }

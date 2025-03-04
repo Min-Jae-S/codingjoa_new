@@ -21,6 +21,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminCommentCriteria;
 import com.codingjoa.pagination.Pagination;
+import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.service.AdminService;
 import com.codingjoa.service.CategoryService;
 
@@ -36,6 +37,7 @@ public class AdminRestController {
 
 	private final AdminService adminService;
 	private final CategoryService categoryService;
+	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
@@ -75,6 +77,12 @@ public class AdminRestController {
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+
+	@GetMapping("/boards/options")
+	public ResponseEntity<Object> getBoardsOptions() {
+		log.info("## getBoardsOptions");
+		return ResponseEntity.ok(SuccessResponse.builder().data(adminBoardCriResolver.getOptions()).build());
 	}
 
 	@GetMapping("/comments")

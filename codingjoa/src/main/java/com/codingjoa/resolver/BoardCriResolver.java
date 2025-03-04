@@ -69,4 +69,8 @@ public class BoardCriResolver implements HandlerMethodArgumentResolver {
 		return boardCri;
 	}
 	
+	public Map<String, Object> getOptions() {
+		return Map.of("recordCntOption", recordCntOption, "typeOption", typeOption);
+	}
+	
 }

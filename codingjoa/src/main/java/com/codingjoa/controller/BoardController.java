@@ -25,6 +25,7 @@ import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Category;
 import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
+import com.codingjoa.resolver.BoardCriResolver;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CategoryService;
@@ -44,6 +45,7 @@ public class BoardController {
 	private final CategoryService categoryService;
 	private final BoardService boardService;
 	private final ImageService imageService;
+	private final BoardCriResolver boardCriResolver;
 	
 	@InitBinder (value = { "writeBoardDto", "modifyBoardDto" })
 	protected void initBinderBoard(WebDataBinder binder) {
@@ -88,6 +90,7 @@ public class BoardController {
 		model.addAttribute("pagedBoard", pagedBoard);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("category", category);
+		model.addAttribute("options", boardCriResolver.getOptions());
 		
 		return "board/board";
 	}
