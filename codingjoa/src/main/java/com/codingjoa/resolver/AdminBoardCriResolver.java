@@ -19,11 +19,9 @@ import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Getter
 @Component
 public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	

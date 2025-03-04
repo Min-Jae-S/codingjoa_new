@@ -62,7 +62,7 @@ public class BoardController {
 		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
-				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), new BoardCriteria(1, 5), memberIdx))
+				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), BoardCriteria.create(), memberIdx))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);

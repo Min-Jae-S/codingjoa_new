@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,7 +60,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri, Model model) {
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
@@ -71,18 +70,29 @@ public class AdminRestController {
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("options", model.getAttribute("options"));
 		data.put("adminBoardCri", adminBoardCri);
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
+		data.put("options", adminBoardCriResolver.getOptions());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
-	@GetMapping("/boards/options")
-	public ResponseEntity<Object> getBoardsOptions() {
-		log.info("## getBoardsOptions");
-		return ResponseEntity.ok(SuccessResponse.builder().data(adminBoardCriResolver.getOptions()).build());
+	@GetMapping("/boards/")
+	public ResponseEntity<Object> getPagedBoardsOnly(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+		log.info("## getPagedBoardsOnly");
+		log.info("\t > adminBoardCri = {}", adminBoardCri);
+		
+		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		
+		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
+		log.info("\t > pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedBoards", pagedBoards);
+		data.put("pagination", pagination);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
 	@GetMapping("/comments")

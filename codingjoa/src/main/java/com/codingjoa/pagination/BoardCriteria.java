@@ -45,6 +45,10 @@ public class BoardCriteria {
 		
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
+	
+	public static BoardCriteria create() {
+		return new BoardCriteria(1, 5);
+	}
 
 	@Override
 	public String toString() {
