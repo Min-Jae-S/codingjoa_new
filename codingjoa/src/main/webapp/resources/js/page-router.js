@@ -16,6 +16,7 @@ class PageRouter {
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
+		console.log(url);
 		
 		if (pushState && !this._isSameUrl(url)) {
 			let decodedUrl = decodeURIComponent(url.toString());

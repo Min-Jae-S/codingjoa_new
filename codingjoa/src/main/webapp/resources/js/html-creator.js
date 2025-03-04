@@ -411,8 +411,13 @@ function createBoardsTableHtml(pagedBoards) {
 }
 
 function createSelectedCategoryBtn(categoryId) {
+	console.log("## createSelectedCategoryBtn");
+
 	let savedOptions = JSON.parse(localStorage.getItem("adminBoardOptions"));
 	let categoryName = savedOptions.categoryOption[categoryId];
+	console.log("\t > savedOptions =", savedOptions);
+	console.log("\t > categoryName =", categoryName);
+	
 	return `
 		<span class="badge category-badge">
 			${categoryName}

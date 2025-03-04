@@ -398,15 +398,15 @@
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
-			let welcomePageHtml = createWelcomePage();
+			let welcomePageHtml = createWelcomePageHtml();
 			$contentContainer.html(welcomePageHtml);
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
 			adminService.getPagedBoards(params, function(result) {
+				localStorage.setItem("adminBoardOptions", JSON.stringify(result.data.options))
 				let boardsPageHtml = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPageHtml);
-				localStorage.setItem("adminBoardOptions", JSON.stringify(result.data.options))
 			});
 		});
 
@@ -512,13 +512,13 @@
 			
 			let categoryId = $(this).val();
 			
-			let checkedCategoryIds = $("input[name='categories']:checked").map(function() {
+			let categoryIds = $("input[name='categories']:checked").map(function() {
 				return $(this).val();
 			}).get();
-			console.log("\t > categories =", checkedCategoryIds);
+			console.log("\t > categories =", categoryIds);
 			
 			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("categories", checkedCategoryIds);
+			currentParams.set("categories", categoryIds);
 			currentParams.delete("page");
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
