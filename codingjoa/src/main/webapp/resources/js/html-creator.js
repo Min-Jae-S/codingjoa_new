@@ -292,13 +292,13 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				</li>`;
 		}).join("");
 	
-	let selectedCategories = adminBoardCri.categories
+	let selectedCategoryBtns = adminBoardCri.categories
 		.map(categoryId => {
 			let categoryName = options.categoryOption[categoryId];
 			return `
 				<span class="badge category-badge">
 					${categoryName}
-					<button class="remove-category-btn" type="button" name="removeCategoryBtn" data-category-id="${categoryId}"></button>
+					<button class="selected-category-btn" type="button" name="selectedCategoryBtn" data-category-id="${categoryId}"></button>
 				</span>`;
 		}).join("");
 	
@@ -324,7 +324,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 						</ul>
 					</div>
 					<div class="selected-categories">
-						${selectedCategories}
+						${selectedCategoryBtns}
 					</div>
 				</div>
 				<div class="d-flex">
@@ -408,6 +408,16 @@ function createBoardsTableHtml(pagedBoards) {
 				${rowsHtml}
 			</tbody>
 		</table>`;
+}
+
+function createSelectedCategoryBtn(categoryId) {
+	let savedOptions = JSON.parse(localStorage.getItem("adminBoardOptions"));
+	let categoryName = savedOptions.categoryOption[categoryId];
+	return `
+		<span class="badge category-badge">
+			${categoryName}
+			<button class="selected-category-btn" type="button" name="selectedCategoryBtn" data-category-id="${categoryId}"></button>
+		</span>`;
 }
 
 

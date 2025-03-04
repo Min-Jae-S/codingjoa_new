@@ -45,7 +45,7 @@ class PageRouter {
 			const params = e.state || {};
 			const path = window.location.pathname;
 			
-			this.route(path, params, false);
+			this.route(path, null, params, false);
 		});
 	}
 	

@@ -213,7 +213,7 @@
 		font-size: 95%;
 	}
 	
-	#adminBoardsForm .selected-categories .remove-category-btn {
+	#adminBoardsForm .selected-categories .selected-category-btn {
 		width: 12px;
 		height: 12px;
 		border: 0;
@@ -406,6 +406,7 @@
 			adminService.getPagedBoards(params, function(result) {
 				let boardsPageHtml = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPageHtml);
+				localStorage.setItem("adminBoardOptions", JSON.stringify(result.data.options))
 			});
 		});
 
@@ -428,6 +429,8 @@
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
 		let initialParams = new URLSearchParams(window.location.search);
+		
+		// route(routingPath, pushStatePath, params, pushState = true) 
 		pageRouter.route(window.location.pathname, null, parseParams(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
@@ -505,20 +508,27 @@
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
-			let categories = $("input[name='categories']:checked").map(function() {
+			console.log("## input[name='categories'] changed");
+			
+			let categoryId = $(this).val();
+			
+			let checkedCategoryIds = $("input[name='categories']:checked").map(function() {
 				return $(this).val();
 			}).get();
+			console.log("\t > categories =", checkedCategoryIds);
 			
 			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("categories", categories);
+			currentParams.set("categories", checkedCategoryIds);
 			currentParams.delete("page");
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
-		// click remove category
-		$(document).on("click", "button[name='removeCategoryBtn']", function() {
+		// click selected category btn
+		$(document).on("click", "button[name='selectedCategoryBtn']", function() {
+			console.log("## button[name='selectedCategoryBtn'] clicked");
+			
 			let categoryId = $(this).data("category-id");
-			console.log("## removeCategoryBtn clicked, categoryId =", categoryId);
+			console.log("\t > categoryId =", categoryId);
 		});
 		
 	});
