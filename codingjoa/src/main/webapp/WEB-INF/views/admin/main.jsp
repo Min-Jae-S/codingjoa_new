@@ -213,7 +213,7 @@
 		font-size: 95%;
 	}
 	
-	#adminBoardsForm .selected-categories .selected-category-btn {
+	#adminBoardsForm .selected-categories .remove-badge-btn {
 		width: 12px;
 		height: 12px;
 		border: 0;
@@ -514,7 +514,12 @@
 			
 			let categoryId = $(this).val();
 			let checked = $(this).prop("checked");
-			console.log("\t > categoryId: %s, checked: %s", categoryId, checked);
+			if (checked) {
+				let categoryBadge = createCategoryBadgeHtml(categoryId);
+				$(".selected-categories").append(categoryBadge);
+			} else {
+				
+			}
 			
 			let categoryIds = $("input[name='categories']:checked").map(function() {
 				return $(this).val();
@@ -527,9 +532,9 @@
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
-		// click selected category btn
-		$(document).on("click", "button[name='selectedCategoryBtn']", function() {
-			console.log("## button[name='selectedCategoryBtn'] clicked");
+		// click remove badge btn
+		$(document).on("click", "button[name='removeBadgeBtn']", function() {
+			console.log("## button[name='removeBadgeBtn'] clicked");
 			
 			let categoryId = $(this).data("category-id");
 			console.log("\t > categoryId =", categoryId);
