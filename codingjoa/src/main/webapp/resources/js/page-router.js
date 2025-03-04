@@ -9,15 +9,10 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 
-	route(path, params = {}, pushState = true) {
+	route(routingPath, pushStatePath, params = {}, pushState = true) {
 		console.log("## route");
 		
-		let url = new URL(path, window.location.origin);
-		
-		if (url.pathname.endsWith("/")) {
-			url.pathname = url.pathname.slice(0, -1);
-		}
-		
+		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
@@ -30,7 +25,7 @@ class PageRouter {
 			console.log("\t > no push state");
 		}
 		
-		const handler = this.routers.get(path); // not url.pathname
+		const handler = this.routers.get(routingPath); 
 		if (handler) {
 			console.log("\t > handler found");
 			handler(params);

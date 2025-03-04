@@ -428,7 +428,7 @@
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
 		let initialParams = new URLSearchParams(window.location.search);
-		pageRouter.route(window.location.pathname, parseParams(initialParams), false);
+		pageRouter.route(window.location.pathname, null, parseParams(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -478,21 +478,21 @@
 				alert(result.message);
 				let currentParams = new URLSearchParams(window.location.search);
 				currentParams.delete("page");
-				pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.route("${contextPath}/admin/boards/", $(this).serializeObject());
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", $(this).serializeObject());
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
-			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
 		// change recordCnt, sort
@@ -500,7 +500,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set($(this).attr("name"), $(this).val());
 			currentParams.delete("page");
-			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
 		// change categories
@@ -512,7 +512,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("categories", categories);
 			currentParams.delete("page");
-			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
 		});
 		
 		// click remove category
