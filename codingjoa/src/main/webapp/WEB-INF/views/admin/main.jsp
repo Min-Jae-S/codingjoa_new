@@ -393,19 +393,28 @@
 		const pageRouter = new PageRouter();
 		
 		pageRouter.setErrorHandler(function() {
-			let errorPage = createErrorPage();
-			$contentContainer.html(errorPage);
+			let errorPageHtml = createErrorPageHtml();
+			$contentContainer.html(errorPageHtml);
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
-			let welcomePage = createWelcomePage();
-			$contentContainer.html(welcomePage);
+			let welcomePageHtml = createWelcomePage();
+			$contentContainer.html(welcomePageHtml);
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
 			adminService.getPagedBoards(params, function(result) {
-				let boardsPage = createBoardsPageHtml(result);
-				$contentContainer.html(boardsPage);
+				let boardsPageHtml = createBoardsPageHtml(result);
+				$contentContainer.html(boardsPageHtml);
+			});
+		});
+
+		pageRouter.addRouter("${contextPath}/admin/boards/", function(params) {
+			adminService.getPagedBoardsOnly(params, function(result) {
+				let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
+				let paginationHtml = createPaginationHtml(result.data.pagination);
+				$(".table-wrap").html(boardsTableHtml);
+				$(".board-pagination").html(paginationHtml);
 			});
 		});
 		
@@ -469,21 +478,21 @@
 				alert(result.message);
 				let currentParams = new URLSearchParams(window.location.search);
 				currentParams.set("page", 1);
-				pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+				pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.route("${contextPath}/admin/boards", $(this).serializeObject());
+			pageRouter.route("${contextPath}/admin/boards/", $(this).serializeObject());
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", $(this).data("page"));
-			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 		});
 		
 		// change recordCnt, sort
@@ -491,7 +500,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
 			currentParams.set($(this).attr("name"), $(this).val());
-			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 		});
 		
 		// change categories
@@ -503,7 +512,7 @@
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("page", 1);
 			currentParams.set("categories", categories);
-			pageRouter.route("${contextPath}/admin/boards", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", parseParams(currentParams));
 		});
 		
 		// click remove category

@@ -87,11 +87,6 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		);
 		
 		log.info("\t > resolved adminBoardCri = {}", adminBoardCri);
-		
-		Map<String, Object> options = Map.of("recordCntOption", recordCntOption, "typeOption", typeOption, 
-				"sortOption", sortOption, "categoryOption", categoryOption);
-		mavContainer.addAttribute("options", options);
-		log.info("\t > add attr to mavContainer: options {}", options.keySet());
 
 		return adminBoardCri;
 	}

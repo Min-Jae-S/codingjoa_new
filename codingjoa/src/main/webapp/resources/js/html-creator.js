@@ -221,7 +221,7 @@ function createPaginationHtml(pagination) {
 //				ADMIN HTML CREATOR
 // =============================================
 
-function createErrorPage() {
+function createErrorPageHtml() {
 	return `
 		<div class="error-wrap">
 			<p class="error-code">404</p>
@@ -229,7 +229,7 @@ function createErrorPage() {
 		</div>`;
 }
 
-function createWelcomePage() {
+function createWelcomePageHtml() {
 	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;
 }
 
@@ -295,11 +295,10 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	let selectedCategories = adminBoardCri.categories
 		.map(categoryId => {
 			let categoryName = options.categoryOption[categoryId];
-			let targetId = 
 			return `
 				<span class="badge category-badge">
 					${categoryName}
-					<button class="remove-category-btn" type="button" name="removeCategoryBtn" data-target="${categoryId}"></button>
+					<button class="remove-category-btn" type="button" name="removeCategoryBtn" data-category-id="${categoryId}"></button>
 				</span>`;
 		}).join("");
 	

@@ -13,6 +13,11 @@ class PageRouter {
 		console.log("## route");
 		
 		let url = new URL(path, window.location.origin);
+		
+		if (url.pathname.endsWith("/")) {
+			url.pathname = url.pathname.slice(0, -1);
+		}
+		
 		Object.entries(params).forEach(([key, value]) => {
 			url.searchParams.set(key, value);
 		});
@@ -25,7 +30,7 @@ class PageRouter {
 			console.log("\t > no push state");
 		}
 		
-		const handler = this.routers.get(path);
+		const handler = this.routers.get(url.pathname);
 		if (handler) {
 			console.log("\t > handler found");
 			handler(params);
