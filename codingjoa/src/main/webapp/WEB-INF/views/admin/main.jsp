@@ -518,10 +518,10 @@
 				let categoryBadge = createCategoryBadgeHtml(categoryId);
 				$(".selected-categories").append(categoryBadge);
 			} else {
-				$(".selected-categories")
+				let $target = $(".selected-categories")
 					.find(`button[data-category-id='\${categoryId}']`)
-					.closest(".category-badge")
-					.remove();
+					.closest(".category-badge");
+				$target.remove();
 			}
 			
 			let categoryIds = $("input[name='categories']:checked").map((index, el) => el.value).get();
@@ -538,9 +538,9 @@
 			console.log("## button[name='removeBadgeBtn'] clicked...");
 			
 			let categoryId = $(this).data("category-id");
-			$(`input[name='categories'][data-category-id='\${categoryId}']`)
-				.prop("chcecked", false)
-				.trigger("change");
+			let $target = $(`input[name='categories'][value='\${categoryId}']`);
+			$target.prop("checked", false).trigger("change");
+			
 			$(this).closest(".category-badge").remove();
 		});
 		
