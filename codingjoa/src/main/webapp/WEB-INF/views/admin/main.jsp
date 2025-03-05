@@ -422,6 +422,8 @@
 		// 1. exclude empty values, null, and undefined
 		// 2. convert comma-separated values into an array
 		function processParams(params) {
+			console.log("## processParams");
+			console.log(params);
 			return Object.fromEntries(
 				Array.from(params)
 					.filter(([key, value]) => value != null && value.trim() != "")
@@ -491,9 +493,7 @@
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let formData = $(this).serializeObject();
-			console.log("## formData");
-			console.log(formData);
-			
+			console.log($(this).serialize());
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(formData));
 		});
 		
