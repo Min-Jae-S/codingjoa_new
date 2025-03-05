@@ -419,11 +419,13 @@
 			});
 		});
 		
-		function parseParams(urlSearchParams) {
+		// 1. exclude empty values, null, and undefined
+		// 2. convert comma-separated values into an array
+		function processParams(params) {
 			return Object.fromEntries(
-				Array.from(urlSearchParams).map(([key, value]) => {
-					return [key, value.includes(",") ? value.split(",") : value];
-				})
+				Array.from(params)
+					.filter(([key, value]) => value != null && value.trim() != "")
+					.map(([key, value]) => [key, value.includes(",") ? value.split(",") : value])
 			);
 		}
 		
@@ -431,7 +433,7 @@
 		let initialParams = new URLSearchParams(window.location.search);
 		
 		// route(routingPath, pushStatePath, params, pushState = true) 
-		pageRouter.route(window.location.pathname, null, parseParams(initialParams), false);
+		pageRouter.route(window.location.pathname, null, processParams(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -478,34 +480,38 @@
 		
 			adminService.deleteBoards(boardIds, function(result) {
 				alert(result.message);
-				let currentParams = new URLSearchParams(window.location.search);
-				currentParams.delete("page");
+				let params = new URLSearchParams(window.location.search);
+				params.delete("page");
 				
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(currentParams));
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", $(this).serializeObject());
+			let formData = $(this).serializeObject();
+			console.log("## formData");
+			console.log(formData);
+			
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(formData));
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
-			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("page", $(this).data("page"));
+			let params = new URLSearchParams(window.location.search);
+			params.set("page", $(this).data("page"));
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
 		});
 		
 		// change recordCnt, sort
 		$(document).on("change", "#recordCnt, #sort", function() {
-			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set($(this).attr("name"), $(this).val());
-			currentParams.delete("page");
+			let params = new URLSearchParams(window.location.search);
+			params.set($(this).attr("name"), $(this).val());
+			params.delete("page");
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
 		});
 		
 		// change categories
@@ -526,11 +532,10 @@
 			
 			let categoryIds = $("input[name='categories']:checked").map((index, el) => el.value).get();
 			
-			let currentParams = new URLSearchParams(window.location.search);
-			currentParams.set("categories", categoryIds);
-			currentParams.delete("page");
-			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", parseParams(currentParams));
+			let params = new URLSearchParams(window.location.search);
+			params.set("categories", categoryIds);
+			params.delete("page");
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params(currentParams));
 		});
 		
 		// click remove badge btn
