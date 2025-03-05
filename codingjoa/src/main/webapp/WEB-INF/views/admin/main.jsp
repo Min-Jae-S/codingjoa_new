@@ -510,20 +510,21 @@
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
-			console.log("## input[name='categories'] changed");
+			console.log("## input[name='categories'] changed...");
 			
 			let categoryId = $(this).val();
-			let checked = $(this).prop("checked");
-			if (checked) {
+			
+			if ($(this).prop("checked")) {
 				let categoryBadge = createCategoryBadgeHtml(categoryId);
 				$(".selected-categories").append(categoryBadge);
 			} else {
-				
+				$(".selected-categories")
+					.find(`button[data-category-id='\${categoryId}']`)
+					.closest(".category-badge")
+					.remove();
 			}
 			
-			let categoryIds = $("input[name='categories']:checked").map(function() {
-				return $(this).val();
-			}).get();
+			let categoryIds = $("input[name='categories']:checked").map((index, el) => el.value).get();
 			
 			let currentParams = new URLSearchParams(window.location.search);
 			currentParams.set("categories", categoryIds);
@@ -534,10 +535,13 @@
 		
 		// click remove badge btn
 		$(document).on("click", "button[name='removeBadgeBtn']", function() {
-			console.log("## button[name='removeBadgeBtn'] clicked");
+			console.log("## button[name='removeBadgeBtn'] clicked...");
 			
 			let categoryId = $(this).data("category-id");
-			console.log("\t > categoryId =", categoryId);
+			$(`input[name='categories'][data-category-id='\${categoryId}']`)
+				.prop("chcecked", false)
+				.trigger("change");
+			$(this).closest(".category-badge").remove();
 		});
 		
 	});
