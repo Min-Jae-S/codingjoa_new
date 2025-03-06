@@ -432,7 +432,7 @@
 		console.log("## initializing page, routing to URL:", window.location.pathname);
 		let initialParams = new URLSearchParams(window.location.search);
 		
-		// route(routingPath, pushStatePath, params, pushState = true) 
+		// route(routingPath, pushStatePath, params = {}, pushState = true) 
 		pageRouter.route(window.location.pathname, null, processParams(initialParams), false);
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
@@ -463,7 +463,7 @@
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
 		
-		// click board delete
+		// click delete board btn
 		$(document).on("click", "#deleteBoardsBtn", function() {
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
