@@ -493,8 +493,8 @@
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let formData = $(this).serializeObject();
-			console.log($(this).serialize());
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(formData));
+			let parmas = Object.entries(formData);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(parmas));
 		});
 		
 		// click pagination
