@@ -298,7 +298,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 			return `
 				<span class="badge category-badge">
 					${categoryName}
-					<button class="remove-badge-btn" type="button" name="removeBadgeBtn" data-category-id="${categoryId}"></button>
+					<button class="category-badge-btn" type="button" name="categoryBadgeBtn" data-category-id="${categoryId}"></button>
 				</span>`;
 		}).join("");
 	
@@ -411,14 +411,13 @@ function createBoardsTableHtml(pagedBoards) {
 }
 
 function createCategoryBadgeHtml(categoryId) {
-	console.log("## createSelectedCategoryBadge");
 	let savedOptions = JSON.parse(localStorage.getItem("adminBoardOptions"));
 	let categoryName = savedOptions.categoryOption[categoryId];
 	
 	return `
 		<span class="badge category-badge">
 			${categoryName}
-			<button class="remove-badge-btn" type="button" name="removeBadgeBtn" data-category-id="${categoryId}"></button>
+			<button class="category-badge-btn" type="button" name="categoryBadgeBtn" data-category-id="${categoryId}"></button>
 		</span>`;
 }
 

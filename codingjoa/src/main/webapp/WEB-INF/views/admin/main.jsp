@@ -213,7 +213,7 @@
 		font-size: 95%;
 	}
 	
-	#adminBoardsForm .selected-categories .remove-badge-btn {
+	#adminBoardsForm .selected-categories .category-badge-btn {
 		width: 12px;
 		height: 12px;
 		border: 0;
@@ -483,7 +483,7 @@
 				let params = new URLSearchParams(window.location.search);
 				params.delete("page");
 				
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(currentParams));
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
 			});
 		});
 		
@@ -514,35 +514,31 @@
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
-			console.log("## input[name='categories'] changed...");
-			
 			let categoryId = $(this).val();
 			
 			if ($(this).prop("checked")) {
-				let categoryBadge = createCategoryBadgeHtml(categoryId);
-				$(".selected-categories").append(categoryBadge);
+				let categoryBadgeHtml = createCategoryBadgeHtml(categoryId);
+				$(".selected-categories").append(categoryBadgeHtml);
 			} else {
-				let $target = $(".selected-categories")
+				let $categoryBadge = $(".selected-categories")
 					.find(`button[data-category-id='\${categoryId}']`)
 					.closest(".category-badge");
-				$target.remove();
+				$categoryBadge.remove();
 			}
 			
 			let categoryIds = $("input[name='categories']:checked").map((index, el) => el.value).get();
-			
 			let params = new URLSearchParams(window.location.search);
 			params.set("categories", categoryIds);
 			params.delete("page");
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params(currentParams));
+			
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
 		});
 		
-		// click remove badge btn
-		$(document).on("click", "button[name='removeBadgeBtn']", function() {
-			console.log("## button[name='removeBadgeBtn'] clicked...");
-			
+		// click category badge btn
+		$(document).on("click", "button[name='categoryBadgeBtn']", function() {
 			let categoryId = $(this).data("category-id");
-			let $target = $(`input[name='categories'][value='\${categoryId}']`);
-			$target.prop("checked", false).trigger("change");
+			let $categoryCheck = $(`input[name='categories'][value='\${categoryId}']`);
+			$categoryCheck.prop("checked", false).trigger("change");
 			
 			$(this).closest(".category-badge").remove();
 		});
