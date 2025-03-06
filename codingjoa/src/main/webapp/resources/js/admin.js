@@ -3,8 +3,6 @@ let adminService = (function() {
 	
 	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
-		console.log(adminBoardCri);
-		
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,
@@ -30,8 +28,6 @@ let adminService = (function() {
 
 	function getPagedBoardsBySearch(adminBoardCri, callback) {
 		console.log("## getPagedBoardsBySearch");
-		console.log(adminBoardCri);
-		
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards/`,

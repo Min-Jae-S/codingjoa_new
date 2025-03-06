@@ -420,10 +420,8 @@
 		});
 		
 		// 1. exclude empty values, null, and undefined
-		// 2. convert comma-separated values into an array
+		// 2. convert comma-separated values(categories) into an array
 		function processParams(params) {
-			console.log("## processParams");
-			console.log(params);
 			return Object.fromEntries(
 				Array.from(params)
 					.filter(([key, value]) => value != null && value.trim() != "")
