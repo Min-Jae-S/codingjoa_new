@@ -9,22 +9,19 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 
-	route(routingPath, pushStatePath = null, urlSearchParams, pushState = true) {
+	route(routingPath, pushStatePath = null, params = {}, pushState = true) {
 		console.log("## route");
-		console.log("\t > URLSearchParams:", urlSearchParams.toString());
+		console.log("\t > params:", params);
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
-		url.search = urlSearchParams.toString();
-		//Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
+		url.search = new URLSearchParams(params).toString();
 		
 		let decodedUrl = decodeURIComponent(url.toString());
-		let paramsObj = Object.fromEntries(urlSearchParams);
-		console.log("\t > decoded URL:", decodedUrl);
-		console.log("\t > paramsObj:", paramsObj);
+		console.log("\t > URL: ", decodedUrl);
 		
 		if (pushState && !this._isSameUrl(url)) {
 			console.log("\t > push state");
-			history.pushState(paramsObj, "", decodedUrl);
+			history.pushState(params, "", decodedUrl);
 		} else {
 			console.log("\t > no push state");
 		}
@@ -32,7 +29,7 @@ class PageRouter {
 		const handler = this.routers.get(routingPath); 
 		if (handler) {
 			console.log("\t > handler found");
-			handler(paramsObj);
+			handler(params);
 		} else if(this.errorHandler) {
 			console.log("\t no handler found, using errorHandler");
 			this.errorHandler();

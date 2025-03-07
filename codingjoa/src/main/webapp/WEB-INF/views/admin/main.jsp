@@ -432,23 +432,14 @@
 			);
 		} */
 		
-		function removeEmptyParams(urlSerarchParams) {
-			console.log("## removeEmptyParams");
-			console.log("\t > urlSearchParams:", urlSerarchParams.toString());
-			Array.from(urlSerarchParams).forEach(([key, value]) => {
-				console.log("\t > key: %s, value: %s", key, value);
-				if (value == null || value.trim() == "") {
-					urlSerarchParams.delete(key);
-				}
-			});
-			
-			return urlSerarchParams;
+		function convert(urlSerarchParams) {
+			return Object.fromEntries(urlSerarchParams);
 		}
 		
 		function initPage() {
 			let params = new URLSearchParams(window.location.search);
 			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, params, false);
+			pageRouter.route(window.location.pathname, null, convert(params), false);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
@@ -493,7 +484,7 @@
 				return;
 			}
 			
-			if (!confirm(boardIds.length + "개의 게시글을 삭제하시겠습니까?")) {
+			if (!confirm(`총 \${boardIds.length}개의 게시글을 삭제하시겠습니까?`)) {
 				return;
 			}
 		
@@ -502,7 +493,7 @@
 				let params = new URLSearchParams(window.location.search);
 				params.delete("page");
 				
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 			});
 		});
 		
@@ -512,9 +503,8 @@
 			e.preventDefault();
 			let formData = $(this).serializeObject();
 			let params = new URLSearchParams(formData);
-			console.log("\t > URLSearchParams:", params.toString());
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 		});
 		
 		// click pagination
@@ -522,9 +512,8 @@
 			console.log("## pagination clicked...");
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
-			console.log("\t > URLSearchParams:", params.toString());
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 		});
 		
 		// change recordCnt, sort
@@ -534,9 +523,8 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
-			console.log("\t > URLSearchParams:", params.toString());
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 		});
 		
 		// change categories
@@ -559,9 +547,8 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set("categories", categoryIds);
 			params.delete("page");
-			console.log("\t > URLSearchParams:", params.toString());
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 		});
 		
 		// click category badge btn
