@@ -65,7 +65,7 @@
 			NVL(likes_group.cnt, 0) 	AS likes_cnt
 		FROM (
 			SELECT
-				searched_board.*
+				filterd_board.*
 			FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -98,9 +98,9 @@
 				WHERE 
 					<include refid="searchCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-			) searched_board
+			) filterd_board
 			WHERE 
-				searched_board.rn > ( (#{page} - 1) * #{recordCnt} )
+				filterd_board.rn > ( (#{page} - 1) * #{recordCnt} )
 		) paged_board
 		INNER JOIN
 			category

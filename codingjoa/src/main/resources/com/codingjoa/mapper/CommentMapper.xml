@@ -53,41 +53,44 @@
 	<select id="findPagedComment" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
     		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
-			a.comment_idx,
-			a.comment_content,
-			a.comment_use,
-	        a.created_at,
-	        a.updated_at,
-	        a.board_writer_idx,
-    		b.member_nickname 	AS comment_writer_nickname,
-    		c.member_image_url 	AS comment_writer_image_url,
-    		NVL(d.cnt, 0) 		AS comment_likes_cnt,
+			paged_comment.comment_idx,
+			paged_comment.comment_content,
+			paged_comment.comment_use,
+	        paged_comment.created_at,
+	        paged_comment.updated_at,
+	        paged_comment.board_writer_idx,
+    		member.member_nickname 			AS comment_writer_nickname,
+    		member_image.member_image_url 	AS comment_writer_image_url,
+    		NVL(likes_group.cnt, 0) 		AS comment_likes_cnt,
     		CASE
-    			WHEN a.comment_writer_idx = a.board_writer_idx THEN 1
+    			WHEN paged_comment.comment_writer_idx = paged_comment.board_writer_idx THEN 1
     			ELSE 0
     		END AS is_board_writer,
     		CASE
-    			WHEN a.comment_writer_idx = #{memberIdx} THEN 1
+    			WHEN paged_comment.comment_writer_idx = #{memberIdx} THEN 1
     			ELSE 0
     		END AS is_comment_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
-    				FROM comment_likes e 
-    				WHERE e.comment_idx = a.comment_idx 
-    				AND e.member_idx = #{memberIdx} 
+    				FROM 
+    					comment_likes 
+    				WHERE 
+    					comment_likes.comment_idx = paged_comment.comment_idx 
+    				AND 
+    					comment_likes.member_idx = #{memberIdx} 
     			) THEN 1
     			ELSE 0
     		END AS is_comment_liked
 		FROM (
 			SELECT
-				a_depth.comment_idx,
-				a_depth.comment_writer_idx,
-		        a_depth.comment_content,
-		        a_depth.comment_use,
-		        a_depth.created_at,
-		        a_depth.updated_at,
-		        a_depth.board_writer_idx
+				sorted_comment.comment_idx,
+				sorted_comment.comment_writer_idx,
+		        sorted_comment.comment_content,
+		        sorted_comment.comment_use,
+		        sorted_comment.created_at,
+		        sorted_comment.updated_at,
+		        sorted_comment.board_writer_idx
 			FROM (
 				SELECT
 					/*+ INDEX_DESC("comment" pk_comment) */
@@ -108,21 +111,21 @@
 			    WHERE
 			    	board.board_idx = #{boardIdx} 
 			    AND
-					<![CDATA[
-					ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} )
-					]]>
-			) a_depth
+					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
+				ORDER BY
+					"comment".comment_idx DESC
+			) sorted_comment
 			WHERE
-				a_depth.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
-		) a
+				sorted_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+		) paged_comment
 		INNER JOIN
-			member b
+			member
 		ON 
-			a.comment_writer_idx = b.member_idx
+			paged_comment.comment_writer_idx = member.member_idx
 		LEFT OUTER JOIN
-			member_image c
+			member_image
 		ON
-			a.comment_writer_idx = c.member_idx
+			paged_comment.comment_writer_idx = member_image.member_idx
 		LEFT OUTER JOIN (
 			SELECT
 				comment_idx,
@@ -131,9 +134,9 @@
 				comment_likes
 			GROUP BY
 				comment_idx
-		) d
+		) likes_group
 		ON
-			a.comment_idx = d.comment_idx
+			paged_comment.comment_idx = likes_group.comment_idx
 	</select>
 	
 	<select id="findCommentTotalCnt" resultType="int">
