@@ -11,7 +11,7 @@ class PageRouter {
 
 	route(routingPath, pushStatePath = null, params = {}, pushState = true) {
 		console.log("## route");
-		console.log("\t > params:", params);
+		console.log("\t > params:", params); // {sort: 'popular', recordCnt: '20', categories: '4,5'}
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
 		url.search = new URLSearchParams(params).toString();
@@ -20,21 +20,17 @@ class PageRouter {
 		console.log("\t > URL: ", decodedUrl);
 		
 		if (pushState && !this._isSameUrl(url)) {
-			console.log("\t > push state");
 			history.pushState(params, "", decodedUrl);
-		} else {
-			console.log("\t > no push state");
 		}
 		
 		const handler = this.routers.get(routingPath); 
 		if (handler) {
-			console.log("\t > handler found");
 			handler(params);
 		} else if(this.errorHandler) {
-			console.log("\t no handler found, using errorHandler");
+			console.log("\t > no handler found, using errorHandler");
 			this.errorHandler();
 		} else {
-			console.log("\t no handler found, and no errorHandler set");
+			console.log("\t > no handler found, and no errorHandler set");
 			alert("오류가 발생했습니다.");
 		}
 	}
@@ -45,6 +41,8 @@ class PageRouter {
 			
 			const params = e.state || {};
 			const path = window.location.pathname;
+			console.log("\t > params:", params);
+			console.log("\t > path:", path);
 			
 			this.route(path, null, params, false);
 		});

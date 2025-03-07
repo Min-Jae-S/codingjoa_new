@@ -432,8 +432,8 @@
 			);
 		} */
 		
-		function convert(urlSerarchParams) {
-			return Object.fromEntries(urlSerarchParams);
+		function convert(URLSerarchParams) {
+			return Object.fromEntries(URLSerarchParams);
 		}
 		
 		function initPage() {
@@ -502,9 +502,7 @@
 			console.log("## form submitted...");
 			e.preventDefault();
 			let formData = $(this).serializeObject();
-			let params = new URLSearchParams(formData);
-			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", formData);
 		});
 		
 		// click pagination
