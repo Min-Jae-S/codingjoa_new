@@ -112,14 +112,7 @@
 	</update>
 
 	<sql id="searchCriteria">
-		<!-- [OUTDATED COMMENT] -->
-		<!-- For cases where criteria are resolved without using the BoardCriteriaArgumentResolver 	 	-->
-		<!--   	* new BoardCriteria(1,5) 							==> boardCri.type = null 									 	-->
-		<!--   	* boardCri.keyword = null or boardCri.keyword = '' 	==> boardCri.keywordRegexp = null 	-->
-		
-		<!-- [UPDATED COMMENT] -->
-		<!-- 	* new BoardCriteria(1,5) ==> this(1,5,"title",null) ==> boardCri.keywordRegexp = null 	-->
-		<if test='boardCri.keywordRegexp != null'>
+		<if test='boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
@@ -159,7 +152,7 @@
     		END AS is_liked
 		FROM (
 		    SELECT 
-		    	filtered_board.*
+		    	searched_board.*
 		    FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -185,9 +178,9 @@
 					board.board_category_code = #{boardCategoryCode} 
 				AND
 					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
-		    ) filtered_board
+		    ) searched_board
 		    WHERE 
-		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+		    	searched_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 		) paged_board
 		LEFT OUTER JOIN (
 			SELECT 

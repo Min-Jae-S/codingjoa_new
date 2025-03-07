@@ -2,8 +2,6 @@ package com.codingjoa.pagination;
 
 import java.util.List;
 
-import org.springframework.util.StringUtils;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -29,10 +27,6 @@ public class AdminBoardCriteria {
 	
 	@JsonIgnore
 	public String getKeywordRegexp() {
-		if (!StringUtils.hasText(keyword)) {
-			return null;
-		}
-		
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 

@@ -1,6 +1,5 @@
 package com.codingjoa.pagination;
 
-import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class BoardCriteria {
 	}
 	
 	public BoardCriteria(int page, int recordCnt) {
-		this(page, recordCnt, "title", null);
+		this(page, recordCnt, "title", "");
 	}
 	
 	public String getQueryString() {
@@ -39,10 +38,6 @@ public class BoardCriteria {
 	}
 	
 	public String getKeywordRegexp() {
-		if (!StringUtils.hasText(keyword)) {
-			return null;
-		}
-		
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 	

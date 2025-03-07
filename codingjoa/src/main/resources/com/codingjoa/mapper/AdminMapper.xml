@@ -35,7 +35,7 @@
 	</resultMap>
 	
 	<sql id="searchCriteria">
-		<if test='keywordRegexp != null'>
+		<if test='!keyword.empty'>
 			<foreach collection='type.split("_")' item="item" open="(" close=") AND" separator="OR">
 				<if test='item.equals("title")'>
 					REGEXP_LIKE( board.board_title, #{keywordRegexp} )
@@ -46,6 +46,12 @@
 				<if test='item.equals("writer")'>
 					REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
 				</if> 
+			</foreach>
+		</if>
+		<if test='!categories.empty'>
+			board.board_category_code IN
+			<foreach collection="list" item="categoryCode" open="(" close=") AND" separator=",">
+				${categoryCode}
 			</foreach>
 		</if>
 	</sql>
@@ -59,7 +65,7 @@
 			NVL(likes_group.cnt, 0) 	AS likes_cnt
 		FROM (
 			SELECT
-				filtered_board.*
+				searched_board.*
 			FROM (
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
@@ -81,8 +87,8 @@
 					member.member_addr,
 					member.member_addr_detail,
 					member.member_agree,
-					member.created_at AS member_created_at,
-					member.updated_at AS member_updated_at
+					member.created_at 	AS member_created_at,
+					member.updated_at 	AS member_updated_at
 				FROM 
 					board
 				INNER JOIN
@@ -92,9 +98,9 @@
 				WHERE 
 					<include refid="searchCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-			) filtered_board
+			) searched_board
 			WHERE 
-				filtered_board.rn > ( (#{page} - 1) * #{recordCnt} )
+				searched_board.rn > ( (#{page} - 1) * #{recordCnt} )
 		) paged_board
 		INNER JOIN
 			category
