@@ -432,8 +432,8 @@
 			);
 		} */
 		
-		function cleanParams(urlSerarchParams) {
-			console.log("## cleanParams");
+		function removeEmptyParams(urlSerarchParams) {
+			console.log("## removeEmptyParams");
 			console.log("\t > urlSearchParams: ", urlSerarchParams.toString());
 			Array.from(urlSerarchParams).forEach(([key, value]) => {
 				console.log("\t > key: %s, value: %s", key, value);
@@ -446,11 +446,10 @@
 		}
 		
 		function initPage() {
-			let currentParams = new URLSearchParams(window.location.search);
-			cleanParams(currentParams);
+			let params = new URLSearchParams(window.location.search);
 			
 			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, currentParams, false);
+			pageRouter.route(window.location.pathname, null, removeEmptyParams(params), false);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
@@ -503,39 +502,48 @@
 				alert(result.message);
 				let params = new URLSearchParams(window.location.search);
 				params.delete("page");
-				processParams
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
+				
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 			});
 		});
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
+			console.log("## form submitted...");
 			e.preventDefault();
 			let formData = $(this).serializeObject();
 			let params = new URLSearchParams(formData);
-			cleanParams(params);
+			console.log("\t > %s", params.toString());
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
+			console.log("## pagination clicked...");
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
-			cleanParams(params);
+			console.log("\t > %s", params.toString());
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// change recordCnt, sort
 		$(document).on("change", "#recordCnt, #sort", function() {
+			console.log("## recordCnt or sort changed...");
+			
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
-			cleanParams(params)
+			console.log("\t > %s", params.toString());
+			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
+			console.log("## categories changed...");
+			
 			let categoryId = $(this).val();
 			
 			if ($(this).prop("checked")) {
@@ -552,8 +560,9 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set("categories", categoryIds);
 			params.delete("page");
+			console.log("\t > %s", params.toString());
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// click category badge btn

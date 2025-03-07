@@ -12,6 +12,7 @@ class PageRouter {
 	route(routingPath, pushStatePath = null, params = {}, pushState = true) {
 		console.log("## route");
 		console.log(params);
+		console.log("\t > %s", params.toString());
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
 		Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
