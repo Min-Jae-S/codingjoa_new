@@ -418,22 +418,15 @@
 				$(".board-pagination").html(paginationHtml);
 			});
 		});
-		
+
 		// 1. exclude empty values, null, and undefined
 		// 2. convert comma-separated values(categories) into an array
- 		/* function processParams(params) {
-			console.log("## processParams");
-			console.log(params);
-			
+		function convert(URLSerarchParams) {
 			return Object.fromEntries(
-				Array.from(params)
+				Array.from(URLSerarchParams)
 					.filter(([key, value]) => value != null && value.trim() != "")
 					.map(([key, value]) => [key, value.includes(",") ? value.split(",") : value])
-			);
-		} */
-		
-		function convert(URLSerarchParams) {
-			return Object.fromEntries(URLSerarchParams);
+				);
 		}
 		
 		function initPage() {
@@ -499,10 +492,11 @@
 		
 		// click search
 		$(document).on("submit", "#adminBoardsForm", function(e) {
-			console.log("## form submitted...");
 			e.preventDefault();
 			let formData = $(this).serializeObject();
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", formData);
+			let params = new URLSearchParams(formData);
+			
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
 		});
 		
 		// click pagination
@@ -516,8 +510,6 @@
 		
 		// change recordCnt, sort
 		$(document).on("change", "#recordCnt, #sort", function() {
-			console.log("## recordCnt or sort changed...");
-			
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
@@ -527,8 +519,6 @@
 		
 		// change categories
 		$(document).on("change", "input[name='categories']", function() {
-			console.log("## categories changed...");
-			
 			let categoryId = $(this).val();
 			
 			if ($(this).prop("checked")) {
