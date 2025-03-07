@@ -421,19 +421,40 @@
 		
 		// 1. exclude empty values, null, and undefined
 		// 2. convert comma-separated values(categories) into an array
-		function processParams(params) {
+ 		/* function processParams(params) {
+			console.log("## processParams");
+			console.log(params);
+			
 			return Object.fromEntries(
 				Array.from(params)
 					.filter(([key, value]) => value != null && value.trim() != "")
 					.map(([key, value]) => [key, value.includes(",") ? value.split(",") : value])
 			);
+		} */
+		
+		function cleanParams(urlSerarchParams) {
+			console.log("## cleanParams");
+			console.log("\t > urlSearchParams: ", urlSerarchParams.toString());
+			Array.from(urlSerarchParams).forEach(([key, value]) => {
+				console.log("\t > key: %s, value: %s", key, value);
+				if (value == null || value.trim() == "") {
+					urlSerarchParams.delete(key);
+				}
+			});
+			
+			return urlSerarchParams;
+		}
+		
+		function initPage() {
+			let currentParams = new URLSearchParams(window.location.search);
+			cleanParams(currentParams);
+			
+			// route(routingPath, pushStatePath, params = {}, pushState = true) 
+			pageRouter.route(window.location.pathname, null, currentParams, false);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
-		let initialParams = new URLSearchParams(window.location.search);
-		
-		// route(routingPath, pushStatePath, params = {}, pushState = true) 
-		pageRouter.route(window.location.pathname, null, processParams(initialParams), false);
+		initPage();
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -467,7 +488,7 @@
 		$(document).on("click", "#deleteBoardsBtn", function() {
 			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
 				.get()
-				.map(element => element.value);
+				.map(el => el.value);
 		
 			if (!boardIds.length) {
 				alert("삭제할 게시물을 선택해주세요.");
@@ -482,7 +503,7 @@
 				alert(result.message);
 				let params = new URLSearchParams(window.location.search);
 				params.delete("page");
-				
+				processParams
 				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
 			});
 		});
@@ -491,16 +512,17 @@
 		$(document).on("submit", "#adminBoardsForm", function(e) {
 			e.preventDefault();
 			let formData = $(this).serializeObject();
-			let parmas = Object.entries(formData);
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(parmas));
+			let params = new URLSearchParams(formData);
+			cleanParams(params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// click pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
-			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
+			cleanParams(params);
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// change recordCnt, sort
@@ -508,8 +530,8 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
-			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", processParams(params));
+			cleanParams(params)
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
 		
 		// change categories
