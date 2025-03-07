@@ -106,6 +106,8 @@
 			    	board.board_idx = #{boardIdx} 
 			    AND
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
+				ORDER BY
+					"comment".comment_idx DESC
 			) filtered_comment
 			WHERE
 				filtered_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
@@ -129,8 +131,6 @@
 		) likes_group
 		ON
 			paged_comment.comment_idx = likes_group.comment_idx
-		ORDER BY
-			paged_comment.comment_idx DESC
 	</select>
 	
 	<select id="findCommentTotalCnt" resultType="int">

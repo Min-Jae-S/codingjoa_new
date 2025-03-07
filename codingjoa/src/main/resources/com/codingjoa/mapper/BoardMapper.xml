@@ -181,6 +181,8 @@
 					board.board_category_code = #{boardCategoryCode} 
 				AND
 					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
+				ORDER BY 
+					board.board_idx DESC
 		    ) filtered_board
 		    WHERE 
 		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
@@ -205,8 +207,6 @@
     	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
-		ORDER BY 
-			paged_board.board_idx DESC
 	</select>
 
 	<select id="findPagedBoardTotalCnt" parameterType="map" resultType="int">

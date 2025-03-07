@@ -98,6 +98,8 @@
 				WHERE 
 					<include refid="searchCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+				ORDER BY
+					board.board_idx DESC
 			) filterd_board
 			WHERE 
 				filterd_board.rn > ( (#{page} - 1) * #{recordCnt} )
