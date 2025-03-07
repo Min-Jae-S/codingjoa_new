@@ -434,7 +434,7 @@
 		
 		function removeEmptyParams(urlSerarchParams) {
 			console.log("## removeEmptyParams");
-			console.log("\t > urlSearchParams: ", urlSerarchParams.toString());
+			console.log("\t > urlSearchParams:", urlSerarchParams.toString());
 			Array.from(urlSerarchParams).forEach(([key, value]) => {
 				console.log("\t > key: %s, value: %s", key, value);
 				if (value == null || value.trim() == "") {
@@ -512,7 +512,7 @@
 			e.preventDefault();
 			let formData = $(this).serializeObject();
 			let params = new URLSearchParams(formData);
-			console.log("\t > %s", params.toString());
+			console.log("\t > URLSearchParams:", params.toString());
 			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
@@ -522,7 +522,7 @@
 			console.log("## pagination clicked...");
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
-			console.log("\t > %s", params.toString());
+			console.log("\t > URLSearchParams:", params.toString());
 			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
@@ -534,7 +534,7 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
-			console.log("\t > %s", params.toString());
+			console.log("\t > URLSearchParams:", params.toString());
 			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});
@@ -559,7 +559,7 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set("categories", categoryIds);
 			params.delete("page");
-			console.log("\t > %s", params.toString());
+			console.log("\t > URLSearchParams:", params.toString());
 			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", params);
 		});

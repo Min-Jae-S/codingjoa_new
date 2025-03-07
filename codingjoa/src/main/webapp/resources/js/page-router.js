@@ -11,15 +11,16 @@ class PageRouter {
 
 	route(routingPath, pushStatePath = null, urlSearchParams, pushState = true) {
 		console.log("## route");
-		console.log("\t > urlSearchParams: %s", urlSearchParams.toString());
+		console.log("\t > URLSearchParams:", urlSearchParams.toString());
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
-		url.searchParams = urlSearchParams.toString();
+		url.search = urlSearchParams.toString();
 		//Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
 		
-		let decodedUrl = decodeURIComponent(url.toString();
+		let decodedUrl = decodeURIComponent(url.toString());
 		let paramsObj = Object.fromEntries(urlSearchParams);
-		console.log("\t > decoded url: %s", decodedUrl);
+		console.log("\t > decoded URL:", decodedUrl);
+		console.log("\t > paramsObj:", paramsObj);
 		
 		if (pushState && !this._isSameUrl(url)) {
 			console.log("\t > push state");
