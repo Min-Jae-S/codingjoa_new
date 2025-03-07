@@ -37,6 +37,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption, 
 			@Value("#{${criteria.board.options.sort}}") Map<String, String> sortOption, 
 			CategoryService categoryService) {
+		log.info("## {}.constructor", this.getClass().getSimpleName());
 		this.defaultPage = defaultPage;
 		this.recordCntOption = recordCntOption;
 		this.typeOption = typeOption;

@@ -36,7 +36,7 @@
 	
 	<sql id="searchCriteria">
 		<if test='!keyword.empty'>
-			<foreach collection='type.split("_")' item="item" open="(" close=") AND" separator="OR">
+			<foreach collection='types' item="item" open="(" close=") AND" separator="OR">
 				<if test='item.equals("title")'>
 					REGEXP_LIKE( board.board_title, #{keywordRegexp} )
 				</if>
@@ -50,7 +50,7 @@
 		</if>
 		<if test='!categories.empty'>
 			board.board_category_code IN
-			<foreach collection="list" item="categoryCode" open="(" close=") AND" separator=",">
+			<foreach collection="categories" item="categoryCode" open="(" close=") AND" separator=",">
 				${categoryCode}
 			</foreach>
 		</if>
