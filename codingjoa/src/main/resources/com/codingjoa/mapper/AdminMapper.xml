@@ -81,8 +81,8 @@
 					member.member_addr,
 					member.member_addr_detail,
 					member.member_agree,
-					member.created_at	AS member_created_at,
-					member.updated_at	AS member_updated_at
+					member.created_at AS member_created_at,
+					member.updated_at AS member_updated_at
 				FROM 
 					board
 				INNER JOIN
@@ -101,16 +101,22 @@
 		ON
 			paged_board.board_category_code = category.category_code
 		LEFT OUTER JOIN (
-			SELECT board_idx, COUNT(*) cnt
-			FROM "comment"
-			GROUP BY board_idx
+			SELECT 
+				board_idx, COUNT(*) cnt
+			FROM 
+				"comment"
+			GROUP BY 
+				board_idx
 		) comment_group
 		ON 
 			paged_board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
-			SELECT board_idx, COUNT(*) cnt
-			FROM board_likes
-			GROUP BY board_idx
+			SELECT 
+				board_idx, COUNT(*) cnt
+			FROM 
+				board_likes
+			GROUP BY 
+				board_idx
 		) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx

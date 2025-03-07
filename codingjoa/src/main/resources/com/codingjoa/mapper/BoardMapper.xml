@@ -79,16 +79,22 @@
 		ON
 			board.board_writer_idx = member.member_idx
 		LEFT OUTER JOIN (
-			SELECT board_idx, COUNT(*) cnt
-			FROM "comment"
-			GROUP BY board_idx
+			SELECT 
+				board_idx, COUNT(*) cnt
+			FROM 
+				"comment"
+			GROUP BY 
+				board_idx
 		) comment_group
 		ON 
 			board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
-			SELECT board_idx, COUNT(*) cnt
-			FROM board_likes 
-			GROUP BY board_idx
+			SELECT 
+				board_idx, COUNT(*) cnt
+			FROM 
+				board_likes 
+			GROUP BY 
+				board_idx
 		) likes_group
 		ON 
 			board.board_idx = likes_group.board_idx
@@ -184,16 +190,22 @@
 		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 		) paged_board
 		LEFT OUTER JOIN (
-			SELECT board_idx, COUNT(*) cnt
-			FROM "comment"
-			GROUP BY board_idx
+			SELECT 
+				board_idx, COUNT(*) cnt
+			FROM 
+				"comment"
+			GROUP BY 
+				board_idx
 		) comment_group
 		ON 
 			paged_board.board_idx = comment_group.board_idx
 		LEFT OUTER JOIN ( 
-			SELECT board_idx, COUNT(*) cnt
-    		FROM board_likes
-    		GROUP BY board_idx 
+			SELECT 
+				board_idx, COUNT(*) cnt
+    		FROM 
+    			board_likes
+    		GROUP BY 
+    			board_idx 
     	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
