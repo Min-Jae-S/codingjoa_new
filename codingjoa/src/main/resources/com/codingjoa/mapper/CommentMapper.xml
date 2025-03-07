@@ -84,13 +84,7 @@
     		END AS is_comment_liked
 		FROM (
 			SELECT
-				sorted_comment.comment_idx,
-				sorted_comment.comment_writer_idx,
-		        sorted_comment.comment_content,
-		        sorted_comment.comment_use,
-		        sorted_comment.created_at,
-		        sorted_comment.updated_at,
-		        sorted_comment.board_writer_idx
+				filtered_comment.*
 			FROM (
 				SELECT
 					/*+ INDEX_DESC("comment" pk_comment) */
@@ -112,11 +106,9 @@
 			    	board.board_idx = #{boardIdx} 
 			    AND
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
-				ORDER BY
-					"comment".comment_idx DESC
-			) sorted_comment
+			) filtered_comment
 			WHERE
-				sorted_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+				filtered_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 		) paged_comment
 		INNER JOIN
 			member
@@ -137,6 +129,8 @@
 		) likes_group
 		ON
 			paged_comment.comment_idx = likes_group.comment_idx
+		ORDER BY
+			paged_comment.comment_idx DESC
 	</select>
 	
 	<select id="findCommentTotalCnt" resultType="int">
