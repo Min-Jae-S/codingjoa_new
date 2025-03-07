@@ -447,9 +447,8 @@
 		
 		function initPage() {
 			let params = new URLSearchParams(window.location.search);
-			
 			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, removeEmptyParams(params), false);
+			pageRouter.route(window.location.pathname, null, params, false);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
