@@ -15,7 +15,7 @@ class PageRouter {
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
 		url.search = new URLSearchParams(params).toString();
-		console.log("\t > url.search: ", decodeURIComponent(url.search));
+		console.log("\t > url.search:", decodeURIComponent(url.search));
 		
 		if (pushState && !this._isSameUrl(url)) {
 			let decodedUrl = decodeURIComponent(url.toString());
@@ -29,7 +29,7 @@ class PageRouter {
 			console.log("\t > no handler found, using errorHandler");
 			this.errorHandler();
 		} else {
-			console.log("\t > no handler found, and no errorHandler set");
+			console.log("\t > no handler found, no errorHandler set");
 			alert("오류가 발생했습니다.");
 		}
 	}

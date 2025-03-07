@@ -443,7 +443,7 @@
 			$("#sidenavAccordion a.nav-link").attr("aria-pressed", false);
 			$(this).attr("aria-pressed", true);
 			
-			pageRouter.route($(this).attr("href"), null, {});
+			pageRouter.route($(this).attr("href"), null);
 			
 			if (!window.matchMedia("(min-width: 992px)").matches) {
 				$("#sidebarToggle").trigger("click");
