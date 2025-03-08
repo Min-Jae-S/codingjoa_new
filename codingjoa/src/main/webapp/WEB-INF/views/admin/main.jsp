@@ -421,7 +421,7 @@
 
 		// 1. exclude empty values, null, and undefined
 		// 2. convert comma-separated values(categories) into an array
-		function convert(URLSerarchParams) {
+		function transformParams(URLSerarchParams) {
 			return Object.fromEntries(
 				Array.from(URLSerarchParams)
 					.filter(([key, value]) => value != null && value.trim() != "")
@@ -432,7 +432,7 @@
 		function initPage() {
 			let params = new URLSearchParams(window.location.search);
 			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, convert(params), false);
+			pageRouter.route(window.location.pathname, null, transformParams(params), false);
 		}
 		
 		console.log("## initializing page, routing to URL:", window.location.pathname);
@@ -486,7 +486,7 @@
 				let params = new URLSearchParams(window.location.search);
 				params.delete("page");
 				
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 			});
 		});
 		
@@ -496,7 +496,7 @@
 			let formData = $(this).serializeObject();
 			let params = new URLSearchParams(formData);
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
 		// click pagination
@@ -505,7 +505,7 @@
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
 		// change recordCnt, sort
@@ -514,7 +514,7 @@
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
 		// change categories
@@ -536,7 +536,7 @@
 			params.set("categories", categoryIds);
 			params.delete("page");
 			
-			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", convert(params));
+			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
 		// click category badge btn

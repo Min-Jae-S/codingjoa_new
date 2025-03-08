@@ -86,7 +86,7 @@
  		<appender-ref ref="jdbc_console"/>
  	</logger>
   	
-  	<logger name="jdbc.sqltiming" additivity="false" level="INFO">
+  	<logger name="jdbc.sqltiming" additivity="false" level="OFF">
   		<appender-ref ref="jdbc_console"/>
   	</logger>
   	

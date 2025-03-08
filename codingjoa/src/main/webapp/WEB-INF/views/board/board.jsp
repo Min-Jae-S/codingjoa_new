@@ -105,7 +105,7 @@
 			</a>
 		</h3>
 		<div class="pt-3">
-        	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri">
+        	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri" id="boardForm">
         		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
 			  	<form:select path="type" class="custom-select mr-3 rounded-md">
 			  		<form:options items="${options.typeOption}"/>
@@ -232,9 +232,29 @@
 	$(function() {
 		$("#recordCnt").on("change", function() {
 			let url = new URL(location.href);
-			url.searchParams.set("page", "1");
 			url.searchParams.set("recordCnt", $(this).val());
+			url.searchParams.delete("page");
+			
+			Array.from(url.searchParams).forEach(([key, value]) => {
+				if (value == null || value.trim() == "") {
+					url.searchParams.delete(key);
+				}
+			});
+			
 			location.href = url;
+		});
+		
+		$("#boardForm").on("submit", function(e) {
+			e.preventDefault();
+			
+			$(this).find("input, select").each(function() {
+				if ($(this).val() == null || $(this).val().trim() == "") {
+					$(this).removeAttr("name");
+				}
+			});
+			
+			//$(this).submit();
+			this.submit();
 		});
 	});
 </script>	
