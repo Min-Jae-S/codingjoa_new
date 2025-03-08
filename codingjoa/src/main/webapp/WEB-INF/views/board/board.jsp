@@ -117,7 +117,7 @@
 				  	</div>
         		</div>
         		<form:select path="recordCnt" class="custom-select rounded-md ml-auto">
-					<form:options items="${options.recordCntOption}"/>
+        			<form:options items="${options.recordCntOption}"/>
         		</form:select>
 			</form:form>
 		</div>
@@ -185,7 +185,7 @@
 				<ul class="pagination">
 					<c:if test="${pagination.first}">
 						<li class="page-item">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(1)}"
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(1)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angles-left"></i>
 							</a>
 						</li>
@@ -193,14 +193,14 @@
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
 							<!-- fa-chevron-left  -->
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.prevPage)}"
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.prevPage)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angle-left"></i>
 							</a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${pagination.page eq item ? 'active' : ''}">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(item)}" 
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(item)}" 
 								class="page-link">${item}
 							</a>
 						</li>
@@ -208,14 +208,14 @@
 					<c:if test="${pagination.next}">
 						<li class="page-item">
 							<!-- fa-chevron-right -->
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.nextPage)}"
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.nextPage)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angle-right"></i>
 							</a>
 						</li>
 					</c:if>
 					<c:if test="${pagination.last}">
 						<li class="page-item">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryString(pagination.pageCnt)}"
+							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.pageCnt)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angles-right"></i>
 							</a>
 						</li>

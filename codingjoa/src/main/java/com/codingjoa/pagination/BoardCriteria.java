@@ -1,5 +1,7 @@
 package com.codingjoa.pagination;
 
+import java.util.Optional;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -23,16 +25,16 @@ public class BoardCriteria {
 		this(page, recordCnt, "title", "");
 	}
 	
-	public String getQueryString() {
-		return getQueryString(this.page);
+	public String getQueryParams() {
+		return getQueryParams(this.page);
 	}
 	
-	public String getQueryString(int page) {
+	public String getQueryParams(int page) {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("recordCnt", this.recordCnt)
 				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword)
+				.queryParamIfPresent("keyword", Optional.of(this.keyword).filter(keyword -> !keyword.isEmpty()))
 				.toUriString()
 				.split("\\?")[1];
 	}
