@@ -60,9 +60,11 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoards() {
 		log.info("## getPagedBoards");
-		log.info("\t > adminBoardCri = {}", adminBoardCri);
+		
+		AdminBoardCriteria adminBoardCri = AdminBoardCriteria.create();
+		log.info("\t > create adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
@@ -79,8 +81,8 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
-		log.info("## getPagedBoardsBySearch");
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);

@@ -2,6 +2,7 @@ package com.codingjoa.pagination;
 
 import java.util.Optional;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -19,10 +20,6 @@ public class BoardCriteria {
 		this.recordCnt = recordCnt;
 		this.type = type;
 		this.keyword = keyword;
-	}
-	
-	public BoardCriteria(int page, int recordCnt) {
-		this(page, recordCnt, "title", "");
 	}
 	
 	public String getQueryParams() {
@@ -43,8 +40,12 @@ public class BoardCriteria {
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 	
+	public String[] getTypes() {
+		return StringUtils.hasText(type)? type.split("_") : new String[] {};
+	}
+ 	
 	public static BoardCriteria create() {
-		return new BoardCriteria(1, 5);
+		return new BoardCriteria(1, 5, "title", "");
 	}
 
 	@Override

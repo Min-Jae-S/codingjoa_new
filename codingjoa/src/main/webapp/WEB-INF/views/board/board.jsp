@@ -142,9 +142,8 @@
 										<span><c:out value="${boardDetails.boardIdx}"/></span>
 									</td>
 									<td class="d-md-table-cell text-left">
-										<a class="board-title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&
-											${boardCri.queryString}">
-												<c:out value="${boardDetails.boardTitle}"/><!--
+										<a class="board-title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&${boardCri.queryParams}">
+											<c:out value="${boardDetails.boardTitle}"/><!--
 									 --></a>
 									 	<c:if test="${boardDetails.commentCnt > 0}">
 											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
