@@ -73,4 +73,9 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.deleteBoards(boardIds);
 	}
 
+	@Override
+	public int deleteComments(List<Integer> commentIds) {
+		return adminMapper.deleteComments(commentIds);
+	}
+
 }

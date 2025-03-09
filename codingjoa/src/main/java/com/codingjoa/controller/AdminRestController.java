@@ -96,8 +96,18 @@ public class AdminRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
-
+	
 	@GetMapping("/comments")
+	public ResponseEntity<Object> getPagedComments() {
+		log.info("## getPagedComments");
+		
+		AdminCommentCriteria adminCommentCri =AdminCommentCriteria.create();
+		log.info("\t > create adminBoardCri = {}", adminCommentCri);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
+	}
+	
+	@GetMapping("/comments/")
 	public ResponseEntity<Object> getPagedComments(@AdminCommentCri AdminCommentCriteria adminCommentCri) {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
@@ -125,6 +135,19 @@ public class AdminRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.DeleteBoards", deletedRows)
+				.build());
+	}
+
+	@DeleteMapping("/comments")
+	public ResponseEntity<Object> deleteComments(@RequestBody List<Integer> commentIds) {
+		log.info("## deleteComments");
+		log.info("\t > commentIds = {}", commentIds);
+		
+		int deletedRows = adminService.deleteComments(commentIds);
+		log.info("\t > deletedRows = {}", deletedRows);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.DeleteComments", deletedRows)
 				.build());
 	}
 }

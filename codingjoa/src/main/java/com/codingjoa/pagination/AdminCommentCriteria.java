@@ -15,4 +15,8 @@ public class AdminCommentCriteria {
 		this.recordCnt = recordCnt;
 	}
 	
+	public static AdminCommentCriteria create() {
+		return new AdminCommentCriteria(1, 10);
+	}
+	
 }

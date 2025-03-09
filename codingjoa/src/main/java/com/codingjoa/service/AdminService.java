@@ -23,4 +23,6 @@ public interface AdminService {
 	Pagination getCommentPagination();
 	
 	int deleteBoards(List<Integer> boardIds);
+	
+	int deleteComments(List<Integer> commentIds);
 }

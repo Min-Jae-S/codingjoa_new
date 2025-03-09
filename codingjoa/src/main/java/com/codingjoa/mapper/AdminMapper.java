@@ -22,4 +22,6 @@ public interface AdminMapper {
 	
 	int deleteBoards(List<Integer> boardIds);
 	
+	int deleteComments(List<Integer> commentIds);
+	
 }
