@@ -14,12 +14,6 @@
 		<result column="updated_at" property="updatedAt"/>
 		<result column="comment_cnt" property="commentCnt"/>
 		<result column="likes_cnt" property="likesCnt"/>
-		<association property="category" javaType="category">
-			<id column="category_code" property="categoryCode"/>
-			<result column="category_parent_code" property="categoryParentCode"/>
-			<result column="category_name" property="categoryName"/>
-			<result column="category_path" property="categoryPath"/>
-		</association>
 		<association property="writer" javaType="member">
 			<id column="member_idx" property="memberIdx"/>
 			<result column="member_email" property="memberEmail"/>
@@ -31,6 +25,12 @@
 			<result column="member_agree" property="memberAgree"/>
 			<result column="member_created_at" property="createdAt"/>
 			<result column="member_updated_at" property="updatedAt"/>
+		</association>
+		<association property="category" javaType="category">
+			<id column="category_code" property="categoryCode"/>
+			<result column="category_parent_code" property="categoryParentCode"/>
+			<result column="category_name" property="categoryName"/>
+			<result column="category_path" property="categoryPath"/>
 		</association>
 	</resultMap>
 	
@@ -57,6 +57,96 @@
 	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
+		SELECT
+			paged_board.board_idx,
+			paged_board.board_writer_idx,
+			paged_board.board_title,
+			paged_board.board_content,
+			paged_board.board_content_text,
+			paged_board.board_category_code,
+			paged_board.board_views,
+			paged_board.created_at,
+			paged_board.updated_at,
+			NVL(paged_board.comment_cnt, 0)	AS comment_cnt,
+			NVL(paged_board.likes_cnt, 0) 	AS likes_cnt,
+			paged_board.member_idx,
+			paged_board.member_email,
+			paged_board.member_nickname,
+			paged_board.member_password,
+			paged_board.member_zipcode,
+			paged_board.member_addr,
+			paged_board.member_addr_detail,
+			paged_board.member_agree,
+			paged_board.member_created_at,
+			paged_board.member_updated_at,
+			category.*
+		FROM (
+			SELECT
+				paging_board.*
+			FROM (
+				SELECT
+					ROWNUM rn,
+					filterd_board.*
+				FROM (
+					SELECT
+						/*+ INDEX_DESC(board pk_board) */
+						board.*,
+						member.member_idx,
+						member.member_email,
+						member.member_password,
+						member.member_nickname,
+						member.member_zipcode,
+						member.member_addr,
+						member.member_addr_detail,
+						member.member_agree,
+						member.created_at 	AS member_created_at,
+						member.updated_at 	AS member_updated_at,
+						comment_group.cnt 	AS comment_cnt,
+						likes_group.cnt		AS likes_cnt
+					FROM 
+						board board
+					INNER JOIN
+						member member
+					ON
+						board.board_writer_idx = member.member_idx
+					LEFT OUTER JOIN (
+						SELECT 
+							board_idx, COUNT(*) cnt
+						FROM 
+							"comment"
+						GROUP BY 
+							board_idx
+					) comment_group
+					ON 
+						board.board_idx = comment_group.board_idx	
+					LEFT OUTER JOIN ( 
+						SELECT 
+							board_idx, COUNT(*) cnt
+						FROM 
+							board_likes
+						GROUP BY 
+							board_idx
+					) likes_group
+					ON 
+						board.board_idx = likes_group.board_idx
+					WHERE 
+						<include refid="searchCriteria"/>
+					ORDER BY
+						board.board_idx DESC 
+				) filterd_board
+				WHERE
+					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+			) paging_board
+			WHERE 
+				paging_board.rn > ( (#{page} - 1) * #{recordCnt} )
+		) paged_board
+		INNER JOIN
+			category
+		ON
+			paged_board.board_category_code = category.category_code
+	</select>
+	
+	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
 			/*+ ORDERED USE_NL(category) USE_NL(comment_group) USE_NL(likes_group) */
 			paged_board.*,
@@ -87,8 +177,8 @@
 					member.member_addr,
 					member.member_addr_detail,
 					member.member_agree,
-					member.created_at 	AS member_created_at,
-					member.updated_at 	AS member_updated_at
+					member.created_at AS member_created_at,
+					member.updated_at AS member_updated_at
 				FROM 
 					board
 				INNER JOIN
@@ -98,8 +188,6 @@
 				WHERE 
 					<include refid="searchCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-				ORDER BY
-					board.board_idx DESC
 			) filterd_board
 			WHERE 
 				filterd_board.rn > ( (#{page} - 1) * #{recordCnt} )
@@ -128,7 +216,7 @@
 		) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
-	</select>
+	</select> -->
 	
 	<select id="findPagedBoardsTotalCnt" resultType="int">
 		SELECT
