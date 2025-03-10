@@ -9,11 +9,13 @@ class PageRouter {
 		this.routers.set(path, handler);
 	}
 
-	route(routingPath, pushStatePath = null, params = {}, pushState = true) {
+	// route(routingPath, pushStatePath = null, params = {}, pushState = true)
+	route(routingPath, params = {}, pushState = true) {
 		console.log("## route");
 		console.log("\t > params:", params);
 		
-		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
+		//let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);
+		let url =  new URL(routingPath, window.location.origin);
 		url.search = new URLSearchParams(params).toString();
 		console.log("\t > url.search:", decodeURIComponent(url.search));
 		
