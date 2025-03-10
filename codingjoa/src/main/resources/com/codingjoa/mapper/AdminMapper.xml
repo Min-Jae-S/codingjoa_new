@@ -35,25 +35,27 @@
 	</resultMap>
 	
 	<sql id="searchCriteria">
-		<if test='!keyword.empty'>
-			<foreach collection='types' item="item" open="(" close=") AND" separator="OR">
-				<if test='item.equals("title")'>
-					REGEXP_LIKE( board.board_title, #{keywordRegexp} )
-				</if>
-				<if test='item.equals("content")'>
-					REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
-				</if>
-				<if test='item.equals("writer")'>
-					REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
-				</if> 
-			</foreach>
-		</if>
-		<if test='!categories.empty'>
-			board.board_category_code IN
-			<foreach collection="categories" item="categoryCode" open="(" close=") AND" separator=",">
-				${categoryCode}
-			</foreach>
-		</if>
+		<where>
+			<if test='!keyword.empty'>
+				<foreach collection='types' item="item" open="(" close=") AND" separator="OR">
+					<if test='item.equals("title")'>
+						REGEXP_LIKE( board.board_title, #{keywordRegexp} )
+					</if>
+					<if test='item.equals("content")'>
+						REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
+					</if>
+					<if test='item.equals("writer")'>
+						REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
+					</if> 
+				</foreach>
+			</if>
+			<if test='!categories.empty'>
+				board.board_category_code IN
+				<foreach collection="categories" item="categoryCode" open="(" close=")" separator=",">
+					${categoryCode}
+				</foreach>
+			</if>
+		</where>
 	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
@@ -93,8 +95,8 @@
 						board.*,
 						member.member_idx,
 						member.member_email,
-						member.member_password,
 						member.member_nickname,
+						member.member_password,
 						member.member_zipcode,
 						member.member_addr,
 						member.member_addr_detail,
@@ -129,8 +131,7 @@
 					) likes_group
 					ON 
 						board.board_idx = likes_group.board_idx
-					WHERE 
-						<include refid="searchCriteria"/>
+					<include refid="searchCriteria"/>
 					ORDER BY
 						board.board_idx DESC 
 				) filterd_board
@@ -227,9 +228,7 @@
 			member
 		ON
 			board.board_writer_idx = member.member_idx
-		WHERE
-			<include refid="searchCriteria"/>
-			1 = 1
+		<include refid="searchCriteria"/>
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">
