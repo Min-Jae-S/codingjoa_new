@@ -22,12 +22,10 @@ import com.codingjoa.pagination.AdminCommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.service.AdminService;
-import com.codingjoa.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
@@ -35,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
-	private final CategoryService categoryService;
 	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping
@@ -60,11 +57,9 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards() {
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
-		
-		AdminBoardCriteria adminBoardCri = AdminBoardCriteria.create();
-		log.info("\t > create default adminBoardCri = {}", adminBoardCri);
+		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
@@ -72,9 +67,9 @@ public class AdminRestController {
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("adminBoardCri", adminBoardCri);
 		data.put("pagedBoards", pagedBoards);
 		data.put("pagination", pagination);
+		data.put("adminBoardCri", adminBoardCri);
 		data.put("options", adminBoardCriResolver.getOptions());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());

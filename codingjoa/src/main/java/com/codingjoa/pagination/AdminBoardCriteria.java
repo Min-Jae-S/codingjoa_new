@@ -1,7 +1,6 @@
 package com.codingjoa.pagination;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -37,10 +36,6 @@ public class AdminBoardCriteria {
 	@JsonIgnore
 	public String[] getTypes() {
 		return StringUtils.hasText(type)? type.split("_") : new String[] {};
-	}
-	
-	public static AdminBoardCriteria create() {
-		return new AdminBoardCriteria(1, 10, "", "title", "latest", Collections.emptyList());
 	}
 
 	@Override
