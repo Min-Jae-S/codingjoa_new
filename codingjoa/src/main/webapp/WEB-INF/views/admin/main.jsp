@@ -402,8 +402,8 @@
 			$contentContainer.html(welcomePageHtml);
 		});
 		
-		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
-			adminService.getPagedBoards(params, function(result) {
+		pageRouter.addRouter("${contextPath}/admin/boards", function() {
+			adminService.getPagedBoards(function(result) {
 				localStorage.setItem("adminBoardOptions", JSON.stringify(result.data.options))
 				let boardsPageHtml = createBoardsPageHtml(result);
 				$contentContainer.html(boardsPageHtml);

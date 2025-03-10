@@ -1,13 +1,11 @@
 let adminService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 	
-	function getPagedBoards(adminBoardCri, callback) {
+	function getPagedBoards(callback) {
 		console.log("## getPagedBoards");
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,
-			data : adminBoardCri,
-			traditional : true,		// categories[]=4&categories[]=5 -> categories=4&categories=5
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -31,7 +29,7 @@ let adminService = (function() {
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards/`,
-			data : adminBoardCri,
+			data : adminBoardCri, // categories[]=4&categories[]=5 -> categories=4&categories=5
 			traditional : true,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {

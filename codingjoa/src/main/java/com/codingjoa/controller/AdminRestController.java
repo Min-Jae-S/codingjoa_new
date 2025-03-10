@@ -64,7 +64,7 @@ public class AdminRestController {
 		log.info("## getPagedBoards");
 		
 		AdminBoardCriteria adminBoardCri = AdminBoardCriteria.create();
-		log.info("\t > create adminBoardCri = {}", adminBoardCri);
+		log.info("\t > create default adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
@@ -81,8 +81,8 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
-		log.info("## getPagedBoards");
+	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
@@ -101,8 +101,8 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
 		
-		AdminCommentCriteria adminCommentCri =AdminCommentCriteria.create();
-		log.info("\t > create adminBoardCri = {}", adminCommentCri);
+		AdminCommentCriteria adminCommentCri = AdminCommentCriteria.create();
+		log.info("\t > create default adminCommentCri = {}", adminCommentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
