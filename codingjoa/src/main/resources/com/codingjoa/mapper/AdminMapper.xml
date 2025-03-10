@@ -131,7 +131,7 @@
 								likes_group.cnt DESC, board.board_idx DESC
 							</when>
 							<when test="'views'.equals(sort)">
-								board.board_view DESC, board.board_idx DESC
+								board.board_views DESC, board.board_idx DESC
 							</when>
 							<when test="'comments'.equals(sort)">
 								comment_group.cnt DESC, board.board_idx DESC
