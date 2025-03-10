@@ -44,7 +44,5 @@ public class AdminBoardCriteria {
 				+ type + ", sort=" + sort + ", categories=" + categories + ", getKeywordRegexp()=" + getKeywordRegexp()
 				+ ", getTypes()=" + Arrays.toString(getTypes()) + "]";
 	}
-
-	
 	
 }

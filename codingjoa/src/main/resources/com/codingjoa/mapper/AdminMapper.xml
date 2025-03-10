@@ -51,7 +51,7 @@
 						REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
 					</if>
 					<if test='item.equals("writer")'>
-						member.member_nickname LIKE '%' || #{keyword} || '%'
+						REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
 					</if> 
 				</foreach>
 			</if>
@@ -112,28 +112,34 @@
 					ON
 						board.board_writer_idx = member.member_idx
 					LEFT OUTER JOIN (
-						SELECT 
-							board_idx, COUNT(*) cnt
-						FROM 
-							"comment"
-						GROUP BY 
-							board_idx
+						SELECT board_idx, COUNT(*) cnt FROM "comment" GROUP BY board_idx
 					) comment_group
 					ON 
 						board.board_idx = comment_group.board_idx	
 					LEFT OUTER JOIN ( 
-						SELECT 
-							board_idx, COUNT(*) cnt
-						FROM 
-							board_likes
-						GROUP BY 
-							board_idx
+						SELECT board_idx, COUNT(*) cnt FROM board_likes GROUP BY board_idx
 					) likes_group
 					ON 
 						board.board_idx = likes_group.board_idx
 					<include refid="searchCriteria"/>
 					ORDER BY
-						board.board_idx DESC 
+						<choose>
+							<when test="'latest'.eqauls(sort)">
+								board.board_idx DESC
+							</when>
+							<when test="'popular'.eqauls(sort)">
+								likes_group.cnt DESC, board.board_idx DESC
+							</when>
+							<when test="'views'.eqauls(sort)">
+								board.board_view DESC, board.board_idx DESC
+							</when>
+							<when test="'comments'.eqauls(sort)">
+								comment_group.cnt DESC, board.board_idx DESC
+							</when>
+							<otherwise>
+								board.board_idx DESC 
+							</otherwise>
+						</choose>
 				) filterd_board
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
