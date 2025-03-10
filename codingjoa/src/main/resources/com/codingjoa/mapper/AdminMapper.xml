@@ -124,16 +124,16 @@
 					<include refid="searchCriteria"/>
 					ORDER BY
 						<choose>
-							<when test="'latest'.eqauls(sort)">
+							<when test="'latest'.equals(sort)">
 								board.board_idx DESC
 							</when>
-							<when test="'popular'.eqauls(sort)">
+							<when test="'popular'.equals(sort)">
 								likes_group.cnt DESC, board.board_idx DESC
 							</when>
-							<when test="'views'.eqauls(sort)">
+							<when test="'views'.equals(sort)">
 								board.board_view DESC, board.board_idx DESC
 							</when>
-							<when test="'comments'.eqauls(sort)">
+							<when test="'comments'.equals(sort)">
 								comment_group.cnt DESC, board.board_idx DESC
 							</when>
 							<otherwise>

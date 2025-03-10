@@ -106,8 +106,6 @@
 			    	board.board_idx = #{boardIdx} 
 			    AND
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
-				ORDER BY
-					"comment".comment_idx DESC
 			) filtered_comment
 			WHERE
 				filtered_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
