@@ -121,7 +121,7 @@
 											<span><c:out value="${boardDetails.createdAt}"/></span>
 										</td>
 										<td class="d-md-table-cell">
-											<span><c:out value="${boardDetails.boardViews}"/></span>
+											<span><c:out value="${boardDetails.boardView}"/></span>
 										</td>
 										<td class="d-md-table-cell">
 											<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"></i>

@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
     board_writer_idx        NUMBER                      NOT NULL,
 	board_title             VARCHAR2(500)               NOT NULL,
     board_content           CLOB                        NOT NULL,
-    board_content_text      CLOB                        NULL,		// NOT NULL --> NULL
+    board_content_text      CLOB                        NULL,
 	board_category_code     NUMBER                      NOT NULL,
-    board_views             NUMBER          DEFAULT 0   NOT NULL,
+    board_view             	NUMBER          DEFAULT 0   NOT NULL,
+    comment_cnt             NUMBER          DEFAULT 0   NOT NULL,
+    likes_cnt             	NUMBER          DEFAULT 0   NOT NULL,
 	created_at              DATE                        NOT NULL,
     updated_at              DATE                        NOT NULL,
 */
@@ -28,29 +30,31 @@ public class Board {
 	private String boardContent;
 	private String boardContentText;
 	private Integer boardCategoryCode;
-	private Integer boardViews;
+	private Integer boardView;
+	private Integer commentCnt;
+	private Integer likesCnt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
 	@Builder
 	private Board(Integer boardIdx, Integer boardWriterIdx, String boardTitle, String boardContent, String boardContentText,
-			Integer boardCategoryCode, Integer boardViews, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			Integer boardCategoryCode, Integer boardView, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.boardIdx = boardIdx;
 		this.boardWriterIdx = boardWriterIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
 		this.boardContentText = boardContentText;
 		this.boardCategoryCode = boardCategoryCode;
-		this.boardViews = boardViews;
+		this.boardView = boardView;
 	}
-	
+
 	@Override
 	public String toString() {
 		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
 		return "Board [boardIdx=" + boardIdx + ", boardWriterIdx=" + boardWriterIdx + ", boardTitle=" + boardTitle
 				+ ", boardContent=" + escapedBoardContent + ", boardContentText=" + boardContentText + ", boardCategoryCode="
-				+ boardCategoryCode + ", boardViews=" + boardViews + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+				+ boardCategoryCode + ", boardView=" + boardView + ", commentCnt=" + commentCnt + ", likesCnt="
+				+ likesCnt + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	
 }

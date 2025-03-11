@@ -14,42 +14,32 @@ public class BoardDetailsDto {
 	private int boardIdx;
 	private String boardTitle;
 	private String boardContent;
-	private int boardViews;
+	private int boardView;
 	private int boardCategoryCode;
+	private int commentCnt;
+	private int likesCnt;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String writerNickname;		// from INNER JOIN with member
-	private int commentCnt;				// from LEFT OUTER JOIN with comment
-	private int likesCnt;				// from LEFT OUTER JOIN with board_likes
+	private String writerNickname;
 	private boolean isWriter;
 	private boolean isLiked;		
 	
 	@Builder
-	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardViews, int boardCategoryCode,
-			LocalDateTime createdAt, LocalDateTime updatedAt, String writerNickname, int commentCnt, int likesCnt,
+	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardView, int boardCategoryCode,
+			int commentCnt, int likesCnt, LocalDateTime createdAt, LocalDateTime updatedAt, String writerNickname,
 			boolean isWriter, boolean isLiked) {
 		this.boardIdx = boardIdx;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
-		this.boardViews = boardViews;
+		this.boardView = boardView;
 		this.boardCategoryCode = boardCategoryCode;
+		this.commentCnt = commentCnt;
+		this.likesCnt = likesCnt;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.writerNickname = writerNickname;
-		this.commentCnt = commentCnt;
-		this.likesCnt = likesCnt;
 		this.isWriter = isWriter;
 		this.isLiked = isLiked;
-	}
-	
-	@Override
-	public String toString() {
-		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent="
-				+ escapedBoardContent + ", boardViews=" + boardViews + ", boardCategoryCode=" + boardCategoryCode
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname
-				+ ", commentCnt=" + commentCnt + ", likesCnt=" + likesCnt + ", isWriter=" + isWriter + ", isLiked="
-				+ isLiked + "]";
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
@@ -57,13 +47,13 @@ public class BoardDetailsDto {
 				.boardIdx((int) map.get("boardIdx"))
 				.boardTitle((String) map.get("boardTitle"))
 				.boardContent((String) map.get("boardContent"))
-				.boardViews((int) map.get("boardViews"))
+				.boardView((int) map.get("boardView"))
 				.boardCategoryCode((int) map.get("boardCategoryCode"))
+				.commentCnt((int) map.get("commentCnt"))
+				.likesCnt((int) map.get("likesCnt"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
 				.writerNickname((String) map.get("writerNickname"))
-				.commentCnt((int) map.get("commentCnt"))
-				.likesCnt((int) map.get("likesCnt"))
 				.isWriter((boolean) map.get("isWriter"))
 				.isLiked((boolean) map.get("isLiked"))
 				.build();
@@ -89,5 +79,16 @@ public class BoardDetailsDto {
 		
 		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
+
+	@Override
+	public String toString() {
+		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
+		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent="
+				+ escapedBoardContent + ", boardView=" + boardView + ", boardCategoryCode=" + boardCategoryCode
+				+ ", commentCnt=" + commentCnt + ", likesCnt=" + likesCnt + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + ", writerNickname=" + writerNickname + ", isWriter=" + isWriter + ", isLiked=" + isLiked
+				+ "]";
+	}
+
 	
 }

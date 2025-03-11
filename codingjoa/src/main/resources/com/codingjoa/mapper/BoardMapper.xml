@@ -6,9 +6,11 @@
     board_writer_idx        NUMBER                      NOT NULL,
 	board_title             VARCHAR2(500)               NOT NULL,
     board_content           CLOB                        NOT NULL,
-    board_content_text      CLOB                        NULL,		NOT NULL >> NULL
+    board_content_text      CLOB                        NULL,		* NOT NULL >> NULL
 	board_category_code     NUMBER                      NOT NULL,
-    board_views             NUMBER          DEFAULT 0   NOT NULL,
+    board_view             	NUMBER          DEFAULT 0   NOT NULL,	* board_views >> board_view
+    comment_cnt             NUMBER          DEFAULT 0   NOT NULL,   * appended column
+    likes_cnt               NUMBER          DEFAULT 0   NOT NULL,   * appended column
 	created_at              DATE                        NOT NULL,
     updated_at              DATE                        NOT NULL
 -->
@@ -45,8 +47,8 @@
 		<result column="board_content" property="boardContent" javaType="string" jdbcType="CLOB" />
 		<result column="board_view" property="boardView" javaType="int"/>
 		<result column="board_category_code" property="boardCategoryCode" javaType="int"/>
-		<result column="likes_cnt" property="likesCnt" javaType="int"/>
 		<result column="comment_cnt" property="commentCnt" javaType="int"/>
+		<result column="likes_cnt" property="likesCnt" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
 		<result column="member_nickname" property="writerNickname" javaType="string"/>
@@ -141,17 +143,7 @@
 				SELECT
 					/*+ INDEX_DESC(board pk_board) */
 		        	ROWNUM rn, 
-		        	board.board_idx,
-					board.board_writer_idx,
-					board.board_title,
-					board.board_content,
-					board.board_content_text,
-					board.board_category_code,
-					board.board_view,
-					board.likes_cnt,
-					board.comment_cnt,
-					board.created_at,
-					board.updated_at,
+		        	board.*
 		        	member.member_nickname
 		    	FROM 
 		        	board
@@ -161,7 +153,8 @@
 		        	board.board_writer_idx = member.member_idx
 		    	WHERE
 		        	<include refid="searchCriteria"/>
-					board.board_category_code = #{boardCategoryCode} 
+					board.board_category_code = #{boardCategoryCode}
+				<!-- ORDER BY -->
 				AND
 					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
 		    ) filtered_board

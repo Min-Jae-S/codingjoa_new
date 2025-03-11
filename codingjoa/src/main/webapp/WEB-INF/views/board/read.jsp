@@ -423,7 +423,7 @@
 					<div class="board-info-left">
 						<span><c:out value="${boardDetails.writerNickname}"/></span>
 						<span><c:out value="${boardDetails.fullCreatedAt}"/></span>
-						<span>조회 <c:out value="${boardDetails.boardViews}"/></span>
+						<span>조회 <c:out value="${boardDetails.boardView}"/></span>
 					</div>
 					<div class="board-info-right">
 						<div>

@@ -66,11 +66,11 @@
 			paged_board.board_content,
 			paged_board.board_content_text,
 			paged_board.board_category_code,
-			paged_board.board_views,
+			paged_board.board_view,
+			paged_board.comment_cnt,
+			paged_board.likes_cnt,
 			paged_board.created_at,
 			paged_board.updated_at,
-			NVL(paged_board.comment_cnt, 0)	AS comment_cnt,
-			NVL(paged_board.likes_cnt, 0) 	AS likes_cnt,
 			paged_board.member_idx,
 			paged_board.member_email,
 			paged_board.member_nickname,
@@ -103,24 +103,12 @@
 						member.member_agree,
 						member.created_at 	AS member_created_at,
 						member.updated_at 	AS member_updated_at,
-						comment_group.cnt 	AS comment_cnt,
-						likes_group.cnt		AS likes_cnt
 					FROM 
-						board board
+						board
 					INNER JOIN
-						member member
+						member
 					ON
 						board.board_writer_idx = member.member_idx
-					LEFT OUTER JOIN (
-						SELECT board_idx, COUNT(*) cnt FROM "comment" GROUP BY board_idx
-					) comment_group
-					ON 
-						board.board_idx = comment_group.board_idx	
-					LEFT OUTER JOIN ( 
-						SELECT board_idx, COUNT(*) cnt FROM board_likes GROUP BY board_idx
-					) likes_group
-					ON 
-						board.board_idx = likes_group.board_idx
 					<include refid="searchCriteria"/>
 					ORDER BY
 						<choose>
