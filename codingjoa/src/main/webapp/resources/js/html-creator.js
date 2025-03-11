@@ -374,13 +374,13 @@ function createBoardsTableHtml(pagedBoards) {
 					${adminBoard.isUpdated ? `<span class="updated-at">${adminBoard.updatedAt}</span>` : ``}
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminBoard.boardViews}</span>
-				</td>
-				<td class="d-md-table-cell">
-					<span>${adminBoard.likesCnt}</span>
+					<span>${adminBoard.boardView}</span>
 				</td>
 				<td class="d-md-table-cell">
 					<span>${adminBoard.commentCnt}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminBoard.likesCnt}</span>
 				</td>
 			</tr>`).join("");
 	}
@@ -400,8 +400,8 @@ function createBoardsTableHtml(pagedBoards) {
 					<th class="d-md-table-cell">게시판</th>
 					<th class="d-md-table-cell">작성일 (수정일)</th>
 					<th class="d-md-table-cell">조회</th>
-					<th class="d-md-table-cell">좋아요</th>
 					<th class="d-md-table-cell">댓글</th>
+					<th class="d-md-table-cell">좋아요</th>
 				</tr>
 			</thead>
 			<tbody>

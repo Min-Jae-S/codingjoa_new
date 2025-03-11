@@ -116,13 +116,13 @@
 								board.board_idx DESC
 							</when>
 							<when test="'popular'.equals(sort)">
-								likes_group.cnt DESC, board.board_idx DESC
+								board.likes_cnt DESC, board.board_idx DESC
 							</when>
-							<when test="'views'.equals(sort)">
-								board.board_views DESC, board.board_idx DESC
+							<when test="'view'.equals(sort)">
+								board.board_view DESC, board.board_idx DESC
 							</when>
-							<when test="'comments'.equals(sort)">
-								comment_group.cnt DESC, board.board_idx DESC
+							<when test="'comment'.equals(sort)">
+								board.comment_cnt DESC, board.board_idx DESC
 							</when>
 							<otherwise>
 								board.board_idx DESC 
