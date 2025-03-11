@@ -43,13 +43,13 @@
 		<result column="board_title" property="boardTitle" javaType="string"/>
 		<!-- <result column="board_content" property="boardContent" typeHandler="clobTypeHandler"/> -->
 		<result column="board_content" property="boardContent" javaType="string" jdbcType="CLOB" />
-		<result column="board_views" property="boardViews" javaType="int"/>
+		<result column="board_view" property="boardView" javaType="int"/>
 		<result column="board_category_code" property="boardCategoryCode" javaType="int"/>
+		<result column="likes_cnt" property="likesCnt" javaType="int"/>
+		<result column="comment_cnt" property="commentCnt" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
 		<result column="member_nickname" property="writerNickname" javaType="string"/>
-		<result column="comment_cnt" property="commentCnt" javaType="int"/>
-		<result column="likes_cnt" property="likesCnt" javaType="int"/>
 		<result column="is_writer" property="isWriter" javaType="boolean"/>
 		<result column="is_liked" property="isLiked" javaType="boolean"/>
 	</resultMap>
@@ -58,18 +58,20 @@
 		SELECT 
 			board.*,
 			member.member_nickname, 
-			NVL(comment_group.cnt, 0) 	AS comment_cnt, 
-			NVL(likes_group.cnt, 0) 	AS likes_cnt,
     		CASE
     			WHEN board.board_writer_idx = #{memberIdx} 
     			THEN 1 ELSE 0
     		END AS is_writer,
     		CASE
     			WHEN EXISTS ( 
-    				SELECT 1 
-    				FROM board_likes
-    				WHERE board_likes.board_idx = board.board_idx 
-    				AND board_likes.member_idx = #{memberIdx} 
+    				SELECT 
+    					1 
+    				FROM 
+    					board_likes
+    				WHERE 
+    					board_likes.board_idx = board.board_idx 
+    				AND 
+    					board_likes.member_idx = #{memberIdx} 
     			) THEN 1 ELSE 0
     		END AS is_liked
 		FROM
@@ -78,35 +80,15 @@
 			member
 		ON
 			board.board_writer_idx = member.member_idx
-		LEFT OUTER JOIN (
-			SELECT 
-				board_idx, COUNT(*) cnt
-			FROM 
-				"comment"
-			GROUP BY 
-				board_idx
-		) comment_group
-		ON 
-			board.board_idx = comment_group.board_idx
-		LEFT OUTER JOIN ( 
-			SELECT 
-				board_idx, COUNT(*) cnt
-			FROM 
-				board_likes 
-			GROUP BY 
-				board_idx
-		) likes_group
-		ON 
-			board.board_idx = likes_group.board_idx
 		WHERE
 			board.board_idx = #{boardIdx} 
 	</select>
 
-	<update id="updateBoardViews" parameterType="int">
+	<update id="updateBoardView" parameterType="int">
 		UPDATE
 			board
 		SET
-			board_views = board_views + 1
+			board_view = board_view + 1
 		WHERE
 			board_idx = #{boardIdx}
 	</update>
@@ -136,15 +118,14 @@
 		SELECT
 			/*+ ORDERED USE_NL(comment_group) USE_NL(likes_group) */
 			paged_board.*,
-			NVL(comment_group.cnt, 0) 	AS comment_cnt,
-			NVL(likes_group.cnt, 0) 	AS likes_cnt,
 			CASE
 				WHEN paged_board.board_writer_idx = #{memberIdx} 
 				THEN 1 ELSE 0
 			END AS is_writer,
 			CASE
 				WHEN EXISTS (
-					SELECT 1
+					SELECT 
+						1
 					FROM 
 						board_likes
 					WHERE 
@@ -166,7 +147,9 @@
 					board.board_content,
 					board.board_content_text,
 					board.board_category_code,
-					board.board_views,
+					board.board_view,
+					board.likes_cnt,
+					board.comment_cnt,
 					board.created_at,
 					board.updated_at,
 		        	member.member_nickname
@@ -185,24 +168,6 @@
 		    WHERE 
 		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 		) paged_board
-		LEFT OUTER JOIN (
-			SELECT 
-				board_idx, COUNT(*) cnt
-			FROM 
-				"comment"
-			GROUP BY 
-				board_idx
-		) comment_group
-		ON 
-			paged_board.board_idx = comment_group.board_idx
-		LEFT OUTER JOIN ( 
-			SELECT 
-				board_idx, COUNT(*) cnt
-    		FROM 
-    			board_likes
-    		GROUP BY 
-    			board_idx 
-    	) likes_group
 		ON 
 			paged_board.board_idx = likes_group.board_idx
 	</select>

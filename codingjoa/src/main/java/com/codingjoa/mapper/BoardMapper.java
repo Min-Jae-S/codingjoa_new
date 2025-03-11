@@ -16,7 +16,7 @@ public interface BoardMapper {
 	
 	Map<String, Object> findBoardDetailsByIdx(@Param("boardIdx") int boardIdx, @Param("memberIdx") Integer memberIdx);
 	
-	void updateBoardViews(int boardIdx);
+	void updateBoardView(int boardIdx);
 	
 	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
 			@Param("boardCri") BoardCriteria boardCri, @Param("memberIdx") Integer memberIdx);

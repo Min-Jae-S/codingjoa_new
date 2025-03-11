@@ -14,7 +14,7 @@ public interface BoardService {
 	
 	BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx);
 	
-	void updateBoardViews(int boardIdx);
+	void updateBoardView(int boardIdx);
 	
 	List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri, Integer memberIdx);
 
