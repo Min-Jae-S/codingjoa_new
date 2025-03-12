@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import javax.validation.constraints.NotBlank;
 
 import com.codingjoa.converter.WhitespaceDeserializer;
-import com.codingjoa.entity.Comment;
+import com.codingjoa.entity.Reply;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Builder;
@@ -40,8 +40,8 @@ public class CommentDto {
 				+ boardIdx + ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + "]";
 	}
 
-	public Comment toEntity() {
-		return Comment.builder()
+	public Reply toEntity() {
+		return Reply.builder()
 				.commentIdx(this.commentIdx)
 				.commentWriterIdx(this.commentWriterIdx)
 				.boardIdx(this.boardIdx)

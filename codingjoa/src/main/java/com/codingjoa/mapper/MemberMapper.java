@@ -6,14 +6,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.Member;
+import com.codingjoa.entity.User;
 import com.codingjoa.entity.SnsInfo;
 
 
 @Mapper
 public interface MemberMapper {
 	
-	boolean insertMember(Member member);
+	boolean insertMember(User member);
 	
 	boolean insertAuth(Auth auth);
 	
@@ -23,21 +23,21 @@ public interface MemberMapper {
 	
 	Map<String, Object> findMemberInfoByIdx(Integer memberIdx);
 	
-	Member findMemberByEmail(String memberEmail);
+	User findMemberByEmail(String memberEmail);
 	
-	Member findMemberByIdx(Integer memberIdx);
+	User findMemberByIdx(Integer memberIdx);
 	
-	boolean updateNickname(Member member);
+	boolean updateNickname(User member);
 	
-	boolean updateEmail(Member member);
+	boolean updateEmail(User member);
 	
-	boolean updateAddr(Member member);
+	boolean updateAddr(User member);
 	
-	boolean updateAgree(Member member);
+	boolean updateAgree(User member);
 	
-	boolean updatePassword(Member member);
+	boolean updatePassword(User member);
 	
-	Member findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
+	User findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
 	
 	Map<String, Object> findUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
 	

@@ -22,11 +22,11 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private final int idx;
+	private final int id;
 	private final String email;					
 	private final String password;
 	private final String nickname;
-	private final String imageUrl;						// from LEFT OUTER JOIN member_iamge
+	private final String imagePath;						// from LEFT OUTER JOIN user_image
 	private final String provider;						// from LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// from INNER JOIN auth
 	
@@ -34,13 +34,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private String nameAttributeKey;
 
 	@Builder
-	private PrincipalDetails(Integer idx, String email, String password, String nickname, String imageUrl,
+	private PrincipalDetails(Integer id, String email, String password, String nickname, String imagePath,
 			String provider, List<GrantedAuthority> authorities) {
-		this.idx = idx;
+		this.id = id;
 		this.email = email;
 		this.password = (password == null) ? "" : password;
 		this.nickname = nickname;
-		this.imageUrl = (imageUrl == null) ? "" : imageUrl;
+		this.imagePath = (imagePath == null) ? "" : imagePath;
 		this.provider = (provider == null) ? "local" : provider;
 		this.authorities = authorities;
 	}
@@ -100,12 +100,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public static PrincipalDetails from(Map<String, Object> map) { // from database
 		List<String> memberRoles = (List<String>) map.get("memberRoles");
 		return PrincipalDetails.builder()
-				.idx((int) map.get("memberIdx"))
-				.email((String) map.get("memberEmail"))
-				.password((String) map.get("memberPassword"))
-				.nickname((String) map.get("memberNickname"))
-				.imageUrl((String) map.get("memberImageUrl"))
-				.provider((String) map.get("snsProvider"))
+				.id((int) map.get("id"))
+				.email((String) map.get("email"))
+				.password((String) map.get("password"))
+				.nickname((String) map.get("nickname"))
+				.imagePath((String) map.get("imagePath"))
+				.provider((String) map.get("provider"))
 				.authorities(convert(memberRoles))
 				.build();
 	}
@@ -120,10 +120,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public static PrincipalDetails from(Claims claims) { // from JWT
 		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
-				.idx(Integer.parseInt(claims.getSubject()))
+				.id(Integer.parseInt(claims.getSubject()))
 				.email((String) claims.get("email"))
 				.nickname((String) claims.get("nickname"))
-				.imageUrl((String) claims.get("image_url"))
+				.imagePath((String) claims.get("image_path"))
 				.provider((String) claims.get("provider"))
 				.authorities(convert(roles))
 				.build();
@@ -137,9 +137,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.nameAttributeKey = nameAttributeKey;
 	}
 	
-	private static List<GrantedAuthority> convert(List<String> memberRoles) {
+	private static List<GrantedAuthority> convert(List<String> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : memberRoles) {
+		for (String role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
 		return authorities;

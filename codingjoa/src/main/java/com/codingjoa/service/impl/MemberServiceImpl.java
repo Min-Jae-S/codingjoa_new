@@ -17,7 +17,7 @@ import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.Member;
+import com.codingjoa.entity.User;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.MemberMapper;
@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 		String encPassword = passwordEncoder.encode(rawPassword);
 		joinDto.setMemberPassword(encPassword);
 		
-		Member member = joinDto.toEntity();
+		User member = joinDto.toEntity();
 		log.info("\t > convert JoinDto to member entity = {}", member);
 		
 		boolean isMemberSaved = memberMapper.insertMember(member);
@@ -72,7 +72,7 @@ public class MemberServiceImpl implements MemberService {
 		String memberNickname = resolveNickname(oAuth2Attributes.getNickname());
 		log.info("\t > resovled nickname = {}", memberNickname);
 		
-		Member member = Member.builder()
+		User member = User.builder()
 				.memberNickname(memberNickname) 
 				.memberEmail(oAuth2Attributes.getEmail())
 				.memberAgree(false)
@@ -157,7 +157,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void checkEmailForJoin(String memberEmail) {
-		Member member = memberMapper.findMemberByEmail(memberEmail);
+		User member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
 			throw new ExpectedException("memberEmail", "error.EmailExist");
 		}
@@ -165,7 +165,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void checkEmailForUpdate(String memberEmail, Integer memberIdx) {
-		Member currentMember = memberMapper.findMemberByIdx(memberIdx);
+		User currentMember = memberMapper.findMemberByIdx(memberIdx);
 		if (currentMember == null) {
 			throw new ExpectedException("memberEmail", "error.NotFoundMember");
 		}
@@ -175,7 +175,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("memberEmail", "error.NotCurrentEmail");
 		}
 		
-		Member member = memberMapper.findMemberByEmail(memberEmail);
+		User member = memberMapper.findMemberByEmail(memberEmail);
 		if (member != null) {
 			throw new ExpectedException("memberEmail", "error.EmailExist");
 		}
@@ -183,7 +183,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void checkEmailForReset(String memberEmail) {
-		Member member = memberMapper.findMemberByEmail(memberEmail);
+		User member = memberMapper.findMemberByEmail(memberEmail);
 		if (member == null) {
 			throw new ExpectedException("memberEmail", "error.NotEmailExist");
 		}
@@ -200,7 +200,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
-		Member member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
+		User member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
 		if (member == null) {
 			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
 		}
@@ -210,7 +210,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
@@ -221,7 +221,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("memberNickname", "error.NicknameExist");
 		}
 		
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberNickname(memberNickname)
 				.build();
@@ -234,12 +234,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberEmail(emailAuthDto.getMemberEmail())
 				.build();
@@ -255,12 +255,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void updateAddr(AddrDto addrDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberZipcode(addrDto.getMemberZipcode())
 				.memberAddr(addrDto.getMemberAddr())
@@ -275,12 +275,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberAgree(agreeDto.isMemberAgree())
 				.build();
@@ -293,7 +293,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
@@ -309,7 +309,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new ExpectedException("newPassword", "error.SameAsPassword");
 		}
 		
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberPassword(passwordEncoder.encode(newPasswordInput))
 				.build();
@@ -322,13 +322,13 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx) {
-		Member member = memberMapper.findMemberByIdx(memberIdx);
+		User member = memberMapper.findMemberByIdx(memberIdx);
 		if (member == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
 		String newPassword = passwordSaveDto.getNewPassword();
-		Member modifyMember = Member.builder()
+		User modifyMember = User.builder()
 				.memberIdx(member.getMemberIdx())
 				.memberPassword(passwordEncoder.encode(newPassword))
 				.build();

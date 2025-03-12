@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.MemberImage;
+import com.codingjoa.entity.UserImage;
 
 @Mapper
 public interface ImageMapper {
@@ -21,10 +21,10 @@ public interface ImageMapper {
 	
 	void deactivateMemberImage(int memberIdx);
 
-	boolean insertMemberImage(MemberImage memberImage);
+	boolean insertMemberImage(UserImage memberImage);
 	
 	List<BoardImage> findTempBoardImages();
 	
-	List<MemberImage> findTempMemberImages();
+	List<UserImage> findTempMemberImages();
 	
 }

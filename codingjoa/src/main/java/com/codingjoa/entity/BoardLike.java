@@ -12,7 +12,7 @@ import lombok.Data;
 */
 
 @Data
-public class BoardLikes {
+public class BoardLike {
 	
 	private Integer boardLikesIdx;
 	private Integer boardIdx;

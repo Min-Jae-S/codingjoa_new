@@ -71,20 +71,20 @@ public class BoardController {
 	}
 	
 	@GetMapping("/")
-	public String getPagedBoard(@BoardCategoryCode @RequestParam int boardCategoryCode, 
+	public String getPagedBoards(@BoardCategoryCode @RequestParam int categoryCode, 
 			@BoardCri BoardCriteria boardCri, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## getPagedBoard, boardCategoryCode = {}", boardCategoryCode);
+		log.info("## getPagedBoards, categoryCode = {}", categoryCode);
 		log.info("\t > boardCri = {}", boardCri);
 	
-		Integer memberIdx = (principal == null) ? null : principal.getIdx();
+		Integer memberIdx = (principal == null) ? null : principal.getId();
 		log.info("\t > memberIdx = {}", memberIdx);
 		
-		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(boardCategoryCode, boardCri, memberIdx);
+		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(categoryCode, boardCri, memberIdx);
 		
-		Pagination pagination = boardService.getPagination(boardCategoryCode, boardCri);
+		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
-		Category category = categoryService.getCategory(boardCategoryCode);
+		Category category = categoryService.getCategory(categoryCode);
 		
 		model.addAttribute("boardCri", boardCri);
 		model.addAttribute("pagedBoard", pagedBoard);

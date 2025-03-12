@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor // for mybatis resultSet
-public class Comment {
+public class Reply {
 			
 	private Integer commentIdx;
 	private Integer commentWriterIdx;
@@ -29,7 +29,7 @@ public class Comment {
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Comment(Integer commentIdx, Integer commentWriterIdx, Integer boardIdx, String commentContent,
+	private Reply(Integer commentIdx, Integer commentWriterIdx, Integer boardIdx, String commentContent,
 			Boolean commentUse, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.commentIdx = commentIdx;
 		this.commentWriterIdx = commentWriterIdx;

@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @NoArgsConstructor
-public class MemberImage {
+public class UserImage {
 	
 	private Integer memberImageIdx;
 	private Integer memberIdx;
@@ -27,7 +27,7 @@ public class MemberImage {
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private MemberImage(Integer memberImageIdx, Integer memberIdx, String memberImageName, String memberImageUrl) {
+	private UserImage(Integer memberImageIdx, Integer memberIdx, String memberImageName, String memberImageUrl) {
 		this.memberImageIdx = memberImageIdx;
 		this.memberIdx = memberIdx;
 		this.memberImageName = memberImageName;

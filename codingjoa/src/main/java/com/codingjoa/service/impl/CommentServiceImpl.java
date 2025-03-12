@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Board;
-import com.codingjoa.entity.Comment;
+import com.codingjoa.entity.Reply;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Comment comment = commentDto.toEntity();
+		Reply comment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
 		boolean isSaved = commentMapper.insertComment(comment);
@@ -86,7 +86,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void updateComment(CommentDto commentDto) {
-		Comment comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
+		Reply comment = commentMapper.findCommentByIdx(commentDto.getCommentIdx());
 		log.info("\t > find comment = {}", comment);
 		
 		if (comment == null) {
@@ -101,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment modifyComment = commentDto.toEntity();
+		Reply modifyComment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", modifyComment);
 		
 		boolean isUpdated = commentMapper.updateComment(modifyComment);
@@ -112,7 +112,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public void deleteComment(int commentIdx, int memberIdx) {
-		Comment comment = commentMapper.findCommentByIdx(commentIdx);
+		Reply comment = commentMapper.findCommentByIdx(commentIdx);
 		log.info("\t > find comment = {}", comment);
 		
 		if (comment == null) {
@@ -127,7 +127,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment deleteComment = Comment.builder()
+		Reply deleteComment = Reply.builder()
 				.commentIdx(comment.getCommentIdx())
 				.commentUse(false)
 				.build();

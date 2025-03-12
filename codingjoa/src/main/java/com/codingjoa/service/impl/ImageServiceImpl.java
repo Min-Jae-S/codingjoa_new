@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.entity.BoardImage;
-import com.codingjoa.entity.MemberImage;
+import com.codingjoa.entity.UserImage;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
@@ -127,7 +127,7 @@ public class ImageServiceImpl implements ImageService {
 				.buildAndExpand(filename)
 				.toUriString();
 		
-		MemberImage memberImage = MemberImage.builder()
+		UserImage memberImage = UserImage.builder()
 				.memberIdx(memberIdx)
 				.memberImageName(filename)
 				.memberImageUrl(memberImageUrl)

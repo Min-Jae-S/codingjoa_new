@@ -6,23 +6,23 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.codingjoa.entity.Comment;
+import com.codingjoa.entity.Reply;
 import com.codingjoa.pagination.CommentCriteria;
 
 @Mapper
 public interface CommentMapper {
 	
-	boolean insertComment(Comment comment);
+	boolean insertComment(Reply comment);
 
 	List<Map<String, Object>> findPagedComment(@Param("boardIdx") int boardIdx,
 			@Param("commentCri") CommentCriteria commentCri, @Param("memberIdx") Integer memberIdx);
 	
 	int findCommentTotalCnt(int boardIdx);
 	
-	Comment findCommentByIdx(int commentIdx);
+	Reply findCommentByIdx(int commentIdx);
 	
-	boolean updateComment(Comment comment);
+	boolean updateComment(Reply comment);
 	
-	boolean deleteComment(Comment comment);
+	boolean deleteComment(Reply comment);
 	
 }

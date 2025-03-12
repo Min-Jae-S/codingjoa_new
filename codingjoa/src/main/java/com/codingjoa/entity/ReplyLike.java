@@ -12,7 +12,7 @@ import lombok.Data;
 */
 
 @Data
-public class CommentLikes {
+public class ReplyLike {
 	
 	private Integer commentLikesIdx;
 	private Integer commentIdx;

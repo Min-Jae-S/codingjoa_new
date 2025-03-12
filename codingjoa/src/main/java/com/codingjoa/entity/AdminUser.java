@@ -1,5 +1,5 @@
 package com.codingjoa.entity;
 
-public class AdminMember {
+public class AdminUser {
 
 }

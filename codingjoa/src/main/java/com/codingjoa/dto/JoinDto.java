@@ -1,6 +1,6 @@
 package com.codingjoa.dto;
 
-import com.codingjoa.entity.Member;
+import com.codingjoa.entity.User;
 
 import lombok.Data;
 
@@ -14,8 +14,8 @@ public class JoinDto {
 	private String authCode;
 	private boolean memberAgree;
 	
-	public Member toEntity() {
-		return Member.builder()
+	public User toEntity() {
+		return User.builder()
 				.memberEmail(this.memberEmail)
 				.memberNickname(this.memberNickname)
 				.memberPassword(this.memberPassword)

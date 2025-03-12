@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @NoArgsConstructor // for mybatis resultSet
-public class Member {
+public class User {
 
 	private Integer memberIdx;
 	private String memberEmail;
@@ -37,7 +37,7 @@ public class Member {
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Member(Integer memberIdx, String memberEmail, String memberPassword, String memberNickname,
+	private User(Integer memberIdx, String memberEmail, String memberPassword, String memberNickname,
 			String memberZipcode, String memberAddr, String memberAddrDetail, Boolean memberAgree) {
 		this.memberIdx = memberIdx;
 		this.memberEmail = memberEmail;
