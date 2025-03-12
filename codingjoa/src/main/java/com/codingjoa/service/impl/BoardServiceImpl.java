@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(int boardId, Integer userId) {
+	public BoardDetailsDto getBoardDetails(long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
@@ -71,13 +71,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateBoardView(int boardId) {
+	public void updateBoardView(long boardId) {
 		log.info("\t > update board view");
 		boardMapper.updateBoardView(boardId);
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Integer userId) {
+	public List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Long userId) {
 		log.info("\t > find pagedBoards");
 		log.info("\t     - categoryCode = {}, keywordRegexp = {}", categoryCode, boardCri.getKeywordRegexp());
 		return boardMapper.findPagedBoards(categoryCode, boardCri, userId)
@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(int boardId, int userId) {
+	public BoardDto getModifyBoard(long boardId, Long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > find board = {}", board);
 		
@@ -139,12 +139,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getBoardCategoryCode(int boardId) {
+	public int getBoardCategoryCode(long boardId) {
 		return boardMapper.findCategoryCodeById(boardId);
 	}
 
 	@Override
-	public Board deleteBoard(int boardId, int userId) {
+	public Board deleteBoard(long boardId, Long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > find board = {}", board);
 

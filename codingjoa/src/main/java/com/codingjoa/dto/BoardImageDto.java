@@ -10,11 +10,11 @@ import lombok.ToString;
 @Getter
 public class BoardImageDto {
 
-	private int id;
+	private long id;
 	private String path;
 	
 	@Builder
-	private BoardImageDto(int id, String path) {
+	private BoardImageDto(long id, String path) {
 		this.id = id;
 		this.path = path;
 	}

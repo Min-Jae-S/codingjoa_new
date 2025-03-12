@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /*
-    auth_idx        NUMBER,
-    member_idx      NUMBER          NOT NULL,
-    member_role     VARCHAR2(30)    NOT NULL,
-    created_at      DATE            NOT NULL,
+    id          NUMBER,
+    user_id     NUMBER          NOT NULL,
+    role        VARCHAR2(30)    NOT NULL,
+    created_at  DATE            NOT NULL,
 */
 
 @ToString
@@ -19,16 +19,16 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Auth {
 
-	private Integer authIdx;
-	private Integer memberIdx;
-	private String memberRole;
+	private Long id;
+	private Long userId;
+	private String role;
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private Auth(Integer authIdx, Integer memberIdx, String memberRole) {
-		this.authIdx = authIdx;
-		this.memberIdx = memberIdx;
-		this.memberRole = memberRole;
+	private Auth(Long id, Long userId, String role, LocalDateTime createdAt) {
+		this.id = id;
+		this.userId = userId;
+		this.role = role;
+		this.createdAt = createdAt;
 	}
-	
 }

@@ -16,8 +16,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BoardDto {
 	
-	private int id;
-	private int userId;
+	private long id;
+	private long userId;
 	
 	@BoardCategoryCode
 	private int categoryCode;
@@ -31,10 +31,10 @@ public class BoardDto {
 	// It is used when the data is expected to come primarily in the form of lists or arrays, 
 	// but sometimes a single value may be received in the form of an array, and should be handled the same way
 	//@JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
-	private List<Integer> images = new ArrayList<>();
+	private List<Long> images = new ArrayList<>();
 	
 	@Builder
-	private BoardDto(int id, int userId, int categoryCode, String title, String content, String searchContent, List<Integer> images) {
+	private BoardDto(long id, long userId, int categoryCode, String title, String content, String searchContent, List<Long> images) {
 		this.id = id;
 		this.userId = userId;
 		this.title = title;

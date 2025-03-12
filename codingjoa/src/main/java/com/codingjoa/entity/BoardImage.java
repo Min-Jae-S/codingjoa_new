@@ -18,14 +18,14 @@ import lombok.NoArgsConstructor;
 @Data
 public class BoardImage {
 	
-	private Integer id;
-	private Integer boardId;
+	private Long id;
+	private Long boardId;
 	private String name;
 	private String path;
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private BoardImage(Integer id, Integer boardId, String name, String path, LocalDateTime createdAt) {
+	private BoardImage(Long id, Long boardId, String name, String path, LocalDateTime createdAt) {
 		this.id = id;
 		this.boardId = boardId;
 		this.name = name;

@@ -12,20 +12,20 @@ public interface BoardService {
 	
 	Board saveBoard(BoardDto boardDto);
 	
-	BoardDetailsDto getBoardDetails(int boardId, Integer userId);
+	BoardDetailsDto getBoardDetails(long boardId, Long userId);
 	
-	void updateBoardView(int boardId);
+	void updateBoardView(long boardId);
 	
-	List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Integer userId);
+	List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Long userId);
 
 	Pagination getPagination(int categoryCode, BoardCriteria boardCri);
 	
-	BoardDto getModifyBoard(int boardId, int userId);
+	BoardDto getModifyBoard(long boardId, Long userId);
 	
 	Board modifyBoard(BoardDto boardDto);
 	
-	int getBoardCategoryCode(int boardId);
+	int getBoardCategoryCode(long boardId);
 	
-	Board deleteBoard(int boardId, int userId);
+	Board deleteBoard(long boardId, Long userId);
 	
 }

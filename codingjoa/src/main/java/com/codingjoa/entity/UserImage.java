@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /*
-	member_image_idx         NUMBER,
-	member_idx               NUMBER              NOT NULL, --NULL,
-	member_image_name        VARCHAR2(200)       NOT NULL,
-    member_image_url         VARCHAR2(200)       NOT NULL,
-	created_at               DATE                NOT NULL,
+	id              NUMBER,
+	user_id         NUMBER              NULL,
+	name            VARCHAR2(200)       NOT NULL,
+    path            VARCHAR2(200)       NOT NULL,
+	created_at      DATE                NOT NULL,
 */
 
 @ToString
@@ -20,17 +20,19 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserImage {
 	
-	private Integer memberImageIdx;
-	private Integer memberIdx;
-	private String memberImageName;
-	private String memberImageUrl;
+	private Long id;
+	private Long userId;
+	private String name;
+	private String path;
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private UserImage(Integer memberImageIdx, Integer memberIdx, String memberImageName, String memberImageUrl) {
-		this.memberImageIdx = memberImageIdx;
-		this.memberIdx = memberIdx;
-		this.memberImageName = memberImageName;
-		this.memberImageUrl = memberImageUrl;
+	private UserImage(Long id, Long userId, String name, String path, LocalDateTime createdAt) {
+		this.id = id;
+		this.userId = userId;
+		this.name = name;
+		this.path = path;
+		this.createdAt = createdAt;
 	}
+	
 }

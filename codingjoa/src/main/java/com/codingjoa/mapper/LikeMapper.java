@@ -9,19 +9,19 @@ import com.codingjoa.entity.ReplyLike;
 @Mapper
 public interface LikeMapper {
 	
-	BoardLike findBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
+	BoardLike findBoardLike(@Param("boardId") Long boardId, @Param("userId") Long userId);
 	
-	void insertBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
+	void insertBoardLike(@Param("boardId") Long boardId, @Param("userId") Long userId);
 	
-	void deleteBoardLikes(BoardLike boardLikes);
+	void deleteBoardLike(BoardLike boardLike);
 
-	ReplyLike findCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
+	ReplyLike findReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
 	
-	void insertCommentLikes(@Param("commentIdx") int commentIdx, @Param("memberIdx") int memberIdx);
+	void insertReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
 	
-	void deleteCommentLikes(ReplyLike commentLikes);
+	void deleteReplyLike(ReplyLike replyLike);
 	
-	int findBoardLikesCnt(int boardIdx);
+	int findBoardLikeCnt(Long boardId);
 
-	int findCommentLikesCnt(int commentIdx);
+	int findReplyLikeCnt(Long replyId);
 }

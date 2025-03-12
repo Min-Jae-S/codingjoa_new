@@ -53,14 +53,14 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.UploadBoardImage");
 		}
 		
-		String boardImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/board/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
 		
 		BoardImage boardImage = BoardImage.builder() // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-				.boardImageName(filename)
-				.boardImageUrl(boardImageUrl)
+				.name(filename)
+				.path(path)
 				.build();
 		log.info("\t > create boardImage entity = {}", boardImage);
 		

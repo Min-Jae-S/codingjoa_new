@@ -101,7 +101,7 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		
 		Reply modifyReply = replyDto.toEntity();
-		log.info("\t > convert replyDto to entity = {}", modifyReply);
+		log.info("\t > convert replyDto to reply entity = {}", modifyReply);
 		
 		boolean isUpdated = replyMapper.updateReply(modifyReply);
 		if (!isUpdated) {

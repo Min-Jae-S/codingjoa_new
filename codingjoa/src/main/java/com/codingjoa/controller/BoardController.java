@@ -56,7 +56,7 @@ public class BoardController {
 	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
 		
-		Integer userId = (principal == null) ? null : principal.getId();
+		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 		
 		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
@@ -76,7 +76,7 @@ public class BoardController {
 		log.info("## getPagedBoards");
 		log.info("\t > categoryCode = {}, boardCri = {}", categoryCode, boardCri);
 	
-		Integer userId = (principal == null) ? null : principal.getId();
+		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 		
 		List<BoardDetailsDto> pagedBoards = boardService.getPagedBoards(categoryCode, boardCri, userId);
@@ -96,12 +96,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardId, @BoardCri BoardCriteria boardCri,
+	public String read(@RequestParam long boardId, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## read");
-		log.info("\t > boardId = {}, boardCri = {}", boardId, boardCri);
+		log.info("## read, boardId = {}", boardId);
+		log.info("\t > boardCri = {}", boardCri);
 		
-		Integer userId = (principal == null) ? null : principal.getId();
+		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardId, userId);

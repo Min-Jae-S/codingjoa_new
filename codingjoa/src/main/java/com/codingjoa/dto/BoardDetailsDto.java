@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public class BoardDetailsDto {
 
-	private int id;
+	private long id;
 	private int categoryCode;
 	private String title;
 	private String content;
@@ -20,13 +20,13 @@ public class BoardDetailsDto {
 	private int likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String nickname;
+	private String writer;
 	private boolean isWriter;
 	private boolean isLiked;		
 	
 	@Builder
-	private BoardDetailsDto(int id, int categoryCode, String title, String content, int viewCount, int replyCount,
-			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String nickname, boolean isWriter,
+	private BoardDetailsDto(long id, int categoryCode, String title, String content, int viewCount, int replyCount,
+			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String writer, boolean isWriter,
 			boolean isLiked) {
 		this.id = id;
 		this.categoryCode = categoryCode;
@@ -37,7 +37,7 @@ public class BoardDetailsDto {
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.nickname = nickname;
+		this.writer = writer;
 		this.isWriter = isWriter;
 		this.isLiked = isLiked;
 	}
@@ -53,7 +53,7 @@ public class BoardDetailsDto {
 				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.nickname((String) map.get("nickname"))
+				.writer((String) map.get("nickname"))
 				.isWriter((boolean) map.get("isWriter"))
 				.isLiked((boolean) map.get("isLiked"))
 				.build();
@@ -88,7 +88,7 @@ public class BoardDetailsDto {
 	public String toString() {
 		return "BoardDetailsDto [id=" + id + ", categoryCode=" + categoryCode + ", title=" + title + ", content="
 				+ escapeContent() + ", viewCount=" + viewCount + ", replyCount=" + replyCount + ", likeCount=" + likeCount
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", nickname=" + nickname + ", isWriter="
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writer=" + writer + ", isWriter="
 				+ isWriter + ", isLiked=" + isLiked + "]";
 	}
 

@@ -12,9 +12,9 @@ public interface ImageService {
 	
 	boolean isBoardImageUploaded(int boardImageIdx);
 	
-	void activateBoardImages(List<Integer> boardImages, Integer boardIdx);
+	void activateBoardImages(List<Long> boardImages, Integer boardIdx);
 	
-	void updateBoardImages(List<Integer> boardImages, Integer boardIdx); // deactivate, activate
+	void updateBoardImages(List<Long> boardImages, Integer boardIdx); // deactivate, activate
 	
 	void updateMemberImage(MultipartFile file, Integer memberIdx);
 	

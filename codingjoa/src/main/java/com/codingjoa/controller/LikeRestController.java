@@ -24,51 +24,51 @@ public class LikeRestController {
 	private final LikeService likeService;
 
 	@PostMapping("/boards/{boardId}/likes")
-	public ResponseEntity<Object> toggleBoardLikes(@PathVariable int boardId, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## toggleBoardLikes, boardId = {}", boardId);
+	public ResponseEntity<Object> toggleBoardLike(@PathVariable long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## toggleBoardLike, boardId = {}", boardId);
 		
-		boolean isBooardLiked = likeService.toggleBoardLikes(boardId, principal.getId());
-		String code = (isBooardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
+		boolean isBoardLiked = likeService.toggleBoardLike(boardId, principal.getId());
+		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
 		//resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
-				.data(isBooardLiked)
+				.data(isBoardLiked)
 				.build());
 	}
 	
 	@GetMapping("/boards/{boardId}/likes")
-	public ResponseEntity<Object> getBoardLikesCnt(@PathVariable int boardId) {
-		log.info("## getBoardLikesCnt, boardId = {}", boardId);
+	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable long boardId) {
+		log.info("## getBoardLikeCnt, boardId = {}", boardId);
 		
-		int boardLikesCnt = likeService.getBoardLikesCnt(boardId);
-		log.info("\t > boardLikesCnt = {}", boardLikesCnt);
+		int boardLikeCnt = likeService.getBoardLikeCnt(boardId);
+		log.info("\t > boardLikeCnt = {}", boardLikeCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikesCnt).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikeCnt).build());
 	}
 	
 	@PostMapping("/replies/{replyId}/likes")
-	public ResponseEntity<Object> toggleReplyLikes(@PathVariable int replyId, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## toggleReplyLikes, replyId = {}", replyId);
+	public ResponseEntity<Object> toggleReplyLike(@PathVariable long replyId, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## toggleReplyLike, replyId = {}", replyId);
 		
-		boolean isCommentLiked = likeService.toggleCommentLikes(replyId, principal.getId());
-		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
+		boolean isReplyLiked = likeService.toggleReplyLike(replyId, principal.getId());
+		String code = (isReplyLiked) ? "success.LikeReply" : "success.UnlikeReply";
 		//resetAuthentication(principal.getMember().getMemberId());
 
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
-				.data(isCommentLiked)
+				.data(isReplyLiked)
 				.build());
 	}
 
-	@GetMapping("/comments/{commentIdx}/likes")
-	public ResponseEntity<Object> getCommentLikesCnt(@PathVariable int commentIdx) {
-		log.info("## getCommentLikesCnt, commentIdx = {}", commentIdx);
+	@GetMapping("/replies/{replyId}/likes")
+	public ResponseEntity<Object> getReplyLikeCnt(@PathVariable long replyId) {
+		log.info("## getReplyLikeCnt, replyId = {}", replyId);
 		
-		int commentLikesCnt = likeService.getCommentLikesCnt(commentIdx);
-		log.info("\t > commentLikesCnt = {}", commentLikesCnt);
+		int replyLikeCnt = likeService.getReplyLikeCnt(replyId);
+		log.info("\t > replyLikeCnt = {}", replyLikeCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikesCnt).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(replyLikeCnt).build());
 	}
 	
 }

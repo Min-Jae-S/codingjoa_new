@@ -24,8 +24,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // for mybatis resultSet
 public class Board {
 
-	private Integer id;
-	private Integer userId;
+	private Long id;
+	private Long userId;
 	private Integer categoryCode;
 	private String title;
 	private String content;
@@ -37,7 +37,7 @@ public class Board {
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Board(Integer id, Integer userId, Integer categoryCode, String title, String content, String searchContent,
+	private Board(Long id, Long userId, Integer categoryCode, String title, String content, String searchContent,
 			Integer viewCount, Integer replyCount, Integer likeCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.userId = userId;

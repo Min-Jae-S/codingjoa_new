@@ -1,22 +1,26 @@
 package com.codingjoa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /*
-	comment_likes_idx       NUMBER,
-    comment_idx             NUMBER      NOT NULL,
-	member_idx              NUMBER      NOT NULL,
-	regdate                 DATE        NOT NULL,
+	id              NUMBER,
+    reply_id        NUMBER      NOT NULL,
+	user_id         NUMBER      NOT NULL,
+    created_at      DATE        NOT NULL,
 */
 
-@Data
+@ToString
+@Getter
+@NoArgsConstructor
 public class ReplyLike {
 	
-	private Integer commentLikesIdx;
-	private Integer commentIdx;
-	private Integer memberIdx;
-	private Date regdate;
+	private Long id;
+	private Long replyId;
+	private Long userId;
+	private LocalDateTime createdAt;
 	
 }

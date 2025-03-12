@@ -1,22 +1,26 @@
 package com.codingjoa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /*
-	board_likes_idx     NUMBER,
-	board_idx           NUMBER      NOT NULL,
-	member_idx          NUMBER      NOT NULL,
-	regdate             DATE        NOT NULL,
+	id                  NUMBER,
+    board_id            NUMBER      NOT NULL,
+	user_id             NUMBER      NOT NULL,
+    created_at          DATE        NOT NULL,
 */
 
-@Data
+@ToString
+@Getter
+@NoArgsConstructor
 public class BoardLike {
 	
-	private Integer boardLikesIdx;
-	private Integer boardIdx;
-	private Integer memberIdx;
-	private Date regdate;
+	private Long id;
+	private Long boardId;
+	private Long userId;
+	private LocalDateTime createdAt;
 	
 }

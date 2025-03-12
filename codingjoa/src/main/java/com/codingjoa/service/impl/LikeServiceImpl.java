@@ -22,73 +22,73 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class LikeServiceImpl implements LikeService {
 
-	private final LikeMapper likesMapper;
+	private final LikeMapper likeMapper;
 	private final BoardMapper boardMapper;
-	private final ReplyMapper commentMapper;
+	private final ReplyMapper replyMapper;
 	
 	@Override
-	public boolean toggleBoardLikes(int boardIdx, int memberIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
-		log.info("\t > prior to toggling boardLikes, find board");
+	public boolean toggleBoardLike(long boardId, long userId) {
+		Board board = boardMapper.findBoardById(boardId);
+		log.info("\t > prior to toggling boardLike, find board first");
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		BoardLike boardLikes = likesMapper.findBoardLikes(boardIdx, memberIdx);
-		log.info("\t > to check whether the board is liked or not, find boardLikes");
+		BoardLike boardLike = likeMapper.findBoardLike(boardId, userId);
+		log.info("\t > to check whether the board is liked or not, find boardLike first");
 		
-		if (boardLikes == null) {
-			log.info("\t > insert boardLikes");
-			likesMapper.insertBoardLikes(boardIdx, memberIdx);
+		if (boardLike == null) {
+			log.info("\t > insert boardLike");
+			likeMapper.insertBoardLike(boardId, userId);
 			return true;
 		} else {
-			log.info("\t > delete boardLikes");
-			likesMapper.deleteBoardLikes(boardLikes);
+			log.info("\t > delete boardLike");
+			likeMapper.deleteBoardLike(boardLike);
 			return false;
 		}
 	}
 	
 	@Override
-	public boolean toggleCommentLikes(int commentIdx, int memberIdx) {
-		Reply comment = commentMapper.findCommentByIdx(commentIdx);
-		log.info("\t > prior to toggling commentLikes, find comment");
+	public boolean toggleReplyLike(long replyId, long userId) {
+		Reply reply = replyMapper.findReplyById(replyId);
+		log.info("\t > prior to toggling replyLike, find reply first");
 		
-		if (comment == null) {
-			throw new ExpectedException("error.NotFoundComment");
+		if (reply == null) {
+			throw new ExpectedException("error.NotFoundReply");
 		}
 		
-		ReplyLike commentLikes = likesMapper.findCommentLikes(commentIdx, memberIdx);
-		log.info("\t > to check whether the comment is liked or not, find commentLikes");
+		ReplyLike replyLike = likeMapper.findReplyLike(replyId, userId);
+		log.info("\t > to check whether the reply is liked or not, find replyLike first");
 		
-		if (commentLikes == null) {
-			log.info("\t > insert commentLikes");
-			likesMapper.insertCommentLikes(commentIdx, memberIdx);
+		if (replyLike == null) {
+			log.info("\t > insert replyLike");
+			likeMapper.insertReplyLike(replyId, userId);
 			return true;
 		} else {
-			log.info("\t > delete commentLikes");
-			likesMapper.deleteCommentLikes(commentLikes);
+			log.info("\t > delete replyLike");
+			likeMapper.deleteReplyLike(replyLike);
 			return false;
 		}
 	}
 
 	@Override
-	public int getBoardLikesCnt(int boardIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
+	public int getBoardLikeCnt(long boardId) {
+		Board board = boardMapper.findBoardById(boardId);
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		return likesMapper.findBoardLikesCnt(boardIdx);
+		return likeMapper.findBoardLikeCnt(boardId);
 	}
 
 	@Override
-	public int getCommentLikesCnt(int commentIdx) {
-		Reply comment = commentMapper.findCommentByIdx(commentIdx);
-		if (comment == null) {
-			throw new ExpectedException("error.NotFoundComment");
+	public int getReplyLikeCnt(long replyId) {
+		Reply reply = replyMapper.findReplyById(replyId);
+		if (reply == null) {
+			throw new ExpectedException("error.NotFoundReply");
 		}
 		
-		return likesMapper.findCommentLikesCnt(commentIdx);
+		return likeMapper.findReplyLikeCnt(replyId);
 	}
 }

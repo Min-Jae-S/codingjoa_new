@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /*
-	sns_info_idx            NUMBER,
-	member_idx              NUMBER              NOT NULL,
-    sns_id                  VARCHAR2(200)       NOT NULL,
-	sns_provider            VARCHAR2(20)        NOT NULL,
-    connected_at            DATE                NULL,
-	created_at              DATE                NOT NULL,
+	id              NUMBER,
+	user_id         NUMBER              NOT NULL,
+    email           VARCHAR2(200)       NOT NULL,
+	provider        VARCHAR2(20)        NOT NULL,
+    connected_at    DATE                NULL,
+	created_at      DATE                NOT NULL,
 */
 
 @ToString
@@ -21,19 +21,22 @@ import lombok.ToString;
 @NoArgsConstructor
 public class SnsInfo {
 
-	private Integer snsInfoIdx;
-	private Integer memberIdx;
-	private String snsId;
-	private String snsProvider;
+	private Long id;
+	private Long userId;
+	private String email;
+	private String provider;
 	private LocalDateTime connectedAt;
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private SnsInfo(Integer snsInfoIdx, Integer memberIdx, String snsId, String snsProvider, LocalDateTime connectedAt) {
-		this.snsInfoIdx = snsInfoIdx;
-		this.memberIdx = memberIdx;
-		this.snsId = snsId;
-		this.snsProvider = snsProvider;
+	private SnsInfo(Long id, Long userId, String email, String provider, LocalDateTime connectedAt,
+			LocalDateTime createdAt) {
+		this.id = id;
+		this.userId = userId;
+		this.email = email;
+		this.provider = provider;
 		this.connectedAt = connectedAt;
+		this.createdAt = createdAt;
 	}
+	
 }
