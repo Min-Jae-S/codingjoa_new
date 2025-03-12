@@ -36,25 +36,25 @@
 	
 	<typeAliases>
 		<!-- entity -->
-		<typeAlias type="com.codingjoa.entity.Member" alias="member"/>
-		<typeAlias type="com.codingjoa.entity.Auth" alias="auth"/>
-		<typeAlias type="com.codingjoa.entity.SnsInfo" alias="snsInfo"/>
-		<typeAlias type="com.codingjoa.entity.Category" alias="category"/>
-		<typeAlias type="com.codingjoa.entity.Board" alias="board"/>
-		<typeAlias type="com.codingjoa.entity.BoardImage" alias="boardImage"/>
-		<typeAlias type="com.codingjoa.entity.MemberImage" alias="memberImage"/>
-		<typeAlias type="com.codingjoa.entity.Comment" alias="comment"/>
-		<typeAlias type="com.codingjoa.entity.BoardLikes" alias="boardLikes"/>
-		<typeAlias type="com.codingjoa.entity.CommentLikes" alias="commentLikes"/>
+		<typeAlias type="com.codingjoa.entity.User" alias="User"/>
+		<typeAlias type="com.codingjoa.entity.Auth" alias="Auth"/>
+		<typeAlias type="com.codingjoa.entity.SnsInfo" alias="SnsInfo"/>
+		<typeAlias type="com.codingjoa.entity.Category" alias="Category"/>
+		<typeAlias type="com.codingjoa.entity.Board" alias="Board"/>
+		<typeAlias type="com.codingjoa.entity.BoardImage" alias="BoardImage"/>
+		<typeAlias type="com.codingjoa.entity.UserImage" alias="UserImage"/>
+		<typeAlias type="com.codingjoa.entity.Reply" alias="Reply"/>
+		<typeAlias type="com.codingjoa.entity.BoardLike" alias="BoardLike"/>
+		<typeAlias type="com.codingjoa.entity.ReplyLike" alias="ReplyLike"/>
 
 		<!-- pagination -->
-		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="boardCri"/>
-		<typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="commentCri"/> -->
+		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="BoardCri"/> -->
+		<!-- <typeAlias type="com.codingjoa.pagination.ReplyCriteria" alias="ReplyCri"/> -->
 		
 		<!-- admin -->
-		<typeAlias type="com.codingjoa.entity.AdminMember" alias="AdminMember"/>
+		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
 		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
-		<typeAlias type="com.codingjoa.entity.AdminComment" alias="AdminComment"/>
+		<typeAlias type="com.codingjoa.entity.AdminReply" alias="AdminReply"/>
 
 		<!-- test -->
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>

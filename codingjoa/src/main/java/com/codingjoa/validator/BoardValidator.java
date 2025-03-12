@@ -27,30 +27,30 @@ public class BoardValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 
-		// boardIdx or boardCategoryCode could have errors - int boardIdx, @BoardCategoryCode
+		// boardId or categoryCode could have errors - long boardId, @BoardCategoryCode
 		if (errors.hasFieldErrors()) {
 			return; 
 		}
 
 		BoardDto boardDto = (BoardDto) target;
-		if (!StringUtils.hasText(boardDto.getBoardTitle())) {
-			errors.rejectValue("boardTitle", "NotBlank");
+		if (!StringUtils.hasText(boardDto.getTitle())) {
+			errors.rejectValue("title", "NotBlank");
 			return;
 		}
 
-		if (!StringUtils.hasText(boardDto.getBoardContent())) {
-			errors.rejectValue("boardContent", "NotBlank");
+		if (!StringUtils.hasText(boardDto.getContent())) {
+			errors.rejectValue("content", "NotBlank");
 			return;
 		}
 		
-		List<Integer> boardImages = boardDto.getBoardImages();
+		List<Long> boardImages = boardDto.getImages();
 		if (boardImages.isEmpty()) {
 			return;
 		}
 		
-		for (int boardImageIdx : boardImages) {
-			if (!imageService.isBoardImageUploaded(boardImageIdx)) {
-				errors.rejectValue("boardContent", "NotUploadImage");
+		for (long boardImageId : boardImages) {
+			if (!imageService.isBoardImageUploaded(boardImageId)) {
+				errors.rejectValue("content", "NotUploadImage");
 				return;
 			}
 		}

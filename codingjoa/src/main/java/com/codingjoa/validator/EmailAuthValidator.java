@@ -29,21 +29,21 @@ public class EmailAuthValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		EmailAuthDto emailAuthDto = (EmailAuthDto) target;
-		String memberEmail = emailAuthDto.getMemberEmail();
+		String email = emailAuthDto.getEmail();
 		String authCode = emailAuthDto.getAuthCode();
 		
-		if (!StringUtils.hasText(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotBlank");
+		if (!StringUtils.hasText(email)) {
+			errors.rejectValue("email", "NotBlank");
 			return;
 		} 
 		
-		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-			errors.rejectValue("memberEmail", "Pattern");
+		if (!Pattern.matches(EMAIL_REGEXP, email)) {
+			errors.rejectValue("email", "Pattern");
 			return;
 		}
 		
-		if (!redisService.hasKey(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotAuthCodeExist");
+		if (!redisService.hasKey(email)) {
+			errors.rejectValue("email", "NotAuthCodeExist");
 			return;
 		}
 		
@@ -52,7 +52,7 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+		if (!redisService.isAuthCodeValid(email, authCode)) {
 			errors.rejectValue("authCode", "NotValid");
 			return;
 		}
