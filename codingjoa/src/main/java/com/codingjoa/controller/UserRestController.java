@@ -29,7 +29,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -54,14 +54,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/api/member")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 @RestController
 public class UserRestController {
 	
 	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1L).getSeconds();
-	private final UserService memberService;
+	private final UserService userService;
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final ImageService imageService;
@@ -107,7 +107,7 @@ public class UserRestController {
 		log.info("## sendAuthCodeForJoin");
 		log.info("\t > emailDto = {}", emailDto);
 
-		String memberEmail = emailDto.getMemberEmail();
+		String email = emailDto.getEmail();
 		memberService.checkEmailForJoin(memberEmail);
 
 		String authCode = RandomStringUtils.randomNumeric(6);
@@ -250,7 +250,7 @@ public class UserRestController {
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
 		
-		AdminUserDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
+		UserInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		log.info("\t > memberInfo = {}", memberInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());

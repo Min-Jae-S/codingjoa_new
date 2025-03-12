@@ -26,8 +26,8 @@ public class ReplyCriResolver implements HandlerMethodArgumentResolver {
 	private final int defaultRecordCnt;
 	
 	public ReplyCriResolver(
-			@Value("${criteria.comment.page}") int defaultPage, 
-			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt) {
+			@Value("${criteria.reply.page}") int defaultPage, 
+			@Value("${criteria.reply.recordCnt}") int defaultRecordCnt) {
 		this.defaultPage = defaultPage;
 		this.defaultRecordCnt = defaultRecordCnt;
 	}
@@ -46,15 +46,15 @@ public class ReplyCriResolver implements HandlerMethodArgumentResolver {
 		String page = webRequest.getParameter("page");
 		log.info("\t > page = {}", page);
 		
-		page = (page == null) ? "" : page.strip();
-		ReplyCriteria commentCri = new ReplyCriteria(
+		page = (page == null) ? "" : page.trim();
+		ReplyCriteria replyCri = new ReplyCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);
 		
-		log.info("\t > resolved commentCri = {}", commentCri);
+		log.info("\t > resolved replyCri = {}", replyCri);
 		
-		return commentCri;
+		return replyCri;
 	}
 	
 	@SuppressWarnings({ "unchecked", "unused" })

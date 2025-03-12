@@ -15,7 +15,7 @@ import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminReplyCri;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminReplyDto;
-import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminReplyCriteria;
@@ -45,7 +45,7 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
 		
-		List<AdminUserDto> pagedMembers = adminService.getPagedMembers();
+		List<UserInfoDto> pagedMembers = adminService.getPagedMembers();
 		Pagination pagination = adminService.getMemberPagination();
 		log.info("\t > pagination = {}", pagination);
 		

@@ -1,9 +1,13 @@
 package com.codingjoa.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
+@NoArgsConstructor
 public class AgreeDto {
 	
-	private boolean memberAgree;
+	private boolean agree;
 }

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
-	private final UserService memberService;
+	private final UserService userService;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
 	@Override
@@ -37,6 +37,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
 		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
+		
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo: {}", FormatUtils.formatPrettyJson(attributes));
 		
@@ -48,20 +49,20 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > created oAuth2Attributes: {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		String email = oAuth2Attributes.getEmail();
-		PrincipalDetails principal = memberService.getUserDetailsByEmail(email);
+		PrincipalDetails principal = userService.getUserDetailsByEmail(email);
 		log.info("\t > principal = {}", principal);
 		
 		if (principal == null) {
-			log.info("\t > register new member using OAuth2 account");
-			// to apply spring transaction, move save logic to "memberService"
-			memberService.saveOAuth2Member(oAuth2Attributes);
-			principal = memberService.getUserDetailsByEmail(email);
+			log.info("\t > register new user using OAuth2 account");
+			// to apply spring transaction, move logic to "userService"
+			userService.saveOAuth2User(oAuth2Attributes);
+			principal = userService.getUserDetailsByEmail(email);
 		} else if (principal.getProvider().equals("local")) {
-			log.info("\t > connect existing member with OAuth2 account");
-			memberService.connectOAuth2Member(oAuth2Attributes, principal.getId());
-			principal = memberService.getUserDetailsByEmail(email);
+			log.info("\t > connect existing user with OAuth2 account");
+			userService.connectOAuth2User(oAuth2Attributes, principal.getId());
+			principal = userService.getUserDetailsByEmail(email);
 		} else {
-			log.info("\t > proceed with login using already registered member");
+			log.info("\t > proceed with login using already registered user");
 		}
 		
 		return PrincipalDetails.from(principal, attributes, attributeKeyName);

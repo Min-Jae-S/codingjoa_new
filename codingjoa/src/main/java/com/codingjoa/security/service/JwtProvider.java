@@ -83,7 +83,6 @@ public class JwtProvider {
 	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
 	 */
 	public boolean isValidJwt(String jwt) {
-		
 		try {
 			Claims claims = parseJwt(jwt).getBody();
 			String sub = claims.getSubject();
@@ -135,11 +134,11 @@ public class JwtProvider {
 				.map(authority -> authority.getAuthority())
 				.collect(Collectors.joining(","));
 		
-		claims.setSubject(String.valueOf(principal.getIdx()));
+		claims.setSubject(String.valueOf(principal.getId()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
 		claims.put("roles", roles);
-		claims.put("image_url", principal.getImageUrl());
+		claims.put("image_path", principal.getImagePath());
 		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
 		

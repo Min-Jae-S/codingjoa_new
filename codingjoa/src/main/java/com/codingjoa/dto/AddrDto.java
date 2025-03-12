@@ -2,18 +2,22 @@ package com.codingjoa.dto;
 
 import javax.validation.constraints.NotBlank;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
+@NoArgsConstructor
 public class AddrDto {
 	
 	@NotBlank
-	private String memberZipcode;
+	private String zipcode;
 	
 	@NotBlank
-	private String memberAddr;
+	private String addr;
 	
 	@NotBlank
-	private String memberAddrDetail;
+	private String addrDetail;
 	
 }

@@ -13,18 +13,18 @@ public interface ImageMapper {
 
 	boolean insertBoardImage(BoardImage boardImage);
 	
-	boolean isBoardImageUploaded(int boardImageIdx);
+	boolean isBoardImageUploaded(Long boardImageId);
 	
-	void activateBoardImages(@Param("boardImages") List<Integer> boardImages, @Param("boardIdx") int boardIdx);
+	void activateBoardImages(@Param("boardImages") List<Long> boardImages, @Param("boardId") Long boardId);
 	
-	void deactivateBoardImages(int boardIdx);
+	void deactivateBoardImages(Long boardId);
 	
-	void deactivateMemberImage(int memberIdx);
+	void deactivateUserImage(Long userId);
 
-	boolean insertMemberImage(UserImage memberImage);
+	boolean insertUserImage(UserImage userImage);
 	
 	List<BoardImage> findTempBoardImages();
 	
-	List<UserImage> findTempMemberImages();
+	List<UserImage> findTempUserImages();
 	
 }

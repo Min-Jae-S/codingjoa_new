@@ -4,7 +4,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -13,40 +13,40 @@ import com.codingjoa.security.oauth2.OAuth2Attributes;
 
 public interface UserService {
 
-	void saveMember(JoinDto joinDto);
+	void saveUser(JoinDto joinDto);
 	
-	void saveOAuth2Member(OAuth2Attributes oAuth2Attributes);
+	void saveOAuth2User(OAuth2Attributes oAuth2Attributes);
 	
-	void connectOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx);
+	void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId);
 	
-	boolean isNicknameExist(String memberNickname);
+	boolean isNicknameExist(String nickname);
 	
-	void checkEmailForJoin(String memeberEmail);
+	void checkEmailForJoin(String email);
 	
-	void checkEmailForUpdate(String memberEmail, Integer memberIdx);
+	void checkEmailForUpdate(String email, Long userId);
 	
-	void checkEmailForReset(String memberEmail);
+	void checkEmailForReset(String email);
 	
-	//String getMemberIdByEmail(String memberEmail);
+	//String getMemberIdByEmail(String eamil);
 	
-	Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail);
+	Long getMemberIdxByIdAndEmail(String memberId, String eamil);
 	
-	void updateNickname(NicknameDto nicknameDto, Integer memberIdx);
+	void updateNickname(NicknameDto nicknameDto, Long userId);
 	
-	void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx);
+	void updateEmail(EmailAuthDto emailAuthDto, Long userId);
 	
-	void updateAddr(AddrDto addrDto, Integer memberIdx);
+	void updateAddr(AddrDto addrDto, Long userId);
 	
-	void updateAgree(AgreeDto agreeDto, Integer memberIdx);
+	void updateAgree(AgreeDto agreeDto, Long userId);
 	
-	void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx);
+	void updatePassword(PasswordChangeDto passwordChangeDto, Long userId);
 	
-	void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx);
+	void savePassword(PasswordSaveDto passwordSaveDto, Long userId);
 	
-	AdminUserDto getMemberInfoByIdx(Integer memberIdx);
+	UserInfoDto getUserInfoById(Long userId);
 	
-	PrincipalDetails getUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
+	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
 
-	PrincipalDetails getUserDetailsByIdx(Integer memberIdx);	// for JWT re-issuance after updating
+	PrincipalDetails getUserDetailsById(Long userId); // for JWT re-issuance after updating
 	
 }

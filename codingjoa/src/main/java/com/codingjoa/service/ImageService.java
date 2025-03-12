@@ -10,12 +10,12 @@ public interface ImageService {
 	
 	BoardImageDto saveBoardImage(MultipartFile file);
 	
-	boolean isBoardImageUploaded(int boardImageIdx);
+	boolean isBoardImageUploaded(Long boardImageId);
 	
-	void activateBoardImages(List<Long> boardImages, Integer boardIdx);
+	void activateBoardImages(List<Long> boardImages, Long boardId);
 	
-	void updateBoardImages(List<Long> boardImages, Integer boardIdx); // deactivate, activate
+	void updateBoardImages(List<Long> boardImages, Long boardId); // deactivate, activate
 	
-	void updateMemberImage(MultipartFile file, Integer memberIdx);
+	void updateUserImage(MultipartFile file, Long userId);
 	
 }

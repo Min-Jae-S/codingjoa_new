@@ -2,24 +2,30 @@ package com.codingjoa.dto;
 
 import com.codingjoa.entity.User;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
+@Setter
+@Getter
+@NoArgsConstructor
 public class JoinDto {
 
-	private String memberEmail;
-	private String memberNickname;
-	private String memberPassword;
+	private String email;
+	private String nickname;
+	private String password;
 	private String confirmPassword;
 	private String authCode;
-	private boolean memberAgree;
+	private boolean agree;
 	
 	public User toEntity() {
 		return User.builder()
-				.memberEmail(this.memberEmail)
-				.memberNickname(this.memberNickname)
-				.memberPassword(this.memberPassword)
-				.memberAgree(this.memberAgree)
+				.email(this.email)
+				.nickname(this.nickname)
+				.password(this.password)
+				.agree(this.agree)
 				.build();
 	}
 }

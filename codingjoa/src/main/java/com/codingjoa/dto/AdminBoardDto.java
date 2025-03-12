@@ -15,8 +15,8 @@ import lombok.ToString;
 public class AdminBoardDto {
 	
 	// board
-	private int boardIdx;
-	private String boardTitle;
+	private long id;
+	private String title;
 	private int boardViews;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -29,13 +29,13 @@ public class AdminBoardDto {
 	private int categoryCode;
 	private String categoryName;
 	
-	// member
-	private int writerIdx;
-	private String writerEmail;
-	private String writerNickname;
+	// user
+	private long userId;
+	private String email;
+	private String nickname;
 	
-	private int commentCnt;
-	private int likesCnt;
+	private int replyCount;
+	private int likeCount;
 	private boolean isUpdated;
 	
 	@Builder
@@ -76,7 +76,7 @@ public class AdminBoardDto {
 
 	@JsonProperty("isUpdated")
 	public boolean isUpdated() {
-		return isUpdated;
+		return this.isUpdated;
 	}
 	
 }

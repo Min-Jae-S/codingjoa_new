@@ -12,7 +12,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -34,32 +34,32 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	private final UserMapper memberMapper;
+	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
-	public void saveMember(JoinDto joinDto) {
-		String rawPassword = joinDto.getMemberPassword();
+	public void saveUser(JoinDto joinDto) {
+		String rawPassword = joinDto.getPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
-		joinDto.setMemberPassword(encPassword);
+		joinDto.setPassword(encPassword);
 		
-		User member = joinDto.toEntity();
-		log.info("\t > convert JoinDto to member entity = {}", member);
+		User user = joinDto.toEntity();
+		log.info("\t > convert JoinDto to user entity = {}", user);
 		
-		boolean isMemberSaved = memberMapper.insertMember(member);
-		log.info("\t > saved member = {}", member);
+		boolean isUserSaved = userMapper.insertUser(user);
+		log.info("\t > saved user = {}", user);
 		
-		if (!isMemberSaved) {
-			throw new ExpectedException("error.SaveMember");
+		if (!isUserSaved) {
+			throw new ExpectedException("error.SaveUser");
 		}
 		
 		Auth auth = Auth.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberRole("ROLE_MEMBER")
+				.userId(user.getId())
+				.role("ROLE_MEMBER")
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		boolean isAuthSaved = memberMapper.insertAuth(auth);
+		boolean isAuthSaved = userMapper.insertAuth(auth);
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
@@ -68,32 +68,32 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void saveOAuth2Member(OAuth2Attributes oAuth2Attributes) {
-		String memberNickname = resolveNickname(oAuth2Attributes.getNickname());
-		log.info("\t > resovled nickname = {}", memberNickname);
+	public void saveOAuth2User(OAuth2Attributes oAuth2Attributes) {
+		String nickname = resolveNickname(oAuth2Attributes.getNickname());
+		log.info("\t > resolved nickname = {}", nickname);
 		
-		User member = User.builder()
-				.memberNickname(memberNickname) 
-				.memberEmail(oAuth2Attributes.getEmail())
-				.memberAgree(false)
+		User user = User.builder()
+				.nickname(nickname) 
+				.email(oAuth2Attributes.getEmail())
+				.agree(false)
 				.build();
-		log.info("\t > create member entity = {}", member);
+		log.info("\t > create user entity = {}", user);
 		
-		boolean isMemberSaved = memberMapper.insertMember(member);
-		log.info("\t > saved member = {}", member);
+		boolean isUserSaved = userMapper.insertUser(user);
+		log.info("\t > saved user = {}", user);
 		
-		if (!isMemberSaved) {
-			throw new ExpectedException("error.SaveMember");
+		if (!isUserSaved) {
+			throw new ExpectedException("error.SaveUser");
 		}
 		
 		SnsInfo snsInfo = SnsInfo.builder()
-				.memberIdx(member.getMemberIdx())
+				.userId(user.getId())
 				.snsId(oAuth2Attributes.getId())
-				.snsProvider(oAuth2Attributes.getProvider())
+				.provider(oAuth2Attributes.getProvider())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		boolean isSnsInfoSaved = memberMapper.insertSnsInfo(snsInfo);
+		boolean isSnsInfoSaved = userMapper.insertSnsInfo(snsInfo);
 		log.info("\t > saved snsInfo = {}", snsInfo);
 		
 		if (!isSnsInfoSaved) {
@@ -101,12 +101,12 @@ public class UserServiceImpl implements UserService {
 		}
 
 		Auth auth = Auth.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberRole("ROLE_MEMBER")
+				.userId(user.getId())
+				.role("ROLE_MEMBER")
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		boolean isAuthSaved = memberMapper.insertAuth(auth);
+		boolean isAuthSaved = userMapper.insertAuth(auth);
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
@@ -124,68 +124,68 @@ public class UserServiceImpl implements UserService {
 			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
 		}
 		
-		if (memberMapper.isNicknameExist(nickname)) {
+		if (userMapper.isNicknameExist(nickname)) {
 	        String baseNickname = (nickname.length() > MAX_BASE_NICKNAME_LENGTH) 
 	        		? nickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
 	        		: nickname;
 			do {
 				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, nickname);
 				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
-			} while (memberMapper.isNicknameExist(nickname)); 
+			} while (userMapper.isNicknameExist(nickname)); 
 		}
 		
 		return nickname;
 	}
 	
 	@Override
-	public void connectOAuth2Member(OAuth2Attributes oAuth2Attributes, Integer memberIdx) {
+	public void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId) {
 		SnsInfo snsInfo = SnsInfo.builder()
-				.memberIdx(memberIdx)
+				.userId(userId)
 				.snsId(oAuth2Attributes.getId())
-				.snsProvider(oAuth2Attributes.getProvider())
+				.provider(oAuth2Attributes.getProvider())
 				.connectedAt(LocalDateTime.now())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		memberMapper.insertSnsInfo(snsInfo);
+		userMapper.insertSnsInfo(snsInfo);
 	}
 	
 	@Override
-	public boolean isNicknameExist(String memberNickname) {
-		return memberMapper.isNicknameExist(memberNickname);
+	public boolean isNicknameExist(String nickname) {
+		return userMapper.isNicknameExist(nickname);
 	}
 
 	@Override
-	public void checkEmailForJoin(String memberEmail) {
-		User member = memberMapper.findMemberByEmail(memberEmail);
-		if (member != null) {
-			throw new ExpectedException("memberEmail", "error.EmailExist");
+	public void checkEmailForJoin(String email) {
+		User user = userMapper.findUserByEmail(email);
+		if (user != null) {
+			throw new ExpectedException("email", "error.EmailExist");
 		}
 	}
 	
 	@Override
-	public void checkEmailForUpdate(String memberEmail, Integer memberIdx) {
-		User currentMember = memberMapper.findMemberByIdx(memberIdx);
-		if (currentMember == null) {
-			throw new ExpectedException("memberEmail", "error.NotFoundMember");
+	public void checkEmailForUpdate(String email, Long userId) {
+		User userById = userMapper.findUserById(userId);
+		if (userById == null) {
+			throw new ExpectedException("email", "error.NotFoundUser");
 		}
 		
-		String currentEmail = currentMember.getMemberEmail();
-		if (memberEmail.equals(currentEmail)) {
-			throw new ExpectedException("memberEmail", "error.NotCurrentEmail");
+		String currentEmail = userById.getEmail();
+		if (email.equals(currentEmail)) {
+			throw new ExpectedException("email", "error.NotCurrentEmail");
 		}
 		
-		User member = memberMapper.findMemberByEmail(memberEmail);
-		if (member != null) {
-			throw new ExpectedException("memberEmail", "error.EmailExist");
+		User userByEmail = userMapper.findUserByEmail(email);
+		if (userByEmail != null) {
+			throw new ExpectedException("email", "error.EmailExist");
 		}
 	}
 	
 	@Override
-	public void checkEmailForReset(String memberEmail) {
-		User member = memberMapper.findMemberByEmail(memberEmail);
-		if (member == null) {
-			throw new ExpectedException("memberEmail", "error.NotEmailExist");
+	public void checkEmailForReset(String email) {
+		User user = userMapper.findUserByEmail(email);
+		if (user == null) {
+			throw new ExpectedException("email", "error.NotEmailExist");
 		}
 	}
 	
@@ -199,52 +199,52 @@ public class UserServiceImpl implements UserService {
 //	}
 	
 	@Override
-	public Integer getMemberIdxByIdAndEmail(String memberId, String memberEmail) {
-		User member = memberMapper.findMemeberByIdAndEmail(memberId, memberEmail);
-		if (member == null) {
+	public Long getMemberIdxByIdAndEmail(String memberId, String email) {
+		User user = userMapper.findUserByIdAndEmail(memberId, email);
+		if (user == null) {
 			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
 		}
 		
-		return member.getMemberIdx();
+		return user.getId();
 	}
 	
 	@Override
-	public void updateNickname(NicknameDto nicknameDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void updateNickname(NicknameDto nicknameDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		String currentNickname = member.getMemberNickname();
-		String memberNickname = nicknameDto.getMemberNickname();
-		if (isNicknameExist(memberNickname) && !memberNickname.equals(currentNickname)) {
-			throw new ExpectedException("memberNickname", "error.NicknameExist");
+		String currentNickname = user.getNickname();
+		String newNickname = nicknameDto.getNickname();
+		if (isNicknameExist(newNickname) && !newNickname.equals(currentNickname)) {
+			throw new ExpectedException("nickname", "error.NicknameExist");
 		}
 		
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberNickname(memberNickname)
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.nickname(newNickname)
 				.build();
 		
-		boolean isUpdated = memberMapper.updateNickname(modifyMember);
+		boolean isUpdated = userMapper.updateNickname(modifyUser);
 		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateNickname");
 		}
 	}
 
 	@Override
-	public void updateEmail(EmailAuthDto emailAuthDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void updateEmail(EmailAuthDto emailAuthDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberEmail(emailAuthDto.getMemberEmail())
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.email(emailAuthDto.getEmail())
 				.build();
 		
-		boolean isUpdated = memberMapper.updateEmail(modifyMember);
+		boolean isUpdated = userMapper.updateEmail(modifyUser);
 		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateEmail");
 		}
@@ -254,112 +254,112 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void updateAddr(AddrDto addrDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void updateAddr(AddrDto addrDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberZipcode(addrDto.getMemberZipcode())
-				.memberAddr(addrDto.getMemberAddr())
-				.memberAddrDetail(addrDto.getMemberAddrDetail())
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.zipcode(addrDto.getZipcode())
+				.addr(addrDto.getAddr())
+				.addrDetail(addrDto.getAddrDetail())
 				.build();
 		
-		boolean isUpdated = memberMapper.updateAddr(modifyMember);
+		boolean isUpdated = userMapper.updateAddr(modifyUser);
 		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateAddr");
 		}
 	}
 
 	@Override
-	public void updateAgree(AgreeDto agreeDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void updateAgree(AgreeDto agreeDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberAgree(agreeDto.isMemberAgree())
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.agree(agreeDto.isAgree())
 				.build();
 		
-		boolean isUpdated = memberMapper.updateAgree(modifyMember);
+		boolean isUpdated = userMapper.updateAgree(modifyUser);
 		if (!isUpdated) {
 			throw new ExpectedException("error.UpdateAgree");
 		}
 	}
 	
 	@Override
-	public void updatePassword(PasswordChangeDto passwordChangeDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void updatePassword(PasswordChangeDto passwordChangeDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		String memberPassword = member.getMemberPassword();
-		String currentPasswordInput = passwordChangeDto.getCurrentPassword();
-		if (!passwordEncoder.matches(currentPasswordInput, memberPassword)) {
+		String password = user.getPassword();
+		String currentPassword = passwordChangeDto.getCurrentPassword();
+		if (!passwordEncoder.matches(currentPassword, password)) {
 			throw new ExpectedException("currentPassword", "error.MismatchPassword");
 		}
 		
-		String newPasswordInput = passwordChangeDto.getNewPassword();
-		if (passwordEncoder.matches(newPasswordInput, memberPassword)) {
+		String newPassword = passwordChangeDto.getNewPassword();
+		if (passwordEncoder.matches(newPassword, password)) {
 			throw new ExpectedException("newPassword", "error.SameAsPassword");
 		}
 		
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberPassword(passwordEncoder.encode(newPasswordInput))
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.password(passwordEncoder.encode(newPassword))
 				.build();
 		
-		boolean isUpdated = memberMapper.updatePassword(modifyMember);
+		boolean isUpdated = userMapper.updatePassword(modifyUser);
 		if (!isUpdated) {
 			throw new ExpectedException("error.UpdatePassword");
 		}
 	}
 	
 	@Override
-	public void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx) {
-		User member = memberMapper.findMemberByIdx(memberIdx);
-		if (member == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public void savePassword(PasswordSaveDto passwordSaveDto, Long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
 		String newPassword = passwordSaveDto.getNewPassword();
-		User modifyMember = User.builder()
-				.memberIdx(member.getMemberIdx())
-				.memberPassword(passwordEncoder.encode(newPassword))
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.password(passwordEncoder.encode(newPassword))
 				.build();
 		
-		boolean isSaved = memberMapper.updatePassword(modifyMember);
+		boolean isSaved = userMapper.updatePassword(modifyUser);
 		if (!isSaved) {
 			throw new ExpectedException("error.SavePassword");
 		}
 	}
 	
 	@Override
-	public AdminUserDto getMemberInfoByIdx(Integer memberIdx) {
-		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
-		if (memberInfoMap == null) {
-			throw new ExpectedException("error.NotFoundMember");
+	public UserInfoDto getUserInfoById(Long userId) {
+		Map<String, Object> userInfoMap = userMapper.findUserInfoById(userId);
+		if (userInfoMap == null) {
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
-		return AdminUserDto.from(memberInfoMap);
+		return UserInfoDto.from(userInfoMap);
 	}
 	
 	@Override
-	public PrincipalDetails getUserDetailsByEmail(String memberEmail) {
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByEmail(memberEmail);
+	public PrincipalDetails getUserDetailsByEmail(String email) {
+		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
 		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
 	}
 	
 	@Override
-	public PrincipalDetails getUserDetailsByIdx(Integer memberIdx) {
-		Map<String, Object> userDetailsMap = memberMapper.findUserDetailsByIdx(memberIdx);
+	public PrincipalDetails getUserDetailsById(Long userId) {
+		Map<String, Object> userDetailsMap = userMapper.findUserDetailsById(userId);
 		if (userDetailsMap == null) {
-			throw new ExpectedException("error.NotFoundMember");
+			throw new ExpectedException("error.NotFoundUser");
 		}
 		
 		return PrincipalDetails.from(userDetailsMap);

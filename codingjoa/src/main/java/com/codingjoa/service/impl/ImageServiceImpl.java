@@ -57,6 +57,7 @@ public class ImageServiceImpl implements ImageService {
 				.path("/board/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
+		log.info("\t > path = {}", path);
 		
 		BoardImage boardImage = BoardImage.builder() // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
 				.name(filename)
@@ -75,39 +76,39 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public boolean isBoardImageUploaded(int boardImageIdx) {
-		return imageMapper.isBoardImageUploaded(boardImageIdx);
+	public boolean isBoardImageUploaded(Long boardImageId) {
+		return imageMapper.isBoardImageUploaded(boardImageId);
 	}
 
 	@Override
-	public void activateBoardImages(List<Integer> boardImages, Integer boardIdx) {
+	public void activateBoardImages(List<Long> boardImages, Long boardId) {
 		log.info("\t > activate boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
 		}
 		
-		imageMapper.activateBoardImages(boardImages, boardIdx);
+		imageMapper.activateBoardImages(boardImages, boardId);
 	}
 	
 	@Override
-	public void updateBoardImages(List<Integer> boardImages, Integer boardIdx) {
+	public void updateBoardImages(List<Long> boardImages, Long boardId) {
 		log.info("\t > deactivate old boardImages");
-		imageMapper.deactivateBoardImages(boardIdx);
+		imageMapper.deactivateBoardImages(boardId);
 		
 		log.info("\t > activate new boardImages = {}", boardImages);
 		if (boardImages.isEmpty()) {
 			return;
 		}
 		
-		imageMapper.activateBoardImages(boardImages, boardIdx);
+		imageMapper.activateBoardImages(boardImages, boardId);
 	}
 	
 	@Override
-	public void updateMemberImage(MultipartFile file, Integer memberIdx) {
+	public void updateUserImage(MultipartFile file, Long userId) {
 		File folder = new File(memberImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
-				throw new ExpectedException("error.UploadMemberImage");
+				throw new ExpectedException("error.UploadUserImage");
 			}
 		}
 		
@@ -116,29 +117,30 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
-			throw new ExpectedException("error.UploadMemberImage");
+			throw new ExpectedException("error.UploadUserImage");
 		}
 		
-		log.info("\t > deactivate old memberImage");
-		imageMapper.deactivateMemberImage(memberIdx);
+		log.info("\t > deactivate old userImage");
+		imageMapper.deactivateUserImage(userId);
 		
-		String memberImageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/member/images/{filename}")
+		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/user/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
+		log.info("\t > path = {}", path);
 		
-		UserImage memberImage = UserImage.builder()
-				.memberIdx(memberIdx)
-				.memberImageName(filename)
-				.memberImageUrl(memberImageUrl)
+		UserImage userImage = UserImage.builder()
+				.userId(userId)
+				.name(filename)
+				.path(path)
 				.build();
-		log.info("\t > create memberImage entity = {}", memberImage);
+		log.info("\t > create userImage entity = {}", userImage);
 		
-		boolean isSaved = imageMapper.insertMemberImage(memberImage);
-		log.info("\t > saved memberImage = {}", memberImage);
+		boolean isSaved = imageMapper.insertUserImage(userImage);
+		log.info("\t > saved userImage = {}", userImage);
 		
 		if (!isSaved) { 
-			throw new ExpectedException("error.SaveMemberImage");
+			throw new ExpectedException("error.SaveUserImage");
 		}
 		
 	}

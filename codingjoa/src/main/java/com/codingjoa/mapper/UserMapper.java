@@ -13,33 +13,33 @@ import com.codingjoa.entity.SnsInfo;
 @Mapper
 public interface UserMapper {
 	
-	boolean insertMember(User member);
+	boolean insertUser(User user);
 	
 	boolean insertAuth(Auth auth);
 	
 	boolean insertSnsInfo(SnsInfo snsInfo);
 	
-	boolean isNicknameExist(String memberNickname);
+	boolean isNicknameExist(String nickname);
 	
-	Map<String, Object> findMemberInfoByIdx(Integer memberIdx);
+	Map<String, Object> findUserInfoById(Long userId);
 	
-	User findMemberByEmail(String memberEmail);
+	User findUserByEmail(String email);
 	
-	User findMemberByIdx(Integer memberIdx);
+	User findUserById(Long userId);
 	
-	boolean updateNickname(User member);
+	boolean updateNickname(User user);
 	
-	boolean updateEmail(User member);
+	boolean updateEmail(User user);
 	
-	boolean updateAddr(User member);
+	boolean updateAddr(User user);
 	
-	boolean updateAgree(User member);
+	boolean updateAgree(User user);
 	
-	boolean updatePassword(User member);
+	boolean updatePassword(User user);
 	
-	User findMemeberByIdAndEmail(@Param("memberId") String memberId, @Param("memberEmail") String memberEmail);
+	User findUserByIdAndEmail(@Param("id") String id, @Param("email") String email);
 	
-	Map<String, Object> findUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
+	Map<String, Object> findUserDetailsByEmail(String email); 	// for authentication in UserDetailsService, OAuth2UserService
 	
-	Map<String, Object> findUserDetailsByIdx(Integer memberIdx);	// for JWT re-issuance after updating
+	Map<String, Object> findUserDetailsById(Long userId);		// for JWT re-issuance after updating
 }
