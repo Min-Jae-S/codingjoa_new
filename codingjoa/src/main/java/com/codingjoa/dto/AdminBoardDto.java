@@ -17,7 +17,9 @@ public class AdminBoardDto {
 	// board
 	private long id;
 	private String title;
-	private int boardViews;
+	private int viewCount;
+	private int replyCount;
+	private int likeCount;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createdAt;
@@ -30,47 +32,45 @@ public class AdminBoardDto {
 	private String categoryName;
 	
 	// user
-	private long userId;
-	private String email;
-	private String nickname;
+	private long writerId;
+	private String writerEmail;
+	private String writerNickname;
 	
-	private int replyCount;
-	private int likeCount;
 	private boolean isUpdated;
 	
 	@Builder
-	private AdminBoardDto(int boardIdx, String boardTitle, int boardViews, LocalDateTime createdAt,
-			LocalDateTime updatedAt, int categoryCode, String categoryName, int writerIdx, String writerEmail,
-			String writerNickname, int commentCnt, int likesCnt) {
-		this.boardIdx = boardIdx;
-		this.boardTitle = boardTitle;
-		this.boardViews = boardViews;
+	private AdminBoardDto(long id, String title, int viewCount, int replyCount, int likeCount, LocalDateTime createdAt,
+			LocalDateTime updatedAt, int categoryCode, String categoryName, long writerId, String writerEmail, String writerNickname,
+			boolean isUpdated) {
+		this.id = id;
+		this.title = title;
+		this.viewCount = viewCount;
+		this.replyCount = replyCount;
+		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.categoryCode = categoryCode;
 		this.categoryName = categoryName;
-		this.writerIdx = writerIdx;
+		this.writerId = writerId;
 		this.writerEmail = writerEmail;
 		this.writerNickname = writerNickname;
-		this.commentCnt = commentCnt;
-		this.likesCnt = likesCnt;
-		this.isUpdated = !createdAt.isEqual(updatedAt);
+		this.isUpdated = createdAt.isEqual(updatedAt);;
 	}
 	
 	public static AdminBoardDto from(AdminBoard adminBoard) {
 		return AdminBoardDto.builder()
-				.boardIdx(adminBoard.getBoardIdx())
-				.boardTitle(adminBoard.getBoardTitle())
-				.boardViews(adminBoard.getBoardViews())
+				.id(adminBoard.getId())
+				.title(adminBoard.getTitle())
+				.viewCount(adminBoard.getViewCount())
+				.replyCount(adminBoard.getReplyCount())
+				.likeCount(adminBoard.getLikeCount())
 				.createdAt(adminBoard.getCreatedAt())
 				.updatedAt(adminBoard.getUpdatedAt())
-				.categoryCode(adminBoard.getCategory().getCategoryCode())
-				.categoryName(adminBoard.getCategory().getCategoryName())
-				.writerIdx(adminBoard.getWriter().getMemberIdx())
-				.writerEmail(adminBoard.getWriter().getMemberEmail())
-				.writerNickname(adminBoard.getWriter().getMemberNickname())
-				.commentCnt(adminBoard.getCommentCnt())
-				.likesCnt(adminBoard.getLikesCnt())
+				.categoryCode(adminBoard.getCategory().getCode())
+				.categoryName(adminBoard.getCategory().getName())
+				.writerId(adminBoard.getWriter().getId())
+				.writerEmail(adminBoard.getWriter().getEmail())
+				.writerNickname(adminBoard.getWriter().getNickname())
 				.build();
 	}
 

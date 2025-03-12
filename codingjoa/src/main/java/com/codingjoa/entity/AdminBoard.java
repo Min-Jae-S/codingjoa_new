@@ -9,18 +9,18 @@ import lombok.ToString;
 @Getter
 public class AdminBoard {
 	
-	private Integer boardIdx;
-	private Integer boardWriterIdx;
-	private String boardTitle;
-	private String boardContent;
-	private String boardContentText;
-	private Integer boardCategoryCode;
-	private Integer boardViews;
+	private Long id;
+	private Long userId;
+	private Integer categoryCode;
+	private String title;
+	private String content;
+	private String searchContent;
+	private Integer viewCount;
+	private Integer replyCount;
+	private Integer likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private Category category;
 	private User writer;
-	private Integer commentCnt;
-	private Integer likesCnt;
 	
 }
