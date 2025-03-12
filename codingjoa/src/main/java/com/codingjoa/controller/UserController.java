@@ -25,24 +25,24 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/member")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
-	private final UserService memberService;
+	private final UserService userService;
 	private final RedisService redisService;
 
 	@InitBinder("joinDto")
 	public void initBinderJoin(WebDataBinder binder) {
-		binder.addValidators(new JoinValidator(redisService, memberService));
+		binder.addValidators(new JoinValidator(redisService, userService));
 	}
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
 		log.info("## join");
 		log.info("\t > joinDto = {}", joinDto);
-		return "member/join";
+		return "user/join";
 	}
 
 	@PostMapping("/join")
@@ -51,11 +51,11 @@ public class UserController {
 		log.info("\t > joinDto = {}", joinDto);
 
 		if (bindingResult.hasErrors()) {
-			return "member/join";
+			return "user/join";
 		}
 		
-		memberService.saveMember(joinDto);
-		redisService.deleteKey(joinDto.getMemberEmail());
+		userService.saveUser(joinDto);
+		redisService.deleteKey(joinDto.getEmail());
 		
 		request.setAttribute("message", MessageUtils.getMessage("success.Join"));
 		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
@@ -66,25 +66,25 @@ public class UserController {
 	@GetMapping("/account")
 	public String account() {
 		log.info("## account");
-		return "member/account";
+		return "user/account";
 	}
 
 	@GetMapping("/account/updatePassword")
 	public String updatePassword() {
 		log.info("## updatePassword");
-		return "member/update-password";
+		return "user/update-password";
 	}
 	
 	@GetMapping("/findAccount")
 	public String findAccount() {
 		log.info("## findAccount");
-		return "member/find-account";
+		return "user/find-account";
 	}
 	
 	@GetMapping("/findPassword")
 	public String findPassword() {
 		log.info("## findPassword");
-		return "member/find-password";
+		return "user/find-password";
 	}
 	
 	@GetMapping("/resetPassword")

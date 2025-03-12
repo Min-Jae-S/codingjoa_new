@@ -24,11 +24,11 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async 
 	@Override
-	public void sendAuthCode(String memberEmail, String authCode) {
+	public void sendAuthCode(String email, String authCode) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-			mailHelper.setTo(memberEmail);
+			mailHelper.setTo(email);
 			mailHelper.setSubject("[CodingJoa] 이메일 인증번호입니다.");
 			
 			String html = buildTemplate(MailType.AUTH_CODE, authCode);
@@ -44,11 +44,11 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async
 	@Override
-	public void sendFoundAccount(String memberEmail, String memberId) {
+	public void sendFoundAccount(String email, String memberId) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-			mailHelper.setTo(memberEmail);
+			mailHelper.setTo(email);
 			mailHelper.setSubject("[CodingJoa] 아이디 안내 메일입니다.");
 			
 			String html = buildTemplate(MailType.FIND_ACCOUNT, memberId);
@@ -61,12 +61,12 @@ public class EmailServiceImpl implements EmailService {
 
 	@Async
 	@Override
-	public void sendResetPasswordUrl(String memberEmail, String memberId, String url) {
+	public void sendResetPasswordUrl(String email, String memberId, String url) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 			
-			mailHelper.setTo(memberEmail);
+			mailHelper.setTo(email);
 			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 메일입니다.");
 			
 			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, url);

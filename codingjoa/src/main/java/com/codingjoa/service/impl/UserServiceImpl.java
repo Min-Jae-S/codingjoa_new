@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void checkEmailForUpdate(String email, Long userId) {
+	public void checkEmailForUpdate(String email, long userId) {
 		User userById = userMapper.findUserById(userId);
 		if (userById == null) {
 			throw new ExpectedException("email", "error.NotFoundUser");
@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void updateNickname(NicknameDto nicknameDto, Long userId) {
+	public void updateNickname(NicknameDto nicknameDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -233,7 +233,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateEmail(EmailAuthDto emailAuthDto, Long userId) {
+	public void updateEmail(EmailAuthDto emailAuthDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -254,7 +254,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void updateAddr(AddrDto addrDto, Long userId) {
+	public void updateAddr(AddrDto addrDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -274,7 +274,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateAgree(AgreeDto agreeDto, Long userId) {
+	public void updateAgree(AgreeDto agreeDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -292,7 +292,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void updatePassword(PasswordChangeDto passwordChangeDto, Long userId) {
+	public void updatePassword(PasswordChangeDto passwordChangeDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -321,7 +321,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void savePassword(PasswordSaveDto passwordSaveDto, Long userId) {
+	public void savePassword(PasswordSaveDto passwordSaveDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.NotFoundUser");
@@ -356,7 +356,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public PrincipalDetails getUserDetailsById(Long userId) {
+	public PrincipalDetails getUserDetailsById(long userId) {
 		Map<String, Object> userDetailsMap = userMapper.findUserDetailsById(userId);
 		if (userDetailsMap == null) {
 			throw new ExpectedException("error.NotFoundUser");

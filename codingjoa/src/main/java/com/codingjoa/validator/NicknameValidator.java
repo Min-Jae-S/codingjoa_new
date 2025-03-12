@@ -25,15 +25,15 @@ public class NicknameValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		NicknameDto nicknameDto = (NicknameDto) target;
-		String memberNickname = nicknameDto.getMemberNickname();
+		String nickname = nicknameDto.getNickname();
 		
-		if (!StringUtils.hasText(memberNickname)) {
-			errors.rejectValue("memberNickname", "NotBlank");
+		if (!StringUtils.hasText(nickname)) {
+			errors.rejectValue("nickname", "NotBlank");
 			return;
 		} 
 		
-		if (!Pattern.matches(NICKNAME_REGEXP, memberNickname)) {
-			errors.rejectValue("memberNickname", "Pattern");
+		if (!Pattern.matches(NICKNAME_REGEXP, nickname)) {
+			errors.rejectValue("nickname", "Pattern");
 			return;
 		}
 	}

@@ -25,15 +25,15 @@ public class EmailValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 		
 		EmailDto emailDto = (EmailDto) target;
-		String memberEmail = emailDto.getMemberEmail();
+		String email = emailDto.getEmail();
 		
-		if (!StringUtils.hasText(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotBlank");
+		if (!StringUtils.hasText(email)) {
+			errors.rejectValue("email", "NotBlank");
 			return;
 		} 
 		
-		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-			errors.rejectValue("memberEmail", "Pattern");
+		if (!Pattern.matches(EMAIL_REGEXP, email)) {
+			errors.rejectValue("email", "Pattern");
 			return;
 		}
 	}

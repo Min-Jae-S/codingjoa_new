@@ -20,7 +20,7 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public void saveKeyAndValue(String key, String value) {
-		log.info("## saveKeyAndValue ( key = {}, value = {} )", key, value);
+		log.info("## saveKeyAndValue, key = {}, value = {}", key, value);
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		valueOperations.set(key, value, Duration.ofMinutes(30L));
 	}
@@ -32,7 +32,7 @@ public class RedisServiceImpl implements RedisService {
 	
 	@Override
 	public String findValueByKey(String key) {
-		log.info("## findValueByKey ( key = {} )", key);
+		log.info("## findValueByKey, key = {}", key);
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
 		return valueOperations.get(key);
 	}

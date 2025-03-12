@@ -108,13 +108,13 @@ public class UserRestController {
 		log.info("\t > emailDto = {}", emailDto);
 
 		String email = emailDto.getEmail();
-		memberService.checkEmailForJoin(memberEmail);
+		userService.checkEmailForJoin(email);
 
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveKeyAndValue(memberEmail, authCode);
+		emailService.sendAuthCode(email, authCode);
+		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.SendAuthCode")
@@ -127,14 +127,14 @@ public class UserRestController {
 		log.info("## sendAuthCodeForEmailUpdate");
 		log.info("\t > emailDto = {}", emailDto);
 
-		String memberEmail = emailDto.getMemberEmail();
-		memberService.checkEmailForUpdate(memberEmail, principal.getIdx());
+		String email = emailDto.getEmail();
+		userService.checkEmailForUpdate(email, principal.getId());
 		
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthCode(memberEmail, authCode);
-		redisService.saveKeyAndValue(memberEmail, authCode);
+		emailService.sendAuthCode(email, authCode);
+		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.SendAuthCode")
@@ -142,17 +142,17 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/account/image")
-	public ResponseEntity<Object> updateMemberImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+	public ResponseEntity<Object> updateUserImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
-		log.info("## updateMemberImage");
+		log.info("## updateUserImage");
 		
-		imageService.updateMemberImage(uploadFileDto.getFile(), principal.getIdx());
+		imageService.updateUserImage(uploadFileDto.getFile(), principal.getId());
 		
-		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok().body(SuccessResponse.builder()
-				.messageByCode("success.UpdateMemberImage")
+				.messageByCode("success.UpdateUserImage")
 				.build());
 	}
 	
@@ -162,13 +162,14 @@ public class UserRestController {
 		log.info("## updateNickname");
 		log.info("\t > nicknameDto = {}", nicknameDto);
 		
-		memberService.updateNickname(nicknameDto, principal.getIdx());
+		userService.updateNickname(nicknameDto, principal.getId());
 		
-		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateNickname").build());
+				.messageByCode("success.UpdateNickname")
+				.build());
 	}
 	
 	@PutMapping("/account/email")
@@ -177,10 +178,10 @@ public class UserRestController {
 		log.info("## updateEmail");
 		log.info("\t > emailAuthDto = {}", emailAuthDto);
 		
-		memberService.updateEmail(emailAuthDto, principal.getIdx());
-		redisService.deleteKey(emailAuthDto.getMemberEmail());
+		userService.updateEmail(emailAuthDto, principal.getId());
+		redisService.deleteKey(emailAuthDto.getEmail());
 		
-		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

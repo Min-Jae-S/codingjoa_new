@@ -58,20 +58,20 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			throw new AuthenticationServiceException("invalid json format");
 		}
 		
-		String memberEmail = loginDto.getMemberEmail();
-		String memberPassword = loginDto.getMemberPassword();
+		String email = loginDto.getEamil();
+		String password = loginDto.getPassword();
 		
-		if (!StringUtils.hasText(memberEmail)) {
+		if (!StringUtils.hasText(email)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));
 		}
 		
-		if (!StringUtils.hasText(memberPassword)) {
+		if (!StringUtils.hasText(password)) {
 			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
 		}
 		
-		memberEmail = memberEmail.trim();
+		email = email.trim();
 		
-		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(memberEmail, memberPassword);
+		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(email, password);
 		
 		// authenticate UsernamePasswordAuthenticationToken by LoginProvider
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 

@@ -16,6 +16,6 @@ public interface ImageService {
 	
 	void updateBoardImages(List<Long> boardImages, Long boardId); // deactivate, activate
 	
-	void updateUserImage(MultipartFile file, Long userId);
+	void updateUserImage(MultipartFile file, long userId);
 	
 }

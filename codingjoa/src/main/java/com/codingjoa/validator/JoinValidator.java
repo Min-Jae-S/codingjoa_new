@@ -21,7 +21,7 @@ public class JoinValidator implements Validator {
 	private static final String NICKNAME_REGEXP = "^([a-zA-Z가-힣0-9]{2,10})$";
 	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 	private final RedisService redisService;
-	private final UserService memberService;
+	private final UserService userService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -39,21 +39,21 @@ public class JoinValidator implements Validator {
 	}
 	
 	private void validateEmailAuth(JoinDto joinDto, Errors errors) {
-		String memberEmail = joinDto.getMemberEmail();
+		String email = joinDto.getEmail();
 		String authCode = joinDto.getAuthCode();
 		
-		if (!StringUtils.hasText(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotBlank");
+		if (!StringUtils.hasText(email)) {
+			errors.rejectValue("email", "NotBlank");
 			return;
 		}
 		
-		if (!Pattern.matches(EMAIL_REGEXP, memberEmail)) {
-			errors.rejectValue("memberEmail", "Pattern");
+		if (!Pattern.matches(EMAIL_REGEXP, email)) {
+			errors.rejectValue("email", "Pattern");
 			return;
 		} 
 		
-		if (!redisService.hasKey(memberEmail)) {
-			errors.rejectValue("memberEmail", "NotAuthCodeExist");
+		if (!redisService.hasKey(email)) {
+			errors.rejectValue("email", "NotAuthCodeExist");
 			return;
 		}
 		
@@ -62,41 +62,41 @@ public class JoinValidator implements Validator {
 			return;
 		} 
 		
-		if (!redisService.isAuthCodeValid(memberEmail, authCode)) {
+		if (!redisService.isAuthCodeValid(email, authCode)) {
 			errors.rejectValue("authCode", "NotValid");
 			return;
 		}
 	}
 	
 	private void validateNickname(JoinDto joinDto, Errors errors) {
-		String memberNickname = joinDto.getMemberNickname();
+		String nickname = joinDto.getNickname();
 		
-		if (!StringUtils.hasText(memberNickname)) {
-			errors.rejectValue("memberNickname", "NotBlank");
+		if (!StringUtils.hasText(nickname)) {
+			errors.rejectValue("nickname", "NotBlank");
 			return;
 		}
 		
 		
-		if (!Pattern.matches(NICKNAME_REGEXP, memberNickname)) {
-			errors.rejectValue("memberNickname", "Pattern");
+		if (!Pattern.matches(NICKNAME_REGEXP, nickname)) {
+			errors.rejectValue("nickname", "Pattern");
 			return;
 		} 
 		
-		if (memberService.isNicknameExist(memberNickname)) {
-			errors.rejectValue("memberNickname", "NicknameExist");
+		if (userService.isNicknameExist(nickname)) {
+			errors.rejectValue("nickname", "NicknameExist");
 			return;
 		}
 		
 	}
 
 	private void validatePassword(JoinDto joinDto, Errors errors) {
-		String memberPassword = joinDto.getMemberPassword();
+		String password = joinDto.getPassword();
 		String confirmPassword = joinDto.getConfirmPassword();
 		
-		if (!StringUtils.hasText(memberPassword)) {
-			errors.rejectValue("memberPassword", "NotBlank");
-		} else if (!Pattern.matches(PASSWORD_REGEXP, memberPassword)) {
-			errors.rejectValue("memberPassword", "Pattern");
+		if (!StringUtils.hasText(password)) {
+			errors.rejectValue("password", "NotBlank");
+		} else if (!Pattern.matches(PASSWORD_REGEXP, password)) {
+			errors.rejectValue("password", "Pattern");
 		}
 
 		if (!StringUtils.hasText(confirmPassword)) {
@@ -105,12 +105,12 @@ public class JoinValidator implements Validator {
 			errors.rejectValue("confirmPassword", "Pattern");
 		}
 
-		if (errors.hasFieldErrors("memberPassword") || errors.hasFieldErrors("confirmPassword")) {
+		if (errors.hasFieldErrors("password") || errors.hasFieldErrors("confirmPassword")) {
 			return;
 		}
 
-		if (!memberPassword.equals(confirmPassword)) {
-			errors.rejectValue("memberPassword", "NotEquals");
+		if (!password.equals(confirmPassword)) {
+			errors.rejectValue("password", "NotEquals");
 			errors.rejectValue("confirmPassword", "NotEquals");
 			return;
 		}

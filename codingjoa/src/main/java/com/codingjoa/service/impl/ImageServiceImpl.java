@@ -104,7 +104,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void updateUserImage(MultipartFile file, Long userId) {
+	public void updateUserImage(MultipartFile file, long userId) {
 		File folder = new File(memberImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
