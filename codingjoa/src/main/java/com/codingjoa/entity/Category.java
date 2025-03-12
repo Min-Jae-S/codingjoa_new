@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class Category {
 	
-	private Integer categoryCode;
-	private Integer categoryParentCode;
-	private String categoryName;
-	private String categoryPath;
+	private Integer code;
+	private Integer parentCode;
+	private String name;
+	private String path;
 	
 }

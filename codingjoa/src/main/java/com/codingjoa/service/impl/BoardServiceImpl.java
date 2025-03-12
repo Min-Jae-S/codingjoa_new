@@ -39,28 +39,28 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board saveBoard(BoardDto boardDto) {
-		log.info("\t > produce boardContentText by parsing boardContent for search");
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
-		boardDto.setBoardContentText(boardContentText);
+		log.info("\t > produce searchContent by parsing content for search");
+		String searchContent = Jsoup.parse(boardDto.getContent()).text();
+		boardDto.setSearchContent(searchContent);
 
 		Board board = boardDto.toEntity();
 		log.info("\t > convert boardDto to board entity = {}", board);
 		
 		boolean isBoardSaved = boardMapper.insertBoard(board);
-		log.info("\t > saved board = {}", (board != null) ? board.getBoardIdx() : board);
+		log.info("\t > saved board = {}", (board != null) ? board.getId() : board);
 
 		if (!isBoardSaved) {
 			throw new ExpectedException("error.SaveBoard");
 		}
 		
-		imageService.activateBoardImages(boardDto.getBoardImages(), board.getBoardIdx());
+		imageService.activateBoardImages(boardDto.getImages(), board.getId());
 		
 		return board;
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(int boardIdx, Integer memberIdx) {
-		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsByIdx(boardIdx, memberIdx);
+	public BoardDetailsDto getBoardDetails(int boardId, Integer userId) {
+		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
 		log.info("\t > find boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
@@ -71,37 +71,37 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateBoardView(int boardIdx) {
+	public void updateBoardView(int boardId) {
 		log.info("\t > update board view");
-		boardMapper.updateBoardView(boardIdx);
+		boardMapper.updateBoardView(boardId);
 	}
 	
 	@Override
-	public List<BoardDetailsDto> getPagedBoard(int boardCategoryCode, BoardCriteria boardCri, Integer memberIdx) {
-		log.info("\t > find pagedBoard");
-		log.info("\t     - boardCategoryCode = {}, keywordRegexp = {}", boardCategoryCode, boardCri.getKeywordRegexp());
-		return boardMapper.findPagedBoard(boardCategoryCode, boardCri, memberIdx)
+	public List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Integer userId) {
+		log.info("\t > find pagedBoards");
+		log.info("\t     - categoryCode = {}, keywordRegexp = {}", categoryCode, boardCri.getKeywordRegexp());
+		return boardMapper.findPagedBoards(categoryCode, boardCri, userId)
 				.stream()
 				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public Pagination getPagination(int boardCategoryCode, BoardCriteria boardCri) {
-		int totalCnt = boardMapper.findPagedBoardTotalCnt(boardCategoryCode, boardCri);
+	public Pagination getPagination(int categoryCode, BoardCriteria boardCri) {
+		int totalCnt = boardMapper.findPagedBoardsTotalCnt(categoryCode, boardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange) : null;
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(int boardIdx, int memberIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
+	public BoardDto getModifyBoard(int boardId, int userId) {
+		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > find board = {}", board);
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (board.getBoardWriterIdx() != memberIdx) {
+		if (board.getUserId() != userId) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
@@ -110,20 +110,20 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Board modifyBoard(BoardDto boardDto) {
-		Board board = boardMapper.findBoardByIdx(boardDto.getBoardIdx());
+		Board board = boardMapper.findBoardById(boardDto.getId());
 		log.info("\t > find board = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (board.getBoardWriterIdx() != boardDto.getBoardWriterIdx()) {
+		if (board.getUserId() != boardDto.getUserId()) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		
-		log.info("\t > produce boardContentText by parsing boardContent for search");
-		String boardContentText = Jsoup.parse(boardDto.getBoardContent()).text();
-		boardDto.setBoardContentText(boardContentText);
+		log.info("\t > produce searchContent by parsing content for search");
+		String searchContent = Jsoup.parse(boardDto.getContent()).text();
+		boardDto.setSearchContent(searchContent);
 		
 		Board modifiyBoard = boardDto.toEntity();
 		log.info("\t > convert boardDto to board entity = {}", modifiyBoard);
@@ -133,26 +133,26 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.UpdateBoard");
 		}
 		
-		imageService.updateBoardImages(boardDto.getBoardImages(), modifiyBoard.getBoardIdx());
+		imageService.updateBoardImages(boardDto.getImages(), modifiyBoard.getId());
 		
 		return modifiyBoard;
 	}
 	
 	@Override
-	public int getBoardCategoryCode(int boardIdx) {
-		return boardMapper.findBoardCategoryCodeByIdx(boardIdx);
+	public int getBoardCategoryCode(int boardId) {
+		return boardMapper.findCategoryCodeById(boardId);
 	}
 
 	@Override
-	public Board deleteBoard(int boardIdx, int memberIdx) {
-		Board board = boardMapper.findBoardByIdx(boardIdx);
+	public Board deleteBoard(int boardId, int userId) {
+		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > find board = {}", board);
 
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		if (board.getBoardWriterIdx() != memberIdx) {
+		if (board.getUserId() != userId) {
 			throw new ExpectedException("error.NotMyBoard");
 		}
 		

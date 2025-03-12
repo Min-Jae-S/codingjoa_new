@@ -12,7 +12,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.AdminMemberDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -20,10 +20,10 @@ import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.User;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.exception.ExpectedException;
-import com.codingjoa.mapper.MemberMapper;
+import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class MemberServiceImpl implements MemberService {
+public class UserServiceImpl implements UserService {
 	
-	private final MemberMapper memberMapper;
+	private final UserMapper memberMapper;
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
@@ -340,13 +340,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public AdminMemberDto getMemberInfoByIdx(Integer memberIdx) {
+	public AdminUserDto getMemberInfoByIdx(Integer memberIdx) {
 		Map<String, Object> memberInfoMap = memberMapper.findMemberInfoByIdx(memberIdx);
 		if (memberInfoMap == null) {
 			throw new ExpectedException("error.NotFoundMember");
 		}
 		
-		return AdminMemberDto.from(memberInfoMap);
+		return AdminUserDto.from(memberInfoMap);
 	}
 	
 	@Override

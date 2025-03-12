@@ -11,49 +11,49 @@ import lombok.Getter;
 @Getter
 public class BoardDetailsDto {
 
-	private int boardIdx;
-	private String boardTitle;
-	private String boardContent;
-	private int boardView;
-	private int boardCategoryCode;
-	private int commentCnt;
-	private int likesCnt;
+	private int id;
+	private int categoryCode;
+	private String title;
+	private String content;
+	private int viewCount;
+	private int replyCount;
+	private int likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String writerNickname;
+	private String nickname;
 	private boolean isWriter;
 	private boolean isLiked;		
 	
 	@Builder
-	private BoardDetailsDto(int boardIdx, String boardTitle, String boardContent, int boardView, int boardCategoryCode,
-			int commentCnt, int likesCnt, LocalDateTime createdAt, LocalDateTime updatedAt, String writerNickname,
-			boolean isWriter, boolean isLiked) {
-		this.boardIdx = boardIdx;
-		this.boardTitle = boardTitle;
-		this.boardContent = boardContent;
-		this.boardView = boardView;
-		this.boardCategoryCode = boardCategoryCode;
-		this.commentCnt = commentCnt;
-		this.likesCnt = likesCnt;
+	private BoardDetailsDto(int id, int categoryCode, String title, String content, int viewCount, int replyCount,
+			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String nickname, boolean isWriter,
+			boolean isLiked) {
+		this.id = id;
+		this.categoryCode = categoryCode;
+		this.title = title;
+		this.content = content;
+		this.viewCount = viewCount;
+		this.replyCount = replyCount;
+		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.writerNickname = writerNickname;
+		this.nickname = nickname;
 		this.isWriter = isWriter;
 		this.isLiked = isLiked;
 	}
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
 		return BoardDetailsDto.builder()
-				.boardIdx((int) map.get("boardIdx"))
-				.boardTitle((String) map.get("boardTitle"))
-				.boardContent((String) map.get("boardContent"))
-				.boardView((int) map.get("boardView"))
-				.boardCategoryCode((int) map.get("boardCategoryCode"))
-				.commentCnt((int) map.get("commentCnt"))
-				.likesCnt((int) map.get("likesCnt"))
+				.id((int) map.get("id"))
+				.categoryCode((int) map.get("categoryCode"))
+				.title((String) map.get("title"))
+				.content((String) map.get("content"))
+				.viewCount((int) map.get("viewCount"))
+				.replyCount((int) map.get("replyCount"))
+				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.writerNickname((String) map.get("writerNickname"))
+				.nickname((String) map.get("nickname"))
 				.isWriter((boolean) map.get("isWriter"))
 				.isLiked((boolean) map.get("isLiked"))
 				.build();
@@ -79,16 +79,23 @@ public class BoardDetailsDto {
 		
 		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
+	
+	private String escapeContent() {
+		return (content != null) ? content.replace("\r\n", "\\r\\n") : null;
+	}
 
 	@Override
 	public String toString() {
-		String escapedBoardContent = (boardContent != null) ? boardContent.replace("\r\n", "\\r\\n") : null;
-		return "BoardDetailsDto [boardIdx=" + boardIdx + ", boardTitle=" + boardTitle + ", boardContent="
-				+ escapedBoardContent + ", boardView=" + boardView + ", boardCategoryCode=" + boardCategoryCode
-				+ ", commentCnt=" + commentCnt + ", likesCnt=" + likesCnt + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + ", writerNickname=" + writerNickname + ", isWriter=" + isWriter + ", isLiked=" + isLiked
-				+ "]";
+		return "BoardDetailsDto [id=" + id + ", categoryCode=" + categoryCode + ", title=" + title + ", content="
+				+ escapeContent() + ", viewCount=" + viewCount + ", replyCount=" + replyCount + ", likeCount=" + likeCount
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", nickname=" + nickname + ", isWriter="
+				+ isWriter + ", isLiked=" + isLiked + "]";
 	}
+
+	
+	
+	
+
 
 	
 }

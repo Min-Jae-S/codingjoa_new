@@ -1,6 +1,6 @@
 package com.codingjoa.service;
 
-public interface LikesService {
+public interface LikeService {
 
 	boolean toggleBoardLikes(int boardIdx, int memberIdx);
 	

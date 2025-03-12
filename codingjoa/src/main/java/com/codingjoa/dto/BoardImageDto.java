@@ -10,19 +10,19 @@ import lombok.ToString;
 @Getter
 public class BoardImageDto {
 
-	private int boardImageIdx;
-	private String boardImageUrl;
+	private int id;
+	private String path;
 	
 	@Builder
-	private BoardImageDto(int boardImageIdx, String boardImageUrl) {
-		this.boardImageIdx = boardImageIdx;
-		this.boardImageUrl = boardImageUrl;
+	private BoardImageDto(int id, String path) {
+		this.id = id;
+		this.path = path;
 	}
 	
 	public static BoardImageDto from(BoardImage boardImage) {
 		return BoardImageDto.builder()
-				.boardImageIdx(boardImage.getBoardImageIdx())
-				.boardImageUrl(boardImage.getBoardImageUrl())
+				.id(boardImage.getId())
+				.path(boardImage.getPath())
 				.build();
 	}
 }

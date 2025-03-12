@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
-import com.codingjoa.annotation.AdminCommentCri;
+import com.codingjoa.annotation.AdminReplyCri;
 import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.AdminMemberDto;
+import com.codingjoa.dto.AdminReplyDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
-import com.codingjoa.pagination.AdminCommentCriteria;
+import com.codingjoa.pagination.AdminReplyCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.service.AdminService;
@@ -45,7 +45,7 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedMembers() {
 		log.info("## getPagedMembers");
 		
-		List<AdminMemberDto> pagedMembers = adminService.getPagedMembers();
+		List<AdminUserDto> pagedMembers = adminService.getPagedMembers();
 		Pagination pagination = adminService.getMemberPagination();
 		log.info("\t > pagination = {}", pagination);
 		
@@ -96,18 +96,18 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
 		
-		AdminCommentCriteria adminCommentCri = AdminCommentCriteria.create();
+		AdminReplyCriteria adminCommentCri = AdminReplyCriteria.create();
 		log.info("\t > create default adminCommentCri = {}", adminCommentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 	
 	@GetMapping("/comments/")
-	public ResponseEntity<Object> getPagedComments(@AdminCommentCri AdminCommentCriteria adminCommentCri) {
+	public ResponseEntity<Object> getPagedComments(@AdminReplyCri AdminReplyCriteria adminCommentCri) {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		
-		List<AdminCommentDto> pagedComments = adminService.getPagedComments();
+		List<AdminReplyDto> pagedComments = adminService.getPagedComments();
 		
 		Pagination pagination = adminService.getCommentPagination();
 		log.info("\t > pagination = {}", pagination);

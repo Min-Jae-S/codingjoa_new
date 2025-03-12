@@ -1,37 +1,36 @@
 package com.codingjoa.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*
-	board_image_idx         NUMBER,
-	board_idx               NUMBER              NULL,
-	board_image_name        VARCHAR2(200)       NOT NULL,
-	board_image_url         VARCHAR2(200)       NOT NULL,
-	regdate                 DATE                NOT NULL,
+	id              NUMBER,
+	board_id        NUMBER              NULL,
+	name            VARCHAR2(200)       NOT NULL,
+    path            VARCHAR2(200)       NOT NULL,
+	created_at      DATE                NOT NULL,
 */
 
 @NoArgsConstructor
 @Data
 public class BoardImage {
 	
-	private Integer boardImageIdx;
-	private Integer boardIdx;
-	private String boardImageName;
-	private String boardImageUrl;
-	private Date regdate;
+	private Integer id;
+	private Integer boardId;
+	private String name;
+	private String path;
+	private LocalDateTime createdAt;
 	
 	@Builder
-	private BoardImage(Integer boardImageIdx, Integer boardIdx, String boardImageName, String boardImageUrl,
-			Date regdate) {
-		this.boardImageIdx = boardImageIdx;
-		this.boardIdx = boardIdx;
-		this.boardImageName = boardImageName;
-		this.boardImageUrl = boardImageUrl;
-		this.regdate = regdate;
+	private BoardImage(Integer id, Integer boardId, String name, String path, LocalDateTime createdAt) {
+		this.id = id;
+		this.boardId = boardId;
+		this.name = name;
+		this.path = path;
+		this.createdAt = createdAt;
 	}
 	
 	

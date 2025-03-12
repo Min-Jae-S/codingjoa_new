@@ -14,20 +14,20 @@ public interface BoardMapper {
 	
 	boolean insertBoard(Board board);
 	
-	Map<String, Object> findBoardDetailsByIdx(@Param("boardIdx") int boardIdx, @Param("memberIdx") Integer memberIdx);
+	Map<String, Object> findBoardDetailsById(@Param("boardId") Long boardId, @Param("userId") Long userId);
 	
-	void updateBoardView(int boardIdx);
+	void updateBoardView(Long boardId);
 	
-	List<Map<String, Object>> findPagedBoard(@Param("boardCategoryCode") int boardCategoryCode,
-			@Param("boardCri") BoardCriteria boardCri, @Param("memberIdx") Integer memberIdx);
+	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode,
+			@Param("boardCri") BoardCriteria boardCri, @Param("userId") Long userId);
 
-	int findPagedBoardTotalCnt(@Param("boardCategoryCode") int boardCategoryCode, @Param("boardCri") BoardCriteria boardCri);
+	int findPagedBoardsTotalCnt(@Param("categoryCode") int categoryCode, @Param("boardCri") BoardCriteria boardCri);
 	
-	Board findBoardByIdx(int boardIdx);
+	Board findBoardById(Long boardId);
 	
 	boolean updateBoard(Board board);
 
-	int findBoardCategoryCodeByIdx(int boardIdx);
+	int findCategoryCodeById(Long boardId);
 	
 	boolean deleteBoard(Board board);
 	

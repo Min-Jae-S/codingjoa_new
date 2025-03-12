@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.util.FormatUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 	
-	private final MemberService memberService;
+	private final UserService memberService;
 	private final OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
 	
 	@Override
@@ -58,7 +58,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			principal = memberService.getUserDetailsByEmail(email);
 		} else if (principal.getProvider().equals("local")) {
 			log.info("\t > connect existing member with OAuth2 account");
-			memberService.connectOAuth2Member(oAuth2Attributes, principal.getIdx());
+			memberService.connectOAuth2Member(oAuth2Attributes, principal.getId());
 			principal = memberService.getUserDetailsByEmail(email);
 		} else {
 			log.info("\t > proceed with login using already registered member");

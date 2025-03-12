@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-	private final int id;
+	private final long id;
 	private final String email;					
 	private final String password;
 	private final String nickname;
@@ -34,7 +34,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private String nameAttributeKey;
 
 	@Builder
-	private PrincipalDetails(Integer id, String email, String password, String nickname, String imagePath,
+	private PrincipalDetails(Long id, String email, String password, String nickname, String imagePath,
 			String provider, List<GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;
@@ -98,15 +98,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { // from database
-		List<String> memberRoles = (List<String>) map.get("memberRoles");
+		List<String> roles = (List<String>) map.get("roles");
 		return PrincipalDetails.builder()
-				.id((int) map.get("id"))
+				.id((long) map.get("id"))
 				.email((String) map.get("email"))
 				.password((String) map.get("password"))
 				.nickname((String) map.get("nickname"))
 				.imagePath((String) map.get("imagePath"))
 				.provider((String) map.get("provider"))
-				.authorities(convert(memberRoles))
+				.authorities(convert(roles))
 				.build();
 	}
 
@@ -120,7 +120,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	public static PrincipalDetails from(Claims claims) { // from JWT
 		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
-				.id(Integer.parseInt(claims.getSubject()))
+				.id(Long.parseLong(claims.getSubject()))
 				.email((String) claims.get("email"))
 				.nickname((String) claims.get("nickname"))
 				.imagePath((String) claims.get("image_path"))

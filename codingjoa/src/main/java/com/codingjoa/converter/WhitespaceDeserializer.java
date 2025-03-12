@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import lombok.extern.slf4j.Slf4j;
 
-// used in CommentDto class as a Deserializer
+// used in ReplyDto class as a Deserializer
 @Slf4j
 public class WhitespaceDeserializer extends JsonDeserializer<String> {
 

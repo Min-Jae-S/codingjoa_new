@@ -28,7 +28,7 @@ public class JobB extends QuartzJobBean {
 		log.info("## {}, repeated task performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
 		
 		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
-				.map(boardImage -> boardImage.getBoardImageIdx())
+				.map(boardImage -> boardImage.getId())
 				.sorted()
 				.collect(Collectors.toList());
 		

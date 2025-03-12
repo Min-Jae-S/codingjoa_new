@@ -9,9 +9,9 @@ import com.codingjoa.entity.Reply;
 import com.codingjoa.entity.ReplyLike;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
-import com.codingjoa.mapper.CommentMapper;
-import com.codingjoa.mapper.LikesMapper;
-import com.codingjoa.service.LikesService;
+import com.codingjoa.mapper.ReplyMapper;
+import com.codingjoa.mapper.LikeMapper;
+import com.codingjoa.service.LikeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class LikesServiceImpl implements LikesService {
+public class LikeServiceImpl implements LikeService {
 
-	private final LikesMapper likesMapper;
+	private final LikeMapper likesMapper;
 	private final BoardMapper boardMapper;
-	private final CommentMapper commentMapper;
+	private final ReplyMapper commentMapper;
 	
 	@Override
 	public boolean toggleBoardLikes(int boardIdx, int memberIdx) {

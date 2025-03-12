@@ -56,13 +56,13 @@ public class BoardController {
 	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
 		
-		Integer memberIdx = (principal == null) ? null : principal.getIdx();
-		log.info("\t > memberIdx = {}", memberIdx);
+		Integer userId = (principal == null) ? null : principal.getId();
+		log.info("\t > userId = {}", userId);
 		
 		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
 		List<List<BoardDetailsDto>> boardList = boardCategoryList
 				.stream()
-				.map(category -> boardService.getPagedBoard(category.getCategoryCode(), BoardCriteria.create(), memberIdx))
+				.map(category -> boardService.getPagedBoards(category.getCode(), BoardCriteria.create(), userId))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategoryList", boardCategoryList);
 		model.addAttribute("boardList", boardList);
@@ -73,13 +73,13 @@ public class BoardController {
 	@GetMapping("/")
 	public String getPagedBoards(@BoardCategoryCode @RequestParam int categoryCode, 
 			@BoardCri BoardCriteria boardCri, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## getPagedBoards, categoryCode = {}", categoryCode);
-		log.info("\t > boardCri = {}", boardCri);
+		log.info("## getPagedBoards");
+		log.info("\t > categoryCode = {}, boardCri = {}", categoryCode, boardCri);
 	
-		Integer memberIdx = (principal == null) ? null : principal.getId();
-		log.info("\t > memberIdx = {}", memberIdx);
+		Integer userId = (principal == null) ? null : principal.getId();
+		log.info("\t > userId = {}", userId);
 		
-		List<BoardDetailsDto> pagedBoard = boardService.getPagedBoard(categoryCode, boardCri, memberIdx);
+		List<BoardDetailsDto> pagedBoards = boardService.getPagedBoards(categoryCode, boardCri, userId);
 		
 		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -87,7 +87,7 @@ public class BoardController {
 		Category category = categoryService.getCategory(categoryCode);
 		
 		model.addAttribute("boardCri", boardCri);
-		model.addAttribute("pagedBoard", pagedBoard);
+		model.addAttribute("pagedBoards", pagedBoards);
 		model.addAttribute("pagination", pagination);
 		model.addAttribute("category", category);
 		model.addAttribute("options", boardCriResolver.getOptions());
@@ -96,21 +96,21 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam int boardIdx, @BoardCri BoardCriteria boardCri,
+	public String read(@RequestParam int boardId, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## read, boardIdx = {}", boardIdx);
-		log.info("\t > boardCri = {}", boardCri);
+		log.info("## read");
+		log.info("\t > boardId = {}, boardCri = {}", boardId, boardCri);
 		
-		Integer memberIdx = (principal == null) ? null : principal.getIdx();
-		log.info("\t > memberIdx = {}", memberIdx);
+		Integer userId = (principal == null) ? null : principal.getId();
+		log.info("\t > userId = {}", userId);
 		
-		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardIdx, memberIdx);
+		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardId, userId);
 		log.info("\t > boardDetails = {}", boardDetails);
 		
-		Category category = categoryService.getCategory(boardDetails.getBoardCategoryCode());
+		Category category = categoryService.getCategory(boardDetails.getCategoryCode());
 
 		// ** 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
-		boardService.updateBoardView(boardIdx); 
+		boardService.updateBoardView(boardId); 
 
 		model.addAttribute("boardDetails", boardDetails);
 		model.addAttribute("category", category);
@@ -119,10 +119,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@BoardCategoryCode @RequestParam int boardCategoryCode, Model model) {
-		log.info("## write, boardCategoryCode = {}", boardCategoryCode);
+	public String write(@BoardCategoryCode @RequestParam int categoryCode, Model model) {
+		log.info("## write, categoryCode = {}", categoryCode);
 		BoardDto writeBoardDto = new BoardDto();
-		writeBoardDto.setBoardCategoryCode(boardCategoryCode);
+		writeBoardDto.setCategoryCode(categoryCode);
 		model.addAttribute("writeBoardDto", writeBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
@@ -142,7 +142,7 @@ public class BoardController {
 					.collect(Collectors.toList());
 			log.info("\t > bindingResult hasErrors = {}", errorFields);
 			
-			if (bindingResult.hasFieldErrors("boardCategoryCode")) {
+			if (bindingResult.hasFieldErrors("categoryCode")) {
 				throw new BindException(bindingResult);
 			}
 			
@@ -150,16 +150,16 @@ public class BoardController {
 			return "board/write";
 		}
 		
-		writeBoardDto.setBoardWriterIdx(principal.getIdx());
+		writeBoardDto.setUserId(principal.getId());
 		Board savedBoard = boardService.saveBoard(writeBoardDto); // insertBoard & activateImage
 		
-		return "redirect:/board/read?boardIdx=" + savedBoard.getBoardIdx();
+		return "redirect:/board/read?id=" + savedBoard.getId();
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## modify, boardIdx = {}", boardIdx);
-		BoardDto modifyBoardDto = boardService.getModifyBoard(boardIdx, principal.getIdx());
+	public String modify(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		log.info("## modify, id = {}", id);
+		BoardDto modifyBoardDto = boardService.getModifyBoard(id, principal.getId());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
@@ -187,21 +187,21 @@ public class BoardController {
 			return "board/modify";
 		}
 		
-		modifyBoardDto.setBoardWriterIdx(principal.getIdx());
-		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateBoardImage, activateImage
+		modifyBoardDto.setUserId(principal.getId());
+		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImage, activateImage
 		
-		return "redirect:/board/read?boardIdx=" + modifiedBoard.getBoardIdx();
+		return "redirect:/board/read?id=" + modifiedBoard.getId();
 	}
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam int boardIdx, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## delete, bordIdx = {}", boardIdx);
+	public String delete(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## delete, id = {}", id);
 
-		// fk_board_image_board --> ON DELETE SET NULL
-		// fk_comment_board		--> ON DELETE CASCADE
-		Board deletedBoard = boardService.deleteBoard(boardIdx, principal.getIdx());
+		// fk_boardimage_board 	--> ON DELETE SET NULL
+		// fk_reply_board		--> ON DELETE CASCADE
+		Board deletedBoard = boardService.deleteBoard(id, principal.getId());
 		
-		return "redirect:/board/?boardCategoryCode=" + deletedBoard.getBoardCategoryCode();
+		return "redirect:/board/?categoryCode=" + deletedBoard.getCategoryCode();
 	}
 	
 }

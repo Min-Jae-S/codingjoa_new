@@ -7,7 +7,7 @@ import com.codingjoa.entity.BoardLike;
 import com.codingjoa.entity.ReplyLike;
 
 @Mapper
-public interface LikesMapper {
+public interface LikeMapper {
 	
 	BoardLike findBoardLikes(@Param("boardIdx") int boardIdx, @Param("memberIdx") int memberIdx);
 	

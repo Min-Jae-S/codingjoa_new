@@ -10,8 +10,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.AdminCommentCri;
-import com.codingjoa.pagination.AdminCommentCriteria;
+import com.codingjoa.annotation.AdminReplyCri;
+import com.codingjoa.pagination.AdminReplyCriteria;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("unused")
 @Slf4j
 @Component
-public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
+public class AdminReplyCriResolver implements HandlerMethodArgumentResolver {
 
 	private final int defaultPage;
 	private final int defaultRecordCnt;
@@ -27,7 +27,7 @@ public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, Object> recordCntGroup;
 	private final Map<String, Object> typeGroup;
 	
-	public AdminCommentCriResolver(
+	public AdminReplyCriResolver(
 			@Value("${criteria.comment.page}") int defaultPage, 
 			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt, 
 			@Value("${criteria.comment.type}") String defaultType,
@@ -42,8 +42,8 @@ public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(AdminCommentCriResolver.class) &&
-				parameter.hasParameterAnnotation(AdminCommentCri.class);
+		return parameter.getParameterType().equals(AdminReplyCriResolver.class) &&
+				parameter.hasParameterAnnotation(AdminReplyCri.class);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
 		type = (type == null) ? "" : type.strip();
 		keyword = (keyword == null) ? "" : keyword.strip();
 		
-		AdminCommentCriteria adminCommentCri = new AdminCommentCriteria(
+		AdminReplyCriteria adminCommentCri = new AdminReplyCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);

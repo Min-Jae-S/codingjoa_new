@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 
 import com.codingjoa.annotation.AnnoTest;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.service.impl.EmailServiceImpl;
 import com.codingjoa.service.test.TestProxyService;
 
@@ -37,7 +37,7 @@ public class TestAopRestController {
 	private TestAopRestController self;
 
 	@Autowired
-	private MemberService memberService;
+	private UserService memberService;
 	
 	@Autowired
 	private TestProxyService testProxyService;

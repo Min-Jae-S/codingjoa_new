@@ -29,7 +29,7 @@ import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.AdminMemberDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -39,7 +39,7 @@ import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.CookieUtils;
 import com.codingjoa.validator.EmailAuthValidator;
@@ -57,11 +57,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
 @RestController
-public class MemberRestController {
+public class UserRestController {
 	
 	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final long COOKIE_EXPIRE_SECONDS = Duration.ofHours(1L).getSeconds();
-	private final MemberService memberService;
+	private final UserService memberService;
 	private final EmailService emailService;
 	private final RedisService redisService;
 	private final ImageService imageService;
@@ -250,7 +250,7 @@ public class MemberRestController {
 	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getMemberInfo");
 		
-		AdminMemberDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
+		AdminUserDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
 		log.info("\t > memberInfo = {}", memberInfo);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());

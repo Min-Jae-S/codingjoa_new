@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class JoinValidator implements Validator {
 	private static final String NICKNAME_REGEXP = "^([a-zA-Z가-힣0-9]{2,10})$";
 	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
 	private final RedisService redisService;
-	private final MemberService memberService;
+	private final UserService memberService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {

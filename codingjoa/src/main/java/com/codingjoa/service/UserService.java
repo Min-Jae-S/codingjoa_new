@@ -4,14 +4,14 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.AdminMemberDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 
-public interface MemberService {
+public interface UserService {
 
 	void saveMember(JoinDto joinDto);
 	
@@ -43,7 +43,7 @@ public interface MemberService {
 	
 	void savePassword(PasswordSaveDto passwordSaveDto, Integer memberIdx);
 	
-	AdminMemberDto getMemberInfoByIdx(Integer memberIdx);
+	AdminUserDto getMemberInfoByIdx(Integer memberIdx);
 	
 	PrincipalDetails getUserDetailsByEmail(String memberEmail); // for authentication in UserDetailsService, OAuth2UserService
 

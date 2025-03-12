@@ -3,18 +3,18 @@ package com.codingjoa.service;
 import java.util.List;
 
 import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.AdminMemberDto;
+import com.codingjoa.dto.AdminReplyDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 
 public interface AdminService {
 	
-	List<AdminMemberDto> getPagedMembers();
+	List<AdminUserDto> getPagedMembers();
 	
 	List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri);
 
-	List<AdminCommentDto> getPagedComments();
+	List<AdminReplyDto> getPagedComments();
 	
 	Pagination getMemberPagination();
 

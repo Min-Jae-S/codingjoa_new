@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.service.MemberService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
@@ -28,9 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Controller
-public class MemberController {
+public class UserController {
 
-	private final MemberService memberService;
+	private final UserService memberService;
 	private final RedisService redisService;
 
 	@InitBinder("joinDto")

@@ -12,20 +12,20 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.codingjoa.annotation.CommentCri;
-import com.codingjoa.pagination.CommentCriteria;
+import com.codingjoa.annotation.ReplyCri;
+import com.codingjoa.pagination.ReplyCriteria;
 import com.codingjoa.util.NumberUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class CommentCriResolver implements HandlerMethodArgumentResolver {
+public class ReplyCriResolver implements HandlerMethodArgumentResolver {
 
 	private final int defaultPage;
 	private final int defaultRecordCnt;
 	
-	public CommentCriResolver(
+	public ReplyCriResolver(
 			@Value("${criteria.comment.page}") int defaultPage, 
 			@Value("${criteria.comment.recordCnt}") int defaultRecordCnt) {
 		this.defaultPage = defaultPage;
@@ -34,8 +34,8 @@ public class CommentCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(CommentCriteria.class) &&
-				parameter.hasParameterAnnotation(CommentCri.class);
+		return parameter.getParameterType().equals(ReplyCriteria.class) &&
+				parameter.hasParameterAnnotation(ReplyCri.class);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class CommentCriResolver implements HandlerMethodArgumentResolver {
 		log.info("\t > page = {}", page);
 		
 		page = (page == null) ? "" : page.strip();
-		CommentCriteria commentCri = new CommentCriteria(
+		ReplyCriteria commentCri = new ReplyCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			defaultRecordCnt
 		);

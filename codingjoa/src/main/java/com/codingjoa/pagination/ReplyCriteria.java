@@ -5,12 +5,12 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class CommentCriteria {
+public class ReplyCriteria {
 
 	private int page;
 	private int recordCnt;
 	
-	public CommentCriteria(int page, int recordCnt) {
+	public ReplyCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}

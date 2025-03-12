@@ -7,45 +7,47 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /*
-	comment_idx              NUMBER,
-    comment_writer_idx       NUMBER                       NOT NULL,
-	board_idx                NUMBER                       NOT NULL,
-	comment_content          VARCHAR2(2000)               NOT NULL,
-    comment_use              CHAR(1)                      NOT NULL,
-	created_at               DATE                         NOT NULL,
-    updated_at               DATE                         NOT NULL,
+	id              NUMBER,
+	board_id        NUMBER                       NOT NULL,
+    user_id         NUMBER                       NOT NULL,
+	content         VARCHAR2(2000)               NOT NULL,
+    status          CHAR(1)                      NOT NULL,
+	created_at      DATE                         NOT NULL,
+    updated_at      DATE                         NOT NULL,
 */
 
 @Getter
 @NoArgsConstructor // for mybatis resultSet
 public class Reply {
 			
-	private Integer commentIdx;
-	private Integer commentWriterIdx;
-	private Integer boardIdx;
-	private String commentContent;
-	private Boolean commentUse;
+	private Long id;
+	private Long boardId;
+	private Long userId;
+	private String content;
+	private Boolean status;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Reply(Integer commentIdx, Integer commentWriterIdx, Integer boardIdx, String commentContent,
-			Boolean commentUse, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.commentIdx = commentIdx;
-		this.commentWriterIdx = commentWriterIdx;
-		this.boardIdx = boardIdx;
-		this.commentContent = commentContent;
-		this.commentUse = commentUse;
+	private Reply(Long id, Long boardId, Long userId, String content, Boolean status, LocalDateTime createdAt,
+			LocalDateTime updatedAt) {
+		this.id = id;
+		this.boardId = boardId;
+		this.userId = userId;
+		this.content = content;
+		this.status = status;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 	
+	private String escapeContent() {
+		return (content != null) ? content.replace("\r\n", "\\r\\n") : null;
+	}
+
 	@Override
 	public String toString() {
-		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
-		return "Comment [commentIdx=" + commentIdx + ", commentWriterIdx=" + commentWriterIdx + ", boardIdx=" + boardIdx
-				+ ", commentContent=" + escapedCommentContent + ", commentUse=" + commentUse + ", createdAt="
-				+ createdAt + ", updatedAt=" + updatedAt + "]";
+		return "Reply [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent() + ", status="
+				+ status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	
 }

@@ -11,7 +11,7 @@ import com.codingjoa.entity.SnsInfo;
 
 
 @Mapper
-public interface MemberMapper {
+public interface UserMapper {
 	
 	boolean insertMember(User member);
 	
