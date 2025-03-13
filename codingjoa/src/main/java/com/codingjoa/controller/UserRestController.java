@@ -195,7 +195,7 @@ public class UserRestController {
 		log.info("## updateAddress");
 		log.info("\t > addrDto = {}", addrDto);
 		
-		memberService.updateAddr(addrDto, principal.getIdx());
+		userService.updateAddr(addrDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.UpdateAddress")
@@ -208,7 +208,7 @@ public class UserRestController {
 		log.info("## updateAgree");
 		log.info("\t > agreeDto = {}", agreeDto);
 		
-		memberService.updateAgree(agreeDto, principal.getIdx());
+		userService.updateAgree(agreeDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.UpdateAgree")
@@ -221,9 +221,9 @@ public class UserRestController {
 		log.info("## updatePassword");
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
 		
-		memberService.updatePassword(passwordChangeDto, principal.getIdx());
+		userService.updatePassword(passwordChangeDto, principal.getId());
 		
-		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -237,9 +237,9 @@ public class UserRestController {
 		log.info("## savePassword");
 		log.info("\t > passwordDto = {}", passwordDto);
 		
-		memberService.savePassword(passwordDto, principal.getIdx());
+		userService.savePassword(passwordDto, principal.getId());
 		
-		PrincipalDetails newPrincipal = memberService.getUserDetailsByIdx(principal.getIdx());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -248,13 +248,13 @@ public class UserRestController {
 	}
 	
 	@GetMapping("/account")
-	public ResponseEntity<Object> getMemberInfo(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getMemberInfo");
+	public ResponseEntity<Object> getUserInfo(@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getUserInfo");
 		
-		UserInfoDto memberInfo = memberService.getMemberInfoByIdx(principal.getIdx());
-		log.info("\t > memberInfo = {}", memberInfo);
+		UserInfoDto userInfo = userService.getUserInfoById(principal.getId());
+		log.info("\t > userInfo = {}", userInfo);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(memberInfo).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(userInfo).build());
 	}
 	
 //	@PostMapping("/find/account")
@@ -278,14 +278,14 @@ public class UserRestController {
 		
 		String memberId = findPasswordDto.getMemberId();
 		String memberEmail = findPasswordDto.getMemberEmail();
-		Integer memberIdx = memberService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+		Integer memberIdx = userService.getUserIdByIdAndEmail(memberId, memberEmail);
 		log.info("\t > found memberIdx = {}", memberIdx);
 		
 		String key = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > key = {}", key);
 		
 		String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/member/resetPassword")
+				.path("/user/resetPassword")
 				.queryParam("key", key)
 				.build()
 				.toString();
@@ -306,8 +306,8 @@ public class UserRestController {
 		log.info("\t > key = {}", key);
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
 		
-		Integer memberIdx = Integer.parseInt(redisService.findValueByKey(key));
-		memberService.updatePassword(passwordChangeDto, memberIdx);
+		Integer userId = Integer.parseInt(redisService.findValueByKey(key));
+		userService.updatePassword(passwordChangeDto, userId);
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
