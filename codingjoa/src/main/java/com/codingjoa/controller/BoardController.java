@@ -157,9 +157,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## modify, id = {}", id);
-		BoardDto modifyBoardDto = boardService.getModifyBoard(id, principal.getId());
+	public String modify(@RequestParam int boardId, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		log.info("## modify, boardId = {}", boardId);
+		BoardDto modifyBoardDto = boardService.getModifyBoard(boardId, principal.getId());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
@@ -190,16 +190,16 @@ public class BoardController {
 		modifyBoardDto.setUserId(principal.getId());
 		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImage, activateImage
 		
-		return "redirect:/board/read?id=" + modifiedBoard.getId();
+		return "redirect:/board/read?boardId=" + modifiedBoard.getId();
 	}
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## delete, id = {}", id);
+	public String delete(@RequestParam long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## delete, boardId = {}", boardId);
 
 		// fk_boardimage_board 	--> ON DELETE SET NULL
 		// fk_reply_board		--> ON DELETE CASCADE
-		Board deletedBoard = boardService.deleteBoard(id, principal.getId());
+		Board deletedBoard = boardService.deleteBoard(boardId, principal.getId());
 		
 		return "redirect:/board/?categoryCode=" + deletedBoard.getCategoryCode();
 	}

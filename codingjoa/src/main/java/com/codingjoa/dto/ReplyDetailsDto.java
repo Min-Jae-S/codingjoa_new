@@ -14,9 +14,9 @@ import lombok.Getter;
 @Getter
 public class ReplyDetailsDto {
 
-	private int commentIdx;
-	private String commentContent;
-	private boolean isCommentInUse;
+	private long id;
+	private String content;
+	private boolean status;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private String commentWriterNickname;	// from INNER JOIN with member
@@ -27,7 +27,7 @@ public class ReplyDetailsDto {
 	private boolean isCommentLiked;	
 	
 	@Builder
-	private ReplyDetailsDto(int commentIdx, String commentContent, boolean isCommentInUse, LocalDateTime createdAt,
+	private ReplyDetailsDto(long id, String content, boolean isCommentInUse, LocalDateTime createdAt,
 			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String commentWriterNickname,
 			String commentWriterImageUrl, int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
