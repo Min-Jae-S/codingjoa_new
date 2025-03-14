@@ -4,9 +4,9 @@ public interface LikeService {
 
 	boolean toggleBoardLike(long boardId, long userId);
 	
-	boolean toggleReplyLike(long replyId, long userId);
+	boolean toggleCommentLike(long commentId, long userId);
 	
 	int getBoardLikeCnt(long boardId);
 
-	int getReplyLikeCnt(long replyId);
+	int getCommentLikeCnt(long commentId);
 }

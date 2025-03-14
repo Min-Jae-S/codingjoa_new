@@ -15,13 +15,13 @@ public interface LikeMapper {
 	
 	void deleteBoardLike(BoardLike boardLike);
 
-	CommentLike findReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
+	CommentLike findCommentLike(@Param("commentId") Long commentId, @Param("userId") Long userId);
 	
-	void insertReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
+	void insertCommentLike(@Param("commentId") Long commentId, @Param("userId") Long userId);
 	
-	void deleteReplyLike(CommentLike replyLike);
+	void deleteCommentLike(CommentLike commentLike);
 	
 	int findBoardLikeCnt(Long boardId);
 
-	int findReplyLikeCnt(Long replyId);
+	int findCommentLikeCnt(Long commentId);
 }

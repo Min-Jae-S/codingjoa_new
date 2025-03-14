@@ -51,10 +51,10 @@ public class CommentDetailsDto {
 				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.writerNickname((String) map.get("nickname"))
-				.writerImagePath((String) map.get("path"))
+				.writerNickname((String) map.get("writerNickname"))
+				.writerImagePath((String) map.get("writerImagePath"))
 				.isWriter((boolean) map.get("isWriter"))
-				.isLiked((boolean) map.get("isCommentLiked"))
+				.isLiked((boolean) map.get("isLiked"))
 				.isBoardWriter((boolean) map.get("isBoardWriter"))
 				.build();
 	}

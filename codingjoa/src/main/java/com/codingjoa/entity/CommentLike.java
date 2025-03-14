@@ -8,7 +8,7 @@ import lombok.ToString;
 
 /*
 	id              NUMBER,
-    reply_id        NUMBER      NOT NULL,
+    comment_id      NUMBER      NOT NULL,
 	user_id         NUMBER      NOT NULL,
     created_at      DATE        NOT NULL,
 */
@@ -19,7 +19,7 @@ import lombok.ToString;
 public class CommentLike {
 	
 	private Long id;
-	private Long replyId;
+	private Long commentId;
 	private Long userId;
 	private LocalDateTime createdAt;
 	

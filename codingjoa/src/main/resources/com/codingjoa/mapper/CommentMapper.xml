@@ -37,99 +37,92 @@
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<id property="commentIdx" column="comment_idx" javaType="int"/>
-		<result property="commentContent" column="comment_content" javaType="string"/>
-		<result property="commentUse" column="comment_use" javaType="boolean"/>
+		<id property="id" column="id" javaType="long"/>
+		<result property="content" column="content" javaType="string"/>
+		<result property="status" column="status" javaType="boolean"/>
+		<result property="likesCount" column="like_count" javaType="int"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="boardWriterIdx" column="board_writer_idx" javaType="int"/>
-		<result property="commentWriterNickname" column="comment_writer_nickname" javaType="string"/>
-		<result property="commentWriterImageUrl" column="comment_writer_image_url" javaType="string"/>
-		<result property="commentLikesCnt" column="comment_likes_cnt" javaType="int"/>
+		<result property="writerNickname" column="writer_nickname" javaType="string"/>
+		<result property="writerImagePath" column="writer_image_path" javaType="string"/>
+		<result property="isWriter" column="is_writer" javaType="boolean"/>
+		<result property="isLiked" column="is_liked" javaType="boolean"/>
 		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
-		<result property="isCommentWriter" column="is_comment_writer" javaType="boolean"/>
-		<result property="isCommentLiked" column="is_comment_liked" javaType="boolean"/>
 	</resultMap>
 	
+	<!-- USE_NL(b) USE_NL(c) USE_NL(d)  -->
 	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-    		/*+ ORDERED USE_NL(b) USE_NL(c) USE_NL(d) */
-			paged_comment.comment_idx,
-			paged_comment.comment_content,
-			paged_comment.comment_use,
-	        paged_comment.created_at,
-	        paged_comment.updated_at,
-	        paged_comment.board_writer_idx,
-    		member.member_nickname 			AS comment_writer_nickname,
-    		member_image.member_image_url 	AS comment_writer_image_url,
-    		NVL(likes_group.cnt, 0) 		AS comment_likes_cnt,
+    		/*+ ORDERED */
+			final_comment.id,
+			final_comment.content,
+			final_comment.status,
+			final_comment.like_count,
+	        final_comment.created_at,
+	        final_comment.updated_at,
+	        user.nickname AS writer_nickname,
+	        user_image.path AS writer_image_path,
     		CASE
-    			WHEN paged_comment.comment_writer_idx = paged_comment.board_writer_idx THEN 1
+    			WHEN final_comment.user_id = #{userId} THEN 1
     			ELSE 0
-    		END AS is_board_writer,
-    		CASE
-    			WHEN paged_comment.comment_writer_idx = #{memberIdx} THEN 1
-    			ELSE 0
-    		END AS is_comment_writer,
+    		END AS is_writer,
     		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
-    				FROM 
-    					comment_likes 
-    				WHERE 
-    					comment_likes.comment_idx = paged_comment.comment_idx 
-    				AND 
-    					comment_likes.member_idx = #{memberIdx} 
+    				FROM comment_like
+    				WHERE comment_like.comment_id = final_comment.id 
+    				AND comment_like.user_id = #{userId} 
     			) THEN 1
     			ELSE 0
-    		END AS is_comment_liked
+    		END AS is_liked,
+    		CASE
+    			WHEN final_comment.user_id = board.user_id THEN 1
+    			ELSE 0
+    		END AS is_board_writer
 		FROM (
 			SELECT
-				filtered_comment.*
+				paged_comment.*
 			FROM (
 				SELECT
-					/*+ INDEX_DESC("comment" pk_comment) */
-			        ROWNUM rn, 
-			        "comment".comment_idx,
-			        "comment".comment_writer_idx,
-			        "comment".comment_content, 
-			        "comment".comment_use,
-			        "comment".created_at,
-			        "comment".updated_at,
-			        board.board_writer_idx
-			    FROM 
-			        "comment"
-			    INNER JOIN
-			    	board
-			    ON
-			    	"comment".board_idx = board.board_idx
-			    WHERE
-			    	board.board_idx = #{boardIdx} 
-			    AND
+					ROWNUM rn,
+					sorted_comment.*
+				FROM (
+					SELECT
+						/*+ INDEX_DESC(comments pk_comments) */
+				        ROWNUM rn, 
+				        comments.id,
+				        comments.board_id,
+				        comments.user_id,
+				        comments.content,
+				        comments.status,
+				        comments.like_count,
+				        comments.created_at,
+				        comments.updated_at
+				    FROM 
+				        comments
+				    WHERE
+				    	comments.board_id = #{boardId}
+				    ORDER BY
+				    	comments.id DESC
+				) sorted_comment
+				WHERE
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
-			) filtered_comment
-			WHERE
-				filtered_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
-		) paged_comment
+			) paged_comment
+			WEHRE
+				paged_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+		) final_comment
 		INNER JOIN
-			member
+			user
 		ON 
-			paged_comment.comment_writer_idx = member.member_idx
+			final_comment.user_id = user.id
 		LEFT OUTER JOIN
-			member_image
+			user_image
 		ON
-			paged_comment.comment_writer_idx = member_image.member_idx
-		LEFT OUTER JOIN (
-			SELECT
-				comment_idx,
-				COUNT(*) cnt
-			FROM
-				comment_likes
-			GROUP BY
-				comment_idx
-		) likes_group
+			final_comment.user_id = user_image.user_id
+		INNJER JOIN
+			board
 		ON
-			paged_comment.comment_idx = likes_group.comment_idx
+			final_comment.board_id = board.id
 	</select>
 	
 	<select id="findCommentTotalCnt" resultType="long">

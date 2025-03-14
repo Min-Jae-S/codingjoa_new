@@ -24,19 +24,19 @@ public class LikeServiceImpl implements LikeService {
 
 	private final LikeMapper likeMapper;
 	private final BoardMapper boardMapper;
-	private final CommentMapper replyMapper;
+	private final CommentMapper commentMapper;
 	
 	@Override
 	public boolean toggleBoardLike(long boardId, long userId) {
-		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > prior to toggling boardLike, find board first");
+		Board board = boardMapper.findBoardById(boardId);
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		BoardLike boardLike = likeMapper.findBoardLike(boardId, userId);
 		log.info("\t > to check whether the board is liked or not, find boardLike first");
+		BoardLike boardLike = likeMapper.findBoardLike(boardId, userId);
 		
 		if (boardLike == null) {
 			log.info("\t > insert boardLike");
@@ -50,24 +50,24 @@ public class LikeServiceImpl implements LikeService {
 	}
 	
 	@Override
-	public boolean toggleReplyLike(long replyId, long userId) {
-		Comment reply = replyMapper.findReplyById(replyId);
-		log.info("\t > prior to toggling replyLike, find reply first");
+	public boolean toggleCommentLike(long commentId, long userId) {
+		log.info("\t > prior to toggling commentLike, find comment first");
+		Comment comment = commentMapper.findCommentById(commentId);
 		
-		if (reply == null) {
-			throw new ExpectedException("error.NotFoundReply");
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		CommentLike replyLike = likeMapper.findReplyLike(replyId, userId);
-		log.info("\t > to check whether the reply is liked or not, find replyLike first");
+		log.info("\t > to check whether the comment is liked or not, find commentLike first");
+		CommentLike commentLike = likeMapper.findCommentLike(commentId, userId);
 		
-		if (replyLike == null) {
-			log.info("\t > insert replyLike");
-			likeMapper.insertReplyLike(replyId, userId);
+		if (commentLike == null) {
+			log.info("\t > insert commentLike");
+			likeMapper.insertCommentLike(commentId, userId);
 			return true;
 		} else {
-			log.info("\t > delete replyLike");
-			likeMapper.deleteReplyLike(replyLike);
+			log.info("\t > delete commentLike");
+			likeMapper.deleteCommentLike(commentLike);
 			return false;
 		}
 	}
@@ -83,12 +83,12 @@ public class LikeServiceImpl implements LikeService {
 	}
 
 	@Override
-	public int getReplyLikeCnt(long replyId) {
-		Comment reply = replyMapper.findReplyById(replyId);
-		if (reply == null) {
-			throw new ExpectedException("error.NotFoundReply");
+	public int getCommentLikeCnt(long commentId) {
+		Comment comment = commentMapper.findCommentById(commentId);
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		return likeMapper.findReplyLikeCnt(replyId);
+		return likeMapper.findCommentLikeCnt(commentId);
 	}
 }

@@ -68,8 +68,8 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > find pagedComments");
 		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(boardId, commentCri, userId)
 				.stream()
-				.map(map -> {
-					CommentDetailsDto commentDetails = CommentDetailsDto.from(map);
+				.map(commentDetailsmap -> {
+					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsmap);
 					return commentDetails.isStatus() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());

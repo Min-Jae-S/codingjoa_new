@@ -29,7 +29,6 @@ public class LikeRestController {
 		
 		boolean isBoardLiked = likeService.toggleBoardLike(boardId, principal.getId());
 		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
-		//resetAuthentication(principal.getMember().getMemberId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
@@ -47,28 +46,28 @@ public class LikeRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikeCnt).build());
 	}
 	
-	@PostMapping("/replies/{replyId}/likes")
-	public ResponseEntity<Object> toggleReplyLike(@PathVariable long replyId, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## toggleReplyLike, replyId = {}", replyId);
+	@PostMapping("/comments/{commentId}/likes")
+	public ResponseEntity<Object> toggleCommentLike(@PathVariable long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## toggleCommentLike, commentId = {}", commentId);
 		
-		boolean isReplyLiked = likeService.toggleReplyLike(replyId, principal.getId());
-		String code = (isReplyLiked) ? "success.LikeReply" : "success.UnlikeReply";
+		boolean isCommentLiked = likeService.toggleCommentLike(commentId, principal.getId());
+		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
 		//resetAuthentication(principal.getMember().getMemberId());
 
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
-				.data(isReplyLiked)
+				.data(isCommentLiked)
 				.build());
 	}
 
-	@GetMapping("/replies/{replyId}/likes")
-	public ResponseEntity<Object> getReplyLikeCnt(@PathVariable long replyId) {
-		log.info("## getReplyLikeCnt, replyId = {}", replyId);
+	@GetMapping("/comments/{commentId}/likes")
+	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable long commentId) {
+		log.info("## getCommentLikeCnt, commentId = {}", commentId);
 		
-		int replyLikeCnt = likeService.getReplyLikeCnt(replyId);
-		log.info("\t > replyLikeCnt = {}", replyLikeCnt);
+		int commentLikeCnt = likeService.getCommentLikeCnt(commentId);
+		log.info("\t > commentLikeCnt = {}", commentLikeCnt);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(replyLikeCnt).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikeCnt).build());
 	}
 	
 }
