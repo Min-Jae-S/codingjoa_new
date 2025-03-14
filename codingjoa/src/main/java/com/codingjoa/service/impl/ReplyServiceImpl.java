@@ -69,8 +69,8 @@ public class ReplyServiceImpl implements ReplyService {
 		List<ReplyDetailsDto> pagedReplies = replyMapper.findPagedReplies(boardId, replyCri, userId)
 				.stream()
 				.map(replyDetailsMap -> {
-					ReplyDetailsDto replyDeetails = ReplyDetailsDto.from(replyDetailsMap);
-					return replyDeetails.isCommentInUse() ? replyDeetails : null;
+					ReplyDetailsDto replyDetails = ReplyDetailsDto.from(replyDetailsMap);
+					return replyDetails.isStatus() ? replyDetails : null;
 				})
 				.collect(Collectors.toList());
 

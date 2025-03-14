@@ -26,7 +26,6 @@ public class BoardDto {
 	private String content;
 	private String searchContent;
 	
-	
 	// cannot deserialize instance of `java.util.ArrayList<java.lang.Integer>` out of VALUE_STRING token;
 	// It is used when the data is expected to come primarily in the form of lists or arrays, 
 	// but sometimes a single value may be received in the form of an array, and should be handled the same way
