@@ -179,7 +179,7 @@ public class BoardController {
 					.collect(Collectors.toList());
 			log.info("\t > bindingResult hasErrors = {}", errorFields);
 			
-			if (bindingResult.hasFieldErrors("boardCategoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
+			if (bindingResult.hasFieldErrors("categoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
 				throw new BindException(bindingResult);
 			}
 			

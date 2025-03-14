@@ -16,7 +16,7 @@ public class BoardDetailsDto {
 	private String title;
 	private String content;
 	private int viewCount;
-	private int replyCount;
+	private int commentCount;
 	private int likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -25,7 +25,7 @@ public class BoardDetailsDto {
 	private boolean isLiked;		
 	
 	@Builder
-	private BoardDetailsDto(long id, int categoryCode, String title, String content, int viewCount, int replyCount,
+	private BoardDetailsDto(long id, int categoryCode, String title, String content, int viewCount, int commentCount,
 			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String writerNickname, boolean isWriter,
 			boolean isLiked) {
 		this.id = id;
@@ -33,7 +33,7 @@ public class BoardDetailsDto {
 		this.title = title;
 		this.content = content;
 		this.viewCount = viewCount;
-		this.replyCount = replyCount;
+		this.commentCount = commentCount;
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -49,7 +49,7 @@ public class BoardDetailsDto {
 				.title((String) map.get("title"))
 				.content((String) map.get("content"))
 				.viewCount((int) map.get("viewCount"))
-				.replyCount((int) map.get("replyCount"))
+				.commentCount((int) map.get("commentCount"))
 				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
@@ -87,7 +87,7 @@ public class BoardDetailsDto {
 	@Override
 	public String toString() {
 		return "BoardDetailsDto [id=" + id + ", categoryCode=" + categoryCode + ", title=" + title + ", content="
-				+ escapeContent() + ", viewCount=" + viewCount + ", replyCount=" + replyCount + ", likeCount=" + likeCount
+				+ escapeContent() + ", viewCount=" + viewCount + ", commentCount=" + commentCount + ", likeCount=" + likeCount
 				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname + ", isWriter="
 				+ isWriter + ", isLiked=" + isLiked + "]";
 	}

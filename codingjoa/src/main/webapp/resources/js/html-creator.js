@@ -6,21 +6,21 @@ function createCategoryMenuHtml(categoryList) {
 		return "";
 	}
 	
-	return categoryList.map(({ categoryCode, categoryPath, categoryName }) => {
-		let path = (categoryCode == categoryPath) ? `/?boardCategoryCode=${categoryCode}` : categoryPath;
-		return `<button class='dropdown-item' type='button' data-path='${path}'>${categoryName}</button>`;
+	return categoryList.map(({ code, path, name }) => {
+		let path = (categoryCode == categoryPath) ? `/?categoryCode=${code}` : categoryPath;
+		return `<button class='dropdown-item' type='button' data-path='${path}'>${name}</button>`;
 	}).join("");
 }
 
-function createPagedCommentHtml(pagedComment) {
-	console.log("## createPagedCommentHtml");
+function createPagedCommentsHtml(pagedComments) {
+	console.log("## createPagedCommentsHtml");
 	let html = "";
-	if (!pagedComment || pagedComment.length == 0) {
+	if (!pagedComments || pagedComments.length == 0) {
 		return html;
 	}
 	
 	html += "<ul class='list-group list-group-flush'>";
-	$.each(pagedComment, function(index, commentDetails) {
+	$.each(pagedComments, function(index, commentDetails) {
 		if (commentDetails == "") {
 			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
@@ -39,7 +39,7 @@ function createPagedCommentHtml(pagedComment) {
 			return true;
 		}
 		
-		html += "<li class='list-group-item' data-idx='" + commentDetails.commentIdx + "'>";
+		html += "<li class='list-group-item' data-id='" + commentDetails.id + "'>";
 		html += createCommentHtml(commentDetails);
 		html += "</li>";
 	});
@@ -50,18 +50,18 @@ function createPagedCommentHtml(pagedComment) {
 function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
-	if (commentDetails.commentWriterImageUrl == "") {
+	if (commentDetails.writerImagePath == "") {
 		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 		html += "<img src='../resources/images/img_profile.png'>";
 	} else {
-		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
+		html += "<img src='" + commentDetails.writerImagePath + "'>";
 	}
 	
 	html += "</div>";
 	html += "<div class='comment-area'>";
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
+	html += "<span class='comment-writer'>" + commentDetails.writerNickname + "</span>";
 	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
 	}
@@ -70,7 +70,7 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
-	if (commentDetails.isCommentWriter) {
+	if (commentDetails.isWriter) {
 		html += "<button class='comment-utils-btn' data-toggle='dropdown'>";
 	} else {
 		html += "<button class='comment-utils-btn' data-toggle='dropdown' disabled>";
@@ -90,20 +90,20 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "<div class='comment-area-body'>";
 	html += "<div class='comment-content'>";
-	html += "<p>" + commentDetails.commentContent.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
+	html += "<p>" + commentDetails.content.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
 	html += "</div>";
 	html += "</div>";
 	html += "<div class='comment-area-footer'>";
-	html += "<button type='button' name='commentLikesBtn'>";
+	html += "<button type='button' name='commentLikeBtn'>";
 	html += "<span class='icon'>";
-	if (commentDetails.isCommentLiked) {
+	if (commentDetails.isLiked) {
 		html += "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>";
 	} else {
 		html += "<i class='fa-thumbs-up fa-fw fa-regular'></i>";
 	}
 
 	html += "</span>";
-	html += "<span class='comment-likes-cnt'>" + commentDetails.commentLikesCnt + "</span>";	
+	html += "<span class='comment-like-cnt'>" + commentDetails.likeCount + "</span>";	
 	html += "</button>";
 	html += "</div>";
 	html += "</div>";
@@ -114,18 +114,18 @@ function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
 	let html = "";
 	html += "<div class='comment-thum'>";
-	if (commentDetails.commentWriterImageUrl == "") {
+	if (commentDetails.writerImagePath == "") {
 		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
 		html += "<img src='../resources/images/img_profile.png'>";
 	} else {
-		html += "<img src='" + commentDetails.commentWriterImageUrl + "'>";
+		html += "<img src='" + commentDetails.writerImagePath + "'>";
 	}
 	
 	html += "</div>";
 	html += "<div class='comment-area'>";
 	html += "<div class='comment-area-header'>";
 	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer'>" + commentDetails.commentWriterNickname + "</span>";
+	html += "<span class='comment-writer'>" + commentDetails.writerNickname + "</span>";
 	if (commentDetails.isBoardWriter) {
 		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
 	}
@@ -138,7 +138,7 @@ function createEditCommentHtml(commentDetails) {
 	html += "<form>"
 	html += "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
-	html += "<textarea name='commentContent' rows='1'>" + commentDetails.commentContent + "</textarea>";
+	html += "<textarea name='commentContent' rows='1'>" + commentDetails.content + "</textarea>";
 	html += "<div class='mt-2'>";
 	html += "<button type='submit' class='btn btn-sm btn-outline-primary'>수정</button>";
 	html += "<button type='button' class='btn btn-sm btn-outline-secondary ml-2'>취소</button>";

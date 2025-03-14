@@ -14,8 +14,8 @@ function parseError(jqXHR) {
 	}
 }
 
-function handleMemberError(errorResponse) {
-	console.log("## handleMemberError");
+function handleUserError(errorResponse) {
+	console.log("## handleUserError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
@@ -47,8 +47,8 @@ function handleCommentError(errorResponse) {
 	
 }
 
-function handleLikesError(errorResponse) {
-	console.log("## handleLikesError");
+function handleLikeError(errorResponse) {
+	console.log("## handleLikeError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
@@ -91,6 +91,6 @@ function handleLoginError(errorResponse) {
 	if (message != "") {
 		message = message.replace(/\.\s*/g, ".<br>");
 		console.log("> handled message = %s", message);
-		$(".id_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
+		$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 	}
 }

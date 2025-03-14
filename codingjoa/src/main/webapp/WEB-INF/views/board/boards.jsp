@@ -74,7 +74,7 @@
 		display: flex;
 	    flex-direction: column;
     	justify-content: center;
-    	min-height: 208px; /* 41.6*5 */
+    	min-height: 208px; /* 41.6 x 5 */
 	}
 </style>
 </head>
@@ -85,7 +85,7 @@
 <div class="container boards-container">
 	<div class="boards-wrap">
 		<c:forEach var="board" items="${boardList}" varStatus="status">
-			<h3 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].categoryName}"/></h3>
+			<h3 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].name}"/></h3>
 			<div class="table-container">
 				<table class="table">
 					<thead>
@@ -104,14 +104,14 @@
 								<c:forEach var="boardDetails" items="${board}">
 									<tr>
 										<td class="d-md-table-cell">
-											<span><c:out value="${boardDetails.boardIdx}"/></span>
+											<span><c:out value="${boardDetails.id}"/></span>
 										</td>
 										<td class="d-md-table-cell text-left">
-											<a class="board-title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}">
-												<c:out value="${boardDetails.boardTitle}"/><!--
+											<a class="board-title" href="${contextPath}/board/read?boardId=${boardDetails.id}">
+												<c:out value="${boardDetails.title}"/><!--
 										 --></a>
-											<c:if test="${boardDetails.commentCnt > 0}">
-												<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+											<c:if test="${boardDetails.commentCount > 0}">
+												<span class="comment-cnt"><c:out value="${boardDetails.commentCount}"/></span>
 											</c:if>
 										</td>
 										<td class="d-md-table-cell">
@@ -121,11 +121,11 @@
 											<span><c:out value="${boardDetails.createdAt}"/></span>
 										</td>
 										<td class="d-md-table-cell">
-											<span><c:out value="${boardDetails.boardView}"/></span>
+											<span><c:out value="${boardDetails.viewCount}"/></span>
 										</td>
 										<td class="d-md-table-cell">
 											<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
-											<span><c:out value="${boardDetails.likesCnt}"/></span>
+											<span><c:out value="${boardDetails.likeCount}"/></span>
 										</td>
 									</tr>
 								</c:forEach>
@@ -142,8 +142,7 @@
 				</table>
 				<c:if test="${not empty board}">
 					<div>
-						<a class="btn btn-primary rounded-md" 
-							href="${contextPath}/board/?boardCategoryCode=${boardCategoryList[status.index].categoryCode}">
+						<a href="${contextPath}/board/?categoryCode=${boardCategoryList[status.index].code}" class="btn btn-primary rounded-md">
 							게시글 더보기
 						</a>
 					</div>

@@ -60,11 +60,11 @@ let commentService = (function() {
 		*/
 	}
 	
-	function getPagedComment(boardIdx, page, callback) {
-		console.log("## getPagedComment");
+	function getPagedComments(boardId, page, callback) {
+		console.log("## getPagedComments");
 		$.ajax({
 			type : "GET",
-			url : `${contextPath}/api/boards/${boardIdx}/comments?page=${page}`,
+			url : `${contextPath}/api/boards/${boardId}/comments?page=${page}`,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -87,11 +87,11 @@ let commentService = (function() {
 		});
 	}
 
-	function modifyComment(commentIdx, comment, callback) {
+	function modifyComment(commentId, comment, callback) {
 		console.log("## modifyComment");
 		$.ajax({
 			type : "PATCH",
-			url : `${contextPath}/api/comments/${commentIdx}`,
+			url : `${contextPath}/api/comments/${commentId}`,
 			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -116,11 +116,11 @@ let commentService = (function() {
 		});
 	}
 	
-	function deleteComment(commentIdx, callback) {
+	function deleteComment(commentId, callback) {
 		console.log("## deleteComment");
 		$.ajax({
 			type : "DELETE",
-			url : `${contextPath}/api/comments/${commentIdx}`,
+			url : `${contextPath}/api/comments/${commentId}`,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -145,7 +145,7 @@ let commentService = (function() {
 	
 	return {
 		writeComment:writeComment,
-		getPagedComment:getPagedComment,
+		getPagedComments:getPagedComments,
 		modifyComment:modifyComment,
 		deleteComment:deleteComment
 	};

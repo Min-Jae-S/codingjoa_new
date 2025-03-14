@@ -19,7 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
-<script src="${contextPath}/resources/js/likes.js"></script>
+<script src="${contextPath}/resources/js/like.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
@@ -293,14 +293,14 @@
 		background-color: #e9ecef;
 	}
 	
-	button[name=commentLikesBtn] { /* btn border-0 p-0 shadow-none ml-auto */
+	button[name=commentLikeBtn] { /* btn border-0 p-0 shadow-none ml-auto */
 		padding: 0;
 		border: 0;
 		background-color: transparent;
 		margin-left: auto;
 	}
 	
-	button[name=commentLikesBtn] .icon { 
+	button[name=commentLikeBtn] .icon { 
 		color: #868e96;
 		margin-right: 4px;
 	}
@@ -397,8 +397,8 @@
 		<div class="card rounded-xl">
 			<div class="header-group">
 				<div class="board-utils">
-					<a class="board-category" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}">
-						<c:out value="${category.categoryName}"/><i class="fa-angle-right fa-fw fa-solid"></i>
+					<a class="board-category" href="${contextPath}/board/?categoryCode=${category.code}">
+						<c:out value="${category.name}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
 					<div class="dropright ml-auto">
 						<button class="board-utils-btn" data-toggle="dropdown" ${boardDetails.writer ? '' : 'disabled'}>
@@ -408,48 +408,48 @@
 							<h6 class="dropdown-header">게시글 관리</h6>
 							<hr class="dropdown-divider">
 							<li>
-								<a class="dropdown-item" href="${contextPath}/board/modify?boardIdx=${boardDetails.boardIdx}">
+								<a class="dropdown-item" href="${contextPath}/board/modify?boardId=${boardDetails.id}">
 									수정하기
 								</a>
-						      	<a class="dropdown-item" href="${contextPath}/board/delete?boardIdx=${boardDetails.boardIdx}" id="deleteBoardLink">
+						      	<a class="dropdown-item" href="${contextPath}/board/delete?boardId=${boardDetails.id}" id="deleteBoardLink">
 						      		삭제하기
 						     	</a>
 							</li>
 						</ul>
 					</div>
 				</div>
-				<h3 class="title mb-4"><c:out value="${boardDetails.boardTitle}"/></h3>
+				<h3 class="title mb-4"><c:out value="${boardDetails.title}"/></h3>
 				<div class="board-info">
 					<div class="board-info-left">
 						<span><c:out value="${boardDetails.writerNickname}"/></span>
 						<span><c:out value="${boardDetails.fullCreatedAt}"/></span>
-						<span>조회 <c:out value="${boardDetails.boardView}"/></span>
+						<span>조회 <c:out value="${boardDetails.viewCount}"/></span>
 					</div>
 					<div class="board-info-right">
 						<div>
 							<span><i class="fa-comment-dots fa-fw fa-regular"></i></span>
 							<span>댓글</span>
-							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+							<span class="comment-cnt"><c:out value="${boardDetails.commentCount}"/></span>
 						</div>
-						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikesBtn">
+						<button class="btn border-0 p-0 shadow-none" type="button" id="boardLikeBtn">
 							<span class="icon">
 								<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"/></i>
 							</span>
 							<span>좋아요</span>
-							<span class="board-likes-cnt"><c:out value="${boardDetails.likesCnt}"/></span>
+							<span class="board-like-cnt"><c:out value="${boardDetails.likeCount}"/></span>
 						</button>
 					</div>
 				</div>
 			</div>
 			<div class="content-group py-4">
-				<textarea class="d-none" id="boardContent"></textarea>
-				<%-- <c:out value="${boardDetails.boardContent}" escapeXml="false"/> --%>
+				<textarea class="d-none" id="content"></textarea>
+				<%-- <c:out value="${boardDetails.content}" escapeXml="false"/> --%>
 			</div>
 			<div class="comment-group pt-4">
 					<div class="comment-group-header">
 						<div class="comment-cnt-wrap mb-3">
 							<span>댓글</span>
-							<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+							<span class="comment-cnt"><c:out value="${boardDetails.commentCount}"/></span>
 						</div>
 						<div class="comment-write-wrap">
 							<form>
@@ -460,8 +460,8 @@
 												<sec:authentication property="principal.nickname"/>
 											</p>
 										</sec:authorize>
-										<textarea name="commentContent" rows="1" placeholder="댓글을 남겨보세요"></textarea>
-										<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}">
+										<textarea name="content" rows="1" placeholder="댓글을 남겨보세요"></textarea>
+										<input type="hidden" name="boardId" value="${boardDetails.id}">
 										<div class="mt-2">
 											<button class="btn btn-sm btn-outline-secondary" type="submit" disabled>등록</button>
 										</div>
@@ -478,8 +478,8 @@
 					</div>
 				</div>
 				<div class="comment-group-footer mt-4">
-					<a class="btn btn-secondary rounded-md" href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&
-						${boardCri.queryString}">목록
+					<a class="btn btn-secondary rounded-md" href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.queryString}">
+						목록
 					</a>
 					<div class="comment-pagination">
 						<!------------------------>
@@ -498,7 +498,7 @@
     				<span class="input-group-text">:</span>
     				<span class="input-group-text">/comments</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="boardId">
   				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testWriteBtn">TEST</button>
@@ -506,11 +506,11 @@
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get pagedComment</span>
+					<span class="input-group-text">Get pagedComments</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/boards/{commentBoardIdx}/comments</span>
+    				<span class="input-group-text">/boards/{boardId}/comments</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="boardIdx">
+  				<input type="text" class="form-control" placeholder="boardId">
   				<input type="text" class="form-control" placeholder="page">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetCommentListBtn">TEST</button>
@@ -520,9 +520,9 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Get modifyComment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentId}</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="commentId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetModifyCommentBtn">TEST</button>
   				</div>
@@ -531,9 +531,9 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Modify comment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentId}</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="commentId">
   				<input type="text" class="form-control" placeholder="content">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testModifyCommentBtn">TEST</button>
@@ -543,9 +543,9 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">Delete comment</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}</span>
+    				<span class="input-group-text">/comments/{commentId}</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="commentId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testDeleteCommentBtn">TEST</button>
   				</div>
@@ -556,33 +556,33 @@
 		<div class="test2 mt-5 d-none">
 			<div class="mb-4 d-flex">
 				<button class="btn">Write comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="">/comments; idx=?</button>
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="a">/comments; idx=a</button>				
-				<button class="btn btn-warning test-item" name="writeBtn" data-idx="9999">/comments; idx=9999</button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-id="">/comments; id=?</button>
+				<button class="btn btn-warning test-item" name="writeBtn" data-id="a">/comments; id=a</button>				
+				<button class="btn btn-warning test-item" name="writeBtn" data-id="9999">/comments; id=9999</button>
 			</div>
 			<div class="mb-4 d-flex">
-				<button class="btn">Get pagedComment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="">/boards/?/comments</button>
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="a">/boards/a/comments</button>				
-				<button class="btn btn-warning test-item" name="commentListBtn" data-idx="9999">/boards/9999/comments</button>
+				<button class="btn">Get pagedComments<span>:</span></button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-id="">/boards/?/comments</button>
+				<button class="btn btn-warning test-item" name="commentListBtn" data-id="a">/boards/a/comments</button>				
+				<button class="btn btn-warning test-item" name="commentListBtn" data-id="9999">/boards/9999/comments</button>
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Get modifyComment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="">/comments/?</button>
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="a">/comments/a</button>				
-				<button class="btn btn-warning test-item" name="commentBtn" data-idx="9999">/comments/9999</button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-id="">/comments/?</button>
+				<button class="btn btn-warning test-item" name="commentBtn" data-id="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="commentBtn" data-id="9999">/comments/9999</button>
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Modify comment<span>:</span></button>	
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="">/comments/?</button>					
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="a">/comments/a</button>				
-				<button class="btn btn-warning test-item" name="patchBtn" data-idx="9999">/comments/9999</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-id="">/comments/?</button>					
+				<button class="btn btn-warning test-item" name="patchBtn" data-id="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="patchBtn" data-id="9999">/comments/9999</button>					
 			</div>
 			<div class="mb-4 d-flex">
 				<button class="btn">Delete comment<span>:</span></button>
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="">/comments/?</button>					
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="a">/comments/a</button>				
-				<button class="btn btn-warning test-item" name="deleteBtn" data-idx="9999">/comments/9999</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-id="">/comments/?</button>					
+				<button class="btn btn-warning test-item" name="deleteBtn" data-id="a">/comments/a</button>				
+				<button class="btn btn-warning test-item" name="deleteBtn" data-id="9999">/comments/9999</button>					
 			</div>
 		</div>
 		
@@ -590,44 +590,44 @@
 		<div class="test3 mt-5 d-none">
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-    				<span class="input-group-text">Toggle boardLikes</span>
+    				<span class="input-group-text">Toggle boardLike</span>
     				<span class="input-group-text">:</span>
-    				<span class="input-group-text">/boards/{boardIdx}/likes</span>
+    				<span class="input-group-text">/boards/{boardId}/likes</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="boardId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testToggleBoardLikesBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Toggle commentLikes</span>
+					<span class="input-group-text">Toggle commentLike</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}/likes</span>
+    				<span class="input-group-text">/comments/{commentId}/likes</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="commentId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testToggleCommentLikesBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get boardLikesCnt</span>
+					<span class="input-group-text">Get boardLikeCnt</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/boards/{boardIdx}/likes</span>
+    				<span class="input-group-text">/boards/{boardId}/likes</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="boardId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetBoardLikesCntBtn">TEST</button>
   				</div>
 			</div>
 			<div class="input-group mb-4">
 				<div class="input-group-prepend">
-					<span class="input-group-text">Get commentLikesCnt</span>
+					<span class="input-group-text">Get commentLikeCnt</span>
 					<span class="input-group-text">:</span>
-    				<span class="input-group-text">/comments/{commentIdx}/likes</span>
+    				<span class="input-group-text">/comments/{commentId}/likes</span>
   				</div>
-  				<input type="text" class="form-control" placeholder="idx">
+  				<input type="text" class="form-control" placeholder="commentId">
   				<div class="input-group-append">
     				<button class="btn btn-warning" id="testGetCommentLikesCntBtn">TEST</button>
   				</div>
@@ -637,8 +637,8 @@
 		<!-- form test -->
 		<div class="test4">
 			<form class="d-none">
-				<input type="hidden" name="boardIdx" value="${boardDetails.boardIdx}"/>
-				<input type="hidden" name="boardTitle" value="${boardDetails.boardTitle}"/>
+				<input type="hidden" name="boardId" value="${boardDetails.id}"/>
+				<input type="hidden" name="title" value="${boardDetails.title}"/>
 			</form>
 		</div>
 		
@@ -653,46 +653,46 @@
 
 <script>
 	ClassicEditor
-		.create(document.querySelector("#boardContent"), {
+		.create(document.querySelector("#content"), {
 			toolbar: []
 		})
 		.then(editor => {
 			const toolbarContainer = editor.ui.view.stickyPanel;
 			editor.ui.view.top.remove(toolbarContainer);
 			editor.enableReadOnlyMode("editor");
-			const boardContent = '<c:out value="${boardDetails.boardContent}" escapeXml="false"/>';
-			editor.setData(boardContent);
+			const content = '<c:out value="${boardDetails.content}" escapeXml="false"/>';
+			editor.setData(content);
 		})
 		.catch(error => {
 			console.error(error);
 		});
 	
-	function saveCommentsAsMap(pagedComment, commentMap) {
-		commentMap.clear();
-		if (pagedComment.length == 0) {
-			return;
-		}
-		
-		$.each(pagedComment, function(index, commentDetails) {
-			if (commentDetails != "") {
-				commentMap.set(commentDetails.commentIdx, commentDetails);
-			}
-		});
-	}
-	
 	$(function() {
 		const $commentListDiv = $("div.comment-list");
 		const $commentPageDiv = $("div.comment-pagination");
-		const boardIdx = "<c:out value='${boardDetails.boardIdx}'/>";
+		const boardId = "<c:out value='${boardDetails.id}'/>";
 		let commentMap = new Map();
 		let curCommentPage = 1;
 		
-		commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
-			let pagedComment = result.data.pagedComment;
-			saveCommentsAsMap(pagedComment, commentMap);
+		function saveCommentsAsMap(pagedComments, commentMap) {
+			commentMap.clear();
+			if (pagedComments.length == 0) {
+				return;
+			}
 			
-			let pagedCommentHtml = createPagedCommentHtml(pagedComment);
-			$commentListDiv.html(pagedCommentHtml);
+			$.each(pagedComments, function(index, commentDetails) {
+				if (commentDetails != "") {
+					commentMap.set(commentDetails.id, commentDetails);
+				}
+			});
+		}
+		
+		commentService.getPagedComments(boardId, curCommentPage, function(result) {
+			let pagedComments = result.data.pagedComments;
+			saveCommentsAsMap(pagedComments, commentMap);
+			
+			let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+			$commentListDiv.html(pagedCommentsHtml);
 
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
@@ -729,7 +729,7 @@
 		// show editComment form
 		$(document).on("click", "button[name=showEditCommentBtn]", function() {
 			let $li = $(this).closest("li.list-group-item");
-			let commentDetails = commentMap.get($li.data("idx"));
+			let commentDetails = commentMap.get($li.data("id"));
 			let editCommentHtml = createEditCommentHtml(commentDetails);
 			
 			$li.html(editCommentHtml);
@@ -739,13 +739,13 @@
 		// close editComment form
 		$(document).on("click", ".comment-edit-wrap button[type='button']", function() {
 			let $li = $(this).closest("li.list-group-item");
-			let commentDetails = commentMap.get($li.data("idx"));
+			let commentDetails = commentMap.get($li.data("id"));
 			let commentHtml = createCommentHtml(commentDetails);
 			
 			$li.html(createCommentHtml(commentDetails));
 		});
 		
-		// writeComment
+		// write comment
 		$(document).on("submit", ".comment-write-wrap form", function(e) {
 			e.preventDefault();
 			let $form = $(this);
@@ -753,12 +753,12 @@
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
-				commentService.getPagedComment(boardIdx, 1, function(result) {
-					let pagedComment = result.data.pagedComment;
-					saveCommentsAsMap(pagedComment, commentMap);
+				commentService.getPagedComments(boardId, 1, function(result) {
+					let pagedComments = result.data.pagedComments;
+					saveCommentsAsMap(pagedComments, commentMap);
 					
-					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
-					$commentListDiv.html(pagedCommentHtml);
+					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+					$commentListDiv.html(pagedCommentsHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
@@ -771,20 +771,20 @@
 			});
 		});
 
-		// modifyComment
+		// modify comment
 		$(document).on("submit", ".comment-edit-wrap form", function(e) {
 			e.preventDefault();
 			let comment = $(this).serializeObject();
-			let commentIdx = $(this).closest("li.list-group-item").data("idx");
+			let commentId = $(this).closest("li.list-group-item").data("id");
 			
-			commentService.modifyComment(commentIdx, comment, function(result) {
+			commentService.modifyComment(commentId, comment, function(result) {
 				alert(result.message);
-				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
-					let pagedComment = result.data.pagedComment;
-					saveCommentsAsMap(pagedComment, commentMap);
+				commentService.getPagedComments(boardId, curCommentPage, function(result) {
+					let pagedComments = result.data.pagedComments;
+					saveCommentsAsMap(pagedComments, commentMap);
 					
-					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
-					$commentListDiv.html(pagedCommentHtml);
+					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+					$commentListDiv.html(pagedCommentsHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(result.data.pagination);
@@ -795,21 +795,21 @@
 			});
 		});
 		
-		// deleteComment
+		// delete comment
 		$(document).on("click", "button[name=deleteCommentBtn]", function() {
 			if (!confirm("댓글을 삭제하시겠습니까?")) {
 				return;
 			}
 			
-			let commentIdx = $(this).closest("li.list-group-item").data("idx");
+			let commentId = $(this).closest("li.list-group-item").data("id");
 			commentService.deleteComment(commentIdx, function(result) {
 				alert(result.message);
-				commentService.getPagedComment(boardIdx, curCommentPage, function(result) {
-					let pagedComment = result.data.pagedComment;
-					saveCommentsAsMap(pagedComment, commentMap);
+				commentService.getPagedComments(boardId, curCommentPage, function(result) {
+					let pagedComments = result.data.pagedComments;
+					saveCommentsAsMap(pagedComments, commentMap);
 					
-					let pagedCommentHtml = createPagedCommentHtml(pagedComment);
-					$commentListDiv.html(pagedCommentHtml);
+					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+					$commentListDiv.html(pagedCommentsHtml);
 
 					let pagination = result.data.pagination;
 					let paginationHtml = createPaginationHtml(pagination);
@@ -822,12 +822,12 @@
 		
 		// pagination
 		$(document).on("click", ".comment-pagination .page-link", function() {
-			commentService.getPagedComment(boardIdx, $(this).data("page"), function(result) {
-				let pagedComment = result.data.pagedComment;
-				saveCommentsAsMap(pagedComment, commentMap);
+			commentService.getPagedComments(boardId, $(this).data("page"), function(result) {
+				let pagedComments = result.data.pagedComments;
+				saveCommentsAsMap(pagedComments, commentMap);
 				
-				let pagedCommentHtml = createPagedCommentHtml(pagedComment);
-				$commentListDiv.html(pagedCommentHtml);
+				let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+				$commentListDiv.html(pagedCommentsHtml);
 
 				let pagination = result.data.pagination;
 				let paginationHtml = createPaginationHtml(pagination);
@@ -839,35 +839,35 @@
 			});
 		});
 		
-		// toggleBoardLikes
-		$("#boardLikesBtn").on("click", function() {
-			likesService.toggleBoardLikes(boardIdx, function(result) {
+		// toggle boardLike
+		$("#boardLikeBtn").on("click", function() {
+			likeService.toggleBoardLike(boardId, function(result) {
 				alert(result.message);
 				let boardLiked = result.data;
 				let iconClass = boardLiked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
-				$("#boardLikesBtn .icon").html(`<i class="\${iconClass}"></i>`);
-				//$("#boardLikesBtn .icon").html('<i class="' + iconClass + '"></i>');
+				$("#boardLikeBtn .icon").html(`<i class="\${iconClass}"></i>`);
+				//$("#boardLikeBtn .icon").html('<i class="' + iconClass + '"></i>');
 				
-				likesService.getBoardLikesCnt(boardIdx, function(result) {
-					$(".board-likes-cnt").text(result.data);
+				likeService.getBoardLikeCnt(boardId, function(result) {
+					$(".board-like-cnt").text(result.data);
 				});
 			});
 		});
 		
-		// toggleCommentLikes
-		$(document).on("click", "button[name=commentLikesBtn]", function() {
+		// toggle commentLike
+		$(document).on("click", "button[name=commentLikeBtn]", function() {
 			let $this = $(this);
-			let commentIdx = $(this).closest("li").data("idx");
+			let commentId = $(this).closest("li").data("id");
 			
-			likesService.toggleCommentLikes(commentIdx, function(result) {
+			likeService.toggleCommentLike(commentId, function(result) {
 				alert(result.message);
 				let commentLiked = result.data;
 				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
 				$this.find(".icon").html(`<i class="\${iconClass}"></i>`);
 				//$this.find(".icon").html('<i class="' + iconClass + '"></i>');
 				
-				likesService.getCommentLikesCnt(commentIdx, function(result) {
-					$this.find(".comment-likes-cnt").text(result.data);
+				likeService.getCommentLikeCnt(commentId, function(result) {
+					$this.find(".comment-like-cnt").text(result.data);
 				});
 			});
 		});
@@ -881,8 +881,8 @@
 		$("#testWriteBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
 			let comment = {
-				commentBoardIdx : $input.first().val(),
-				commentContent : $input.last().val()
+				boardId : $input.first().val(),
+				content : $input.last().val()
 			};
 			
 			commentService.writeComment(comment, function(result) {
@@ -893,17 +893,17 @@
 		// getPagedComment
 		$("#testGetCommentListBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
-			let commentBoardIdx = $input.first().val();
+			let boardId = $input.first().val();
 			let page = $input.last().val();
-			commentService.getPagedComment(commentBoardIdx, page, function(result) {
+			commentService.getPagedComments(boardId, page, function(result) {
 				// ...
 			});
 		});
 
 		// getModifyComment
 		$("#testGetModifyCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.getModifyComment(commentIdx, function(result) {
+			let commentId = $(this).closest("div.input-group").find("input").val();
+			commentService.getModifyComment(commentId, function(result) {
 				// ...
 			});
 		});
@@ -911,20 +911,20 @@
 		// modifyComment
 		$("#testModifyCommentBtn").on("click", function() {
 			let $input = $(this).closest("div.input-group").find("input");
-			let commentIdx = $input.first().val();
+			let commentId = $input.first().val();
 			let comment = {
-				commentContent : $input.last().val()
+				content : $input.last().val()
 			};
 			
-			commentService.modifyComment(commentIdx, comment, function(result) {
+			commentService.modifyComment(commentId, comment, function(result) {
 				alert(result.message);
 			});
 		});
 
 		// deleteComment
 		$("#testDeleteCommentBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			commentService.deleteComment(commentIdx, function(result) {
+			let commentId = $(this).closest("div.input-group").find("input").val();
+			commentService.deleteComment(commentId, function(result) {
 				alert(result.message);
 			});
 		});
@@ -932,8 +932,8 @@
 		// writeComment2
 		$("button[name='writeBtn']").on("click", function() {
 			let comment = {
-				commentBoardIdx : $(this).data("idx"),
-				commentContent : "aa"
+				id : $(this).data("id"),
+				content : "aa"
 			};
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
@@ -942,7 +942,7 @@
 		
 		// getPagedComment2
 		$("button[name='commentListBtn']").on("click", function() {
-			commentService.getPagedComment($(this).data("idx"), curCommentPage, function(result) {
+			commentService.getPagedComments($(this).data("id"), curCommentPage, function(result) {
 				alert(result.message);
 			});
 		});
@@ -957,48 +957,48 @@
 		// modifyComment2
 		$("button[name='patchBtn']").on("click", function() {
 			let comment = {
-				commentContent : "aa"
+				content : "aa"
 			};
-			commentService.modifyComment($(this).data("idx"), comment, function(result) { 
+			commentService.modifyComment($(this).data("id"), comment, function(result) { 
 				alert(result.message);
 			});
 		});
 		
 		// deleteComment2
 		$("button[name='deleteBtn']").on("click", function() {
-			commentService.deleteComment($(this).data("idx"), function(result) { 
+			commentService.deleteComment($(this).data("id"), function(result) { 
 				alert(result.message);
 			});
 		});
 		
 		// toggleBoardLikes
 		$("#testToggleBoardLikesBtn").on("click", function() {
-			let boardIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.toggleBoardLikes(boardIdx, function(result) {
+			let boardId = $(this).closest("div.input-group").find("input").val();
+			likeService.toggleBoardLike(boardId, function(result) {
 				// ...
 			});
 		});
  		
 		// toggleCommentLikes
 		$("#testToggleCommentLikesBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.toggleCommentLikes(commentIdx, function(result) {
+			let commentId = $(this).closest("div.input-group").find("input").val();
+			likeService.toggleCommentLike(commentId, function(result) {
 				// ...
 			});
 		});
 		
 		// getBoardLikesCnt
 		$("#testGetBoardLikesCntBtn").on("click", function() {
-			let boardIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.getBoardLikesCnt(boardIdx, function(result) {
+			let boardId = $(this).closest("div.input-group").find("input").val();
+			likeService.getBoardLikeCnt(boardId, function(result) {
 				// ...
 			});
 		});
 
 		// getCommentLikesCnt
 		$("#testGetCommentLikesCntBtn").on("click", function() {
-			let commentIdx = $(this).closest("div.input-group").find("input").val();
-			likesService.getCommentLikesCnt(commentIdx, function(result) {
+			let commentId = $(this).closest("div.input-group").find("input").val();
+			likeService.getCommentLikeCnt(commentId, function(result) {
 				// ...
 			});
 		});
@@ -1006,10 +1006,10 @@
 	
 	function getFormData() {
 		let $form = $("div.test4").find("form");
-		let boardIdx = $form.find("input[name='boardIdx']").val();
-		let boardTitle = $form.find("input[name='boardTitle']").val();
-		console.log("## boardIdx = %s", boardIdx);
-		console.log("## boardTitle = %s", boardTitle);
+		let boardId = $form.find("input[name='boardId']").val();
+		let title = $form.find("input[name='title']").val();
+		console.log("## boardId = %s", boardId);
+		console.log("## title = %s", title);
 	}
 </script>
 </body>

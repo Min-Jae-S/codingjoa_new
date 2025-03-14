@@ -1,11 +1,11 @@
-let memberService = (function() {
+let userService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## sendAuthCodeForJoin");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/join/auth`,
+			url : `${contextPath}/api/user/join/auth`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -16,15 +16,15 @@ let memberService = (function() {
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					//handleMemberError(errorResponse);
+					//handleUserError(errorResponse);
 					let details = errorResponse.details;
 					if (details.length > 0) {
 						$.each(details, function(index, item) {
@@ -35,7 +35,7 @@ let memberService = (function() {
 						alert(errorResponse.message);
 					}
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -45,7 +45,7 @@ let memberService = (function() {
 		console.log("## sendAuthCodeForEmailUpdate");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/account/email/auth`,
+			url : `${contextPath}/api/user/account/email/auth`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -56,27 +56,27 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
 	}
 	
-	function updateMemberImage(formData, callback) {
-		console.log("## updateMemberImage");
+	function updateUserImage(formData, callback) {
+		console.log("## updateUserImage");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/image`,
+			url : `${contextPath}/api/user/account/image`,
 			processData: false,
 		    contentType: false,
 			data : formData,
@@ -96,7 +96,7 @@ let memberService = (function() {
 				if (errorResponse != null) {
 					handleImageError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -106,7 +106,7 @@ let memberService = (function() {
 		console.log("## updateNickname");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/nickname`,
+			url : `${contextPath}/api/user/account/nickname`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -117,17 +117,17 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberNickname\\.errors").remove();
+				$("#nickname\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberNickname\\.errors").remove();
+				$("#nickname\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -137,7 +137,7 @@ let memberService = (function() {
 		console.log("## updateEmail");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/email`,
+			url : `${contextPath}/api/user/account/email`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -148,17 +148,17 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberEmail\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -168,7 +168,7 @@ let memberService = (function() {
 		console.log("## updateAddr");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/address`,
+			url : `${contextPath}/api/user/account/address`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -179,17 +179,17 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
+				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberZipcode\\.errors, #memberAddr\\.errors, #memberAddrDetail\\.errors").remove();
+				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -199,7 +199,7 @@ let memberService = (function() {
 		console.log("## updateAgree");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/agree`,
+			url : `${contextPath}/api/user/account/agree`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -210,17 +210,17 @@ let memberService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#memberAgree\\.errors").remove();
+				$("#agree\\.errors").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#memberAgree\\.errors").remove();
+				$("#agree\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -230,7 +230,7 @@ let memberService = (function() {
 		console.log("## updatePassword");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/account/password`,
+			url : `${contextPath}/api/user/account/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -249,9 +249,9 @@ let memberService = (function() {
 				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -261,7 +261,7 @@ let memberService = (function() {
 		console.log("## saveePassword");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/account/password`,
+			url : `${contextPath}/api/user/account/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -280,19 +280,19 @@ let memberService = (function() {
 				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
 	}
 	
-	function getMemberInfo(callback) {
-		console.log("## getMemberInfo");
+	function getUserInfo(callback) {
+		console.log("## getUserInfo");
 		$.ajax({
 			type : "GET",
-			url : `${contextPath}/api/member/account`,
+			url : `${contextPath}/api/user/account`,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -307,9 +307,9 @@ let memberService = (function() {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});	
@@ -319,7 +319,7 @@ let memberService = (function() {
 		console.log("## confirmPassword");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/confirm/password`,
+			url : `${contextPath}/api/user/confirm/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -338,9 +338,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -350,7 +350,7 @@ let memberService = (function() {
 		console.log("## findAccount");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/find/account"`,
+			url : `${contextPath}/api/user/find/account"`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -369,9 +369,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -381,7 +381,7 @@ let memberService = (function() {
 		console.log("## findPassword");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/member/find/password`,
+			url : `${contextPath}/api/user/find/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -400,9 +400,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -412,7 +412,7 @@ let memberService = (function() {
 		console.log("## resetPassword");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/member/reset/password?key=${key}`,
+			url : `${contextPath}/api/user/reset/password?key=${key}`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -431,9 +431,9 @@ let memberService = (function() {
 				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
-					handleMemberError(errorResponse);
+					handleUserError(errorResponse);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
@@ -442,7 +442,7 @@ let memberService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForEmailUpdate:sendAuthCodeForEmailUpdate,
-		updateMemberImage:updateMemberImage,
+		updateUserImage:updateUserImage,
 		updateNickname:updateNickname,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,

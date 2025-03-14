@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><c:out value="${category.categoryName}"/> | Codingjoa</title>
+<title><c:out value="${category.name}"/> | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -100,13 +100,13 @@
 <div class="container board-container">
 	<div class="board-wrap">
 		<h3 class="font-weight-bold mb-4">
-			<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}" class="board-link">
-				<c:out value="${category.categoryName}"/>
+			<a href="${contextPath}/board/?categoryCode=${category.code}" class="board-link">
+				<c:out value="${category.name}"/>
 			</a>
 		</h3>
 		<div class="pt-3">
         	<form:form class="form-inline" action="${contextPath}/board/" method="GET" modelAttribute="boardCri" id="boardForm">
-        		<input type="hidden" name="boardCategoryCode" value="${category.categoryCode}">
+        		<input type="hidden" name="categoryCode" value="${category.code}">
 			  	<form:select path="type" class="custom-select mr-3 rounded-md">
 			  		<form:options items="${options.typeOption}"/>
 			  	</form:select>
@@ -135,18 +135,18 @@
 				</thead>
 				<tbody>
 					<c:choose>
-						<c:when test="${not empty pagedBoard}">
-							<c:forEach var='boardDetails' items="${pagedBoard}">
+						<c:when test="${not empty pagedBoards}">
+							<c:forEach var='boardDetails' items="${pagedBoards}">
 								<tr>
 									<td class="d-md-table-cell">
-										<span><c:out value="${boardDetails.boardIdx}"/></span>
+										<span><c:out value="${boardDetails.id}"/></span>
 									</td>
 									<td class="d-md-table-cell text-left">
-										<a class="board-title" href="${contextPath}/board/read?boardIdx=${boardDetails.boardIdx}&${boardCri.queryParams}">
-											<c:out value="${boardDetails.boardTitle}"/><!--
+										<a class="board-title" href="${contextPath}/board/read?boardId=${boardDetails.id}&${boardCri.queryParams}">
+											<c:out value="${boardDetails.title}"/><!--
 									 --></a>
-									 	<c:if test="${boardDetails.commentCnt > 0}">
-											<span class="comment-cnt"><c:out value="${boardDetails.commentCnt}"/></span>
+									 	<c:if test="${boardDetails.commentCount > 0}">
+											<span class="comment-cnt"><c:out value="${boardDetails.commentCount}"/></span>
 										</c:if>
 									</td>
 									<td class="d-md-table-cell">
@@ -156,11 +156,11 @@
 										<span><c:out value="${boardDetails.createdAt}"/></span>
 									</td>
 									<td class="d-md-table-cell">
-										<span><c:out value="${boardDetails.boardView}"/></span>
+										<span><c:out value="${boardDetails.viewCount}"/></span>
 									</td>
 									<td class="d-md-table-cell">
 										<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
-										<span class="board-likes-cnt"><c:out value="${boardDetails.likesCnt}"/></span>
+										<span class="board-likes-cnt"><c:out value="${boardDetails.likeCount}"/></span>
 									</td>
 								</tr>
 							</c:forEach>
@@ -177,14 +177,14 @@
 			</table>
 		</div>
 		<div class="mb-3">
-			<a href="${contextPath}/board/write?boardCategoryCode=${category.categoryCode}" class="btn btn-primary rounded-md">글쓰기</a>
+			<a href="${contextPath}/board/write?categoryCode=${category.code}" class="btn btn-primary rounded-md">글쓰기</a>
 		</div>
 		<c:if test="${not empty pagination}">
 			<div class="board-pagination">
 				<ul class="pagination">
 					<c:if test="${pagination.first}">
 						<li class="page-item">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(1)}"
+							<a href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.getQueryParams(1)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angles-left"></i>
 							</a>
 						</li>
@@ -192,14 +192,14 @@
 					<c:if test="${pagination.prev}">
 						<li class="page-item">
 							<!-- fa-chevron-left  -->
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.prevPage)}"
+							<a href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.getQueryParams(pagination.prevPage)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angle-left"></i>
 							</a>
 						</li>
 					</c:if>
 					<c:forEach var="item" begin="${pagination.startPage}" end="${pagination.endPage}">
 						<li class="page-item ${pagination.page eq item ? 'active' : ''}">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(item)}" 
+							<a href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.getQueryParams(item)}" 
 								class="page-link">${item}
 							</a>
 						</li>
@@ -207,14 +207,14 @@
 					<c:if test="${pagination.next}">
 						<li class="page-item">
 							<!-- fa-chevron-right -->
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.nextPage)}"
+							<a href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.getQueryParams(pagination.nextPage)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angle-right"></i>
 							</a>
 						</li>
 					</c:if>
 					<c:if test="${pagination.last}">
 						<li class="page-item">
-							<a href="${contextPath}/board/?boardCategoryCode=${category.categoryCode}&${boardCri.getQueryParams(pagination.pageCnt)}"
+							<a href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.getQueryParams(pagination.pageCnt)}"
 								class="page-link"><i class="fa-solid fa-fw fa-angles-right"></i>
 							</a>
 						</li>
