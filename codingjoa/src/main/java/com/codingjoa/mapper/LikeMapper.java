@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.BoardLike;
-import com.codingjoa.entity.ReplyLike;
+import com.codingjoa.entity.CommentLike;
 
 @Mapper
 public interface LikeMapper {
@@ -15,11 +15,11 @@ public interface LikeMapper {
 	
 	void deleteBoardLike(BoardLike boardLike);
 
-	ReplyLike findReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
+	CommentLike findReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
 	
 	void insertReplyLike(@Param("replyId") Long replyId, @Param("userId") Long userId);
 	
-	void deleteReplyLike(ReplyLike replyLike);
+	void deleteReplyLike(CommentLike replyLike);
 	
 	int findBoardLikeCnt(Long boardId);
 

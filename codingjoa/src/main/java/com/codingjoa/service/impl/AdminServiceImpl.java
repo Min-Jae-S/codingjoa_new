@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminReplyDto;
+import com.codingjoa.dto.ManagedBoardDto;
+import com.codingjoa.dto.ManagedCommentDto;
 import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.mapper.AdminMapper;
-import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
@@ -38,22 +38,22 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
+	public List<ManagedBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri) {
 		log.info("\t > find pagedBoards");
 		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
-				.map(adminBoard -> AdminBoardDto.from(adminBoard))
+				.map(adminBoard -> ManagedBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
 	}
 	
 	@Override
-	public Pagination getBoardPagination(AdminBoardCriteria adminBoardCri) {
+	public Pagination getBoardPagination(ManagedBoardCriteria adminBoardCri) {
 		int totalCnt = adminMapper.findPagedBoardsTotalCnt(adminBoardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, adminBoardCri.getPage(), adminBoardCri.getRecordCnt(), pageRange) : null;
 	}
 
 	@Override
-	public List<AdminReplyDto> getPagedComments() {
+	public List<ManagedCommentDto> getPagedComments() {
 		log.info("\t > find pagedComments");
 		return null;
 	}

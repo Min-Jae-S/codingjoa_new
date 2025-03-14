@@ -12,7 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ReplyDetailsDto {
+public class CommentDetailsDto {
 
 	private long id;
 	private String content;
@@ -27,7 +27,7 @@ public class ReplyDetailsDto {
 	private boolean isBoardWriter;
 	
 	@Builder
-	private ReplyDetailsDto(long id, String content, boolean status, int likeCount, LocalDateTime createdAt,
+	private CommentDetailsDto(long id, String content, boolean status, int likeCount, LocalDateTime createdAt,
 			LocalDateTime updatedAt, String writerNickname, String writerImagePath, boolean isWriter, boolean isLiked,
 			boolean isBoardWriter) {
 		this.id = id;
@@ -43,8 +43,8 @@ public class ReplyDetailsDto {
 		this.isBoardWriter = isBoardWriter;
 	}
 	
-	public static ReplyDetailsDto from(Map<String, Object> map) {
-		return ReplyDetailsDto.builder()
+	public static CommentDetailsDto from(Map<String, Object> map) {
+		return CommentDetailsDto.builder()
 				.id((int) map.get("id"))
 				.content((String) map.get("content"))
 				.status((boolean) map.get("status"))

@@ -14,8 +14,8 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.AdminBoardCri;
-import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.annotation.ManagedBoardCri;
+import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
 
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
+public class ManagedBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
 	private final Map<String, String> recordCntOption;
@@ -31,7 +31,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, String> sortOption;
 	private final Map<String, String> categoryOption;
 	
-	public AdminBoardCriResolver(
+	public ManagedBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption, 
@@ -51,8 +51,8 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(AdminBoardCriteria.class) && 
-				parameter.hasParameterAnnotation(AdminBoardCri.class);
+		return parameter.getParameterType().equals(ManagedBoardCriteria.class) && 
+				parameter.hasParameterAnnotation(ManagedBoardCri.class);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		List<Integer> parsedCategories = categoryOption.keySet().containsAll(categoryList) ? 
 				categoryList.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList()) : Collections.emptyList();
 		
-		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
+		ManagedBoardCriteria adminBoardCri = new ManagedBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt, 
 			keyword == null ? "" : keyword.trim(),

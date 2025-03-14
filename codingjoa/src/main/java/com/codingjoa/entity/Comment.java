@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor // for mybatis resultSet
-public class Reply {
+public class Comment {
 			
 	private Long id;
 	private Long boardId;
@@ -31,7 +31,7 @@ public class Reply {
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Reply(Long id, Long boardId, Long userId, String content, Boolean status,  Integer likeCount, 
+	private Comment(Long id, Long boardId, Long userId, String content, Boolean status,  Integer likeCount, 
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.boardId = boardId;

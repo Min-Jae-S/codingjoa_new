@@ -43,18 +43,18 @@
 		<typeAlias type="com.codingjoa.entity.Board" alias="Board"/>
 		<typeAlias type="com.codingjoa.entity.BoardImage" alias="BoardImage"/>
 		<typeAlias type="com.codingjoa.entity.UserImage" alias="UserImage"/>
-		<typeAlias type="com.codingjoa.entity.Reply" alias="Reply"/>
+		<typeAlias type="com.codingjoa.entity.Comment" alias="Comment"/>
 		<typeAlias type="com.codingjoa.entity.BoardLike" alias="BoardLike"/>
-		<typeAlias type="com.codingjoa.entity.ReplyLike" alias="ReplyLike"/>
+		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/>
 
 		<!-- pagination -->
 		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="BoardCri"/> -->
 		<!-- <typeAlias type="com.codingjoa.pagination.ReplyCriteria" alias="ReplyCri"/> -->
 		
 		<!-- admin -->
-		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
-		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
-		<typeAlias type="com.codingjoa.entity.AdminReply" alias="AdminReply"/>
+		<typeAlias type="com.codingjoa.entity.ManagedUser" alias="ManagedUser"/>
+		<typeAlias type="com.codingjoa.entity.ManagedBoard" alias="ManagedBoard"/>
+		<typeAlias type="com.codingjoa.entity.ManagedComment" alias="ManagedComment"/>
 
 		<!-- test -->
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>

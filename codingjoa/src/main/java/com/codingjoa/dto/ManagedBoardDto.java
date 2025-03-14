@@ -2,7 +2,7 @@ package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 
-import com.codingjoa.entity.AdminBoard;
+import com.codingjoa.entity.ManagedBoard;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class AdminBoardDto {
+public class ManagedBoardDto {
 	
 	// board
 	private long id;
@@ -39,7 +39,7 @@ public class AdminBoardDto {
 	private boolean isUpdated;
 	
 	@Builder
-	private AdminBoardDto(long id, String title, int viewCount, int replyCount, int likeCount, LocalDateTime createdAt,
+	private ManagedBoardDto(long id, String title, int viewCount, int replyCount, int likeCount, LocalDateTime createdAt,
 			LocalDateTime updatedAt, int categoryCode, String categoryName, long writerId, String writerEmail, String writerNickname,
 			boolean isUpdated) {
 		this.id = id;
@@ -57,8 +57,8 @@ public class AdminBoardDto {
 		this.isUpdated = createdAt.isEqual(updatedAt);;
 	}
 	
-	public static AdminBoardDto from(AdminBoard adminBoard) {
-		return AdminBoardDto.builder()
+	public static ManagedBoardDto from(ManagedBoard adminBoard) {
+		return ManagedBoardDto.builder()
 				.id(adminBoard.getId())
 				.title(adminBoard.getTitle())
 				.viewCount(adminBoard.getViewCount())

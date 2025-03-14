@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.annotation.AdminBoardCri;
-import com.codingjoa.annotation.AdminReplyCri;
-import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminReplyDto;
+import com.codingjoa.annotation.ManagedBoardCri;
+import com.codingjoa.annotation.ManagedCommentCri;
+import com.codingjoa.dto.ManagedBoardDto;
+import com.codingjoa.dto.ManagedCommentDto;
 import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.pagination.AdminBoardCriteria;
-import com.codingjoa.pagination.AdminReplyCriteria;
+import com.codingjoa.pagination.ManagedBoardCriteria;
+import com.codingjoa.pagination.ManagedCommentCriteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.resolver.AdminBoardCriResolver;
+import com.codingjoa.resolver.ManagedBoardCriResolver;
 import com.codingjoa.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
-	private final AdminBoardCriResolver adminBoardCriResolver;
+	private final ManagedBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
@@ -57,11 +57,11 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoards(@ManagedBoardCri ManagedBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		List<ManagedBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -76,11 +76,11 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoardsBySearch(@ManagedBoardCri ManagedBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		List<ManagedBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -96,18 +96,18 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
 		
-		AdminReplyCriteria adminCommentCri = AdminReplyCriteria.create();
+		ManagedCommentCriteria adminCommentCri = ManagedCommentCriteria.create();
 		log.info("\t > create default adminCommentCri = {}", adminCommentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 	
 	@GetMapping("/comments/")
-	public ResponseEntity<Object> getPagedComments(@AdminReplyCri AdminReplyCriteria adminCommentCri) {
+	public ResponseEntity<Object> getPagedComments(@ManagedCommentCri ManagedCommentCriteria adminCommentCri) {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		
-		List<AdminReplyDto> pagedComments = adminService.getPagedComments();
+		List<ManagedCommentDto> pagedComments = adminService.getPagedComments();
 		
 		Pagination pagination = adminService.getCommentPagination();
 		log.info("\t > pagination = {}", pagination);

@@ -22,14 +22,14 @@
 		margin: 0 auto;
 	}
 	
-	.info-member {
+	.info-user {
 		overflow: hidden;
 		font-size: 90%;
     	font-weight: 400;
     	margin-bottom: 2.2rem;
 	}
 	
-	.info-member a {
+	.info-user a {
 		text-decoration-line: none;
 		color: #495057;
 	}
@@ -98,25 +98,25 @@
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
 				<form id="loginForm">
-					<div class="id_pw_wrap">
+					<div class="email_pw_wrap">
 						<div class="form-group mb-4">
-							<label class="font-weight-bold" for="memberEmail" >이메일</label>
-							<input class="form-control rounded-md" type="text" name="memberEmail" id="memberEmail" placeholder="이메일을 입력해주세요"/>
+							<label class="font-weight-bold" for="email" >이메일</label>
+							<input class="form-control rounded-md" type="text" name="email" id="email" placeholder="이메일을 입력해주세요"/>
 						</div>
 						<div class="form-group mb-4">
-							<label class="font-weight-bold" for="memberPassword">비밀번호</label>
-							<input class="form-control rounded-md" type="password" name="memberPassword" id="memberPassword" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
+							<label class="font-weight-bold" for="password">비밀번호</label>
+							<input class="form-control rounded-md" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
 						</div>
 					</div>
 					<div class="form-group pt-3 mb-3">
 						<button type="submit" class="btn btn-primary btn-block rounded-md">로그인</button>
 					</div>
 				</form>
-				<div class="info-member">
-					<a class="link-join" href="${contextPath}/member/join">회원가입</a>
+				<div class="info-user">
+					<a class="link-join" href="${contextPath}/user/join">회원가입</a>
 					<ul class="link-ul">
 						<li class="link-li">
-							<a href="${contextPath}/member/findPassword">비밀번호 찾기</a>
+							<a href="${contextPath}/user/findPassword">비밀번호 찾기</a>
 						</li>
 					</ul>
 				</div>
@@ -153,8 +153,8 @@
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			let formData = {
-				memberEmail : $("#memberEmail").val(),
-				memberPassword : $("#memberPassword").val(),
+				email : $("#email").val(),
+				password : $("#password").val(),
 			};
 			
 			authenticationService.login(formData, continueUrl, function(result) {

@@ -2,23 +2,23 @@ package com.codingjoa.service;
 
 import java.util.List;
 
-import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminReplyDto;
+import com.codingjoa.dto.ManagedBoardDto;
+import com.codingjoa.dto.ManagedCommentDto;
 import com.codingjoa.dto.UserInfoDto;
-import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 
 public interface AdminService {
 	
 	List<UserInfoDto> getPagedMembers();
 	
-	List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri);
+	List<ManagedBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri);
 
-	List<AdminReplyDto> getPagedComments();
+	List<ManagedCommentDto> getPagedComments();
 	
 	Pagination getMemberPagination();
 
-	Pagination getBoardPagination(AdminBoardCriteria adminBoardCri);
+	Pagination getBoardPagination(ManagedBoardCriteria adminBoardCri);
 
 	Pagination getCommentPagination();
 	

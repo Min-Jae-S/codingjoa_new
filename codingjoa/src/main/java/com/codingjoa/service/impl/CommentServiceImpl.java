@@ -7,29 +7,29 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.ReplyDetailsDto;
-import com.codingjoa.dto.ReplyDto;
+import com.codingjoa.dto.CommentDetailsDto;
+import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Board;
-import com.codingjoa.entity.Reply;
+import com.codingjoa.entity.Comment;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
-import com.codingjoa.mapper.ReplyMapper;
-import com.codingjoa.pagination.ReplyCriteria;
+import com.codingjoa.mapper.CommentMapper;
+import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.service.ReplyService;
+import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
 @Service
-public class ReplyServiceImpl implements ReplyService {
+public class CommentServiceImpl implements CommentService {
 
-	private final ReplyMapper replyMapper;
+	private final CommentMapper replyMapper;
 	private final BoardMapper boardMapper;
 	private final int pageRange;
 	
-	public ReplyServiceImpl(ReplyMapper replyMapper, BoardMapper boardMapper,
+	public CommentServiceImpl(CommentMapper replyMapper, BoardMapper boardMapper,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.replyMapper = replyMapper;
 		this.boardMapper = boardMapper;
@@ -37,7 +37,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void saveReply(ReplyDto replyDto) {
+	public void saveReply(CommentDto replyDto) {
 		Board board = boardMapper.findBoardById(replyDto.getBoardId());
 		log.info("\t > prior to inserting reply, find board first");
 		
@@ -45,7 +45,7 @@ public class ReplyServiceImpl implements ReplyService {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Reply reply = replyDto.toEntity();
+		Comment reply = replyDto.toEntity();
 		log.info("\t > convert replyDto to reply entity = {}", reply);
 		
 		boolean isSaved = replyMapper.insertReply(reply);
@@ -57,7 +57,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 	
 	@Override
-	public List<ReplyDetailsDto> getPagedReplies(long boardId, ReplyCriteria replyCri, long userId) {
+	public List<CommentDetailsDto> getPagedReplies(long boardId, CommentCriteria replyCri, long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > prior to finding pagedReplies, find board first");
 		
@@ -66,10 +66,10 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		
 		log.info("\t > find pagedReplies");
-		List<ReplyDetailsDto> pagedReplies = replyMapper.findPagedReplies(boardId, replyCri, userId)
+		List<CommentDetailsDto> pagedReplies = replyMapper.findPagedReplies(boardId, replyCri, userId)
 				.stream()
 				.map(replyDetailsMap -> {
-					ReplyDetailsDto replyDetails = ReplyDetailsDto.from(replyDetailsMap);
+					CommentDetailsDto replyDetails = CommentDetailsDto.from(replyDetailsMap);
 					return replyDetails.isStatus() ? replyDetails : null;
 				})
 				.collect(Collectors.toList());
@@ -78,14 +78,14 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 	
 	@Override
-	public Pagination getPagination(long boardId, ReplyCriteria replyCri) {
+	public Pagination getPagination(long boardId, CommentCriteria replyCri) {
 		int totalCnt = replyMapper.findReplyTotalCnt(boardId);
 		return (totalCnt > 0) ? new Pagination(totalCnt, replyCri.getPage(), replyCri.getRecordCnt(), pageRange) : null;
 	}
 
 	@Override
-	public void updateReply(ReplyDto replyDto) {
-		Reply reply = replyMapper.findReplyById(replyDto.getId());
+	public void updateReply(CommentDto replyDto) {
+		Comment reply = replyMapper.findReplyById(replyDto.getId());
 		log.info("\t > find reply = {}", reply);
 		
 		if (reply == null) {
@@ -100,7 +100,7 @@ public class ReplyServiceImpl implements ReplyService {
 			throw new ExpectedException("error.NotMyReply");
 		}
 		
-		Reply modifyReply = replyDto.toEntity();
+		Comment modifyReply = replyDto.toEntity();
 		log.info("\t > convert replyDto to reply entity = {}", modifyReply);
 		
 		boolean isUpdated = replyMapper.updateReply(modifyReply);
@@ -111,7 +111,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public void deleteReply(long replyId, long userId) {
-		Reply reply = replyMapper.findReplyById(replyId);
+		Comment reply = replyMapper.findReplyById(replyId);
 		log.info("\t > find reply = {}", reply);
 		
 		if (reply == null) {
@@ -126,7 +126,7 @@ public class ReplyServiceImpl implements ReplyService {
 			throw new ExpectedException("error.NotMyReply");
 		}
 		
-		Reply deleteReply = Reply.builder()
+		Comment deleteReply = Comment.builder()
 				.id(reply.getId())
 				.status(false)
 				.build();

@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class AdminBoard {
+public class ManagedBoard {
 	
 	private Long id;
 	private Long userId;

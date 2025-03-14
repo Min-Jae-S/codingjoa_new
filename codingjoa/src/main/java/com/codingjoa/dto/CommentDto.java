@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import javax.validation.constraints.NotBlank;
 
 import com.codingjoa.converter.WhitespaceDeserializer;
-import com.codingjoa.entity.Reply;
+import com.codingjoa.entity.Comment;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor // for deserializing (JSON --> Object)
-public class ReplyDto {
+public class CommentDto {
 
 	private long id;
 	private long boardId;
@@ -27,7 +27,7 @@ public class ReplyDto {
 	private boolean status;
 	
 	@Builder
-	private ReplyDto(long id, long boardId, long userId, @NotBlank String content, boolean status) {
+	private CommentDto(long id, long boardId, long userId, @NotBlank String content, boolean status) {
 		this.id = id;
 		this.boardId = boardId;
 		this.userId = userId;
@@ -35,8 +35,8 @@ public class ReplyDto {
 		this.status = status;
 	}
 	
-	public Reply toEntity() {
-		return Reply.builder()
+	public Comment toEntity() {
+		return Comment.builder()
 				.id(this.id)
 				.boardId(this.boardId)
 				.userId(this.userId)

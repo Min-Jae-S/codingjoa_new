@@ -5,18 +5,14 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class AdminReplyCriteria {
+public class CommentCriteria {
 
 	private int page;
 	private int recordCnt;
 	
-	public AdminReplyCriteria(int page, int recordCnt) {
+	public CommentCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
-	}
-	
-	public static AdminReplyCriteria create() {
-		return new AdminReplyCriteria(1, 10);
 	}
 	
 }
