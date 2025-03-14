@@ -107,7 +107,7 @@
 											<span><c:out value="${boardDetails.id}"/></span>
 										</td>
 										<td class="d-md-table-cell text-left">
-											<a class="board-title" href="${contextPath}/board/read?boardId=${boardDetails.id}">
+											<a class="board-title" href="${contextPath}/board/read?id=${boardDetails.id}">
 												<c:out value="${boardDetails.title}"/><!--
 										 --></a>
 											<c:if test="${boardDetails.commentCount > 0}">

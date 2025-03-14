@@ -9,11 +9,11 @@ function uploadAdapter(editor) {
 function uploadCompleteListener(editor) {
 	console.log("## register upload complete listener");
 	editor.plugins.get("ImageUploadEditing").on("uploadComplete", (evt, {data, imageElement}) => {
-		console.log("## upload complete and set attributes src, data-idx");
+		console.log("## upload complete and set attributes src, data-id");
 		editor.model.change(writer => {
 			evt.stop();
-			writer.setAttribute("src", data.url, imageElement);
-			writer.setAttribute("dataIdx", data.idx, imageElement);
+			writer.setAttribute("src", data.path, imageElement);
+			writer.setAttribute("dataId", data.id, imageElement);
 			//writer.setAttribute("alt", data.alt, imageElement);
 		});
 	});
@@ -21,17 +21,17 @@ function uploadCompleteListener(editor) {
 
 // https://github.com/ckeditor/ckeditor5/issues/5204
 function attributeExtender(editor) {
-	console.log("## extend custom attribute(dataIdx) to blockObject and inlineOjbect");
-	editor.model.schema.extend("$blockObject", { allowAttributes: "dataIdx" });
-	editor.model.schema.extend("$inlineObject", { allowAttributes: "dataIdx" });
+	console.log("## extend custom attribute(dataId) to blockObject and inlineOjbect");
+	editor.model.schema.extend("$blockObject", { allowAttributes: "dataId" });
+	editor.model.schema.extend("$inlineObject", { allowAttributes: "dataId" });
 }
 
 // view-to-model converter(upcast)
 function viewToModelConverter(editor) {
 	console.log("## register VIEW-TO-MODEL converter (upcast)");
 	editor.conversion.for("upcast").attributeToAttribute({
-        view: "data-idx",
-        model: "dataIdx"
+        view: "data-id",
+        model: "dataId"
     });
 }
 
@@ -41,7 +41,7 @@ function viewToModelConverter(editor) {
 function modelToViewEditingConverter(editor) {
 	console.log("## register MODEL-TO-VIEW converter (editingDowncast)");
 	editor.conversion.for("editingDowncast").add(dispatcher => { // downcastDispatcher
-        dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => {
+        dispatcher.on("attribute:dataId", (evt, data, conversionApi) => {
         	//console.log("## MODEL-TO-VIEW conversion - editing downcast");
         	console.log("## editing downcast");
         	const modelElement = data.item;
@@ -57,9 +57,9 @@ function modelToViewEditingConverter(editor) {
 //            console.log("\t > imageElement		: " + imageElement.name);
             
             if (data.attributeNewValue !== null) {
-            	viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+            	viewWriter.setAttribute("data-id", data.attributeNewValue, imageElement);
             } else {
-            	viewWriter.removeAttribute("data-idx", imageElement);
+            	viewWriter.removeAttribute("data-id", imageElement);
             }
         });
     });
@@ -69,7 +69,7 @@ function modelToViewEditingConverter(editor) {
 function modelToViewDataConverter(editor) {
 	console.log("## register MODEL-TO-VIEW converter (dataDowncast)");
 	editor.conversion.for("dataDowncast").add(dispatcher => {
-		dispatcher.on("attribute:dataIdx", (evt, data, conversionApi) => { 
+		dispatcher.on("attribute:dataId", (evt, data, conversionApi) => { 
 			//console.log("## MODEL-TO-VIEW conversion - data downcast");
 			console.log("## data downcast");
 			const modelElement = data.item;
@@ -85,9 +85,9 @@ function modelToViewDataConverter(editor) {
 //            console.log("\t > imageElement		: " + imageElement.name);
             
             if (data.attributeNewValue !== null) {
-                viewWriter.setAttribute("data-idx", data.attributeNewValue, imageElement);
+                viewWriter.setAttribute("data-id", data.attributeNewValue, imageElement);
             } else {
-            	viewWriter.removeAttribute("data-idx", imageElement);
+            	viewWriter.removeAttribute("data-id", imageElement);
             }
 		});
 	});	

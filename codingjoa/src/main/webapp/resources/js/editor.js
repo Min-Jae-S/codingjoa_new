@@ -19,7 +19,7 @@ function createEditor(targetId) {
 					allow: [
 						{
 							attributes: [
-								{ key: "data-idx", value: true }
+								{ key: "data-id", value: true }
 							]
 						}
 					]

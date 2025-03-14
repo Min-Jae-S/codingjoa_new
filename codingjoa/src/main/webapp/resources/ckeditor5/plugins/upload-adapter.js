@@ -63,10 +63,11 @@ class UploadAdapter {
             // Learn more in the UploadAdapter#upload documentation.
             resolve({
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
-            	// response.data : BoardImageDto(int boardImageIdx, String boardImageUrl)
-            	idx: response.data.boardImageIdx,
-            	url: response.data.boardImageUrl
-            	//alt: response.data.boardImageName
+            	// response.data: BoardImageDto(long id, String path)
+            	id: response.data.id,
+            	path: response.data.path
+            	//url: response.data.path
+            	//alt: response.data.name
             });
         });
     }

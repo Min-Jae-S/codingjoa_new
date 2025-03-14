@@ -96,21 +96,21 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam long boardId, @BoardCri BoardCriteria boardCri,
+	public String read(@RequestParam long id, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## read, boardId = {}", boardId);
+		log.info("## read, id = {}", id);
 		log.info("\t > boardCri = {}", boardCri);
 		
 		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 		
-		BoardDetailsDto boardDetails = boardService.getBoardDetails(boardId, userId);
+		BoardDetailsDto boardDetails = boardService.getBoardDetails(id, userId);
 		log.info("\t > boardDetails = {}", boardDetails);
 		
 		Category category = categoryService.getCategory(boardDetails.getCategoryCode());
 
 		// ** 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
-		boardService.updateBoardView(boardId); 
+		boardService.updateBoardView(id); 
 
 		model.addAttribute("boardDetails", boardDetails);
 		model.addAttribute("category", category);
@@ -157,9 +157,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam int boardId, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
-		log.info("## modify, boardId = {}", boardId);
-		BoardDto modifyBoardDto = boardService.getModifyBoard(boardId, principal.getId());
+	public String modify(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		log.info("## modify, id = {}", id);
+		BoardDto modifyBoardDto = boardService.getModifyBoard(id, principal.getId());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
 		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
 		
@@ -179,7 +179,7 @@ public class BoardController {
 					.collect(Collectors.toList());
 			log.info("\t > bindingResult hasErrors = {}", errorFields);
 			
-			if (bindingResult.hasFieldErrors("categoryCode") || bindingResult.hasFieldErrors("boardIdx")) {
+			if (bindingResult.hasFieldErrors("categoryCode") || bindingResult.hasFieldErrors("id")) {
 				throw new BindException(bindingResult);
 			}
 			
@@ -190,16 +190,16 @@ public class BoardController {
 		modifyBoardDto.setUserId(principal.getId());
 		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImage, activateImage
 		
-		return "redirect:/board/read?boardId=" + modifiedBoard.getId();
+		return "redirect:/board/read?id=" + modifiedBoard.getId();
 	}
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## delete, boardId = {}", boardId);
+	public String delete(@RequestParam long id, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## delete, id = {}", id);
 
 		// fk_boardimage_board 	--> ON DELETE SET NULL
 		// fk_reply_board		--> ON DELETE CASCADE
-		Board deletedBoard = boardService.deleteBoard(boardId, principal.getId());
+		Board deletedBoard = boardService.deleteBoard(id, principal.getId());
 		
 		return "redirect:/board/?categoryCode=" + deletedBoard.getCategoryCode();
 	}

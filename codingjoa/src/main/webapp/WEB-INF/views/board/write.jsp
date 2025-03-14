@@ -73,10 +73,10 @@
 			<form:form action="${contextPath}/board/write" method="POST" modelAttribute="writeBoardDto">
 				<div class="d-flex justify-content-between mb-3">
 					<div class="w-75">
-						<form:select class="custom-select rounded-md" path="boardCategoryCode">
-							<form:options items="${boardCategoryList}" itemValue="categoryCode" itemLabel="categoryName"/>
+						<form:select class="custom-select rounded-md" path="categoryCode">
+							<form:options items="${boardCategoryList}" itemValue="code" itemLabel="name"/>
 						</form:select>
-						<form:errors path="boardCategoryCode" cssClass="error"/>
+						<form:errors path="categoryCode" cssClass="error"/>
 					</div>
 					<div class="w-10">
 						<form:button class="btn btn-primary btn-block rounded-md" id="writeBoardBtn">등록</form:button>
@@ -86,12 +86,12 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<form:input path="boardTitle" class="form-control rounded-md" placeholder="제목을 입력하세요."/>
-					<form:errors path="boardTitle" class="error"/>
+					<form:input path="title" class="form-control rounded-md" placeholder="제목을 입력하세요."/>
+					<form:errors path="title" class="error"/>
 				</div>
 				<div class="form-group">
-					<form:textarea path="boardContent"/>
-					<form:errors path="boardContent" class="error"/>
+					<form:textarea path="content"/>
+					<form:errors path="content" class="error"/>
 				</div>
 			</form:form>
 		</div>
@@ -109,13 +109,13 @@
 	let writeEditor;
 	const $form = $("#writeBoardDto");
 	
-	createEditor("#boardContent")
+	createEditor("#content")
 		.then(editor => {
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
 			editor.model.document.on('change:data', () => {
-				let boardContent = editor.getData();
-				$("#boardContent").val(boardContent);
+				let content = editor.getData();
+				$("#content").val(content);
 			});
 			//editor.ui.view.toolbar.items.map( item => console.log(item) );
 			writeEditor = editor;
@@ -133,8 +133,8 @@
 		
 		$("#writeBoardBtn").on("click", function(e) {
 			e.preventDefault();
-			console.log("## initialize boardImages");
-			$("input[name='boardImages']").remove();
+			console.log("## initialize images");
+			$("input[name='images']").remove();
 
 			// TreeWalker instance
 			// Position iterator class. It allows to iterate forward and backward over the document.
@@ -150,9 +150,9 @@
 			    }
 			    
 				// add boardImages
-			    let boardImageIdx = value.item.getAttribute("dataIdx");
-				console.log("## add boardImage, boardImageIdx = %s", boardImageIdx);
-			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			    let imageId = value.item.getAttribute("dataId");
+				console.log("## add image, id = %s", imageId);
+			    $("<input/>", { type: "hidden", name: "images", value: imageId }).appendTo($form);
 			}
 			
 			console.log("## check form data");
@@ -181,7 +181,7 @@
 		
 		// testJsoup
 		$("#testJsoupBtn").on("click", function() {
-			$("input[name='boardImages']").remove();
+			$("input[name='images']").remove();
 
 			const range = writeEditor.model.createRangeIn(writeEditor.model.document.getRoot());
 			for (const value of range.getWalker({ ignoreElementEnd: true })) { 
@@ -193,8 +193,8 @@
 			    	continue;
 			    }
 			    
-			    let boardImageIdx = value.item.getAttribute("dataIdx");
-			    $("<input/>", { type: "hidden", name: "boardImages", value: boardImageIdx }).appendTo($form);
+			    let imageId = value.item.getAttribute("dataId");
+			    $("<input/>", { type: "hidden", name: "images", value: imageId }).appendTo($form);
 			}
 			
 			console.log("## check form data");

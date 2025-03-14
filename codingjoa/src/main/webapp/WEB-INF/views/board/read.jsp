@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><c:out value="${boardDetails.boardTitle}"/> | Codingjoa</title>
+<title><c:out value="${boardDetails.title}"/> | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -408,10 +408,10 @@
 							<h6 class="dropdown-header">게시글 관리</h6>
 							<hr class="dropdown-divider">
 							<li>
-								<a class="dropdown-item" href="${contextPath}/board/modify?boardId=${boardDetails.id}">
+								<a class="dropdown-item" href="${contextPath}/board/modify?id=${boardDetails.id}">
 									수정하기
 								</a>
-						      	<a class="dropdown-item" href="${contextPath}/board/delete?boardId=${boardDetails.id}" id="deleteBoardLink">
+						      	<a class="dropdown-item" href="${contextPath}/board/delete?id=${boardDetails.id}" id="deleteBoardLink">
 						      		삭제하기
 						     	</a>
 							</li>

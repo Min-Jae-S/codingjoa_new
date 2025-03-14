@@ -142,7 +142,7 @@
 										<span><c:out value="${boardDetails.id}"/></span>
 									</td>
 									<td class="d-md-table-cell text-left">
-										<a class="board-title" href="${contextPath}/board/read?boardId=${boardDetails.id}&${boardCri.queryParams}">
+										<a class="board-title" href="${contextPath}/board/read?id=${boardDetails.id}&${boardCri.queryParams}">
 											<c:out value="${boardDetails.title}"/><!--
 									 --></a>
 									 	<c:if test="${boardDetails.commentCount > 0}">
@@ -160,7 +160,7 @@
 									</td>
 									<td class="d-md-table-cell">
 										<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
-										<span class="board-likes-cnt"><c:out value="${boardDetails.likeCount}"/></span>
+										<span class="board-like-cnt"><c:out value="${boardDetails.likeCount}"/></span>
 									</td>
 								</tr>
 							</c:forEach>
