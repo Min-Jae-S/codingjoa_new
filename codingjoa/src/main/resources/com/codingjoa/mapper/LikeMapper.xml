@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.LikesMapper">
 <!--
+## board_like
 	id              NUMBER,
     board_id        NUMBER      NOT NULL,
 	user_id         NUMBER      NOT NULL,
     created_at      DATE        NOT NULL,
 	
+## comment_like	
 	id              NUMBER,
     comment_id      NUMBER      NOT NULL,
 	user_id         NUMBER      NOT NULL,

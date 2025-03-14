@@ -1,50 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.CategoryMapper">
+<!-- 
+## category
+    code            NUMBER,
+    parent_code     NUMBER,
+    name            VARCHAR2(50)       NOT NULL,
+    path            VARCHAR2(1000)     NOT NULL,
+ -->
 
-	<select id="findParentCategoryList" resultType="category">
+	<select id="findParentCategories" resultType="Category">
 		SELECT
-			category_code,
-			category_parent_code,
-			category_name,
-			category_path
+			code,
+			parent_code,
+			name,
+			path
 		FROM 
 			category
 		WHERE
-			category_parent_code IS NULL 
+			parent_code IS NULL 
 	</select>
 	
-	<select id="findCategoryListByParent" parameterType="int" resultType="category">
+	<select id="findCategoriesByParent" parameterType="int" resultType="Category">
 		SELECT
-			category_code,
-			category_parent_code,
-			category_name,
-			category_path
+			code,
+			parent_code,
+			name,
+			path
 		FROM 
 			category
 		WHERE
-			category_parent_code = #{categoryParentCode}
+			parent_code = #{parentCode}
 	</select>
 	
-	<select id="findCategory" parameterType="int" resultType="category">
+	<select id="findCategoryById" parameterType="int" resultType="Category">
 		SELECT
-			category_code,
-			category_parent_code,
-			category_name,
-			category_path
+			code,
+			parent_code,
+			name,
+			path
 		FROM
 			category
 		WHERE
-			category_code = #{categoryCode}	
+			code = #{code}	
 	</select>
 	
-	<select id="findCategoryName" parameterType="int" resultType="string">
+	<select id="findNameById" parameterType="int" resultType="string">
 		SELECT
-			category_name
+			name
 		FROM
 			category
 		WHERE
-			category_code = #{categoryCode}	
+			code = #{code}	
 	</select>
 	
 	<!-- <select id="findCategoryOfSameParent" parameterType="int" resultType="category">
@@ -63,16 +70,16 @@
 			b.category_code = #{categoryCode}
 	</select> -->
 	
-	<select id="findBoardCategoryList" resultType="category">
+	<select id="findBoardCategories" resultType="Category">
 		SELECT
-			category_code,
-			category_parent_code,
-			category_name,
-			category_path
+			code,
+			parent_code,
+			name,
+			path
 		FROM
 			category
 		WHERE
-			category_parent_code = 1
+			parent_code = 1
 	</select>
 	
 	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
@@ -81,9 +88,9 @@
 		FROM
 			category
 		WHERE
-			category_code = #{categoryCode} 
+			code = #{code} 
 		AND 
-			category_parent_code = 1
+			parent_code = 1
 	</select>
 	
 </mapper>

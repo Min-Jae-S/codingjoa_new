@@ -9,19 +9,19 @@ import com.codingjoa.entity.Category;
 @Mapper
 public interface CategoryMapper {
 
-	List<Category> findParentCategoryList();
+	List<Category> findParentCategories();
 	
-	List<Category> findCategoryListByParent(int categoryParentCode);
+	List<Category> findCategoriesByParent(int parentCode);
 	
-	Category findCategory(int categoryCode);
+	Category findCategoryById(int code);
 	
-	String findCategoryName(int categoryCode);
+	String findNameById(int code);
 	
 	//List<Category> findCategoryOfSameParent(int categoryParentCode); // SELF JOIN
 	
-	List<Category> findBoardCategoryList();
+	List<Category> findBoardCategories();
 	
 	//String findParentCategoryPath(int categoryCode);
 	
-	boolean isBoardCategoryCode(int categoryCode);
+	boolean isBoardCategoryCode(int code);
 }

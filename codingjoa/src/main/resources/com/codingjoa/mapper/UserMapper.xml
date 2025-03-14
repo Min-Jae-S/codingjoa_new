@@ -1,75 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.codingjoa.mapper.MemberMapper">
+<mapper namespace="com.codingjoa.mapper.UserMapper">
 <!--
-    member_idx              NUMBER,
-    member_email            VARCHAR2(100)   UNIQUE  NOT NULL,
-    member_password         VARCHAR2(200)           NULL,
-    member_nickname         VARCHAR2(50)    UNIQUE  NOT NULL,
-    member_zipcode          CHAR(5)                 NULL,
-    member_addr             VARCHAR2(150)           NULL,
-    member_addr_detail      VARCHAR2(150)           NULL,
-    member_agree            CHAR(1)                 NOT NULL,
-    created_at              DATE                    NOT NULL,
-    updated_at              DATE                    NOT NULL
+## users
+    id                  NUMBER,
+    email               VARCHAR2(100)   UNIQUE  NOT NULL,
+    password            VARCHAR2(200)           NULL,
+    nickname            VARCHAR2(50)    UNIQUE  NOT NULL,
+    zipcode             CHAR(5)                 NULL,
+    addr                VARCHAR2(150)           NULL,
+    addr_detail         VARCHAR2(150)           NULL,
+    agree               CHAR(1)                 NOT NULL,
+    created_at          DATE                    NOT NULL,
+    updated_at          DATE                    NOT NULL,
+    
+## auth
+    id          NUMBER,
+    user_id     NUMBER          NOT NULL,
+    role        VARCHAR2(30)    NOT NULL,
+    created_at  DATE            NOT NULL,
+    
+## sns_info
+	id              NUMBER,
+	user_id         NUMBER              NOT NULL,
+    sns_id          VARCHAR2(200)       NOT NULL,
+	provider        VARCHAR2(20)        NOT NULL,
+    connected_at    DATE                NULL,
+	created_at      DATE                NOT NULL,
 -->
 
-	<insert id="insertMember" parameterType="member">
-		<selectKey keyProperty="memberIdx" resultType="int" order="BEFORE">
-			SELECT seq_member.NEXTVAL FROM DUAL
+	<insert id="insertUser" parameterType="User">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_users.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO member (
-			member_idx,
-			member_email,
-			member_password,
-			member_nickname,
-			member_agree,
+		INSERT INTO users (
+			id,
+			email,
+			password,
+			nickname,
+			agree,
 			created_at,
 			updated_at
 		) VALUES (
-			#{memberIdx},
-			#{memberEmail},
-			#{memberPassword},
-			#{memberNickname},
-			#{memberAgree},
+			#{id},
+			#{email},
+			#{password},
+			#{nickname},
+			#{agree},
 			SYSDATE,
 			SYSDATE
 		)
 	</insert>
 	
-	<insert id="insertAuth" parameterType="auth">
-		<selectKey keyProperty="authIdx" resultType="int" order="BEFORE">
+	<insert id="insertAuth" parameterType="Auth">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_auth.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO auth (
-			auth_idx,
-			member_idx,
-			member_role,
+			id,
+			user_id,
+			role,
 			created_at
 		) VALUES (
-			#{authIdx},
-			#{memberIdx},
-			#{memberRole},
+			#{id},
+			#{userId},
+			#{role},
 			SYSDATE
 		)
 	</insert>
 
-	<insert id="insertSnsInfo" parameterType="snsInfo">
-		<selectKey keyProperty="snsInfoIdx" resultType="int" order="BEFORE">
-			SELECT seq_sns_info.NEXTVAL FROM DUAL
+	<insert id="insertSnsInfo" parameterType="SnsInfo">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_snsinfo.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO sns_info (
-			sns_info_idx,
-			member_idx,
+			id,
+			user_id,
 			sns_id,
-			sns_provider,
+			provider,
 			connected_at,
 			created_at
 		) VALUES (
-			#{snsInfoIdx},
-			#{memberIdx},
+			#{id},
+			#{userId},
 			#{snsId},
-			#{snsProvider},
+			#{provider},
 			#{connectedAt},
 			SYSDATE
 		)
@@ -79,12 +94,12 @@
 		SELECT
 			COUNT(*)
 		FROM
-			member
+			users
 		WHERE
-			member_nickname = #{memberNickname}
+			nickname = #{nickname}
 	</select>
 	
-	<resultMap id="memberInfoMap" type="map">
+	<resultMap id="userInfoMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<result property="memberIdx" column="member_idx" javaType="int"/> 
 		<result property="memberEmail" column="member_email"/>
@@ -99,7 +114,7 @@
 		<result property="memberImageUrl" column="member_image_url"/>
 	</resultMap>
 	
-	<select id="findMemberInfoByIdx" parameterType="int" resultMap="memberInfoMap">
+	<select id="findUserInfoById" parameterType="long" resultMap="userInfoMap">
 		SELECT
 			a.*,
 			b.member_image_url
@@ -165,7 +180,7 @@
 			a.member_email = #{memberEmail}
 	</select>
 
-	<select id="findUserDetailsByIdx" parameterType="int" resultMap="userDetailsMap">
+	<select id="findUserDetailsById" parameterType="long" resultMap="userDetailsMap">
 		SELECT
 			a.member_idx,
 			a.member_email,
@@ -198,77 +213,77 @@
 			a.member_idx = #{memberIdx}
 	</select>
 	
-	<select id="findMemberByEmail" parameterType="string" resultType="member">
+	<select id="findUserByEmail" parameterType="string" resultType="User">
 		SELECT
 			*
 		FROM
-			member
+			users
 		WHERE	
-			member_email = #{memberEmail}
+			email = #{email}
 	</select>
 	
-	<select id="findMemberByIdx" parameterType="int" resultType="member">
+	<select id="findUserById" parameterType="long" resultType="User">
 		SELECT
 			*
 		FROM
-			member
+			users
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</select>
 	
-	<update id="updateNickname" parameterType="member">
+	<update id="updateNickname" parameterType="User">
 		UPDATE 
-			member
+			users
 		SET
-			member_nickname = #{memberNickname},
+			nickname = #{nickname},
 			updated_at = SYSDATE
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</update>
 	
-	<update id="updateEmail" parameterType="member">
+	<update id="updateEmail" parameterType="User">
 		UPDATE 
-			member
+			users
 		SET
-			member_email = #{memberEmail},
+			email = #{email},
 			updated_at = SYSDATE
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</update>
 	
-	<update id="updateAddr" parameterType="member">
+	<update id="updateAddr" parameterType="User">
 		UPDATE 
-			member
+			users
 		SET
-			member_zipcode = #{memberZipcode},
-			member_addr = #{memberAddr},
-			member_addr_detail = #{memberAddrDetail},
+			zipcode = #{zipcode},
+			addr = #{addr},
+			addr_detail = #{addrDetail},
 			updated_at = SYSDATE
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</update>
 
-	<update id="updateAgree" parameterType="member">
+	<update id="updateAgree" parameterType="User">
 		UPDATE 
-			member
+			users
 		SET
-			member_agree = #{memberAgree},
+			agree = #{agree},
 			updated_at = SYSDATE
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</update>
 	
-	<update id="updatePassword" parameterType="member">
+	<update id="updatePassword" parameterType="User">
 		UPDATE 
-			member
+			users
 		SET
-			member_password = #{memberPassword},
+			password = #{password},
 			updated_at = SYSDATE
 		WHERE
-			member_idx = #{memberIdx}
+			id = #{id}
 	</update>
 	
-	<select id="findMemeberByIdAndEmail" parameterType="map" resultType="member">
+	<select id="findMemeberByIdAndEmail" parameterType="map" resultType="User">
 		SELECT
 			*
 		FROM

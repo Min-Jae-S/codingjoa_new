@@ -13,9 +13,9 @@ public interface ImageMapper {
 
 	boolean insertBoardImage(BoardImage boardImage);
 	
-	boolean isBoardImageUploaded(Long boardImageId);
+	boolean isBoardImageUploaded(Long imageId);
 	
-	void activateBoardImages(@Param("boardImages") List<Long> boardImages, @Param("boardId") Long boardId);
+	void activateBoardImages(@Param("boardimages") List<Long> boardimages, @Param("boardId") Long boardId);
 	
 	void deactivateBoardImages(Long boardId);
 	

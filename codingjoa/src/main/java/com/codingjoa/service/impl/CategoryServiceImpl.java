@@ -17,33 +17,33 @@ public class CategoryServiceImpl implements CategoryService {
 	private final CategoryMapper categoryMapper;
 	
 	@Override
-	public List<Category> getParentCategoryList() {
-		return categoryMapper.findParentCategoryList();
+	public List<Category> getParentCategories() {
+		return categoryMapper.findParentCategories();
 	}
 
 	@Override
-	public List<Category> getCategoryListByParent(int categoryParentCode) {
-		return categoryMapper.findCategoryListByParent(categoryParentCode);
+	public List<Category> getCategoriesByParent(int parentCode) {
+		return categoryMapper.findCategoriesByParent(parentCode);
 	}
 
 	@Override
-	public Category getCategory(int categoryCode) {
-		return categoryMapper.findCategory(categoryCode);
+	public Category getCategoryById(int code) {
+		return categoryMapper.findCategoryById(code);
 	}
 	
 	@Override
-	public String getCategoryName(int categoryCode) {
-		return categoryMapper.findCategoryName(categoryCode);
+	public String getNameById(int code) {
+		return categoryMapper.findNameById(code);
 	}
 
 	@Override
-	public List<Category> getBoardCategoryList() {
-		return categoryMapper.findBoardCategoryList();
+	public List<Category> getBoardCategories() {
+		return categoryMapper.findBoardCategories();
 	}
 
 	@Override
-	public boolean isBoardCategoryCode(int categoryCode) {
-		return categoryMapper.isBoardCategoryCode(categoryCode);
+	public boolean isBoardCategoryCode(int code) {
+		return categoryMapper.isBoardCategoryCode(code);
 	}
 
 }

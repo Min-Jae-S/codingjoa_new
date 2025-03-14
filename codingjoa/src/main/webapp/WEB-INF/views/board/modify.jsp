@@ -107,7 +107,7 @@
 	let modifyEditor, originalContent;
 	const $form = $("#modifyBoardDto");
 	
-	createEditor("#boardContent")
+	createEditor("#content")
 		.then(editor => {
 			const $file = $("span.ck-file-dialog-button").find("input[type='file']");
 			$file.attr("accept", "*/*").attr("multiple", false);
