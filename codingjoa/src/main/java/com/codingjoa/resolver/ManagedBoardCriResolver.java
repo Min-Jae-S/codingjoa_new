@@ -41,7 +41,7 @@ public class ManagedBoardCriResolver implements HandlerMethodArgumentResolver {
 		this.recordCntOption = recordCntOption;
 		this.typeOption = typeOption;
 		this.sortOption = sortOption;
-		this.categoryOption = categoryService.getBoardCategoryList()
+		this.categoryOption = categoryService.getBoardCategories()
 				.stream()
 				.collect(Collectors.toMap(
 					category -> category.getCode().toString(),

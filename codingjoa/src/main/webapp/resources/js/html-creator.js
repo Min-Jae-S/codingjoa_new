@@ -1,14 +1,14 @@
 const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
-function createCategoryMenuHtml(categoryList) {
+function createCategoryMenuHtml(categories, parentPath) {
 	console.log("## createCategoryMenuHtml");
-	if (!categoryList || categoryList.length == 0) {
+	if (!categories || categories.length == 0) {
 		return "";
 	}
 	
-	return categoryList.map(({ code, path, name }) => {
-		let path = (categoryCode == categoryPath) ? `/?categoryCode=${code}` : categoryPath;
-		return `<button class='dropdown-item' type='button' data-path='${path}'>${name}</button>`;
+	return categories.map(({ path, name }) => {
+		//return `<button class='dropdown-item' type='button' data-path='${path}'>${name}</button>`;
+		return `<a class='dropdown-item' href='${contextPath}{parentPath}{path}'>${name}</a>`;
 	}).join("");
 }
 
@@ -51,8 +51,7 @@ function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.writerImagePath == "") {
-		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
-		html += "<img src='../resources/images/img_profile.png'>";
+		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
 	} else {
 		html += "<img src='" + commentDetails.writerImagePath + "'>";
 	}
@@ -115,8 +114,7 @@ function createEditCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
 	if (commentDetails.writerImagePath == "") {
-		//html += "<img src='/codingjoa/resources/images/img_profile.png'>";
-		html += "<img src='../resources/images/img_profile.png'>";
+		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
 	} else {
 		html += "<img src='" + commentDetails.writerImagePath + "'>";
 	}

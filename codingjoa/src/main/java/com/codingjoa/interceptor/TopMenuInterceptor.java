@@ -60,8 +60,8 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		List<Category> parentCategoryList = categoryService.getParentCategoryList();
-		modelAndView.addObject("parentCategoryList", parentCategoryList);
+		List<Category> parentCategories = categoryService.getParentCategories();
+		modelAndView.addObject("parentCategories", parentCategories);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
 		log.info("\t > currentUrl: {}", UriUtils.decode(currentUrl));

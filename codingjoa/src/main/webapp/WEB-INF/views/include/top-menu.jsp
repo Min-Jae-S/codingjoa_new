@@ -12,9 +12,9 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav categories">
-				<c:forEach var="parentCategory" items="${parentCategoryList}">
-					<li class="nav-item dropdown category" data-category="${parentCategory.categoryCode}" data-path="${parentCategory.categoryPath}">
-						<a href="${contextPath}${parentCategory.categoryPath}" class="nav-link"><c:out value="${parentCategory.categoryName}"/></a>
+				<c:forEach var="parentCategory" items="${parentCategories}">
+					<li class="nav-item dropdown category" data-code="${parentCategory.code}" data-path="${parentCategory.path}">
+						<a href="${contextPath}${parentCategory.path}" class="nav-link"><c:out value="${parentCategory.name}"/></a>
 						<div class="dropdown-menu">
 							<!-- categories -->
 							<!-- <button class="dropdown-item" type="button" data-path="/?boardCategoryCode=4">공지 게시판</button>
@@ -30,7 +30,7 @@
 						<button class="dropdown-item" type="button" onclick="mvcLogin()">mvc login</button>
 						<button class="dropdown-item" type="button" onclick="invalidLogin()">invalid login</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/logout'">logout</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/member/account'">account</button>
+						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/user/account'">account</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
 						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">admin</button>
 						<button class="dropdown-item" type="button" onclick="adminApi()">/api/admin</button>
@@ -46,7 +46,7 @@
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/user/join" class="nav-link">회원가입</a>
 					</li>
 				</c:if>
 				<sec:authorize access="isAnonymous()">
@@ -54,7 +54,7 @@
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/member/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/user/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
@@ -92,11 +92,11 @@
 								<hr class="dropdown-divider">
 							</sec:authorize>
 							<li>
-								<a href="${contextPath}/member/messages" class="dropdown-item message">메시지</a>
+								<a href="${contextPath}/user/messages" class="dropdown-item message">메시지</a>
 							</li>
 							<hr class="dropdown-divider">
 							<li>
-								<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+								<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
 								<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 							</li>
 						</ul>
@@ -120,13 +120,14 @@
 			$dropdowns.removeClass("show").empty();
 			$(this).addClass("active");
 			
-			let category = $(this).data("category");
+			let parentCode = $(this).data("code");
+			let parentPath = $(this).data("path");
 			let $dropdown = $(this).find(".dropdown-menu");
 			
 			timer = setTimeout(function() {
-				categoryService.getCategoryListByParent(category, function(result) {
-					let categoryList = result.data;
-					let categoryMenuHtml = createCategoryMenuHtml(categoryList);
+				categoryService.getCategoriesByParent(parentCode, function(result) {
+					let categories = result.data;
+					let categoryMenuHtml = createCategoryMenuHtml(categories, parentPath);
 					if (categoryMenuHtml != "") {
 						$dropdown.html(categoryMenuHtml).addClass("show");
 					}
@@ -140,10 +141,11 @@
 			$dropdowns.removeClass("show").empty();
 		});
 		
-		$(document).on("click", ".category .dropdown-item", function() {
+		/* $(document).on("click", ".category .dropdown-item", function() {
 			let parentPath = $(this).closest(".dropdown").data("path");
-			location.href = "${contextPath}" + parentPath + $(this).data("path");
-		});
+			let currentPath = $(this).data("path");
+			location.href = "${contextPath}\${parentPath}\${currentPath}";
+		}); */
 		
 		$(".test").on("mouseenter", function() {
 			$dropdowns.removeClass("show").empty();

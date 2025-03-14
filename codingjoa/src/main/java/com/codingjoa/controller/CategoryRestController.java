@@ -16,18 +16,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 @RestController
 public class CategoryRestController {
 	
 	private final CategoryService categoryService;
 	
-	@GetMapping("/{categoryParentCode}")
-	public ResponseEntity<Object> getCategoryListByParent(@PathVariable("categoryParentCode") int categoryParentCode) {
-		log.info("## getCategoryListByParent");
-		List<Category> categoryList = categoryService.getCategoryListByParent(categoryParentCode);
-		return ResponseEntity.ok(SuccessResponse.builder().data(categoryList).build());
+	@GetMapping("/parent/{parentCode}")
+	public ResponseEntity<Object> getCategoriesByParent(@PathVariable("parentCode") int parentCode) {
+		log.info("## getCategoriesByParent");
+		List<Category> categories = categoryService.getCategoriesByParent(parentCode);
+		return ResponseEntity.ok(SuccessResponse.builder().data(categories).build());
 	}
 	
 }

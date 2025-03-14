@@ -84,7 +84,7 @@ public class BoardController {
 		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
-		Category category = categoryService.getCategory(categoryCode);
+		Category category = categoryService.getCategoryById(categoryCode);
 		
 		model.addAttribute("boardCri", boardCri);
 		model.addAttribute("pagedBoards", pagedBoards);
@@ -107,7 +107,7 @@ public class BoardController {
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(id, userId);
 		log.info("\t > boardDetails = {}", boardDetails);
 		
-		Category category = categoryService.getCategory(boardDetails.getCategoryCode());
+		Category category = categoryService.getCategoryById(boardDetails.getCategoryCode());
 
 		// ** 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
 		boardService.updateBoardView(id); 

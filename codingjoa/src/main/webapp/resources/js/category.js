@@ -1,11 +1,11 @@
 let categoryService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
-	function getCategoryListByParent(category, callback) {
-		console.log("## getCategoryListByParent");
+	function getCategoriesByParent(code, callback) {
+		console.log("## getCategoriesByParent");
 		$.ajax({
 			type : "GET",
-			url : `${contextPath}/api/category/${category}`,
+			url : `${contextPath}/api/categories/parent/${code}`,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -22,29 +22,14 @@ let categoryService = (function() {
 				if (errorResponse != null) {
 					alert(errorResponse.message);
 				} else {
-					alert("## parsing error");
+					alert("## Parsing Error");
 				}
 			}
 		});
-		
-//		$.getJSON(`${contextPath}/api/category/${category}`, function(result) {
-//			console.log("%c> SUCCESS", "color:green");
-//			console.log(JSON.stringify(result, null, 2));
-//			callback(result);
-//		})
-//		.fail(function(jqXHR, textStatus, error) {
-//			console.log("%c> ERROR", "color:red");
-//			let errorResponse = parseError(jqXHR);
-//			if (errorResponse != null) {
-//				alert(errorResponse.message);
-//			} else {
-//				alert("## parsing error");
-//			}
-//		})
 	}
 	
 	return {
-		getCategoryListByParent:getCategoryListByParent
+		getCategoriesByParent:getCategoriesByParent
 	};
 	
 })();

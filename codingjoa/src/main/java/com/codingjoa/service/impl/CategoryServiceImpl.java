@@ -28,12 +28,12 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public Category getCategoryById(int code) {
-		return categoryMapper.findCategoryById(code);
+		return categoryMapper.findCategoryByCode(code);
 	}
 	
 	@Override
 	public String getNameById(int code) {
-		return categoryMapper.findNameById(code);
+		return categoryMapper.findNameByCode(code);
 	}
 
 	@Override
