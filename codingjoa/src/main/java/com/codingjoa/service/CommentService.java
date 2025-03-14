@@ -9,14 +9,14 @@ import com.codingjoa.pagination.Pagination;
 
 public interface CommentService {
 
-	void saveReply(CommentDto replyDto);
+	void saveComment(CommentDto commentDto);
 	
-	List<CommentDetailsDto> getPagedReplies(long boardId, CommentCriteria replyCri, long userId);
+	List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId);
 	
-	Pagination getPagination(long boardId, CommentCriteria replyCri);
+	Pagination getPagination(long boardId, CommentCriteria commentCri);
 	
-	void updateReply(CommentDto replyDto);
+	void updateComment(CommentDto commentDto);
 	
-	void deleteReply(long replyId, long userId);
+	void deleteComment(long commentId, long userId);
 	
 }

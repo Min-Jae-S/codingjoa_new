@@ -12,17 +12,17 @@ import com.codingjoa.pagination.CommentCriteria;
 @Mapper
 public interface CommentMapper {
 	
-	boolean insertReply(Comment reply);
+	boolean insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedReplies(@Param("boardId") Long boardId,
-			@Param("replyCri") CommentCriteria replyCri, @Param("memberIdx") Long userId);
+	List<Map<String, Object>> findPagedComments(@Param("boardId") Long boardId,
+			@Param("commentCri") CommentCriteria commentCri, @Param("userId") Long userId);
 	
-	int findReplyTotalCnt(Long boardId);
+	int findCommentTotalCnt(Long boardId);
 	
-	Comment findReplyById(Long replyId);
+	Comment findCommentById(Long commentId);
 	
-	boolean updateReply(Comment reply);
+	boolean updateComment(Comment comment);
 	
-	boolean deleteReply(Comment reply);
+	boolean deleteComment(Comment comment);
 	
 }

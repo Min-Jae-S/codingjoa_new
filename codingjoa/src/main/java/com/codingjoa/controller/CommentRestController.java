@@ -38,72 +38,72 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class CommentRestController {
 	
-	private final CommentService replyService;
+	private final CommentService commentService;
 	
 	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
 	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
 	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
 
-	@GetMapping("/boards/{boardId}/replies")
-	public ResponseEntity<Object> getPagedReplies(@PathVariable long boardId,
-			@CommentCri CommentCriteria replyCri, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getPagedReplies, boardId = {}", boardId);
-		log.info("\t > replyCri = {}", replyCri);
+	@GetMapping("/boards/{boardId}/comments")
+	public ResponseEntity<Object> getPagedComments(@PathVariable long boardId,
+			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getPagedComments, boardId = {}", boardId);
+		log.info("\t > commentCri = {}", commentCri);
 		
 		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 
-		List<CommentDetailsDto> pagedReplies = replyService.getPagedReplies(boardId, replyCri, userId);
+		List<CommentDetailsDto> pagedComments = commentService.getPagedComments(boardId, commentCri, userId);
 		
-		Pagination pagination = replyService.getPagination(boardId, replyCri);
+		Pagination pagination = commentService.getPagination(boardId, commentCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("pagedReplies", pagedReplies);
+		data.put("pagedComments", pagedComments);
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
-	@PostMapping("/replies")
-	public ResponseEntity<Object> writeReply(@Valid @RequestBody CommentDto replyDto, 
+	@PostMapping("/comments")
+	public ResponseEntity<Object> write(@Valid @RequestBody CommentDto commentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## writeReply");
+		log.info("## write");
 
-		replyDto.setUserId(principal.getId());
-		replyDto.setStatus(true);
-		log.info("\t > replyDto = {}", replyDto);
+		commentDto.setUserId(principal.getId());
+		commentDto.setStatus(true);
+		log.info("\t > commentDto = {}", commentDto);
 		
-		replyService.saveReply(replyDto);
+		commentService.saveComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.WriteReply")
+				.messageByCode("success.WriteComment")
 				.build());
 	}
 	
-	@PatchMapping(value = { "/replies/", "/replies/{replyId}" })
-	public ResponseEntity<Object> modifyReply(@PathVariable long replyId, 
-			@Valid @RequestBody CommentDto replyDto, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## modifyReply, replyId = {}", replyId);
+	@PatchMapping(value = { "/comments/", "/comments/{commentId}" })
+	public ResponseEntity<Object> modify(@PathVariable long commentId, 
+			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## modify, commentId = {}", commentId);
 		
-		replyDto.setId(replyId);
-		replyDto.setUserId(principal.getId());
-		log.info("\t > replyDto = {}", replyDto);
+		commentDto.setId(commentId);
+		commentDto.setUserId(principal.getId());
+		log.info("\t > commentDto = {}", commentDto);
 
-		replyService.updateReply(replyDto);
+		commentService.updateComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateReply")
+				.messageByCode("success.UpdateComment")
 				.build());
 	}
 	
-	@DeleteMapping(value = { "/replies/", "/replies/{replyId}" })
-	public ResponseEntity<Object> deleteReply(@PathVariable long replyId, @AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## deleteReply, replyId = {}", replyId);
-		replyService.deleteReply(replyId, principal.getId()); // update status
+	@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
+	public ResponseEntity<Object> delete(@PathVariable long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## delete, commentId = {}", commentId);
+		commentService.deleteComment(commentId, principal.getId()); // update status
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.DeleteReply")
+				.messageByCode("success.DeleteComment")
 				.build());
 	}
 	

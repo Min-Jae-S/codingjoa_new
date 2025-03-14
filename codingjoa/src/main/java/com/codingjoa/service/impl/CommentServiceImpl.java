@@ -25,115 +25,115 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-	private final CommentMapper replyMapper;
+	private final CommentMapper commentMapper;
 	private final BoardMapper boardMapper;
 	private final int pageRange;
 	
-	public CommentServiceImpl(CommentMapper replyMapper, BoardMapper boardMapper,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper,
 			@Value("${pagination.pageRange}") int pageRange) {
-		this.replyMapper = replyMapper;
+		this.commentMapper = commentMapper;
 		this.boardMapper = boardMapper;
 		this.pageRange = pageRange;
 	}
 
 	@Override
-	public void saveReply(CommentDto replyDto) {
-		Board board = boardMapper.findBoardById(replyDto.getBoardId());
-		log.info("\t > prior to inserting reply, find board first");
+	public void saveComment(CommentDto commentDto) {
+		log.info("\t > prior to inserting comment, find board first");
+		Board board = boardMapper.findBoardById(commentDto.getBoardId());
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		Comment reply = replyDto.toEntity();
-		log.info("\t > convert replyDto to reply entity = {}", reply);
+		Comment comment = commentDto.toEntity();
+		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
-		boolean isSaved = replyMapper.insertReply(reply);
-		log.info("\t > saved reply = {}", reply);
+		boolean isSaved = commentMapper.insertComment(comment);
+		log.info("\t > saved comment = {}", comment);
 
 		if (!isSaved) {
-			throw new ExpectedException("error.SaveReply");
+			throw new ExpectedException("error.SaveComment");
 		}
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedReplies(long boardId, CommentCriteria replyCri, long userId) {
+	public List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId) {
+		log.info("\t > prior to finding pagedComments, find board first");
 		Board board = boardMapper.findBoardById(boardId);
-		log.info("\t > prior to finding pagedReplies, find board first");
 		
 		if (board == null) {
 			throw new ExpectedException("error.NotFoundBoard");
 		}
 		
-		log.info("\t > find pagedReplies");
-		List<CommentDetailsDto> pagedReplies = replyMapper.findPagedReplies(boardId, replyCri, userId)
+		log.info("\t > find pagedComments");
+		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(boardId, commentCri, userId)
 				.stream()
-				.map(replyDetailsMap -> {
-					CommentDetailsDto replyDetails = CommentDetailsDto.from(replyDetailsMap);
-					return replyDetails.isStatus() ? replyDetails : null;
+				.map(map -> {
+					CommentDetailsDto commentDetails = CommentDetailsDto.from(map);
+					return commentDetails.isStatus() ? commentDetails : null;
 				})
 				.collect(Collectors.toList());
 
-		return pagedReplies;
+		return pagedComments;
 	}
 	
 	@Override
-	public Pagination getPagination(long boardId, CommentCriteria replyCri) {
-		int totalCnt = replyMapper.findReplyTotalCnt(boardId);
-		return (totalCnt > 0) ? new Pagination(totalCnt, replyCri.getPage(), replyCri.getRecordCnt(), pageRange) : null;
+	public Pagination getPagination(long boardId, CommentCriteria commentCri) {
+		int totalCnt = commentMapper.findCommentTotalCnt(boardId);
+		return (totalCnt > 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
 	}
 
 	@Override
-	public void updateReply(CommentDto replyDto) {
-		Comment reply = replyMapper.findReplyById(replyDto.getId());
-		log.info("\t > find reply = {}", reply);
+	public void updateComment(CommentDto commentDto) {
+		Comment comment = commentMapper.findCommentById(commentDto.getId());
+		log.info("\t > found comment = {}", comment);
 		
-		if (reply == null) {
-			throw new ExpectedException("error.NotFoundReply");
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		if (!reply.getStatus()) {
-			throw new ExpectedException("error.AlreadyDeletedReply");
+		if (!comment.getStatus()) {
+			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (reply.getUserId() != replyDto.getUserId()) {
-			throw new ExpectedException("error.NotMyReply");
+		if (comment.getUserId() != commentDto.getUserId()) {
+			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment modifyReply = replyDto.toEntity();
-		log.info("\t > convert replyDto to reply entity = {}", modifyReply);
+		Comment modifyComment = commentDto.toEntity();
+		log.info("\t > convert commentDto to comment entity = {}", modifyComment);
 		
-		boolean isUpdated = replyMapper.updateReply(modifyReply);
+		boolean isUpdated = commentMapper.updateComment(modifyComment);
 		if (!isUpdated) {
-			throw new ExpectedException("error.UpdateReply");
+			throw new ExpectedException("error.UpdateComment");
 		}
 	}
 	
 	@Override
-	public void deleteReply(long replyId, long userId) {
-		Comment reply = replyMapper.findReplyById(replyId);
-		log.info("\t > find reply = {}", reply);
+	public void deleteComment(long commentId, long userId) {
+		Comment comment = commentMapper.findCommentById(commentId);
+		log.info("\t > found comment = {}", comment);
 		
-		if (reply == null) {
-			throw new ExpectedException("error.NotFoundReply");
+		if (comment == null) {
+			throw new ExpectedException("error.NotFoundComment");
 		}
 		
-		if (!reply.getStatus()) {
-			throw new ExpectedException("error.AlreadyDeletedReply");
+		if (!comment.getStatus()) {
+			throw new ExpectedException("error.AlreadyDeletedComment");
 		}
 		
-		if (reply.getUserId() != userId) {
-			throw new ExpectedException("error.NotMyReply");
+		if (comment.getUserId() != userId) {
+			throw new ExpectedException("error.NotMyComment");
 		}
 		
-		Comment deleteReply = Comment.builder()
-				.id(reply.getId())
+		Comment deleteComment = Comment.builder()
+				.id(comment.getId())
 				.status(false)
 				.build();
 		
-		boolean isDeleted = replyMapper.deleteReply(deleteReply);
+		boolean isDeleted = commentMapper.deleteComment(deleteComment);
 		if (!isDeleted) {
-			throw new ExpectedException("error.DeleteReply");
+			throw new ExpectedException("error.DeleteComment");
 		}
 	}
 
