@@ -8,12 +8,13 @@ import lombok.NoArgsConstructor;
 
 /*
 	id              NUMBER,
-	board_id        NUMBER                       NOT NULL,
-    user_id         NUMBER                       NOT NULL,
-	content         VARCHAR2(2000)               NOT NULL,
-    status          CHAR(1)                      NOT NULL,
-	created_at      DATE                         NOT NULL,
-    updated_at      DATE                         NOT NULL,
+	board_id        NUMBER                      NOT NULL,
+    user_id         NUMBER                      NOT NULL,
+	content         VARCHAR2(2000)              NOT NULL,
+    status          CHAR(1)                     NOT NULL,
+    like_count      NUMBER          DEFAULT 0   NOT NULL,       
+	created_at      DATE                        NOT NULL,
+    updated_at      DATE                        NOT NULL,
 */
 
 @Getter
@@ -25,17 +26,19 @@ public class Reply {
 	private Long userId;
 	private String content;
 	private Boolean status;
+	private Integer likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
 	@Builder
-	private Reply(Long id, Long boardId, Long userId, String content, Boolean status, LocalDateTime createdAt,
-			LocalDateTime updatedAt) {
+	private Reply(Long id, Long boardId, Long userId, String content, Boolean status,  Integer likeCount, 
+			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.boardId = boardId;
 		this.userId = userId;
 		this.content = content;
 		this.status = status;
+		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -47,7 +50,8 @@ public class Reply {
 	@Override
 	public String toString() {
 		return "Reply [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent() + ", status="
-				+ status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ status + ", likeCount=" + likeCount + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
+	
 	
 }

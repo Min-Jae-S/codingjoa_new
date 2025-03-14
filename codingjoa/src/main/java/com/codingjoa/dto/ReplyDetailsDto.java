@@ -17,76 +17,66 @@ public class ReplyDetailsDto {
 	private long id;
 	private String content;
 	private boolean status;
+	private int likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String commentWriterNickname;	// from INNER JOIN with member
-	private String commentWriterImageUrl;	// from LEFT OUTER JOIN with member_image
-	private int commentLikesCnt;			// from LEFT OUTER JOIN with comment_likes
+	private String writerNickname;		// INNER JOIN (user)
+	private String writerImagePath;		// LEFT OUTER JOIN (user_image)
+	private boolean isWriter;
+	private boolean isLiked;	
 	private boolean isBoardWriter;
-	private boolean isCommentWriter;
-	private boolean isCommentLiked;	
 	
 	@Builder
-	private ReplyDetailsDto(long id, String content, boolean isCommentInUse, LocalDateTime createdAt,
-			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String commentWriterNickname,
-			String commentWriterImageUrl, int commentLikesCnt, boolean isCommentLiked) {
-		this.commentIdx = commentIdx;
-		this.commentContent = commentContent;
-		this.isCommentInUse = isCommentInUse;
+	private ReplyDetailsDto(long id, String content, boolean status, int likeCount, LocalDateTime createdAt,
+			LocalDateTime updatedAt, String writerNickname, String writerImagePath, boolean isWriter, boolean isLiked,
+			boolean isBoardWriter) {
+		this.id = id;
+		this.content = content;
+		this.status = status;
+		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.commentWriterNickname = commentWriterNickname;
-		this.commentWriterImageUrl = commentWriterImageUrl;
-		this.commentLikesCnt = commentLikesCnt;
+		this.writerNickname = writerNickname;
+		this.writerImagePath = writerImagePath;
+		this.isWriter = isWriter;
+		this.isLiked = isLiked;
 		this.isBoardWriter = isBoardWriter;
-		this.isCommentWriter = isCommentWriter;
-		this.isCommentLiked = isCommentLiked;
 	}
 	
 	public static ReplyDetailsDto from(Map<String, Object> map) {
 		return ReplyDetailsDto.builder()
-				.commentIdx((int) map.get("commentIdx"))
-				.commentContent((String) map.get("commentContent"))
-				.isCommentInUse((boolean) map.get("commentUse"))
+				.id((int) map.get("id"))
+				.content((String) map.get("content"))
+				.status((boolean) map.get("status"))
+				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.commentWriterNickname((String) map.get("commentWriterNickname"))
-				.commentWriterImageUrl((String) map.get("commentWriterImageUrl"))
-				.commentLikesCnt((int) map.get("commentLikesCnt"))
+				.writerNickname((String) map.get("nickname"))
+				.writerImagePath((String) map.get("path"))
+				.isWriter((boolean) map.get("isWriter"))
+				.isLiked((boolean) map.get("isCommentLiked"))
 				.isBoardWriter((boolean) map.get("isBoardWriter"))
-				.isCommentWriter((boolean) map.get("isCommentWriter"))
-				.isCommentLiked((boolean) map.get("isCommentLiked"))
 				.build();
 	}
-	
-	@Override
-	public String toString() {
-		String escapedCommentContent = (commentContent != null) ? commentContent.replace("\n", "\\n") : null;
-		return "CommentDetailsDto [commentIdx=" + commentIdx + ", commentContent=" + escapedCommentContent
-				+ ", isCommentInUse=" + isCommentInUse + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", commentWriterNickname=" + commentWriterNickname + ", commentWriterImageUrl="
-				+ commentWriterImageUrl + ", commentLikesCnt=" + commentLikesCnt + ", isBoardWriter=" + isBoardWriter
-				+ ", isCommentWriter=" + isCommentWriter + ", isCommentLiked=" + isCommentLiked + "]";
+
+	@JsonIgnore
+	public boolean isStatus() {
+		return this.status;
 	}
 	
-	@JsonIgnore
-	public boolean isCommentInUse() {
-		return isCommentInUse;
+	@JsonProperty("isWriter")
+	public boolean isWriter() {
+		return this.isWriter;
+	}
+
+	@JsonProperty("isLiked")
+	public boolean isLiked() {
+		return this.isLiked;
 	}
 	
 	@JsonProperty("isBoardWriter")
 	public boolean isBoardWriter() {
-		return isBoardWriter;
-	}
-
-	@JsonProperty("isCommentWriter")
-	public boolean isCommentWriter() {
-		return isCommentWriter;
-	}
-
-	@JsonProperty("isCommentLiked")
-	public boolean isCommentLiked() {
-		return isCommentLiked;
+		return this.isBoardWriter;
 	}
 	
 	public String getCreatedAt() {
@@ -104,5 +94,19 @@ public class ReplyDetailsDto {
 		
 		return dateTime.toLocalDate().isEqual(today) ? dateTime.format(timeFormatter) : dateTime.format(dateFormatter);
 	}
+	
+	private String escapeContent() {
+		return (content != null) ? content.replace("\r\n", "\\r\\n") : null;
+	}
+
+	@Override
+	public String toString() {
+		return "ReplyDetailsDto [id=" + id + ", content=" + escapeContent() + ", status=" + status + ", likeCount=" + likeCount
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname
+				+ ", writerImagePath=" + writerImagePath + ", isWriter=" + isWriter + ", isLiked=" + isLiked
+				+ ", isBoardWriter=" + isBoardWriter + "]";
+	}
+
+	
 	
 }

@@ -278,7 +278,7 @@ public class UserRestController {
 		
 		String memberId = findPasswordDto.getMemberId();
 		String memberEmail = findPasswordDto.getMemberEmail();
-		Integer memberIdx = userService.getUserIdByIdAndEmail(memberId, memberEmail);
+		Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
 		log.info("\t > found memberIdx = {}", memberIdx);
 		
 		String key = UUID.randomUUID().toString().replace("-", "");
@@ -300,7 +300,7 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestParam /* (required = true) */ String key, // pre-check in interceptor 
+	public ResponseEntity<Object> resetPassword(@RequestParam String key, // pre-check in interceptor 
 			@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
 		log.info("\t > key = {}", key);

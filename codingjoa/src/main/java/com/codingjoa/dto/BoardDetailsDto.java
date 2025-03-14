@@ -20,13 +20,13 @@ public class BoardDetailsDto {
 	private int likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private String writer;
+	private String writerNickname;
 	private boolean isWriter;
 	private boolean isLiked;		
 	
 	@Builder
 	private BoardDetailsDto(long id, int categoryCode, String title, String content, int viewCount, int replyCount,
-			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String writer, boolean isWriter,
+			int likeCount, LocalDateTime createdAt, LocalDateTime updatedAt, String writerNickname, boolean isWriter,
 			boolean isLiked) {
 		this.id = id;
 		this.categoryCode = categoryCode;
@@ -37,7 +37,7 @@ public class BoardDetailsDto {
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.writer = writer;
+		this.writerNickname = writerNickname;
 		this.isWriter = isWriter;
 		this.isLiked = isLiked;
 	}
@@ -53,7 +53,7 @@ public class BoardDetailsDto {
 				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.writer((String) map.get("nickname"))
+				.writerNickname((String) map.get("nickname"))
 				.isWriter((boolean) map.get("isWriter"))
 				.isLiked((boolean) map.get("isLiked"))
 				.build();
@@ -88,7 +88,7 @@ public class BoardDetailsDto {
 	public String toString() {
 		return "BoardDetailsDto [id=" + id + ", categoryCode=" + categoryCode + ", title=" + title + ", content="
 				+ escapeContent() + ", viewCount=" + viewCount + ", replyCount=" + replyCount + ", likeCount=" + likeCount
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writer=" + writer + ", isWriter="
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname + ", isWriter="
 				+ isWriter + ", isLiked=" + isLiked + "]";
 	}
 
