@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private final UserService memberService;
+	private final UserService userService;
 	
 	@Override
-	public UserDetails loadUserByUsername(String memberEmail) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("## {}.loadUserByUsername", this.getClass().getSimpleName());
 		
-		PrincipalDetails principalDetails = memberService.getUserDetailsByEmail(memberEmail);
+		PrincipalDetails principalDetails = userService.getUserDetailsByEmail(username);
 		
 		if (principalDetails == null) {
 			throw new UsernameNotFoundException(MessageUtils.getMessage("error.BadCredential"));

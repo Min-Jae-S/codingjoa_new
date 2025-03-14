@@ -15,6 +15,7 @@ import com.codingjoa.mapper.ImageMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @DisallowConcurrentExecution // In a clustering environment, these annotations do not function
 public class JobB extends QuartzJobBean {
@@ -27,16 +28,16 @@ public class JobB extends QuartzJobBean {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## {}, repeated task performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
 		
-		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
-				.map(boardImage -> boardImage.getId())
-				.sorted()
-				.collect(Collectors.toList());
-		
-		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
-				.map(memberImage -> memberImage.getMemberImageIdx())
-				.sorted()
-				.collect(Collectors.toList());
-		
-		log.info("\t > tempBoardImages = {}, tempMemberImages = {}", tempBoardImageIndexs, tempMemberImageIndexs);
+//		List<Integer> tempBoardImageIndexs = imageMapper.findTempBoardImages().stream()
+//				.map(boardImage -> boardImage.getId())
+//				.sorted()
+//				.collect(Collectors.toList());
+//		
+//		List<Integer> tempMemberImageIndexs = imageMapper.findTempMemberImages().stream()
+//				.map(memberImage -> memberImage.getMemberImageIdx())
+//				.sorted()
+//				.collect(Collectors.toList());
+//		
+//		log.info("\t > tempBoardImages = {}, tempMemberImages = {}", tempBoardImageIndexs, tempMemberImageIndexs);
 	}
 }
