@@ -101,49 +101,72 @@
 	
 	<resultMap id="userInfoMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<result property="memberIdx" column="member_idx" javaType="int"/> 
-		<result property="memberEmail" column="member_email"/>
-		<result property="memberPassword" column="member_password"/>
-		<result property="memberNickname" column="member_nickname"/>
-		<result property="memberZipcode" column="member_zipcode"/>
-		<result property="memberAddr" column="member_addr"/>
-		<result property="memberAddrDetail" column="member_addr_detail"/>
-		<result property="memberAgree" column="member_agree" javaType="boolean"/>
+		<result property="id" column="id" javaType="long"/> 
+		<result property="email" column="email"/>
+		<result property="password" column="password"/>
+		<result property="nickname" column="nickname"/>
+		<result property="zipcode" column="zipcode"/>
+		<result property="addr" column="addr"/>
+		<result property="addrDetail" column="addr_detail"/>
+		<result property="agree" column="agree" javaType="boolean"/>
 		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
 		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="memberImageUrl" column="member_image_url"/>
+		<result property="imagePath" column="image_path"/>
 	</resultMap>
 	
 	<select id="findUserInfoById" parameterType="long" resultMap="userInfoMap">
 		SELECT
-			a.*,
-			b.member_image_url
+			users.*,
+			image.path AS image_path
 		FROM
-			member a
+			users
+		LEFT OUTER JOIN
+			user_image image
+		ON
+			users.id = image.user_id
+		AND
+			image.id = ( 
+				SELECT 
+					MAX(id) 
+				FROM 
+					user_image 
+				WHERE 
+					user_image.user_id = users.id 
+			)
+		WHERE
+			users.id = #{id}
+	</select>
+	
+	<!-- <select id="findUserInfoById" parameterType="long" resultMap="userInfoMap">
+		SELECT
+			users.*,
+			b.path AS image_path
+		FROM
+			users
 		LEFT OUTER JOIN (
 			SELECT
-				member_idx,
-				member_image_url,
-				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
+				user_id,
+				path,
+				ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC) AS rn
 			FROM
-				member_image
+				user_image
 		) b
 		ON
-			a.member_idx = b.member_idx AND b.rn = 1
+			users.id = b.user_id AND b.rn = 1
 		WHERE
-			a.member_idx = #{memberIdx}
-	</select>
+			users.id = #{id}
+	</select> -->
 	
 	<resultMap id="userDetailsMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<result property="memberIdx" column="member_idx" javaType="int"/> 
-		<result property="memberEmail" column="member_email"/>
-		<result property="memberPassword" column="member_password"/>
-		<result property="memberNickname" column="member_nickname"/>
-		<result property="memberImageUrl" column="member_image_url"/>
-		<result property="snsProvider" column="sns_provider"/>
-		<collection property="memberRoles" javaType="list" ofType="string">
-			<result column="member_role"/>
+		<result property="id" column="id" javaType="long"/> 
+		<result property="email" column="email"/>
+		<result property="password" column="password"/>
+		<result property="nickname" column="nickname"/>
+		<result property="imagePath" column="image_path"/>
+		<result property="provider" column="provider"/>
+		<collection property="roles" javaType="list" ofType="string">
+			<result column="role"/>
 		</collection>
 	</resultMap>
 	
@@ -179,7 +202,7 @@
 		WHERE
 			a.member_email = #{memberEmail}
 	</select>
-
+	
 	<select id="findUserDetailsById" parameterType="long" resultMap="userDetailsMap">
 		SELECT
 			a.member_idx,
