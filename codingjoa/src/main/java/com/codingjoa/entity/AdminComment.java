@@ -3,7 +3,7 @@ package com.codingjoa.entity;
 import lombok.Getter;
 
 @Getter
-public class ManagedComment {
+public class AdminComment {
 	
 	private Comment comment;
 	private User writer;

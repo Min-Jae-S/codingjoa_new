@@ -2,7 +2,7 @@ package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 
-import com.codingjoa.entity.ManagedBoard;
+import com.codingjoa.entity.AdminBoard;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -57,7 +57,7 @@ public class ManagedBoardDto {
 		this.isUpdated = createdAt.isEqual(updatedAt);;
 	}
 	
-	public static ManagedBoardDto from(ManagedBoard adminBoard) {
+	public static ManagedBoardDto from(AdminBoard adminBoard) {
 		return ManagedBoardDto.builder()
 				.id(adminBoard.getId())
 				.title(adminBoard.getTitle())
