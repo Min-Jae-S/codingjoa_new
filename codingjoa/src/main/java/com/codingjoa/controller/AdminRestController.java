@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.annotation.ManagedBoardCri;
-import com.codingjoa.annotation.ManagedCommentCri;
+import com.codingjoa.annotation.AdminBoardCri;
+import com.codingjoa.annotation.AdminCommentCri;
 import com.codingjoa.dto.ManagedBoardDto;
 import com.codingjoa.dto.ManagedCommentDto;
 import com.codingjoa.dto.UserInfoDto;
@@ -20,7 +20,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.pagination.ManagedCommentCriteria;
 import com.codingjoa.pagination.Pagination;
-import com.codingjoa.resolver.ManagedBoardCriResolver;
+import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
-	private final ManagedBoardCriResolver adminBoardCriResolver;
+	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping
 	public ResponseEntity<Object> admin() {
@@ -57,7 +57,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@ManagedBoardCri ManagedBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri ManagedBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
@@ -76,7 +76,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoardsBySearch(@ManagedBoardCri ManagedBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri ManagedBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
@@ -103,7 +103,7 @@ public class AdminRestController {
 	}
 	
 	@GetMapping("/comments/")
-	public ResponseEntity<Object> getPagedComments(@ManagedCommentCri ManagedCommentCriteria adminCommentCri) {
+	public ResponseEntity<Object> getPagedComments(@AdminCommentCri ManagedCommentCriteria adminCommentCri) {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		

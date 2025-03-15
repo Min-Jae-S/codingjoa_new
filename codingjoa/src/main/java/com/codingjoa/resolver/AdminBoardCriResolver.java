@@ -14,7 +14,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.ManagedBoardCri;
+import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class ManagedBoardCriResolver implements HandlerMethodArgumentResolver {
+public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	private final int defaultPage;
 	private final Map<String, String> recordCntOption;
@@ -31,7 +31,7 @@ public class ManagedBoardCriResolver implements HandlerMethodArgumentResolver {
 	private final Map<String, String> sortOption;
 	private final Map<String, String> categoryOption;
 	
-	public ManagedBoardCriResolver(
+	public AdminBoardCriResolver(
 			@Value("${criteria.board.page}") int defaultPage, 
 			@Value("#{${criteria.board.options.recordCnt}}") Map<String, String> recordCntOption, 
 			@Value("#{${criteria.board.options.type}}") Map<String, String> typeOption, 
@@ -52,7 +52,7 @@ public class ManagedBoardCriResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.getParameterType().equals(ManagedBoardCriteria.class) && 
-				parameter.hasParameterAnnotation(ManagedBoardCri.class);
+				parameter.hasParameterAnnotation(AdminBoardCri.class);
 	}
 
 	@Override
