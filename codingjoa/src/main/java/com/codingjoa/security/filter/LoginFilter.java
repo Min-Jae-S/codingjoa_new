@@ -54,7 +54,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			log.info("\t > loginDto = {}", loginDto);
 		} catch (IOException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-			throw new AuthenticationServiceException("invalid JSON format");
+			throw new AuthenticationServiceException(e.getMessage());
 		}
 		
 		String email = loginDto.getEmail();

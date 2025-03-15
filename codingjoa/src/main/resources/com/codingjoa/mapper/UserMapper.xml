@@ -200,7 +200,7 @@
 		INNER JOIN
 			auth
 		ON
-			users_id = auth.user_id
+			users.id = auth.user_id
 		WHERE
 			users.email = #{email}
 	</select>
@@ -233,7 +233,7 @@
 		INNER JOIN
 			auth
 		ON
-			users_id = auth.user_id
+			users.id = auth.user_id
 		WHERE
 			users.id = #{id}
 	</select>

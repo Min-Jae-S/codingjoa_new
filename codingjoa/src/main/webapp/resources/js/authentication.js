@@ -3,8 +3,6 @@ let authenticationService = (function() {
 
 	function login(formData, continueUrl, callback) {
 		console.log("## login");
-		console.log(formData);
-		
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/login?continue=${continueUrl}`,

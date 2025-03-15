@@ -102,7 +102,7 @@
 				memberEmail : $("#memberEmail").val()
 			};
 			
-			memberService.findPassword(obj, function(result) {
+			userService.findPassword(obj, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 				}, 50);
