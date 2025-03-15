@@ -14,7 +14,7 @@
 		<result column="updated_at" property="updatedAt"/>
 		<result column="comment_cnt" property="commentCnt"/>
 		<result column="likes_cnt" property="likesCnt"/>
-		<association property="writer" javaType="member">
+		<association property="writer" javaType="User">
 			<id column="member_idx" property="memberIdx"/>
 			<result column="member_email" property="memberEmail"/>
 			<result column="member_nickname" property="memberNickname"/>
@@ -26,7 +26,7 @@
 			<result column="member_created_at" property="createdAt"/>
 			<result column="member_updated_at" property="updatedAt"/>
 		</association>
-		<association property="category" javaType="category">
+		<association property="category" javaType="Category">
 			<id column="category_code" property="categoryCode"/>
 			<result column="category_parent_code" property="categoryParentCode"/>
 			<result column="category_name" property="categoryName"/>

@@ -17,99 +17,99 @@
 	created_at      DATE                NOT NULL,
 -->
 
-	<insert id="insertBoardImage" parameterType="boardImage">
-		<selectKey keyProperty="boardImageIdx" resultType="int" order="BEFORE">
-			SELECT seq_board_image.NEXTVAL FROM DUAL
+	<insert id="insertBoardImage" parameterType="BoardImage">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_boardimage.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO board_image (
-			board_image_idx,
-			board_idx,
-			board_image_name,
-			board_image_url,
+			id,
+			board_id,
+			name,
+			path,
 			created_at
 		) VALUES (
-			#{boardImageIdx},
-			#{boardIdx},
-			#{boardImageName},
-			#{boardImageUrl},
+			#{id},
+			#{boardId},
+			#{name},
+			#{path},
 			SYSDATE
 		)
 	</insert>
 	
-	<select id="isBoardImageUploaded" parameterType="int" resultType="boolean">
+	<select id="isBoardImageUploaded" parameterType="long" resultType="boolean">
 		SELECT
 			COUNT(*)
 		FROM
 			board_image
 		WHERE
-			board_image_idx = #{boardImageIdx}
+			id = #{id}
 	</select>
 	
 	<update id="activateBoardImages" parameterType="map">
 		UPDATE 
 			board_image
 		SET
-			board_idx = #{boardIdx}
+			board_id = #{boardId}
 		WHERE
-			board_image_idx IN 
-			<foreach collection="boardImages" item="boardImageIdx" separator="," open="(" close=")">	
-				#{boardImageIdx}
+			id IN 
+			<foreach collection="boardImages" item="id" separator="," open="(" close=")">	
+				#{id}
 			</foreach>
 	</update>
 	
-	<update id="deactivateBoardImages" parameterType="int">
+	<update id="deactivateBoardImages" parameterType="long">
 		UPDATE 
 			board_image
 		SET
-			board_idx = NULL
+			board_id = NULL
 		WHERE
-			board_idx = #{boardIdx} 
+			board_id = #{boardId} 
 	</update>
 	
-	<update id="deactivateMemberImage" parameterType="int">
+	<update id="deactivateMemberImage" parameterType="long">
 		UPDATE 
-			member_image
+			user_image
 		SET
-			member_idx = NULL
+			user_id = NULL
 		WHERE
-			member_idx = #{memberIdx} 
+			user_id = #{user_id} 
 	</update>
 	
-	<insert id="insertMemberImage" parameterType="memberImage">
-		<selectKey keyProperty="memberImageIdx" resultType="int" order="BEFORE">
-			SELECT seq_member_image.NEXTVAL FROM DUAL
+	<insert id="insertUserImage" parameterType="UserImage">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_userimage.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO member_image (
-			member_image_idx,
-			member_idx,
-			member_image_name,
-			member_image_url,
+		INSERT INTO user_image (
+			id,
+			user_id,
+			name,
+			path,
 			created_at
 		) VALUES (
-			#{memberImageIdx},
-			#{memberIdx},
-			#{memberImageName},
-			#{memberImageUrl},
+			#{id},
+			#{userId},
+			#{name},
+			#{path},
 			SYSDATE
 		)
 	</insert>
 	
-	<select id="findTempBoardImages" resultType="boardImage">
+	<select id="findTempBoardImages" resultType="BoardImage">
 		SELECT
 			*
 		FROM
 			board_image
 		WHERE
-			board_idx IS NULL
+			board_id IS NULL
 	</select>
 
-	<select id="findTempMemberImages" resultType="memberImage">
+	<select id="findTempUserImages" resultType="UserImage">
 		SELECT
 			*
 		FROM
-			member_image
+			user_image
 		WHERE
-			member_idx IS NULL
+			user_id IS NULL
 	</select>
 	
 </mapper>
