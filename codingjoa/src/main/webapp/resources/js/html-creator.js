@@ -8,7 +8,7 @@ function createCategoryMenuHtml(categories, parentPath) {
 	
 	return categories.map(({ path, name }) => {
 		//return `<button class='dropdown-item' type='button' data-path='${path}'>${name}</button>`;
-		return `<a class='dropdown-item' href='${contextPath}{parentPath}{path}'>${name}</a>`;
+		return `<a href='${contextPath}${parentPath}${path}' class='dropdown-item'>${name}</a>`;
 	}).join("");
 }
 

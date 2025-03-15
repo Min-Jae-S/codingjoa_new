@@ -53,11 +53,11 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			loginDto = objectMapper.readValue(request.getReader(), LoginDto.class);
 			log.info("\t > loginDto = {}", loginDto);
 		} catch (IOException e) {
-			log.info("\t > invalid json format, {}: {}", e.getClass().getSimpleName(), e.getMessage());
-			throw new AuthenticationServiceException("invalid json format");
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			throw new AuthenticationServiceException("invalid JSON format");
 		}
 		
-		String email = loginDto.getEamil();
+		String email = loginDto.getEmail();
 		String password = loginDto.getPassword();
 		
 		if (!StringUtils.hasText(email)) {

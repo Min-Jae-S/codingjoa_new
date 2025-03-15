@@ -30,7 +30,7 @@ let userService = (function() {
 					let details = errorResponse.details;
 					if (details.length > 0) {
 						$.each(details, function(index, item) {
-							$("#authCode").closest("div").after(`<span class='error' id='${item.field}.errors'>${item.message}</span>`;)
+							$("#authCode").closest("div").after(`<span class='error' id='${item.field}.errors'>${item.message}</span>`);
 						});
 					} else {
 						alert(errorResponse.message);
@@ -450,7 +450,7 @@ let userService = (function() {
 		updateAgree:updateAgree,
 		updatePassword:updatePassword,
 		savePassword:savePassword,
-		getMemberInfo:getMemberInfo,
+		getUserInfo:getUserInfo,
 		confirmPassword:confirmPassword,
 		findAccount:findAccount,
 		findPassword:findPassword,

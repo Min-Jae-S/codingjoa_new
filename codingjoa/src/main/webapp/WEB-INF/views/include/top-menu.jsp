@@ -17,9 +17,9 @@
 						<a href="${contextPath}${parentCategory.path}" class="nav-link"><c:out value="${parentCategory.name}"/></a>
 						<div class="dropdown-menu">
 							<!-- categories -->
-							<!-- <button class="dropdown-item" type="button" data-path="/?boardCategoryCode=4">공지 게시판</button>
-							<button class="dropdown-item" type="button" data-path="/?boardCategoryCode=5">질문 게시판</button>
-							<button class="dropdown-item" type="button" data-path="/?boardCategoryCode=6">자유 게시판</button>  -->
+							<!-- <a href="/codingjoa/board/?categoryCode=4" class="dropdown-item" >공지게시판</a> -->
+							<!-- <a href="/codingjoa/board/?categoryCode=5" class="dropdown-item">질문게시판</a> -->
+							<!-- <a href="/codingjoa/board/?categoryCode=6" class="dropdown-item" >자유게시판</a> -->
 						</div>
 					</li>
 				</c:forEach>
@@ -140,12 +140,6 @@
 			$(this).removeClass("active");
 			$dropdowns.removeClass("show").empty();
 		});
-		
-		/* $(document).on("click", ".category .dropdown-item", function() {
-			let parentPath = $(this).closest(".dropdown").data("path");
-			let currentPath = $(this).data("path");
-			location.href = "${contextPath}\${parentPath}\${currentPath}";
-		}); */
 		
 		$(".test").on("mouseenter", function() {
 			$dropdowns.removeClass("show").empty();

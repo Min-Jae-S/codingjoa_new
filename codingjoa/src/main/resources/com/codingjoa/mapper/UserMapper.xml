@@ -178,17 +178,21 @@
 			users.email,
 			users.password,
 			users.nickname,
-			image.path AS image_path
+			latest_image.path AS image_path,
 			sns_info.provider,
 			auth.role
 		FROM
 			users
-		LEFT OUTER JOIN
-			user_image image
+		LEFT OUTER JOIN (
+			SELECT
+				user_id, path
+			FROM
+				user_image
+			WHERE 
+				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
+		) latest_image
 		ON
-			users.id = image.user_id
-		AND
-			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
+			users.id = latest_image.user_id
 		LEFT OUTER JOIN
 			sns_info
 		ON
@@ -207,17 +211,21 @@
 			users.email,
 			users.password,
 			users.nickname,
-			image.path AS image_path
+			image.path AS image_path,
 			sns_info.provider,
 			auth.role
 		FROM
 			users
-		LEFT OUTER JOIN
-			user_image image
+		LEFT OUTER JOIN (
+			SELECT
+				user_id, path
+			FROM
+				user_image
+			WHERE 
+				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
+		) latest_image
 		ON
-			users.id = image.user_id
-		AND
-			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
+			users.id = latest_image.user_id
 		LEFT OUTER JOIN
 			sns_info
 		ON
