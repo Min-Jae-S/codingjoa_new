@@ -86,7 +86,6 @@ public class JoinValidator implements Validator {
 			errors.rejectValue("nickname", "NicknameExist");
 			return;
 		}
-		
 	}
 
 	private void validatePassword(JoinDto joinDto, Errors errors) {

@@ -69,18 +69,6 @@ public class UserController {
 		return "user/account";
 	}
 
-	@GetMapping("/account/updatePassword")
-	public String updatePassword() {
-		log.info("## updatePassword");
-		return "user/update-password";
-	}
-	
-	@GetMapping("/findAccount")
-	public String findAccount() {
-		log.info("## findAccount");
-		return "user/find-account";
-	}
-	
 	@GetMapping("/findPassword")
 	public String findPassword() {
 		log.info("## findPassword");

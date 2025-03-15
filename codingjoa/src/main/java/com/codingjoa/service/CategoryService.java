@@ -10,11 +10,8 @@ public interface CategoryService {
 	
 	List<Category> getCategoriesByParent(int parentCode);
 	
-	Category getCategoryById(int code);
-	
-	String getNameById(int code);
+	Category getCategoryByCode(int code);
 	
 	List<Category> getBoardCategories();
 	
-	boolean isBoardCategoryCode(int code);
 }

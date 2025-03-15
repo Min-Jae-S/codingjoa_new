@@ -27,23 +27,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategoryById(int code) {
+	public Category getCategoryByCode(int code) {
 		return categoryMapper.findCategoryByCode(code);
 	}
 	
 	@Override
-	public String getNameById(int code) {
-		return categoryMapper.findNameByCode(code);
-	}
-
-	@Override
 	public List<Category> getBoardCategories() {
 		return categoryMapper.findBoardCategories();
-	}
-
-	@Override
-	public boolean isBoardCategoryCode(int code) {
-		return categoryMapper.isBoardCategoryCode(code);
 	}
 
 }

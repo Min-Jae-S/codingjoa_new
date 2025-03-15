@@ -16,7 +16,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/js/member.js"></script>
+<script src="${contextPath}/resources/js/user.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	.form-wrap input[type="text"], .form-wrap input[type="password"] {
@@ -96,7 +96,7 @@
 		margin-left: 5px;
 	}
 	
-	input[name="memberZipcode"], input[name="memberAddr"] {
+	input[name="zipcode"], input[name="addr"] {
 		cursor: pointer;
 	}
 	
@@ -104,18 +104,18 @@
 		margin-bottom: 0;
 	}
 	
-	.member-thumb-image {
+	.user-thumb-image {
 		width: 85px;
 		height: 85px;
 		border: 1px solid #dee2e6 !important;
 		border-radius: 1rem;
 	}	
 	
-	.member-image-wrap {
+	.user-image-wrap {
 		position: relative;
 	}
 	
-	.member-image-btn {
+	.user-image-btn {
 		position: absolute;
 		z-index: 99;
 		top: 60px;
@@ -129,7 +129,7 @@
   		cursor: pointer;
 	}
 	
-	.member-image-icon {
+	.user-image-icon {
 		display: inline-block;
 		width: 35px;
 		height: 35px;
@@ -165,12 +165,12 @@
 		<div class="profile-wrap">
 			<h5 class="mb-3 font-weight-bold">계정 정보</h5>
 			<div class="mb-5 d-flex">
-				<div class="member-image-wrap mr-4">
-					<img class="member-thumb-image" id="memberThumbImage">
-					<button type="button" class="member-image-btn" id="updateMemberImageBtn">
-						<span class="member-image-icon"></span>
+				<div class="user-image-wrap mr-4">
+					<img class="user-thumb-image" id="userThumbImage">
+					<button type="button" class="user-image-btn" id="updateUserImageBtn">
+						<span class="user-image-icon"></span>
 						<form id="imageForm">
-							<input type="file" id="memberImage" name="memberImage"/>
+							<input type="file" id="userImage" name="userImage"/>
 						</form>
 					</button>
 				</div>
@@ -190,7 +190,7 @@
 						<div class="form-wrap d-none">
 							<form id="nicknameForm">
 								<dd class="input-group">
-									<input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력해주세요"/>
+									<input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력해주세요"/>
 									<div>
 										<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
 										<button type="reset" class="btn btn-outline-secondary btn-sm">취소</button>
@@ -217,7 +217,7 @@
 					<div class="form-wrap d-none">
 						<form id="emailForm">
 							<dd class="input-group">
-								<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요"/>
+								<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요"/>
 								<div>
 									<button type="button" class="btn btn-warning btn-sm" id="sendAuthCodeBtn">인증코드 받기</button>
 									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
@@ -255,7 +255,7 @@
 					<div class="form-wrap d-none">
 						<form id="addrForm">
 							<dd class="input-group">
-								<input type="text" id="memberZipcode" name="memberZipcode" placeholder="우편번호를 등록해주세요" readonly/>
+								<input type="text" id="zipcode" name="zipcode" placeholder="우편번호를 등록해주세요" readonly/>
 								<div>
 									<button type="button" class="btn btn-warning btn-sm" id="searchAddrBtn">주소 찾기</button>
 									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
@@ -263,10 +263,10 @@
 								</div>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="memberAddr" name="memberAddr" placeholder="기본주소를 등록해주세요" readonly/>
+								<input type="text" id="addr" name="addr" placeholder="기본주소를 등록해주세요" readonly/>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="memberAddrDetail" name="memberAddrDetail" placeholder="상세주소를 등록해주세요"/>
+								<input type="text" id="addrDetail" name="addrDetail" placeholder="상세주소를 등록해주세요"/>
 							</dd>
 						</form>
 					</div>
@@ -291,7 +291,7 @@
 							<dd class="input-group">
 								<div class="form-check form-check-inline">
 									<label class="form-check-label">
-										<input type="checkbox" class="form-check-input" id="memberAgree" name="memberAgree"/>
+										<input type="checkbox" class="form-check-input" id="agree" name="agree"/>
 										<span class="inner-text">이메일 광고 수신에 동의합니다</span>
 									</label>
 								</div>
@@ -342,72 +342,110 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	memberService.getMemberInfo(function(result) {
-		let memberInfo = result.data;
-		if (memberInfo.memberImageUrl != "") {
-			$("#memberThumbImage").attr("src", memberInfo.memberImageUrl);
-		} else {
-			$("#memberThumbImage").attr("src", "${contextPath}/resources/images/img_profile.png");
-		}
-		
-		$("#memberNickname").attr("value", memberInfo.memberNickname);
-		$("#showNickname span").text(memberInfo.memberNickname);
-		
-		$("#memberEmail").attr("value", memberInfo.memberEmail);
-		$("#showEmail span").text(memberInfo.memberEmail);
-		
-		let memberZipcode = memberInfo.memberZipcode;
-		let memberAddr = memberInfo.memberAddr;
-		let memberAddrDetail = memberInfo.memberAddrDetail;
-		
-		if (memberZipcode != "") {
-			$("#memberZipcode").attr("value", memberZipcode);
-			$("#showZipcode span").text(memberZipcode);
-		}
-		
-		if (memberAddr != "") {
-			$("#memberAddr").attr("value", memberAddr);
-			$("#showAddr span").text(memberAddr);
-		}
-		
-		if (memberAddrDetail != "") {
-			$("#memberAddrDetail").attr("value", memberAddrDetail);
-			$("#showAddrDetail span").text(memberAddrDetail);
-		}
-		
-		let allAddrsFilled = memberZipcode && memberAddr && memberAddrDetail;
-		if (allAddrsFilled) {
-			$("#showZipcode button").html("수정");
-			$("#showAddr, #showAddrDetail").removeClass("d-none");
-		}
-		
-		if (memberInfo.memberAgree) {
-			$("#memberAgree").attr("checked", "checked");
-			$("#showAgree input[type='checkbox']").attr("checked", "checked");
-		} else {
-			$("#memberAgree").removeAttr("checked");
-			$("#showAgree input[type='checkbox']").removeAttr("checked");
-		}
-		
-		if (memberInfo.hasPassword) {
-			$("div.security-wrap").html(createPasswordChangeForm());
-		}
-	});
+	function execPostcode() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	            let addr = ''; // 주소 변수
+	
+	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                addr = data.roadAddress;
+	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                addr = data.jibunAddress;
+	            }
+	
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            document.getElementById('zipcode').value = data.zonecode;
+	            document.getElementById('addr').value = addr;
+	            document.getElementById('addrDetail').value = '';
+	            
+	            // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
+	            let zipcodeErrorElement = document.getElementById('zipcode.errors');
+	            let addrErrorElement = document.getElementById('addr.errors');
+	            
+	            if (zipcodeErrorElement != null) {
+	            	zipcodeErrorElement.remove();
+	            }
+	            
+	            if (addrErrorElement != null) {
+	            	addrErrorElement.remove();
+	            }
+	
+	            // 커서를 상세주소 필드로 이동한다.
+	            document.getElementById("addrDetail").focus();
+	        }
+	    }).open();
+	}
 
 	$(function() {
-		$("#updateMemberImageBtn").on("click", function() {
-			$("#memberImage").click();
+		userService.getUserInfo(function(result) {
+			let userInfo = result.data;
+			if (userInfo.imagePath != "") {
+				$("#userThumbImage").attr("src", userInfo.imagePath);
+			} else {
+				$("#userThumbImage").attr("src", "${contextPath}/resources/images/img_profile.png");
+			}
+			
+			$("#nickname").attr("value", userInfo.nickname);
+			$("#showNickname span").text(userInfo.nickname);
+			
+			$("#email").attr("value", userInfo.email);
+			$("#showEmail span").text(userInfo.email);
+			
+			let zipcode = userInfo.zipcode;
+			let addr = userInfo.addr;
+			let addrDetail = userInfo.addrDetail;
+			
+			if (zipcode != "") {
+				$("#zipcode").attr("value", zipcode);
+				$("#showZipcode span").text(zipcode);
+			}
+			
+			if (addr != "") {
+				$("#addr").attr("value", addr);
+				$("#showAddr span").text(addr);
+			}
+			
+			if (addrDetail != "") {
+				$("#addrDetail").attr("value", addrDetail);
+				$("#showAddrDetail span").text(addrDetail);
+			}
+			
+			let allAddrsFilled = zipcode && addr && addrDetail;
+			if (allAddrsFilled) {
+				$("#showZipcode button").html("수정");
+				$("#showAddr, #showAddrDetail").removeClass("d-none");
+			}
+			
+			if (userInfo.agree) {
+				$("#agree").attr("checked", "checked");
+				$("#showAgree input[type='checkbox']").attr("checked", "checked");
+			} else {
+				$("#agree").removeAttr("checked");
+				$("#showAgree input[type='checkbox']").removeAttr("checked");
+			}
+			
+			if (userInfo.hasPassword) {
+				$("div.security-wrap").html(createPasswordChangeForm());
+			}
+		});
+		
+		$("#updateUserImageBtn").on("click", function() {
+			$("#userImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #memberImage(file) is a child element of #updateMemberImageBtn, event propagation occurs
-		$("#memberImage").on("click", function(e) {
+		// since #userImagee(file) is a child element of #updateUserImageBtn, event propagation occurs
+		$("#userImage").on("click", function(e) {
 			e.stopPropagation();
 		});
 		
-		$("#memberImage").on("change", function() {
+		$("#userImage").on("change", function() {
 			// jQuery object --> javaScript DOM object 
-			// let $memberImage = $(this)[0];
+			// let $userImage = $(this)[0];
 			let formData = new FormData();
 			formData.append("file", this.files[0]);
 			
@@ -415,44 +453,46 @@
 			//this.value = "";
 			$("#imageForm")[0].reset();
 
-			memberService.updateMemberImage(formData, function(result) {
+			userService.updateUserImage(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					$("#navbardDropdown .nav-member-image, #memberThumbImage").attr("src", result.data.memberImageUrl);
+				userService.getUserInfo(function(result) {
+					let userInfo = result.data;
+					$("#navbardDropdown .nav-user-image, #userThumbImage").attr("src", userInfo.imagePath);
 				});
 			});
 		});
 		
 		$("#nicknameForm").on("submit", function(e) {
 			e.preventDefault();
-			let obj = {
-				memberNickname : $("#memberNickname").val()
+			let formData = {
+				nickname : $("#nickname").val()
 			};
 			
-			memberService.updateNickname(obj, function(result) {
+			userService.updateNickname(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					$("#memberNickname").attr("value", result.data.memberNickname);
-					$("#showNickname span").text(result.data.memberNickname);
-					$("#navMemberNickname").text(result.data.memberNickname);
+				userService.getUserInfo(function(result) {
+					let userInfo = result.data;
+					$("#nickname").attr("value", userInfo.nickname);
+					$("#showNickname span").text(userInfo.nickname);
+					$("#navUserNickname").text(userInfo.nickname);
 					$("#nicknameForm button[type='reset']").click();
 				});
 			});
 		});
 		
 		$("#sendAuthCodeBtn").on("click", function() {
-			let obj = {
-				memberEmail : $("#memberEmail").val(),
+			let formData = {
+				email : $("#email").val(),
 			};
 			
-			memberService.sendAuthCodeForEmailUpdate(obj, function(result) {
+			userService.sendAuthCodeForEmailUpdate(formData, function(result) {
 				$("#authCode").closest("dd").after("<dd class='success'>" + result.message + "</dd>");
 				$("#authCode").val("");
 				$("#authCode").focus();
 			});
 		});
 		
-		$("#memberEmail").on("keydown", function(e) {
+		$("#email").on("keydown", function(e) {
 			if (e.keyCode == 13) {
 				e.preventDefault();
 				$("#sendAuthCodeBtn").click();
@@ -461,16 +501,17 @@
 
 		$("#emailForm").on("submit", function(e) {
 			e.preventDefault();
-			let obj = {
-				memberEmail : $("#memberEmail").val(),
+			let formData = {
+				email : $("#email").val(),
 				authCode : $("#authCode").val()
 			};
 			
-			memberService.updateEmail(obj, function(result) {
+			userService.updateEmail(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					$("#memberEmail").attr("value", result.data.memberEmail);
-					$("#showEmail span").text(result.data.memberEmail);
+				userService.getUserInfo(function(result) {
+					let userInfo = result.data;
+					$("#email").attr("value", userInfo.email);
+					$("#showEmail span").text(userInfo.email);
 					$("#emailForm button[type='reset']").click();
 				});
 			});
@@ -478,21 +519,22 @@
 		
 		$("#addrForm").on("submit", function(e) {
 			e.preventDefault();
-			let obj = {
-				memberZipcode : $("#memberZipcode").val(),
-				memberAddr : $("#memberAddr").val(),
-				memberAddrDetail : $("#memberAddrDetail").val()
+			let formData = {
+				zipcode : $("#zipcode").val(),
+				addr : $("#addr").val(),
+				addrDetail : $("#addrDetail").val()
 			};
 			
-			memberService.updateAddr(obj, function(result) {
+			userService.updateAddr(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					$("#memberZipcode").attr("value", result.data.memberZipcode);
-					$("#memberAddr").attr("value", result.data.memberAddr);
-					$("#memberAddrDetail").attr("value", result.data.memberAddrDetail);
-					$("#showZipcode span").text(result.data.memberZipcode);
-					$("#showAddr span").text(result.data.memberAddr);
-					$("#showAddrDetail span").text(result.data.memberAddrDetail);
+				userService.getUserInfo(function(result) {
+					let userInfo = result.data;
+					$("#zipcode").attr("value", userInfo.zipcode);
+					$("#addr").attr("value", userInfo.addr);
+					$("#addrDetail").attr("value", userInfo.addrDetail);
+					$("#showZipcode span").text(userInfo.zipcode);
+					$("#showAddr span").text(ruserInfo.addr);
+					$("#showAddrDetail span").text(userInfo.addrDetail);
 					$("#showZipcode button").html("수정");
 					$("#showAddr, #showAddrDetail").removeClass("d-none");
 					$("#addrForm button[type='reset']").click();
@@ -502,16 +544,16 @@
 
 		$("#agreeForm").on("submit", function(e) {
 			e.preventDefault();
-			let obj = {
-				memberAgree : $("#memberAgree").prop("checked")	
+			let formData = {
+				agree : $("#agree").prop("checked")	
 			};
 			
-			memberService.updateAgree(obj, function(result) {
+			userService.updateAgree(formData, function(result) {
 				alert(result.message);
-				memberService.getMemberInfo(function(result) {
-					let agree = result.data.memberAgree;
-					$("#memberAgree").prop("checked", agree);
-					$("#showAgree input[type='checkbox']").prop("checked", agree);
+				userService.getUserInfo(function(result) {
+					let userInfo = result.data;
+					$("#agree").prop("checked", userInfo.agree);
+					$("#showAgree input[type='checkbox']").prop("checked", userInfo.agree);
 					$("#agreeForm button[type='reset']").click();
 				});
 			});
@@ -519,13 +561,13 @@
 
 		$(document).on("submit", "#passwordChangeForm", function(e) {
 			e.preventDefault();
-			let obj = {
+			let formData = {
 				currentPassword : $("#currentPassword").val(),
 				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			memberService.updatePassword(obj, function(result) {
+			userService.updatePassword(formData, function(result) {
 				alert(result.message);
 				$("#passwordChangeForm button[type='reset']").click();
 			});
@@ -533,28 +575,24 @@
 
 		$(document).on("submit", "#passwordSaveForm", function(e) {
 			e.preventDefault();
-			let obj = {
+			let formData = {
 				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			memberService.savePassword(obj, function(result) {
+			userService.savePassword(formData, function(result) {
 				alert(result.message);
 				$("div.security-wrap").html(createPasswordChangeForm());
 			});
 		});
 		
-		$("#searchAddrBtn, #memberZipcode, #memberAddr").on("click", function() {
+		$("#searchAddrBtn, #zipcode, #addr").on("click", function() {
 			execPostcode();
 		});
 		
-		$("#memberZipcode, #memberAddr").on("focus", function(e) {
+		$("#zipcode, #addr").on("focus", function() {
 			$(this).blur();
 		});
-		
-		/* $(document).on("click", "#searchAddrBtn, #memberZipcode, #memberAddr", function() {
-			execPostcode();
-		}); */
 		
 		$(document).on("click", "dd[id^='show'] button", function() {
 			let $dl = $(this).closest("dl");
@@ -570,81 +608,7 @@
 			$dl.find("div.form-wrap").addClass("d-none");
 			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
-				
 	});
-	
-    function execPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                let addr = ''; // 주소 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('memberZipcode').value = data.zonecode;
-                document.getElementById('memberAddr').value = addr;
-                document.getElementById('memberAddrDetail').value = '';
-                
-                // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
-                let zipcodeErrorElement = document.getElementById('memberZipcode.errors');
-                let addrErrorElement = document.getElementById('memberAddr.errors');
-                
-                if (zipcodeErrorElement != null) {
-                	zipcodeErrorElement.remove();
-                }
-                
-                if (addrErrorElement != null) {
-                	addrErrorElement.remove();
-                }
-
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("memberAddrDetail").focus();
-            }
-        }).open();
-    }
-    
-    function createPasswordChangeForm() {
-    	let html = '<h5 class="mb-4 font-weight-bold">계정 보안</h5>';
-    	html += '<div>';
-    	html += '<dl class="form-group">';
-    	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
-    	html += '<div class="show-wrap">';
-    	html += '<dd class="input-group" id="showPassword">';
-    	html += '<div>';
-    	html += '<span class="inner-text">********</span>';
-    	html += '</div>';
-    	html += '<button class="btn btn-outline-primary btn-sm">수정</button>';
-    	html += '</dd>';
-    	html += '</div>';
-    	html += '<div class="form-wrap d-none">';
-    	html += '<form id="passwordChangeForm">';
-    	html += '<dd class="input-group">';
-    	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요"/>';
-    	html += '<div>';
-    	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
-    	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
-    	html += '</div>';
-    	html += '</dd>';
-    	html += '<dd class="input-group">';
-    	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요"/>';
-    	html += '</dd>';
-    	html += '<dd class="input-group">';
-    	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요"/>';
-    	html += '</dd>';
-    	html += '</form>';
-    	html += '</div>';
-    	html += '</dl>';
-    	html += '</div>';
-    	return html;
-    }
 </script>
 </body>
 </html>

@@ -20,8 +20,13 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
 		log.info("## {}, value = {}", this.getClass().getSimpleName(), value);
 		
-		// value can't be null? ==> @BoardCategoryCode @RequestParam int boardCategoryCode
-		return (value == null) ? false : categoryService.isBoardCategoryCode(value);
+		// value can't be null? @BoardCategoryCode @RequestParam int boardCategoryCode
+		if (value == null) {
+			return false;
+		}
+		
+		return categoryService.getBoardCategories().stream()
+				.anyMatch(category -> category.getCode().equals(value));
 	}
 	
 }

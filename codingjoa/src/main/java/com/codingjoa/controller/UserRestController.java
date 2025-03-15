@@ -121,6 +121,16 @@ public class UserRestController {
 				.build());
 	}
 	
+	@GetMapping("/account")
+	public ResponseEntity<Object> getUserInfo(@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getUserInfo");
+		
+		UserInfoDto userInfo = userService.getUserInfoById(principal.getId());
+		log.info("\t > userInfo = {}", userInfo);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(userInfo).build());
+	}
+	
 	@PostMapping("/account/email/auth")
 	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
@@ -138,21 +148,6 @@ public class UserRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.SendAuthCode")
-				.build());
-	}
-	
-	@PutMapping("/account/image")
-	public ResponseEntity<Object> updateUserImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
-		log.info("## updateUserImage");
-		
-		imageService.updateUserImage(uploadFileDto.getFile(), principal.getId());
-		
-		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
-		
-		return ResponseEntity.ok().body(SuccessResponse.builder()
-				.messageByCode("success.UpdateUserImage")
 				.build());
 	}
 	
@@ -247,14 +242,19 @@ public class UserRestController {
 				.build());
 	}
 	
-	@GetMapping("/account")
-	public ResponseEntity<Object> getUserInfo(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getUserInfo");
+	@PutMapping("/account/image")
+	public ResponseEntity<Object> updateUserImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
+		log.info("## updateUserImage");
 		
-		UserInfoDto userInfo = userService.getUserInfoById(principal.getId());
-		log.info("\t > userInfo = {}", userInfo);
+		imageService.updateUserImage(uploadFileDto.getFile(), principal.getId());
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(userInfo).build());
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
+		addJwtCookie(newPrincipal, request, response);
+		
+		return ResponseEntity.ok().body(SuccessResponse.builder()
+				.messageByCode("success.UpdateUserImage")
+				.build());
 	}
 	
 //	@PostMapping("/find/account")

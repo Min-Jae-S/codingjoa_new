@@ -12,6 +12,42 @@ function createCategoryMenuHtml(categories, parentPath) {
 	}).join("");
 }
 
+function createPasswordChangeForm() {
+	console.log("## createPasswordChangeForm");
+	let html = '<h5 class="mb-4 font-weight-bold">계정 보안</h5>';
+	html += '<div>';
+	html += '<dl class="form-group">';
+	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
+	html += '<div class="show-wrap">';
+	html += '<dd class="input-group" id="showPassword">';
+	html += '<div>';
+	html += '<span class="inner-text">********</span>';
+	html += '</div>';
+	html += '<button class="btn btn-outline-primary btn-sm">수정</button>';
+	html += '</dd>';
+	html += '</div>';
+	html += '<div class="form-wrap d-none">';
+	html += '<form id="passwordChangeForm">';
+	html += '<dd class="input-group">';
+	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요"/>';
+	html += '<div>';
+	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
+	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
+	html += '</div>';
+	html += '</dd>';
+	html += '<dd class="input-group">';
+	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요"/>';
+	html += '</dd>';
+	html += '<dd class="input-group">';
+	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요"/>';
+	html += '</dd>';
+	html += '</form>';
+	html += '</div>';
+	html += '</dl>';
+	html += '</div>';
+	return html;
+}
+
 function createPagedCommentsHtml(pagedComments) {
 	console.log("## createPagedCommentsHtml");
 	let html = "";

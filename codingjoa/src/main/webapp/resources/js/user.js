@@ -16,20 +16,21 @@ let userService = (function() {
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
+				$(`#email.errors, #authCode.errors, .success`).remove();
+				//$("#email\\.errors, #authCode\\.errors, .success").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
+				$(`#email.errors, #authCode.errors, .success`).remove();
+				//$("#email\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					//handleUserError(errorResponse);
 					let details = errorResponse.details;
 					if (details.length > 0) {
 						$.each(details, function(index, item) {
-							$("#authCode").closest("div")
-								.after("<span id='" + item.field + ".errors' class='error'>" + item.message + "</span>");
+							$("#authCode").closest("div").after(`<span class='error' id='${item.field}.errors'>${item.message}</span>`;)
 						});
 					} else {
 						alert(errorResponse.message);

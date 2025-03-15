@@ -45,15 +45,6 @@
 			code = #{code}	
 	</select>
 	
-	<select id="findNameById" parameterType="int" resultType="string">
-		SELECT
-			name
-		FROM
-			category
-		WHERE
-			code = #{code}	
-	</select>
-	
 	<!-- <select id="findCategoryOfSameParent" parameterType="int" resultType="category">
 		SELECT
 			a.category_code,
@@ -79,17 +70,6 @@
 		FROM
 			category
 		WHERE
-			parent_code = 1
-	</select>
-	
-	<select id="isBoardCategoryCode" parameterType="int" resultType="boolean">
-		SELECT
-			COUNT(*)
-		FROM
-			category
-		WHERE
-			code = #{code} 
-		AND 
 			parent_code = 1
 	</select>
 	

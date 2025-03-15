@@ -15,13 +15,10 @@ public interface CategoryMapper {
 	
 	Category findCategoryByCode(int code);
 	
-	String findNameByCode(int code);
-	
 	//List<Category> findCategoryOfSameParent(int categoryParentCode); // SELF JOIN
 	
 	List<Category> findBoardCategories();
 	
 	//String findParentCategoryPath(int categoryCode);
 	
-	boolean isBoardCategoryCode(int code);
 }

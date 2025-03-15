@@ -3,7 +3,6 @@
 //}
 
 function parseError(jqXHR) {
-	//console.log(jqXHR);
 	try {
 		let errorResponse = JSON.parse(jqXHR.responseText);
 		console.log(JSON.stringify(errorResponse, null, 2));
@@ -19,7 +18,8 @@ function handleUserError(errorResponse) {
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
-			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
+			$(`#${item.field}`).closest("dd").after(`<dd class='error' id='${item.field}.errors'>${item.message}</dd>`);
+			//$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
 		return;
 	}
@@ -91,6 +91,7 @@ function handleLoginError(errorResponse) {
 	if (message != "") {
 		message = message.replace(/\.\s*/g, ".<br>");
 		console.log("> handled message = %s", message);
-		$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
+		$(".email_pw_wrap").after(`<div class='error'><p>${message}</p></div>`);
+		//$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 	}
 }
