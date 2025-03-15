@@ -59,13 +59,13 @@ public class BoardController {
 		Long userId = (principal == null) ? null : principal.getId();
 		log.info("\t > userId = {}", userId);
 		
-		List<Category> boardCategoryList = categoryService.getBoardCategoryList();
-		List<List<BoardDetailsDto>> boardList = boardCategoryList
+		List<Category> boardCategories = categoryService.getBoardCategories();
+		List<List<BoardDetailsDto>> boards = boardCategories
 				.stream()
 				.map(category -> boardService.getPagedBoards(category.getCode(), BoardCriteria.create(), userId))
 				.collect(Collectors.toList());
-		model.addAttribute("boardCategoryList", boardCategoryList);
-		model.addAttribute("boardList", boardList);
+		model.addAttribute("boardCategories", boardCategories);
+		model.addAttribute("boards", boards);
 		
 		return "board/boards";
 	}
@@ -124,7 +124,7 @@ public class BoardController {
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setCategoryCode(categoryCode);
 		model.addAttribute("writeBoardDto", writeBoardDto);
-		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
+		model.addAttribute("boardCategories", categoryService.getBoardCategories());
 		
 		return "board/write";
 	}
@@ -146,7 +146,7 @@ public class BoardController {
 				throw new BindException(bindingResult);
 			}
 			
-			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
+			model.addAttribute("boardCategories", categoryService.getBoardCategories());
 			return "board/write";
 		}
 		
@@ -161,7 +161,7 @@ public class BoardController {
 		log.info("## modify, id = {}", id);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(id, principal.getId());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);
-		model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
+		model.addAttribute("boardCategories", categoryService.getBoardCategories());
 		
 		return "board/modify";
 	}
@@ -183,7 +183,7 @@ public class BoardController {
 				throw new BindException(bindingResult);
 			}
 			
-			model.addAttribute("boardCategoryList", categoryService.getBoardCategoryList());
+			model.addAttribute("boardCategories", categoryService.getBoardCategories());
 			return "board/modify";
 		}
 		

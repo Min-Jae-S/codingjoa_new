@@ -74,7 +74,7 @@
 				<div class="d-flex justify-content-between mb-3">
 					<div class="w-75">
 						<form:select class="custom-select rounded-md" path="categoryCode">
-							<form:options items="${boardCategoryList}" itemValue="code" itemLabel="name"/>
+							<form:options items="${boardCategories}" itemValue="code" itemLabel="name"/>
 						</form:select>
 						<form:errors path="categoryCode" cssClass="error"/>
 					</div>

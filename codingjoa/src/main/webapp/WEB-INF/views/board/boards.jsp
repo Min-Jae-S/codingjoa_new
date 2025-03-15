@@ -84,8 +84,8 @@
 
 <div class="container boards-container">
 	<div class="boards-wrap">
-		<c:forEach var="board" items="${boardList}" varStatus="status">
-			<h3 class="font-weight-bold"><c:out value="${boardCategoryList[status.index].name}"/></h3>
+		<c:forEach var="board" items="${boards}" varStatus="status">
+			<h3 class="font-weight-bold"><c:out value="${boardCategories[status.index].name}"/></h3>
 			<div class="table-container">
 				<table class="table">
 					<thead>
