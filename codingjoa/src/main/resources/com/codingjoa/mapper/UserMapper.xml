@@ -116,7 +116,16 @@
 	
 	<select id="findUserInfoById" parameterType="long" resultMap="userInfoMap">
 		SELECT
-			users.*,
+			users.id,
+			users.email,
+			users.password,
+			users.nickname,
+			users.zipcode,
+			users.addr,
+			users.addr_detail,
+			users.agree,
+			users.created_at,
+			users.updated_at,
 			image.path AS image_path
 		FROM
 			users
@@ -125,14 +134,7 @@
 		ON
 			users.id = image.user_id
 		AND
-			image.id = ( 
-				SELECT 
-					MAX(id) 
-				FROM 
-					user_image 
-				WHERE 
-					user_image.user_id = users.id 
-			)
+			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
 		WHERE
 			users.id = #{id}
 	</select>
@@ -172,68 +174,60 @@
 	
 	<select id="findUserDetailsByEmail" parameterType="string" resultMap="userDetailsMap">
 		SELECT
-			a.member_idx,
-			a.member_email,
-			a.member_password,
-			a.member_nickname,
-			b.member_image_url,
-			c.sns_provider,
-			d.member_role
+			users.id,
+			users.email,
+			users.password,
+			users.nickname,
+			image.path AS image_path
+			sns_info.provider,
+			auth.role
 		FROM
-			member a
-		LEFT OUTER JOIN (
-			SELECT
-				member_idx,
-				member_image_url,
-				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
-			FROM
-				member_image
-		) b
-		ON
-			a.member_idx = b.member_idx AND b.rn = 1 
+			users
 		LEFT OUTER JOIN
-			sns_info c
+			user_image image
 		ON
-			a.member_idx = c.member_idx
+			users.id = image.user_id
+		AND
+			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
+		LEFT OUTER JOIN
+			sns_info
+		ON
+			users.id = sns_info.user_id
 		INNER JOIN
-			auth d
+			auth
 		ON
-			a.member_idx = d.member_idx
+			users_id = auth.user_id
 		WHERE
-			a.member_email = #{memberEmail}
+			users.email = #{email}
 	</select>
 	
 	<select id="findUserDetailsById" parameterType="long" resultMap="userDetailsMap">
 		SELECT
-			a.member_idx,
-			a.member_email,
-			a.member_password,
-			a.member_nickname,
-			b.member_image_url,
-			c.sns_provider,
-			d.member_role
+			users.id,
+			users.email,
+			users.password,
+			users.nickname,
+			image.path AS image_path
+			sns_info.provider,
+			auth.role
 		FROM
-			member a
-		LEFT OUTER JOIN (
-			SELECT
-				member_idx,
-				member_image_url,
-				ROW_NUMBER() OVER (PARTITION BY member_idx ORDER BY created_at DESC) AS rn
-			FROM
-				member_image
-		) b
-		ON
-			a.member_idx = b.member_idx AND b.rn = 1 
+			users
 		LEFT OUTER JOIN
-			sns_info c
+			user_image image
 		ON
-			a.member_idx = c.member_idx
+			users.id = image.user_id
+		AND
+			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
+		LEFT OUTER JOIN
+			sns_info
+		ON
+			users.id = sns_info.user_id
 		INNER JOIN
-			auth d
+			auth
 		ON
-			a.member_idx = d.member_idx
+			users_id = auth.user_id
 		WHERE
-			a.member_idx = #{memberIdx}
+			users.id = #{id}
 	</select>
 	
 	<select id="findUserByEmail" parameterType="string" resultType="User">
