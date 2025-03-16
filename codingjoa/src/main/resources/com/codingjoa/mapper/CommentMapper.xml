@@ -74,8 +74,8 @@
     		<!-- CASE
     			WHEN final_comment.user_id = #{userId} THEN 1
     			ELSE 0
-    		END AS is_writer, -->
-    		<!-- CASE
+    		END AS is_writer,
+    		CASE
     			WHEN EXISTS ( 
     				SELECT 1 
     				FROM comment_like
@@ -83,8 +83,8 @@
     				AND comment_like.user_id = #{userId} 
     			) THEN 1
     			ELSE 0
-    		END AS is_liked, -->
-    		<!-- CASE
+    		END AS is_liked,
+    		CASE
     			WHEN final_comment.user_id = board.user_id THEN 1
     			ELSE 0
     		END AS is_board_writer -->

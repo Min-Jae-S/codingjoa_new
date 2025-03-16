@@ -109,7 +109,7 @@ public class BoardController {
 		
 		Category category = categoryService.getCategoryByCode(boardDetails.getCategoryCode());
 
-		// ** prevent duplicate view count using cookies (https://mighty96.github.io/til/view)
+		// prevent duplicate view count using cookies (https://mighty96.github.io/til/view)
 		boardService.increaseViewCount(id); 
 
 		model.addAttribute("boardDetails", boardDetails);
