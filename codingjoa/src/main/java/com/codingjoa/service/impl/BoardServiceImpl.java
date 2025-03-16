@@ -139,11 +139,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public int getBoardCategoryCode(long boardId) {
-		return boardMapper.findCategoryCodeById(boardId);
-	}
-
-	@Override
 	public Board deleteBoard(long boardId, Long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > found board = {}", board);

@@ -63,11 +63,19 @@
 	        final_comment.updated_at,
 	        user.nickname AS writer_nickname,
 	        user_image.path AS writer_image_path,
-    		CASE
+	        ( final_comment.user_id = #{userId} ) AS is_writer,
+	        EXISTS ( 
+    			SELECT 1 
+    			FROM comment_like
+    			WHERE comment_like.comment_id = final_comment.id 
+    			AND comment_like.user_id = #{userId} 
+    		) AS is_liked,
+    		( final_comment.user_id = board.user_id ) AS is_board_writer
+    		<!-- CASE
     			WHEN final_comment.user_id = #{userId} THEN 1
     			ELSE 0
-    		END AS is_writer,
-    		CASE
+    		END AS is_writer, -->
+    		<!-- CASE
     			WHEN EXISTS ( 
     				SELECT 1 
     				FROM comment_like
@@ -75,11 +83,11 @@
     				AND comment_like.user_id = #{userId} 
     			) THEN 1
     			ELSE 0
-    		END AS is_liked,
-    		CASE
+    		END AS is_liked, -->
+    		<!-- CASE
     			WHEN final_comment.user_id = board.user_id THEN 1
     			ELSE 0
-    		END AS is_board_writer
+    		END AS is_board_writer -->
 		FROM (
 			SELECT
 				paged_comment.*
@@ -112,9 +120,9 @@
 				paged_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 		) final_comment
 		INNER JOIN
-			user
+			users
 		ON 
-			final_comment.user_id = user.id
+			final_comment.user_id = users.id
 		LEFT OUTER JOIN
 			user_image
 		ON

@@ -70,9 +70,9 @@
 			( board.user_id = #{userId} ) AS is_writer,
     		EXISTS ( 
    				SELECT 1 
-   				FROM board_likes
-    			WHERE board_likes.board_id = board.id 
-    			AND board_likes.user_id = #{userId} 
+   				FROM board_like
+    			WHERE board_like.board_id = board.id 
+    			AND board_like.user_id = #{userId} 
     		) AS is_liked
 		FROM
 			board
@@ -128,9 +128,9 @@
 			( final_board.user_id = #{userId} ) AS is_writer,
 			EXISTS ( 
    				SELECT 1 
-   				FROM board_likes
-    			WHERE board_likes.board_id = board.id 
-    			AND board_likes.user_id = #{userId} 
+   				FROM board_like
+    			WHERE board_like.board_id = board.id 
+    			AND board_like.user_id = #{userId} 
     		) AS is_liked
 		FROM (
 			SELECT
@@ -199,15 +199,6 @@
 		WHERE
 			id = #{id}
 	</update>
-	
-	<select id="findBoardCategoryCode" parameterType="long" resultType="int">
-		SELECT
-			category_code
-		FROM
-			board
-		WHERE
-			id = #{id} 
-	</select>
 	
 	<delete id="deleteBoard" parameterType="Board">
 		DELETE FROM

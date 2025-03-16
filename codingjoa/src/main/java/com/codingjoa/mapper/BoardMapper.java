@@ -27,8 +27,6 @@ public interface BoardMapper {
 
 	boolean updateBoard(Board board);
 
-	int findCategoryCodeById(Long boardId);
-
 	boolean deleteBoard(Board board);
 
 }

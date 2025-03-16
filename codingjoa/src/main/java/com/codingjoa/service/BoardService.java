@@ -24,8 +24,6 @@ public interface BoardService {
 	
 	Board modifyBoard(BoardDto boardDto);
 	
-	int getBoardCategoryCode(long boardId);
-	
 	Board deleteBoard(long boardId, Long userId);
 	
 }
