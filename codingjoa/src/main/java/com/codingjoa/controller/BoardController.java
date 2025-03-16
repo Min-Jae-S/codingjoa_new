@@ -109,8 +109,8 @@ public class BoardController {
 		
 		Category category = categoryService.getCategoryByCode(boardDetails.getCategoryCode());
 
-		// ** 쿠키를 이용하여 조회수 중복 방지 추가하기 (https://mighty96.github.io/til/view)
-		boardService.updateBoardView(id); 
+		// ** prevent duplicate view count using cookies (https://mighty96.github.io/til/view)
+		boardService.increaseViewCount(id); 
 
 		model.addAttribute("boardDetails", boardDetails);
 		model.addAttribute("category", category);

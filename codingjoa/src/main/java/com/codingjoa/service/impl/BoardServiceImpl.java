@@ -71,9 +71,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateBoardView(long boardId) {
-		log.info("\t > update board view");
-		boardMapper.updateBoardView(boardId);
+	public void increaseViewCount(long boardId) {
+		log.info("\t > increase view count");
+		boardMapper.increaseViewCount(boardId);
 	}
 	
 	@Override

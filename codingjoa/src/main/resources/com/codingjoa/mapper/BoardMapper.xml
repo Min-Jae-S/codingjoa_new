@@ -56,43 +56,41 @@
 		<result column="is_liked" property="isLiked" javaType="boolean"/>
 	</resultMap>
 	
-	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
+	<select id="findBoardDetailsById" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
-			board.*,
-			user.nickname, 
-    		CASE
-    			WHEN board.board_writer_idx = #{userId} 
-    			THEN 1 ELSE 0
-    		END AS is_writer,
-    		CASE
-    			WHEN EXISTS ( 
-    				SELECT 
-    					1 
-    				FROM 
-    					board_likes
-    				WHERE 
-    					board_likes.board_idx = board.board_idx 
-    				AND 
-    					board_likes.member_idx = #{memberIdx} 
-    			) THEN 1 ELSE 0
-    		END AS is_liked
+			board.id,
+			board.user_id,
+			board.category_code,
+			board.title,
+			board.content,
+			board.view_count,
+			board.comment_count,
+			board.like_count,
+			users.nickname,
+			( board.user_id = #{userId} ) AS is_writer,
+    		EXISTS ( 
+   				SELECT 1 
+   				FROM board_likes
+    			WHERE board_likes.board_id = board.id 
+    			AND board_likes.user_id = #{userId} 
+    		) AS is_liked
 		FROM
 			board
 		INNER JOIN
-			member
+			users
 		ON
-			board.board_writer_idx = member.member_idx
+			board.user_id = users.id
 		WHERE
-			board.board_idx = #{boardIdx} 
+			board.id = #{boardId} 
 	</select>
 
-	<update id="updateBoardView" parameterType="int">
+	<update id="increaseViewCount" parameterType="long">
 		UPDATE
 			board
 		SET
-			board_view = board_view + 1
+			view_count = view_count + 1
 		WHERE
-			board_idx = #{boardIdx}
+			id = #{id}
 	</update>
 
 	<sql id="searchCriteria">

@@ -11,24 +11,24 @@ import com.codingjoa.pagination.BoardCriteria;
 
 @Mapper
 public interface BoardMapper {
-	
+
 	boolean insertBoard(Board board);
-	
+
 	Map<String, Object> findBoardDetailsById(@Param("boardId") Long boardId, @Param("userId") Long userId);
-	
-	void updateBoardView(Long boardId);
-	
+
+	void increaseViewCount(Long boardId);
+
 	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode,
 			@Param("boardCri") BoardCriteria boardCri, @Param("userId") Long userId);
 
 	int findPagedBoardsTotalCnt(@Param("categoryCode") int categoryCode, @Param("boardCri") BoardCriteria boardCri);
-	
+
 	Board findBoardById(Long boardId);
-	
+
 	boolean updateBoard(Board board);
 
 	int findCategoryCodeById(Long boardId);
-	
+
 	boolean deleteBoard(Board board);
-	
+
 }
