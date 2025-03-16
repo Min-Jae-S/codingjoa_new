@@ -2,56 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BoardMapper">
 <!--  
-	board_idx               NUMBER,
-    board_writer_idx        NUMBER                      NOT NULL,
-	board_title             VARCHAR2(500)               NOT NULL,
-    board_content           CLOB                        NOT NULL,
-    board_content_text      CLOB                        NULL,		// NOT NULL >> NULL
-	board_category_code     NUMBER                      NOT NULL,
-    board_view             	NUMBER          DEFAULT 0   NOT NULL,	// board_views >> board_view
-    comment_cnt             NUMBER          DEFAULT 0   NOT NULL,   // appended column
-    likes_cnt               NUMBER          DEFAULT 0   NOT NULL,   // appended column
-	created_at              DATE                        NOT NULL,
-    updated_at              DATE                        NOT NULL
+    id                  NUMBER,
+    user_id             NUMBER                      NOT NULL,
+    category_code       NUMBER                      NOT NULL,
+	title               VARCHAR2(500)               NOT NULL,
+    content             CLOB                        NOT NULL,
+    search_content      CLOB                        NULL,  
+    view_count          NUMBER          DEFAULT 0   NOT NULL,   
+    comment_count       NUMBER          DEFAULT 0   NOT NULL, 
+    like_count          NUMBER          DEFAULT 0   NOT NULL,
+	created_at          DATE                        NOT NULL,
+    updated_at          DATE                        NOT NULL,
 -->
 
-	<insert id="insertBoard" parameterType="board">
-		<selectKey keyProperty="boardIdx" resultType="int" order="BEFORE">
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_board.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO board (
-			board_idx,
-			board_writer_idx,
-			board_title,
-			board_content,
-			board_content_text,
-			board_category_code,
+			id,
+			user_id,
+			category_code,
+			title,
+			content,
+			search_content,
 			created_at,
 			updated_at
 		) VALUES (
-			#{boardIdx},
-			#{boardWriterIdx},
-			#{boardTitle},
-			#{boardContent},
-			#{boardContentText},
-			#{boardCategoryCode},
+			#{id},
+			#{userId},
+			#{categoryCode},
+			#{title},
+			#{content},
+			#{searchContent},
 			SYSDATE,
 			SYSDATE
 		)
 	</insert>
 	
 	<resultMap type="map" id="boardDetailsMap">
-		<id property="boardIdx" column="board_idx" javaType="int"/>
-		<result column="board_title" property="boardTitle" javaType="string"/>
-		<!-- <result column="board_content" property="boardContent" typeHandler="clobTypeHandler"/> -->
-		<result column="board_content" property="boardContent" javaType="string" jdbcType="CLOB" />
-		<result column="board_view" property="boardView" javaType="int"/>
-		<result column="board_category_code" property="boardCategoryCode" javaType="int"/>
-		<result column="comment_cnt" property="commentCnt" javaType="int"/>
-		<result column="likes_cnt" property="likesCnt" javaType="int"/>
+		<id property="id" column="id" javaType="long"/>
+		<result column="title" property="title" javaType="string"/>
+		<result column="category_code" property="categoryCode" javaType="int"/>
+		<!-- <result column="content" property="content" typeHandler="clobTypeHandler"/> -->
+		<result column="content" property="content" javaType="string" jdbcType="CLOB" />
+		<result column="view_count" property="viewCount" javaType="int"/>
+		<result column="comment_count" property="commentCount" javaType="int"/>
+		<result column="like_count" property="likeCount" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
-		<result column="member_nickname" property="writerNickname" javaType="string"/>
+		<result column="nickname" property="writerNickname" javaType="string"/>
 		<result column="is_writer" property="isWriter" javaType="boolean"/>
 		<result column="is_liked" property="isLiked" javaType="boolean"/>
 	</resultMap>
@@ -59,9 +59,9 @@
 	<select id="findBoardDetailsByIdx" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			board.*,
-			member.member_nickname, 
+			user.nickname, 
     		CASE
-    			WHEN board.board_writer_idx = #{memberIdx} 
+    			WHEN board.board_writer_idx = #{userId} 
     			THEN 1 ELSE 0
     		END AS is_writer,
     		CASE
