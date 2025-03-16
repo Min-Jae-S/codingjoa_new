@@ -53,7 +53,7 @@ public class BoardDetailsDto {
 				.likeCount((int) map.get("likeCount"))
 				.createdAt((LocalDateTime) map.get("createdAt"))
 				.updatedAt((LocalDateTime) map.get("updatedAt"))
-				.writerNickname((String) map.get("nickname"))
+				.writerNickname((String) map.get("writerNickname"))
 				.isWriter((boolean) map.get("isWriter"))
 				.isLiked((boolean) map.get("isLiked"))
 				.build();

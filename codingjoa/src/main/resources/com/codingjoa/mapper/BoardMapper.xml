@@ -51,7 +51,7 @@
 		<result column="like_count" property="likeCount" javaType="int"/>
 		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
 		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
-		<result column="nickname" property="writerNickname" javaType="string"/>
+		<result column="writer_nickname" property="writerNickname" javaType="string"/>
 		<result column="is_writer" property="isWriter" javaType="boolean"/>
 		<result column="is_liked" property="isLiked" javaType="boolean"/>
 	</resultMap>
@@ -66,7 +66,7 @@
 			board.view_count,
 			board.comment_count,
 			board.like_count,
-			users.nickname,
+			users.nickname AS writer_nickname,
 			( board.user_id = #{userId} ) AS is_writer,
     		EXISTS ( 
    				SELECT 1 
@@ -114,53 +114,54 @@
 		</if>
 	</sql> 
 
-	<select id="findPagedBoard" parameterType="map" resultMap="boardDetailsMap">
+	<select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(comment_group) USE_NL(likes_group) */
-			paged_board.*,
-			CASE
-				WHEN paged_board.board_writer_idx = #{memberIdx} 
-				THEN 1 ELSE 0
-			END AS is_writer,
-			CASE
-				WHEN EXISTS (
-					SELECT 
-						1
-					FROM 
-						board_likes
-					WHERE 
-						board_likes.board_idx = paged_board.board_idx 
-					AND 
-						board_likes.member_idx = #{memberIdx} 
-    			) THEN 1 ELSE 0
-    		END AS is_liked
+			/*+ ORDERED */
+			final_board.id,
+			final_board.category_code,
+			final_board.title,
+			final_board.content,
+			final_board.view_count,
+			final_board.comment_count,
+			final_board.like_count,
+			final_board.nickname AS writer_nickname,
+			( final_board.user_id = #{userId} ) AS is_writer,
+			EXISTS ( 
+   				SELECT 1 
+   				FROM board_likes
+    			WHERE board_likes.board_id = board.id 
+    			AND board_likes.user_id = #{userId} 
+    		) AS is_liked
 		FROM (
-		    SELECT 
-		    	filtered_board.*
-		    FROM (
-				SELECT
-					/*+ INDEX_DESC(board pk_board) */
-		        	ROWNUM rn, 
-		        	board.*
-		        	member.member_nickname
-		    	FROM 
-		        	board
-		        INNER JOIN
-		        	member
-		        ON
-		        	board.board_writer_idx = member.member_idx
-		    	WHERE
-		        	<include refid="searchCriteria"/>
-					board.board_category_code = #{boardCategoryCode}
-				<!-- ORDER BY -->
-				AND
-					<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
-		    ) filtered_board
+			SELECT
+				paged_board.*
+			FROM (
+			    SELECT
+			    	ROWNUM rn,
+			    	searched_board.*
+			    FROM (
+					SELECT
+						/*+ INDEX_DESC(board pk_board) */
+			        	board.*,
+			        	users.nickname
+			    	FROM 
+			        	board
+			        INNER JOIN
+			        	users
+			        ON
+			        	board.user_id = users.id
+			    	WHERE
+			        	<include refid="searchCriteria"/>
+						board.category_code = #{categoryCode}
+					ORDER BY
+						board.id DESC						
+			    ) searched_board
+			    WHERE
+			    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
+			) paged_board
 		    WHERE 
-		    	filtered_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
-		) paged_board
-		ON 
-			paged_board.board_idx = likes_group.board_idx
+		    	paged_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+		) final_board
 	</select>
 
 	<select id="findPagedBoardTotalCnt" parameterType="map" resultType="int">
@@ -174,7 +175,7 @@
 			board.user_id = users.id
 		WHERE
 			<include refid="searchCriteria"/>
-			board.category_code = #categoryCode}
+			board.category_code = #{categoryCode}
 	</select>
 
 	<select id="findBoardById" parameterType="long" resultType="Board">

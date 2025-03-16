@@ -39,16 +39,16 @@
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
 		<id property="id" column="id" javaType="long"/>
-		<result property="content" column="content" javaType="string"/>
-		<result property="status" column="status" javaType="boolean"/>
-		<result property="likesCount" column="like_count" javaType="int"/>
-		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
-		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="writerNickname" column="writer_nickname" javaType="string"/>
-		<result property="writerImagePath" column="writer_image_path" javaType="string"/>
-		<result property="isWriter" column="is_writer" javaType="boolean"/>
-		<result property="isLiked" column="is_liked" javaType="boolean"/>
-		<result property="isBoardWriter" column="is_board_writer" javaType="boolean"/>
+		<result column="content" property="content" javaType="string"/>
+		<result column="status" property="status" javaType="boolean"/>
+		<result column="like_count" property="likeCount" javaType="int"/>
+		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
+		<result column="updated_at" property="updatedAt" javaType="java.time.LocalDateTime"/>
+		<result column="writer_nickname" property="writerNickname" javaType="string"/>
+		<result column="writer_image_path" property="writerImagePath" javaType="string"/>
+		<result column="is_writer" property="isWriter" javaType="boolean"/>
+		<result column="is_liked" property="isLiked" javaType="boolean"/>
+		<result column="is_board_writer" property="isBoardWriter" javaType="boolean"/>
 	</resultMap>
 	
 	<!-- USE_NL(b) USE_NL(c) USE_NL(d)  -->
@@ -90,7 +90,6 @@
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(comments pk_comments) */
-				        ROWNUM rn, 
 				        comments.id,
 				        comments.board_id,
 				        comments.user_id,
@@ -120,7 +119,7 @@
 			user_image
 		ON
 			final_comment.user_id = user_image.user_id
-		INNJER JOIN
+		INNER JOIN
 			board
 		ON
 			final_comment.board_id = board.id
