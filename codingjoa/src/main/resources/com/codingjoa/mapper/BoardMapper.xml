@@ -99,14 +99,14 @@
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							REGEXP_LIKE( board.board_title, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE( board.title, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("content")'>
-							REGEXP_LIKE( board.board_content_text, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE( board.search_content, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("writer")'>
 							<!-- member.member_nickname LIKE '%' || #{boardCri.keyword} || '%' -->
-							REGEXP_LIKE( member.member_nickname, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE( users.nickname, #{boardCri.keywordRegexp} )
 						</if> 
 					</trim>
 				</foreach>
@@ -169,50 +169,50 @@
 		FROM
 			board
 		INNER JOIN
-			member
+			users
 		ON
-			board.board_writer_idx = member.member_idx
+			board.user_id = users.id
 		WHERE
 			<include refid="searchCriteria"/>
-			board.board_category_code = #{boardCategoryCode}
+			board.category_code = #categoryCode}
 	</select>
 
-	<select id="findBoardByIdx" parameterType="int" resultType="board">
+	<select id="findBoardById" parameterType="long" resultType="Board">
 		SELECT
 			*
 		FROM 
 			board
 		WHERE
-			board_idx = #{boardIdx}
+			id = #{id}
 	</select>
 	
-	<update id="updateBoard" parameterType="board">
+	<update id="updateBoard" parameterType="Board">
 		UPDATE
 			board
 		SET
-			board_title = #{boardTitle},
-			board_content = #{boardContent},
-			board_content_text = #{boardContentText},
-			board_category_code = #{boardCategoryCode},
+			title = #{title},
+			content = #{content},
+			search_content = #{searchContent},
+			category_code = #{categoryCode},
 			updated_at = SYSDATE
 		WHERE
-			board_idx = #{boardIdx}
+			id = #{id}
 	</update>
 	
-	<select id="findBoardCategoryCode" parameterType="int" resultType="int">
+	<select id="findBoardCategoryCode" parameterType="long" resultType="int">
 		SELECT
-			board_category_code
+			category_code
 		FROM
 			board
 		WHERE
-			board_idx = #{boardIdx} 
+			id = #{id} 
 	</select>
 	
-	<delete id="deleteBoard" parameterType="board">
+	<delete id="deleteBoard" parameterType="Board">
 		DELETE FROM
 			board
 		WHERE
-			board_idx = #{boardIdx}
+			id = #{id}
 	</delete>
 	
 	<!-- <delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
