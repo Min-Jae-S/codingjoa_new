@@ -1,6 +1,7 @@
 package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +23,10 @@ public class ErrorResponse {
 	
 	private int status;
 	private String message;
-	private Object details;
+	private List<ErrorDetails> details;
 	private LocalDateTime timestamp;
 	
-	private ErrorResponse(int status, String message, Object details, LocalDateTime timestamp) {
+	private ErrorResponse(int status, String message, List<ErrorDetails> details, LocalDateTime timestamp) {
 		this.status = status;
 		this.message = message;
 		this.details = details;
@@ -36,23 +37,12 @@ public class ErrorResponse {
 		return new ErrorResponseBuilder();
 	}
 
-	public ErrorResponseBuilder toBuilder() {
-		return new ErrorResponseBuilder(this);
-	}
-
 	@ToString
 	public static class ErrorResponseBuilder {
 		private ErrorResponse errorResponse;
 
 		private ErrorResponseBuilder() {
-			//this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "", null, LocalDateTime.now());
-			//this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), null, null, LocalDateTime.now());
-			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "error", null, LocalDateTime.now());
-		}
-		
-		private ErrorResponseBuilder(ErrorResponse errorResponse) {
-			this.errorResponse = new ErrorResponse(errorResponse.status, errorResponse.message,
-					errorResponse.details, errorResponse.timestamp);
+			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "ERROR", new ArrayList<>(), LocalDateTime.now());
 		}
 		
 		public ErrorResponseBuilder status(HttpStatus httpStatus) {
@@ -81,20 +71,15 @@ public class ErrorResponse {
 		}
 		
 		public ErrorResponseBuilder details(ErrorDetails errorDetails) {
-			errorResponse.details = errorDetails;
+			errorResponse.details.add(errorDetails);
 			return this;
         }
 
 		public ErrorResponseBuilder details(List<ErrorDetails> errorDetails) {
-			errorResponse.details = errorDetails;
+			errorResponse.details.addAll(errorDetails);
 			return this;
 		}
 
-		public ErrorResponseBuilder details(Object obj) {
-			errorResponse.details = obj;
-			return this;
-		}
-		
 		public ErrorResponseBuilder bindingResult(BindingResult bindingResult) {
 			List<ErrorDetails> errorDetails = bindingResult.getFieldErrors()
 					.stream()
@@ -104,7 +89,7 @@ public class ErrorResponse {
 							.build()
 					)
 					.collect(Collectors.toList());
-			errorResponse.details = errorDetails;
+			errorResponse.details.addAll(errorDetails);
 			return this;
 		}
 		

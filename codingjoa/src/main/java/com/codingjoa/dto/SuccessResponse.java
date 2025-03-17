@@ -33,23 +33,12 @@ public class SuccessResponse {
 		return new SuccessResponseBuilder();
 	}
 	
-	public SuccessResponseBuilder toBuilder() {
-		return new SuccessResponseBuilder(this);
-	}
-
 	@ToString
 	public static class SuccessResponseBuilder {
 		private SuccessResponse successResponse;
 
 		private SuccessResponseBuilder() {
-			//this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "", null, LocalDateTime.now());
-			//this.successResponse = new SuccessResponse(HttpStatus.OK.value(), null, null, LocalDateTime.now());
-			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "success", null, LocalDateTime.now());
-		}
-		
-		private SuccessResponseBuilder(SuccessResponse successResponse) {
-			this.successResponse = new SuccessResponse(successResponse.status, successResponse.message,
-					successResponse.data, successResponse.timestamp);
+			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "SUCCESS", null, LocalDateTime.now());
 		}
 		
 		public SuccessResponseBuilder status(HttpStatus httpStatus) {
