@@ -68,13 +68,19 @@
 			board.comment_count,
 			board.like_count,
 			users.nickname AS writer_nickname,
-			( board.user_id = #{userId} ) AS is_writer,
-    		EXISTS ( 
-   				SELECT 1 
-   				FROM board_like
-    			WHERE board_like.board_id = board.id 
-    			AND board_like.user_id = #{userId} 
-    		) AS is_liked
+			CASE
+				WHEN board.user_id = #{userId} THEN 1 
+				ELSE 0
+			END AS is_writer,
+			CASE
+				WHEN EXISTS ( 
+   					 SELECT 1 
+   					FROM board_like
+    				WHERE board_like.board_id = board.id 
+    				AND board_like.user_id = #{userId} 
+    			) THEN1
+    			ELSE 0 
+    		EBD AS is_liked
 		FROM
 			board
 		INNER JOIN
@@ -126,13 +132,19 @@
 			final_board.comment_count,
 			final_board.like_count,
 			final_board.nickname AS writer_nickname,
-			( final_board.user_id = #{userId} ) AS is_writer,
-			EXISTS ( 
-   				SELECT 1 
-   				FROM board_like
-    			WHERE board_like.board_id = board.id 
-    			AND board_like.user_id = #{userId} 
-    		) AS is_liked
+			CASE
+				WHEN board.user_id = #{userId} THEN 1 
+				ELSE 0
+			END AS is_writer,
+			CASE
+				WHEN EXISTS ( 
+   					 SELECT 1 
+   					FROM board_like
+    				WHERE board_like.board_id = board.id 
+    				AND board_like.user_id = #{userId} 
+    			) THEN1
+    			ELSE 0 
+    		EBD AS is_liked
 		FROM (
 			SELECT
 				paged_board.*

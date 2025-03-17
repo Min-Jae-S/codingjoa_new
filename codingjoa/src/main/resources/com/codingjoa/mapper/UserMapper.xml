@@ -126,15 +126,19 @@
 			users.agree,
 			users.created_at,
 			users.updated_at,
-			image.path AS image_path
+			latest_image.path AS image_path
 		FROM
 			users
-		LEFT OUTER JOIN
-			user_image image
+		LEFT OUTER JOIN (
+			SELECT
+				user_id, path
+			FROM
+				user_image
+			WHERE 
+				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
+		) latest_image
 		ON
-			users.id = image.user_id
-		AND
-			image.id = ( SELECT MAX(id) FROM user_image WHERE user_image.user_id = users.id )
+			users.id = latest_image.user_id
 		WHERE
 			users.id = #{id}
 	</select>
