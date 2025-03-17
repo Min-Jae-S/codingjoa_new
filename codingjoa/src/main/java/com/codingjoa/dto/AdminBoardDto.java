@@ -12,13 +12,13 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class ManagedBoardDto {
+public class AdminBoardDto {
 	
 	// board
 	private long id;
 	private String title;
 	private int viewCount;
-	private int replyCount;
+	private int commentCount;
 	private int likeCount;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -39,13 +39,13 @@ public class ManagedBoardDto {
 	private boolean isUpdated;
 	
 	@Builder
-	private ManagedBoardDto(long id, String title, int viewCount, int replyCount, int likeCount, LocalDateTime createdAt,
+	private AdminBoardDto(long id, String title, int viewCount, int commentCount, int likeCount, LocalDateTime createdAt,
 			LocalDateTime updatedAt, int categoryCode, String categoryName, long writerId, String writerEmail, String writerNickname,
 			boolean isUpdated) {
 		this.id = id;
 		this.title = title;
 		this.viewCount = viewCount;
-		this.replyCount = replyCount;
+		this.commentCount = commentCount;
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -57,13 +57,12 @@ public class ManagedBoardDto {
 		this.isUpdated = createdAt.isEqual(updatedAt);;
 	}
 	
-	public static ManagedBoardDto from(AdminBoard adminBoard) {
-		return ManagedBoardDto.builder()
+	public static AdminBoardDto from(AdminBoard adminBoard) {
+		return AdminBoardDto.builder()
 				.id(adminBoard.getId())
 				.title(adminBoard.getTitle())
 				.viewCount(adminBoard.getViewCount())
-				.replyCount(adminBoard.getReplyCount())
-				.likeCount(adminBoard.getLikeCount())
+				.commentCount(adminBoard.getCommentCount())
 				.createdAt(adminBoard.getCreatedAt())
 				.updatedAt(adminBoard.getUpdatedAt())
 				.categoryCode(adminBoard.getCategory().getCode())

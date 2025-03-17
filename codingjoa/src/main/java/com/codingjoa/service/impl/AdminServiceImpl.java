@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.ManagedBoardDto;
-import com.codingjoa.dto.ManagedCommentDto;
+import com.codingjoa.dto.AdminBoardDto;
+import com.codingjoa.dto.AdminCommentDto;
 import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.ManagedBoardCriteria;
@@ -38,11 +38,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<ManagedBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri) {
+	public List<AdminBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri) {
 		log.info("\t > find pagedBoards");
 		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
-				.map(adminBoard -> ManagedBoardDto.from(adminBoard))
+				.map(adminBoard -> AdminBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
 	}
 	
@@ -53,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<ManagedCommentDto> getPagedComments() {
+	public List<AdminCommentDto> getPagedComments() {
 		log.info("\t > find pagedComments");
 		return null;
 	}

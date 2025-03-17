@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
-<script src="${contextPath}/resources/js/member.js"></script>
+<script src="${contextPath}/resources/js/user.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
@@ -73,7 +73,7 @@
 	<div class="reset-password-wrap">
 		<h5 class="font-weight-bold">
 			비밀번호 재설정
-			<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">remove key</button>
+			<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">REMOVE KEY</button>
 		</h5>
 		<div class="pt-3 border-top border-dark">
 			<p class="title">새로운 비밀번호를 입력해주세요.</p>
@@ -84,7 +84,7 @@
 			<dl class="form-group mb-5">
 				<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
 				<dd class="input-group">
-					<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
+					<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
 				</dd>
 			</dl>
 			<dl class="form-group mb-5">
@@ -107,19 +107,19 @@
 		$("#resetPasswordBtn").on("click", function() {
 			let key ="<c:out value='${key}'/>";
 			let obj = {
-				memberPassword : $("#memberPassword").val(),
+				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			memberService.resetPassword(key, obj, function(result) {
+			userService.resetPassword(key, obj, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = "${contextPath}/member/login";
+					location.href = "${contextPath}/user/login";
 				}, 50);
 			});
 		});
 		
-		$("#memberPassword, #confirmPassword").on("keydown", function(e) {
+		$("#newPassword, #confirmPassword").on("keydown", function(e) {
 			if (e.keyCode == 13) {
 				$("#resetPasswordBtn").click();
 			}
@@ -137,7 +137,7 @@
 			let key ="<c:out value='${key}'/>";
 			$.ajax({
 				type : "DELETE",
-				url : "${contextPath}/api/member/test/password-reset/key?key=" + key,
+				url : "${contextPath}/api/user/test/password-reset/key?key=" + key,
 				dataType : "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");

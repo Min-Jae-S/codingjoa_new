@@ -185,28 +185,9 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForReset(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user == null) {
-			throw new ExpectedException("error.NotEmailExist", "0email");
+			throw new ExpectedException("error.NotEmailExist", "email");
 		}
 	}
-	
-//	@Override
-//	public String getMemberIdByEmail(String memberEmail) {
-//		Member member = memberMapper.findMemberByEmail(memberEmail);
-//		if (member == null) {
-//			throw new ExpectedException("memberEmail", "error.NotEmailExist");
-//		}
-//		return member.getMemberId();
-//	}
-	
-//	@Override
-//	public Long getMemberIdxByIdAndEmail(String memberId, String email) {
-//		User user = userMapper.findUserByIdAndEmail(memberId, email);
-//		if (user == null) {
-//			throw new ExpectedException("error.NotIdOrEmailExist", "memberEmail");
-//		}
-//		
-//		return user.getId();
-//	}
 	
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, long userId) {

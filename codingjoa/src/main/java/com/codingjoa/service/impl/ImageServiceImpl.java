@@ -25,15 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageServiceImpl implements ImageService {
 	
 	private final ImageMapper imageMapper;
-	private final String boardImageDir; 	// D:/Dev/upload/board/images/
-	private final String memberImageDir; 	// D:/Dev/upload/member/images/
+	private final String boardImageDir; // D:/Dev/upload/board/images/
+	private final String userImageDir; 	// D:/Dev/upload/user/images/
 	
 	public ImageServiceImpl(ImageMapper imageMapper, 
 			@Value("${upload.dir.board.image}") String boardImageDir,
-			@Value("${upload.dir.member.image}") String memberImageDir) {
+			@Value("${upload.dir.user.image}") String userImageDir) {
 		this.imageMapper = imageMapper;
 		this.boardImageDir = boardImageDir; 
-		this.memberImageDir = memberImageDir;
+		this.userImageDir = userImageDir;
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	public void updateUserImage(MultipartFile file, long userId) {
-		File folder = new File(memberImageDir);
+		File folder = new File(userImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
 				throw new ExpectedException("error.UploadUserImage");

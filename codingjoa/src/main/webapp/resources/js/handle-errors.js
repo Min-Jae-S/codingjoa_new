@@ -1,6 +1,3 @@
-//function getContextPath() {
-//    return window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
-//}
 
 function parseError(jqXHR) {
 	try {
@@ -73,11 +70,11 @@ function handleImageError(errorResponse) {
 	}
 	
 	let message = errorResponse.message;
-	console.log("> original message = %s", message);
+	console.log("\t > original message = %s", message);
 	
 	if (message != "") {
 		message = message.replace(/\\n/gi, "\n");
-		console.log("> handled message = %s", message);
+		console.log("\t > handled message = %s", message);
 		alert(message);
 	}
 }
@@ -85,12 +82,11 @@ function handleImageError(errorResponse) {
 function handleLoginError(errorResponse) {
 	console.log("## handleLoginError");
 	let message = errorResponse.message;
-	console.log("> original message = %s", message);
+	console.log("\t > original message = %s", message);
 	
 	if (message != "") {
 		message = message.replace(/\.\s*/g, ".<br>");
-		console.log("> handled message = %s", message);
-		$(".email_pw_wrap").after(`<div class='error'><p>${message}</p></div>`);
-		//$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
+		console.log("\t > handled message = %s", message);
+		$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 	}
 }

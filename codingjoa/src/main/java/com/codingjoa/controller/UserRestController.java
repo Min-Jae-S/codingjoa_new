@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -254,51 +257,38 @@ public class UserRestController {
 				.build());
 	}
 	
-//	@PostMapping("/find/account")
-//	public ResponseEntity<Object> findAccount(@RequestBody @Valid EmailDto emailDto) {
-//		log.info("## findAccount");
-//		log.info("\t > {}", emailDto);
-//		
-//		String memberEmail = emailDto.getMemberEmail();
-//		String memberId = memberService.getMemberIdByEmail(memberEmail);
-//		log.info("\t > found memberId = {}", memberId);
-//		
-//		emailService.sendFoundAccount(memberEmail, memberId);
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
-//	}
+	// findPassword --> sendResetPasswordUrl
+	@PostMapping("/find/password")
+	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
+		log.info("## findPassword");
+		log.info("\t > findPasswordDto = {}", findPasswordDto);
+		
+		//String memberId = findPasswordDto.getMemberId();
+		//String memberEmail = findPasswordDto.getMemberEmail();
+		//Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+		//log.info("\t > found memberIdx = {}", memberIdx);
+		
+		String key = UUID.randomUUID().toString().replace("-", "");
+		log.info("\t > key = {}", key);
+		
+		String resetPasswordUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/user/resetPassword")
+				.queryParam("key", key)
+				.build()
+				.toString();
+		log.info("\t > resetPasswordUrl = {}", resetPasswordUrl);
+		
+		String email = findPasswordDto.getMemberEmail();
+		emailService.sendResetPasswordUrl(email, resetPasswordUrl);
+		redisService.saveKeyAndValue(key, email);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.FindPassword")
+				.build());
+	}
 	
-//	@PostMapping("/find/password")
-//	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
-//		log.info("## findPassword");
-//		log.info("\t > findPasswordDto = {}", findPasswordDto);
-//		
-//		String memberId = findPasswordDto.getMemberId();
-//		String memberEmail = findPasswordDto.getMemberEmail();
-//		Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
-//		log.info("\t > found memberIdx = {}", memberIdx);
-//		
-//		String key = UUID.randomUUID().toString().replace("-", "");
-//		log.info("\t > key = {}", key);
-//		
-//		String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-//				.path("/user/resetPassword")
-//				.queryParam("key", key)
-//				.build()
-//				.toString();
-//		log.info("\t > attached URL = {}", url);
-//		
-//		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
-//		redisService.saveKeyAndValue(key, memberIdx.toString());
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder()
-//				.messageByCode("success.FindPassword")
-//				.build());
-//	}
-	
-	@PutMapping("/reset/password")
-	public ResponseEntity<Object> resetPassword(@RequestParam String key, // pre-check in interceptor 
-			@RequestBody @Valid PasswordChangeDto passwordChangeDto) {
+	@PostMapping("/password")
+	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
 		log.info("\t > key = {}", key);
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);

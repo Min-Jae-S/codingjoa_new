@@ -76,10 +76,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/resetPassword")
-	public String resetPassword(@RequestParam /* (required = true) */ String key, // pre-check in interceptor 
+	public String resetPassword(@RequestParam String key, // pre-check in interceptor 
 			Model model) {
 		log.info("## resetPassword");
 		model.addAttribute("key", key);
-		return "member/reset-password";
+		return "user/reset-password";
 	}
 }

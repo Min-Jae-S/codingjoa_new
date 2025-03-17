@@ -312,15 +312,4 @@
 			id = #{id}
 	</update>
 	
-	<select id="findMemeberByIdAndEmail" parameterType="map" resultType="User">
-		SELECT
-			*
-		FROM
-			member
-		WHERE
-			member_id = #{memberId}
-		AND
-			member_email = #{memberEmail}
-	</select>
-	
 </mapper>

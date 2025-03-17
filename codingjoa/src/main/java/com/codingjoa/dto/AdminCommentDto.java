@@ -12,7 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ManagedCommentDto {
+public class AdminCommentDto {
 
 	private int commentIdx;
 	private String commentContent;
@@ -36,7 +36,7 @@ public class ManagedCommentDto {
 	private boolean isCommentLiked;			
 	
 	@Builder
-	private ManagedCommentDto(int commentIdx, String commentContent, boolean isCommentInUse, LocalDateTime createdAt,
+	private AdminCommentDto(int commentIdx, String commentContent, boolean isCommentInUse, LocalDateTime createdAt,
 			LocalDateTime updatedAt, boolean isCommentWriter, boolean isBoardWriter, String commentWriterNickname,
 			String commentWriterImageUrl, int commentLikesCnt, boolean isCommentLiked) {
 		this.commentIdx = commentIdx;
@@ -52,8 +52,8 @@ public class ManagedCommentDto {
 		this.isCommentLiked = isCommentLiked;
 	}
 	
-	public static ManagedCommentDto from(Map<String, Object> map) {
-		return ManagedCommentDto.builder()
+	public static AdminCommentDto from(Map<String, Object> map) {
+		return AdminCommentDto.builder()
 				.commentIdx((int) map.get("commentIdx"))
 				.commentContent((String) map.get("commentContent"))
 				.isCommentInUse((boolean) map.get("commentUse"))

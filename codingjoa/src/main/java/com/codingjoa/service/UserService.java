@@ -27,10 +27,6 @@ public interface UserService {
 	
 	void checkEmailForReset(String email);
 	
-	//String getMemberIdByEmail(String eamil);
-	
-	//Long getMemberIdxByIdAndEmail(String memberId, String eamil);
-	
 	void updateNickname(NicknameDto nicknameDto, long userId);
 	
 	void updateEmail(EmailAuthDto emailAuthDto, long userId);

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminCommentCri;
-import com.codingjoa.dto.ManagedBoardDto;
-import com.codingjoa.dto.ManagedCommentDto;
+import com.codingjoa.dto.AdminBoardDto;
+import com.codingjoa.dto.AdminCommentDto;
 import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.ManagedBoardCriteria;
@@ -61,7 +61,7 @@ public class AdminRestController {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		List<ManagedBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -80,7 +80,7 @@ public class AdminRestController {
 		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
-		List<ManagedBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -107,7 +107,7 @@ public class AdminRestController {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		
-		List<ManagedCommentDto> pagedComments = adminService.getPagedComments();
+		List<AdminCommentDto> pagedComments = adminService.getPagedComments();
 		
 		Pagination pagination = adminService.getCommentPagination();
 		log.info("\t > pagination = {}", pagination);

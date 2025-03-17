@@ -344,37 +344,6 @@ let userService = (function() {
 		});
 	}
 	
-	function findAccount(obj, callback) {
-		console.log("## findAccount");
-		$.ajax({
-			type : "POST",
-			url : `${contextPath}/api/user/find/account"`,
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-			},
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				$(".error").remove();
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				$(".error").remove();
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## Parsing Error");
-				}
-			}
-		});
-	}
-	
 	function findPassword(obj, callback) {
 		console.log("## findPassword");
 		$.ajax({
@@ -409,8 +378,8 @@ let userService = (function() {
 	function resetPassword(key, obj, callback) {
 		console.log("## resetPassword");
 		$.ajax({
-			type : "PUT",
-			url : `${contextPath}/api/user/reset/password?key=${key}`,
+			type : "POST",
+			url : `${contextPath}/api/user/password?key=${key}`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -449,7 +418,6 @@ let userService = (function() {
 		savePassword:savePassword,
 		getUserInfo:getUserInfo,
 		confirmPassword:confirmPassword,
-		findAccount:findAccount,
 		findPassword:findPassword,
 		resetPassword:resetPassword
 	};

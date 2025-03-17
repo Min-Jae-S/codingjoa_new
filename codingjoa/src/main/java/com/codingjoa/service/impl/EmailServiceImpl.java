@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 			mailHelper.setTo(email);
-			mailHelper.setSubject("[CodingJoa] 이메일 인증번호입니다.");
+			mailHelper.setSubject("[CodingJoa] 이메일 인증번호");
 			
 			String html = buildTemplate(MailType.AUTH_CODE, authCode);
 			mailHelper.setText(html, true);
@@ -44,32 +44,15 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async
 	@Override
-	public void sendFoundAccount(String email, String memberId) {
-		try {
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-			mailHelper.setTo(email);
-			mailHelper.setSubject("[CodingJoa] 아이디 안내 메일입니다.");
-			
-			String html = buildTemplate(MailType.FIND_ACCOUNT, memberId);
-			mailHelper.setText(html, true);
-			mailSender.send(mimeMessage);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Async
-	@Override
-	public void sendResetPasswordUrl(String email, String memberId, String url) {
+	public void sendResetPasswordUrl(String email, String resetPasswordUrl) {
 		try {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 			
 			mailHelper.setTo(email);
-			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 메일입니다.");
+			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정");
 			
-			String html = buildTemplate(MailType.FIND_PASSWORD, memberId, url);
+			String html = buildTemplate(MailType.FIND_PASSWORD, resetPasswordUrl);
 			mailHelper.setText(html, true);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {
@@ -88,8 +71,7 @@ public class EmailServiceImpl implements EmailService {
 			context.setVariable("memberId", variable[0]);
 			template = "template/find-account-mail";
 		} else { // MailType.FIND_PASSWORD
-			context.setVariable("memberId", variable[0]);
-			context.setVariable("resetPasswordUri", variable[1]);
+			context.setVariable("resetPasswordUrl", variable[1]);
 			template = "template/find-password-mail";
 		}
 		

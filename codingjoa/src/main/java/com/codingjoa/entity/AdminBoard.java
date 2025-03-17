@@ -16,7 +16,7 @@ public class AdminBoard {
 	private String content;
 	private String searchContent;
 	private Integer viewCount;
-	private Integer replyCount;
+	private Integer commentCount;
 	private Integer likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
