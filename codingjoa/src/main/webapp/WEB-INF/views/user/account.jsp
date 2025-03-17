@@ -379,7 +379,7 @@
 	        }
 	    }).open();
 	}
-
+	
 	$(function() {
 		userService.getUserInfo(function(result) {
 			let userInfo = result.data;
@@ -420,8 +420,8 @@
 				$("#showAddr, #showAddrDetail").removeClass("d-none");
 			}
 			
-			$("#agree").prop("checked", userInfo.agree);
-			$("#showAgree input[type='checkbox']").prop("checked", userInfo.agree);
+			$("#agree").attr("checked", userInfo.agree);
+			$("#showAgree input[type='checkbox']").attr("checked", userInfo.agree);
 			
 			if (userInfo.hasPassword) {
 				$("div.security-wrap").html(createPasswordChangeForm());
@@ -547,8 +547,8 @@
 				alert(result.message);
 				userService.getUserInfo(function(result) {
 					let userInfo = result.data;
-					$("#agree").prop("checked", userInfo.agree);
-					$("#showAgree input[type='checkbox']").prop("checked", userInfo.agree);
+					$("#agree").attr("checked", userInfo.agree);
+					$("#showAgree input[type='checkbox']").attr("checked", userInfo.agree);
 					$("#agreeForm button[type='reset']").click();
 				});
 			});
@@ -593,7 +593,6 @@
 			let $dl = $(this).closest("dl");
 			$dl.find("div.show-wrap").addClass("d-none");
 			$dl.find("div.form-wrap").removeClass("d-none");
-			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
 
 		$(document).on("click", "button[type='reset']", function() {
@@ -601,7 +600,6 @@
 			$dl.find(".error, .success").remove();
 			$dl.find("div.show-wrap").removeClass("d-none");
 			$dl.find("div.form-wrap").addClass("d-none");
-			//$dl.find("div.show-wrap, div.form-wrap").toggleClass("d-none");
 		});
 	});
 </script>
