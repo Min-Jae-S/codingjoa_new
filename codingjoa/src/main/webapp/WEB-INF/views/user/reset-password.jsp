@@ -13,7 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/c503d71f81.js"></script>
-<script src="${contextPath}/resources/js/user.js"></script>
+<script src="${contextPath}/resources/js/member.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
 	input[type="text"], input[type="password"] {
@@ -84,7 +84,7 @@
 			<dl class="form-group mb-5">
 				<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
 				<dd class="input-group">
-					<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
+					<input type="password" id="memberPassword" name="memberPassword" placeholder="새로운 비밀번호 입력"/>
 				</dd>
 			</dl>
 			<dl class="form-group mb-5">
@@ -107,19 +107,19 @@
 		$("#resetPasswordBtn").on("click", function() {
 			let key ="<c:out value='${key}'/>";
 			let obj = {
-					password : $("#password").val(),
+				memberPassword : $("#memberPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
 			memberService.resetPassword(key, obj, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = "${contextPath}/user/login";
+					location.href = "${contextPath}/member/login";
 				}, 50);
 			});
 		});
 		
-		$("#password, #confirmPassword").on("keydown", function(e) {
+		$("#memberPassword, #confirmPassword").on("keydown", function(e) {
 			if (e.keyCode == 13) {
 				$("#resetPasswordBtn").click();
 			}

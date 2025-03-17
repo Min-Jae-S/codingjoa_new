@@ -98,8 +98,7 @@
 	$(function() {
 		$("#findPasswordBtn").on("click", function() {
 			let obj = {
-				memberId : $("#memberId").val(),
-				memberEmail : $("#memberEmail").val()
+				email : $("#email").val(),
 			};
 			
 			userService.findPassword(obj, function(result) {
@@ -109,17 +108,17 @@
 			});
 		});
 		
-		$("#memberId, #memberEmail").on("keydown", function(e) {
+		$("#email").on("keydown", function(e) {
 			if (e.keyCode == 13) {
 				$("#findPasswordBtn").click();
 			}
 		});
 		
-		$("#memberId, #memberEmail").on("focus", function() {
+		$("#email").on("focus", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #868e96");
 		});
 	
-		$("#memberId, #memberEmail").on("blur", function() {
+		$("#email").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 	});
