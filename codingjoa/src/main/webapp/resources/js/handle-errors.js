@@ -17,6 +17,7 @@ function handleUserError(errorResponse) {
 	console.log("## handleUserError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
+		console.log(" \t > details.length > 0");
 		$.each(details, function(index, item) {
 			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
@@ -36,7 +37,7 @@ function handleCommentError(errorResponse) {
 		$.each(details, function(index, item) {
 			alert(item.message);
 		});
-		return ;
+		return;
 	} 
 	
 	let message = errorResponse.message;

@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
-		web.ignoring().antMatchers("/resources/**", "/member/images/**", "/board/images/**");
+		web.ignoring().antMatchers("/resources/**", "/user/images/**", "/board/images/**");
 		//web.debug(true);
 	}
 	
@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 				//.filterSecurityInterceptorOncePerRequest(false)
-				.antMatchers("/member/account/**", "/api/member/account/**").authenticated()
+				.antMatchers("/user/account/**", "/api/user/account/**").authenticated()
 				.antMatchers("/board/write", "/board/modify", "/board/delete").authenticated()
 				// the order of the rules matters and the more specific rules should go first
 				//.antMatchers("/api/comments/**/likes").permitAll()
