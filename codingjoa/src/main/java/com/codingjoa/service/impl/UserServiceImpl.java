@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForJoin(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user != null) {
-			throw new ExpectedException("email", "error.EmailExist");
+			throw new ExpectedException("error.EmailExist", "email");
 		}
 	}
 	
@@ -167,17 +167,17 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForUpdate(String email, long userId) {
 		User userById = userMapper.findUserById(userId);
 		if (userById == null) {
-			throw new ExpectedException("email", "error.NotFoundUser");
+			throw new ExpectedException("error.NotFoundUser", "email");
 		}
 		
 		String currentEmail = userById.getEmail();
 		if (email.equals(currentEmail)) {
-			throw new ExpectedException("email", "error.NotCurrentEmail");
+			throw new ExpectedException("error.NotCurrentEmail", "email");
 		}
 		
 		User userByEmail = userMapper.findUserByEmail(email);
 		if (userByEmail != null) {
-			throw new ExpectedException("email", "error.EmailExist");
+			throw new ExpectedException("error.EmailExist", "email");
 		}
 	}
 	
@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForReset(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user == null) {
-			throw new ExpectedException("email", "error.NotEmailExist");
+			throw new ExpectedException("error.NotEmailExist", "0email");
 		}
 	}
 	
@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
 	public Long getMemberIdxByIdAndEmail(String memberId, String email) {
 		User user = userMapper.findUserByIdAndEmail(memberId, email);
 		if (user == null) {
-			throw new ExpectedException("memberEmail", "error.NotIdOrEmailExist");
+			throw new ExpectedException("error.NotIdOrEmailExist", "memberEmail");
 		}
 		
 		return user.getId();
@@ -217,8 +217,8 @@ public class UserServiceImpl implements UserService {
 		
 		String currentNickname = user.getNickname();
 		String newNickname = nicknameDto.getNickname();
-		if (userMapper.isNicknameExist(newNickname) && !newNickname.equals(currentNickname)) {
-			throw new ExpectedException("nickname", "error.NicknameExist");
+		if (!newNickname.equals(currentNickname) && userMapper.isNicknameExist(newNickname)) {
+			throw new ExpectedException("error.NicknameExist", "nickname");
 		}
 		
 		User modifyUser = User.builder()
@@ -301,12 +301,12 @@ public class UserServiceImpl implements UserService {
 		String password = user.getPassword();
 		String currentPassword = passwordChangeDto.getCurrentPassword();
 		if (!passwordEncoder.matches(currentPassword, password)) {
-			throw new ExpectedException("currentPassword", "error.MismatchPassword");
+			throw new ExpectedException("error.MismatchPassword", "currentPassword");
 		}
 		
 		String newPassword = passwordChangeDto.getNewPassword();
 		if (passwordEncoder.matches(newPassword, password)) {
-			throw new ExpectedException("newPassword", "error.SameAsPassword");
+			throw new ExpectedException("error.SameAsPassword", "newPassword");
 		}
 		
 		User modifyUser = User.builder()

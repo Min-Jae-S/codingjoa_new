@@ -420,13 +420,8 @@
 				$("#showAddr, #showAddrDetail").removeClass("d-none");
 			}
 			
-			if (userInfo.agree) {
-				$("#agree").attr("checked", "checked");
-				$("#showAgree input[type='checkbox']").attr("checked", "checked");
-			} else {
-				$("#agree").removeAttr("checked");
-				$("#showAgree input[type='checkbox']").removeAttr("checked");
-			}
+			$("#agree").prop("checked", userInfo.agree);
+			$("#showAgree input[type='checkbox']").prop("checked", userInfo.agree);
 			
 			if (userInfo.hasPassword) {
 				$("div.security-wrap").html(createPasswordChangeForm());
