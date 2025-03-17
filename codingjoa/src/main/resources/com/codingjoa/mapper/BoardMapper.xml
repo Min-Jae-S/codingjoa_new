@@ -74,13 +74,13 @@
 			END AS is_writer,
 			CASE
 				WHEN EXISTS ( 
-   					 SELECT 1 
+   					SELECT 1 
    					FROM board_like
     				WHERE board_like.board_id = board.id 
     				AND board_like.user_id = #{userId} 
-    			) THEN1
+    			) THEN 1
     			ELSE 0 
-    		EBD AS is_liked
+    		END AS is_liked
 		FROM
 			board
 		INNER JOIN
@@ -88,7 +88,7 @@
 		ON
 			board.user_id = users.id
 		WHERE
-			board.id = #{boardId} 
+			board.id = #{boardId}
 	</select>
 
 	<update id="increaseViewCount" parameterType="long">
@@ -133,18 +133,18 @@
 			final_board.like_count,
 			final_board.nickname AS writer_nickname,
 			CASE
-				WHEN board.user_id = #{userId} THEN 1 
+				WHEN final_board.user_id = #{userId} THEN 1 
 				ELSE 0
 			END AS is_writer,
 			CASE
 				WHEN EXISTS ( 
-   					 SELECT 1 
+   					SELECT 1 
    					FROM board_like
-    				WHERE board_like.board_id = board.id 
+    				WHERE board_like.board_id = final_board.id 
     				AND board_like.user_id = #{userId} 
-    			) THEN1
+    			) THEN 1
     			ELSE 0 
-    		EBD AS is_liked
+    		END AS is_liked
 		FROM (
 			SELECT
 				paged_board.*

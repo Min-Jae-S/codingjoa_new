@@ -217,7 +217,7 @@ public class UserServiceImpl implements UserService {
 		
 		String currentNickname = user.getNickname();
 		String newNickname = nicknameDto.getNickname();
-		if (isNicknameExist(newNickname) && !newNickname.equals(currentNickname)) {
+		if (userMapper.isNicknameExist(newNickname) && !newNickname.equals(currentNickname)) {
 			throw new ExpectedException("nickname", "error.NicknameExist");
 		}
 		

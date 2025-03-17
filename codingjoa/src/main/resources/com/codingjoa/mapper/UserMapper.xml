@@ -215,7 +215,7 @@
 			users.email,
 			users.password,
 			users.nickname,
-			image.path AS image_path,
+			latest_image.path AS image_path,
 			sns_info.provider,
 			auth.role
 		FROM
