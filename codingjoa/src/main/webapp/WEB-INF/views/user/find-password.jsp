@@ -71,16 +71,16 @@
 						<span>코딩조아(Codingjoa)에 가입한 이메일을 입력해주세요.</span><br/>
 						<span>일치하는 계정이 있다면 비밀번호 재설정 링크가 전송됩니다.</span><br/>
 					</p>
-					<dl class="form-group mb-5">
+					<!-- <dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>아이디</dt>
 						<dd class="input-group" id="editId">
 							<input type="text" id="memberId" name="memberId" placeholder="아이디를 입력해주세요"/>
 						</dd>
-					</dl>
+					</dl> -->
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 						<dd class="input-group" id="editEmail">
-							<input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력해주세요"/>
+							<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요"/>
 						</dd>
 					</dl>
 					<div class="pt-3">
