@@ -29,7 +29,7 @@ public interface UserService {
 	
 	//String getMemberIdByEmail(String eamil);
 	
-	Long getMemberIdxByIdAndEmail(String memberId, String eamil);
+	//Long getMemberIdxByIdAndEmail(String memberId, String eamil);
 	
 	void updateNickname(NicknameDto nicknameDto, long userId);
 	

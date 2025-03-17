@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.time.Duration;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,25 +21,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.FindPasswordDto;
-import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.service.UserService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.util.CookieUtils;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
@@ -271,33 +268,33 @@ public class UserRestController {
 //		return ResponseEntity.ok(SuccessResponse.builder().messageByCode("success.FindAccount").build());
 //	}
 	
-	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
-		log.info("## findPassword");
-		log.info("\t > findPasswordDto = {}", findPasswordDto);
-		
-		String memberId = findPasswordDto.getMemberId();
-		String memberEmail = findPasswordDto.getMemberEmail();
-		Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
-		log.info("\t > found memberIdx = {}", memberIdx);
-		
-		String key = UUID.randomUUID().toString().replace("-", "");
-		log.info("\t > key = {}", key);
-		
-		String url = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/user/resetPassword")
-				.queryParam("key", key)
-				.build()
-				.toString();
-		log.info("\t > attached URL = {}", url);
-		
-		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
-		redisService.saveKeyAndValue(key, memberIdx.toString());
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.FindPassword")
-				.build());
-	}
+//	@PostMapping("/find/password")
+//	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
+//		log.info("## findPassword");
+//		log.info("\t > findPasswordDto = {}", findPasswordDto);
+//		
+//		String memberId = findPasswordDto.getMemberId();
+//		String memberEmail = findPasswordDto.getMemberEmail();
+//		Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
+//		log.info("\t > found memberIdx = {}", memberIdx);
+//		
+//		String key = UUID.randomUUID().toString().replace("-", "");
+//		log.info("\t > key = {}", key);
+//		
+//		String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+//				.path("/user/resetPassword")
+//				.queryParam("key", key)
+//				.build()
+//				.toString();
+//		log.info("\t > attached URL = {}", url);
+//		
+//		emailService.sendResetPasswordUrl(memberEmail, memberId, url);
+//		redisService.saveKeyAndValue(key, memberIdx.toString());
+//		
+//		return ResponseEntity.ok(SuccessResponse.builder()
+//				.messageByCode("success.FindPassword")
+//				.build());
+//	}
 	
 	@PutMapping("/reset/password")
 	public ResponseEntity<Object> resetPassword(@RequestParam String key, // pre-check in interceptor 

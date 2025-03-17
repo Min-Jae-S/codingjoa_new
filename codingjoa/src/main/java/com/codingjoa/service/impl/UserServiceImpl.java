@@ -12,13 +12,13 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
+import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.User;
 import com.codingjoa.entity.SnsInfo;
+import com.codingjoa.entity.User;
 import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -198,15 +198,15 @@ public class UserServiceImpl implements UserService {
 //		return member.getMemberId();
 //	}
 	
-	@Override
-	public Long getMemberIdxByIdAndEmail(String memberId, String email) {
-		User user = userMapper.findUserByIdAndEmail(memberId, email);
-		if (user == null) {
-			throw new ExpectedException("error.NotIdOrEmailExist", "memberEmail");
-		}
-		
-		return user.getId();
-	}
+//	@Override
+//	public Long getMemberIdxByIdAndEmail(String memberId, String email) {
+//		User user = userMapper.findUserByIdAndEmail(memberId, email);
+//		if (user == null) {
+//			throw new ExpectedException("error.NotIdOrEmailExist", "memberEmail");
+//		}
+//		
+//		return user.getId();
+//	}
 	
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, long userId) {

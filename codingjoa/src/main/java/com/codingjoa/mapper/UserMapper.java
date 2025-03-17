@@ -3,11 +3,10 @@ package com.codingjoa.mapper;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.User;
 import com.codingjoa.entity.SnsInfo;
+import com.codingjoa.entity.User;
 
 
 @Mapper
@@ -37,7 +36,7 @@ public interface UserMapper {
 	
 	boolean updatePassword(User user);
 	
-	User findUserByIdAndEmail(@Param("id") String id, @Param("email") String email);
+	//User findUserByIdAndEmail(@Param("id") String id, @Param("email") String email);
 	
 	Map<String, Object> findUserDetailsByEmail(String email); 	// for authentication in UserDetailsService, OAuth2UserService
 	
