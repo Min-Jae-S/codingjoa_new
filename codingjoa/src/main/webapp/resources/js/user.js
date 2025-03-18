@@ -3,6 +3,7 @@ let userService = (function() {
 
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## sendAuthCodeForJoin");
+		console.log(JSON.stringify(obj));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/user/join/auth`,

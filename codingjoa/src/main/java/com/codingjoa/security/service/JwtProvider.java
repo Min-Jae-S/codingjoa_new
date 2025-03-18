@@ -33,10 +33,10 @@ public class JwtProvider {
 	
 	/*
 	 * @ Json Web Token (JWT)
-	 * 	xxxxx.yyyyy.zzzzz 	// header.payload.signature
-	 * 	header 				// type(typ), algorithm(alg)
-	 * 	payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
-	 * 	signature
+	 * 		- xxxxx.yyyyy.zzzzz 	// header.payload.signature
+	 * 		- header 				// type(typ), algorithm(alg)
+	 * 		- payload				// issuer(iss), subject(sub), audience(aud), issued at(iat), expired(exp) - claims
+	 * 		- signature
 	 */
 
 	private final Key signingKey;
@@ -98,9 +98,9 @@ public class JwtProvider {
 			// email, nickname, role ...
 			//return !exp.before(new Date(System.currentTimeMillis()));
 			return true;
-		} catch (Exception e) { 
-			log.info("\t > missing or invalid JWT: {}", e.getMessage());
-			//log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		} catch (Exception e) {
+			log.info("\t > missing or invalid JWT");
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			return false;
 		}
 	}

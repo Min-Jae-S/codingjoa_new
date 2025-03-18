@@ -16,13 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class RedisServiceImpl implements RedisService {
 	
+	private static final Duration KEY_EXPIRATION = Duration.ofMinutes(30L);
 	private final RedisTemplate<String, String> redisTemplate;
 
 	@Override
 	public void saveKeyAndValue(String key, String value) {
-		log.info("## saveKeyAndValue, key = {}, value = {}", key, value);
+		log.info("## saveKeyAndValue");
+		log.info("\t > key = {}, value = {}", key, value);
 		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, value, Duration.ofMinutes(30L));
+		valueOperations.set(key, value, KEY_EXPIRATION);
 	}
 
 	@Override
