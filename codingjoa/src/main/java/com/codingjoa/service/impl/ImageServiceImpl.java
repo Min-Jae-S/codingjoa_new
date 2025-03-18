@@ -37,11 +37,11 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void updateUserImageWithUpload(MultipartFile file, long userId) {
+	public void saveUserImageWithUpload(MultipartFile file, long userId) {
 		File folder = new File(userImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
-				throw new ExpectedException("error.UploadUserImage");
+				throw new ExpectedException("error.user.UploadImage");
 			}
 		}
 		
@@ -50,11 +50,8 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
-			throw new ExpectedException("error.UploadUserImage");
+			throw new ExpectedException("error.user.UploadImage");
 		}
-		
-		log.info("\t > deactivate old userImage");
-		imageMapper.deactivateUserImage(userId);
 		
 		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/user/images/{filename}")
@@ -73,7 +70,7 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > saved userImage = {}", userImage);
 		
 		if (!isSaved) { 
-			throw new ExpectedException("error.SaveUserImage");
+			throw new ExpectedException("error.user.SaveImage");
 		}
 	}
 

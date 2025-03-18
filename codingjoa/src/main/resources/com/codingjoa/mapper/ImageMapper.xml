@@ -17,6 +17,25 @@
 	created_at      DATE                NOT NULL,
 -->
 
+	<insert id="insertUserImage" parameterType="UserImage">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_userimage.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO user_image (
+			id,
+			user_id,
+			name,
+			path,
+			created_at
+		) VALUES (
+			#{id},
+			#{userId},
+			#{name},
+			#{path},
+			SYSDATE
+		)
+	</insert>
+
 	<insert id="insertBoardImage" parameterType="BoardImage">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_boardimage.NEXTVAL FROM DUAL
@@ -66,43 +85,6 @@
 			board_id = #{boardId} 
 	</update>
 	
-	<update id="deactivateMemberImage" parameterType="long">
-		UPDATE 
-			user_image
-		SET
-			user_id = NULL
-		WHERE
-			user_id = #{user_id} 
-	</update>
-	
-	<insert id="insertUserImage" parameterType="UserImage">
-		<selectKey keyProperty="id" resultType="long" order="BEFORE">
-			SELECT seq_userimage.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO user_image (
-			id,
-			user_id,
-			name,
-			path,
-			created_at
-		) VALUES (
-			#{id},
-			#{userId},
-			#{name},
-			#{path},
-			SYSDATE
-		)
-	</insert>
-	
-	<select id="findTempBoardImages" resultType="BoardImage">
-		SELECT
-			*
-		FROM
-			board_image
-		WHERE
-			board_id IS NULL
-	</select>
-
 	<select id="findTempUserImages" resultType="UserImage">
 		SELECT
 			*
@@ -110,6 +92,15 @@
 			user_image
 		WHERE
 			user_id IS NULL
+	</select>
+
+	<select id="findTempBoardImages" resultType="BoardImage">
+		SELECT
+			*
+		FROM
+			board_image
+		WHERE
+			board_id IS NULL
 	</select>
 	
 </mapper>

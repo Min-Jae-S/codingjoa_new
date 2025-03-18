@@ -10,6 +10,8 @@ import com.codingjoa.entity.UserImage;
 
 @Mapper
 public interface ImageMapper {
+	
+	boolean insertUserImage(UserImage userImage);
 
 	boolean insertBoardImage(BoardImage boardImage);
 	
@@ -18,10 +20,6 @@ public interface ImageMapper {
 	void activateBoardImages(@Param("boardimages") List<Long> boardimages, @Param("boardId") Long boardId);
 	
 	void deactivateBoardImages(Long boardId);
-	
-	void deactivateUserImage(Long userId);
-
-	boolean insertUserImage(UserImage userImage);
 	
 	List<BoardImage> findTempBoardImages();
 	

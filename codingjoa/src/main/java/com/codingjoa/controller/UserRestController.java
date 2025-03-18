@@ -211,17 +211,17 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/account/image")
-	public ResponseEntity<Object> updateImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto,
+	public ResponseEntity<Object> saveImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
-		log.info("## updateImageWithUpload");
+		log.info("## saveImageWithUpload");
 		
-		imageService.updateUserImageWithUpload(imageFileDto.getFile(), principal.getId());
+		imageService.saveUserImageWithUpload(imageFileDto.getFile(), principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok().body(SuccessResponse.builder()
-				.messageByCode("success.user.UpdateImageWithUpload")
+				.messageByCode("success.user.SaveImageWithUpload")
 				.build());
 	}
 	
