@@ -33,7 +33,7 @@ import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.dto.ImageFileDto;
 import com.codingjoa.dto.UserInfoDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
@@ -48,7 +48,7 @@ import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 import com.codingjoa.validator.PasswordSaveValidator;
-import com.codingjoa.validator.UploadFileValidator;
+import com.codingjoa.validator.ImageFileValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -97,9 +97,9 @@ public class UserRestController {
 		binder.addValidators(new PasswordSaveValidator());
 	}
 	
-	@InitBinder("uploadFileDto")
+	@InitBinder("imageFileDto")
 	public void initBinderUpload(WebDataBinder binder) {
-		binder.addValidators(new UploadFileValidator());
+		binder.addValidators(new ImageFileValidator());
 	}
 
 	@PostMapping("/join/auth")
@@ -117,7 +117,7 @@ public class UserRestController {
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.SendAuthCode")
+				.messageByCode("success.join.SendAuthCode")
 				.build());
 	}
 	
@@ -147,7 +147,7 @@ public class UserRestController {
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.SendAuthCode")
+				.messageByCode("success.user.SendAuthCode")
 				.build());
 	}
 	
@@ -163,7 +163,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateNickname")
+				.messageByCode("success.user.UpdateNickname")
 				.build());
 	}
 	
@@ -180,7 +180,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateEmail")
+				.messageByCode("success.user.UpdateEmail")
 				.build());
 	}
 	
@@ -193,7 +193,7 @@ public class UserRestController {
 		userService.updateAddr(addrDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateAddress")
+				.messageByCode("success.user.UpdateAddress")
 				.build());
 	}
 	
@@ -206,7 +206,22 @@ public class UserRestController {
 		userService.updateAgree(agreeDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateAgree")
+				.messageByCode("success.user.UpdateAgree")
+				.build());
+	}
+	
+	@PostMapping("/account/image")
+	public ResponseEntity<Object> updateImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto,
+			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
+		log.info("## updateImageWithUpload");
+		
+		imageService.updateUserImage(imageFileDto.getFile(), principal.getId());
+		
+		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
+		addJwtCookie(newPrincipal, request, response);
+		
+		return ResponseEntity.ok().body(SuccessResponse.builder()
+				.messageByCode("success.user.UpdateImageWithUpload")
 				.build());
 	}
 	
@@ -222,7 +237,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdatePassword")
+				.messageByCode("success.user.UpdatePassword")
 				.build());
 	}
 	
@@ -238,22 +253,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.SavePassword")
-				.build());
-	}
-	
-	@PutMapping("/account/image")
-	public ResponseEntity<Object> updateUserImage(@ModelAttribute @Valid UploadFileDto uploadFileDto,
-			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
-		log.info("## updateUserImage");
-		
-		imageService.updateUserImage(uploadFileDto.getFile(), principal.getId());
-		
-		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
-		
-		return ResponseEntity.ok().body(SuccessResponse.builder()
-				.messageByCode("success.UpdateUserImage")
+				.messageByCode("success.user.SavePassword")
 				.build());
 	}
 	

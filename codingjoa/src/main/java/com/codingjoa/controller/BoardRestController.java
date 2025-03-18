@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.dto.ImageFileDto;
 import com.codingjoa.service.ImageService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class BoardRestController {
 	private final ImageService imageService;
 	
 	@PostMapping("/image")
-	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid UploadFileDto uploadFileDto)
+	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid ImageFileDto uploadFileDto)
 			throws IllegalStateException, IOException {
 		log.info("## uploadBoardImage");
 		

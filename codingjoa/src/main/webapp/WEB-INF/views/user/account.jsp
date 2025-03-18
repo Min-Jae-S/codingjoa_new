@@ -448,7 +448,7 @@
 			//this.value = "";
 			$("#imageForm")[0].reset();
 
-			userService.updateUserImage(formData, function(result) {
+			userService.updateImageWithUpload(formData, function(result) {
 				alert(result.message);
 				userService.getUserInfo(function(result) {
 					let userInfo = result.data;

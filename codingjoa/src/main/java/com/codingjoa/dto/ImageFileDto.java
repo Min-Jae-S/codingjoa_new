@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class UploadFileDto {
+public class ImageFileDto {
 
 	private MultipartFile file;
 }

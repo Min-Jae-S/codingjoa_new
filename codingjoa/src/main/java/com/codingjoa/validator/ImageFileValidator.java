@@ -8,26 +8,26 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.codingjoa.dto.UploadFileDto;
+import com.codingjoa.dto.ImageFileDto;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UploadFileValidator implements Validator {
+public class ImageFileValidator implements Validator {
 
 	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return UploadFileDto.class.isAssignableFrom(clazz);
+		return ImageFileDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 
-		UploadFileDto uploadFileDto = (UploadFileDto) target;
-		MultipartFile file = uploadFileDto.getFile();
+		ImageFileDto imageFile = (ImageFileDto) target;
+		MultipartFile file = imageFile.getFile();
 		String originalFilename = file.getOriginalFilename();
 
 		if (file.isEmpty()) {

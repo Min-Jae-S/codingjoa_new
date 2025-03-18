@@ -71,36 +71,6 @@ let userService = (function() {
 		});
 	}
 	
-	function updateUserImage(formData, callback) {
-		console.log("## updateUserImage");
-		$.ajax({
-			type : "PUT",
-			url : `${contextPath}/api/user/account/image`,
-			processData: false,
-		    contentType: false,
-			data : formData,
-			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-			},
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleImageError(errorResponse);
-				} else {
-					alert("## Parsing Error");
-				}
-			}
-		});
-	}
-	
 	function updateNickname(obj, callback) {
 		console.log("## updateNickname");
 		$.ajax({
@@ -193,7 +163,7 @@ let userService = (function() {
 			}
 		});
 	}
-
+	
 	function updateAgree(obj, callback) {
 		console.log("## updateAgree");
 		$.ajax({
@@ -257,7 +227,7 @@ let userService = (function() {
 	}
 	
 	function savePassword(obj, callback) {
-		console.log("## saveePassword");
+		console.log("## savePassword");
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/user/account/password`,
@@ -410,11 +380,11 @@ let userService = (function() {
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendAuthCodeForEmailUpdate:sendAuthCodeForEmailUpdate,
-		updateUserImage:updateUserImage,
 		updateNickname:updateNickname,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
+		updateImageWithUpload:updateImageWithUpload,
 		updatePassword:updatePassword,
 		savePassword:savePassword,
 		getUserInfo:getUserInfo,
