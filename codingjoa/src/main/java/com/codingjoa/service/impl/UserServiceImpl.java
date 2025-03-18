@@ -15,7 +15,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
-import com.codingjoa.dto.UserInfoDto;
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
@@ -161,6 +161,16 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			throw new ExpectedException("error.EmailExist", "email");
 		}
+	}
+	
+	@Override
+	public AccountDto getAccountById(Long userId) {
+		Map<String, Object> accountMap = userMapper.findAccountById(userId);
+		if (accountMap == null) {
+			throw new ExpectedException("error.NotFoundUser");
+		}
+		
+		return AccountDto.from(accountMap);
 	}
 	
 	@Override
@@ -318,16 +328,6 @@ public class UserServiceImpl implements UserService {
 		if (!isSaved) {
 			throw new ExpectedException("error.SavePassword");
 		}
-	}
-	
-	@Override
-	public UserInfoDto getUserInfoById(Long userId) {
-		Map<String, Object> userInfoMap = userMapper.findUserInfoById(userId);
-		if (userInfoMap == null) {
-			throw new ExpectedException("error.NotFoundUser");
-		}
-		
-		return UserInfoDto.from(userInfoMap);
 	}
 	
 	@Override

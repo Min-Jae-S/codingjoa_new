@@ -34,7 +34,7 @@ import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.dto.ImageFileDto;
-import com.codingjoa.dto.UserInfoDto;
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
@@ -122,13 +122,13 @@ public class UserRestController {
 	}
 	
 	@GetMapping("/account")
-	public ResponseEntity<Object> getUserInfo(@AuthenticationPrincipal PrincipalDetails principal) {
-		log.info("## getUserInfo");
+	public ResponseEntity<Object> getAccount(@AuthenticationPrincipal PrincipalDetails principal) {
+		log.info("## getAccount");
 		
-		UserInfoDto userInfo = userService.getUserInfoById(principal.getId());
-		log.info("\t > userInfo = {}", userInfo);
+		AccountDto account = userService.getAccountById(principal.getId());
+		log.info("\t > account = {}", account);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(userInfo).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(account).build());
 	}
 	
 	@PostMapping("/account/email/auth")

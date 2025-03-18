@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.UserInfoDto;
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.pagination.Pagination;
@@ -32,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UserInfoDto> getPagedMembers() {
+	public List<AccountDto> getPagedMembers() {
 		log.info("\t > find pagedMembers");
 		return null;
 	}

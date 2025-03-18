@@ -4,7 +4,7 @@ import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
-import com.codingjoa.dto.UserInfoDto;
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
@@ -23,6 +23,8 @@ public interface UserService {
 	
 	void checkEmailForJoin(String email);
 	
+	AccountDto getAccountById(Long userId);
+	
 	void checkEmailForUpdate(String email, long userId);
 	
 	void checkEmailForReset(String email);
@@ -38,8 +40,6 @@ public interface UserService {
 	void updatePassword(PasswordChangeDto passwordChangeDto, long userId);
 	
 	void savePassword(PasswordSaveDto passwordSaveDto, long userId);
-	
-	UserInfoDto getUserInfoById(Long userId);
 	
 	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
 

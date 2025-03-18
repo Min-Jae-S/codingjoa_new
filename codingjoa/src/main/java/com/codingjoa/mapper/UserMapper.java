@@ -20,7 +20,7 @@ public interface UserMapper {
 	
 	boolean isNicknameExist(String nickname);
 	
-	Map<String, Object> findUserInfoById(Long userId);
+	Map<String, Object> findAccountById(Long userId);
 	
 	User findUserByEmail(String email);
 	

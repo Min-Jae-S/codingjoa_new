@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.UserInfoDto;
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.pagination.ManagedBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 
 public interface AdminService {
 	
-	List<UserInfoDto> getPagedMembers();
+	List<AccountDto> getPagedMembers();
 	
 	List<AdminBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri);
 

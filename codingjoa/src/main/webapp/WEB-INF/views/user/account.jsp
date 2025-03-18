@@ -381,49 +381,43 @@
 	}
 	
 	$(function() {
-		userService.getUserInfo(function(result) {
-			let userInfo = result.data;
-			if (userInfo.imagePath != "") {
-				$("#userThumbImage").attr("src", userInfo.imagePath);
-			} else {
-				$("#userThumbImage").attr("src", "${contextPath}/resources/images/img_profile.png");
-			}
+		userService.getAccount(function(result) {
+			// destructuring assignment (구조 분해 할당)
+			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
 			
-			$("#nickname").attr("value", userInfo.nickname);
-			$("#showNickname span").text(userInfo.nickname);
+			$("#userThumbImage").attr("src", imagePath ? imagePath : "${contextPath}/resources/images/img_profile.png");
 			
-			$("#email").attr("value", userInfo.email);
-			$("#showEmail span").text(userInfo.email);
+			$("#nickname").attr("value", nickname);
+			$("#showNickname span").text(nickname);
 			
-			let zipcode = userInfo.zipcode;
-			let addr = userInfo.addr;
-			let addrDetail = userInfo.addrDetail;
+			$("#email").attr("value", email);
+			$("#showEmail span").text(email);
 			
-			if (zipcode != "") {
+			if (zipcode) {
 				$("#zipcode").attr("value", zipcode);
 				$("#showZipcode span").text(zipcode);
 			}
 			
-			if (addr != "") {
+			if (addr) {
 				$("#addr").attr("value", addr);
 				$("#showAddr span").text(addr);
 			}
 			
-			if (addrDetail != "") {
+			if (addrDetail) {
 				$("#addrDetail").attr("value", addrDetail);
 				$("#showAddrDetail span").text(addrDetail);
 			}
 			
-			let allAddrsFilled = zipcode && addr && addrDetail;
-			if (allAddrsFilled) {
+			if (zipcode && addr && addrDetail) {
 				$("#showZipcode button").html("수정");
 				$("#showAddr, #showAddrDetail").removeClass("d-none");
 			}
 			
-			$("#agree").attr("checked", userInfo.agree);
-			$("#showAgree input[type='checkbox']").attr("checked", userInfo.agree);
+			$("#agree").attr("checked", agree);
+			$("#showAgree input[type='checkbox']").attr("checked", agree);
 			
-			if (userInfo.hasPassword) {
+			//$("div.security-wrap").html(hasPassword ? createPasswordChangeForm() : createPasswordSaveForm());
+			if (hasPassword) {
 				$("div.security-wrap").html(createPasswordChangeForm());
 			}
 		});
@@ -450,9 +444,8 @@
 
 			userService.updateImageWithUpload(formData, function(result) {
 				alert(result.message);
-				userService.getUserInfo(function(result) {
-					let userInfo = result.data;
-					$("#navbardDropdown .nav-user-image, #userThumbImage").attr("src", userInfo.imagePath);
+				userService.getAccount(function(result) {
+					$("#navbardDropdown .nav-user-image, #userThumbImage").attr("src", result.data.imagePath);
 				});
 			});
 		});
@@ -465,11 +458,11 @@
 			
 			userService.updateNickname(formData, function(result) {
 				alert(result.message);
-				userService.getUserInfo(function(result) {
-					let userInfo = result.data;
-					$("#nickname").attr("value", userInfo.nickname);
-					$("#showNickname span").text(userInfo.nickname);
-					$("#navUserNickname").text(userInfo.nickname);
+				userService.getAccount(function(result) {
+					let account = result.data;
+					$("#nickname").attr("value", account.nickname);
+					$("#showNickname span").text(account.nickname);
+					$("#navUserNickname").text(account.nickname);
 					$("#nicknameForm button[type='reset']").click();
 				});
 			});
@@ -503,10 +496,10 @@
 			
 			userService.updateEmail(formData, function(result) {
 				alert(result.message);
-				userService.getUserInfo(function(result) {
-					let userInfo = result.data;
-					$("#email").attr("value", userInfo.email);
-					$("#showEmail span").text(userInfo.email);
+				userService.getAccount(function(result) {
+					let account = result.data;
+					$("#email").attr("value", account.email);
+					$("#showEmail span").text(account.email);
 					$("#emailForm button[type='reset']").click();
 				});
 			});
@@ -522,14 +515,14 @@
 			
 			userService.updateAddr(formData, function(result) {
 				alert(result.message);
-				userService.getUserInfo(function(result) {
-					let userInfo = result.data;
-					$("#zipcode").attr("value", userInfo.zipcode);
-					$("#addr").attr("value", userInfo.addr);
-					$("#addrDetail").attr("value", userInfo.addrDetail);
-					$("#showZipcode span").text(userInfo.zipcode);
-					$("#showAddr span").text(ruserInfo.addr);
-					$("#showAddrDetail span").text(userInfo.addrDetail);
+				userService.getAccount(function(result) {
+					let account = result.data;
+					$("#zipcode").attr("value", account.zipcode);
+					$("#addr").attr("value", account.addr);
+					$("#addrDetail").attr("value", account.addrDetail);
+					$("#showZipcode span").text(account.zipcode);
+					$("#showAddr span").text(account.addr);
+					$("#showAddrDetail span").text(account.addrDetail);
 					$("#showZipcode button").html("수정");
 					$("#showAddr, #showAddrDetail").removeClass("d-none");
 					$("#addrForm button[type='reset']").click();
@@ -545,10 +538,10 @@
 			
 			userService.updateAgree(formData, function(result) {
 				alert(result.message);
-				userService.getUserInfo(function(result) {
-					let userInfo = result.data;
-					$("#agree").attr("checked", userInfo.agree);
-					$("#showAgree input[type='checkbox']").attr("checked", userInfo.agree);
+				userService.getAccount(function(result) {
+					let account = result.data;
+					$("#agree").attr("checked", account.agree);
+					$("#showAgree input[type='checkbox']").attr("checked", account.agree);
 					$("#agreeForm button[type='reset']").click();
 				});
 			});

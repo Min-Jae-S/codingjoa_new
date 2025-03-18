@@ -40,6 +40,33 @@ let userService = (function() {
 		});
 	}
 	
+	function getAccount(callback) {
+		console.log("## getAccount");
+		$.ajax({
+			type : "GET",
+			url : `${contextPath}/api/user/account`,
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					handleUserError(errorResponse);
+				} else {
+					alert("## Parsing Error");
+				}
+			}
+		});	
+	}
+	
 	function sendAuthCodeForEmailUpdate(obj, callback) {
 		console.log("## sendAuthCodeForEmailUpdate");
 		$.ajax({
@@ -163,7 +190,7 @@ let userService = (function() {
 			}
 		});
 	}
-	
+
 	function updateAgree(obj, callback) {
 		console.log("## updateAgree");
 		$.ajax({
@@ -188,6 +215,36 @@ let userService = (function() {
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleUserError(errorResponse);
+				} else {
+					alert("## Parsing Error");
+				}
+			}
+		});
+	}
+	
+	function saveImageWithUpload(formData, callback) {
+		console.log("## saveImageWithUpload");
+		$.ajax({
+			type : "POST",
+			url : `${contextPath}/api/user/account/image`,
+			processData: false,
+		    contentType: false,
+			data : formData,
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				let errorResponse = parseError(jqXHR);
+				if (errorResponse != null) {
+					handleImageError(errorResponse);
 				} else {
 					alert("## Parsing Error");
 				}
@@ -255,33 +312,6 @@ let userService = (function() {
 				}
 			}
 		});
-	}
-	
-	function getUserInfo(callback) {
-		console.log("## getUserInfo");
-		$.ajax({
-			type : "GET",
-			url : `${contextPath}/api/user/account`,
-			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-			},
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## Parsing Error");
-				}
-			}
-		});	
 	}
 	
 	function confirmPassword(obj, callback) {
@@ -379,15 +409,15 @@ let userService = (function() {
 
 	return {
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
+		getAccount:getAccount,
 		sendAuthCodeForEmailUpdate:sendAuthCodeForEmailUpdate,
 		updateNickname:updateNickname,
 		updateEmail:updateEmail,
 		updateAddr:updateAddr,
 		updateAgree:updateAgree,
-		updateImageWithUpload:updateImageWithUpload,
+		saveImageWithUpload:saveImageWithUpload,
 		updatePassword:updatePassword,
 		savePassword:savePassword,
-		getUserInfo:getUserInfo,
 		confirmPassword:confirmPassword,
 		findPassword:findPassword,
 		resetPassword:resetPassword

@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @NoArgsConstructor
-public class UserInfoDto {
+public class AccountDto {
 	
 	private long id;
 	private String email;
@@ -33,7 +33,7 @@ public class UserInfoDto {
 	private String imagePath;
 	
 	@Builder
-	private UserInfoDto(long id, String email, boolean hasPassword, String nickname, String zipcode, String addr,
+	private AccountDto(long id, String email, boolean hasPassword, String nickname, String zipcode, String addr,
 			String addrDetail, boolean agree, LocalDateTime createdAt, LocalDateTime updatedAt, String imagePath) {
 		this.id = id;
 		this.email = email;
@@ -48,8 +48,8 @@ public class UserInfoDto {
 		this.imagePath = imagePath;
 	}
 	
-	public static UserInfoDto from(Map<String, Object> map) {
-		return UserInfoDto.builder()
+	public static AccountDto from(Map<String, Object> map) {
+		return AccountDto.builder()
 				.id((long) map.get("id"))
 				.email((String) map.get("email"))
 				.hasPassword(map.get("password") == null ? false : true)
