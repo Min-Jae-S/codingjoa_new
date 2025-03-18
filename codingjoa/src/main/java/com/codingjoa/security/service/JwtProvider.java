@@ -142,7 +142,7 @@ public class JwtProvider {
 		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
 		
-		//log.info("\t > created claims {}", FormatUtils.formatPrettyJson(claims));
+		log.info("\t > created claims: {}", claims.keySet());
 		return claims;
 	}
 	

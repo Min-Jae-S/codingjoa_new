@@ -42,7 +42,7 @@ public class ErrorResponse {
 		private ErrorResponse errorResponse;
 
 		private ErrorResponseBuilder() {
-			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "ERROR", new ArrayList<>(), LocalDateTime.now());
+			this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "error", new ArrayList<>(), LocalDateTime.now());
 		}
 		
 		public ErrorResponseBuilder status(HttpStatus httpStatus) {

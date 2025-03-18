@@ -167,7 +167,7 @@
 			<div class="mb-5 d-flex">
 				<div class="user-image-wrap mr-4">
 					<img class="user-thumb-image" id="userThumbImage">
-					<button type="button" class="user-image-btn" id="updateUserImageBtn">
+					<button type="button" class="user-image-btn" id="userImageBtn">
 						<span class="user-image-icon"></span>
 						<form id="imageForm">
 							<input type="file" id="userImage" name="userImage"/>
@@ -422,12 +422,12 @@
 			}
 		});
 		
-		$("#updateUserImageBtn").on("click", function() {
+		$("#userImageBtn").on("click", function() {
 			$("#userImage").click();
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #userImagee(file) is a child element of #updateUserImageBtn, event propagation occurs
+		// since #userImagee(file) is a child element of #userImageBtn, event propagation occurs
 		$("#userImage").on("click", function(e) {
 			e.stopPropagation();
 		});
@@ -442,7 +442,7 @@
 			//this.value = "";
 			$("#imageForm")[0].reset();
 
-			userService.updateImageWithUpload(formData, function(result) {
+			userService.saveImageWithUpload(formData, function(result) {
 				alert(result.message);
 				userService.getAccount(function(result) {
 					$("#navbardDropdown .nav-user-image, #userThumbImage").attr("src", result.data.imagePath);

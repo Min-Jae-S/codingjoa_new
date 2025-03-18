@@ -38,7 +38,7 @@ public class SuccessResponse {
 		private SuccessResponse successResponse;
 
 		private SuccessResponseBuilder() {
-			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "SUCCESS", null, LocalDateTime.now());
+			this.successResponse = new SuccessResponse(HttpStatus.OK.value(), "success", null, LocalDateTime.now());
 		}
 		
 		public SuccessResponseBuilder status(HttpStatus httpStatus) {
