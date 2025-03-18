@@ -9,13 +9,14 @@
 <title>계정 관리 | Codingjoa</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" >
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet" >
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
 <script src="${contextPath}/resources/js/user.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
@@ -447,7 +448,9 @@
 				alert(result.message);
 				userService.getAccount(function(result) {
 					let account = result.data;
-					$("#navbarDropdown .nav-user-image, #userThumbImage").attr("src", result.data.imagePath);
+					let imageUrl = `${contextPath}\${account.imagePath}`;
+					$(".member-menu img").attr("src", imageUrl);
+					$("#userThumbImage").attr("src", imageUrl);
 				});
 			});
 		});
@@ -462,9 +465,9 @@
 				alert(result.message);
 				userService.getAccount(function(result) {
 					let account = result.data;
+					$(".member-menu .nickname").text(account.nickname);
 					$("#nickname").attr("value", account.nickname);
 					$("#showNickname span").text(account.nickname);
-					$("#navUserNickname").text(account.nickname);
 					$("#nicknameForm button[type='reset']").click();
 				});
 			});
@@ -500,6 +503,7 @@
 				alert(result.message);
 				userService.getAccount(function(result) {
 					let account = result.data;
+					$(".member-menu .email").text(account.email);
 					$("#email").attr("value", account.email);
 					$("#showEmail span").text(account.email);
 					$("#emailForm button[type='reset']").click();

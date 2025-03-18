@@ -244,12 +244,16 @@ textarea:focus::-webkit-input-placeholder {
 	/* background-color: #e9ecef; */
 }
 
-.nav-member-profile {
+.navbar-nav .member-menu .nav-member-profile {
 	display: flex;
 	align-items: center;
 }
 
-.nav-member-image {
+.navbar-nav .member-menu .nav-member-profile .nickname {
+	font-weight: bold;	
+}
+
+.navbar-nav .member-menu .nav-member-image {
 	border: 1px solid #ced4da;
 	width: 36px;
 	height: 36px;
@@ -266,6 +270,7 @@ textarea:focus::-webkit-input-placeholder {
 
 .navbar-nav .category .dropdown-menu,
 .navbar-nav .test .dropdown-menu {
+	top: 100%; /* 4.6.1 --> 5.2.3 */
 	left: 50%;
 	transform: translateX(-50%);
 	margin: 0;

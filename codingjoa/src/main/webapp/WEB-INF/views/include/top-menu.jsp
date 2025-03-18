@@ -63,10 +63,10 @@
 						</button>
 					</li>
 					<li class="nav-item dropdown member-menu">
-						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
+						<a href="#" class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">
 							<img class="nav-member-image" src="${empty principal.imagePath ? 
 								contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
-							<span class="font-weight-bold">
+							<span class="nickname">
 								<c:out value="${principal.nickname}"/>
 							</span>
 						</a>
