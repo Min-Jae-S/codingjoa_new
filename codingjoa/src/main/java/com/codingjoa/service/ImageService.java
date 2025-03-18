@@ -8,6 +8,8 @@ import com.codingjoa.dto.BoardImageDto;
 
 public interface ImageService {
 	
+	void updateUserImageWithUpload(MultipartFile file, long userId);
+	
 	BoardImageDto saveBoardImage(MultipartFile file);
 	
 	boolean isBoardImageUploaded(Long boardImageId);
@@ -15,7 +17,4 @@ public interface ImageService {
 	void activateBoardImages(List<Long> boardImages, Long boardId);
 	
 	void updateBoardImages(List<Long> boardImages, Long boardId); // deactivate, activate
-	
-	void updateUserImage(MultipartFile file, long userId);
-	
 }

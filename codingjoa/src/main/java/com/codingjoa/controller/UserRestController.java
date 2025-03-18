@@ -215,7 +215,7 @@ public class UserRestController {
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateImageWithUpload");
 		
-		imageService.updateUserImage(imageFileDto.getFile(), principal.getId());
+		imageService.updateUserImageWithUpload(imageFileDto.getFile(), principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		addJwtCookie(newPrincipal, request, response);

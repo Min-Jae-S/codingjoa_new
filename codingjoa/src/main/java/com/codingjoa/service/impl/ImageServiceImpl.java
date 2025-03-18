@@ -25,15 +25,56 @@ import lombok.extern.slf4j.Slf4j;
 public class ImageServiceImpl implements ImageService {
 	
 	private final ImageMapper imageMapper;
-	private final String boardImageDir; // D:/Dev/upload/board/images/
 	private final String userImageDir; 	// D:/Dev/upload/user/images/
+	private final String boardImageDir; // D:/Dev/upload/board/images/
 	
 	public ImageServiceImpl(ImageMapper imageMapper, 
-			@Value("${upload.dir.board.image}") String boardImageDir,
-			@Value("${upload.dir.user.image}") String userImageDir) {
+			@Value("${upload.dir.user.image}") String userImageDir,
+			@Value("${upload.dir.board.image}") String boardImageDir) {
 		this.imageMapper = imageMapper;
-		this.boardImageDir = boardImageDir; 
 		this.userImageDir = userImageDir;
+		this.boardImageDir = boardImageDir; 
+	}
+	
+	@Override
+	public void updateUserImageWithUpload(MultipartFile file, long userId) {
+		File folder = new File(userImageDir);
+		if (!folder.exists()) {
+			if (!folder.mkdirs()) {
+				throw new ExpectedException("error.UploadUserImage");
+			}
+		}
+		
+		String filename = createFilename(file.getOriginalFilename());
+		File uploadFile = new File(folder, filename);
+		try {
+			file.transferTo(uploadFile);
+		} catch (Exception e) {
+			throw new ExpectedException("error.UploadUserImage");
+		}
+		
+		log.info("\t > deactivate old userImage");
+		imageMapper.deactivateUserImage(userId);
+		
+		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/user/images/{filename}")
+				.buildAndExpand(filename)
+				.toUriString();
+		log.info("\t > path = {}", path);
+		
+		UserImage userImage = UserImage.builder()
+				.userId(userId)
+				.name(filename)
+				.path(path)
+				.build();
+		log.info("\t > create userImage entity = {}", userImage);
+		
+		boolean isSaved = imageMapper.insertUserImage(userImage);
+		log.info("\t > saved userImage = {}", userImage);
+		
+		if (!isSaved) { 
+			throw new ExpectedException("error.SaveUserImage");
+		}
 	}
 
 	@Override
@@ -101,48 +142,6 @@ public class ImageServiceImpl implements ImageService {
 		}
 		
 		imageMapper.activateBoardImages(boardImages, boardId);
-	}
-	
-	@Override
-	public void updateUserImage(MultipartFile file, long userId) {
-		File folder = new File(userImageDir);
-		if (!folder.exists()) {
-			if (!folder.mkdirs()) {
-				throw new ExpectedException("error.UploadUserImage");
-			}
-		}
-		
-		String filename = createFilename(file.getOriginalFilename());
-		File uploadFile = new File(folder, filename);
-		try {
-			file.transferTo(uploadFile);
-		} catch (Exception e) {
-			throw new ExpectedException("error.UploadUserImage");
-		}
-		
-		log.info("\t > deactivate old userImage");
-		imageMapper.deactivateUserImage(userId);
-		
-		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/user/images/{filename}")
-				.buildAndExpand(filename)
-				.toUriString();
-		log.info("\t > path = {}", path);
-		
-		UserImage userImage = UserImage.builder()
-				.userId(userId)
-				.name(filename)
-				.path(path)
-				.build();
-		log.info("\t > create userImage entity = {}", userImage);
-		
-		boolean isSaved = imageMapper.insertUserImage(userImage);
-		log.info("\t > saved userImage = {}", userImage);
-		
-		if (!isSaved) { 
-			throw new ExpectedException("error.SaveUserImage");
-		}
-		
 	}
 	
 	private static String createFilename(String originalFilename) {
