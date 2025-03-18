@@ -270,7 +270,6 @@ textarea:focus::-webkit-input-placeholder {
 
 .navbar-nav .category .dropdown-menu,
 .navbar-nav .test .dropdown-menu {
-	top: 100%; /* 4.6.1 --> 5.2.3 */
 	left: 50%;
 	transform: translateX(-50%);
 	margin: 0;
