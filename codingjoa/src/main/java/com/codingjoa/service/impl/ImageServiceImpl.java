@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.entity.BoardImage;
@@ -53,8 +54,11 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.user.UploadImage");
 		}
 		
-		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/user/images/{filename}")
+//		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
+//				.path("/user/images/{filename}")
+//				.buildAndExpand(filename)
+//				.toUriString();
+		String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
 		log.info("\t > path = {}", path);
@@ -97,7 +101,8 @@ public class ImageServiceImpl implements ImageService {
 				.toUriString();
 		log.info("\t > path = {}", path);
 		
-		BoardImage boardImage = BoardImage.builder() // absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
+		BoardImage boardImage = BoardImage.builder() 
 				.name(filename)
 				.path(path)
 				.build();

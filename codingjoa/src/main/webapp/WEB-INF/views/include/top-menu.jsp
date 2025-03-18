@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<c:set var="defaultImagePath" value="${pageContext.request.contextPath}/resources/images/img_profile.png"/>
 
 <!-- navbar -->
 <nav class="navbar navbar-custom navbar-expand-sm">
@@ -65,7 +64,8 @@
 					</li>
 					<li class="nav-item dropdown member-menu">
 						<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-toggle="dropdown">
-							<img class="nav-member-image" src="${empty principal.imagePath ? defaultImagePath : principal.imagePath}">
+							<img class="nav-member-image" src="${empty principal.imagePath ? 
+								contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 							<span class="font-weight-bold">
 								<c:out value="${principal.nickname}"/>
 							</span>
@@ -73,7 +73,8 @@
 						<ul class="dropdown-menu dropdown-menu-end">
 							<li>
 								<div class="dropdown-item">
-									<img class="nav-member-image" src="${empty principal.imagePath ? defaultImagePath : principal.imagePath}">
+									<img class="nav-member-image" src="${empty principal.imagePath ? 
+										contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 									<div class="nickname-email-box">
 										<span class="nickname">
 											<c:out value="${principal.nickname}"/>

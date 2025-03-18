@@ -385,7 +385,8 @@
 			// destructuring assignment (구조 분해 할당)
 			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
 			
-			$("#userThumbImage").attr("src", imagePath ? imagePath : "${contextPath}/resources/images/img_profile.png");
+			$("#userThumbImage").attr("src", imagePath ? 
+					`${contextPath}\${imagePath}` : "${contextPath}/resources/images/img_profile.png");
 			
 			$("#nickname").attr("value", nickname);
 			$("#showNickname span").text(nickname);
@@ -445,7 +446,8 @@
 			userService.saveImageWithUpload(formData, function(result) {
 				alert(result.message);
 				userService.getAccount(function(result) {
-					$("#navbardDropdown .nav-user-image, #userThumbImage").attr("src", result.data.imagePath);
+					let account = result.data;
+					$("#navbarDropdown .nav-user-image, #userThumbImage").attr("src", result.data.imagePath);
 				});
 			});
 		});
