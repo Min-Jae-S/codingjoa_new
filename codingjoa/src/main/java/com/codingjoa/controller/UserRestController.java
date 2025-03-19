@@ -81,12 +81,12 @@ public class UserRestController {
 	public void InitBinderEmailAuth(WebDataBinder binder) {
 		binder.addValidators(new EmailAuthValidator(redisService));
 	}
-
-	@InitBinder("findPasswordDto")
-	public void InitBinderFindPassword(WebDataBinder binder) {
-		binder.addValidators(new FindPasswordValidator());
-	}
 	
+	@InitBinder("imageFileDto")
+	public void initBinderUpload(WebDataBinder binder) {
+		binder.addValidators(new ImageFileValidator());
+	}
+
 	@InitBinder("passwordChangeDto")
 	public void InitBinderPasswordChange(WebDataBinder binder) {
 		binder.addValidators(new PasswordChangeValidator());
@@ -97,11 +97,11 @@ public class UserRestController {
 		binder.addValidators(new PasswordSaveValidator());
 	}
 	
-	@InitBinder("imageFileDto")
-	public void initBinderUpload(WebDataBinder binder) {
-		binder.addValidators(new ImageFileValidator());
+	@InitBinder("findPasswordDto")
+	public void InitBinderFindPassword(WebDataBinder binder) {
+		binder.addValidators(new FindPasswordValidator());
 	}
-
+	
 	@PostMapping("/join/auth")
 	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendAuthCodeForJoin");

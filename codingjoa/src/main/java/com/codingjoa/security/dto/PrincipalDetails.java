@@ -26,9 +26,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String email;					
 	private final String password;
 	private final String nickname;
-	private final String imagePath;						// from LEFT OUTER JOIN user_image
-	private final String provider;						// from LEFT OUTER JOIN sns_info
-	private final List<GrantedAuthority> authorities;	// from INNER JOIN auth
+	private final String imagePath;						// LEFT OUTER JOIN user_image
+	private final String provider;						// LEFT OUTER JOIN sns_info
+	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
 	
 	private Map<String, Object> attributes;				// OAuth2User
 	private String nameAttributeKey;

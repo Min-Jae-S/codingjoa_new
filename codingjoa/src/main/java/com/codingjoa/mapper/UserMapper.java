@@ -36,9 +36,7 @@ public interface UserMapper {
 	
 	boolean updatePassword(User user);
 	
-	// for authentication (UserDetailsService, OAuth2UserService)
-	Map<String, Object> findUserDetailsByEmail(String email);
+	Map<String, Object> findUserDetailsByEmail(String email); // for authentication (UserDetailsService, OAuth2UserService)
 	
-	// for JWT re-issuance after updating account
-	Map<String, Object> findUserDetailsById(Long userId);
+	Map<String, Object> findUserDetailsById(Long userId); // for JWT re-issuance after updating account
 }

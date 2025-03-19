@@ -53,7 +53,7 @@ public class JoinValidator implements Validator {
 		} 
 		
 		if (!redisService.hasKey(email)) {
-			errors.rejectValue("email", "NotAuthCodeExist");
+			errors.rejectValue("email", "RequiredEmailAuth");
 			return;
 		}
 		
@@ -76,14 +76,13 @@ public class JoinValidator implements Validator {
 			return;
 		}
 		
-		
 		if (!Pattern.matches(NICKNAME_REGEXP, nickname)) {
 			errors.rejectValue("nickname", "Pattern");
 			return;
 		} 
 		
 		if (userService.isNicknameExist(nickname)) {
-			errors.rejectValue("nickname", "NicknameExist");
+			errors.rejectValue("nickname", "NicknameExists");
 			return;
 		}
 	}

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 		
 		Auth auth = Auth.builder()
 				.userId(user.getId())
-				.role("ROLE_MEMBER")
+				.role("ROLE_USER")
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
