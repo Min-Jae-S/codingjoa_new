@@ -26,10 +26,11 @@ public class PropertiesApplicationContextInitializer implements ApplicationConte
 		ConfigurableEnvironment env = applicationContext.getEnvironment();
 		
 		try {
-			Resource[] resources = applicationContext.getResources("WEB-INF/properties/*.properties");
+			Resource[] resources = applicationContext.getResources("WEB-INF/properties/**/*.properties");
 			for (Resource resource : resources) {
 				if (resource.exists()) {
 					PropertySource<?> propertySource = new ResourcePropertySource(resource);
+					log.info("\t > {}", propertySource.getName());
 					env.getPropertySources().addLast(propertySource);
 				}
 			}
