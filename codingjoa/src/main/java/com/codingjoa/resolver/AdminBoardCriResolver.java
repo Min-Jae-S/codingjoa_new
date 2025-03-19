@@ -15,7 +15,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.codingjoa.annotation.AdminBoardCri;
-import com.codingjoa.pagination.ManagedBoardCriteria;
+import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.NumberUtils;
 
@@ -51,7 +51,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(ManagedBoardCriteria.class) && 
+		return parameter.getParameterType().equals(AdminBoardCriteria.class) && 
 				parameter.hasParameterAnnotation(AdminBoardCri.class);
 	}
 
@@ -77,7 +77,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		List<Integer> parsedCategories = categoryOption.keySet().containsAll(categoryList) ? 
 				categoryList.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList()) : Collections.emptyList();
 		
-		ManagedBoardCriteria adminBoardCri = new ManagedBoardCriteria(
+		AdminBoardCriteria adminBoardCri = new AdminBoardCriteria(
 			NumberUtils.isNaturalNumber(page) ? Integer.parseInt(page) : defaultPage,
 			recordCntOption.containsKey(recordCnt) ? Integer.parseInt(recordCnt) : defaultRecordCnt, 
 			keyword == null ? "" : keyword.trim(),

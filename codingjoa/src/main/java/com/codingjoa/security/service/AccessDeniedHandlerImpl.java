@@ -53,7 +53,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
-				.messageByCode("error.Forbidden")
+				.messageByCode("error.auth.forbidden")
 				.build();
 		
 		if (AjaxUtils.isAjaxRequest(request)) {

@@ -68,7 +68,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.UNAUTHORIZED)
-				.messageByCode("error.Unauthorized")
+				.messageByCode("error.auth.unauthorized")
 				.build();
 		
 		if (AjaxUtils.isAjaxRequest(request)) {

@@ -11,7 +11,7 @@ import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminCommentDto;
 import com.codingjoa.dto.AccountDto;
 import com.codingjoa.mapper.AdminMapper;
-import com.codingjoa.pagination.ManagedBoardCriteria;
+import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
@@ -38,7 +38,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<AdminBoardDto> getPagedBoards(ManagedBoardCriteria adminBoardCri) {
+	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
 		log.info("\t > find pagedBoards");
 		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public Pagination getBoardPagination(ManagedBoardCriteria adminBoardCri) {
+	public Pagination getBoardPagination(AdminBoardCriteria adminBoardCri) {
 		int totalCnt = adminMapper.findPagedBoardsTotalCnt(adminBoardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, adminBoardCri.getPage(), adminBoardCri.getRecordCnt(), pageRange) : null;
 	}

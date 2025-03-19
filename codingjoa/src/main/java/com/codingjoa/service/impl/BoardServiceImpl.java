@@ -50,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > saved board = {}", (board != null) ? board.getId() : board);
 
 		if (!isBoardSaved) {
-			throw new ExpectedException("error.SaveBoard");
+			throw new ExpectedException("error.board.save");
 		}
 		
 		imageService.activateBoardImages(boardDto.getImages(), board.getId());
@@ -64,7 +64,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > found boardDetailsMap = {}", boardDetailsMap);
 		
 		if (boardDetailsMap == null) {
-			throw new ExpectedException("error.NotFoundBoard", null);
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		return BoardDetailsDto.from(boardDetailsMap);
@@ -97,11 +97,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > found board = {}", board);
 		
 		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		if (board.getUserId() != userId) {
-			throw new ExpectedException("error.NotMyBoard");
+			throw new ExpectedException("error.board.notWriter");
 		}
 		
 		return BoardDto.from(board);
@@ -113,11 +113,11 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > found board = {}", board);
 
 		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		if (board.getUserId() != boardDto.getUserId()) {
-			throw new ExpectedException("error.NotMyBoard");
+			throw new ExpectedException("error.board.notWriter");
 		}
 		
 		log.info("\t > produce searchContent by parsing content for search");
@@ -129,7 +129,7 @@ public class BoardServiceImpl implements BoardService {
 		
 		boolean isUpdated = boardMapper.updateBoard(modifiyBoard);
 		if (!isUpdated) {
-			throw new ExpectedException("error.UpdateBoard");
+			throw new ExpectedException("error.board.update");
 		}
 		
 		imageService.updateBoardImages(boardDto.getImages(), modifiyBoard.getId());
@@ -143,16 +143,16 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > found board = {}", board);
 
 		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		if (board.getUserId() != userId) {
-			throw new ExpectedException("error.NotMyBoard");
+			throw new ExpectedException("error.board.notWriter");
 		}
 		
 		boolean isDeleted = boardMapper.deleteBoard(board);
 		if (!isDeleted) {
-			throw new ExpectedException("error.DeleteBoard");
+			throw new ExpectedException("error.board.delete");
 		}
 		
 		return board;

@@ -5,18 +5,18 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class ManagedCommentCriteria {
+public class AdminCommentCriteria {
 
 	private int page;
 	private int recordCnt;
 	
-	public ManagedCommentCriteria(int page, int recordCnt) {
+	public AdminCommentCriteria(int page, int recordCnt) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 	}
 	
-	public static ManagedCommentCriteria create() {
-		return new ManagedCommentCriteria(1, 10);
+	public static AdminCommentCriteria create() {
+		return new AdminCommentCriteria(1, 10);
 	}
 	
 }

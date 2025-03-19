@@ -17,8 +17,8 @@ import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminCommentDto;
 import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.pagination.ManagedBoardCriteria;
-import com.codingjoa.pagination.ManagedCommentCriteria;
+import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.pagination.AdminCommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.service.AdminService;
@@ -57,7 +57,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards")
-	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri ManagedBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
@@ -76,7 +76,7 @@ public class AdminRestController {
 	}
 
 	@GetMapping("/boards/")
-	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri ManagedBoardCriteria adminBoardCri) {
+	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoardsBySearch");
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
@@ -96,14 +96,14 @@ public class AdminRestController {
 	public ResponseEntity<Object> getPagedComments() {
 		log.info("## getPagedComments");
 		
-		ManagedCommentCriteria adminCommentCri = ManagedCommentCriteria.create();
+		AdminCommentCriteria adminCommentCri = AdminCommentCriteria.create();
 		log.info("\t > create default adminCommentCri = {}", adminCommentCri);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
 	}
 	
 	@GetMapping("/comments/")
-	public ResponseEntity<Object> getPagedComments(@AdminCommentCri ManagedCommentCriteria adminCommentCri) {
+	public ResponseEntity<Object> getPagedComments(@AdminCommentCri AdminCommentCriteria adminCommentCri) {
 		log.info("## getPagedComments");
 		log.info("\t > adminCommentCri = {}", adminCommentCri);
 		

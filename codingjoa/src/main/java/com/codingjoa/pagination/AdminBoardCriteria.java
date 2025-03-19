@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 @Getter
-public class ManagedBoardCriteria {
+public class AdminBoardCriteria {
 	
 	private int page;
 	private int recordCnt;
@@ -19,7 +19,7 @@ public class ManagedBoardCriteria {
 	private String sort;
 	private List<Integer> categories;
 	
-	public ManagedBoardCriteria(int page, int recordCnt, String keyword, String type, String sort, List<Integer> categories) {
+	public AdminBoardCriteria(int page, int recordCnt, String keyword, String type, String sort, List<Integer> categories) {
 		this.page = page;
 		this.recordCnt = recordCnt;
 		this.keyword = keyword;
