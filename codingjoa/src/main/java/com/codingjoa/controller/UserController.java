@@ -57,7 +57,7 @@ public class UserController {
 		userService.saveUser(joinDto);
 		redisService.deleteKey(joinDto.getEmail());
 		
-		request.setAttribute("message", MessageUtils.getMessage("success.Join"));
+		request.setAttribute("message", MessageUtils.getMessage("success.join"));
 		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
 		
 		return "feedback/alert-and-redirect";
@@ -75,9 +75,8 @@ public class UserController {
 		return "user/find-password";
 	}
 	
-	@GetMapping("/resetPassword")
-	public String resetPassword(@RequestParam String key, // pre-check in interceptor 
-			Model model) {
+	@GetMapping("/resetPassword") // pre-check key parameter in interceptor
+	public String resetPassword(@RequestParam String key, Model model) {
 		log.info("## resetPassword");
 		model.addAttribute("key", key);
 		return "user/reset-password";

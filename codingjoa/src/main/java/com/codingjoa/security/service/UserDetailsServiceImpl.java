@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		PrincipalDetails principalDetails = userService.getUserDetailsByEmail(username);
 		
 		if (principalDetails == null) {
-			throw new UsernameNotFoundException(MessageUtils.getMessage("error.BadCredential"));
+			throw new UsernameNotFoundException(MessageUtils.getMessage("error.badCredential"));
 		}
 		
 		return principalDetails;

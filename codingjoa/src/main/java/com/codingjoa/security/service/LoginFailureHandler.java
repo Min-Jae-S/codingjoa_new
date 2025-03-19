@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
@@ -33,8 +32,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
 	private static final String FORWARD_PATH = "/WEB-INF/views/feedback/alert-and-redirect.jsp";
 	private final ObjectMapper objectMapper;
-	Set<Class<?>> handledExceptions = 
-			Set.of(LoginRequireFieldException.class, UsernameNotFoundException.class, BadCredentialsException.class);
+	Set<Class<?>> handledExceptions = Set.of(UsernameNotFoundException.class, BadCredentialsException.class);
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -46,17 +44,15 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		 * AuthenticationServiceException (LoginFilter)
 		 *  - invalid request, invalid json format
 		 *  
-		 * LoginRequireFieldException (LoginFilter)
-		 * 	- no memberId or no memberPassowrd
-		 * 
 		 * UsernameNotFoundException (UserDetailsServiceImpl)
-		 * 	- not found memberId
+		 * 	- not found user by email
 		 * 
-		 * BadCredentialsException (LoginProvider)
-		 * 	- not matched rawPassword, encPassword
+		 * BadCredentialsException (LoginFilter, LoginProvider)
+		 * 	- no email or no password
+		 * 	- not matched password
 		 */
 		
-		String message = MessageUtils.getMessage("error.Login");
+		String message = MessageUtils.getMessage("error.login");
 		
 		if (handledExceptions.contains(e.getClass())) {
 			message = e.getMessage();

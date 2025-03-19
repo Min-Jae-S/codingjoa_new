@@ -27,14 +27,14 @@ public class BoardRestController {
 	private final ImageService imageService;
 	
 	@PostMapping("/image")
-	public ResponseEntity<Object> uploadBoardImage(@ModelAttribute @Valid ImageFileDto uploadFileDto)
+	public ResponseEntity<Object> saveImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto)
 			throws IllegalStateException, IOException {
-		log.info("## uploadBoardImage");
+		log.info("## saveImageWithUpload");
 		
-		BoardImageDto boardImage = imageService.saveBoardImage(uploadFileDto.getFile());
+		BoardImageDto boardImage = imageService.saveBoardImageWithUpload(imageFileDto.getFile());
 		return ResponseEntity.ok(SuccessResponse
 				.builder()
-				.messageByCode("success.UploadBoardImage")
+				.messageByCode("success.board.saveImageWithUpload")
 				.data(boardImage)
 				.build());
 	}

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -16,7 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.dto.LoginDto;
-import com.codingjoa.security.exception.LoginRequireFieldException;
 import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
@@ -61,11 +61,11 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 		String password = loginDto.getPassword();
 		
 		if (!StringUtils.hasText(email)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequireEmail"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.login.emptyEmail"));
 		}
 		
 		if (!StringUtils.hasText(password)) {
-			throw new LoginRequireFieldException(MessageUtils.getMessage("error.LoginRequirePassword"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.login.emptyPassword"));
 		}
 		
 		email = email.trim();

@@ -71,7 +71,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	@SuppressWarnings("unused")
 	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
 		List<GrantedAuthority> mappedAuthorities = new ArrayList<>();
-		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
+		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();

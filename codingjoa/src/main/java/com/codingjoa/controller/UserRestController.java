@@ -117,7 +117,7 @@ public class UserRestController {
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.join.SendAuthCode")
+				.messageByCode("success.join.sendAuthCode")
 				.build());
 	}
 	
@@ -147,7 +147,7 @@ public class UserRestController {
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.SendAuthCode")
+				.messageByCode("success.user.sendAuthCode")
 				.build());
 	}
 	
@@ -163,7 +163,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.UpdateNickname")
+				.messageByCode("success.user.updateNickname")
 				.build());
 	}
 	
@@ -180,7 +180,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.UpdateEmail")
+				.messageByCode("success.user.updateEmail")
 				.build());
 	}
 	
@@ -193,7 +193,7 @@ public class UserRestController {
 		userService.updateAddr(addrDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.UpdateAddress")
+				.messageByCode("success.user.updateAddress")
 				.build());
 	}
 	
@@ -206,7 +206,7 @@ public class UserRestController {
 		userService.updateAgree(agreeDto, principal.getId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.UpdateAgree")
+				.messageByCode("success.user.updateAgree")
 				.build());
 	}
 	
@@ -221,7 +221,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok().body(SuccessResponse.builder()
-				.messageByCode("success.user.SaveImageWithUpload")
+				.messageByCode("success.user.saveImageWithUpload")
 				.build());
 	}
 	
@@ -237,7 +237,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.UpdatePassword")
+				.messageByCode("success.user.updatePassword")
 				.build());
 	}
 	
@@ -253,7 +253,7 @@ public class UserRestController {
 		addJwtCookie(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.user.SavePassword")
+				.messageByCode("success.user.savePassword")
 				.build());
 	}
 	
@@ -287,7 +287,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PostMapping("/password")
+	@PostMapping("/password") // pre-check key parameter in interceptor
 	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordChangeDto passwordChangeDto) {
 		log.info("## resetPassword");
 		log.info("\t > key = {}", key);
