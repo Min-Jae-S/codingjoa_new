@@ -318,10 +318,11 @@ public class UserServiceImpl implements UserService {
 			throw new ExpectedException("error.user.NotFound");
 		}
 		
-		String newPassword = passwordSaveDto.getNewPassword();
+		String rawPassword = passwordSaveDto.getNewPassword();
+		String encPassword = passwordEncoder.encode(rawPassword);
 		User modifyUser = User.builder()
 				.id(user.getId())
-				.password(passwordEncoder.encode(newPassword))
+				.password(encPassword)
 				.build();
 		
 		boolean isSaved = userMapper.updatePassword(modifyUser);

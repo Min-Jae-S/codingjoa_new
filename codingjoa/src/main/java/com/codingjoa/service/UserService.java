@@ -41,8 +41,10 @@ public interface UserService {
 	
 	void savePassword(PasswordSaveDto passwordSaveDto, long userId);
 	
-	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
+	// for authentication in UserDetailsService, OAuth2UserService
+	PrincipalDetails getUserDetailsByEmail(String email); 
 
-	PrincipalDetails getUserDetailsById(long userId); // for JWT re-issuance after updating
+	// for JWT re-issuance after updating
+	PrincipalDetails getUserDetailsById(long userId); 
 	
 }
