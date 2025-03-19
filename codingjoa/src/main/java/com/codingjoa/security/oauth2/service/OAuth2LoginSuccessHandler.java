@@ -49,7 +49,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String continueUrl = (String) authentication.getDetails();
 		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
 		request.setAttribute("continueUrl", continueUrl);
-		request.setAttribute("message", MessageUtils.getMessage("success.Login"));
+		request.setAttribute("message", MessageUtils.getMessage("success.login.oauth2"));
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");
 		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);

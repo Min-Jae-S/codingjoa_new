@@ -48,7 +48,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
-				.messageByCode("success.Login")
+				.messageByCode("success.login")
 				.data(continueUrl)
 				.build();
 		
