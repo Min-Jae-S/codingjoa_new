@@ -63,8 +63,7 @@ public class AppConfig {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
-		source.setBasenames("/WEB-INF/properties/error-message", "/WEB-INF/properties/success-message", 
-				"/WEB-INF/properties/validation-message");
+		source.setBasenames("/WEB-INF/properties/message/error", "/WEB-INF/properties/success", "/WEB-INF/properties/validation");
 		return source;
 	}
 	
@@ -122,7 +121,7 @@ public class AppConfig {
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer(ApplicationContext context) {
 		PropertySourcesPlaceholderConfigurer configuer = new PropertySourcesPlaceholderConfigurer();
 		try {
-			Resource[] resources = context.getResources("WEB-INF/properties/*.properties"); // resourcePatternResolver
+			Resource[] resources = context.getResources("WEB-INF/properties/**/*.properties"); // resourcePatternResolver
 			configuer.setLocations(resources);
 			configuer.setFileEncoding("UTF-8");
 		} catch (IOException e) {

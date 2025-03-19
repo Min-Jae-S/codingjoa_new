@@ -30,7 +30,6 @@ public class PropertiesApplicationContextInitializer implements ApplicationConte
 			for (Resource resource : resources) {
 				if (resource.exists()) {
 					PropertySource<?> propertySource = new ResourcePropertySource(resource);
-					log.info("\t > {}", propertySource.getName());
 					env.getPropertySources().addLast(propertySource);
 				}
 			}
