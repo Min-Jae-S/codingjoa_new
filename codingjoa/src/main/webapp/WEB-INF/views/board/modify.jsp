@@ -8,12 +8,11 @@
 <title>게시글 수정 | Codingjoa</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="${contextPath}/resources/css/common.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>

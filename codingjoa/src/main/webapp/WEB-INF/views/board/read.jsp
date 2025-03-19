@@ -16,8 +16,7 @@
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/like.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
@@ -802,7 +801,7 @@
 			}
 			
 			let commentId = $(this).closest("li.list-group-item").data("id");
-			commentService.deleteComment(commentIdx, function(result) {
+			commentService.deleteComment(commentId, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, curCommentPage, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -846,7 +845,6 @@
 				let boardLiked = result.data;
 				let iconClass = boardLiked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
 				$("#boardLikeBtn .icon").html(`<i class="\${iconClass}"></i>`);
-				//$("#boardLikeBtn .icon").html('<i class="' + iconClass + '"></i>');
 				
 				likeService.getBoardLikeCnt(boardId, function(result) {
 					$(".board-like-cnt").text(result.data);
@@ -864,7 +862,6 @@
 				let commentLiked = result.data;
 				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
 				$this.find(".icon").html(`<i class="\${iconClass}"></i>`);
-				//$this.find(".icon").html('<i class="' + iconClass + '"></i>');
 				
 				likeService.getCommentLikeCnt(commentId, function(result) {
 					$this.find(".comment-like-cnt").text(result.data);
