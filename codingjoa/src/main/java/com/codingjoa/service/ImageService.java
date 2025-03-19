@@ -10,7 +10,7 @@ public interface ImageService {
 	
 	void saveUserImageWithUpload(MultipartFile file, long userId);
 	
-	BoardImageDto saveBoardImage(MultipartFile file);
+	BoardImageDto saveBoardImageWithUpload(MultipartFile file);
 	
 	boolean isBoardImageUploaded(Long boardImageId);
 	

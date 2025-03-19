@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.dto.BoardImageDto;
@@ -42,7 +41,7 @@ public class ImageServiceImpl implements ImageService {
 		File folder = new File(userImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
-				throw new ExpectedException("error.user.UploadImage");
+				throw new ExpectedException("error.user.uploadImage");
 			}
 		}
 		
@@ -51,7 +50,7 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
-			throw new ExpectedException("error.user.UploadImage");
+			throw new ExpectedException("error.user.uploadImage");
 		}
 		
 //		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -74,16 +73,16 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > saved userImage = {}", userImage);
 		
 		if (!isSaved) { 
-			throw new ExpectedException("error.user.SaveImage");
+			throw new ExpectedException("error.user.saveImage");
 		}
 	}
 
 	@Override
-	public BoardImageDto saveBoardImage(MultipartFile file) {
+	public BoardImageDto saveBoardImageWithUpload(MultipartFile file) {
 		File folder = new File(boardImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
-				throw new ExpectedException("error.UploadBoardImage");
+				throw new ExpectedException("error.board.uploadImage");
 			}
 		}
 		
@@ -92,11 +91,14 @@ public class ImageServiceImpl implements ImageService {
 		try {
 			file.transferTo(uploadFile);
 		} catch (Exception e) {
-			throw new ExpectedException("error.UploadBoardImage");
+			throw new ExpectedException("error.board.uploadImage");
 		}
 		
-		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/board/images/{filename}")
+//		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
+//				.path("/board/images/{filename}")
+//				.buildAndExpand(filename)
+//				.toUriString();
+		String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
 		log.info("\t > path = {}", path);
@@ -112,7 +114,7 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > saved boardImage = {}", boardImage);
 		
 		if (!isSaved) {
-			throw new ExpectedException("error.SaveBoardImage");
+			throw new ExpectedException("error.board.saveImage");
 		}
 		
 		return BoardImageDto.from(boardImage);

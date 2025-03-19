@@ -114,7 +114,6 @@ public class AppConfig {
 	 * ensuring that injection can be guaranteed before the properties are used by the libraries.
 	 * 
 	 * "Spring generally recommends property injection through EnvironmentPostProcessor"
-	 * 
 	 */
 	
 	@Bean

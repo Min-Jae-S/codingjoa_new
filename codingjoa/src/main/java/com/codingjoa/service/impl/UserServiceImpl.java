@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > saved user = {}", user);
 		
 		if (!isUserSaved) {
-			throw new ExpectedException("error.user.SaveUser");
+			throw new ExpectedException("error.user.saveUser");
 		}
 		
 		Auth auth = Auth.builder()
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
-			throw new ExpectedException("error.user.SaveAuth");
+			throw new ExpectedException("error.user.saveAuth");
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > saved user = {}", user);
 		
 		if (!isUserSaved) {
-			throw new ExpectedException("error.user.SaveUser");
+			throw new ExpectedException("error.user.saveUser");
 		}
 		
 		SnsInfo snsInfo = SnsInfo.builder()
@@ -97,12 +97,12 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > saved snsInfo = {}", snsInfo);
 		
 		if (!isSnsInfoSaved) {
-			throw new ExpectedException("error.user.SaveSnsInfo");
+			throw new ExpectedException("error.user.saveSnsInfo");
 		}
 
 		Auth auth = Auth.builder()
 				.userId(user.getId())
-				.role("ROLE_MEMBER")
+				.role("ROLE_USER")
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
-			throw new ExpectedException("error.user.SaveAuth");
+			throw new ExpectedException("error.user.saveAuth");
 		}
 	}
 	
@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForJoin(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user != null) {
-			throw new ExpectedException("error.join.AlreadyRegisteredEmail", "email");
+			throw new ExpectedException("error.join.emailExists", "email");
 		}
 	}
 	
@@ -167,7 +167,7 @@ public class UserServiceImpl implements UserService {
 	public AccountDto getAccountById(Long userId) {
 		Map<String, Object> accountMap = userMapper.findAccountById(userId);
 		if (accountMap == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		return AccountDto.from(accountMap);
@@ -177,17 +177,17 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForUpdate(String email, long userId) {
 		User userById = userMapper.findUserById(userId);
 		if (userById == null) {
-			throw new ExpectedException("error.user.NotFound", "email");
+			throw new ExpectedException("error.user.notFound", "email");
 		}
 		
 		String currentEmail = userById.getEmail();
 		if (email.equals(currentEmail)) {
-			throw new ExpectedException("error.user.NotCurrentEmail", "email");
+			throw new ExpectedException("error.user.notCurrentEmail", "email");
 		}
 		
 		User userByEmail = userMapper.findUserByEmail(email);
 		if (userByEmail != null) {
-			throw new ExpectedException("error.user.AlreadyRegisteredEmail", "email");
+			throw new ExpectedException("error.user.emailExists", "email");
 		}
 	}
 	
@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForReset(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user == null) {
-			throw new ExpectedException("error.NotRegisteredEmail", "email");
+			throw new ExpectedException("error.notRegisteredEmail", "email");
 		}
 	}
 	
@@ -203,13 +203,13 @@ public class UserServiceImpl implements UserService {
 	public void updateNickname(NicknameDto nicknameDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		String currentNickname = user.getNickname();
 		String newNickname = nicknameDto.getNickname();
 		if (!newNickname.equals(currentNickname) && userMapper.isNicknameExist(newNickname)) {
-			throw new ExpectedException("error.user.AlreadyRegisteredNickname", "nickname");
+			throw new ExpectedException("error.user.nicknameExists", "nickname");
 		}
 		
 		User modifyUser = User.builder()
@@ -219,7 +219,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isUpdated = userMapper.updateNickname(modifyUser);
 		if (!isUpdated) {
-			throw new ExpectedException("error.user.UpdateNickname");
+			throw new ExpectedException("error.user.updateNickname");
 		}
 	}
 
@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService {
 	public void updateEmail(EmailAuthDto emailAuthDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		User modifyUser = User.builder()
@@ -237,7 +237,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isUpdated = userMapper.updateEmail(modifyUser);
 		if (!isUpdated) {
-			throw new ExpectedException("error.user.UpdateEmail");
+			throw new ExpectedException("error.user.updateEmail");
 		}
 		
 		// update snsInfo
@@ -248,7 +248,7 @@ public class UserServiceImpl implements UserService {
 	public void updateAddr(AddrDto addrDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		User modifyUser = User.builder()
@@ -260,7 +260,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isUpdated = userMapper.updateAddr(modifyUser);
 		if (!isUpdated) {
-			throw new ExpectedException("error.user.UpdateAddr");
+			throw new ExpectedException("error.user.updateAddr");
 		}
 	}
 
@@ -268,7 +268,7 @@ public class UserServiceImpl implements UserService {
 	public void updateAgree(AgreeDto agreeDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		User modifyUser = User.builder()
@@ -278,7 +278,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isUpdated = userMapper.updateAgree(modifyUser);
 		if (!isUpdated) {
-			throw new ExpectedException("error.user.UpdateAgree");
+			throw new ExpectedException("error.user.updateAgree");
 		}
 	}
 	
@@ -286,18 +286,18 @@ public class UserServiceImpl implements UserService {
 	public void updatePassword(PasswordChangeDto passwordChangeDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		String password = user.getPassword();
 		String currentPassword = passwordChangeDto.getCurrentPassword();
 		if (!passwordEncoder.matches(currentPassword, password)) {
-			throw new ExpectedException("error.user.MismatchPassword", "currentPassword");
+			throw new ExpectedException("error.user.mismatchPassword", "currentPassword");
 		}
 		
 		String newPassword = passwordChangeDto.getNewPassword();
 		if (passwordEncoder.matches(newPassword, password)) {
-			throw new ExpectedException("error.user.SamePassword", "newPassword");
+			throw new ExpectedException("error.user.samePassword", "newPassword");
 		}
 		
 		User modifyUser = User.builder()
@@ -307,7 +307,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isUpdated = userMapper.updatePassword(modifyUser);
 		if (!isUpdated) {
-			throw new ExpectedException("error.user.UpdatePassword");
+			throw new ExpectedException("error.user.updatePassword");
 		}
 	}
 	
@@ -315,7 +315,7 @@ public class UserServiceImpl implements UserService {
 	public void savePassword(PasswordSaveDto passwordSaveDto, long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		String rawPassword = passwordSaveDto.getNewPassword();
@@ -327,7 +327,7 @@ public class UserServiceImpl implements UserService {
 		
 		boolean isSaved = userMapper.updatePassword(modifyUser);
 		if (!isSaved) {
-			throw new ExpectedException("error.user.SavePassword");
+			throw new ExpectedException("error.user.savePassword");
 		}
 	}
 	
@@ -341,7 +341,7 @@ public class UserServiceImpl implements UserService {
 	public PrincipalDetails getUserDetailsById(long userId) {
 		Map<String, Object> userDetailsMap = userMapper.findUserDetailsById(userId);
 		if (userDetailsMap == null) {
-			throw new ExpectedException("error.user.NotFound");
+			throw new ExpectedException("error.user.notFound");
 		}
 		
 		return PrincipalDetails.from(userDetailsMap);

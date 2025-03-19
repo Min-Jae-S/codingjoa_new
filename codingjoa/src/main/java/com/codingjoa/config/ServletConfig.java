@@ -100,7 +100,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 		registry.addResourceHandler("/user/images/**")
-				.addResourceLocations("file:///" + env.getProperty("upload.dir.user.image")); // D:/Dev/upload/member/images/
+				.addResourceLocations("file:///" + env.getProperty("upload.dir.user.image")); 	// D:/Dev/upload/user/images/
 		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 	}
