@@ -41,7 +41,6 @@ import com.codingjoa.service.UserService;
 import com.codingjoa.util.CookieUtils;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
-import com.codingjoa.validator.FindPasswordValidator;
 import com.codingjoa.validator.ImageFileValidator;
 import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
@@ -92,11 +91,6 @@ public class UserRestController {
 	@InitBinder("passwordSaveDto")
 	public void InitBinderPasswordSave(WebDataBinder binder) {
 		binder.addValidators(new PasswordSaveValidator());
-	}
-	
-	@InitBinder("findPasswordDto")
-	public void InitBinderFindPassword(WebDataBinder binder) {
-		binder.addValidators(new FindPasswordValidator());
 	}
 	
 	@GetMapping("/account")

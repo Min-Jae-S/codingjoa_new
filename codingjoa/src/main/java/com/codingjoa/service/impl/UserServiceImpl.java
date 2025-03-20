@@ -192,11 +192,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void checkEmailForReset(String email) {
+	public Long checkEmailForReset(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user == null) {
 			throw new ExpectedException("error.notRegisteredEmail", "email");
 		}
+		
+		return user.getId();
 	}
 	
 	@Override

@@ -44,7 +44,7 @@ let mainService = (function() {
 		console.log("## sendPasswordResetLink");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/password/reset-link/send`,
+			url : `${contextPath}/api/password/reset-link/send`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",

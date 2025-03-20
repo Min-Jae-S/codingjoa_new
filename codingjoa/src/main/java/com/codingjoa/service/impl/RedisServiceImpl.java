@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RedisServiceImpl implements RedisService {
 	
 	private static final Duration KEY_EXPIRATION = Duration.ofMinutes(30L);
-	private final RedisTemplate<String, String> redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	@Override
-	public void saveKeyAndValue(String key, String value) {
+	public void saveKeyAndValue(String key, Object value) {
 		log.info("## saveKeyAndValue");
 		log.info("\t > key = {}, value = {}", key, value);
-		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
 		valueOperations.set(key, value, KEY_EXPIRATION);
 	}
 
@@ -33,17 +33,12 @@ public class RedisServiceImpl implements RedisService {
 	}
 	
 	@Override
-	public String findValueByKey(String key) {
+	public Object findValueByKey(String key) {
 		log.info("## findValueByKey, key = {}", key);
-		ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+		ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
 		return valueOperations.get(key);
 	}
 	
-	@Override
-	public boolean isAuthCodeValid(String key, String value) {
-		return value.equals(findValueByKey(key));
-	}
-
 	@Override
 	public void deleteKey(String key) {
 		redisTemplate.delete(key);

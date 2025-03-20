@@ -27,7 +27,7 @@ public interface UserService {
 	
 	void checkEmailForUpdate(String email, long userId);
 	
-	void checkEmailForReset(String email);
+	Long checkEmailForReset(String email);
 	
 	void updateNickname(NicknameDto nicknameDto, long userId);
 	

@@ -52,7 +52,8 @@ public class EmailAuthValidator implements Validator {
 			return;
 		}
 		
-		if (!redisService.isAuthCodeValid(email, authCode)) {
+		String savedCode = (String) redisService.findValueByKey(email);
+		if (!authCode.equals(savedCode)) {
 			errors.rejectValue("authCode", "NotValid");
 			return;
 		}

@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.enumclass.MailType;
@@ -28,6 +29,7 @@ import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
 import com.codingjoa.util.FormatUtils;
+import com.codingjoa.validator.EmailValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,11 @@ public class MainRestController {
 	private final UserService userService;
 	private final EmailService emailService;
 	private final RedisService redisService;
+	
+	@InitBinder("emailDto")
+	public void InitBinderEmail(WebDataBinder binder) {
+		binder.addValidators(new EmailValidator());
+	}
 	
 	@PostMapping("/join/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
@@ -62,12 +69,16 @@ public class MainRestController {
 	}
 	
 	@PostMapping("/password/reset-link/send")
-	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid FindPasswordDto findPasswordDto) {
-		log.info("## findPassword");
-		log.info("\t > findPasswordDto = {}", findPasswordDto);
+	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid EmailDto emailDto) {
+		log.info("## sendPasswordResetLink");
+		log.info("\t > emailDto = {}", emailDto);
 		
-		String email = findPasswordDto.getMemberEmail();
+		String email = emailDto.getEmail();
+		Long userId = userService.checkEmailForReset(email);
 		String key = UUID.randomUUID().toString().replace("-", "");
+		
+		redisService.saveKeyAndValue(key, userId);
+		
 		String passwordResetLink = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/password/reset")
 				.queryParam("key", key)
@@ -76,10 +87,9 @@ public class MainRestController {
 		log.info("\t > passwordResetLink = {}", passwordResetLink);
 		
 		emailService.send(email, MailType.PASSWORD_RESET, passwordResetLink);
-		redisService.saveKeyAndValue(key, email);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.FindPassword")
+				.messageByCode("success.sendPasswordResetLink")
 				.build());
 	}
 		
@@ -89,12 +99,12 @@ public class MainRestController {
 		log.info("\t > key = {}", key);
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
 		
-		Integer userId = Integer.parseInt(redisService.findValueByKey(key));
+		Long userId = (Long) redisService.findValueByKey(key);
 		userService.updatePassword(passwordChangeDto, userId);
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.ResetPassword")
+				.messageByCode("success.resetPassword")
 				.build());
 	}
 	
