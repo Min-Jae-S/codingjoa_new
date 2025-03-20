@@ -1,9 +1,13 @@
 package com.codingjoa.service;
 
+import com.codingjoa.enumclass.MailType;
+
 public interface EmailService {
 	
-	void sendAuthCode(String email, String authCode);
+//	void sendAuthCode(String to, String authCode);
+//	
+//	void sendPasswordResetLink(String to, String passwordResetLink);
 	
-	void sendPasswordResetLink(String email, String url);
+	void send(String to, MailType mailType, String value);
 	
 }

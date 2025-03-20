@@ -31,6 +31,7 @@ import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.enumclass.MailType;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
@@ -120,7 +121,7 @@ public class UserRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthCode(email, authCode);
+		emailService.send(email, MailType.AUTH_CODE, authCode);
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

@@ -23,6 +23,7 @@ import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.FindPasswordDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.enumclass.MailType;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
@@ -52,7 +53,7 @@ public class MainRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.sendAuthCode(email, authCode);
+		emailService.send(email, MailType.AUTH_CODE, authCode);
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -61,14 +62,9 @@ public class MainRestController {
 	}
 	
 	@PostMapping("/password/reset-link/send")
-	public ResponseEntity<Object> sendPasswordResetLink (@RequestBody @Valid FindPasswordDto findPasswordDto) {
+	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid FindPasswordDto findPasswordDto) {
 		log.info("## findPassword");
 		log.info("\t > findPasswordDto = {}", findPasswordDto);
-		
-		//String memberId = findPasswordDto.getMemberId();
-		//String memberEmail = findPasswordDto.getMemberEmail();
-		//Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
-		//log.info("\t > found memberIdx = {}", memberIdx);
 		
 		String email = findPasswordDto.getMemberEmail();
 		String key = UUID.randomUUID().toString().replace("-", "");
@@ -79,7 +75,7 @@ public class MainRestController {
 				.toString();
 		log.info("\t > passwordResetLink = {}", passwordResetLink);
 		
-		emailService.sendPasswordResetLink(email, passwordResetLink);
+		emailService.send(email, MailType.PASSWORD_RESET, passwordResetLink);
 		redisService.saveKeyAndValue(key, email);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

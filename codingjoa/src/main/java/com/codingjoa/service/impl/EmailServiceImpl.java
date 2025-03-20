@@ -22,18 +22,19 @@ public class EmailServiceImpl implements EmailService {
 	private final JavaMailSender mailSender;
 	private final TemplateEngine templateEngine;
 	
-	@Async 
+	@Async
 	@Override
-	public void sendAuthCode(String email, String authCode) {
+	public void send(String to, MailType mailType, String value) {
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-			mailHelper.setTo(email);
-			mailHelper.setSubject("[CodingJoa] 이메일 인증번호");
+			mailHelper.setTo(to);
+			mailHelper.setSubject(getSubject(mailType));
 			
-			String html = buildTemplate(MailType.AUTH_CODE, authCode);
+			String html = buildTemplate(mailType, value);
 			mailHelper.setText(html, true);
 			mailSender.send(mimeMessage);
+			
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
@@ -42,39 +43,30 @@ public class EmailServiceImpl implements EmailService {
 		//return authCode; because @Async --> null
 	}
 	
-	@Async
-	@Override
-	public void sendPasswordResetLink(String email, String url) {
-		try {
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-			
-			mailHelper.setTo(email);
-			mailHelper.setSubject("[CodingJoa] 비밀번호 재설정 링크");
-			
-			String html = buildTemplate(MailType.FIND_PASSWORD, url);
-			mailHelper.setText(html, true);
-			mailSender.send(mimeMessage);
-		} catch (MessagingException e) {
-			e.printStackTrace();
+	private String getSubject(MailType mailType) {
+		switch (mailType) {
+		case AUTH_CODE:
+			return "[CodingJoa] 이메일 인증번호";
+		case PASSWORD_RESET:
+			return "[CodingJoa] 비밀번호 재설정 링크";
+		default:
+			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
 		}
-		
 	}
 	
-	private String buildTemplate(MailType mailType, String... variable) {
-		String template;
+	private String buildTemplate(MailType mailType, String value) {
 		Context context = new Context();
-		if (mailType == MailType.AUTH_CODE) {
-			context.setVariable("authCode", variable[0]);
-			template = "template/auth-code-mail";
-		} else if (mailType == MailType.FIND_ACCOUNT) {
-			context.setVariable("memberId", variable[0]);
-			template = "template/find-account-mail";
-		} else { // MailType.FIND_PASSWORD
-			context.setVariable("resetPasswordUrl", variable[1]);
-			template = "template/find-password-mail";
-		}
 		
-		return templateEngine.process(template, context);
+		switch (mailType) {
+		case AUTH_CODE:
+			context.setVariable("authCode", value);
+			return templateEngine.process("template/auth-code", context);
+		case PASSWORD_RESET:
+			context.setVariable("passwordResetLink", value);
+			return templateEngine.process("template/password-reset", context);
+		default:
+			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
+		}
 	}
+
 }
