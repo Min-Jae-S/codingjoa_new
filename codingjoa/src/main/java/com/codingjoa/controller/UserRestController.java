@@ -1,7 +1,6 @@
 package com.codingjoa.controller;
 
 import java.time.Duration;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,21 +19,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.FindPasswordDto;
+import com.codingjoa.dto.ImageFileDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.dto.ImageFileDto;
-import com.codingjoa.dto.AccountDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;
@@ -45,10 +41,10 @@ import com.codingjoa.util.CookieUtils;
 import com.codingjoa.validator.EmailAuthValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.FindPasswordValidator;
+import com.codingjoa.validator.ImageFileValidator;
 import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 import com.codingjoa.validator.PasswordSaveValidator;
-import com.codingjoa.validator.ImageFileValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,25 +98,6 @@ public class UserRestController {
 		binder.addValidators(new FindPasswordValidator());
 	}
 	
-	@PostMapping("/join/auth")
-	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
-		log.info("## sendAuthCodeForJoin");
-		log.info("\t > emailDto = {}", emailDto);
-
-		String email = emailDto.getEmail();
-		userService.checkEmailForJoin(email);
-
-		String authCode = RandomStringUtils.randomNumeric(6);
-		log.info("\t > authCode = {}", authCode);
-		
-		emailService.sendAuthCode(email, authCode);
-		redisService.saveKeyAndValue(email, authCode);
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.join.sendAuthCode")
-				.build());
-	}
-	
 	@GetMapping("/account")
 	public ResponseEntity<Object> getAccount(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getAccount");
@@ -131,7 +108,7 @@ public class UserRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(account).build());
 	}
 	
-	@PostMapping("/account/email/auth")
+	@PostMapping("/account/email/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## sendAuthCodeForEmailUpdate");
@@ -254,51 +231,6 @@ public class UserRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.savePassword")
-				.build());
-	}
-	
-	// findPassword --> sendResetPasswordUrl
-	@PostMapping("/find/password")
-	public ResponseEntity<Object> findPassword(@RequestBody @Valid FindPasswordDto findPasswordDto) {
-		log.info("## findPassword");
-		log.info("\t > findPasswordDto = {}", findPasswordDto);
-		
-		//String memberId = findPasswordDto.getMemberId();
-		//String memberEmail = findPasswordDto.getMemberEmail();
-		//Long memberIdx = userService.getMemberIdxByIdAndEmail(memberId, memberEmail);
-		//log.info("\t > found memberIdx = {}", memberIdx);
-		
-		String key = UUID.randomUUID().toString().replace("-", "");
-		log.info("\t > key = {}", key);
-		
-		String resetPasswordUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/user/resetPassword")
-				.queryParam("key", key)
-				.build()
-				.toString();
-		log.info("\t > resetPasswordUrl = {}", resetPasswordUrl);
-		
-		String email = findPasswordDto.getMemberEmail();
-		emailService.sendResetPasswordUrl(email, resetPasswordUrl);
-		redisService.saveKeyAndValue(key, email);
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.FindPassword")
-				.build());
-	}
-	
-	@PostMapping("/password") // pre-check key parameter in interceptor
-	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordChangeDto passwordChangeDto) {
-		log.info("## resetPassword");
-		log.info("\t > key = {}", key);
-		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
-		
-		Integer userId = Integer.parseInt(redisService.findValueByKey(key));
-		userService.updatePassword(passwordChangeDto, userId);
-		redisService.deleteKey(key);
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.ResetPassword")
 				.build());
 	}
 	

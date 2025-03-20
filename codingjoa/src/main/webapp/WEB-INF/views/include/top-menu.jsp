@@ -45,7 +45,7 @@
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/user/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/join" class="nav-link">회원가입</a>
 					</li>
 				</c:if>
 				<sec:authorize access="isAnonymous()">
@@ -53,7 +53,7 @@
 						<a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/user/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">

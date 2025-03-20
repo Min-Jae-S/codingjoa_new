@@ -112,10 +112,10 @@
 					</div>
 				</form>
 				<div class="info-user">
-					<a class="link-join" href="${contextPath}/user/join">회원가입</a>
+					<a class="link-join" href="${contextPath}/join">회원가입</a>
 					<ul class="link-ul">
 						<li class="link-li">
-							<a href="${contextPath}/user/findPassword">비밀번호 찾기</a>
+							<a href="${contextPath}/password/find">비밀번호 찾기</a>
 						</li>
 					</ul>
 				</div>

@@ -90,3 +90,19 @@ function handleLoginError(errorResponse) {
 		$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 	}
 }
+
+function handleMainError(errorResponse) {
+	console.log("## handleMainError");
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
+		});
+		return;
+	}
+	
+	let message = errorResponse.message;
+	if (message != "") {
+		alert(message);
+	}
+}
