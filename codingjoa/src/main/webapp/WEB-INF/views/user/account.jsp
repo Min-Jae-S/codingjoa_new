@@ -14,7 +14,7 @@
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/fontawesome/js/all.xjs"></script>
+<script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="${contextPath}/resources/js/user.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
@@ -341,87 +341,9 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	function execPostcode() {
-	    new daum.Postcode({
-	        oncomplete: function(data) {
-	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	            let addr = ''; // 주소 변수
-	
-	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-	                addr = data.roadAddress;
-	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
-	                addr = data.jibunAddress;
-	            }
-	
-	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.getElementById('zipcode').value = data.zonecode;
-	            document.getElementById('addr').value = addr;
-	            document.getElementById('addrDetail').value = '';
-	            
-	            // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
-	            let zipcodeErrorElement = document.getElementById('zipcode.errors');
-	            let addrErrorElement = document.getElementById('addr.errors');
-	            
-	            if (zipcodeErrorElement != null) {
-	            	zipcodeErrorElement.remove();
-	            }
-	            
-	            if (addrErrorElement != null) {
-	            	addrErrorElement.remove();
-	            }
-	
-	            // 커서를 상세주소 필드로 이동한다.
-	            document.getElementById("addrDetail").focus();
-	        }
-	    }).open();
-	}
+	initAccountPage();
 	
 	$(function() {
-		userService.getAccount(function(result) {
-			// destructuring assignment (구조 분해 할당)
-			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
-			
-			$("#userThumbImage").attr("src", imagePath ? 
-					`${contextPath}\${imagePath}` : "${contextPath}/resources/images/img_profile.png");
-			
-			$("#nickname").attr("value", nickname);
-			$("#showNickname span").text(nickname);
-			
-			$("#email").attr("value", email);
-			$("#showEmail span").text(email);
-			
-			if (zipcode) {
-				$("#zipcode").attr("value", zipcode);
-				$("#showZipcode span").text(zipcode);
-			}
-			
-			if (addr) {
-				$("#addr").attr("value", addr);
-				$("#showAddr span").text(addr);
-			}
-			
-			if (addrDetail) {
-				$("#addrDetail").attr("value", addrDetail);
-				$("#showAddrDetail span").text(addrDetail);
-			}
-			
-			if (zipcode && addr && addrDetail) {
-				$("#showZipcode button").html("수정");
-				$("#showAddr, #showAddrDetail").removeClass("d-none");
-			}
-			
-			$("#agree").attr("checked", agree);
-			$("#showAgree input[type='checkbox']").attr("checked", agree);
-			
-			//$("div.security-wrap").html(hasPassword ? createPasswordChangeForm() : createPasswordSaveForm());
-			if (hasPassword) {
-				$("div.security-wrap").html(createPasswordChangeForm());
-			}
-		});
-		
 		$("#userImageBtn").on("click", function() {
 			$("#userImage").click();
 		});
@@ -599,6 +521,89 @@
 			$dl.find("div.form-wrap").addClass("d-none");
 		});
 	});
+	
+	function initAccountPage() {
+		console.log("## initAccountPage"); 
+		userService.getAccount(function(result) {
+			// destructuring assignment (구조 분해 할당)
+			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
+			
+			$("#userThumbImage").attr("src", imagePath ? 
+					`${contextPath}\${imagePath}` : "${contextPath}/resources/images/img_profile.png");
+			
+			$("#nickname").attr("value", nickname);
+			$("#showNickname span").text(nickname);
+			
+			$("#email").attr("value", email);
+			$("#showEmail span").text(email);
+			
+			if (zipcode) {
+				$("#zipcode").attr("value", zipcode);
+				$("#showZipcode span").text(zipcode);
+			}
+			
+			if (addr) {
+				$("#addr").attr("value", addr);
+				$("#showAddr span").text(addr);
+			}
+			
+			if (addrDetail) {
+				$("#addrDetail").attr("value", addrDetail);
+				$("#showAddrDetail span").text(addrDetail);
+			}
+			
+			if (zipcode && addr && addrDetail) {
+				$("#showZipcode button").html("수정");
+				$("#showAddr, #showAddrDetail").removeClass("d-none");
+			}
+			
+			$("#agree").attr("checked", agree);
+			$("#showAgree input[type='checkbox']").attr("checked", agree);
+			
+			//$("div.security-wrap").html(hasPassword ? createPasswordChangeForm() : createPasswordSaveForm());
+			if (hasPassword) {
+				$("div.security-wrap").html(createPasswordChangeForm());
+			}
+		});
+	}
+	
+	function execPostcode() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	            let addr = ''; // 주소 변수
+	
+	            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                addr = data.roadAddress;
+	            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                addr = data.jibunAddress;
+	            }
+	
+	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	            document.getElementById('zipcode').value = data.zonecode;
+	            document.getElementById('addr').value = addr;
+	            document.getElementById('addrDetail').value = '';
+	            
+	            // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
+	            let zipcodeErrorElement = document.getElementById('zipcode.errors');
+	            let addrErrorElement = document.getElementById('addr.errors');
+	            
+	            if (zipcodeErrorElement != null) {
+	            	zipcodeErrorElement.remove();
+	            }
+	            
+	            if (addrErrorElement != null) {
+	            	addrErrorElement.remove();
+	            }
+	
+	            // 커서를 상세주소 필드로 이동한다.
+	            document.getElementById("addrDetail").focus();
+	        }
+	    }).open();
+	}
 </script>
 </body>
 </html>

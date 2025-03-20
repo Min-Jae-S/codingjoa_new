@@ -68,17 +68,5 @@ public class UserController {
 		log.info("## account");
 		return "user/account";
 	}
-
-	@GetMapping("/findPassword")
-	public String findPassword() {
-		log.info("## findPassword");
-		return "user/find-password";
-	}
 	
-	@GetMapping("/resetPassword") // pre-check key parameter in interceptor
-	public String resetPassword(@RequestParam String key, Model model) {
-		log.info("## resetPassword");
-		model.addAttribute("key", key);
-		return "user/reset-password";
-	}
 }

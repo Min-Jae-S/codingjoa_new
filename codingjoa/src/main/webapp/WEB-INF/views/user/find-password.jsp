@@ -62,7 +62,7 @@
 	<div class="find-password-wrap">
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
-				<div class="title-wrap">
+				<div class="title-wrap mb-0">
 					<h4 class="font-weight-bold">비밀번호 찾기</h4>
 				</div>
 				<div class="pt-3">
