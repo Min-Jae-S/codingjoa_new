@@ -89,7 +89,7 @@ public class MainRestController {
 		emailService.send(email, MailType.PASSWORD_RESET, passwordResetLink);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.sendPasswordResetLink")
+				.messageByCode("success.reset-password.sendPasswordResetLink")
 				.build());
 	}
 		
@@ -104,7 +104,7 @@ public class MainRestController {
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.resetPassword")
+				.messageByCode("success.reset-password.resetPassword")
 				.build());
 	}
 	
