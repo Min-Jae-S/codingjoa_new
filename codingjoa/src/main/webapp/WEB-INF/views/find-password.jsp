@@ -24,9 +24,9 @@
 	
 	input[type="text"] {
 		border: none;
-		width: 100%;
+		flex-grow: 1;
 		padding: 3px 0 3px 7px;
-		/* padding: 0; */
+		font-size: 14px;
 	}
 	
 	input[type="text"]:focus {

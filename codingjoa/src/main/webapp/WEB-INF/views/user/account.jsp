@@ -18,7 +18,7 @@
 <script src="${contextPath}/resources/js/user.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
-	.form-wrap input[type="text"], .form-wrap input[type="password"] {
+	input[type="text"], input[type="password"] {
 		border: none;
 		flex-grow: 1;
 		padding: 5px 0 5px 7px;

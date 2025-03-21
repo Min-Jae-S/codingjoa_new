@@ -21,10 +21,11 @@
 		margin: 0 auto;
 	}
 	
-	input[type="text"], input[type="password"] {
+	input[type="password"] {
 		border: none;
-		width: 100%;
+		flex-grow: 1;
 		padding: 3px 0 3px 7px;
+		font-size: 14px;
 	}
 	
 	input[type="password"]:focus {
