@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserService {
 	public Long checkEmailForReset(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user == null) {
-			throw new ExpectedException("error.rest-password.emailNotExists", "email");
+			throw new ExpectedException("error.reset-password.emailNotExists", "email");
 		}
 		
 		return user.getId();

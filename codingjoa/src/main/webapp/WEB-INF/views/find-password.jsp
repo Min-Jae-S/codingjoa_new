@@ -17,6 +17,11 @@
 <script src="${contextPath}/resources/js/main.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
+	.find-password-wrap {
+		min-width: 540px;
+		margin: 0 auto;
+	}
+	
 	input[type="text"] {
 		border: none;
 		width: 100%;
@@ -46,11 +51,6 @@
 		margin-bottom: 40px;
 		font-size: 14px;
 		font-weight: bold;
-	}
-	
-	.find-password-wrap {
-		min-width: 540px;
-		margin: 0 auto;
 	}
 </style>
 </head>

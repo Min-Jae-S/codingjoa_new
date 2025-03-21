@@ -6,7 +6,7 @@ let mainService = (function() {
 		console.log(JSON.stringify(obj));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/user/join/auth`,
+			url : `${contextPath}/api/join/auth-code/send`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -51,16 +51,15 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				$(".error").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleMainError(errorResponse);
@@ -82,16 +81,15 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				$(".error").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$(".error").remove();
 				let errorResponse = parseError(jqXHR);
 				if (errorResponse != null) {
 					handleMainError(errorResponse);

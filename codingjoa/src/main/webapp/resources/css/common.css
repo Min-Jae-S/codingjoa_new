@@ -114,7 +114,7 @@ html * {
 	/* min-height: calc(100% - 56px - 56px); */
 }
 
-.join-container, .account-container, .find-password-container {
+.join-container, .account-container, .find-password-container, .reset-password-container {
 	margin-top: 6rem;
 	margin-bottom: 6rem;
 	display: flex;

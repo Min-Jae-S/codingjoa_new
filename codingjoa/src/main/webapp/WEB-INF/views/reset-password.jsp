@@ -16,6 +16,11 @@
 <script src="${contextPath}/resources/js/main.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <style>
+	.reset-password-wrap {
+		width: 540px;
+		margin: 0 auto;
+	}
+	
 	input[type="text"], input[type="password"] {
 		border: none;
 		width: 100%;
@@ -56,12 +61,7 @@
 	
 	p.description {
 		margin-bottom: 40px;
-		font-size: 12px;
-	}
-	
-	.reset-password-wrap {
-		width: 540px;
-		margin: 0 auto;
+		font-size: 13px;
 	}
 </style>
 </head>
@@ -71,7 +71,42 @@
 
 <div class="container reset-password-container">
 	<div class="reset-password-wrap">
-		<h5 class="font-weight-bold">
+		<div class="card rounded-xl">
+			<div class="card-body p-5">
+				<div class="title-wrap mb-0">
+					<h4 class="font-weight-bold">
+						비밀번호 재설정
+						<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">REMOVE KEY</button>
+					</h4>
+				</div>
+				<div class="pt-3">
+					<p class="title">새로운 비밀번호를 입력해주세요.</p>
+					<p class="description"> 
+						<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
+						<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
+					</p>
+					<dl class="form-group mb-5">
+						<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
+						<dd class="input-group">
+							<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
+						</dd>
+					</dl>
+					<dl class="form-group mb-5">
+						<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
+						<dd class="input-group">
+							<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
+						</dd>
+					</dl>
+					<div class="pt-3">
+						<button type="button" class="btn btn-primary btn-block rounded-md" id="resetPasswordBtn">확인</button>
+					</div>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+		<!-- <h5 class="font-weight-bold">
 			비밀번호 재설정
 			<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">REMOVE KEY</button>
 		</h5>
@@ -96,8 +131,7 @@
 			<div class="pt-3">
 				<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
 			</div>				
-		</div>
-	</div>
+		</div> -->
 </div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
