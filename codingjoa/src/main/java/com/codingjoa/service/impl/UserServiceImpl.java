@@ -14,6 +14,7 @@ import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.AccountDto;
 import com.codingjoa.entity.Auth;
@@ -334,6 +335,26 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public void resetPassword(PasswordResetDto PasswordResetDto, long userId) {
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.user.notFound");
+		}
+		
+		String rawPassword = PasswordResetDto.getNewPassword();
+		String encPassword = passwordEncoder.encode(rawPassword);
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.password(encPassword)
+				.build();
+		
+		boolean isUpdated = userMapper.updatePassword(modifyUser);
+		if (!isUpdated) {
+			throw new ExpectedException("error.reset-password.updatePassword");
+		}
+	}
+	
+	@Override
 	public PrincipalDetails getUserDetailsByEmail(String email) {
 		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
 		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
@@ -348,5 +369,7 @@ public class UserServiceImpl implements UserService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
+
+	
 
 }

@@ -7,6 +7,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
@@ -40,6 +41,8 @@ public interface UserService {
 	void updatePassword(PasswordChangeDto passwordChangeDto, long userId);
 	
 	void savePassword(PasswordSaveDto passwordSaveDto, long userId);
+	
+	void resetPassword(PasswordResetDto PasswordResetDto, long userId);
 	
 	// for authentication in UserDetailsService, OAuth2UserService
 	PrincipalDetails getUserDetailsByEmail(String email); 

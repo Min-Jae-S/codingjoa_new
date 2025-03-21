@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.EmailDto;
-import com.codingjoa.dto.PasswordChangeDto;
+import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.enumclass.MailType;
 import com.codingjoa.service.EmailService;
@@ -94,13 +94,13 @@ public class MainRestController {
 	}
 		
 	@PostMapping("/password/reset") // pre-check key parameter in interceptor
-	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordChangeDto passwordChangeDto) {
+	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordResetDto passwordResetDto) {
 		log.info("## resetPassword");
 		log.info("\t > key = {}", key);
-		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
+		log.info("\t > passwordResetDto = {}", passwordResetDto);
 		
 		Long userId = (Long) redisService.findValueByKey(key);
-		userService.updatePassword(passwordChangeDto, userId);
+		userService.resetPassword(passwordResetDto, userId);
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
