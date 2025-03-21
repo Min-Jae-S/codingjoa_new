@@ -44,10 +44,8 @@ public interface UserService {
 	
 	void resetPassword(PasswordResetDto PasswordResetDto, long userId);
 	
-	// for authentication in UserDetailsService, OAuth2UserService
-	PrincipalDetails getUserDetailsByEmail(String email); 
-
-	// for JWT re-issuance after updating
-	PrincipalDetails getUserDetailsById(long userId); 
+	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
+	
+	PrincipalDetails getUserDetailsById(long userId); // for JWT re-issuance after updating
 	
 }

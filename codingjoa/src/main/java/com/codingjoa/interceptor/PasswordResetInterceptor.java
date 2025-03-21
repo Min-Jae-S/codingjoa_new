@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.service.RedisService;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class PasswordResetKeyInterceptor implements HandlerInterceptor {
+public class PasswordResetInterceptor implements HandlerInterceptor {
 
 	private final RedisService redisService;
 	private final ObjectMapper objectMapper;
@@ -35,6 +36,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
 		
 		String key = request.getParameter("key");
+		
 		if (!isPasswordResetKey(key)) {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -65,7 +67,7 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	private void respondJson(HttpServletResponse response) throws Exception {
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.FORBIDDEN)
-				.message(MessageUtils.getMessage("error.NotPasswordResetKey"))
+				.messageByCode("error.reset-passoword.NotValidKey")
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
@@ -76,10 +78,15 @@ public class PasswordResetKeyInterceptor implements HandlerInterceptor {
 	}
 	
 	private void respondJsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String message = MessageUtils.getMessage("error.NotPasswordResetKey");
+		String message = MessageUtils.getMessage("error.reset-passoword.NotValidKey");
 		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 		request.setAttribute("message", message);
-		request.setAttribute("continueUrl", request.getContextPath() + "/member/findPassowrd");
+		
+		String continueUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/password/find")
+				.build()
+				.toString();
+		request.setAttribute("continueUrl", continueUrl);
 		
 		log.info("\t > forward to 'feedback.jsp'");
 		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
