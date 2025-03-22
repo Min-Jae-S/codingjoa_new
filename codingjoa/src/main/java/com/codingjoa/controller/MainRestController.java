@@ -30,6 +30,7 @@ import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.validator.EmailValidator;
+import com.codingjoa.validator.PasswordResetValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,11 @@ public class MainRestController {
 	@InitBinder("emailDto")
 	public void InitBinderEmail(WebDataBinder binder) {
 		binder.addValidators(new EmailValidator());
+	}
+
+	@InitBinder("passwordResetDto")
+	public void InitBinderPasswordReset(WebDataBinder binder) {
+		binder.addValidators(new PasswordResetValidator());
 	}
 	
 	@PostMapping("/join/auth-code/send")
