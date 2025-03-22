@@ -77,7 +77,7 @@ public class CommentRestController {
 		commentService.saveComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.WriteComment")
+				.messageByCode("success.comment.write")
 				.build());
 	}
 	
@@ -93,7 +93,7 @@ public class CommentRestController {
 		commentService.updateComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.UpdateComment")
+				.messageByCode("success.comment.modify")
 				.build());
 	}
 	
@@ -103,7 +103,7 @@ public class CommentRestController {
 		commentService.deleteComment(commentId, principal.getId()); // update status
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.DeleteComment")
+				.messageByCode("success.comment.delete")
 				.build());
 	}
 	

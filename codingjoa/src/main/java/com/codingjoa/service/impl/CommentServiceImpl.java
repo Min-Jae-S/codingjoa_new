@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 		Board board = boardMapper.findBoardById(commentDto.getBoardId());
 		
 		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		Comment comment = commentDto.toEntity();
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > saved comment = {}", comment);
 
 		if (!isSaved) {
-			throw new ExpectedException("error.SaveComment");
+			throw new ExpectedException("error.comment.save");
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
 		Board board = boardMapper.findBoardById(boardId);
 		
 		if (board == null) {
-			throw new ExpectedException("error.NotFoundBoard");
+			throw new ExpectedException("error.board.notFound");
 		}
 		
 		log.info("\t > find pagedComments");
@@ -89,15 +89,15 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > found comment = {}", comment);
 		
 		if (comment == null) {
-			throw new ExpectedException("error.NotFoundComment");
+			throw new ExpectedException("error.comment.notFound");
 		}
 		
 		if (!comment.getStatus()) {
-			throw new ExpectedException("error.AlreadyDeletedComment");
+			throw new ExpectedException("error.comment.alreadyDeleted");
 		}
 		
 		if (comment.getUserId() != commentDto.getUserId()) {
-			throw new ExpectedException("error.NotMyComment");
+			throw new ExpectedException("error.comment.notWriter");
 		}
 		
 		Comment modifyComment = commentDto.toEntity();
@@ -105,7 +105,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		boolean isUpdated = commentMapper.updateComment(modifyComment);
 		if (!isUpdated) {
-			throw new ExpectedException("error.UpdateComment");
+			throw new ExpectedException("error.comment.update");
 		}
 	}
 	
@@ -115,15 +115,15 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > found comment = {}", comment);
 		
 		if (comment == null) {
-			throw new ExpectedException("error.NotFoundComment");
+			throw new ExpectedException("error.comment.notFound");
 		}
 		
 		if (!comment.getStatus()) {
-			throw new ExpectedException("error.AlreadyDeletedComment");
+			throw new ExpectedException("error.comment.alreadyDeleted");
 		}
 		
 		if (comment.getUserId() != userId) {
-			throw new ExpectedException("error.NotMyComment");
+			throw new ExpectedException("error.comment.notWriter");
 		}
 		
 		Comment deleteComment = Comment.builder()
@@ -133,7 +133,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		boolean isDeleted = commentMapper.deleteComment(deleteComment);
 		if (!isDeleted) {
-			throw new ExpectedException("error.DeleteComment");
+			throw new ExpectedException("error.comment.delete");
 		}
 	}
 
