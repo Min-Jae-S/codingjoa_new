@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.service.RedisService;
@@ -26,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PasswordResetInterceptor implements HandlerInterceptor {
 
+	private static final String FORWARD_PATH = "/WEB-INF/views/feedback/alert-and-redirect.jsp";
 	private final RedisService redisService;
 	private final ObjectMapper objectMapper;
 	
@@ -46,6 +46,7 @@ public class PasswordResetInterceptor implements HandlerInterceptor {
 			} else {
 				respondJsp(request, response);
 			}
+			
 			return false;
 		}
 		
@@ -61,6 +62,7 @@ public class PasswordResetInterceptor implements HandlerInterceptor {
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			return handlerMethod.getBeanType().isAnnotationPresent(RestController.class);
 		}
+		
 		return false;
 	}
 	
@@ -79,17 +81,13 @@ public class PasswordResetInterceptor implements HandlerInterceptor {
 	
 	private void respondJsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String message = MessageUtils.getMessage("error.reset-passoword.NotValidKey");
-		message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+		//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
+		
 		request.setAttribute("message", message);
+		request.setAttribute("continueUrl", request.getContextPath() + "/password/find");
 		
-		String continueUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/password/find")
-				.build()
-				.toString();
-		request.setAttribute("continueUrl", continueUrl);
-		
-		log.info("\t > forward to 'feedback.jsp'");
-		request.getRequestDispatcher("/WEB-INF/views/feedback.jsp").forward(request, response);
+		log.info("\t > forward to 'alert-and-redirect.jsp'");
+		request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 	}
 
 }
