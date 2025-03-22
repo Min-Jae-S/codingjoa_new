@@ -28,7 +28,7 @@ public class LikeRestController {
 		log.info("## toggleBoardLike, boardId = {}", boardId);
 		
 		boolean isBoardLiked = likeService.toggleBoardLike(boardId, principal.getId());
-		String code = (isBoardLiked) ? "success.LikeBoard" : "success.UnlikeBoard";
+		String code = (isBoardLiked) ? "success.like.board" : "success.dislike.board";
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
@@ -51,7 +51,7 @@ public class LikeRestController {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
 		
 		boolean isCommentLiked = likeService.toggleCommentLike(commentId, principal.getId());
-		String code = (isCommentLiked) ? "success.LikeComment" : "success.UnlikeComment";
+		String code = (isCommentLiked) ? "success.like.comment" : "success.dislike.comment";
 		//resetAuthentication(principal.getMember().getMemberId());
 
 		return ResponseEntity.ok(SuccessResponse.builder()
