@@ -127,6 +127,12 @@ public class MainRestController {
 		
 		redisService.saveKeyAndValue(key, userId);
 		
+		if (redisService.hasKey(key)) {
+			log.info("\t > successfully saved the key");
+		} else {
+			log.info("\t > failed to save the key");
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
@@ -136,6 +142,12 @@ public class MainRestController {
 		log.info("\t > key = {}", key);
 		
 		redisService.deleteKey(key);
+		
+		if (!redisService.hasKey(key)) {
+			log.info("\t > successfully removed the key");
+		} else {
+			log.info("\t > failed to remove the key");
+		}
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

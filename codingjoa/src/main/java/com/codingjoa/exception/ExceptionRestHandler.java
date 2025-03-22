@@ -8,6 +8,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -76,6 +77,23 @@ public class ExceptionRestHandler {
 		
 		log.info("\t > respond with errorResponse in JSON format");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	}
+	
+	@ExceptionHandler(BindException.class)
+	protected ResponseEntity<Object> handleBindEx(BindException e, HttpServletRequest request) {
+		log.info("## {}.handleBindEx", this.getClass().getSimpleName());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+		
+		e.getBindingResult().getFieldErrors().forEach(fieldError -> {
+			log.info("\t > errorField = {}, errorCode = {}", fieldError.getField(), fieldError.getCodes()[0]);
+		}); 
+		
+		ErrorResponse errorResponse = ErrorResponse.builder()
+				.status(HttpStatus.UNPROCESSABLE_ENTITY)
+				.bindingResult(e.getBindingResult())
+				.build();
+
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
 	@ExceptionHandler(HttpMessageNotReadableException.class)

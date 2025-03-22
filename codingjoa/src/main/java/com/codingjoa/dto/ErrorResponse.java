@@ -36,6 +36,10 @@ public class ErrorResponse {
 	public static ErrorResponseBuilder builder() {
 		return new ErrorResponseBuilder();
 	}
+	
+	public static ErrorResponse create() {
+		return builder().build();
+	}
 
 	@ToString
 	public static class ErrorResponseBuilder {

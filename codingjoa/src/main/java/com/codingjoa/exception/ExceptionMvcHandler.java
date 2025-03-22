@@ -69,16 +69,6 @@ public class ExceptionMvcHandler {
 				.status(HttpStatus.UNPROCESSABLE_ENTITY)
 				.bindingResult(e.getBindingResult())
 				.build();
-
-//		if (isAjaxRequest(request)) {
-//			ErrorResponse response = ErrorResponse.create().bindingResult(e.getBindingResult());
-//			log.info("\t > {}", response);
-//
-//			return ResponseEntity.unprocessableEntity().body(response);
-//		}
-//
-//		ModelAndView mav = new ModelAndView("forward:/error/errorPage");
-//		throw new ModelAndViewDefiningException(mav);
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
 		request.setAttribute("errorResponse", errorResponse);

@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ImageFileValidator implements Validator {
 
-	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
+	private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -31,7 +31,7 @@ public class ImageFileValidator implements Validator {
 		String originalFilename = file.getOriginalFilename();
 
 		if (file.isEmpty()) {
-			errors.rejectValue("file", "Required", new Object[] { originalFilename }, null);
+			errors.rejectValue("file", "NotEmpty", new Object[] { originalFilename }, null);
 			return;
 		}
 

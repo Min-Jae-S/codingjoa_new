@@ -77,8 +77,10 @@
 				<div class="title-wrap mb-0">
 					<h4 class="font-weight-bold">
 						비밀번호 재설정
-						<button type="button" class="btn btn-sm btn-primary py-0 float-right" id="createKeyBtn">REMOVE KEY</button>
-						<button type="button" class="btn btn-sm btn-secondary py-0 float-right" id="removeKeyBtn">REMOVE KEY</button>
+						<div class="float-right">
+	 						<button type="button" class="btn btn-sm btn-primary py-0" id="createKeyBtn">CREATE KEY</button>
+							<button type="button" class="btn btn-sm btn-secondary py-0" id="removeKeyBtn">REMOVE KEY</button>
+						</div>
 					</h4>
 				</div>
 				<div class="pt-3">
