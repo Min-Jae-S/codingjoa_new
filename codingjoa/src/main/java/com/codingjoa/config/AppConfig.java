@@ -63,7 +63,7 @@ public class AppConfig {
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setDefaultEncoding("UTF-8");
-		source.setBasenames("/WEB-INF/properties/message/error", "/WEB-INF/properties/message/success", "/WEB-INF/properties/message/validation");
+		source.setBasenames("/WEB-INF/properties/message/error", "/WEB-INF/properties/message/success", "/WEB-INF/properties/message/validation-error");
 		return source;
 	}
 	

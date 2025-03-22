@@ -39,7 +39,7 @@ public class ImageFileValidator implements Validator {
 		Tika tika = new Tika();
 		try {
 			String mimeType = tika.detect(file.getInputStream());
-			if (!isPermittedMimeType(mimeType)) {
+			if (!isValidMimeType(mimeType)) {
 				errors.rejectValue("file", "NotValidType", new Object[] { originalFilename, mimeType }, null);
 				return;
 			}
@@ -57,15 +57,8 @@ public class ImageFileValidator implements Validator {
 		}
 	}
 
-	private boolean isPermittedMimeType(String mimeType) {
-		if (!StringUtils.hasText(mimeType)) {
-			return false;
-		}
-
-		if (!mimeType.startsWith("image")) {
-			return false;
-		}
-
-		return true;
+	private boolean isValidMimeType(String mimeType) {
+		return StringUtils.hasText(mimeType) && mimeType.startsWith("image");
 	}
+	
 }
