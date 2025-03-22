@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.tika.Tika;
 import org.springframework.util.StringUtils;
+import org.springframework.util.unit.DataSize;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,8 +47,11 @@ public class ImageFileValidator implements Validator {
 			e.printStackTrace();
 		}
 
-		if (file.getSize() > MAX_FILE_SIZE) {
-			errors.rejectValue("file", "ExceededSize", new Object[] { MAX_FILE_SIZE, originalFilename, file.getSize() }, null);
+		long fileSize = file.getSize();
+		if (fileSize > MAX_FILE_SIZE) {
+			long maxSizeInMB = DataSize.ofBytes(MAX_FILE_SIZE).toMegabytes();
+			long sizeInMB = DataSize.ofBytes(fileSize).toMegabytes();
+			errors.rejectValue("file", "ExceededSize", new Object[] { maxSizeInMB, originalFilename, sizeInMB }, null);
 			return;
 		}
 	}

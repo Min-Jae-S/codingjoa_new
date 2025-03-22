@@ -1,4 +1,3 @@
-
 function parseError(jqXHR) {
 	try {
 		let errorResponse = JSON.parse(jqXHR.responseText);
@@ -17,66 +16,51 @@ function handleUserError(errorResponse) {
 		$.each(details, function(index, item) {
 			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
+		
 		return;
 	}
 	
-	let message = errorResponse.message;
-	if (message != "") {
-		alert(message);
-	}
+	alert(errorResponse.message);
 }
 
 function handleCommentError(errorResponse) {
 	console.log("## handleCommentError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			alert(item.message);
-		});
+		alert(details[0].message);
 		return;
 	} 
 	
-	let message = errorResponse.message;
-	if (message != "") {
-		alert(message);
-	}
-	
+	alert(errorResponse.message);
 }
 
 function handleLikeError(errorResponse) {
 	console.log("## handleLikeError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			alert(item.message);
-		});
+		alert(details[0].message);
 		return;
 	}
 	
-	let message = errorResponse.message;
-	if (message != "") {
-		alert(message);
-	}
+	alert(errorResponse.message);
 }
 
 function handleImageError(errorResponse) {
 	console.log("## handleImageError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			alert(item.message);
-		});
+		alert(details[0].message);
 		return;
 	}
 	
-	let message = errorResponse.message;
-	console.log("\t > original message = %s", message);
+	alert(errorResponse.message);
 	
-	if (message != "") {
-		message = message.replace(/\\n/gi, "\n");
-		console.log("\t > handled message = %s", message);
-		alert(message);
-	}
+//	let message = errorResponse.message;
+//	console.log("\t > original message = %s", message);
+//	
+//	message = message.replace(/\\n/gi, "\n");
+//	console.log("\t > handled message = %s", message);
+//	alert(message);
 }
 
 function handleLoginError(errorResponse) {
@@ -84,11 +68,10 @@ function handleLoginError(errorResponse) {
 	let message = errorResponse.message;
 	console.log("\t > original message = %s", message);
 	
-	if (message != "") {
-		message = message.replace(/\.\s*/g, ".<br>");
-		console.log("\t > handled message = %s", message);
-		$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
-	}
+	message = message.replace(/\.\s*/g, ".<br>");
+	console.log("\t > handled message = %s", message);
+	
+	$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 }
 
 function handleMainError(errorResponse) {
@@ -98,11 +81,9 @@ function handleMainError(errorResponse) {
 		$.each(details, function(index, item) {
 			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
 		});
+		
 		return;
 	}
 	
-	let message = errorResponse.message;
-	if (message != "") {
-		alert(message);
-	}
+	alert(errorResponse.message);
 }

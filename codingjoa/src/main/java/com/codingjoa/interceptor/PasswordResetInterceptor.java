@@ -80,10 +80,10 @@ public class PasswordResetInterceptor implements HandlerInterceptor {
 	}
 	
 	private void respondJsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String message = MessageUtils.getMessage("error.reset-passoword.NotValidKey");
+		//String message = MessageUtils.getMessage("error.reset-passoword.NotValidKey");
 		//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
 		
-		request.setAttribute("message", message);
+		request.setAttribute("message", MessageUtils.getMessage("error.reset-passoword.NotValidKey"));
 		request.setAttribute("continueUrl", request.getContextPath() + "/password/find");
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");
