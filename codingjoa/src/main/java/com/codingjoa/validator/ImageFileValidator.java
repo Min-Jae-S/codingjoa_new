@@ -50,8 +50,9 @@ public class ImageFileValidator implements Validator {
 		long fileSize = file.getSize();
 		if (fileSize > MAX_FILE_SIZE) {
 			long maxSizeInMB = DataSize.ofBytes(MAX_FILE_SIZE).toMegabytes();
-			long sizeInMB = DataSize.ofBytes(fileSize).toMegabytes();
-			errors.rejectValue("file", "ExceededSize", new Object[] { maxSizeInMB, originalFilename, sizeInMB }, null);
+			double sizeInMB = (double) fileSize / (1024 * 1024) ;
+			String formattedSizeInMB = String.format("%.2f", sizeInMB);
+			errors.rejectValue("file", "ExceededSize", new Object[] { maxSizeInMB, originalFilename, formattedSizeInMB }, null);
 			return;
 		}
 	}

@@ -75,14 +75,11 @@ public class PasswordResetInterceptor implements HandlerInterceptor {
 		log.info("\t > respond with errorResponse in JSON format");
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.getWriter().write(jsonResponse); // \n --> \\n
+		response.getWriter().write(jsonResponse);
 		response.getWriter().close();
 	}
 	
 	private void respondJsp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//String message = MessageUtils.getMessage("error.reset-passoword.NotValidKey");
-		//message = StringUtils.removeEnd(message.replaceAll("\\.(\\s)*", ".\\\\n"), "\\n");
-		
 		request.setAttribute("message", MessageUtils.getMessage("error.reset-passoword.NotValidKey"));
 		request.setAttribute("continueUrl", request.getContextPath() + "/password/find");
 		

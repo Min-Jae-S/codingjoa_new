@@ -63,6 +63,8 @@
 	p.description {
 		margin-bottom: 40px;
 		font-size: 13px;
+		font-weight: 500;
+		color: #808080;
 	}
 </style>
 </head>
