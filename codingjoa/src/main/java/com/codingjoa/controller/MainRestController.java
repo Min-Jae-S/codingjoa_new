@@ -108,11 +108,26 @@ public class MainRestController {
 		
 		Long userId = (Long) redisService.findValueByKey(key);
 		userService.resetPassword(passwordResetDto, userId);
+		
+		log.info("\t > delete password reset key");
 		redisService.deleteKey(key);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.reset-password.resetPassword")
 				.build());
+	}
+
+	@GetMapping("/password/reset/key") 
+	public ResponseEntity<Object> createPasswordResetKey() {
+		log.info("## createPasswordResetKey");
+		
+		long userId = 21;
+		String key = UUID.randomUUID().toString().replace("-", "");
+		log.info("\t > created key = {}", key);
+		
+		redisService.saveKeyAndValue(key, userId);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@DeleteMapping("/password/reset/key") 

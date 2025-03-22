@@ -77,7 +77,8 @@
 				<div class="title-wrap mb-0">
 					<h4 class="font-weight-bold">
 						비밀번호 재설정
-						<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeKeyBtn">REMOVE KEY</button>
+						<button type="button" class="btn btn-sm btn-primary py-0 float-right" id="createKeyBtn">REMOVE KEY</button>
+						<button type="button" class="btn btn-sm btn-secondary py-0 float-right" id="removeKeyBtn">REMOVE KEY</button>
 					</h4>
 				</div>
 				<div class="pt-3">
@@ -165,6 +166,26 @@
 
 		$("input").on("blur", function() {
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
+		});
+		
+		$("#createKeyBtn").on("click", function() {
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/api/password/reset/key",
+				dataType : "json",
+				beforeSend : function(xhr, settings) {
+					console.log("%c> BEFORE SEND", "color:blue");
+					console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				},
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(jqXHR);
+				}
+			});
 		});
 		
 		$("#removeKeyBtn").on("click", function() {
