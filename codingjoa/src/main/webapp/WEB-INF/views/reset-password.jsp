@@ -77,7 +77,7 @@
 				<div class="title-wrap mb-0">
 					<h4 class="font-weight-bold">
 						비밀번호 재설정
-						<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">REMOVE KEY</button>
+						<button type="button" class="btn btn-sm btn-warning py-0 float-right" id="removeKeyBtn">REMOVE KEY</button>
 					</h4>
 				</div>
 				<div class="pt-3">
@@ -140,13 +140,12 @@
 <script>
 	$(function() {
 		$("#resetPasswordBtn").on("click", function() {
-			let key ="<c:out value='${key}'/>";
 			let obj = {
 				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			mainService.resetPassword(key, obj, function(result) {
+			mainService.resetPassword("${key}", obj, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 					location.href = "${contextPath}/login";
@@ -169,14 +168,16 @@
 		});
 		
 		$("#removeKeyBtn").on("click", function() {
-			let key ="<c:out value='${key}'/>";
 			$.ajax({
 				type : "DELETE",
-				url : "${contextPath}/api/user/test/password-reset/key?key=" + key,
+				url : "${contextPath}/api/password/reset/key?key=${key}",
 				dataType : "json",
+				beforeSend : function(xhr, settings) {
+					console.log("%c> BEFORE SEND", "color:blue");
+					console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				},
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
-					console.log("> remove key from redis");
 					console.log(JSON.stringify(result, null, 2));
 				},
 				error : function(jqXHR) {

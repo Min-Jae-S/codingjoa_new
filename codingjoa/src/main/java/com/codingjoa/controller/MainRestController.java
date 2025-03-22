@@ -12,6 +12,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -112,6 +113,16 @@ public class MainRestController {
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.reset-password.resetPassword")
 				.build());
+	}
+
+	@DeleteMapping("/password/reset/key") 
+	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
+		log.info("## removePasswordResetKey");
+		log.info("\t > key = {}", key);
+		
+		redisService.deleteKey(key);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/saved-request")

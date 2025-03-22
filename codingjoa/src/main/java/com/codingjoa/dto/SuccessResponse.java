@@ -33,6 +33,10 @@ public class SuccessResponse {
 		return new SuccessResponseBuilder();
 	}
 	
+	public static SuccessResponse create() {
+		return builder().build();
+	}
+	
 	@ToString
 	public static class SuccessResponseBuilder {
 		private SuccessResponse successResponse;
