@@ -92,7 +92,6 @@
 			id = #{id}
 	</delete>
 	
-	
 	<select id="findCommentLike" parameterType="map" resultType="CommentLike">
 		SELECT 
 			*

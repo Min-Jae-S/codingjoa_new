@@ -1,7 +1,7 @@
 let commentService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));;
 	
-	function writeComment(comment, callback) {
+	function write(comment, callback) {
 		console.log("## writeComment");
 		$.ajax({
 			type : "POST",
@@ -24,40 +24,10 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
-		
-		/*
-		return new Promise(function(resolve, reject) {
-			$.ajax({
-				type : "POST",
-				url : url,
-				data : JSON.stringify(comment),
-				contentType : "application/json; charset=utf-8",
-				dataType : "json",
-				success : function(result) {
-					resolve(result);
-				},
-				error : function(jqXHR) {
-					let errorResponse = JSON.parse(jqXHR.responseText);
-					console.table(JSON.stringify(result, null, 2));
-					
-					if (jqXHR.status == 401) {
-						alert(errorResponse.errorMessage)
-					} else if (jqXHR.status == 422) {
-						$.each(errorResponse.errorMap, function(errorField, errorMessage) {
-							alert(errorMessage);
-						});
-					} else {
-						alert("오류가 발생하였습니다");
-					}
-					
-				}
-			});
-		});
-		*/
 	}
 	
 	function getPagedComments(boardId, page, callback) {
@@ -81,13 +51,13 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
 	}
 
-	function modifyComment(commentId, comment, callback) {
+	function modify(commentId, comment, callback) {
 		console.log("## modifyComment");
 		$.ajax({
 			type : "PATCH",
@@ -110,13 +80,13 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
 	}
 	
-	function deleteComment(commentId, callback) {
+	function delete(commentId, callback) {
 		console.log("## deleteComment");
 		$.ajax({
 			type : "DELETE",
@@ -137,17 +107,17 @@ let commentService = (function() {
 				if (errorResponse != null) {
 					handleCommentError(errorResponse);
 				} else {
-					alert("## parsing Error");
+					alert("## parsing error");
 				}
 			}
 		});
 	}
 	
 	return {
-		writeComment:writeComment,
+		write:write,
 		getPagedComments:getPagedComments,
-		modifyComment:modifyComment,
-		deleteComment:deleteComment
+		modify:modify,
+		delete:delete
 	};
 	
 })();

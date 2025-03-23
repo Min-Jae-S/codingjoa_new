@@ -22,7 +22,7 @@ let likeService = (function() {
 				if (errorResponse != null) {
 					handleLikeError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				} 
 			}
 		});
@@ -49,7 +49,7 @@ let likeService = (function() {
 				if (errorResponse != null) {
 					handleLikeError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				} 
 			}
 		});
@@ -76,7 +76,7 @@ let likeService = (function() {
 				if (errorResponse != null) {
 					handleLikeError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				} 
 			}
 		});
@@ -103,7 +103,7 @@ let likeService = (function() {
 				if (errorResponse != null) {
 					handleLikeError(errorResponse);
 				} else {
-					alert("## Parsing Error");
+					alert("## parsing error");
 				} 
 			}
 		});
