@@ -2,7 +2,7 @@ let commentService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));;
 	
 	function write(comment, callback) {
-		console.log("## writeComment");
+		console.log("## write");
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/comments`,
@@ -58,7 +58,7 @@ let commentService = (function() {
 	}
 
 	function modify(commentId, comment, callback) {
-		console.log("## modifyComment");
+		console.log("## modify");
 		$.ajax({
 			type : "PATCH",
 			url : `${contextPath}/api/comments/${commentId}`,
@@ -87,7 +87,7 @@ let commentService = (function() {
 	}
 	
 	function delete(commentId, callback) {
-		console.log("## deleteComment");
+		console.log("## delete");
 		$.ajax({
 			type : "DELETE",
 			url : `${contextPath}/api/comments/${commentId}`,

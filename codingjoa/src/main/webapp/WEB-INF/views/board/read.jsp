@@ -717,10 +717,8 @@
 			
 			let $submitBtn = $(this).closest("div").find("button[type='submit']");
 			if ($(this).val() != "") {
-				//$submitBtn.removeClass().addClass("btn btn-sm btn-primary");
 				$submitBtn.prop("disabled", false);
 			} else {
-				//$submitBtn.removeClass().addClass("btn btn-sm btn-outline-secondary");
 				$submitBtn.prop("disabled", true);
 			}
 		});
@@ -750,7 +748,7 @@
 			let $form = $(this);
 			let comment = $form.serializeObject();
 			
-			commentService.writeComment(comment, function(result) {
+			commentService.write(comment, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, 1, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -776,7 +774,7 @@
 			let comment = $(this).serializeObject();
 			let commentId = $(this).closest("li.list-group-item").data("id");
 			
-			commentService.modifyComment(commentId, comment, function(result) {
+			commentService.modify(commentId, comment, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, curCommentPage, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -801,7 +799,7 @@
 			}
 			
 			let commentId = $(this).closest("li.list-group-item").data("id");
-			commentService.deleteComment(commentId, function(result) {
+			commentService.delete(commentId, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, curCommentPage, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -882,7 +880,7 @@
 				content : $input.last().val()
 			};
 			
-			commentService.writeComment(comment, function(result) {
+			commentService.write(comment, function(result) {
 				alert(result.message);
 			});
 		});
@@ -913,7 +911,7 @@
 				content : $input.last().val()
 			};
 			
-			commentService.modifyComment(commentId, comment, function(result) {
+			commentService.modify(commentId, comment, function(result) {
 				alert(result.message);
 			});
 		});
@@ -921,7 +919,7 @@
 		// deleteComment
 		$("#testDeleteCommentBtn").on("click", function() {
 			let commentId = $(this).closest("div.input-group").find("input").val();
-			commentService.deleteComment(commentId, function(result) {
+			commentService.delete(commentId, function(result) {
 				alert(result.message);
 			});
 		});
@@ -932,7 +930,7 @@
 				id : $(this).data("id"),
 				content : "aa"
 			};
-			commentService.writeComment(comment, function(result) {
+			commentService.write(comment, function(result) {
 				alert(result.message);
 			});
 		});
@@ -956,14 +954,14 @@
 			let comment = {
 				content : "aa"
 			};
-			commentService.modifyComment($(this).data("id"), comment, function(result) { 
+			commentService.modify($(this).data("id"), comment, function(result) { 
 				alert(result.message);
 			});
 		});
 		
 		// deleteComment2
 		$("button[name='deleteBtn']").on("click", function() {
-			commentService.deleteComment($(this).data("id"), function(result) { 
+			commentService.delete($(this).data("id"), function(result) { 
 				alert(result.message);
 			});
 		});
