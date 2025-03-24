@@ -61,7 +61,7 @@
 			final_comment.like_count,
 	        final_comment.created_at,
 	        final_comment.updated_at,
-	        user.nickname AS writer_nickname,
+	        users.nickname AS writer_nickname,
 	        user_image.path AS writer_image_path,
     		CASE
     			WHEN final_comment.user_id = #{userId} THEN 1
@@ -90,20 +90,20 @@
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(comments pk_comments) */
-				        comments.id,
-				        comments.board_id,
-				        comments.user_id,
-				        comments.content,
-				        comments.status,
-				        comments.like_count,
-				        comments.created_at,
-				        comments.updated_at
+				        id,
+				        board_id,
+				        user_id,
+				        content,
+				        status,
+				        like_count,
+				        created_at,
+				       	updated_at
 				    FROM 
-				        comments comments
+				        comments
 				    WHERE
-				    	comments.board_id = #{boardId}
+				    	board_id = #{boardId}
 				    ORDER BY
-				    	comments.id DESC
+				    	id DESC
 				) sorted_comment
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
