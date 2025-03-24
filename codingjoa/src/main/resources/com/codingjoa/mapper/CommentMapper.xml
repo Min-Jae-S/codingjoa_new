@@ -108,7 +108,7 @@
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
 			) paged_comment
-			WEHRE
+			WHERE
 				paged_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 		) final_comment
 		INNER JOIN
