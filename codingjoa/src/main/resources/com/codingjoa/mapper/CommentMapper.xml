@@ -99,7 +99,7 @@
 				        comments.created_at,
 				        comments.updated_at
 				    FROM 
-				        comments
+				        comments comments
 				    WHERE
 				    	comments.board_id = #{boardId}
 				    ORDER BY
@@ -109,7 +109,7 @@
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
 			) paged_comment
 			WHERE
-				paged_comment.rn > ( ( #{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
+				paged_comment.rn > ( (#{commentCri.page} - 1 ) * #{commentCri.recordCnt} )
 		) final_comment
 		INNER JOIN
 			users
