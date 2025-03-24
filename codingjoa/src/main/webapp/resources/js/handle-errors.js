@@ -5,7 +5,7 @@ function parseError(jqXHR) {
 		console.log(JSON.stringify(errorResponse, null, 2));
 		return errorResponse;
 	} catch(e) {
-		console.log("## failed to parse errorResponse:", e);
+		console.log("\t > failed to parse errorResponse:", e);
 		return {
 			status : jqXHR.status,
 			message : "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.",

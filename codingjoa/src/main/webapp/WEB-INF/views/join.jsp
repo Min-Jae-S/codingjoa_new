@@ -120,7 +120,8 @@
 			};
 			
 			mainService.sendAuthCodeForJoin(obj, function(result) {
-				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
+				//$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
+				alert(result.message);
 				$("#authCode").val("");
 				$("#authCode").focus();
 			});

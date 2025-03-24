@@ -162,10 +162,11 @@
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
 					console.log(JSON.stringify(result, null, 2));
+					alert(result.message);
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
+					handleError(parseError(jqXHR));
 				}
 			});
 		});
@@ -189,7 +190,7 @@
 				},
 				error : function(jqXHR) {
 					console.log("%c> ERROR", "color:red");
-					console.log(jqXHR);
+					handleError(parseError(jqXHR));
 				}
 			});
 		});

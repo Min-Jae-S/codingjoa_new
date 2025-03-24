@@ -3,7 +3,6 @@ let mainService = (function() {
 	
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## sendAuthCodeForJoin");
-		console.log(JSON.stringify(obj));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/join/auth-code/send`,
@@ -13,7 +12,8 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors").remove();
+				//$("#email\\.errors, #authCode\\.errors, .success").remove();
 			},
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
