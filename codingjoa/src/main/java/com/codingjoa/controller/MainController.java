@@ -83,9 +83,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/password/reset") // pre-check key parameter in interceptor
-	public String resetPassword(@RequestParam String key, Model model) {
+	public String resetPassword(@RequestParam String token, Model model) {
 		log.info("## resetPassword");
-		model.addAttribute("key", key);
+		model.addAttribute("token", token);
 		return "reset-password";
 	}
 	

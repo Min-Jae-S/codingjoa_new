@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.service.RedisService;
@@ -30,7 +30,7 @@ public class PasswordResetViewInterceptor implements HandlerInterceptor {
 		
 		String token = request.getParameter("token");
 		
-		if (StringUtils.isBlank(token) || !redisService.hasKey(token)) {
+		if (!StringUtils.hasText(token) || !redisService.hasKey(token)) {
 			log.info("\t > invalid or missing token");
 			
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
