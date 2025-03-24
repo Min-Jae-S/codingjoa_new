@@ -9,9 +9,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 import lombok.extern.slf4j.Slf4j;
 
-// used in ReplyDto class as a Deserializer
 @Slf4j
-public class WhitespaceDeserializer extends JsonDeserializer<String> {
+public class WhitespaceDeserializer extends JsonDeserializer<String> { // used in CommentDto as a deserializer
 
 	@Override
 	public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -21,7 +20,7 @@ public class WhitespaceDeserializer extends JsonDeserializer<String> {
 		if (input != null) {
 			log.info("\t > raw input = '{}'", input.replace("\n", "\\n"));
 			log.info("\t > deserialized input = '{}'", input.strip().replace("\n", "\\n"));
-			return input.strip(); // input.trim()
+			return input.trim();
 		} else {
 			log.info("\t > raw input = {}", input);
 			log.info("\t > deserialized input = {}", input);

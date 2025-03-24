@@ -113,6 +113,7 @@ public class BoardController {
 		// prevent duplicate view count using cookies (https://mighty96.github.io/til/view)
 		boardService.increaseViewCount(id); 
 
+		model.addAttribute("boardCri", boardCri);
 		model.addAttribute("boardDetails", boardDetails);
 		model.addAttribute("category", category);
 		

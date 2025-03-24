@@ -14,7 +14,7 @@
 -->
 
 	<insert id="insertComment" parameterType="Comment">
-		<selectKey keyProperty="commentIdx" resultType="long" order="BEFORE">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_comments.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO comments (

@@ -21,7 +21,7 @@ public class CommentDto {
 	private long userId;
 
 	@JsonDeserialize(using = WhitespaceDeserializer.class)
-	@NotBlank
+	//@NotBlank
 	private String content;
 	
 	private boolean status;

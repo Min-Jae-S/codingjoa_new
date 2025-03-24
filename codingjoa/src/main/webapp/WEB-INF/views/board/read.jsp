@@ -477,7 +477,7 @@
 					</div>
 				</div>
 				<div class="comment-group-footer mt-4">
-					<a class="btn btn-secondary rounded-md" href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.queryString}">
+					<a class="btn btn-secondary rounded-md" href="${contextPath}/board/?categoryCode=${category.code}&${boardCri.queryParams}">
 						목록
 					</a>
 					<div class="comment-pagination">

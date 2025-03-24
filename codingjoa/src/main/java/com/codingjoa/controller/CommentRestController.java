@@ -8,8 +8,10 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,7 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.validator.CommentValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +45,11 @@ public class CommentRestController {
 	
 	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
 	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
-	//binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+	
+	@InitBinder("commentDto")
+	public void InitBinderEmail(WebDataBinder binder) {
+		binder.addValidators(new CommentValidator());
+	}
 
 	@GetMapping("/boards/{boardId}/comments")
 	public ResponseEntity<Object> getPagedComments(@PathVariable long boardId,
@@ -50,10 +57,11 @@ public class CommentRestController {
 		log.info("## getPagedComments, boardId = {}", boardId);
 		log.info("\t > commentCri = {}", commentCri);
 		
-		Long userId = (principal == null) ? null : principal.getId();
+		Long userId = obtainUserId(principal);
 		log.info("\t > userId = {}", userId);
 
 		List<CommentDetailsDto> pagedComments = commentService.getPagedComments(boardId, commentCri, userId);
+		log.info("\t > pagedComments = {}", pagedComments);
 		
 		Pagination pagination = commentService.getPagination(boardId, commentCri);
 		log.info("\t > pagination = {}", pagination);
@@ -105,6 +113,10 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.comment.delete")
 				.build());
+	}
+	
+	private Long obtainUserId(PrincipalDetails principal) {
+		return (principal == null) ? null : principal.getId();
 	}
 	
 }
