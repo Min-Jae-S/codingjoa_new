@@ -39,18 +39,18 @@ public class EmailServiceImpl implements EmailService {
 			e.printStackTrace();
 		}
 		
-		//redisService.save(memberEmail, authCode);
+		//redisService.save(email, authCode);
 		//return authCode; because @Async --> null
 	}
 	
 	private String getSubject(MailType mailType) {
 		switch (mailType) {
 		case JOIN:
-			return "[CodingJoa] 회원가입 인증번호";
+			return "[CodingJoa] 회원가입 안내";
 		case EMAIL_UPDATE:
-			return "[CodingJoa] 이메일 변경 인증번호";
+			return "[CodingJoa] 이메일 변경 안내";
 		case PASSWORD_RESET:
-			return "[CodingJoa] 비밀번호 재설정 링크";
+			return "[CodingJoa] 비밀번호 재설정 안내";
 		default:
 			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
 		}
