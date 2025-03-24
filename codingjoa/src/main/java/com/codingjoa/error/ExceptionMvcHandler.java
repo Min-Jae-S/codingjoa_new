@@ -1,4 +1,4 @@
-package com.codingjoa.exception;
+package com.codingjoa.error;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;

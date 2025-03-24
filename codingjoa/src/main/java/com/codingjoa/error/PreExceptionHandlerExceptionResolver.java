@@ -1,4 +1,4 @@
-package com.codingjoa.exception;
+package com.codingjoa.error;
 
 import java.lang.reflect.Method;
 import java.util.Collections;

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codingjoa.dto.BoardDetailsDto;
 import com.codingjoa.dto.BoardDto;
 import com.codingjoa.entity.Board;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;

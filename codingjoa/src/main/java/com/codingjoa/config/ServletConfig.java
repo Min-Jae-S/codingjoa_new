@@ -38,7 +38,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.exception.PreExceptionHandlerExceptionResolver;
+import com.codingjoa.error.PreExceptionHandlerExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetViewInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.service.CategoryService;
@@ -53,7 +53,7 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan({
 	"com.codingjoa.controller",
 	"com.codingjoa.resolver",
-	"com.codingjoa.exception"
+	"com.codingjoa.error"
 })
 @RequiredArgsConstructor
 @EnableAspectJAutoProxy

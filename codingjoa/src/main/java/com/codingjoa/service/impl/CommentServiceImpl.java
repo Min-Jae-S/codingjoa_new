@@ -11,7 +11,7 @@ import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Comment;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;

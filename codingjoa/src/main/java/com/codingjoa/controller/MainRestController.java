@@ -27,7 +27,7 @@ import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.enumclass.MailType;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;

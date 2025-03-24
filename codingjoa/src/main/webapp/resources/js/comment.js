@@ -20,9 +20,9 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
+				let errorResponse = parseErrorResponse(jqXHR);
 				if (errorResponse != null) {
-					handleCommentError(errorResponse);
+					handleError(errorResponse);
 				} else {
 					alert("## parsing error");
 				}

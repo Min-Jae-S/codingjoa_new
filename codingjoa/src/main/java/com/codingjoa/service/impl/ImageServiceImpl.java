@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.UserImage;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
 

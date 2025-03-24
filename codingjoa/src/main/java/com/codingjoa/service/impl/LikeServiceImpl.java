@@ -7,7 +7,7 @@ import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLike;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.entity.CommentLike;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.mapper.LikeMapper;

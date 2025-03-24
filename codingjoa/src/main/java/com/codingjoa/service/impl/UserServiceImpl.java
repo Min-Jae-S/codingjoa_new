@@ -19,7 +19,7 @@ import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
-import com.codingjoa.exception.ExpectedException;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
