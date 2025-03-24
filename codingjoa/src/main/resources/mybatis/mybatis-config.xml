@@ -49,7 +49,7 @@
 
 		<!-- pagination -->
 		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="BoardCri"/> -->
-		<!-- <typeAlias type="com.codingjoa.pagination.ReplyCriteria" alias="ReplyCri"/> -->
+		<!-- <typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="CommentCri"/> -->
 		
 		<!-- admin -->
 		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>

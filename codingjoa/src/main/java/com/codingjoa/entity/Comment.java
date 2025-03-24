@@ -49,7 +49,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "Reply [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent() + ", status="
+		return "Comment [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent() + ", status="
 				+ status + ", likeCount=" + likeCount + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 	

@@ -141,7 +141,7 @@
 				</table>
 				<c:if test="${not empty board}">
 					<div>
-						<a href="${contextPath}/board/?categoryCode=${boardCategoryList[status.index].code}" class="btn btn-primary rounded-md">
+						<a href="${contextPath}/board/?categoryCode=${boardCategories[status.index].code}" class="btn btn-primary rounded-md">
 							게시글 더보기
 						</a>
 					</div>

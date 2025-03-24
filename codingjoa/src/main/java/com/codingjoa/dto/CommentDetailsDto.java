@@ -10,7 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 public class CommentDetailsDto {
 
@@ -24,12 +26,13 @@ public class CommentDetailsDto {
 	private String writerImagePath;		// LEFT OUTER JOIN (user_image)
 	private boolean isWriter;
 	private boolean isLiked;	
-	private boolean isBoardWriter;
+	private boolean isBoardWriter;		// INNER JOIN (board)
 	
 	@Builder
 	private CommentDetailsDto(long id, String content, boolean status, int likeCount, LocalDateTime createdAt,
 			LocalDateTime updatedAt, String writerNickname, String writerImagePath, boolean isWriter, boolean isLiked,
 			boolean isBoardWriter) {
+		log.info("## CommentDetailsDto constructor");
 		this.id = id;
 		this.content = content;
 		this.status = status;
@@ -44,8 +47,9 @@ public class CommentDetailsDto {
 	}
 	
 	public static CommentDetailsDto from(Map<String, Object> map) {
+		log.info("## CommentDetailsDto from: {}", map);
 		return CommentDetailsDto.builder()
-				.id((int) map.get("id"))
+				.id((long) map.get("id"))
 				.content((String) map.get("content"))
 				.status((boolean) map.get("status"))
 				.likeCount((int) map.get("likeCount"))
@@ -101,12 +105,11 @@ public class CommentDetailsDto {
 
 	@Override
 	public String toString() {
-		return "ReplyDetailsDto [id=" + id + ", content=" + escapeContent() + ", status=" + status + ", likeCount=" + likeCount
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname
-				+ ", writerImagePath=" + writerImagePath + ", isWriter=" + isWriter + ", isLiked=" + isLiked
-				+ ", isBoardWriter=" + isBoardWriter + "]";
+		return "CommentDetailsDto [id=" + id + ", content=" + escapeContent() + ", status=" + status + ", likeCount="
+				+ likeCount + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname="
+				+ writerNickname + ", writerImagePath=" + writerImagePath + ", isWriter=" + isWriter + ", isLiked="
+				+ isLiked + ", isBoardWriter=" + isBoardWriter + "]";
 	}
-
 	
 	
 }

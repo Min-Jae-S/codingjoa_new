@@ -1,6 +1,5 @@
 function parseError(jqXHR) {
 	console.log("## parseError");
-	console.log(jqXHR);
 	try {
 		return JSON.parse(jqXHR.responseText);
 	} catch(e) {
@@ -19,6 +18,8 @@ function handleLoginError(errorResponse) {
 	console.log(JSON.stringify(errorResponse, null, 2));
 	
 	let message = errorResponse.message.replace(/\.\s/g, ".<br>"); // replace(/\.\s*/g, ".<br>");
+	console.log("> handled message = %s", message);
+	
 	$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 }
 
@@ -36,6 +37,8 @@ function handleValidationError(errorResponse) {
 	}
 	
 	let message = errorResponse.message.replace(/\.\s/g, ".\n");
+	console.log("> handled message = %s", message);
+	
 	alert(message);
 }
 
@@ -54,7 +57,7 @@ function handleError(errorResponse) {
 	}
 	
 	message = message.replace(/\.\s/g, ".\n");
-	console.log("\t > handled message = %s", message);
+	console.log("> handled message = %s", message);
 	
 	alert(message);
 }

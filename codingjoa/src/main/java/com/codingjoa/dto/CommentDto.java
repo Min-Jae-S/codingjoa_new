@@ -51,7 +51,7 @@ public class CommentDto {
 
 	@Override
 	public String toString() {
-		return "ReplyDto [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent()
+		return "CommentDto [id=" + id + ", boardId=" + boardId + ", userId=" + userId + ", content=" + escapeContent()
 				+ ", status=" + status + "]";
 	}
 	

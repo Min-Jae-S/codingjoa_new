@@ -55,6 +55,7 @@ public class ExceptionRestHandler {
 	protected ResponseEntity<Object> handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e, e.getMessage());
+		e.printStackTrace();
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)

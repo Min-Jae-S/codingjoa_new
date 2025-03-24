@@ -52,7 +52,7 @@ public class CommentCriResolver implements HandlerMethodArgumentResolver {
 			defaultRecordCnt
 		);
 		
-		log.info("\t > resolved replyCri = {}", commentCri);
+		log.info("\t > resolved commentCri = {}", commentCri);
 		
 		return commentCri;
 	}

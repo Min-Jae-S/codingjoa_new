@@ -14,7 +14,7 @@ public interface CommentMapper {
 	
 	boolean insertComment(Comment comment);
 
-	List<Map<String, Object>> findPagedComments(@Param("boardId") Long boardId,
+	List<Map<String, Object>> findPagedComments(@Param("boardId") Long boardId, 
 			@Param("commentCri") CommentCriteria commentCri, @Param("userId") Long userId);
 	
 	int findPagingCommentCount(Long boardId);

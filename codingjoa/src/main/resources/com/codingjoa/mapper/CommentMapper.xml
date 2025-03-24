@@ -38,7 +38,7 @@
 	
 	<resultMap type="map" id="commentDetailsMap">
 		<!-- java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<id property="id" column="id" javaType="long"/>
+		<id column="id" property="id" javaType="long"/>
 		<result column="content" property="content" javaType="string"/>
 		<result column="status" property="status" javaType="boolean"/>
 		<result column="like_count" property="likeCount" javaType="int"/>
@@ -125,7 +125,7 @@
 			final_comment.board_id = board.id
 	</select>
 	
-	<select id="findPagingCommentCount" resultType="long">
+	<select id="findPagingCommentCount" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
