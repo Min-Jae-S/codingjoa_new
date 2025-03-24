@@ -236,7 +236,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showZipcode">
 							<div>
-								<span class="inner-text text-danger">* 주소를 등록해주세요</span>
+								<span class="inner-text">* 주소를 등록해주세요</span>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -363,7 +363,7 @@
 			// initialize the file input, but not with null
 			//this.value = "";
 			$("#imageForm")[0].reset();
-
+			
 			userService.saveImageWithUpload(formData, function(result) {
 				alert(result.message);
 				userService.getAccount(function(result) {

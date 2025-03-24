@@ -130,12 +130,12 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 			if (!tmpFolder.mkdirs()) {
 				String defaultTempDir = System.getProperty("java.io.tmpdir");
 				tempDir = defaultTempDir;
-				log.warn("failed to create directory: " + tempDir + ". using default temp directory: " + defaultTempDir);
+				log.warn("\t > failed to create directory: " + tempDir + ". using default temp directory: " + defaultTempDir);
 			}
 		}
 		
-		int maxFileSize = (int) DataSize.ofMegabytes(20).toBytes();
-		int maxRequestSize = (int) DataSize.ofMegabytes(40).toBytes();
+		long maxFileSize = DataSize.ofMegabytes(20).toBytes();
+		long maxRequestSize = DataSize.ofMegabytes(40).toBytes();
 		int fileSizeThreshold = (int) DataSize.ofMegabytes(20).toBytes();
 		
 		MultipartConfigElement config = new MultipartConfigElement(tempDir, maxFileSize, maxRequestSize, fileSizeThreshold);

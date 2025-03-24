@@ -12,22 +12,16 @@ let authenticationService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				$(".error").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				$(".error").remove();
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleLoginError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleLoginError(parseError(jqXHR));
 			}
 		});
 	}

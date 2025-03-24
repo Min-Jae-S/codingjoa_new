@@ -12,8 +12,7 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#email\\.errors, #authCode\\.errors").remove();
-				//$("#email\\.errors, #authCode\\.errors, .success").remove();
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 			},
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -23,17 +22,13 @@ let mainService = (function() {
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
 				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					let details = errorResponse.details;
-					if (details.length > 0) {
-						$.each(details, function(index, item) {
-							$("#authCode").closest("div").after(`<span class='error' id='${item.field}.errors'>${item.message}</span>`);
-						});
-					} else {
-						alert(errorResponse.message);
-					}
+				let details = errorResponse.details;
+				if (details.length > 0) {
+					$.each(details, function(index, item) {
+						$("#authCode").closest("div").after(`<span class='error' id='${item.field}.errors'>${item.message}</span>`);
+					});
 				} else {
-					alert("## parsing error");
+					alert(errorResponse.message);
 				}
 			}
 		});

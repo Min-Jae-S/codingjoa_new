@@ -54,7 +54,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			
 			ErrorResponse errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.messageByCode("error.Server")
+					.messageByCode("error.server")
 					.build();
 			
 			if (AjaxUtils.isAjaxRequest(request)) {

@@ -1,9 +1,8 @@
 function parseError(jqXHR) {
 	console.log("## parseError");
+	console.log(jqXHR);
 	try {
-		let errorResponse = JSON.parse(jqXHR.responseText);
-		console.log(JSON.stringify(errorResponse, null, 2));
-		return errorResponse;
+		return JSON.parse(jqXHR.responseText);
 	} catch(e) {
 		console.log("\t > failed to parse errorResponse:", e);
 		return {
@@ -17,6 +16,8 @@ function parseError(jqXHR) {
 
 function handleLoginError(errorResponse) {
 	console.log("## handleLoginError");
+	console.log(JSON.stringify(errorResponse, null, 2));
+	
 	let message = errorResponse.message.replace(/\.\s/g, ".<br>"); // replace(/\.\s*/g, ".<br>");
 	$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 }
@@ -24,6 +25,8 @@ function handleLoginError(errorResponse) {
 // handleUserError, handleMainError
 function handleValidationError(errorResponse) {
 	console.log("## handleValidationError");
+	console.log(JSON.stringify(errorResponse, null, 2));
+	
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
@@ -39,6 +42,8 @@ function handleValidationError(errorResponse) {
 // handleImageError, handleCommentError, handleLikeError
 function handleError(errorResponse) {
 	console.log("## handleError");
+	console.log(JSON.stringify(errorResponse, null, 2));
+	
 	let message;
 	let details = errorResponse.details;
 	

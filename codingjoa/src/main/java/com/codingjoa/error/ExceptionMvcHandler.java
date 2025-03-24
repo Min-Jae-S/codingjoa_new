@@ -31,7 +31,7 @@ public class ExceptionMvcHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.Global") // error.Unknown --> error.Global
+				.messageByCode("error.global")
 				.build();
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
@@ -47,7 +47,7 @@ public class ExceptionMvcHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.NOT_FOUND)
-				.messageByCode("error.NotFoundPage")
+				.messageByCode("error.notFoundPage")
 				.build();
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);
@@ -106,7 +106,7 @@ public class ExceptionMvcHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.InvalidFormat")
+				.messageByCode("error.notValidFormat")
 				.build();
 		
 		log.info("\t > forward to '{}'", FORWARD_URL);

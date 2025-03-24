@@ -58,7 +58,7 @@ public class ExceptionRestHandler {
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.Global") // error.Unknown --> error.Global
+				.messageByCode("error.global")
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
@@ -72,7 +72,7 @@ public class ExceptionRestHandler {
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.NOT_FOUND)
-				.messageByCode("error.NotFoundResource") 
+				.messageByCode("error.notFoundResource") 
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
@@ -103,7 +103,7 @@ public class ExceptionRestHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.InvalidFormat")
+				.messageByCode("error.notValidFormat")
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
@@ -154,7 +154,7 @@ public class ExceptionRestHandler {
 
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.InvalidFormat")
+				.messageByCode("error.notValidFormat")
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
@@ -168,7 +168,7 @@ public class ExceptionRestHandler {
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.ExceedSize")
+				.messageByCode("error.exceededSize")
 				.build();
 		
 		log.info("\t > respond with errorResponse in JSON format");
