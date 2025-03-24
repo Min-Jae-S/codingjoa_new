@@ -36,7 +36,7 @@ public class PasswordResetViewInterceptor implements HandlerInterceptor {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 			
-			request.setAttribute("message", MessageUtils.getMessage("error.reset-password.NotValidToken"));
+			request.setAttribute("message", MessageUtils.getMessage("error.reset-password.notValidToken"));
 			request.setAttribute("continueUrl", request.getContextPath() + "/password/find");
 			
 			log.info("\t > forward to 'alert-and-redirect.jsp'");

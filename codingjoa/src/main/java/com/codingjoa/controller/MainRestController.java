@@ -142,7 +142,7 @@ public class MainRestController {
 	}
 
 	@DeleteMapping("/password/reset/token") 
-	public ResponseEntity<Object> removePasswordResetToken(Map<String, String> map) {
+	public ResponseEntity<Object> removePasswordResetToken(@RequestBody Map<String, String> map) {
 		log.info("## removePasswordResetToken");
 		log.info("\t > map = {}", map);
 		

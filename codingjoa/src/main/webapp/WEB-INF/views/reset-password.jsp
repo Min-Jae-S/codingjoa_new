@@ -177,6 +177,7 @@
 				data : JSON.stringify({
 					token : $("#token").val()
 				}),
+				contentType : "application/json; charset=utf-8",
 				dataType : "json",
 				beforeSend : function(xhr, settings) {
 					console.log("%c> BEFORE SEND", "color:blue");
