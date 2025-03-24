@@ -33,7 +33,7 @@ class UploadAdapter {
     	console.log("\t > _initListeners");
         const xhr = this.xhr;
         const loader = this.loader;
-        const genericErrorText = `파일을 업로드 할 수 없습니다: " + file.name + ".";
+        const genericErrorText = "파일을 업로드 할 수 없습니다: " + file.name + ".";
         
         xhr.addEventListener('error', () => reject(genericErrorText));
         xhr.addEventListener('abort', () => reject());

@@ -44,7 +44,7 @@ public class BoardDetailsDto {
 	
 	public static BoardDetailsDto from(Map<String, Object> map) {
 		return BoardDetailsDto.builder()
-				.id((int) map.get("id"))
+				.id((long) map.get("id"))
 				.categoryCode((int) map.get("categoryCode"))
 				.title((String) map.get("title"))
 				.content((String) map.get("content"))

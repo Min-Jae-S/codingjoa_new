@@ -43,8 +43,8 @@
 	
 	<resultMap type="map" id="boardDetailsMap">
 		<id property="id" column="id" javaType="long"/>
-		<result column="title" property="title" javaType="string"/>
 		<result column="category_code" property="categoryCode" javaType="int"/>
+		<result column="title" property="title" javaType="string"/>
 		<!-- <result column="content" property="content" typeHandler="clobTypeHandler"/> -->
 		<result column="content" property="content" javaType="string" jdbcType="CLOB" />
 		<result column="view_count" property="viewCount" javaType="int"/>
@@ -60,13 +60,14 @@
 	<select id="findBoardDetailsById" parameterType="map" resultMap="boardDetailsMap">
 		SELECT 
 			board.id,
-			board.user_id,
 			board.category_code,
 			board.title,
 			board.content,
 			board.view_count,
 			board.comment_count,
 			board.like_count,
+			board.created_at,
+			board.updated_at,
 			users.nickname AS writer_nickname,
 			CASE
 				WHEN board.user_id = #{userId} THEN 1 
@@ -131,6 +132,8 @@
 			final_board.view_count,
 			final_board.comment_count,
 			final_board.like_count,
+			final_board.created_at,
+			final_board.updated_at,
 			final_board.nickname AS writer_nickname,
 			CASE
 				WHEN final_board.user_id = #{userId} THEN 1 
