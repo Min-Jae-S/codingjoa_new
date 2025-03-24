@@ -87,7 +87,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Pagination getPagination(int categoryCode, BoardCriteria boardCri) {
-		int totalCnt = boardMapper.findPagedBoardsTotalCnt(categoryCode, boardCri);
+		int totalCnt = boardMapper.findPagingBoardCount(categoryCode, boardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, boardCri.getPage(), boardCri.getRecordCnt(), pageRange) : null;
 	}
 	

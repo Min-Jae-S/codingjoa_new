@@ -125,7 +125,7 @@
 			final_comment.board_id = board.id
 	</select>
 	
-	<select id="findCommentTotalCnt" resultType="long">
+	<select id="findPagingCommentCount" resultType="long">
 		SELECT
 			COUNT(*)
 		FROM

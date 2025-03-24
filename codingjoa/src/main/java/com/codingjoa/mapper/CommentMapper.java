@@ -17,7 +17,7 @@ public interface CommentMapper {
 	List<Map<String, Object>> findPagedComments(@Param("boardId") Long boardId,
 			@Param("commentCri") CommentCriteria commentCri, @Param("userId") Long userId);
 	
-	int findCommentTotalCnt(Long boardId);
+	int findPagingCommentCount(Long boardId);
 	
 	Comment findCommentById(Long commentId);
 	

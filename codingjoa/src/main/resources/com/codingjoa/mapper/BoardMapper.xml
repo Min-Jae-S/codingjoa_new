@@ -177,7 +177,7 @@
 		) final_board
 	</select>
 
-	<select id="findPagedBoardTotalCnt" parameterType="map" resultType="int">
+	<select id="findPagingBoardCount" parameterType="map" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
