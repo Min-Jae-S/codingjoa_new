@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WhitespaceDeserializer extends JsonDeserializer<String> { // used in CommentDto as a deserializer
+public class WhitespaceDeserializer extends JsonDeserializer<String> { // used in CommentDto deserializer
 
 	@Override
 	public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {

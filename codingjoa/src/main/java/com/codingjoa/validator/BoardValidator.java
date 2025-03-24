@@ -29,6 +29,9 @@ public class BoardValidator implements Validator {
 
 		// id or categoryCode could have errors - long id, @BoardCategoryCode
 		if (errors.hasFieldErrors()) {
+			log.info("\t > already have errors");
+			errors.getFieldErrors().forEach(fieldError -> 
+				log.info("\t > errorField: {}, errorCode: {}", fieldError.getField(), fieldError.getCodes()[0]));
 			return; 
 		}
 

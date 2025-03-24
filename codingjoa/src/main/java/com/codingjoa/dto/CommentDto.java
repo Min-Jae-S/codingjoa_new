@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@NoArgsConstructor // for deserializing (JSON --> Object)
+@NoArgsConstructor // for deserializing (json --> object)
 public class CommentDto {
 
 	private long id;
