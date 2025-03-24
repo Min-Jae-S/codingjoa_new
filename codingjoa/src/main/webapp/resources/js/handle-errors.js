@@ -7,16 +7,12 @@ function parseError(jqXHR) {
 	} catch(e) {
 		console.log("## failed to parse errorResponse:", e);
 		return {
-			status : jqXHR.status || 500,
+			status : jqXHR.status,
 			message : "알 수 없는 오류가 발생했습니다. 다시 시도해주세요.",
 			details : [],
 			timestamp : new Date().toISOString().slice(0, 19)
 		};
 	}
-}
-
-function handleError(errorResponse, type) {
-	console.log("## handleError, type: %s", type);
 }
 
 function handleLoginError(errorResponse) {
@@ -25,22 +21,9 @@ function handleLoginError(errorResponse) {
 	$(".email_pw_wrap").after("<div class='error'><p>" + message + "</p></div>");
 }
 
-function handleMainError(errorResponse) {
-	console.log("## handleMainError");
-	let details = errorResponse.details;
-	if (details.length > 0) {
-		$.each(details, function(index, item) {
-			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
-		});
-		return;
-	}
-	
-	let message = errorResponse.message.replace(/\.\s/g, ".\n");
-	alert(message);
-}
-
-function handleUserError(errorResponse) {
-	console.log("## handleUserError");
+// handleUserError, handleMainError
+function handleValidationError(errorResponse) {
+	console.log("## handleValidationError");
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {

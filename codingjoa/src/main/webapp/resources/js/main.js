@@ -59,12 +59,7 @@ let mainService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleMainError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -89,12 +84,7 @@ let mainService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleMainError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}

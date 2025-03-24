@@ -18,12 +18,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});	
 	}
@@ -48,12 +43,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -78,12 +68,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -104,17 +89,11 @@ let userService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
-				
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -139,12 +118,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -169,12 +143,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -199,12 +168,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleImageError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -229,12 +193,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");;
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}
@@ -259,12 +218,7 @@ let userService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleUserError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleValidationError(parseError(jqXHR));
 			}
 		});
 	}

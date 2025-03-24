@@ -18,12 +18,7 @@ let categoryService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					alert(errorResponse.message);
-				} else {
-					alert("## Parsing Error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}

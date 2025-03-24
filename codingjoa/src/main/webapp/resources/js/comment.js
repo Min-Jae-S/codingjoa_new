@@ -1,8 +1,8 @@
 let commentService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));;
 	
-	function write(comment, callback) {
-		console.log("## write");
+	function writeComment(comment, callback) {
+		console.log("## writeComment");
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/comments`,
@@ -20,12 +20,7 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseErrorResponse(jqXHR);
-				if (errorResponse != null) {
-					handleError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -47,18 +42,13 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleCommentError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
 
-	function modify(commentId, comment, callback) {
-		console.log("## modify");
+	function modifyComment(commentId, comment, callback) {
+		console.log("## modifyComment");
 		$.ajax({
 			type : "PATCH",
 			url : `${contextPath}/api/comments/${commentId}`,
@@ -76,18 +66,13 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleCommentError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
 	
-	function delete(commentId, callback) {
-		console.log("## delete");
+	function deleteComment(commentId, callback) {
+		console.log("## deleteComment");
 		$.ajax({
 			type : "DELETE",
 			url : `${contextPath}/api/comments/${commentId}`,
@@ -103,21 +88,16 @@ let commentService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleCommentError(errorResponse);
-				} else {
-					alert("## parsing error");
-				}
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
 	
 	return {
-		write:write,
+		writeComment:writeComment,
 		getPagedComments:getPagedComments,
-		modify:modify,
-		delete:delete
+		modifyComment:modifyComment,
+		deleteComment:deleteComment
 	};
 	
 })();

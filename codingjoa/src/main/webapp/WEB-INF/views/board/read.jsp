@@ -748,7 +748,7 @@
 			let $form = $(this);
 			let comment = $form.serializeObject();
 			
-			commentService.write(comment, function(result) {
+			commentService.writeComment(comment, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, 1, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -774,7 +774,7 @@
 			let comment = $(this).serializeObject();
 			let commentId = $(this).closest("li.list-group-item").data("id");
 			
-			commentService.modify(commentId, comment, function(result) {
+			commentService.modifyComment(commentId, comment, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, curCommentPage, function(result) {
 					let pagedComments = result.data.pagedComments;
@@ -799,7 +799,7 @@
 			}
 			
 			let commentId = $(this).closest("li.list-group-item").data("id");
-			commentService.delete(commentId, function(result) {
+			commentService.deleteComment(commentId, function(result) {
 				alert(result.message);
 				commentService.getPagedComments(boardId, curCommentPage, function(result) {
 					let pagedComments = result.data.pagedComments;

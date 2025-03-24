@@ -18,12 +18,7 @@ let likeService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleLikeError(errorResponse);
-				} else {
-					alert("## parsing error");
-				} 
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -45,12 +40,7 @@ let likeService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleLikeError(errorResponse);
-				} else {
-					alert("## parsing error");
-				} 
+				handleError(parseError(jqXHR)); 
 			}
 		});
 	}
@@ -72,12 +62,7 @@ let likeService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleLikeError(errorResponse);
-				} else {
-					alert("## parsing error");
-				} 
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -99,12 +84,7 @@ let likeService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				if (errorResponse != null) {
-					handleLikeError(errorResponse);
-				} else {
-					alert("## parsing error");
-				} 
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
