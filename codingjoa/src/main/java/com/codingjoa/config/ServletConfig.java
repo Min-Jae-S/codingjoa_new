@@ -39,7 +39,7 @@ import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import com.codingjoa.exception.PreExceptionHandlerExceptionResolver;
-import com.codingjoa.interceptor.PasswordResetInterceptor;
+import com.codingjoa.interceptor.PasswordResetViewInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.service.RedisService;
@@ -49,7 +49,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @ComponentScan({
 	"com.codingjoa.controller",
@@ -133,8 +132,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/api/**");
-		registry.addInterceptor(new PasswordResetInterceptor(redisService, objectMapper))
-				.addPathPatterns("/password/reset", "/api/password/reset");
+		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
+				.addPathPatterns("/password/reset");
 		
 //		registry.addInterceptor(new TestRestApiInterceptor())
 //				.addPathPatterns("/test/rest-api/**")

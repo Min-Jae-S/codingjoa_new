@@ -56,7 +56,7 @@ public class BoardController {
 	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
 		
-		Long userId = (principal == null) ? null : principal.getId();
+		Long userId = obtainUserId(principal);
 		log.info("\t > userId = {}", userId);
 		
 		List<Category> boardCategories = categoryService.getBoardCategories();
@@ -76,10 +76,11 @@ public class BoardController {
 		log.info("## getPagedBoards");
 		log.info("\t > categoryCode = {}, boardCri = {}", categoryCode, boardCri);
 	
-		Long userId = (principal == null) ? null : principal.getId();
+		Long userId = obtainUserId(principal);
 		log.info("\t > userId = {}", userId);
 		
 		List<BoardDetailsDto> pagedBoards = boardService.getPagedBoards(categoryCode, boardCri, userId);
+		log.info("\t > pagedBoards = {}", pagedBoards);
 		
 		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -101,7 +102,7 @@ public class BoardController {
 		log.info("## read, id = {}", id);
 		log.info("\t > boardCri = {}", boardCri);
 		
-		Long userId = (principal == null) ? null : principal.getId();
+		Long userId = obtainUserId(principal);
 		log.info("\t > userId = {}", userId);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(id, userId);
@@ -202,6 +203,10 @@ public class BoardController {
 		Board deletedBoard = boardService.deleteBoard(id, principal.getId());
 		
 		return "redirect:/board/?categoryCode=" + deletedBoard.getCategoryCode();
+	}
+	
+	private Long obtainUserId(PrincipalDetails principal) {
+		return (principal == null) ? null : principal.getId();
 	}
 	
 }

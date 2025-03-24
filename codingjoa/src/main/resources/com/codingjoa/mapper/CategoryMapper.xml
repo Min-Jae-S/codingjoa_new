@@ -33,7 +33,7 @@
 			parent_code = #{parentCode}
 	</select>
 	
-	<select id="findCategoryById" parameterType="int" resultType="Category">
+	<select id="findCategoryByCode" parameterType="int" resultType="Category">
 		SELECT
 			code,
 			parent_code,

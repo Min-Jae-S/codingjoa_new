@@ -24,6 +24,7 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
+import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
 	
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
+	private final RedisService redisService;
 	
 	@Override
 	public void saveUser(JoinDto joinDto) {
@@ -335,14 +337,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void resetPassword(PasswordResetDto PasswordResetDto, long userId) {
+	public void resetPassword(String newPassword, Long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.user.notFound");
 		}
 		
-		String rawPassword = PasswordResetDto.getNewPassword();
-		String encPassword = passwordEncoder.encode(rawPassword);
+		String encPassword = passwordEncoder.encode(newPassword);
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.password(encPassword)

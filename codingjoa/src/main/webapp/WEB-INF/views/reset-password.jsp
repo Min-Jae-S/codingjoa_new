@@ -91,66 +91,44 @@
 						<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
 						<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
 					</p>
-					<dl class="form-group mb-5">
-						<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
-						<dd class="input-group">
-							<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
-						</dd>
-					</dl>
-					<dl class="form-group mb-5">
-						<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
-						<dd class="input-group">
-							<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
-						</dd>
-					</dl>
-					<div class="pt-3">
-						<button type="button" class="btn btn-primary btn-block rounded-md" id="resetPasswordBtn">확인</button>
-					</div>				
+					<form id="passwordResetForm">
+						<input type="hidden" id="token" name="token" value="${token}">
+						<dl class="form-group mb-5">
+							<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
+							<dd class="input-group">
+								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
+							</dd>
+						</dl>
+						<dl class="form-group mb-5">
+							<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
+							<dd class="input-group">
+								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
+							</dd>
+						</dl>
+						<div class="pt-3">
+							<button type="submit" class="btn btn-primary btn-block rounded-md">확인</button>
+						</div>			
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-	
-		<!-- <h5 class="font-weight-bold">
-			비밀번호 재설정
-			<button type="button" class="btn btn-sm btn-warning py-0 float-right d-none" id="removeKeyBtn">REMOVE KEY</button>
-		</h5>
-		<div class="pt-3 border-top border-dark">
-			<p class="title">새로운 비밀번호를 입력해주세요.</p>
-			<p class="description"> 
-				<span>- 비밀번호는 8-16자 영문자, 숫자, 특수문자를 사용하세요.</span><br/>
-				<span>- 보안 정책에 따라 현재 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.</span>
-			</p>
-			<dl class="form-group mb-5">
-				<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
-				<dd class="input-group">
-					<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
-				</dd>
-			</dl>
-			<dl class="form-group mb-5">
-				<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
-				<dd class="input-group">
-					<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
-				</dd>
-			</dl>
-			<div class="pt-3">
-				<button type="button" class="btn btn-primary btn-block" id="resetPasswordBtn">확인</button>
-			</div>				
-		</div> -->
 </div>
 
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 
 <script>
 	$(function() {
-		$("#resetPasswordBtn").on("click", function() {
-			let obj = {
+		$("#passwordResetForm").on("submit", function(e) {
+			e.preventDefault();
+			
+			let formData = {
+				token : $("#token").val(),
 				newPassword : $("#newPassword").val(),
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			mainService.resetPassword("${key}", obj, function(result) {
+			mainService.resetPassword(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 					location.href = "${contextPath}/login";

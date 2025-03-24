@@ -42,7 +42,7 @@ public interface UserService {
 	
 	void savePassword(PasswordSaveDto passwordSaveDto, long userId);
 	
-	void resetPassword(PasswordResetDto PasswordResetDto, long userId);
+	void resetPassword(String newPassword, Long userId);
 	
 	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
 	

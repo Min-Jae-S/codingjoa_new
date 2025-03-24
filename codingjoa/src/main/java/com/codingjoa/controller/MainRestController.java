@@ -82,13 +82,13 @@ public class MainRestController {
 		
 		String email = emailDto.getEmail();
 		Long userId = userService.checkEmailForReset(email);
-		String key = UUID.randomUUID().toString().replace("-", "");
+		String token = UUID.randomUUID().toString().replace("-", "");
 		
-		redisService.saveKeyAndValue(key, userId);
+		redisService.saveKeyAndValue(token, userId);
 		
 		String passwordResetLink = ServletUriComponentsBuilder.fromCurrentContextPath()
 				.path("/password/reset")
-				.queryParam("key", key)
+				.queryParam("token", token)
 				.build()
 				.toString();
 		log.info("\t > passwordResetLink = {}", passwordResetLink);
@@ -100,23 +100,16 @@ public class MainRestController {
 				.build());
 	}
 		
-	@PostMapping("/password/reset") // pre-check key parameter in interceptor
-	public ResponseEntity<Object> resetPassword(@RequestParam String key, @RequestBody @Valid PasswordResetDto passwordResetDto) {
+	@PostMapping("/password/reset")
+	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordResetDto passwordResetDto) {
 		log.info("## resetPassword");
-		log.info("\t > key = {}", key);
 		log.info("\t > passwordResetDto = {}", passwordResetDto);
 		
-		Long userId = (Long) redisService.findValueByKey(key);
-		userService.resetPassword(passwordResetDto, userId);
+		String token = passwordResetDto.getToken();
+		Long userId = (Long) redisService.findValueByKey(token);
+		userService.resetPassword(passwordResetDto.getNewPassword(), userId);
 		
-		log.info("\t > delete password reset key");
-		redisService.deleteKey(key);
-		
-		if (!redisService.hasKey(key)) {
-			log.info("\t > successfully removed the key");
-		} else {
-			log.info("\t > failed to remove the key");
-		}
+		redisService.deleteKey(token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.reset-password.resetPassword")

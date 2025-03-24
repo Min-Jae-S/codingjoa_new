@@ -69,11 +69,11 @@ let mainService = (function() {
 		});
 	}
 	
-	function resetPassword(key, obj, callback) {
+	function resetPassword(obj, callback) {
 		console.log("## resetPassword");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/password/reset?key=${key}`,
+			url : `${contextPath}/api/password/reset`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
