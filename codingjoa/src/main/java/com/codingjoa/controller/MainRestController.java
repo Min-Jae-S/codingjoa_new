@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.enumclass.MailType;
+import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
@@ -106,6 +108,10 @@ public class MainRestController {
 		log.info("\t > passwordResetDto = {}", passwordResetDto);
 		
 		String token = passwordResetDto.getToken();
+		if (!StringUtils.hasText(token) || !redisService.hasKey(token)) {
+			throw new ExpectedException("error.reset-password.notValidToken");
+		}
+		
 		Long userId = (Long) redisService.findValueByKey(token);
 		userService.resetPassword(passwordResetDto.getNewPassword(), userId);
 		

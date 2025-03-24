@@ -8,15 +8,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailAuthDto;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
-import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.PasswordSaveDto;
-import com.codingjoa.dto.AccountDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
@@ -24,7 +23,6 @@ import com.codingjoa.exception.ExpectedException;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
-import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +36,6 @@ public class UserServiceImpl implements UserService {
 	
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
-	private final RedisService redisService;
 	
 	@Override
 	public void saveUser(JoinDto joinDto) {
