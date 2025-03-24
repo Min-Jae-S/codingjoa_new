@@ -80,8 +80,8 @@
 					<h4 class="font-weight-bold">
 						비밀번호 재설정
 						<div class="float-right">
-	 						<button type="button" class="btn btn-sm btn-primary py-0" id="createKeyBtn">CREATE KEY</button>
-							<button type="button" class="btn btn-sm btn-secondary py-0" id="removeKeyBtn">REMOVE KEY</button>
+	 						<button type="button" class="btn btn-sm btn-primary py-0" id="createTokenBtn">CREATE TOKEN</button>
+							<button type="button" class="btn btn-sm btn-secondary py-0" id="removeTokenBtn">REMOVE TOKEN</button>
 						</div>
 					</h4>
 				</div>
@@ -150,10 +150,10 @@
 			$(this).closest("dd").css("border-bottom", "1px solid #dee2e6");
 		});
 		
-		$("#createKeyBtn").on("click", function() {
+		$("#createTokenBtn").on("click", function() {
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/api/password/reset/key",
+				url : "${contextPath}/api/password/reset/token",
 				dataType : "json",
 				beforeSend : function(xhr, settings) {
 					console.log("%c> BEFORE SEND", "color:blue");
@@ -170,10 +170,13 @@
 			});
 		});
 		
-		$("#removeKeyBtn").on("click", function() {
+		$("#removeTokenBtn").on("click", function() {
 			$.ajax({
 				type : "DELETE",
-				url : "${contextPath}/api/password/reset/key?key=${key}",
+				url : "${contextPath}/api/password/reset/token",
+				data : JSON.stringify({
+					token : $("#token").val()
+				}),
 				dataType : "json",
 				beforeSend : function(xhr, settings) {
 					console.log("%c> BEFORE SEND", "color:blue");

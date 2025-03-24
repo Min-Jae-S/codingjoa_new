@@ -115,7 +115,7 @@ public class UserRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.send(email, MailType.AUTH_CODE, authCode);
+		emailService.send(email, MailType.EMAIL_UPDATE, authCode);
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()

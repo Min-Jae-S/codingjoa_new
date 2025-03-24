@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div style="font-family: 'Apple SD Gothic Neo', 'sans-serif' !important; width: 540px; height: 600px; margin: 100px auto; padding: 30px 0; box-sizing: border-box;">
+	<div style="height: 40px; background-color:#343a40; padding: 5px;">
+		<p style="font-size: 25px; margin: 5px; line-height: 30px; color: white;">
+			<b>CodingJoa</b>
+		</p>
+	</div>
+	<h1 style="margin-top: 20px; padding: 0 5px; font-size: 28px; font-weight: 400;">
+		<span style="color: #343a40"><b>이메일인증</b></span> 안내입니다.
+	</h1>
+	<p style="font-size: 16px; line-height: 26px; margin-top: 35px; padding: 0 5px;">
+		안녕하세요. <b>CodingJoa</b>입니다.<br/>
+		아래 인증번호로 이메일 변경을 진행해주세요.<br/>
+		감사합니다.
+	</p>
+	<p style="font-size: 16px; margin: 35px 5px 20px; line-height: 28px;">
+		인증번호 : <span><b th:text="${authCode}"></b></span>
+	</p>
+	<div style="border-top: 10px solid #343a40; padding: 5px;">
+		<p style="font-size: 13px; line-height: 21px; color: #555;">
+			Copyright &copy; <b>CodingJoa Corp.</b> All Rights Reserved.
+		</p>
+	</div>
+</div>
+</html>

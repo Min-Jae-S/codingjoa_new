@@ -45,8 +45,10 @@ public class EmailServiceImpl implements EmailService {
 	
 	private String getSubject(MailType mailType) {
 		switch (mailType) {
-		case AUTH_CODE:
-			return "[CodingJoa] 이메일 인증번호";
+		case JOIN:
+			return "[CodingJoa] 회원가입 인증번호";
+		case EMAIL_UPDATE:
+			return "[CodingJoa] 이메일 변경 인증번호";
 		case PASSWORD_RESET:
 			return "[CodingJoa] 비밀번호 재설정 링크";
 		default:
@@ -58,9 +60,12 @@ public class EmailServiceImpl implements EmailService {
 		Context context = new Context();
 		
 		switch (mailType) {
-		case AUTH_CODE:
+		case JOIN:
 			context.setVariable("authCode", value);
-			return templateEngine.process("template/auth-code", context);
+			return templateEngine.process("template/join", context);
+		case EMAIL_UPDATE:
+			context.setVariable("authCode", value);
+			return templateEngine.process("template/email-update", context);
 		case PASSWORD_RESET:
 			context.setVariable("passwordResetLink", value);
 			return templateEngine.process("template/password-reset", context);

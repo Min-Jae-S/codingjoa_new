@@ -2,6 +2,7 @@ package com.codingjoa.enumclass;
 
 public enum MailType {
 	
-	AUTH_CODE,
+	JOIN,
+	EMAIL_UPDATE,
 	PASSWORD_RESET;
 }

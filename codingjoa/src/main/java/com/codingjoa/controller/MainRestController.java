@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -69,7 +69,7 @@ public class MainRestController {
 		String authCode = RandomStringUtils.randomNumeric(6);
 		log.info("\t > authCode = {}", authCode);
 		
-		emailService.send(email, MailType.AUTH_CODE, authCode);
+		emailService.send(email, MailType.JOIN, authCode);
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -122,17 +122,17 @@ public class MainRestController {
 				.build());
 	}
 
-	@GetMapping("/password/reset/key") 
-	public ResponseEntity<Object> createPasswordResetKey() {
-		log.info("## createPasswordResetKey");
+	@GetMapping("/password/reset/token") 
+	public ResponseEntity<Object> createPasswordResetToken() {
+		log.info("## createPasswordResetToken");
 		
-		long userId = 21;
-		String key = UUID.randomUUID().toString().replace("-", "");
-		log.info("\t > created key = {}", key);
+		long userId = 1;
+		String token = UUID.randomUUID().toString().replace("-", "");
+		log.info("\t > created token = {}", token);
 		
-		redisService.saveKeyAndValue(key, userId);
+		redisService.saveKeyAndValue(token, userId);
 		
-		if (redisService.hasKey(key)) {
+		if (redisService.hasKey(token)) {
 			log.info("\t > successfully saved the key");
 		} else {
 			log.info("\t > failed to save the key");
@@ -141,17 +141,20 @@ public class MainRestController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@DeleteMapping("/password/reset/key") 
-	public ResponseEntity<Object> removePasswordResetKey(@RequestParam String key) {
-		log.info("## removePasswordResetKey");
-		log.info("\t > key = {}", key);
+	@DeleteMapping("/password/reset/token") 
+	public ResponseEntity<Object> removePasswordResetToken(Map<String, String> map) {
+		log.info("## removePasswordResetToken");
+		log.info("\t > map = {}", map);
 		
-		redisService.deleteKey(key);
+		String token = map.get("token");
+		log.info("\t > token = {}", token);
 		
-		if (!redisService.hasKey(key)) {
-			log.info("\t > successfully removed the key");
+		redisService.deleteKey(token);
+		
+		if (!redisService.hasKey(token)) {
+			log.info("\t > successfully removed the token");
 		} else {
-			log.info("\t > failed to remove the key");
+			log.info("\t > failed to remove the token");
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create());
