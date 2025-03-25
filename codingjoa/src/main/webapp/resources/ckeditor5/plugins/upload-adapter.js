@@ -65,8 +65,7 @@ class UploadAdapter {
             	// https://ckeditor.com/docs/ckeditor5/latest/framework/guides/deep-dive/upload-adapter.html
             	// response.data: BoardImageDto(long id, String path)
             	id: response.data.id,
-            	path: response.data.path
-            	//url: response.data.path
+            	src: this._getContextPath() + response.data.path //url: response.data.path
             	//alt: response.data.name
             });
         });

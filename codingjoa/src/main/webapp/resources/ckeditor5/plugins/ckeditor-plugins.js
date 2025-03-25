@@ -12,7 +12,7 @@ function uploadCompleteListener(editor) {
 		console.log("## upload complete and set attributes src, data-id");
 		editor.model.change(writer => {
 			evt.stop();
-			writer.setAttribute("src", data.path, imageElement);
+			writer.setAttribute("src", data.src, imageElement);
 			writer.setAttribute("dataId", data.id, imageElement);
 			//writer.setAttribute("alt", data.alt, imageElement);
 		});

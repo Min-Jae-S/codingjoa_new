@@ -751,7 +751,9 @@
 		// close editComment form
 		$(document).on("click", ".comment-edit-wrap button[type='button']", function() {
 			let $li = $(this).closest("li.list-group-item");
-			let commentDetails = commentMap.get($li.data("id"));
+			let commentId = $li.data("id");
+			
+			let commentDetails = commentMap.get(commentId);
 			let commentHtml = createCommentHtml(commentDetails);
 			
 			$li.html(createCommentHtml(commentDetails));
