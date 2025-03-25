@@ -57,7 +57,7 @@ function createPagedCommentsHtml(pagedComments) {
 	
 	html += "<ul class='list-group list-group-flush'>";
 	$.each(pagedComments, function(index, commentDetails) {
-		if (commentDetails == "") {
+		if (!commentDetails) {
 			html += "<li class='list-group-item deleted-comment'>";
 			html += "<div class='comment-area'>";
 			html += "<div class='comment-area-header'>";

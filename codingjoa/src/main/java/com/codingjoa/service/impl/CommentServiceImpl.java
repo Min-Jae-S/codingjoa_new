@@ -35,28 +35,6 @@ public class CommentServiceImpl implements CommentService {
 		this.boardMapper = boardMapper;
 		this.pageRange = pageRange;
 	}
-
-	@Override
-	public void saveComment(CommentDto commentDto) {
-		log.info("\t > prior to inserting comment, find board first");
-		Board board = boardMapper.findBoardById(commentDto.getBoardId());
-		
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
-		
-		Comment comment = commentDto.toEntity();
-		log.info("\t > convert commentDto to comment entity = {}", comment);
-		
-		boolean isSaved = commentMapper.insertComment(comment);
-		log.info("\t > saved comment = {}", comment);
-
-		if (!isSaved) {
-			throw new ExpectedException("error.comment.save");
-		}
-		
-		boardMapper.increaseCommentCount(board.getId());
-	}
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId) {
@@ -82,8 +60,31 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public Pagination getPagination(long boardId, CommentCriteria commentCri) {
-		int totalCnt = commentMapper.findPagingCommentCount(boardId);
-		return (totalCnt > 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
+		int totalCnt = commentMapper.findTotalCntForPaging(boardId);
+		int validCnt = commentMapper.findValidCntForPaging(boardId);
+		return (totalCnt > 0) ? new Pagination(totalCnt, validCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
+	}
+
+	@Override
+	public void saveComment(CommentDto commentDto) {
+		log.info("\t > prior to inserting comment, find board first");
+		Board board = boardMapper.findBoardById(commentDto.getBoardId());
+		
+		if (board == null) {
+			throw new ExpectedException("error.board.notFound");
+		}
+		
+		Comment comment = commentDto.toEntity();
+		log.info("\t > convert commentDto to comment entity = {}", comment);
+		
+		boolean isSaved = commentMapper.insertComment(comment);
+		log.info("\t > saved comment = {}", comment);
+
+		if (!isSaved) {
+			throw new ExpectedException("error.comment.save");
+		}
+		
+		boardMapper.increaseCommentCount(board.getId());
 	}
 
 	@Override

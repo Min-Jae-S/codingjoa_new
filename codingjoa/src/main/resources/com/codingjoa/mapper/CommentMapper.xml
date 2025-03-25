@@ -131,13 +131,24 @@
 			final_comment.board_id = board.id
 	</select>
 	
-	<select id="findPagingCommentCount" resultType="int">
+	<select id="findTotalCntForPaging" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
 			comments
 		WHERE
 			board_id = #{boardId}
+	</select>
+
+	<select id="findValidCntForPaging" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			comments
+		WHERE
+			board_id = #{boardId}
+		AND
+			status = 1
 	</select>
 	
 	<select id="findCommentById" resultType="Comment">

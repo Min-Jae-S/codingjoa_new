@@ -676,7 +676,6 @@
 		const $commentPageDiv = $("div.comment-pagination");
 		const boardId = "<c:out value='${boardDetails.id}'/>";
 		let commentMap = new Map();
-		let curCommentPage = 1;
 		
 		function saveCommentsAsMap(pagedComments, commentMap) {
 			commentMap.clear();
@@ -691,18 +690,24 @@
 			});
 		}
 		
-		commentService.getPagedComments(boardId, curCommentPage, function(result) {
-			let pagedComments = result.data.pagedComments;
-			saveCommentsAsMap(pagedComments, commentMap);
-			
-			let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
-			$commentListDiv.html(pagedCommentsHtml);
-
-			let pagination = result.data.pagination;
-			let paginationHtml = createPaginationHtml(pagination);
-			$commentPageDiv.html(paginationHtml);
-			//$(".comment-cnt").text(pagination.totalCnt);
-		});
+		function getPagedComments(boardId, page) {
+			commentService.getPagedComments(boardId, page, function(result) {
+				let pagedComments = result.data.pagedComments;
+				saveCommentsAsMap(pagedComments, commentMap);
+				
+				let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
+				$commentListDiv.html(pagedCommentsHtml);
+	
+				let pagination = result.data.pagination;
+				let paginationHtml = createPaginationHtml(pagination);
+				$commentPageDiv.html(paginationHtml);
+				
+				$(".comment-cnt").text(pagination.validCnt);
+			});
+		}
+		
+		// ## initiate pagedComments
+		getPagedComments(boardId, 1);
 		
 		$("#deleteBoardLink").on("click", function() {
 			return confirm("게시글을 삭제하시겠습니까?");
@@ -752,25 +757,14 @@
 			e.preventDefault();
 			let $form = $(this);
 			let comment = $form.serializeObject();
+			let currentPage = $(".comment-pagination .active .page-link").data("page");
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
-				commentService.getPagedComments(boardId, 1, function(result) {
-					let pagedComments = result.data.pagedComments;
-					saveCommentsAsMap(pagedComments, commentMap);
-					
-					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
-					$commentListDiv.html(pagedCommentsHtml);
-
-					let pagination = result.data.pagination;
-					let paginationHtml = createPaginationHtml(pagination);
-					$commentPageDiv.html(paginationHtml);
-					
-					//$(".comment-cnt").text(pagination.totalCnt);	
-					
-					$form.trigger("reset");
-					$form.find("textarea").trigger("input");
-				});
+				getPagedComments(boardId, currentPage);
+				
+				$form.trigger("reset");
+				$form.find("textarea").trigger("input");
 			});
 		});
 
@@ -779,22 +773,11 @@
 			e.preventDefault();
 			let comment = $(this).serializeObject();
 			let commentId = $(this).closest("li.list-group-item").data("id");
+			let currentPage = $(".comment-pagination .active .page-link").data("page");
 			
 			commentService.modifyComment(commentId, comment, function(result) {
 				alert(result.message);
-				commentService.getPagedComments(boardId, curCommentPage, function(result) {
-					let pagedComments = result.data.pagedComments;
-					saveCommentsAsMap(pagedComments, commentMap);
-					
-					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
-					$commentListDiv.html(pagedCommentsHtml);
-
-					let pagination = result.data.pagination;
-					let paginationHtml = createPaginationHtml(result.data.pagination);
-					$commentPageDiv.html(paginationHtml);
-					
-					//$(".comment-cnt").text(pagination.totalCnt);	
-				});
+				getPagedComments(boardId, currentPage);
 			});
 		});
 		
@@ -805,41 +788,17 @@
 			}
 			
 			let commentId = $(this).closest("li.list-group-item").data("id");
+			let currentPage = $(".page-item.active .page-link").data("page");
+			
 			commentService.deleteComment(commentId, function(result) {
 				alert(result.message);
-				commentService.getPagedComments(boardId, curCommentPage, function(result) {
-					let pagedComments = result.data.pagedComments;
-					saveCommentsAsMap(pagedComments, commentMap);
-					
-					let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
-					$commentListDiv.html(pagedCommentsHtml);
-
-					let pagination = result.data.pagination;
-					let paginationHtml = createPaginationHtml(pagination);
-					$commentPageDiv.html(paginationHtml);
-					
-					//$(".comment-cnt").text(pagination.totalCnt);	
-				});
+				getPagedComments(boardId, currentPage);
 			});
 		});
 		
 		// pagination
 		$(document).on("click", ".comment-pagination .page-link", function() {
-			commentService.getPagedComments(boardId, $(this).data("page"), function(result) {
-				let pagedComments = result.data.pagedComments;
-				saveCommentsAsMap(pagedComments, commentMap);
-				
-				let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
-				$commentListDiv.html(pagedCommentsHtml);
-
-				let pagination = result.data.pagination;
-				let paginationHtml = createPaginationHtml(pagination);
-				$commentPageDiv.html(paginationHtml);
-				
-				$(".comment-cnt").text(pagination.totalCnt);
-				curCommentPage = pagination.page;
-				console.log("## curCommentPage = %s", curCommentPage);
-			});
+			getPagedComments(boardId, $(this).data("page"));
 		});
 		
 		// toggle boardLike
@@ -872,6 +831,7 @@
 				});
 			});
 		});
+		
 	});
 </script>
 

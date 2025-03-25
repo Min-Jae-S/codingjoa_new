@@ -9,11 +9,11 @@ import com.codingjoa.pagination.Pagination;
 
 public interface CommentService {
 
-	void saveComment(CommentDto commentDto);
-	
 	List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId);
 	
 	Pagination getPagination(long boardId, CommentCriteria commentCri);
+	
+	void saveComment(CommentDto commentDto);
 	
 	void updateComment(CommentDto commentDto);
 	

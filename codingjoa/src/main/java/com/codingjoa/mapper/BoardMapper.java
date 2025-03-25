@@ -21,7 +21,7 @@ public interface BoardMapper {
 	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode,
 			@Param("boardCri") BoardCriteria boardCri, @Param("userId") Long userId);
 
-	int findPagingBoardCount(@Param("categoryCode") int categoryCode, @Param("boardCri") BoardCriteria boardCri);
+	int findTotalCntForPaging(@Param("categoryCode") int categoryCode, @Param("boardCri") BoardCriteria boardCri);
 
 	Board findBoardById(Long boardId);
 

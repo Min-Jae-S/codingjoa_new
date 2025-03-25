@@ -14,6 +14,7 @@ public class Pagination {
 	private int page;			// 현재 페이지 번호
 	private int pageCnt;		// 전체 페이지 개수
 	private int totalCnt;		// 전체 레코드 개수
+	private int validCnt;		// 유효한 전체 레코드 개수
 	private boolean prev; 		// 이전 페이지 이동 가능 여부
 	private boolean next;		// 다음 페이지 이동 가능 여부
 	private boolean first;		// 처음 페이지 이동 가능 여부
@@ -27,7 +28,12 @@ public class Pagination {
 	 */
 	
 	public Pagination(int totalCnt, int page, int recordCnt, int pageRange) {
+		this(totalCnt, totalCnt, page, recordCnt, pageRange);
+	}
+	
+	public Pagination(int totalCnt, int validCnt, int page, int recordCnt, int pageRange) {
 		this.totalCnt = totalCnt;
+		this.validCnt = validCnt;
 		
 		// 556/10 = 55 --> 56
 		pageCnt = totalCnt / recordCnt;
