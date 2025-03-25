@@ -684,7 +684,7 @@
 			}
 			
 			$.each(pagedComments, function(index, commentDetails) {
-				if (commentDetails != "") {
+				if (!commentDetails) {
 					commentMap.set(commentDetails.id, commentDetails);
 				}
 			});

@@ -22,7 +22,8 @@ public class Pagination {
 	
 	/*
 	 * totalCnt 	: 전체 레코드 개수
-	 * page			: 현제 페이지 번호
+	 * validCnt		: 유효한 전체 레코드 개수
+	 * page			: 현재 페이지 번호
 	 * recordCnt 	: 페이지 당 레코드 개수
 	 * pageRange	: 페이지 범위 (페이지 버튼 개수)
 	 */
