@@ -86,10 +86,10 @@ function createPagedCommentsHtml(pagedComments) {
 function createCommentHtml(commentDetails) {
 	let html = "";
 	html += "<div class='comment-thum'>";
-	if (commentDetails.writerImagePath == "") {
-		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
+	if (commentDetails.writerImagePath) {
+		html += `<img src='${contextPath}${commentDetails.writerImagePath}'>`;
 	} else {
-		html += "<img src='" + commentDetails.writerImagePath + "'>";
+		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
 	}
 	
 	html += "</div>";
@@ -106,9 +106,9 @@ function createCommentHtml(commentDetails) {
 	html += "</div>";
 	html += "<div class='dropright ml-auto'>";
 	if (commentDetails.isWriter) {
-		html += "<button class='comment-utils-btn' data-toggle='dropdown'>";
+		html += "<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside'>";
 	} else {
-		html += "<button class='comment-utils-btn' data-toggle='dropdown' disabled>";
+		html += "<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' disabled>";
 	}
 	
 	html += "<i class='fa-ellipsis-vertical fa-solid'></i>";
@@ -149,10 +149,10 @@ function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
 	let html = "";
 	html += "<div class='comment-thum'>";
-	if (commentDetails.writerImagePath == "") {
-		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
+	if (commentDetails.writerImagePath) {
+		html += `<img src='${contextPath}${commentDetails.writerImagePath}'>`;
 	} else {
-		html += "<img src='" + commentDetails.writerImagePath + "'>";
+		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
 	}
 	
 	html += "</div>";
