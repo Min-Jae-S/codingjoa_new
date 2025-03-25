@@ -104,7 +104,7 @@ function createCommentHtml(commentDetails) {
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
 	html += "</div>";
-	html += "<div class='dropright ml-auto'>";
+	html += "<div class='dropend ml-auto'>"; // dropright --> dropend
 	if (commentDetails.isWriter) {
 		html += "<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside'>";
 	} else {

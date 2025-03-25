@@ -16,8 +16,8 @@
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> -->
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/like.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
@@ -255,15 +255,23 @@
 		border-radius: 0.5rem;
 	}
 	
-	.board-utils .dropdown-menu[x-placement="right-start"],
+	/* .board-utils .dropdown-menu[data-popper-placement="right-start"],
+	.comment-area-header .dropdown-menu[data-popper-placement="right-start"] {
+		transform: translate(1081px, 33px) !important;
+	} */
+	/* .board-utils .dropdown-menu[x-placement="right-start"],
 	.comment-area-header .dropdown-menu[x-placement="right-start"] {
 		transform: translate3d(37px, 0px, 0px) !important;
-	}
+	} */
 
-	.board-utils .dropdown-menu[x-placement="left-start"],
-	.comment-area-header .dropdown-menu[x-placement="left-start"] {
+	/* .board-utils .dropdown-menu[data-popper-placement="left-start"],
+	.comment-area-header .dropdown-menu[data-popper-placement="left-start"] {
+		transform: translate(-50px, 33px) !important;
+	} */
+	/* .board-utils .dropdown-menu[x-placement="right-start"],
+	.comment-area-header .dropdown-menu[x-placement="right-start"] {
 		transform: translate3d(-162px, 0px, 0px) !important;
-	}
+	} */
 	
 	.board-utils .dropdown-menu li,
 	.comment-area-header .dropdown-menu li {
@@ -396,9 +404,8 @@
 					<a class="board-category" href="${contextPath}/board/?categoryCode=${category.code}">
 						<c:out value="${category.name}"/><i class="fa-angle-right fa-fw fa-solid"></i>
 					</a>
-					<div class="dropright ml-auto">
-						<button class="board-utils-btn" data-toggle="dropdown" ${boardDetails.writer ? '' : 'disabled'}>
-						<%-- <button class="board-utils-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" ${boardDetails.writer ? '' : 'disabled'}> --%>
+					<div class="dropend ml-auto"> <!-- dropright -->
+						<button class="board-utils-btn" data-bs-toggle="dropdown" data-bs-auto-close="outside" ${boardDetails.writer ? '' : 'disabled'}>
 							<i class="fa-ellipsis-vertical fa-solid"></i>
 						</button>
 						<ul class="dropdown-menu">

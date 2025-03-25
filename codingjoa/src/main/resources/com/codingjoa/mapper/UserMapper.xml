@@ -182,7 +182,7 @@
 			users.email,
 			users.password,
 			users.nickname,
-			latest_image.path AS image_path,
+			latest_user_image.path AS image_path,
 			sns_info.provider,
 			auth.role
 		FROM
@@ -194,9 +194,9 @@
 				user_image
 			WHERE 
 				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
-		) latest_image
+		) latest_user_image
 		ON
-			users.id = latest_image.user_id
+			users.id = latest_user_image.user_id
 		LEFT OUTER JOIN
 			sns_info
 		ON
@@ -215,7 +215,7 @@
 			users.email,
 			users.password,
 			users.nickname,
-			latest_image.path AS image_path,
+			latest_user_image.path AS image_path,
 			sns_info.provider,
 			auth.role
 		FROM
@@ -227,9 +227,9 @@
 				user_image
 			WHERE 
 				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
-		) latest_image
+		) latest_user_image
 		ON
-			users.id = latest_image.user_id
+			users.id = latest_user_image.user_id
 		LEFT OUTER JOIN
 			sns_info
 		ON
