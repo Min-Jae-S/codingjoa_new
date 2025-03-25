@@ -331,6 +331,8 @@ public class UserServiceImpl implements UserService {
 		if (!isSaved) {
 			throw new ExpectedException("error.user.savePassword");
 		}
+		
+		// connect oAuth2
 	}
 	
 	@Override

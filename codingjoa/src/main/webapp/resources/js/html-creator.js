@@ -147,7 +147,13 @@ function createCommentHtml(commentDetails) {
 
 function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
+	console.log(commentDetails);
+	
 	let html = "";
+	if (!commentDetails.isWriter) {
+		return html;
+	}
+	
 	html += "<div class='comment-thum'>";
 	if (commentDetails.writerImagePath) {
 		html += `<img src='${contextPath}${commentDetails.writerImagePath}'>`;

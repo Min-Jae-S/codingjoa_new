@@ -677,14 +677,14 @@
 		const boardId = "<c:out value='${boardDetails.id}'/>";
 		let commentMap = new Map();
 		
-		function saveCommentsAsMap(pagedComments, commentMap) {
+		function saveCommentsToMap(pagedComments, commentMap) {
 			commentMap.clear();
 			if (pagedComments.length == 0) {
 				return;
 			}
 			
 			$.each(pagedComments, function(index, commentDetails) {
-				if (!commentDetails) {
+				if (commentDetails) {
 					commentMap.set(commentDetails.id, commentDetails);
 				}
 			});
@@ -693,7 +693,7 @@
 		function getPagedComments(boardId, page) {
 			commentService.getPagedComments(boardId, page, function(result) {
 				let pagedComments = result.data.pagedComments;
-				saveCommentsAsMap(pagedComments, commentMap);
+				saveCommentsToMap(pagedComments, commentMap);
 				
 				let pagedCommentsHtml = createPagedCommentsHtml(pagedComments);
 				$commentListDiv.html(pagedCommentsHtml);
@@ -738,6 +738,11 @@
 			let $li = $(this).closest("li.list-group-item");
 			let commentDetails = commentMap.get($li.data("id"));
 			let editCommentHtml = createEditCommentHtml(commentDetails);
+			
+			if (!editCommentHtml) {
+				alert("권한이 없습니다.");
+				return;
+			}
 			
 			$li.html(editCommentHtml);
 			$li.find("textarea").trigger("input").focus();

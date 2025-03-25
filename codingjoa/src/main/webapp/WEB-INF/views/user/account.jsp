@@ -236,7 +236,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showZipcode">
 							<div>
-								<span class="inner-text">* 주소를 등록해주세요</span>
+								<span class="inner-text text-danger">* 주소를 등록해주세요</span>
 							</div>
 							<button type="button" class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
@@ -341,7 +341,8 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	initAccountPage();
+	// ## initiate account page
+	getAccountPage();
 	
 	$(function() {
 		$("#userImageBtn").on("click", function() {
@@ -349,7 +350,7 @@
 		});
 		
 		// prevent stack overflow (Uncaught RangeError: Maximum call stack size exceeded)
-		// since #userImagee(file) is a child element of #userImageBtn, event propagation occurs
+		// since #userImage(file) is a child element of #userImageBtn, event propagation occurs
 		$("#userImage").on("click", function(e) {
 			e.stopPropagation();
 		});
@@ -450,6 +451,7 @@
 					$("#showAddr span").text(account.addr);
 					$("#showAddrDetail span").text(account.addrDetail);
 					$("#showZipcode button").html("수정");
+					$("#showZipcode span").removeClass("text-danger");
 					$("#showAddr, #showAddrDetail").removeClass("d-none");
 					$("#addrForm button[type='reset']").click();
 				});
@@ -522,8 +524,8 @@
 		});
 	});
 	
-	function initAccountPage() {
-		console.log("## initAccountPage"); 
+	function getAccountPage() {
+		console.log("## getAccountPage"); 
 		userService.getAccount(function(result) {
 			// destructuring assignment (구조 분해 할당)
 			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
@@ -540,6 +542,7 @@
 			if (zipcode) {
 				$("#zipcode").attr("value", zipcode);
 				$("#showZipcode span").text(zipcode);
+				$("#showZipcode span").removeClass("text-danger");
 			}
 			
 			if (addr) {

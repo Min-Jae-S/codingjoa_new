@@ -4,9 +4,7 @@
 	console.log("## alert-and-redirect.jsp");
 	
 	let message = "<c:out value='${message}'/>";
-	console.log("\t > original message = %s", message);
-	
-	if (message != "") {
+	if (message) {
 		message = message.replace(/\.\s/g, ".\n");
 		console.log("\t > handled message = %s", message);
 		
