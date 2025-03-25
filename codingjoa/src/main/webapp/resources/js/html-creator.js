@@ -315,8 +315,6 @@ function createBoardsFormHtml(options, adminBoardCri) {
 	
 	let categoryOptionHtml = Object.entries(options.categoryOption)
 		.map(([key, value]) => {
-			//let checked = adminBoardCri.categories && adminBoardCri.categories.includes(key) ? "checked" : ""; // adminBoardCri.categories always not null
-			//let checked = adminBoardCri.categories.includes(key) ? "checked" : ""; // categories is number arr, key is string, includes compares values using '==='
 			let checked = adminBoardCri.categories.some(categoryId => categoryId == key) ? "checked" : "";
 			return `
 				<li class="form-check">

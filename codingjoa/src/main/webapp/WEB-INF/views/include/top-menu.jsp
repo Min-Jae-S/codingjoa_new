@@ -22,21 +22,6 @@
 						</div>
 					</li>
 				</c:forEach>
-				<li class="nav-item dropdown test">
-					<a href="#" class="nav-link">TEST</a>
-					<div class="dropdown-menu">
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/login'">login</button>
-						<button class="dropdown-item" type="button" onclick="mvcLogin()">mvc login</button>
-						<button class="dropdown-item" type="button" onclick="invalidLogin()">invalid login</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/logout'">logout</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/user/account'">account</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/error'">error</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/admin'">admin</button>
-						<button class="dropdown-item" type="button" onclick="adminApi()">/api/admin</button>
-						<button class="dropdown-item" type="button" onclick="savedRequestApi()">/api/saved-request</button>
-						<button class="dropdown-item" type="button" onclick="location.href='${contextPath}/test/ws'">/test/ws</button>
-					</div>
-				</li>
 			</ul>
 			<ul class="navbar-nav member-utils">
 				<sec:authentication property="principal" var="principal"/>
@@ -129,7 +114,7 @@
 				categoryService.getCategoriesByParent(parentCode, function(result) {
 					let categories = result.data;
 					let categoryMenuHtml = createCategoryMenuHtml(categories, parentPath);
-					if (categoryMenuHtml != "") {
+					if (categoryMenuHtml) {
 						$dropdown.html(categoryMenuHtml).addClass("show");
 					}
 				});
@@ -142,90 +127,8 @@
 			$dropdowns.removeClass("show").empty();
 		});
 		
-		$(".test").on("mouseenter", function() {
-			$dropdowns.removeClass("show").empty();
-			$(this).addClass("active");
-			$(this).find(".dropdown-menu").addClass("show");
-		});
-
-		$(".test").on("mouseleave", function() {
-			$(this).removeClass("active");
-			$(this).find(".dropdown-menu").removeClass("show");
-		});
-		
 		$("button.notification").on("click", function() {
 			location.href = "${contextPath}/notifications";
 		});
 	});
-	
-	function adminApi() {
-		console.log("## adminApi");
-		
-		let url = "${contextPath}/api/admin";
-		console.log("> URL = '%s'", url);
-		
-		$.getJSON(url, function(result) {
-			console.log("%c> SUCCESS", "color:green");
-			console.log(JSON.stringify(result, null, 2));
-		})
-		.fail(function(jqXHR, textStatus, error) {
-			console.log("%c> ERROR", "color:red");
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(errorResponse, null, 2));
-		});
-	}
-
-	function savedRequestApi() {
-		console.log("## savedRequestApi");
-		
-		let url = "${contextPath}/api/saved-request";
-		console.log("> URL = '%s'", url);
-		
-		$.getJSON(url, function(result) {
-			console.log("%c> SUCCESS", "color:green");
-			console.log(JSON.stringify(result, null, 2));
-		})
-		.fail(function(jqXHR, textStatus, error) {
-			console.log("%c> ERROR", "color:red");
-			let errorResponse = JSON.parse(jqXHR.responseText);
-			console.log(JSON.stringify(errorResponse, null, 2));
-		});
-	}
-	
-	function mvcLogin() {
-		const $form = $("<form>", {
-            method: "POST",
-            action: "${contextPath}/api/login"
-        });
-		
-		//$form.append($('<input>', { type: 'hidden', name: 'username', value: 'user123' }));
-		
-		// login:195 Form submission canceled because the form is not connected
-		$form.appendTo(document.body).submit();
-		$form.remove();
-	}
-
-	function invalidLogin() {
-		let obj = {
-			"param1" : "aa",
-			"param2" : "bb"
-		};
-		
-		$.ajax({
-			type : "POST",
-			url : "${contextPath}/api/login",
-			data : JSON.stringify(obj),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				let errorResponse = JSON.parse(jqXHR.responseText);
-				console.log(JSON.stringify(errorResponse, null, 2));
-			}
-		});
-	}
 </script>

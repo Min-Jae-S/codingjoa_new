@@ -3,15 +3,10 @@ package com.codingjoa.controller;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +26,6 @@ import com.codingjoa.error.ExpectedException;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.PasswordResetValidator;
 
@@ -158,20 +152,6 @@ public class MainRestController {
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create());
-	}
-	
-	@GetMapping("/saved-request")
-	public ResponseEntity<Object> getSavedRequest(HttpServletRequest request, HttpServletResponse response) {
-		log.info("## getSavedRequest");
-		
-		RequestCache requestCache = new HttpSessionRequestCache();
-		SavedRequest savedRequest = requestCache.getRequest(request, response); // DefaultSavedRequest 
-		log.info("\t > savedRequest = {}", savedRequest);
-		
-		String redirectUrl = (savedRequest == null) ? request.getContextPath() : savedRequest.getRedirectUrl();
-		log.info("\t > redirectUrl = {}", FormatUtils.formatString(redirectUrl));
-		
-		return ResponseEntity.ok(SuccessResponse.builder().data(redirectUrl).build());
 	}
 
 }
