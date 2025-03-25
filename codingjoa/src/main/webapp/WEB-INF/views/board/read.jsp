@@ -701,7 +701,7 @@
 			let pagination = result.data.pagination;
 			let paginationHtml = createPaginationHtml(pagination);
 			$commentPageDiv.html(paginationHtml);
-			$(".comment-cnt").text(pagination.totalCnt);
+			//$(".comment-cnt").text(pagination.totalCnt);
 		});
 		
 		$("#deleteBoardLink").on("click", function() {
@@ -766,7 +766,8 @@
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$(".comment-cnt").text(pagination.totalCnt);	
+					//$(".comment-cnt").text(pagination.totalCnt);	
+					
 					$form.trigger("reset");
 					$form.find("textarea").trigger("input");
 				});
@@ -792,7 +793,7 @@
 					let paginationHtml = createPaginationHtml(result.data.pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$(".comment-cnt").text(pagination.totalCnt);	
+					//$(".comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
@@ -817,7 +818,7 @@
 					let paginationHtml = createPaginationHtml(pagination);
 					$commentPageDiv.html(paginationHtml);
 					
-					$(".comment-cnt").text(pagination.totalCnt);	
+					//$(".comment-cnt").text(pagination.totalCnt);	
 				});
 			});
 		});
