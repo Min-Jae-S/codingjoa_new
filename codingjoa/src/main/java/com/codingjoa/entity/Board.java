@@ -31,14 +31,14 @@ public class Board {
 	private String content;
 	private String searchContent;
 	private Integer viewCount;
-	private Integer replyCount;
+	private Integer commentCount;
 	private Integer likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
 	@Builder
 	private Board(Long id, Long userId, Integer categoryCode, String title, String content, String searchContent,
-			Integer viewCount, Integer replyCount, Integer likeCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			Integer viewCount, Integer commentCount, Integer likeCount, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.id = id;
 		this.userId = userId;
 		this.categoryCode = categoryCode;
@@ -46,7 +46,7 @@ public class Board {
 		this.content = content;
 		this.searchContent = searchContent;
 		this.viewCount = viewCount;
-		this.replyCount = replyCount;
+		this.commentCount = commentCount;
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -57,7 +57,7 @@ public class Board {
 		String escapedContent = (content != null) ? content.replace("\r\n", "\\r\\n") : null;
 		return "Board [id=" + id + ", userId=" + userId + ", categoryCode=" + categoryCode + ", title=" + title
 				+ ", content=" + escapedContent + ", searchContent=" + searchContent + ", viewCount=" + viewCount
-				+ ", replyCount=" + replyCount + ", likeCount=" + likeCount + ", createdAt=" + createdAt
+				+ ", commentCount=" + commentCount + ", likeCount=" + likeCount + ", createdAt=" + createdAt
 				+ ", updatedAt=" + updatedAt + "]";
 	}
 	

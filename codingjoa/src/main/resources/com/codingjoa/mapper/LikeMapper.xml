@@ -26,51 +26,6 @@
 			user_id = #{userId}
 	</select>
 	
-	<!-- <update id="delOrInsBoardLikes" parameterType="boardLikes">
-		<selectKey keyProperty="boardIdx,boardLikesIdx" resultType="boardLikes" order="BEFORE">
-			SELECT
-    			MAX(a.board_idx) AS board_idx,
-    			MAX(b.board_likes_idx) AS board_likes_idx
-			FROM
-				board a
-			LEFT OUTER JOIN (
-    			SELECT 
-    				board_likes_idx, 
-    				board_idx
-    			FROM 
-    				board_likes
-    			WHERE 
-    				member_idx = #{memberIdx}
-			) b
-			ON
-				a.board_idx = b.board_idx
-			WHERE 
-				a.board_idx = #{boardIdx}
-		</selectKey>
-		BEGIN
-			IF #{boardIdx} IS NOT NULL THEN
-				IF #{boardLikesIdx} IS NOT NULL THEN
-					DELETE FROM
-						board_likes
-					WHERE
-						board_likes_idx = #{boardLikesIdx};
-				ELSE
-					INSERT INTO board_likes (
-						board_likes_idx,
-						board_idx,
-						member_idx,
-						created_at
-					) VALUES (
-						seq_board_likes.NEXTVAL,
-						#{boardIdx},
-						#{memberIdx},
-						SYSDATE
-					);
-				END IF;
-			END IF;
-		END;
-	</update> -->
-	
 	<insert id="insertBoardLike" parameterType="map">
 		INSERT INTO board_like (
 			id,
@@ -85,7 +40,7 @@
 		)
 	</insert>
 	
-	<delete id="deleteBoardLike" parameterType="BoardLike">
+	<delete id="deleteBoardLike" parameterType="long">
 		DELETE FROM
 			board_like
 		WHERE
@@ -117,59 +72,14 @@
 		)
 	</insert>
 	
-	<delete id="deleteCommentLike" parameterType="CommentLike">
+	<delete id="deleteCommentLike" parameterType="long">
 		DELETE FROM
 			comment_like
 		WHERE
 			id = #{id}
 	</delete>
-	
-	<!-- <update id="mergeCommentLikes" parameterType="commentLikes">
-		<selectKey keyProperty="commentIdx,commentLikesIdx" resultType="commentLikes" order="BEFORE">
-			SELECT 
-				MAX(a.comment_idx) AS comment_idx,
-				MAX(b.comment_likes_idx) AS comment_likes_idx
-			FROM 
-				"comment" a
-			LEFT OUTER JOIN (
-				SELECT
-					comment_likes_idx,
-					comment_idx
-				FROM
-					comment_likes
-				WHERE
-					member_idx = #{memberIdx}
-			) b
-			ON
-				a.comment_idx = b.comment_idx
-			WHERE 
-				a.comment_idx = #{commentIdx}
-		</selectKey>
-		BEGIN
-			IF #{commentIdx} IS NOT NULL THEN
-				IF #{commentLikesIdx} IS NOT NULL THEN
-					DELETE FROM
-						comment_likes
-					WHERE
-						comment_likes_idx = #{commentLikesIdx};
-				ELSE
-					INSERT INTO comment_likes (
-						comment_likes_idx,
-						comment_idx,
-						member_idx,
-						created_at
-					) VALUES (
-						seq_comment_likes.NEXTVAL,
-						#{commentIdx},
-						#{memberIdx},
-						SYSDATE
-					);
-				END IF;
-			END IF;
-		END;
-	</update> -->
 
-	<select id="findBoardLikeCnt" parameterType="int" resultType="int">
+	<select id="findBoardLikeCnt" parameterType="long" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -178,7 +88,7 @@
 			board_id = #{boardId}
 	</select>
 
-	<select id="findCommentLikeCnt" parameterType="int" resultType="int">
+	<select id="findCommentLikeCnt" parameterType="long" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

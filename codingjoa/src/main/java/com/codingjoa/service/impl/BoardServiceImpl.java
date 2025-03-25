@@ -81,7 +81,10 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > find pagedBoards (categoryCode = {}, keywordRegexp = {})", categoryCode, boardCri.getKeywordRegexp());
 		return boardMapper.findPagedBoards(categoryCode, boardCri, userId)
 				.stream()
-				.map(boardDetailsMap -> BoardDetailsDto.from(boardDetailsMap))
+				.map(boardDetailsMap -> {
+					log.info("\t\t - {}", boardDetailsMap);
+					return BoardDetailsDto.from(boardDetailsMap);
+				})
 				.collect(Collectors.toList());
 	}
 

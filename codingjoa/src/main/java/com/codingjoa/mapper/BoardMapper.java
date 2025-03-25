@@ -28,5 +28,13 @@ public interface BoardMapper {
 	boolean updateBoard(Board board);
 
 	boolean deleteBoard(Board board);
+	
+	void increaseCommentCount(Long boardId);
+	
+	void decreaseCommentCount(Long boardId);
+	
+	void increaseLikeCount(Long boardId);
+	
+	void decreaseLikeCount(Long boardId);
 
 }

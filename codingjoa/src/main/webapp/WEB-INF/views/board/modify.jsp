@@ -86,7 +86,7 @@
 					<form:errors path="title" class="error"/>
 				</div>
 				<div class="form-group">
-					<form:textarea path="cotent" class="d-none"/>
+					<form:textarea path="content" class="d-none"/>
 					<form:errors path="content" class="error"/>
 				</div>
 			</form:form>

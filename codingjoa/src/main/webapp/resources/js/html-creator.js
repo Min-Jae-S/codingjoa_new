@@ -172,7 +172,7 @@ function createEditCommentHtml(commentDetails) {
 	html += "<form>"
 	html += "<div class='input-group'>";
 	html += "<div class='comment-edit form-control'>";
-	html += "<textarea name='commentContent' rows='1'>" + commentDetails.content + "</textarea>";
+	html += "<textarea name='content' rows='1'>" + commentDetails.content + "</textarea>";
 	html += "<div class='mt-2'>";
 	html += "<button type='submit' class='btn btn-sm btn-outline-primary'>수정</button>";
 	html += "<button type='button' class='btn btn-sm btn-outline-secondary ml-2'>취소</button>";

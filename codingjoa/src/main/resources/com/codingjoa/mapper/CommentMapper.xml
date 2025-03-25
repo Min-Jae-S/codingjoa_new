@@ -146,7 +146,7 @@
 		FROM
 			comments
 		WHERE
-			comment_id = #{commentId}
+			id = #{id}
 	</select>
 	
 	<update id="updateComment" parameterType="Comment">
@@ -168,5 +168,23 @@
 		WHERE
 			id = #{id}
 	</delete>
+	
+	<update id="increaseLikeCount" parameterType="long">
+		UPDATE
+			comments
+		SET
+			like_count = like_count + 1
+		WHERE
+			id = #{id}
+	</update>
+
+	<update id="decreaseLikeCount" parameterType="long">
+		UPDATE
+			comments
+		SET
+			like_count = like_count - 1
+		WHERE
+			id = #{id}
+	</update>
 	
 </mapper>

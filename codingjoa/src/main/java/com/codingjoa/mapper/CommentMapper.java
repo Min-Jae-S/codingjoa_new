@@ -25,4 +25,8 @@ public interface CommentMapper {
 	
 	boolean deleteComment(Comment comment);
 	
+	void increaseLikeCount(Long commentId);
+	
+	void decreaseLikeCount(Long commentId);
+	
 }
