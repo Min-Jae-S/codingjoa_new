@@ -37,7 +37,7 @@
 	<sql id="searchCriteria">
 		<where>
 			<if test='!categories.empty'>
-				board.board_category_code IN
+				board.category_code IN
 				<foreach collection="categories" item="categoryCode" open="(" close=")" separator=",">
 					${categoryCode}
 				</foreach>
@@ -45,13 +45,13 @@
 			<if test='!keyword.empty'>
 				<foreach collection='types' item="item" open="AND (" close=")" separator="OR">
 					<if test='item.equals("title")'>
-						REGEXP_LIKE( board.board_title, #{keywordRegexp} )
+						REGEXP_LIKE( board.title, #{keywordRegexp} )
 					</if>
 					<if test='item.equals("content")'>
-						REGEXP_LIKE( board.board_content_text, #{keywordRegexp} )
+						REGEXP_LIKE( board.search_content, #{keywordRegexp} )
 					</if>
 					<if test='item.equals("writer")'>
-						REGEXP_LIKE( member.member_nickname, #{keywordRegexp} )
+						REGEXP_LIKE( users.nickname, #{keywordRegexp} )
 					</if> 
 				</foreach>
 			</if>
@@ -213,7 +213,7 @@
 			paged_board.board_idx = likes_group.board_idx
 	</select> -->
 	
-	<select id="findPagedBoardsTotalCnt" resultType="int">
+	<select id="findTotalCntForPaging" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM

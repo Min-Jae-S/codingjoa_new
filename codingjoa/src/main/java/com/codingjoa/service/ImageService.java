@@ -8,7 +8,7 @@ import com.codingjoa.dto.BoardImageDto;
 
 public interface ImageService {
 	
-	void saveUserImageWithUpload(MultipartFile file, long userId);
+	void saveUserImageWithUpload(MultipartFile file, Long userId);
 	
 	BoardImageDto saveBoardImageWithUpload(MultipartFile file);
 	

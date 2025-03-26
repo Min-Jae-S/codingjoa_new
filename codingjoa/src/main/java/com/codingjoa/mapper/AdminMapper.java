@@ -5,23 +5,21 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.codingjoa.entity.AdminBoard;
-import com.codingjoa.entity.AdminComment;
 import com.codingjoa.entity.AdminUser;
 import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.pagination.AdminUserCriteria;
 
 @Mapper
 public interface AdminMapper {
 	
-	List<AdminUser> findPagedMembers();
+	List<AdminUser> findPagedUsers(AdminUserCriteria adminUserCri);
 
 	List<AdminBoard> findPagedBoards(AdminBoardCriteria adminBoardCri);
 	
-	int findPagedBoardsTotalCnt(AdminBoardCriteria adminBoardCri);
+	int findTotalCntForUserPaging(AdminUserCriteria adminUserCri);
 
-	List<AdminComment> findPagedComments();
-	
-	int deleteBoards(List<Integer> boardIds);
-	
-	int deleteComments(List<Integer> commentIds);
+	int findTotalCntForBoardPaging(AdminBoardCriteria adminBoardCri);
+
+	int deleteBoards(List<Long> boardIds);
 	
 }

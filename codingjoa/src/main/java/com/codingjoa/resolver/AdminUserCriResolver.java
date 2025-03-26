@@ -7,19 +7,19 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.codingjoa.annotation.AdminCommentCri;
+import com.codingjoa.annotation.AdminUserCri;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class AdminCommentCriResolver implements HandlerMethodArgumentResolver {
+public class AdminUserCriResolver implements HandlerMethodArgumentResolver {
 
 	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(AdminCommentCriResolver.class) &&
-				parameter.hasParameterAnnotation(AdminCommentCri.class);
+		return parameter.getParameterType().equals(AdminUserCriResolver.class) &&
+				parameter.hasParameterAnnotation(AdminUserCri.class);
 	}
 
 	@Override

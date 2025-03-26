@@ -12,20 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
-import com.codingjoa.annotation.AdminCommentCri;
+import com.codingjoa.annotation.AdminUserCri;
 import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.AccountDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
-import com.codingjoa.pagination.AdminCommentCriteria;
+import com.codingjoa.pagination.AdminUserCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
+import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
@@ -34,23 +35,33 @@ public class AdminRestController {
 
 	private final AdminService adminService;
 	private final AdminBoardCriResolver adminBoardCriResolver;
+	private final AdminUserCriResolver adminUserCriResolver;
 	
-	@GetMapping
-	public ResponseEntity<Object> admin() {
-		log.info("## adminApi");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
-	}
-
-	@GetMapping("/members")
-	public ResponseEntity<Object> getPagedMembers() {
-		log.info("## getPagedMembers");
+	@GetMapping("/users")
+	public ResponseEntity<Object> getPagedUsers(AdminUserCriteria adminUserCri) {
+		log.info("## getPagedUsers");
 		
-		List<AccountDto> pagedMembers = adminService.getPagedMembers();
-		Pagination pagination = adminService.getMemberPagination();
+		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
+		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("pagedMembers", pagedMembers);
+		data.put("pagedUsers", pagedUsers);
+		data.put("pagination", pagination);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+
+	@GetMapping("/users/")
+	public ResponseEntity<Object> getPagedUsersBySearch(@AdminUserCri AdminUserCriteria adminUserCri) {
+		log.info("## getPagedUsers");
+		
+		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
+		Pagination pagination = adminService.getUserPagination(adminUserCri);
+		log.info("\t > pagination = {}", pagination);
+		
+		Map<String, Object> data = new HashMap<>();
+		data.put("pagedUsers", pagedUsers);
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
@@ -92,36 +103,8 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
-	@GetMapping("/comments")
-	public ResponseEntity<Object> getPagedComments() {
-		log.info("## getPagedComments");
-		
-		AdminCommentCriteria adminCommentCri = AdminCommentCriteria.create();
-		log.info("\t > create default adminCommentCri = {}", adminCommentCri);
-		
-		return ResponseEntity.ok(SuccessResponse.builder().data(null).build());
-	}
-	
-	@GetMapping("/comments/")
-	public ResponseEntity<Object> getPagedComments(@AdminCommentCri AdminCommentCriteria adminCommentCri) {
-		log.info("## getPagedComments");
-		log.info("\t > adminCommentCri = {}", adminCommentCri);
-		
-		List<AdminCommentDto> pagedComments = adminService.getPagedComments();
-		
-		Pagination pagination = adminService.getCommentPagination();
-		log.info("\t > pagination = {}", pagination);
-		
-		Map<String, Object> data = new HashMap<>();
-		data.put("pagedComments", pagedComments);
-		data.put("pagination", pagination);
-		data.put("adminCommentCri", adminCommentCri);
-		
-		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
-	}
-	
 	@DeleteMapping("/boards")
-	public ResponseEntity<Object> deleteBoards(@RequestBody List<Integer> boardIds) {
+	public ResponseEntity<Object> deleteBoards(@RequestBody List<Long> boardIds) {
 		log.info("## deleteBoards");
 		log.info("\t > boardIds = {}", boardIds);
 		
@@ -129,20 +112,8 @@ public class AdminRestController {
 		log.info("\t > deletedRows = {}", deletedRows);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.admin.DeleteBoards", deletedRows)
+				.messageByCode("success.admin.deleteBoards", deletedRows)
 				.build());
 	}
 
-	@DeleteMapping("/comments")
-	public ResponseEntity<Object> deleteComments(@RequestBody List<Integer> commentIds) {
-		log.info("## deleteComments");
-		log.info("\t > commentIds = {}", commentIds);
-		
-		int deletedRows = adminService.deleteComments(commentIds);
-		log.info("\t > deletedRows = {}", deletedRows);
-		
-		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.admin.DeleteComments", deletedRows)
-				.build());
-	}
 }

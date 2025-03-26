@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 	
 	@Override
-	public void saveUserImageWithUpload(MultipartFile file, long userId) {
+	public void saveUserImageWithUpload(MultipartFile file, Long userId) {
 		File folder = new File(userImageDir);
 		if (!folder.exists()) {
 			if (!folder.mkdirs()) {
@@ -53,10 +53,6 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.user.uploadImage");
 		}
 		
-//		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
-//				.path("/user/images/{filename}")
-//				.buildAndExpand(filename)
-//				.toUriString();
 		String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();
@@ -94,10 +90,6 @@ public class ImageServiceImpl implements ImageService {
 			throw new ExpectedException("error.board.uploadImage");
 		}
 		
-//		String path = ServletUriComponentsBuilder.fromCurrentContextPath()
-//				.path("/board/images/{filename}")
-//				.buildAndExpand(filename)
-//				.toUriString();
 		String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
 				.buildAndExpand(filename)
 				.toUriString();

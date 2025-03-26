@@ -59,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(long boardId, Long userId) {
+	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
 		log.info("\t > found boardDetailsMap = {}", boardDetailsMap);
 		
@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void increaseViewCount(long boardId) {
+	public void increaseViewCount(Long boardId) {
 		log.info("\t > increase view count");
 		boardMapper.increaseViewCount(boardId);
 	}
@@ -95,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(long boardId, Long userId) {
+	public BoardDto getModifyBoard(Long boardId, Long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > found board = {}", board);
 		
@@ -141,7 +141,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board deleteBoard(long boardId, Long userId) {
+	public Board deleteBoard(Long boardId, Long userId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > found board = {}", board);
 

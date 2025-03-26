@@ -159,7 +159,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/modify")
-	public String modify(@RequestParam int id, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
+	public String modify(@RequestParam long id, @AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## modify, id = {}", id);
 		BoardDto modifyBoardDto = boardService.getModifyBoard(id, principal.getId());
 		model.addAttribute("modifyBoardDto", modifyBoardDto);

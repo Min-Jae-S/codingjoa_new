@@ -8,15 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.AdminBoardDto;
-import com.codingjoa.dto.AdminCommentDto;
-import com.codingjoa.dto.AccountDto;
+import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.AdminBoardCriteria;
+import com.codingjoa.pagination.AdminUserCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @Service
@@ -32,8 +33,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<AccountDto> getPagedMembers() {
-		log.info("\t > find pagedMembers");
+	public List<AdminUserDto> getPagedUsers(AdminUserCriteria adminUserCri) {
+		log.info("\t > find pagedUsers");
 		return null;
 	}
 	
@@ -48,34 +49,23 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public Pagination getBoardPagination(AdminBoardCriteria adminBoardCri) {
-		int totalCnt = adminMapper.findPagedBoardsTotalCnt(adminBoardCri);
+		int totalCnt = adminMapper.findTotalCntForBoardPaging(adminBoardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, adminBoardCri.getPage(), adminBoardCri.getRecordCnt(), pageRange) : null;
 	}
 
-	@Override
-	public List<AdminCommentDto> getPagedComments() {
-		log.info("\t > find pagedComments");
-		return null;
-	}
 
 	@Override
-	public Pagination getMemberPagination() {
+	public Pagination getUserPagination(AdminUserCriteria adminUserCri) {
+		int totalCnt = adminMapper.findTotalCntForUserPaging(adminUserCri);
 		return null;
+		//return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
 	}
 
-	@Override
-	public Pagination getCommentPagination() {
-		return null;
-	}
 
 	@Override
-	public int deleteBoards(List<Integer> boardIds) {
+	public int deleteBoards(List<Long> boardIds) {
 		return adminMapper.deleteBoards(boardIds);
 	}
 
-	@Override
-	public int deleteComments(List<Integer> commentIds) {
-		return adminMapper.deleteComments(commentIds);
-	}
 
 }

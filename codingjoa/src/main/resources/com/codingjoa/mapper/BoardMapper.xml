@@ -113,7 +113,7 @@
 							REGEXP_LIKE( board.search_content, #{boardCri.keywordRegexp} )
 						</if>
 						<if test='item.equals("writer")'>
-							<!-- member.member_nickname LIKE '%' || #{boardCri.keyword} || '%' -->
+							<!-- users.nickname LIKE '%' || #{boardCri.keyword} || '%' -->
 							REGEXP_LIKE( users.nickname, #{boardCri.keywordRegexp} )
 						</if> 
 					</trim>

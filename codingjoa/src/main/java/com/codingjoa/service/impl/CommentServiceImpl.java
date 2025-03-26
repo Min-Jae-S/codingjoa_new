@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId) {
-		log.info("\t > prior to finding pagedComments, find board first");
+		log.info("\t > prior to finding pagedComments, find board");
 		Board board = boardMapper.findBoardById(boardId);
 		
 		if (board == null) {
@@ -67,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
-		log.info("\t > prior to inserting comment, find board first");
+		log.info("\t > prior to inserting comment, find board");
 		Board board = boardMapper.findBoardById(commentDto.getBoardId());
 		
 		if (board == null) {
