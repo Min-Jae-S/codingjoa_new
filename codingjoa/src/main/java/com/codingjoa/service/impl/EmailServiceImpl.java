@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.codingjoa.enumclass.MailType;
+import com.codingjoa.enums.MailType;
 import com.codingjoa.service.EmailService;
 
 import lombok.RequiredArgsConstructor;

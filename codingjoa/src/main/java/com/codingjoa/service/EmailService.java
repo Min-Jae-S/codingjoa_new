@@ -1,6 +1,6 @@
 package com.codingjoa.service;
 
-import com.codingjoa.enumclass.MailType;
+import com.codingjoa.enums.MailType;
 
 public interface EmailService {
 	

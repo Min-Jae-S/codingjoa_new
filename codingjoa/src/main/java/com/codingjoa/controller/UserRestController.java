@@ -31,7 +31,7 @@ import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.enumclass.MailType;
+import com.codingjoa.enums.MailType;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.service.EmailService;

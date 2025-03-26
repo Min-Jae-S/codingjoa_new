@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.enumclass.MailType;
+import com.codingjoa.enums.MailType;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
