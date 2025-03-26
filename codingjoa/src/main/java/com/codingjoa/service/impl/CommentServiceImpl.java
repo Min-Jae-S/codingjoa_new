@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(boardId, commentCri, userId)
 				.stream()
 				.map(commentDetailsmap -> {
-					log.info("\t\t - {}", commentDetailsmap);
+					log.info("\t\t - id: {}, status: {}", commentDetailsmap.get("id"), commentDetailsmap.get("status"));
 					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsmap);
 					return commentDetails.isStatus() ? commentDetails : null;
 				})

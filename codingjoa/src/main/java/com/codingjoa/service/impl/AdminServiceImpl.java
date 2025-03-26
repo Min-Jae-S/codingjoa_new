@@ -44,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
 				.map(adminBoard -> {
-					log.info("\t\t - {}, {}", adminBoard.getUser(), adminBoard.getCategory());
+					log.info("\t\t - id: {}", adminBoard.getId());
 					return AdminBoardDto.from(adminBoard);
 				})
 				.collect(Collectors.toList());

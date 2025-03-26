@@ -82,7 +82,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.findPagedBoards(categoryCode, boardCri, userId)
 				.stream()
 				.map(boardDetailsMap -> {
-					log.info("\t\t - {}", boardDetailsMap);
+					log.info("\t\t - id: {}", boardDetailsMap.get("id"));
 					return BoardDetailsDto.from(boardDetailsMap);
 				})
 				.collect(Collectors.toList());
