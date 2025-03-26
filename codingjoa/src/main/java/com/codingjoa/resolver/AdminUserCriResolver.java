@@ -1,5 +1,7 @@
 package com.codingjoa.resolver;
 
+import java.util.Map;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -26,6 +28,10 @@ public class AdminUserCriResolver implements HandlerMethodArgumentResolver {
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
+		return null;
+	}
+	
+	public Map<String, Object> getOptions() {
 		return null;
 	}
 }

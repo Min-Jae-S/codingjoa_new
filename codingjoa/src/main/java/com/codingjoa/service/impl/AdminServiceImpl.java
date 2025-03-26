@@ -35,7 +35,13 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<AdminUserDto> getPagedUsers(AdminUserCriteria adminUserCri) {
 		log.info("\t > find pagedUsers");
-		return null;
+		return adminMapper.findPagedUsers(adminUserCri)
+				.stream()
+				.map(adminUser -> {
+					log.info("\t\t - {}", adminUser);
+					return AdminUserDto.from(adminUser);
+				})
+				.collect(Collectors.toList());
 	}
 	
 	@Override

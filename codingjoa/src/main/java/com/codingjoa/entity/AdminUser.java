@@ -1,12 +1,16 @@
 package com.codingjoa.entity;
 
-import lombok.Getter;
+import java.util.List;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@ToString
 @Getter
 public class AdminUser {
 	
 	private User user;
-	private Auth auth;
+	private List<Auth> auths;
 	private SnsInfo snsInfo;
 	
 }

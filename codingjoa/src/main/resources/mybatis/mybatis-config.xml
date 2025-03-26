@@ -45,7 +45,7 @@
 		<typeAlias type="com.codingjoa.entity.UserImage" alias="UserImage"/>
 		<typeAlias type="com.codingjoa.entity.Comment" alias="Comment"/>
 		<typeAlias type="com.codingjoa.entity.BoardLike" alias="BoardLike"/>
-		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/>
+		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/> 
 
 		<!-- pagination -->
 		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="BoardCri"/> -->

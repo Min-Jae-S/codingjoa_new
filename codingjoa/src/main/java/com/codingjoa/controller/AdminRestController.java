@@ -34,8 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
-	private final AdminBoardCriResolver adminBoardCriResolver;
 	private final AdminUserCriResolver adminUserCriResolver;
+	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping("/users")
 	public ResponseEntity<Object> getPagedUsers(AdminUserCriteria adminUserCri) {
@@ -48,6 +48,8 @@ public class AdminRestController {
 		Map<String, Object> data = new HashMap<>();
 		data.put("pagedUsers", pagedUsers);
 		data.put("pagination", pagination);
+		data.put("adminUserCri", adminUserCri);
+		data.put("options", adminUserCriResolver.getOptions());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
