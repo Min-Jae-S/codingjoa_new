@@ -54,7 +54,6 @@
 		<!-- admin -->
 		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
 		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
-		<typeAlias type="com.codingjoa.entity.AdminComment" alias="Adminomment"/>
 
 		<!-- test -->
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>

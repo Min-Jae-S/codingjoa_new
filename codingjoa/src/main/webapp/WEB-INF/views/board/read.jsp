@@ -17,7 +17,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> -->
 <script src="${contextPath}/resources/js/comment.js"></script>
 <script src="${contextPath}/resources/js/like.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
