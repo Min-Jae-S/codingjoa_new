@@ -77,17 +77,19 @@
 	</delete>
 
 	<resultMap id="adminBoardMap" type="AdminBoard">
-		<id column="id" property="id"/>
-		<result column="user_id" property="userId"/>
-		<result column="category_code" property="categoryCode"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="search_content" property="searchContent"/>
-		<result column="view_count" property="viewCount"/>
-		<result column="comment_count" property="commentCount"/>
-		<result column="like_count" property="likeCount"/>
-		<result column="created_at" property="createdAt"/>
-		<result column="updated_at" property="updatedAt"/>
+		<association property="board" javaType="Board">
+			<id column="id" property="id"/>
+			<result column="user_id" property="userId"/>
+			<result column="category_code" property="categoryCode"/>
+			<result column="title" property="title"/>
+			<result column="content" property="content"/>
+			<result column="search_content" property="searchContent"/>
+			<result column="view_count" property="viewCount"/>
+			<result column="comment_count" property="commentCount"/>
+			<result column="like_count" property="likeCount"/>
+			<result column="created_at" property="createdAt"/>
+			<result column="updated_at" property="updatedAt"/>
+		</association>
 		<association property="user" javaType="User">
 			<id column="users_id" property="id"/>
 			<result column="email" property="email"/>

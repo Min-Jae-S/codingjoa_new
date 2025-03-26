@@ -27,21 +27,21 @@ public class AdminBoardDto {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
-	// category
-	private int categoryCode;
-	private String categoryName;
+	private boolean isUpdated;
 	
 	// user
 	private long writerId;
 	private String writerEmail;
 	private String writerNickname;
 	
-	private boolean isUpdated;
+	// category
+	private int categoryCode;
+	private String categoryName;
 	
 	@Builder
 	private AdminBoardDto(long id, String title, int viewCount, int commentCount, int likeCount, LocalDateTime createdAt,
-			LocalDateTime updatedAt, int categoryCode, String categoryName, long writerId, String writerEmail, String writerNickname,
-			boolean isUpdated) {
+			LocalDateTime updatedAt, boolean isUpdated, long writerId, String writerEmail, String writerNickname,
+			int categoryCode, String categoryName) {
 		this.id = id;
 		this.title = title;
 		this.viewCount = viewCount;
@@ -49,28 +49,28 @@ public class AdminBoardDto {
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.categoryCode = categoryCode;
-		this.categoryName = categoryName;
+		this.isUpdated = createdAt.isEqual(updatedAt);;
 		this.writerId = writerId;
 		this.writerEmail = writerEmail;
 		this.writerNickname = writerNickname;
-		this.isUpdated = createdAt.isEqual(updatedAt);;
+		this.categoryCode = categoryCode;
+		this.categoryName = categoryName;
 	}
 	
 	public static AdminBoardDto from(AdminBoard adminBoard) {
 		return AdminBoardDto.builder()
-				.id(adminBoard.getId())
-				.title(adminBoard.getTitle())
-				.viewCount(adminBoard.getViewCount())
-				.commentCount(adminBoard.getCommentCount())
-				.likeCount(adminBoard.getLikeCount())
-				.createdAt(adminBoard.getCreatedAt())
-				.updatedAt(adminBoard.getUpdatedAt())
-				.categoryCode(adminBoard.getCategory().getCode())
-				.categoryName(adminBoard.getCategory().getName())
+				.id(adminBoard.getBoard().getId())
+				.title(adminBoard.getBoard().getTitle())
+				.viewCount(adminBoard.getBoard().getViewCount())
+				.commentCount(adminBoard.getBoard().getCommentCount())
+				.likeCount(adminBoard.getBoard().getLikeCount())
+				.createdAt(adminBoard.getBoard().getCreatedAt())
+				.updatedAt(adminBoard.getBoard().getUpdatedAt())
 				.writerId(adminBoard.getUser().getId())
 				.writerEmail(adminBoard.getUser().getEmail())
 				.writerNickname(adminBoard.getUser().getNickname())
+				.categoryCode(adminBoard.getCategory().getCode())
+				.categoryName(adminBoard.getCategory().getName())
 				.build();
 	}
 
