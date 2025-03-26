@@ -67,9 +67,9 @@ public class AdminBoardDto {
 				.updatedAt(adminBoard.getUpdatedAt())
 				.categoryCode(adminBoard.getCategory().getCode())
 				.categoryName(adminBoard.getCategory().getName())
-				.writerId(adminBoard.getWriter().getId())
-				.writerEmail(adminBoard.getWriter().getEmail())
-				.writerNickname(adminBoard.getWriter().getNickname())
+				.writerId(adminBoard.getUser().getId())
+				.writerEmail(adminBoard.getUser().getEmail())
+				.writerNickname(adminBoard.getUser().getNickname())
 				.build();
 	}
 

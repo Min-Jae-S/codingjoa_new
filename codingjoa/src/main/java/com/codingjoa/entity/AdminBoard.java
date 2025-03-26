@@ -20,7 +20,7 @@ public class AdminBoard {
 	private Integer likeCount;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+	private User user;
 	private Category category;
-	private User writer;
 	
 }

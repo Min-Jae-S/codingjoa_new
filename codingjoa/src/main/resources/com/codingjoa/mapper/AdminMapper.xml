@@ -3,34 +3,33 @@
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
 	<resultMap id="adminBoardMap" type="AdminBoard">
-		<id column="board_idx" property="boardIdx"/>
-		<result column="board_writer_idx" property="boardWriterIdx"/>
-		<result column="board_title" property="boardTitle"/>
-		<result column="board_content" property="boardContent"/>
-		<result column="board_content_text" property="boardContentText"/>
-		<result column="board_category_code" property="boardCategoryCode"/>
-		<result column="board_views" property="boardViews"/>
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="search_content" property="searchContent"/>
+		<result column="view_count" property="viewCount"/>
+		<result column="comment_count" property="commentCount"/>
+		<result column="like_count" property="likeCount"/>
 		<result column="created_at" property="createdAt"/>
 		<result column="updated_at" property="updatedAt"/>
-		<result column="comment_cnt" property="commentCnt"/>
-		<result column="likes_cnt" property="likesCnt"/>
-		<association property="writer" javaType="User">
-			<id column="member_idx" property="memberIdx"/>
-			<result column="member_email" property="memberEmail"/>
-			<result column="member_nickname" property="memberNickname"/>
-			<result column="member_password" property="memberPassword"/>
-			<result column="member_zipcode" property="memberZipcode" />
-			<result column="member_addr" property="memberAddr" />
-			<result column="member_addr_detail" property="memberAddrDetail"/>
-			<result column="member_agree" property="memberAgree"/>
-			<result column="member_created_at" property="createdAt"/>
-			<result column="member_updated_at" property="updatedAt"/>
+		<association property="user" javaType="User">
+			<id column="users_id" property="id"/>
+			<result column="email" property="email"/>
+			<result column="nickname" property="nickname"/>
+			<result column="zipcode" property="zipcode"/>
+			<result column="addr" property="addr"/>
+			<result column="addr_detail" property="addrDetail"/>
+			<result column="agree" property="agree"/>
+			<result column="users_created_at" property="createdAt"/>
+			<result column="users_updated_at" property="updatedAt"/>
 		</association>
 		<association property="category" javaType="Category">
-			<id column="category_code" property="categoryCode"/>
-			<result column="category_parent_code" property="categoryParentCode"/>
-			<result column="category_name" property="categoryName"/>
-			<result column="category_path" property="categoryPath"/>
+			<id column="code" property="code"/>
+			<result column="parent_code" property="parentCode"/>
+			<result column="name" property="name"/>
+			<result column="path" property="path"/>
 		</association>
 	</resultMap>
 	
@@ -60,31 +59,30 @@
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
-			paged_board.board_idx,
-			paged_board.board_writer_idx,
-			paged_board.board_title,
-			paged_board.board_content,
-			paged_board.board_content_text,
-			paged_board.board_category_code,
-			paged_board.board_view,
-			paged_board.comment_cnt,
-			paged_board.likes_cnt,
-			paged_board.created_at,
-			paged_board.updated_at,
-			paged_board.member_idx,
-			paged_board.member_email,
-			paged_board.member_nickname,
-			paged_board.member_password,
-			paged_board.member_zipcode,
-			paged_board.member_addr,
-			paged_board.member_addr_detail,
-			paged_board.member_agree,
-			paged_board.member_created_at,
-			paged_board.member_updated_at,
+			final_board.id,
+			final_board.user_id,
+			final_board.category_code,
+			final_board.title,
+			final_board.content,
+			final_board.search_content,
+			final_board.view_count,
+			final_board.comment_count,
+			final_board.like_count,
+			final_board.created_at,
+			final_board.updated_at,
+			final_board.users_id,
+			final_board.email,
+			final_board.nickname,
+			final_board.zipcode,
+			final_board.addr,
+			final_board.addr_detail,
+			final_board.agree,
+			final_board.users_created_at,
+			final_board.users_updated_at,
 			category.*
 		FROM (
 			SELECT
-				paging_board.*
+				paged_board.*
 			FROM (
 				SELECT
 					ROWNUM rn,
@@ -93,52 +91,51 @@
 					SELECT
 						/*+ INDEX_DESC(board pk_board) */
 						board.*,
-						member.member_idx,
-						member.member_email,
-						member.member_nickname,
-						member.member_password,
-						member.member_zipcode,
-						member.member_addr,
-						member.member_addr_detail,
-						member.member_agree,
-						member.created_at 	AS member_created_at,
-						member.updated_at 	AS member_updated_at,
+						users.id			AS users_id,
+						users.email,
+						users.nickname,
+						users.zipcode,
+						users.addr,
+						users.addr_detail,
+						users.agree,
+						users.created_at 	AS users_created_at,
+						users.updated_at 	AS users_updated_at,
 					FROM 
 						board
 					INNER JOIN
-						member
+						users
 					ON
-						board.board_writer_idx = member.member_idx
+						board.user_id = users.id
 					<include refid="searchCriteria"/>
 					ORDER BY
 						<choose>
 							<when test="'latest'.equals(sort)">
-								board.board_idx DESC
+								board.id DESC
 							</when>
 							<when test="'popular'.equals(sort)">
-								board.likes_cnt DESC, board.board_idx DESC
+								board.like_count DESC, board.id DESC
 							</when>
 							<when test="'view'.equals(sort)">
-								board.board_view DESC, board.board_idx DESC
+								board.view_count DESC, board.id DESC
 							</when>
 							<when test="'comment'.equals(sort)">
-								board.comment_cnt DESC, board.board_idx DESC
+								board.comment_count DESC, board.id DESC
 							</when>
 							<otherwise>
-								board.board_idx DESC 
+								board.id DESC 
 							</otherwise>
 						</choose>
 				) filterd_board
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-			) paging_board
+			) paged_board
 			WHERE 
-				paging_board.rn > ( (#{page} - 1) * #{recordCnt} )
-		) paged_board
+				paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+		) final_board
 		INNER JOIN
 			category
 		ON
-			paged_board.board_category_code = category.category_code
+			final_board.category_code = category.code
 	</select>
 	
 	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
@@ -219,9 +216,9 @@
 		FROM
 			board
 		INNER JOIN
-			member
+			users
 		ON
-			board.board_writer_idx = member.member_idx
+			board.user_id = users.id
 		<include refid="searchCriteria"/>
 	</select>
 	
@@ -229,9 +226,9 @@
 		DELETE FROM 
 			board 
 		WHERE
-			board_idx IN
-		 	<foreach collection="list" item="boardIdx" open="(" close=")" separator=",">	
-				#{boardIdx}
+			id IN
+		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
+				#{id}
 			</foreach>
 	</delete>
 </mapper>

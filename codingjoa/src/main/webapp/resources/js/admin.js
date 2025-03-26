@@ -20,8 +20,7 @@ let adminService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				console.log(errorResponse);
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -45,8 +44,7 @@ let adminService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				console.log(errorResponse);
+				handleError(parseError(jqXHR));
 			}
 		});
 	}
@@ -70,8 +68,7 @@ let adminService = (function() {
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				let errorResponse = parseError(jqXHR);
-				console.log(errorResponse);
+				handleError(parseError(jqXHR));
 			}
 		});
 	}

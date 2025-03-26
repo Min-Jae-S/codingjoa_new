@@ -56,13 +56,14 @@ public class BoardController {
 	public String getBoards(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## getBoards");
 		
+		BoardCriteria boardCri = BoardCriteria.create();
 		Long userId = obtainUserId(principal);
 		log.info("\t > userId = {}", userId);
 		
 		List<Category> boardCategories = categoryService.getBoardCategories();
 		List<List<BoardDetailsDto>> boards = boardCategories
 				.stream()
-				.map(category -> boardService.getPagedBoards(category.getCode(), BoardCriteria.create(), userId))
+				.map(category -> boardService.getPagedBoards(category.getCode(), boardCri, userId))
 				.collect(Collectors.toList());
 		model.addAttribute("boardCategories", boardCategories);
 		model.addAttribute("boards", boards);
@@ -190,7 +191,7 @@ public class BoardController {
 		}
 		
 		modifyBoardDto.setUserId(principal.getId());
-		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImage, activateImage
+		Board modifiedBoard = boardService.modifyBoard(modifyBoardDto); // updateBoard, deactivateImages, activateImages
 		
 		return "redirect:/board/read?id=" + modifiedBoard.getId();
 	}
@@ -200,7 +201,7 @@ public class BoardController {
 		log.info("## delete, id = {}", id);
 
 		// fk_boardimage_board 	--> ON DELETE SET NULL
-		// fk_reply_board		--> ON DELETE CASCADE
+		// fk_comments_board	--> ON DELETE CASCADE
 		Board deletedBoard = boardService.deleteBoard(id, principal.getId());
 		
 		return "redirect:/board/?categoryCode=" + deletedBoard.getCategoryCode();

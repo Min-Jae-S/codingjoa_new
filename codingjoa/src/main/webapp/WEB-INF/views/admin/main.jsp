@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<c:set var="defaultImageUrl" value="${pageContext.request.contextPath}/resources/images/img_profile.png"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -230,7 +229,7 @@
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
 		<!-- Navbar Brand-->
 		<div class="logo-wrap">
-			<a class="navbar-brand" href="${contextPath}/admin">Codingjoa</a>
+			<a class="navbar-brand" href="${contextPath}">Codingjoa</a>
 		</div>
 		
 		<!-- Sidebar Toggle-->
@@ -243,8 +242,8 @@
 			<sec:authentication property="principal" var="principal"/>
 			<li class="nav-item dropdown member-menu">
 				<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
-					<img class="nav-member-image" 
-						src="${empty principal.imageUrl ? defaultImageUrl : principal.imageUrl}">
+					<img class="nav-member-image" src="${empty principal.imagePath ? 
+						contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 					<span class="font-weight-bold">
 						<c:out value="${principal.nickname}"/>
 					</span>
@@ -252,8 +251,8 @@
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li>
 						<div class="dropdown-item">
-							<img class="nav-member-image" 
-								src="${empty principal.imageUrl ? defaultImageUrl : principal.imageUrl}">
+							<img class="nav-member-image" src="${empty principal.imagePath ? 
+								contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 							<div class="nickname-email-box">
 								<span class="nickname">
 									<c:out value="${principal.nickname}"/>
@@ -272,11 +271,11 @@
 						<hr class="dropdown-divider">
 					</sec:authorize>
 					<li>
-						<a href="${contextPath}/member/message" class="dropdown-item message">메시지</a>
+						<a href="${contextPath}/user/messages" class="dropdown-item message">메시지</a>
 					</li>
 					<hr class="dropdown-divider">
 					<li>
-						<a href="${contextPath}/member/account" class="dropdown-item account">계정 관리</a>
+						<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
 						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
 					</li>
 				</ul>
@@ -303,8 +302,8 @@
 						</button>
 						<div class="collapse" id="collapseMembers">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/members" class="nav-link" aria-pressed="false">회원 정보 관리</a>
-								<a href="${contextPath}/admin/members/role" class="nav-link" aria-pressed="false">권한 관리</a>
+								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 정보 관리</a>
+								<a href="${contextPath}/admin/users/role" class="nav-link" aria-pressed="false">권한 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>

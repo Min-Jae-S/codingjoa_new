@@ -154,7 +154,7 @@
 			FROM (
 			    SELECT
 			    	ROWNUM rn,
-			    	searched_board.*
+			    	filtered_board.*
 			    FROM (
 					SELECT
 						/*+ INDEX_DESC(board pk_board) */
@@ -171,7 +171,7 @@
 						board.category_code = #{categoryCode}
 					ORDER BY
 						board.id DESC						
-			    ) searched_board
+			    ) filtered_board
 			    WHERE
 			    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
 			) paged_board
