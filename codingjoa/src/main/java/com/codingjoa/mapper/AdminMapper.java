@@ -13,14 +13,14 @@ import com.codingjoa.pagination.AdminUserCriteria;
 public interface AdminMapper {
 	
 	List<AdminUser> findPagedUsers(AdminUserCriteria adminUserCri);
+	
+	int findTotalCntForUserPaging(AdminUserCriteria adminUserCri);
+	
+	int deleteUsers(List<Long> userIds);
 
 	List<AdminBoard> findPagedBoards(AdminBoardCriteria adminBoardCri);
 	
-	int findTotalCntForUserPaging(AdminUserCriteria adminUserCri);
-
 	int findTotalCntForBoardPaging(AdminBoardCriteria adminBoardCri);
-	
-	int deleteUsers(List<Long> userIds);
 
 	int deleteBoards(List<Long> boardIds);
 	

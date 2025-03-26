@@ -150,7 +150,7 @@ let adminService = (function() {
 		getPagedUsersBySearch:getPagedUsersBySearch,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
-		deleteUsers:deleteUsers
+		deleteUsers:deleteUsers,
 		deleteBoards:deleteBoards
 	};
 	

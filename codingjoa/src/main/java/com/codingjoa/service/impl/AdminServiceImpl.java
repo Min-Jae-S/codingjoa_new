@@ -17,7 +17,6 @@ import com.codingjoa.service.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @Service
@@ -26,8 +25,7 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminMapper adminMapper;
 	private final int pageRange;
 	
-	public AdminServiceImpl(AdminMapper adminMapper, 
-			@Value("${pagination.pageRange}") int pageRange) {
+	public AdminServiceImpl(AdminMapper adminMapper, @Value("${pagination.pageRange}") int pageRange) {
 		this.adminMapper = adminMapper;
 		this.pageRange = pageRange;
 	}
@@ -43,6 +41,18 @@ public class AdminServiceImpl implements AdminService {
 				})
 				.collect(Collectors.toList());
 	}
+	
+	@Override
+	public Pagination getUserPagination(AdminUserCriteria adminUserCri) {
+		int totalCnt = adminMapper.findTotalCntForUserPaging(adminUserCri);
+		return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
+	}
+	
+	@Override
+	public int deleteUsers(List<Long> userIds) {
+		return adminMapper.deleteUsers(userIds);
+	}
+
 	
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
@@ -64,24 +74,9 @@ public class AdminServiceImpl implements AdminService {
 
 
 	@Override
-	public Pagination getUserPagination(AdminUserCriteria adminUserCri) {
-		int totalCnt = adminMapper.findTotalCntForUserPaging(adminUserCri);
-		return null;
-		//return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
-	}
-	
-	@Override
-	public int deleteUsers(List<Long> userIds) {
-		return adminMapper.deleteUsers(userIds);
-	}
-
-
-	@Override
 	public int deleteBoards(List<Long> boardIds) {
 		return adminMapper.deleteBoards(boardIds);
 	}
-
-	
 
 
 }

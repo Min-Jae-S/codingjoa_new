@@ -26,7 +26,6 @@ import com.codingjoa.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
@@ -38,10 +37,12 @@ public class AdminRestController {
 	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@GetMapping("/users")
-	public ResponseEntity<Object> getPagedUsers(AdminUserCriteria adminUserCri) {
+	public ResponseEntity<Object> getPagedUsers(@AdminUserCri AdminUserCriteria adminUserCri) {
 		log.info("## getPagedUsers");
 		
 		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
+		log.info("\t > pagedUsers = {}", pagedUsers);
+		
 		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);
 		

@@ -6,6 +6,7 @@
 		<association property="user" javaType="User">
 			<id column="id" property="id"/>
 			<result column="email" property="email"/>
+			<result column="password" property="password"/>
 			<result column="nickname" property="nickname"/>
 			<result column="zipcode" property="zipcode"/>
 			<result column="addr" property="addr"/>
@@ -14,14 +15,66 @@
 			<result column="created_at" property="createdAt"/>
 			<result column="updated_at" property="updatedAt"/>
 		</association>
-		<association property="auth" javaType="Auth">
+		<collection property="auths" ofType="Auth">
 			<result column="role" property="role"/>
-		</association>
-		<association property="snsInfo" javaType="SnsInfo">
+		</collection>
+		<!-- <association property="auth" javaType="Auth">
+			<result column="role" property="role"/>
+		</association> -->
+		<!-- <association property="snsInfo" javaType="SnsInfo">
 			<result column="provider" property="provider"/>
 			<result column="connected_at" property="connectedAt"/>
-		</association>
+		</association> -->
 	</resultMap>
+	
+	<select id="findPagedUsers" resultMap="adminUserMap">
+		SELECT
+			final_users.*,
+			auth.*
+		FROM (
+			SELECT
+				paged_users.*
+			FROM (
+				SELECT
+					ROWNUM rn,
+					filterd_users.*
+				FROM (
+					SELECT
+						/*+ INDEX_DESC(users pk_users) */
+						users.*
+					FROM 
+						users
+					ORDER BY
+						id DESC
+				) filterd_users
+				WHERE
+					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+			) paged_users
+			WHERE 
+				paged_users.rn > ( (#{page} - 1) * #{recordCnt} )
+		) final_users
+		INNER JOIN
+			auth
+		ON
+			final_users.id = auth.user_id
+	</select>
+	
+	<select id="findTotalCntForUserPaging" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			users
+	</select>
+	
+	<delete id="deleteUsers" parameterType="list">
+		DELETE FROM 
+			users
+		WHERE
+			id IN
+		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
+				#{id}
+			</foreach>
+	</delete>
 
 	<resultMap id="adminBoardMap" type="AdminBoard">
 		<id column="id" property="id"/>
@@ -38,6 +91,7 @@
 		<association property="user" javaType="User">
 			<id column="users_id" property="id"/>
 			<result column="email" property="email"/>
+			<result column="password" property="password"/>
 			<result column="nickname" property="nickname"/>
 			<result column="zipcode" property="zipcode"/>
 			<result column="addr" property="addr"/>
@@ -91,9 +145,9 @@
 			final_board.like_count,
 			final_board.created_at,
 			final_board.updated_at,
-			<!-- users -->
 			final_board.users_id,
 			final_board.email,
+			final_board.password,
 			final_board.nickname,
 			final_board.zipcode,
 			final_board.addr,
@@ -101,7 +155,6 @@
 			final_board.agree,
 			final_board.users_created_at,
 			final_board.users_updated_at,
-			<!-- category -->
 			category.*
 		FROM (
 			SELECT
@@ -116,6 +169,7 @@
 						board.*,
 						users.id			AS users_id,
 						users.email,
+						users.password,
 						users.nickname,
 						users.zipcode,
 						users.addr,
@@ -244,16 +298,6 @@
 			board.user_id = users.id
 		<include refid="searchBoardCriteria"/>
 	</select>
-	
-	<delete id="deleteUsers" parameterType="list">
-		DELETE FROM 
-			users
-		WHERE
-			id IN
-		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
-				#{id}
-			</foreach>
-	</delete>
 	
 	<delete id="deleteBoards" parameterType="list">
 		DELETE FROM 
