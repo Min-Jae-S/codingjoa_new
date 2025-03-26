@@ -152,8 +152,8 @@
 				paged_board.*
 			FROM (
 			    SELECT
-			    	filtered_board.*,
-			    	ROWNUM rn
+			    	ROWNUM rn,
+			    	filtered_board.*
 			    FROM (
 					SELECT
 						/*+ INDEX_DESC(board pk_board) */
