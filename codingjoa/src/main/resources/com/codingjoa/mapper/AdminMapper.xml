@@ -4,27 +4,22 @@
 
 	<resultMap id="adminUserMap" type="AdminUser">
 		<association property="user" javaType="User">
-			<id column="users_id" property="id"/>
+			<id column="id" property="id"/>
 			<result column="email" property="email"/>
 			<result column="nickname" property="nickname"/>
 			<result column="zipcode" property="zipcode"/>
 			<result column="addr" property="addr"/>
 			<result column="addr_detail" property="addrDetail"/>
 			<result column="agree" property="agree"/>
-			<result column="users_created_at" property="createdAt"/>
-			<result column="users_updated_at" property="updatedAt"/>
+			<result column="created_at" property="createdAt"/>
+			<result column="updated_at" property="updatedAt"/>
 		</association>
 		<association property="auth" javaType="Auth">
-			<id column="code" property="code"/>
-			<result column="parent_code" property="parentCode"/>
-			<result column="name" property="name"/>
-			<result column="path" property="path"/>
+			<result column="role" property="role"/>
 		</association>
 		<association property="snsInfo" javaType="SnsInfo">
-			<id column="code" property="code"/>
-			<result column="parent_code" property="parentCode"/>
-			<result column="name" property="name"/>
-			<result column="path" property="path"/>
+			<result column="provider" property="provider"/>
+			<result column="connected_at" property="connectedAt"/>
 		</association>
 	</resultMap>
 
@@ -59,7 +54,7 @@
 		</association>
 	</resultMap>
 	
-	<sql id="searchCriteria">
+	<sql id="searchBoardCriteria">
 		<where>
 			<if test='!categories.empty'>
 				board.category_code IN
@@ -96,6 +91,7 @@
 			final_board.like_count,
 			final_board.created_at,
 			final_board.updated_at,
+			<!-- users -->
 			final_board.users_id,
 			final_board.email,
 			final_board.nickname,
@@ -105,6 +101,7 @@
 			final_board.agree,
 			final_board.users_created_at,
 			final_board.users_updated_at,
+			<!-- category -->
 			category.*
 		FROM (
 			SELECT
@@ -132,7 +129,7 @@
 						users
 					ON
 						board.user_id = users.id
-					<include refid="searchCriteria"/>
+					<include refid="searchBoardCriteria"/>
 					ORDER BY
 						<choose>
 							<when test="'latest'.equals(sort)">
@@ -204,7 +201,7 @@
 				ON
 					board.board_writer_idx = member.member_idx
 				WHERE 
-					<include refid="searchCriteria"/>
+					<include refid="searchBoardCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
 			) filterd_board
 			WHERE 
@@ -245,8 +242,18 @@
 			users
 		ON
 			board.user_id = users.id
-		<include refid="searchCriteria"/>
+		<include refid="searchBoardCriteria"/>
 	</select>
+	
+	<delete id="deleteUsers" parameterType="list">
+		DELETE FROM 
+			users
+		WHERE
+			id IN
+		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
+				#{id}
+			</foreach>
+	</delete>
 	
 	<delete id="deleteBoards" parameterType="list">
 		DELETE FROM 

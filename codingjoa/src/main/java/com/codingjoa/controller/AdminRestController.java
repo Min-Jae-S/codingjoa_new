@@ -107,6 +107,19 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
+	@DeleteMapping("/users")
+	public ResponseEntity<Object> deleteUsers(@RequestBody List<Long> userIds) {
+		log.info("## deleteUsers");
+		log.info("\t > userIds = {}", userIds);
+		
+		int deletedRows = adminService.deleteUsers(userIds);
+		log.info("\t > deletedRows = {}", deletedRows);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.deleteUsers", deletedRows)
+				.build());
+	}
+	
 	@DeleteMapping("/boards")
 	public ResponseEntity<Object> deleteBoards(@RequestBody List<Long> boardIds) {
 		log.info("## deleteBoards");

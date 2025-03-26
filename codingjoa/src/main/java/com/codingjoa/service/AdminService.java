@@ -17,6 +17,8 @@ public interface AdminService {
 	Pagination getUserPagination(AdminUserCriteria adminUserCri);
 
 	Pagination getBoardPagination(AdminBoardCriteria adminBoardCri);
+	
+	int deleteUsers(List<Long> userIds);
 
 	int deleteBoards(List<Long> boardIds);
 	

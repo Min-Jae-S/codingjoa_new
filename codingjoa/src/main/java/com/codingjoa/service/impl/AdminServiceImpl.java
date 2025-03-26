@@ -69,12 +69,19 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 		//return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
 	}
+	
+	@Override
+	public int deleteUsers(List<Long> userIds) {
+		return adminMapper.deleteUsers(userIds);
+	}
 
 
 	@Override
 	public int deleteBoards(List<Long> boardIds) {
 		return adminMapper.deleteBoards(boardIds);
 	}
+
+	
 
 
 }

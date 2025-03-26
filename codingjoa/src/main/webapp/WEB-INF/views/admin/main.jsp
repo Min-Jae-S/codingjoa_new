@@ -414,6 +414,23 @@
 			});
 		});
 
+		pageRouter.addRouter("${contextPath}/admin/users", function(params) {
+			adminService.getPagedUsers(params, function(result) {
+				localStorage.setItem("adminUserOptions", JSON.stringify(result.data.options))
+				//let boardsPageHtml = createBoardsPageHtml(result);
+				//$contentContainer.html(boardsPageHtml);
+			});
+		});
+
+		pageRouter.addRouter("${contextPath}/admin/users/", function(params) {
+			adminService.getPagedUsersBySearch(params, function(result) {
+				//let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
+				//let paginationHtml = createPaginationHtml(result.data.pagination);
+				//$(".table-wrap").html(boardsTableHtml);
+				//$(".board-pagination").html(paginationHtml);
+			});
+		});
+
 		// 1. exclude empty values, null, and undefined
 		// 2. convert comma-separated values(categories) into an array
 		function transformParams(URLSerarchParams) {

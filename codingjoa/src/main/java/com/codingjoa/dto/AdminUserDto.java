@@ -28,11 +28,19 @@ public class AdminUserDto {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
+	// auth
 	private List<String> roles;
+	
+	// snsInfo
+	private String provider;
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime connectedAt;
 	
 	@Builder
 	private AdminUserDto(long id, String email, String nickname, String zipcode, String addr, String addrDetail,
-			boolean agree, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			boolean agree, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> roles, String provider,
+			LocalDateTime connectedAt) {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
@@ -42,11 +50,23 @@ public class AdminUserDto {
 		this.agree = agree;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-	}	
-	
-	public static AdminUserDto from(AdminUser adminUser) {
-		return AdminUserDto.builder().build();
+		this.roles = roles;
+		this.provider = provider;
+		this.connectedAt = connectedAt;
 	}
 	
+	public static AdminUserDto from(AdminUser adminUser) {
+		return AdminUserDto.builder()
+				.id(adminUser.getUser().getId())
+				.email(adminUser.getUser().getEmail())
+				.nickname(adminUser.getUser().getNickname())
+				.zipcode(adminUser.getUser().getZipcode())
+				.addr(adminUser.getUser().getAddr())
+				.addrDetail(adminUser.getUser().getAddrDetail())
+				.agree(adminUser.getUser().getAgree())
+				.createdAt(adminUser.getUser().getCreatedAt())
+				.updatedAt(adminUser.getUser().getUpdatedAt())
+				.build();
+	}
 	
 }
