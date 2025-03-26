@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId) {
+	public List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId) {
 		log.info("\t > prior to finding pagedComments, find board first");
 		Board board = boardMapper.findBoardById(boardId);
 		
@@ -59,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Pagination getPagination(long boardId, CommentCriteria commentCri) {
+	public Pagination getPagination(Long boardId, CommentCriteria commentCri) {
 		int totalCnt = commentMapper.findTotalCntForPaging(boardId);
 		int validCnt = commentMapper.findValidCntForPaging(boardId);
 		return (totalCnt > 0) ? new Pagination(totalCnt, validCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void deleteComment(long commentId, long userId) {
+	public void deleteComment(Long commentId, Long userId) {
 		Comment comment = commentMapper.findCommentById(commentId);
 		log.info("\t > found comment = {}", comment);
 		
