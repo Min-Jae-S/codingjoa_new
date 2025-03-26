@@ -73,6 +73,7 @@ public class AdminRestController {
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		log.info("\t > pagedBoards = {}", pagedBoards);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -92,6 +93,7 @@ public class AdminRestController {
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
+		log.info("\t > pagedBoards = {}", pagedBoards);
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);

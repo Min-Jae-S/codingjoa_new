@@ -391,14 +391,14 @@ function createBoardsTableHtml(pagedBoards) {
 			<tr>
 				<td class="d-md-table-cell">
 					<div class="form-check">
-						<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${adminBoard.boardIdx}">
+						<input class="form-check-input position-static" type="checkbox" name="boardIds" value="${adminBoard.id}">
 					</div>
 				</td>		
 				<td class="d-md-table-cell">
-					<span>${adminBoard.boardIdx}</span>
+					<span>${adminBoard.id}</span>
 				</td>
 				<td class="d-md-table-cell text-left">
-					<a href="${contextPath}/board/read?boardIdx=${adminBoard.boardIdx}">${adminBoard.boardTitle}</a>
+					<a href="${contextPath}/board/read?id=${adminBoard.id}">${adminBoard.title}</a>
 				</td>
 				<td class="d-md-table-cell">
 					<span>${adminBoard.writerNickname}</span></br>
@@ -412,13 +412,13 @@ function createBoardsTableHtml(pagedBoards) {
 					${adminBoard.isUpdated ? `<span class="updated-at">${adminBoard.updatedAt}</span>` : ``}
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminBoard.boardView}</span>
+					<span>${adminBoard.viewCount}</span>
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminBoard.commentCnt}</span>
+					<span>${adminBoard.commentCount}</span>
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminBoard.likesCnt}</span>
+					<span>${adminBoard.likeCount}</span>
 				</td>
 			</tr>`).join("");
 	}

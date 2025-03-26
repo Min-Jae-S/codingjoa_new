@@ -3,9 +3,7 @@ package com.codingjoa.entity;
 import java.time.LocalDateTime;
 
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 @Getter
 public class AdminBoard {
 	
@@ -22,5 +20,13 @@ public class AdminBoard {
 	private LocalDateTime updatedAt;
 	private User user;
 	private Category category;
+	
+	@Override
+	public String toString() {
+		return "AdminBoard [id=" + id + ", userId=" + userId + ", categoryCode=" + categoryCode + ", title=" + title
+				+ ", viewCount=" + viewCount + ", commentCount=" + commentCount + ", likeCount=" + likeCount
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", user=" + user + ", category=" + category
+				+ "]";
+	}
 	
 }

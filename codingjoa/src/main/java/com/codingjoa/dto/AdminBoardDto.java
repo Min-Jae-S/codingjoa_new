@@ -63,6 +63,7 @@ public class AdminBoardDto {
 				.title(adminBoard.getTitle())
 				.viewCount(adminBoard.getViewCount())
 				.commentCount(adminBoard.getCommentCount())
+				.likeCount(adminBoard.getLikeCount())
 				.createdAt(adminBoard.getCreatedAt())
 				.updatedAt(adminBoard.getUpdatedAt())
 				.categoryCode(adminBoard.getCategory().getCode())

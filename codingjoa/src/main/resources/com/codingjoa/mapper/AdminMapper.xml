@@ -99,7 +99,7 @@
 						users.addr_detail,
 						users.agree,
 						users.created_at 	AS users_created_at,
-						users.updated_at 	AS users_updated_at,
+						users.updated_at 	AS users_updated_at
 					FROM 
 						board
 					INNER JOIN
@@ -210,7 +210,7 @@
 			paged_board.board_idx = likes_group.board_idx
 	</select> -->
 	
-	<select id="findTotalCntForPaging" resultType="int">
+	<select id="findTotalCntForBoardPaging" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
