@@ -51,10 +51,8 @@
 		<result column="is_board_writer" property="isBoardWriter" javaType="boolean"/>
 	</resultMap>
 	
-	<!-- USE_NL(b) USE_NL(c) USE_NL(d)  -->
 	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-    		/*+ ORDERED */
 			final_comment.id,
 			final_comment.content,
 			final_comment.status,
@@ -85,8 +83,8 @@
 				paged_comment.*
 			FROM (
 				SELECT
-					ROWNUM rn,
-					sorted_comment.*
+					sorted_comment.*,
+					ROWNUM rn
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(comments pk_comments) */
