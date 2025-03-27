@@ -374,6 +374,11 @@ public class UserServiceImpl implements UserService {
 		return PrincipalDetails.from(userDetailsMap);
 	}
 
+	@Override
+	public SnsInfo getSnsInfoByUserIdAndProvider(Long userId, String provider) {
+		return snsMapper.findSnsInfoByUserIdAndProvider(userId, provider);
+	}
+
 	
 
 }

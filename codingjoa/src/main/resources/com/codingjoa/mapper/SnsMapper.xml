@@ -32,4 +32,15 @@
 		)
 	</insert>
 	
+	<select id="findSnsInfoByUserIdAndProvider" parameterType="map" resultType="SnsInfo">
+		SELECT
+			*
+		FROM
+			sns_info
+		WHERE
+			user_id = #{userId}
+		AND
+			provider = #{provider}
+	</select>
+	
 </mapper>

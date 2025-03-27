@@ -8,6 +8,7 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
+import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 
@@ -46,5 +47,7 @@ public interface UserService {
 	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
 	
 	PrincipalDetails getUserDetailsById(long userId); // for JWT re-issuance after updating
+	
+	SnsInfo getSnsInfoByUserIdAndProvider(Long userId, String provider);
 	
 }

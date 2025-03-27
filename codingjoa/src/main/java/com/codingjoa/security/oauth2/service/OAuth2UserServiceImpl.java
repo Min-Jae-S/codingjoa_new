@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 import com.codingjoa.service.UserService;
@@ -47,11 +48,18 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		PrincipalDetails principal = userService.getUserDetailsByEmail(email);
 		log.info("\t > principal = {}", principal);
 		
-		// to apply spring transaction, move logic to UserService
+		// to apply spring transaction, move logic to service layer
 		if (principal == null) {
 			log.info("\t > no existing user found. Registering new user with OAuth2 account");
 			userService.saveOAuth2User(oAuth2Attributes);
 			principal = userService.getUserDetailsByEmail(email);
+		} else {
+			SnsInfo snsInfo = userService.getSnsInfoByUserIdAndProvider(principal.getId(), oAuth2Attributes.getProvider());
+			if (snsInfo == null) {
+				// ...
+			} else {
+				// ...
+			}
 		}
 		
 //		} else if ("codingjoa".equals(principal.getProvider())) {
