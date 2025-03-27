@@ -52,17 +52,17 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		PrincipalDetails principal = userService.getUserDetailsByEmail(email);
 		log.info("\t > principal = {}", principal);
 		
+		// to apply spring transaction, move logic to UserService
 		if (principal == null) {
-			log.info("\t > register new user using OAuth2 account");
-			// to apply spring transaction, move logic to "userService"
+			log.info("\t > no existing user found. Registering new user with OAuth2 account");
 			userService.saveOAuth2User(oAuth2Attributes);
 			principal = userService.getUserDetailsByEmail(email);
-		} else if (principal.getProvider().equals("local")) {
-			log.info("\t > connect existing user with OAuth2 account");
+		} else if ("codingjoa".equals(principal.getProvider())) {
+			log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
 			userService.connectOAuth2User(oAuth2Attributes, principal.getId());
 			principal = userService.getUserDetailsByEmail(email);
 		} else {
-			log.info("\t > proceed with login using already registered user");
+			log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
 		}
 		
 		return PrincipalDetails.from(principal, attributes, attributeKeyName);

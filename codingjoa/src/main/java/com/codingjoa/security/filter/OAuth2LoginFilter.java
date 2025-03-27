@@ -94,7 +94,10 @@ public class OAuth2LoginFilter extends AbstractAuthenticationProcessingFilter { 
 		
 		OAuth2AuthorizationResponse authorizationResponse = convert(params, redirectUri);
 		OAuth2AuthorizationExchange authorizationExchange = new OAuth2AuthorizationExchange(authorizationRequest, authorizationResponse);
+		
+		// not authenticated
 		OAuth2LoginAuthenticationToken loginToken = new OAuth2LoginAuthenticationToken(clientRegistration, authorizationExchange);
+		log.info("\t > loginToken = {}", loginToken);
 		
 		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider (request for accessToken and userInfo)
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 

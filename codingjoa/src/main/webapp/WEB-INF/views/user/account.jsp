@@ -312,7 +312,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showPassword">
 							<div>
-								<span class="inner-text text-danger">* 비밀번호를 등록해주세요</span>
+								<span class="inner-text text-danger">* 비밀번호를 설정해주세요</span>
 							</div>
 							<button class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>
