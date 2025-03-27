@@ -17,7 +17,9 @@ import io.jsonwebtoken.Claims;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @SuppressWarnings("serial")
 @ToString
 @Getter
@@ -97,6 +99,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	// from DB(userDetailsMap)
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { 
+		log.info("## PrincipalDetails.from(map)");
 		List<String> roles = (List<String>) map.get("roles");
 		return PrincipalDetails.builder()
 				.id((long) map.get("id"))
@@ -110,7 +113,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	
 	// from JWT
 	public static PrincipalDetails from(Claims claims) { 
-		String[] roles = (String[]) claims.get("roles");
+		String roles = (String) claims.get("roles");
 		return PrincipalDetails.builder()
 				.id(Long.parseLong(claims.getSubject()))
 				.email((String) claims.get("email"))
@@ -120,6 +123,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.build();
 	}
 
+	// from OAuth2
 	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attributes,
 			String nameAttributeKey) { 
 		principalDetails.setAttributes(attributes);
@@ -143,13 +147,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 
 	// from JWT to PrincipalDetails
-	private static List<GrantedAuthority> toGrantedAuthorities(String[] roles) {
-		return Arrays.stream(roles)
+	private static List<GrantedAuthority> toGrantedAuthorities(String roles) {
+		return Arrays.stream(roles.split(","))
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
-//		return Arrays.stream(roles.split(","))
-//			.map(role -> new SimpleGrantedAuthority(role))
-//			.collect(Collectors.toList());
 	}
 	
 }

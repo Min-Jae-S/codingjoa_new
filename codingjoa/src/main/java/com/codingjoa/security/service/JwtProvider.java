@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +20,6 @@ import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.NumberUtils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -64,7 +64,7 @@ public class JwtProvider {
 	// https://velog.io/@tmdgh0221/Spring-Security-%EC%99%80-OAuth-2.0-%EC%99%80-JWT-%EC%9D%98-%EC%BD%9C%EB%9D%BC%EB%B3%B4
 	// check comment: to fully leverage the advantages of using JWT, it's preferable to avoid database access during the verification process.
 	public Authentication getAuthentication(String jwt) {
-		Claims claims = parseJwt(jwt).getBody();
+		Claims claims = parseClaims(jwt);
 		log.info("\t > parsed claims: {}", FormatUtils.formatPrettyJson(claims));
 		
 		PrincipalDetails principal = PrincipalDetails.from(claims);
@@ -82,7 +82,7 @@ public class JwtProvider {
 	 */
 	public boolean isValidJwt(String jwt) {
 		try {
-			Claims claims = parseJwt(jwt).getBody();
+			Claims claims = parseClaims(jwt);
 			String sub = claims.getSubject();
 			if (!NumberUtils.isNaturalNumber(sub)) {
 				throw new IllegalArgumentException("'sub' is invalid");
@@ -103,8 +103,8 @@ public class JwtProvider {
 		}
 	}
 	
-	private Jws<Claims> parseJwt(String jwt) {
-		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(jwt);
+	private Claims parseClaims(String jwt) {
+		return Jwts.parserBuilder().setSigningKey(signingKey).build().parseClaimsJws(jwt).getBody();
 	}
 
 	private Map<String, Object> createHeader() {
@@ -128,7 +128,7 @@ public class JwtProvider {
 		claims.setSubject(String.valueOf(principal.getId()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
-		claims.put("roles", toRolesArray(principal));
+		claims.put("roles", toRolesString(principal));
 		claims.put("image_path", principal.getImagePath());
 		claims.put("token_type", "access_token");
 		
@@ -137,14 +137,11 @@ public class JwtProvider {
 		return claims;
 	}
 	
-	private String[] toRolesArray(PrincipalDetails principal) {
+	private String toRolesString(PrincipalDetails principal) {
 		return principal.getAuthorities()
 			.stream()
 			.map(grantedAuthority -> grantedAuthority.getAuthority())
-			.toArray(String[]::new);			
-			//.toArray(size -> new String[size]);
-			//.collect(Collectors.joining(","));
-	
+			.collect(Collectors.joining(","));
 	}
 	
 }
