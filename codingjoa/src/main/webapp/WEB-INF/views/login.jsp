@@ -124,16 +124,16 @@
 					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
 						<a href="${contextPath}/login/kakao?continue=${continueUrl}">
-							<img class="social-login-btn" src="${contextPath}/resources/images/kakao.png">
+							<img class="social-login-btn" src="${contextPath}/resources/images/provider/kakao.png">
 						</a>
 						<a href="${contextPath}/login/naver?continue=${continueUrl}">
-							<img class="social-login-btn" src="${contextPath}/resources/images/naver.png">
+							<img class="social-login-btn" src="${contextPath}/resources/images/provider/naver.png">
 						</a>
 						<a href="${contextPath}/login/google?continue=${continueUrl}">
-							<img class="social-login-btn" src="${contextPath}/resources/images/google.png">
+							<img class="social-login-btn" src="${contextPath}/resources/images/provider/google.png">
 						</a>
 						<a href="#">
-							<img class="social-login-btn" src="${contextPath}/resources/images/github.png">
+							<img class="social-login-btn" src="${contextPath}/resources/images/provider/github.png">
 						</a>
 					</div>
 				</div>

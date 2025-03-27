@@ -221,6 +221,15 @@
 		background-repeat: no-repeat;
 		background-position: center;
 	}
+	
+	img.provider {
+		width: 40px;
+		height: 40px;
+	}
+	
+	span.provider {
+		font-weight: bold;
+	}
 
 }
 </style>
@@ -421,8 +430,8 @@
 			$contentContainer.empty();
 			adminService.getPagedUsers(params, function(result) {
 				localStorage.setItem("adminUserOptions", JSON.stringify(result.data.options))
-				//let boardsPageHtml = createBoardsPageHtml(result);
-				//$contentContainer.html(boardsPageHtml);
+				let usersPageHtml = createUsersPageHtml(result);
+				$contentContainer.html(usersPageHtml);
 			});
 		});
 

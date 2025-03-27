@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.codingjoa.entity.AdminUser;
 import com.codingjoa.entity.Auth;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class AdminUserDto {
 		this.agree = agree;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.provider = provider;
+		this.provider = (provider == null) ? "codingjoa" : provider;
 		this.connectedAt = connectedAt;
 		this.roles = roles;
 	}
@@ -78,6 +79,11 @@ public class AdminUserDto {
 		return auths.stream()
 				.map(auth -> auth.getRole())
 				.collect(Collectors.toList());
+	}
+	
+	@JsonProperty("isUpdated")
+	public boolean isUpdated() {
+		return !createdAt.isEqual(updatedAt);
 	}
 	
 }

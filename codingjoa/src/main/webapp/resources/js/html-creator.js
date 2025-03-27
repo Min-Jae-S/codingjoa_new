@@ -273,6 +273,113 @@ function createWelcomePageHtml() {
 	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;
 }
 
+function createUsersPageHtml(result) {
+	console.log("## createUsersPageHtml");
+	const { options, adminUserCri, pagedUsers, pagination } = result.data;
+	
+	let formHtml = createUsersFormHtml(options, adminUserCri);
+	let tableHtml = createUsersTableHtml(pagedUsers);
+	let paginationHtml = createPaginationHtml(pagination);
+	
+	return `
+		<div class="card rounded-xl">
+			<div class="card-body">
+				<div class="form-wrap">
+					${formHtml}
+				</div>
+				<div class="table-wrap">
+					${tableHtml}
+				</div>
+				<div class="mb-3">
+					<button type="button" id="deleteBoardsBtn" class="btn btn-primary rounded-md mr-auto" disabled>선택삭제</button>
+				</div>
+				<div class="board-pagination">
+					${paginationHtml}
+				</div>
+			</div>
+		</div>`;
+}
+
+function createUsersFormHtml(options, adminUserCri) {
+	return "";
+}
+
+function createUsersTableHtml(pagedUsers) {
+	let rowsHtml = pagedUsers.map(adminUser => {
+		let providerRow = ``;
+		
+		switch (adminUser.provider) {
+			case "kakao":
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/kakao.png">`;
+				break;
+				
+			case "naver":
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/naver.png">`;
+				break;
+			
+			case "google":
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/google.png">`;
+				break;
+
+			case "github":
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/github.png">`;
+				break;
+				
+			default:
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa30.png">`;
+		}
+		
+		return `
+			<tr>
+				<td class="d-md-table-cell">
+					<div class="form-check">
+						<input class="form-check-input position-static" type="checkbox" name="userIds" value="${adminUser.id}">
+					</div>
+				</td>		
+				<td class="d-md-table-cell">
+					<span>${adminUser.id}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminUser.email}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminUser.nickname}</span>
+				</td>
+				<td class="d-md-table-cell">
+					<span class="created-at">${adminUser.createdAt}</span></br>
+					${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
+				</td>
+				<td class="d-md-table-cell">
+					<span>${adminUser.roles}</span>
+				</td>
+				<td class="d-md-table-cell">
+					${providerRow}
+				</td>
+			</tr>`}).join("");
+	
+	return `
+		<table class="table">
+			<thead>
+				<tr>
+					<th class="d-md-table-cell">
+						<div class="form-check">
+					  		<input class="form-check-input position-static" type="checkbox" id="toggleAllUsers">
+						</div>
+					</th>
+					<th class="d-md-table-cell">번호</th>
+					<th class="d-md-table-cell">이메일</th>
+					<th class="d-md-table-cell">닉네임</th>
+					<th class="d-md-table-cell">가입일 (수정일)</th>
+					<th class="d-md-table-cell">권한</th>
+					<th class="d-md-table-cell">계정 연동</th>
+				</tr>
+			</thead>
+			<tbody>
+				${rowsHtml}
+			</tbody>
+		</table>`;
+}
+
 function createBoardsPageHtml(result) {
 	console.log("## createBoardsPageHtml");
 	const { options, adminBoardCri, pagedBoards, pagination } = result.data;
