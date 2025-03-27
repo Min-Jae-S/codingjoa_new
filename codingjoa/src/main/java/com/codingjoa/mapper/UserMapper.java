@@ -4,8 +4,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.entity.Auth;
-import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
 
 
@@ -13,10 +11,6 @@ import com.codingjoa.entity.User;
 public interface UserMapper {
 	
 	boolean insertUser(User user);
-	
-	boolean insertAuth(Auth auth);
-	
-	boolean insertSnsInfo(SnsInfo snsInfo);
 	
 	boolean isNicknameExist(String nickname);
 	

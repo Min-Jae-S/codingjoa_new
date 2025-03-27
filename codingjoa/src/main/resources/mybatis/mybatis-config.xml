@@ -47,10 +47,6 @@
 		<typeAlias type="com.codingjoa.entity.BoardLike" alias="BoardLike"/>
 		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/> 
 
-		<!-- pagination -->
-		<!-- <typeAlias type="com.codingjoa.pagination.BoardCriteria" alias="BoardCri"/> -->
-		<!-- <typeAlias type="com.codingjoa.pagination.CommentCriteria" alias="CommentCri"/> -->
-		
 		<!-- admin -->
 		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
 		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
@@ -59,12 +55,11 @@
 		<typeAlias type="com.codingjoa.test.TestVo" alias="testVo"/>
 		<typeAlias type="com.codingjoa.test.TestApiResponseData" alias="testApiResponseData"/>
 		<typeAlias type="com.codingjoa.test.TestSchedulerData" alias="testSchedulerData"/>
-		
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>
 	
 	<!--
-	# CLOB을 String으로 반환하는 방법
+	## CLOB을 String으로 반환하는 방법
 		- TypeHander 등록해서 사용하기 
 		- 별도의 타입핸들러 등록없이 사용하기 (Oracle 10g 이상), javaType과 jdbcType 설정 필요
 	-->

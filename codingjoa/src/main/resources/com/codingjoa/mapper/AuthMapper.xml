@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.AuthMapper">
+<!--
+## auth
+    id          NUMBER,
+    user_id     NUMBER          NOT NULL,
+    role        VARCHAR2(30)    NOT NULL,
+    created_at  DATE            NOT NULL,
+-->
+
+	<insert id="insertAuth" parameterType="Auth">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_auth.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO auth (
+			id,
+			user_id,
+			role,
+			created_at
+		) VALUES (
+			#{id},
+			#{userId},
+			#{role},
+			SYSDATE
+		)
+	</insert>
+	
+	
+</mapper>

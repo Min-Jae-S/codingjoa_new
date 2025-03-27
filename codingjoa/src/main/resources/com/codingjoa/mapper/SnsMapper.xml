@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.SnsMapper">
+<!--
+## sns_info
+	id              NUMBER,
+	user_id         NUMBER              NOT NULL,
+    sns_id          VARCHAR2(200)       NOT NULL,
+	provider        VARCHAR2(20)        NOT NULL,
+    connected_at    DATE                NULL,
+	created_at      DATE                NOT NULL,
+-->
+	
+	<insert id="insertSnsInfo" parameterType="SnsInfo">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_snsinfo.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO sns_info (
+			id,
+			user_id,
+			sns_id,
+			provider,
+			connected_at,
+			created_at
+		) VALUES (
+			#{id},
+			#{userId},
+			#{snsId},
+			#{provider},
+			#{connectedAt},
+			SYSDATE
+		)
+	</insert>
+	
+</mapper>

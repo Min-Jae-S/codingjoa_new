@@ -52,44 +52,6 @@
 		)
 	</insert>
 	
-	<insert id="insertAuth" parameterType="Auth">
-		<selectKey keyProperty="id" resultType="long" order="BEFORE">
-			SELECT seq_auth.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO auth (
-			id,
-			user_id,
-			role,
-			created_at
-		) VALUES (
-			#{id},
-			#{userId},
-			#{role},
-			SYSDATE
-		)
-	</insert>
-
-	<insert id="insertSnsInfo" parameterType="SnsInfo">
-		<selectKey keyProperty="id" resultType="long" order="BEFORE">
-			SELECT seq_snsinfo.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO sns_info (
-			id,
-			user_id,
-			sns_id,
-			provider,
-			connected_at,
-			created_at
-		) VALUES (
-			#{id},
-			#{userId},
-			#{snsId},
-			#{provider},
-			#{connectedAt},
-			SYSDATE
-		)
-	</insert>
-	
 	<select id="isNicknameExist" parameterType="string" resultType="boolean">
 		SELECT
 			COUNT(*)

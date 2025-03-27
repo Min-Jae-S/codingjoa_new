@@ -20,6 +20,8 @@ import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
 import com.codingjoa.error.ExpectedException;
+import com.codingjoa.mapper.AuthMapper;
+import com.codingjoa.mapper.SnsMapper;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
@@ -35,6 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 public class UserServiceImpl implements UserService {
 	
 	private final UserMapper userMapper;
+	private final AuthMapper authMapper;
+	private final SnsMapper snsMapper;
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
@@ -59,7 +63,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		boolean isAuthSaved = userMapper.insertAuth(auth);
+		boolean isAuthSaved = authMapper.insertAuth(auth);
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
@@ -93,7 +97,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		boolean isSnsInfoSaved = userMapper.insertSnsInfo(snsInfo);
+		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
 		log.info("\t > saved snsInfo = {}", snsInfo);
 		
 		if (!isSnsInfoSaved) {
@@ -106,7 +110,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		log.info("\t > create auth entity = {}", auth);
 		
-		boolean isAuthSaved = userMapper.insertAuth(auth);
+		boolean isAuthSaved = authMapper.insertAuth(auth);
 		log.info("\t > saved auth = {}", auth);
 		
 		if (!isAuthSaved) {
@@ -147,7 +151,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		userMapper.insertSnsInfo(snsInfo);
+		snsMapper.insertSnsInfo(snsInfo);
 	}
 	
 	@Override
