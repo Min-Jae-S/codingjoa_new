@@ -4,7 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -129,7 +128,7 @@ public class JwtProvider {
 		claims.setSubject(String.valueOf(principal.getId()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
-		claims.put("roles", toRolesString(principal));
+		claims.put("roles", toRolesArray(principal));
 		claims.put("image_path", principal.getImagePath());
 		claims.put("token_type", "access_token");
 		
@@ -138,11 +137,12 @@ public class JwtProvider {
 		return claims;
 	}
 	
-	private String toRolesString(PrincipalDetails principal) {
+	private String[] toRolesArray(PrincipalDetails principal) {
 		return principal.getAuthorities()
 			.stream()
 			.map(grantedAuthority -> grantedAuthority.getAuthority())
-			.collect(Collectors.joining(","));
+			.toArray(size -> new String[size]);
+			//.collect(Collectors.joining(","));
 	
 	}
 	

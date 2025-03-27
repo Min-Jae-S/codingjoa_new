@@ -115,7 +115,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 
 	public static PrincipalDetails from(Claims claims) { // from JWT
-		String roles = (String) claims.get("roles");
+		String[] roles = (String[]) claims.get("roles");
 		return PrincipalDetails.builder()
 				.id(Long.parseLong(claims.getSubject()))
 				.email((String) claims.get("email"))
@@ -133,16 +133,21 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.nameAttributeKey = nameAttributeKey;
 	}
 	
+	// 
 	private static List<GrantedAuthority> toGrantedAuthorities(List<String> roles) {
 		return roles.stream()
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
 	}
 
-	private static List<GrantedAuthority> toGrantedAuthorities(String roles) {
-		return Arrays.stream(roles.split(","))
+	// from JWT to PrincipalDetails
+	private static List<GrantedAuthority> toGrantedAuthorities(String[] roles) {
+		return Arrays.stream(roles)
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
+//		return Arrays.stream(roles.split(","))
+//			.map(role -> new SimpleGrantedAuthority(role))
+//			.collect(Collectors.toList());
 	}
 	
 }

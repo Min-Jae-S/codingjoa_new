@@ -48,6 +48,7 @@
     	border-top: none;
     	border-bottom: 1px solid #dee2e6;
     	padding: 0.75rem;
+    	height: 75px;
 	}
 	
 	.table .created-at {
@@ -311,7 +312,7 @@
 						</button>
 						<div class="collapse" id="collapseMembers">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 정보 관리</a>
+								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 목록</a>
 								<a href="${contextPath}/admin/users/role" class="nav-link" aria-pressed="false">권한 관리</a>
 							</nav>
 						</div>
@@ -491,6 +492,22 @@
 			let anyChecked = checkedCnt > 0;
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
+
+		$(document).on("change", "#toggleAllUsers", function() {
+			$("input[type='checkbox'][name='userIds']").prop("checked", this.checked);
+			
+			let anyChecked = $("input[type='checkbox'][name='userIds']:checked").length > 0;
+			$("#deleteUsersBtn").prop("disabled", !anyChecked);
+		});
+		
+		$(document).on("change", "input[type='checkbox'][name='userIds']", function() {
+			let totalCnt =  $("input[type='checkbox'][name='userIds']").length;
+			let checkedCnt = $("input[type='checkbox'][name='userIds']:checked").length;
+			$("#toggleAllUsers").prop("checked", totalCnt > 0 && totalCnt == checkedCnt);
+			
+			let anyChecked = checkedCnt > 0;
+			$("#deleteUsersBtn").prop("disabled", !anyChecked);
+		});
 		
 		// click delete board btn
 		$(document).on("click", "#deleteBoardsBtn", function() {
@@ -513,6 +530,30 @@
 				params.delete("page");
 				
 				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
+			});
+		});
+
+		// click delete user btn
+		$(document).on("click", "#deleteUsersBtn", function() {
+			let userIds = $("input[type='checkbox'][name='userIds']:checked")
+				.get()
+				.map(el => el.value);
+		
+			if (!userIds.length) {
+				alert("삭제할 유저를 선택해주세요.");
+				return;
+			}
+			
+			if (!confirm(`총 \${userIds.length}명의 유저를 삭제하시겠습니까?`)) {
+				return;
+			}
+		
+			adminService.deleteUsers(userIds, function(result) {
+				alert(result.message);
+				let params = new URLSearchParams(window.location.search);
+				params.delete("page");
+				
+				pageRouter.route("${contextPath}/admin/users/", "${contextPath}/admin/users", transformParams(params));
 			});
 		});
 		

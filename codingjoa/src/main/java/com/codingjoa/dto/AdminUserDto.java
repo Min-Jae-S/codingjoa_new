@@ -53,7 +53,7 @@ public class AdminUserDto {
 		this.agree = agree;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.provider = (provider == null) ? "codingjoa" : provider;
+		this.provider = provider;
 		this.connectedAt = connectedAt;
 		this.roles = roles;
 	}

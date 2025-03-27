@@ -291,7 +291,7 @@ function createUsersPageHtml(result) {
 					${tableHtml}
 				</div>
 				<div class="mb-3">
-					<button type="button" id="deleteBoardsBtn" class="btn btn-primary rounded-md mr-auto" disabled>선택삭제</button>
+					<button type="button" id="deleteUsersBtn" class="btn btn-primary rounded-md mr-auto" disabled>선택삭제</button>
 				</div>
 				<div class="board-pagination">
 					${paginationHtml}
@@ -326,7 +326,8 @@ function createUsersTableHtml(pagedUsers) {
 				break;
 				
 			default:
-				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa30.png">`;
+				providerRow = `<span class="provider">Codingjoa</span>`;
+				//providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa30.png">`;
 		}
 		
 		return `
