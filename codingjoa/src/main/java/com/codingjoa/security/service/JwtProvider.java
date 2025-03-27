@@ -141,7 +141,8 @@ public class JwtProvider {
 		return principal.getAuthorities()
 			.stream()
 			.map(grantedAuthority -> grantedAuthority.getAuthority())
-			.toArray(size -> new String[size]);
+			.toArray(String[]::new);			
+			//.toArray(size -> new String[size]);
 			//.collect(Collectors.joining(","));
 	
 	}

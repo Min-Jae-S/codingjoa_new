@@ -94,8 +94,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return this.getAttributes().get(this.nameAttributeKey).toString();
 	}
 	
+	// from DB(userDetailsMap)
 	@SuppressWarnings("unchecked")
-	public static PrincipalDetails from(Map<String, Object> map) { // from database
+	public static PrincipalDetails from(Map<String, Object> map) { 
 		List<String> roles = (List<String>) map.get("roles");
 		return PrincipalDetails.builder()
 				.id((long) map.get("id"))
@@ -106,15 +107,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.authorities(toGrantedAuthorities(roles))
 				.build();
 	}
-
-	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attributes,
-			String nameAttributeKey) { 
-		principalDetails.setAttributes(attributes);
-		principalDetails.setNameAttributeKey(nameAttributeKey);
-		return principalDetails;
-	}
-
-	public static PrincipalDetails from(Claims claims) { // from JWT
+	
+	// from JWT
+	public static PrincipalDetails from(Claims claims) { 
 		String[] roles = (String[]) claims.get("roles");
 		return PrincipalDetails.builder()
 				.id(Long.parseLong(claims.getSubject()))
@@ -123,6 +118,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.imagePath((String) claims.get("image_path"))
 				.authorities(toGrantedAuthorities(roles))
 				.build();
+	}
+
+	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attributes,
+			String nameAttributeKey) { 
+		principalDetails.setAttributes(attributes);
+		principalDetails.setNameAttributeKey(nameAttributeKey);
+		return principalDetails;
 	}
 	
 	private void setAttributes(Map<String, Object> attributes) {
@@ -133,7 +135,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.nameAttributeKey = nameAttributeKey;
 	}
 	
-	// 
+	// from DB(UserDetailsMap) to PrincipalDetails
 	private static List<GrantedAuthority> toGrantedAuthorities(List<String> roles) {
 		return roles.stream()
 			.map(role -> new SimpleGrantedAuthority(role))
