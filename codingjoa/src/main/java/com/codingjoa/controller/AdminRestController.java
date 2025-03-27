@@ -41,7 +41,10 @@ public class AdminRestController {
 		log.info("## getPagedUsers");
 		
 		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
-		log.info("\t > pagedUsers = {}", pagedUsers);
+		
+		log.info("\t > pagedUsers");
+		pagedUsers.forEach(adminUserDto -> log.info("\t\t - id: {}, roles: {}, provider: {}", 
+				adminUserDto.getId(), adminUserDto.getRoles(), adminUserDto.getProvider()));
 		
 		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);
@@ -60,6 +63,11 @@ public class AdminRestController {
 		log.info("## getPagedUsers");
 		
 		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
+		
+		log.info("\t > pagedUsers");
+		pagedUsers.forEach(adminUserDto -> log.info("\t\t - id: {}, roles: {}, provider: {}", 
+				adminUserDto.getId(), adminUserDto.getRoles(), adminUserDto.getProvider()));
+		
 		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);
 		
@@ -76,7 +84,10 @@ public class AdminRestController {
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
-		log.info("\t > pagedBoards = {}", pagedBoards);
+		
+		log.info("\t > pagedBoard");
+		pagedBoards.forEach(adminBoarDto -> 
+			log.info("\t\t - id: {}, title: {}", adminBoarDto.getId(), adminBoarDto.getTitle()));
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
@@ -96,7 +107,10 @@ public class AdminRestController {
 		log.info("\t > adminBoardCri = {}", adminBoardCri);
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
-		log.info("\t > pagedBoards = {}", pagedBoards);
+		
+		log.info("\t > pagedBoard");
+		pagedBoards.forEach(adminBoarDto -> 
+			log.info("\t\t - id: {}, title: {}", adminBoarDto.getId(), adminBoarDto.getTitle()));
 		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);

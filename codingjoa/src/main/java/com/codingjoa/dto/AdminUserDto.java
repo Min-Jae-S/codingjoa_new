@@ -68,6 +68,8 @@ public class AdminUserDto {
 				.agree(adminUser.getUser().getAgree())
 				.createdAt(adminUser.getUser().getCreatedAt())
 				.updatedAt(adminUser.getUser().getUpdatedAt())
+				.provider(adminUser.getSnsInfo().getProvider())
+				.connectedAt(adminUser.getSnsInfo().getConnectedAt())
 				.roles(convert(adminUser.getAuths()))
 				.build();
 	}

@@ -35,10 +35,7 @@ public class AdminServiceImpl implements AdminService {
 		log.info("\t > find pagedUsers");
 		return adminMapper.findPagedUsers(adminUserCri)
 				.stream()
-				.map(adminUser -> {
-					log.info("\t\t - email: {}, snsInfo: {}", adminUser.getUser().getEmail(), adminUser.getSnsInfo());
-					return AdminUserDto.from(adminUser);
-				})
+				.map(adminUser -> AdminUserDto.from(adminUser))
 				.collect(Collectors.toList());
 	}
 	
@@ -59,10 +56,7 @@ public class AdminServiceImpl implements AdminService {
 		log.info("\t > find pagedBoards");
 		return adminMapper.findPagedBoards(adminBoardCri)
 				.stream()
-				.map(adminBoard -> {
-					log.info("\t\t - id: {}", adminBoard.getBoard().getId());
-					return AdminBoardDto.from(adminBoard);
-				})
+				.map(adminBoard ->  AdminBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
 	}
 	

@@ -81,7 +81,9 @@ public class BoardController {
 		log.info("\t > userId = {}", userId);
 		
 		List<BoardDetailsDto> pagedBoards = boardService.getPagedBoards(categoryCode, boardCri, userId);
-		log.info("\t > pagedBoards = {}", pagedBoards);
+		
+		log.info("\t > pagedBoards");
+		pagedBoards.forEach(boardDetailsDto -> log.info("\t\t - id: {}, title: {}", boardDetailsDto.getId(), boardDetailsDto.getTitle()));
 		
 		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
