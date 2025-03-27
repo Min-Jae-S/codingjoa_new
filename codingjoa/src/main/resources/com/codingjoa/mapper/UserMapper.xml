@@ -170,7 +170,6 @@
 		<result column="password" property="password" />
 		<result column="nickname" property="nickname" />
 		<result column="image_path" property="imagePath" />
-		<result column="provider" property="provider"/>
 		<collection property="roles" ofType="string" javaType="list">
 			<result column="role"/>
 		</collection>
@@ -183,7 +182,6 @@
 			users.password,
 			users.nickname,
 			latest_user_image.path AS image_path,
-			sns_info.provider,
 			auth.role
 		FROM
 			users
@@ -197,10 +195,6 @@
 		) latest_user_image
 		ON
 			users.id = latest_user_image.user_id
-		LEFT OUTER JOIN
-			sns_info
-		ON
-			users.id = sns_info.user_id
 		INNER JOIN
 			auth
 		ON
@@ -216,7 +210,6 @@
 			users.password,
 			users.nickname,
 			latest_user_image.path AS image_path,
-			sns_info.provider,
 			auth.role
 		FROM
 			users
@@ -230,10 +223,6 @@
 		) latest_user_image
 		ON
 			users.id = latest_user_image.user_id
-		LEFT OUTER JOIN
-			sns_info
-		ON
-			users.id = sns_info.user_id
 		INNER JOIN
 			auth
 		ON

@@ -3,7 +3,6 @@ package com.codingjoa.security.service;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -114,7 +112,6 @@ public class JwtProvider {
 		return Map.of("typ", "JWT", "alg", "HS256");
 	}
 	
-	@SuppressWarnings("unchecked")
 	private Map<String, Object> createClaims(Authentication authentication, HttpServletRequest request) {
 		Date now = new Date(System.currentTimeMillis());
 		Date exp = new Date(now.getTime() + validityInMillis);
@@ -128,23 +125,25 @@ public class JwtProvider {
 		
 		// authentication - UsernamePasswordAuthenticationToken, OAuth2AuthenticationToken
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-		
-		List<GrantedAuthority> authorities = (List<GrantedAuthority>) principal.getAuthorities();
-		String roles = authorities
-				.stream()
-				.map(authority -> authority.getAuthority())
-				.collect(Collectors.joining(","));
-		
+
 		claims.setSubject(String.valueOf(principal.getId()));
 		claims.put("email", principal.getEmail());
 		claims.put("nickname", principal.getNickname());
-		claims.put("roles", roles);
+		claims.put("roles", toRolesString(principal));
 		claims.put("image_path", principal.getImagePath());
-		claims.put("provider", principal.getProvider());
 		claims.put("token_type", "access_token");
+		
 		log.info("\t > created claims: {}", claims.keySet());
 		
 		return claims;
+	}
+	
+	private String toRolesString(PrincipalDetails principal) {
+		return principal.getAuthorities()
+			.stream()
+			.map(grantedAuthority -> grantedAuthority.getAuthority())
+			.collect(Collectors.joining(","));
+	
 	}
 	
 }

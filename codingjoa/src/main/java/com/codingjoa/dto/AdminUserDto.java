@@ -71,11 +71,11 @@ public class AdminUserDto {
 				.updatedAt(adminUser.getUser().getUpdatedAt())
 				.provider(adminUser.getSnsInfo().getProvider())
 				.connectedAt(adminUser.getSnsInfo().getConnectedAt())
-				.roles(convert(adminUser.getAuths()))
+				.roles(toRoles(adminUser.getAuths()))
 				.build();
 	}
 	
-	private static List<String> convert(List<Auth> auths) {
+	private static List<String> toRoles(List<Auth> auths) {
 		return auths.stream()
 				.map(auth -> auth.getRole())
 				.collect(Collectors.toList());

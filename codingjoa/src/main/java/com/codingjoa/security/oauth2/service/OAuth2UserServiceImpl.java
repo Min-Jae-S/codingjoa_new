@@ -57,13 +57,15 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			log.info("\t > no existing user found. Registering new user with OAuth2 account");
 			userService.saveOAuth2User(oAuth2Attributes);
 			principal = userService.getUserDetailsByEmail(email);
-		} else if ("codingjoa".equals(principal.getProvider())) {
-			log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
-			userService.connectOAuth2User(oAuth2Attributes, principal.getId());
-			principal = userService.getUserDetailsByEmail(email);
-		} else {
-			log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
 		}
+		
+//		} else if ("codingjoa".equals(principal.getProvider())) {
+//			log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
+//			userService.connectOAuth2User(oAuth2Attributes, principal.getId());
+//			principal = userService.getUserDetailsByEmail(email);
+//		} else {
+//			log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
+//		}
 		
 		return PrincipalDetails.from(principal, attributes, attributeKeyName);
 	}

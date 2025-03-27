@@ -28,7 +28,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String password;
 	private final String nickname;
 	private final String imagePath;						// LEFT OUTER JOIN user_image
-	private final String provider;						// LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
 	private Map<String, Object> attributes;				// OAuth2User
 	private String nameAttributeKey;
@@ -41,7 +40,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.password = (password == null) ? "" : password;
 		this.nickname = nickname;
 		this.imagePath = (imagePath == null) ? "" : imagePath;
-		this.provider = (provider == null) ? "" : provider;
 		this.authorities = authorities;
 	}
 	
@@ -105,8 +103,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.password((String) map.get("password"))
 				.nickname((String) map.get("nickname"))
 				.imagePath((String) map.get("imagePath"))
-				.provider((String) map.get("provider"))
-				.authorities(convert(roles))
+				.authorities(toGrantedAuthorities(roles))
 				.build();
 	}
 
@@ -124,8 +121,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.email((String) claims.get("email"))
 				.nickname((String) claims.get("nickname"))
 				.imagePath((String) claims.get("image_path"))
-				.provider((String) claims.get("provider"))
-				.authorities(convert(roles))
+				.authorities(toGrantedAuthorities(roles))
 				.build();
 	}
 	
@@ -137,13 +133,13 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.nameAttributeKey = nameAttributeKey;
 	}
 	
-	private static List<GrantedAuthority> convert(List<String> roles) {
+	private static List<GrantedAuthority> toGrantedAuthorities(List<String> roles) {
 		return roles.stream()
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
 	}
 
-	private static List<GrantedAuthority> convert(String roles) {
+	private static List<GrantedAuthority> toGrantedAuthorities(String roles) {
 		return Arrays.stream(roles.split(","))
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
