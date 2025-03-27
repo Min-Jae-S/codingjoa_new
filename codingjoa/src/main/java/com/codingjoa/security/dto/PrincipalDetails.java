@@ -30,7 +30,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String imagePath;						// LEFT OUTER JOIN user_image
 	private final String provider;						// LEFT OUTER JOIN sns_info
 	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
-	
 	private Map<String, Object> attributes;				// OAuth2User
 	private String nameAttributeKey;
 
@@ -39,11 +38,14 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			String provider, List<GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;
-		this.password = (password == null) ? "" : password;
+		this.password = password;
 		this.nickname = nickname;
-		this.imagePath = (imagePath == null) ? "" : imagePath;
-		this.provider = (provider == null) ? "local" : provider;
+		this.imagePath = imagePath;
+		this.provider = provider;
 		this.authorities = authorities;
+		//this.password = (password == null) ? "" : password;
+		//this.imagePath = (imagePath == null) ? "" : imagePath;
+		//this.provider = (provider == null) ? "local" : provider;
 	}
 	
 	@Override
