@@ -16,21 +16,19 @@
 			<result column="created_at" property="createdAt"/>
 			<result column="updated_at" property="updatedAt"/>
 		</association>
+		<association property="snsInfo" javaType="SnsInfo">
+			<result column="provider" property="provider"/>
+			<result column="connected_at" property="connectedAt"/>
+		</association>
 		<collection property="auths" ofType="Auth">
 			<result column="role" property="role"/>
 		</collection>
-		<!-- <association property="auth" javaType="Auth">
-			<result column="role" property="role"/>
-		</association> -->
-		<!-- <association property="snsInfo" javaType="SnsInfo">
-			<result column="provider" property="provider"/>
-			<result column="connected_at" property="connectedAt"/>
-		</association> -->
 	</resultMap>
 	
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
 			final_users.*,
+			sns_info.*,
 			auth.*
 		FROM (
 			SELECT
@@ -42,7 +40,7 @@
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(users pk_users) */
-						*
+						users.*
 					FROM 
 						users
 					ORDER BY
@@ -54,6 +52,10 @@
 			WHERE 
 				paged_users.rn > ( (#{page} - 1) * #{recordCnt} )
 		) final_users
+		LEFT OUTER JOIN
+			sns_info
+		ON
+			final_users.id = sns_info.user_id
 		INNER JOIN
 			auth
 		ON

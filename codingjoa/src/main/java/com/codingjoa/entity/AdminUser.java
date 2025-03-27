@@ -10,7 +10,7 @@ import lombok.ToString;
 public class AdminUser {
 	
 	private User user;
-	private List<Auth> auths;
 	private SnsInfo snsInfo;
+	private List<Auth> auths;
 	
 }

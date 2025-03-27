@@ -36,8 +36,7 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.findPagedUsers(adminUserCri)
 				.stream()
 				.map(adminUser -> {
-					log.info("\t\t - email: {}, roles: {}, provider: {}", 
-							adminUser.getUser().getEmail(), adminUser.getAuths(), adminUser.getSnsInfo().getProvider());
+					log.info("\t\t - email: {}, snsInfo: {}", adminUser.getUser().getEmail(), adminUser.getSnsInfo());
 					return AdminUserDto.from(adminUser);
 				})
 				.collect(Collectors.toList());

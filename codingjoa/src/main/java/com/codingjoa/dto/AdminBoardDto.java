@@ -27,8 +27,6 @@ public class AdminBoardDto {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updatedAt;
 	
-	private boolean isUpdated;
-	
 	// user
 	private long writerId;
 	private String writerEmail;
@@ -40,8 +38,7 @@ public class AdminBoardDto {
 	
 	@Builder
 	private AdminBoardDto(long id, String title, int viewCount, int commentCount, int likeCount, LocalDateTime createdAt,
-			LocalDateTime updatedAt, boolean isUpdated, long writerId, String writerEmail, String writerNickname,
-			int categoryCode, String categoryName) {
+			LocalDateTime updatedAt, long writerId, String writerEmail, String writerNickname, int categoryCode, String categoryName) {
 		this.id = id;
 		this.title = title;
 		this.viewCount = viewCount;
@@ -49,7 +46,6 @@ public class AdminBoardDto {
 		this.likeCount = likeCount;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		this.isUpdated = createdAt.isEqual(updatedAt);;
 		this.writerId = writerId;
 		this.writerEmail = writerEmail;
 		this.writerNickname = writerNickname;
@@ -76,7 +72,7 @@ public class AdminBoardDto {
 
 	@JsonProperty("isUpdated")
 	public boolean isUpdated() {
-		return this.isUpdated;
+		return !createdAt.isEqual(updatedAt);
 	}
 	
 }
