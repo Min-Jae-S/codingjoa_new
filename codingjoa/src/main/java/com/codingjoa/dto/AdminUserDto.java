@@ -2,8 +2,10 @@ package com.codingjoa.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.codingjoa.entity.AdminUser;
+import com.codingjoa.entity.Auth;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
@@ -66,7 +68,14 @@ public class AdminUserDto {
 				.agree(adminUser.getUser().getAgree())
 				.createdAt(adminUser.getUser().getCreatedAt())
 				.updatedAt(adminUser.getUser().getUpdatedAt())
+				.roles(convert(adminUser.getAuths()))
 				.build();
+	}
+	
+	private static List<String> convert(List<Auth> auths) {
+		return auths.stream()
+				.map(auth -> auth.getRole())
+				.collect(Collectors.toList());
 	}
 	
 }

@@ -393,11 +393,13 @@
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin", function() {
+			$contentContainer.empty();
 			let welcomePageHtml = createWelcomePageHtml();
 			$contentContainer.html(welcomePageHtml);
 		});
 		
 		pageRouter.addRouter("${contextPath}/admin/boards", function(params) {
+			$contentContainer.empty();
 			adminService.getPagedBoards(params, function(result) {
 				localStorage.setItem("adminBoardOptions", JSON.stringify(result.data.options))
 				let boardsPageHtml = createBoardsPageHtml(result);
@@ -406,6 +408,7 @@
 		});
 
 		pageRouter.addRouter("${contextPath}/admin/boards/", function(params) {
+			$contentContainer.empty();
 			adminService.getPagedBoardsBySearch(params, function(result) {
 				let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
 				let paginationHtml = createPaginationHtml(result.data.pagination);
@@ -415,6 +418,7 @@
 		});
 
 		pageRouter.addRouter("${contextPath}/admin/users", function(params) {
+			$contentContainer.empty();
 			adminService.getPagedUsers(params, function(result) {
 				localStorage.setItem("adminUserOptions", JSON.stringify(result.data.options))
 				//let boardsPageHtml = createBoardsPageHtml(result);
@@ -423,6 +427,7 @@
 		});
 
 		pageRouter.addRouter("${contextPath}/admin/users/", function(params) {
+			$contentContainer.empty();
 			adminService.getPagedUsersBySearch(params, function(result) {
 				//let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
 				//let paginationHtml = createPaginationHtml(result.data.pagination);

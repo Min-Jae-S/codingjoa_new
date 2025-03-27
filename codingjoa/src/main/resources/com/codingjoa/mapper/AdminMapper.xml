@@ -3,6 +3,7 @@
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
 
 	<resultMap id="adminUserMap" type="AdminUser">
+		<id column="id" property="user.id"/>
 		<association property="user" javaType="User">
 			<id column="id" property="id"/>
 			<result column="email" property="email"/>
@@ -41,7 +42,7 @@
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(users pk_users) */
-						users.*
+						*
 					FROM 
 						users
 					ORDER BY

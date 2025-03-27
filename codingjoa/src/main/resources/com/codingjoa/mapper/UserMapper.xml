@@ -101,17 +101,17 @@
 	
 	<resultMap id="accountMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<result property="id" column="id" javaType="long"/> 
-		<result property="email" column="email"/>
-		<result property="password" column="password"/>
-		<result property="nickname" column="nickname"/>
-		<result property="zipcode" column="zipcode"/>
-		<result property="addr" column="addr"/>
-		<result property="addrDetail" column="addr_detail"/>
-		<result property="agree" column="agree" javaType="boolean"/>
-		<result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"/>
-		<result property="updatedAt" column="updated_at" javaType="java.time.LocalDateTime"/>
-		<result property="imagePath" column="image_path"/>
+		<id column="id" property="id" javaType="long"/> 
+		<result column="email" property="email"/>
+		<result column="password" property="password"/>
+		<result column="nickname" property="nickname"/>
+		<result column="zipcode" property="zipcode"/>
+		<result column="addr" property="addr"/>
+		<result column="addr_detail" property="addrDetail" />
+		<result column="agree" property="agree"  javaType="boolean"/>
+		<result column="created_at" property="createdAt" javaType="java.time.LocalDateTime"/>
+		<result column="updated_at" property="updatedAt"  javaType="java.time.LocalDateTime"/>
+		<result column="image_path" property="imagePath"/>
 	</resultMap>
 	
 	<select id="findAccountById" parameterType="long" resultMap="accountMap">
@@ -165,13 +165,13 @@
 	
 	<resultMap id="userDetailsMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
-		<result property="id" column="id" javaType="long"/> 
-		<result property="email" column="email"/>
-		<result property="password" column="password"/>
-		<result property="nickname" column="nickname"/>
-		<result property="imagePath" column="image_path"/>
-		<result property="provider" column="provider"/>
-		<collection property="roles" javaType="list" ofType="string">
+		<id column="id" property="id" javaType="long"/> 
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="nickname" property="nickname" />
+		<result column="image_path" property="imagePath" />
+		<result column="provider" property="provider"/>
+		<collection property="roles" ofType="string" javaType="list">
 			<result column="role"/>
 		</collection>
 	</resultMap>

@@ -1,9 +1,10 @@
 package com.codingjoa.security.dto;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -138,18 +139,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 	
 	private static List<GrantedAuthority> convert(List<String> roles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : roles) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
+		return roles.stream()
+			.map(role -> new SimpleGrantedAuthority(role))
+			.collect(Collectors.toList());
 	}
 
 	private static List<GrantedAuthority> convert(String roles) {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (String role : roles.split(",")) {
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
-		return authorities;
+		return Arrays.stream(roles.split(","))
+			.map(role -> new SimpleGrantedAuthority(role))
+			.collect(Collectors.toList());
 	}
+	
 }
