@@ -49,7 +49,6 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteUsers(List<Long> userIds) {
 		return adminMapper.deleteUsers(userIds);
 	}
-
 	
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
@@ -65,7 +64,6 @@ public class AdminServiceImpl implements AdminService {
 		int totalCnt = adminMapper.findTotalCntForBoardPaging(adminBoardCri);
 		return (totalCnt > 0) ? new Pagination(totalCnt, adminBoardCri.getPage(), adminBoardCri.getRecordCnt(), pageRange) : null;
 	}
-
 
 	@Override
 	public int deleteBoards(List<Long> boardIds) {

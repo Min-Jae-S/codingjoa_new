@@ -34,19 +34,14 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		log.info("## {}.loadUser", this.getClass().getSimpleName());
 		log.info("\t > request for userInfo");
-		
 		log.info("\t > delegate to the {} for loading a user", delegate.getClass().getSimpleName());
-		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		
+		OAuth2User loadedOAuth2User = delegate.loadUser(userRequest);
 		Map<String, Object> attributes = loadedOAuth2User.getAttributes();
 		log.info("\t > received userInfo: {}", FormatUtils.formatPrettyJson(attributes));
 		
-		String registrationId = userRequest.getClientRegistration().getRegistrationId();
-		String attributeKeyName = userRequest.getClientRegistration()
-				.getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
-		
-		OAuth2Attributes oAuth2Attributes = OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
-		log.info("\t > created oAuth2Attributes: {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
+		OAuth2Attributes oAuth2Attributes = extractOAuth2Attributes(userRequest, attributes);
+		log.info("\t > extract oAuth2Attributes: {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		String email = oAuth2Attributes.getEmail();
 		PrincipalDetails principal = userService.getUserDetailsByEmail(email);
@@ -67,18 +62,25 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 //			log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
 //		}
 		
-		return PrincipalDetails.from(principal, attributes, attributeKeyName);
+		return PrincipalDetails.from(principal, oAuth2Attributes.getAttributes(), oAuth2Attributes.getNameAttributeKey());
 	}
 	
+	private OAuth2Attributes extractOAuth2Attributes(OAuth2UserRequest userRequest, Map<String, Object> attributes) {
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String attributeKeyName = userRequest.getClientRegistration().getProviderDetails()
+                .getUserInfoEndpoint().getUserNameAttributeName();
+        return OAuth2Attributes.of(registrationId, attributeKeyName, attributes);
+    }
+	
 	@SuppressWarnings("unused")
-	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+	private OAuth2User resolveOAuth2User(OAuth2UserRequest userRequest, OAuth2User loadedOAuth2User) {
 		List<GrantedAuthority> mappedAuthorities = new ArrayList<>();
 		mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 		
 		String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
 				.getUserInfoEndpoint().getUserNameAttributeName();
 		
-		return new DefaultOAuth2User(mappedAuthorities, oAuth2User.getAttributes(), userNameAttributeName);
+		return new DefaultOAuth2User(mappedAuthorities, loadedOAuth2User.getAttributes(), userNameAttributeName);
 	}
 	
 }
