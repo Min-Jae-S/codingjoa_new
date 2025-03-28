@@ -375,6 +375,18 @@ function createUsersTableHtml(pagedUsers) {
 								</div>
 							</div>
 							<div class="form-group mb-4">
+								<label class="font-weight-bold">주소</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" name="zipcode" value=${adminUser.zipcode} placeholder="우편번호를 입력해주세요"/>
+								</div>
+								<div class="input-group">
+									<input class="form-control rounded-md" name="addr" value=${adminUser.addr} placeholder="주소를 입력해주세요"/>
+								</div>
+								<div class="input-group">			
+									<input class="form-control rounded-md" name="addrDetail" value=${adminUser.addrDetail} placeholder="상세주소를 입력해주세요"/>
+								</div>
+							</div>
+							<div class="form-group mb-4">
 								<div class="form-check small mb-1">
 									<label class="form-check-label">
 										<checkbox class="form-check-input" name="agree"/>
