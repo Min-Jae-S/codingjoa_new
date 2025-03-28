@@ -96,13 +96,13 @@
 						<dl class="form-group mb-5">
 							<dt><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</dt>
 							<dd class="input-group">
-								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호 입력"/>
+								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>
 							</dd>
 						</dl>
 						<dl class="form-group mb-5">
 							<dt><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</dt>
 							<dd class="input-group">
-								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인 입력"/>
+								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요."/>
 							</dd>
 						</dl>
 						<div class="pt-3">

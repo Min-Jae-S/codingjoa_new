@@ -12,15 +12,16 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
 			},
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				let errorResponse = parseError(jqXHR);
 				let details = errorResponse.details;
 				if (details.length > 0) {
@@ -70,15 +71,16 @@ let mainService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$(".error").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$(".error").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$(".error").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});

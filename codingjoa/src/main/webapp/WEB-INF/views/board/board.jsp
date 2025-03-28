@@ -110,7 +110,7 @@
 			  		<form:options items="${options.typeOption}"/>
 			  	</form:select>
 				<div class="input-group">
-					<form:input path="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요"/>
+					<form:input path="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요."/>
 				  	<div class="input-group-append">
 				  		<form:button class="btn btn-outline-secondary rounded-md">검색</form:button>
 				  	</div>

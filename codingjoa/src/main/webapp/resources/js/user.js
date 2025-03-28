@@ -34,15 +34,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -59,15 +60,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#nickname\\.errors").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#nickname\\.errors").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#nickname\\.errors").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -84,15 +86,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#email\\.errors, #authCode\\.errors, .success").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#email\\.errors, #authCode\\.errors, .success").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -109,15 +112,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -134,15 +138,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#agree\\.errors").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#agree\\.errors").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#agree\\.errors").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -184,15 +189,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -209,15 +215,16 @@ let userService = (function() {
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
 				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});

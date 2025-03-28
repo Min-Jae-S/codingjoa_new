@@ -73,7 +73,7 @@
 					<dl class="form-group mb-5">
 						<dt><i class="fa-solid fa-check mr-2"></i>이메일</dt>
 						<dd class="input-group" id="editEmail">
-							<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요"/>
+							<input type="text" id="email" name="email" placeholder="이메일을 입력해주세요."/>
 						</dd>
 					</dl>
 					<div class="pt-3">

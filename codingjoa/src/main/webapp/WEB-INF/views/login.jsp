@@ -100,11 +100,11 @@
 					<div class="email_pw_wrap">
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="email" >이메일</label>
-							<input class="form-control rounded-md" type="text" name="email" id="email" placeholder="이메일을 입력해주세요"/>
+							<input class="form-control rounded-md" type="text" name="email" id="email" placeholder="이메일을 입력해주세요."/>
 						</div>
 						<div class="form-group mb-4">
 							<label class="font-weight-bold" for="password">비밀번호</label>
-							<input class="form-control rounded-md" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
+							<input class="form-control rounded-md" type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
 						</div>
 					</div>
 					<div class="form-group pt-3 mb-3">

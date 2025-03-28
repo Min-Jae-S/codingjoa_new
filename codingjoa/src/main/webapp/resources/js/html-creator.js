@@ -29,17 +29,17 @@ function createPasswordChangeForm() {
 	html += '<div class="form-wrap d-none">';
 	html += '<form id="passwordChangeForm">';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요"/>';
+	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요."/>';
 	html += '<div>';
 	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
 	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
 	html += '</div>';
 	html += '</dd>';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요"/>';
+	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
 	html += '</dd>';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요"/>';
+	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
 	html += '</dd>';
 	html += '</form>';
 	html += '</div>';
@@ -365,26 +365,26 @@ function createUsersTableHtml(pagedUsers) {
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">이메일</label>
 								<div class="input-group mb-3">
-									<input class="form-control rounded-md" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요"/>
+									<input class="form-control rounded-md" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">닉네임</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요"/>
+									<input class="form-control rounded-md" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">주소</label>
 								<div class="input-group mb-3 w-40">
-									<input class="form-control rounded-md" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요" readonly/>
+									<input class="form-control rounded-md" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" id="searchAddrBtn">주소 찾기</button>
 								</div>
 								<div class="input-group mb-3">
-									<input class="form-control rounded-md" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요" readonly/>
+									<input class="form-control rounded-md" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
 								</div>
 								<div class="input-group">			
-									<input class="form-control rounded-md" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요"/>
+									<input class="form-control rounded-md" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group mb-4">
@@ -504,7 +504,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					${typeOptionHtml}
 				</select>
 				<div class="input-group">
-					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요"/>
+					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요."/>
 					<div class="input-group-append">
 						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
 					</div>
