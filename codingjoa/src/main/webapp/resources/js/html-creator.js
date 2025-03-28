@@ -387,16 +387,12 @@ function createUsersTableHtml(pagedUsers) {
 									<input class="form-control rounded-md" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
 								</div>
 							</div>
-							<div class="form-group mb-4">
-								<div class="form-check small mb-1">
-									<label class="form-check-label">
-										<checkbox class="form-check-input" name="agree"/>
-										<span>마케팅 활용 및 광고 수신 동의</span>
-									</label>
-								</div>
+							<div class="form-check mb-4">		
+								<input class="form-check-input" type="checkbox" value="" checked>
+								<label class="form-check-label">마케팅 활용 및 광고 수신 동의</label>
 							</div>
-							<div class="mr-auto">
-								<button type="submit" class="btn btn-primary rounded-md">수정</button>
+							<div class="text-end">
+								<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
@@ -405,6 +401,15 @@ function createUsersTableHtml(pagedUsers) {
 			</tr>
 		`
 		}).join("");
+	
+//	<div class="form-group mb-4">
+//		<div class="form-check small mb-1">
+//			<label class="form-check-label">
+//				<checkbox class="form-check-input" name="agree"/>
+//				<span>마케팅 활용 및 광고 수신 동의</span>
+//			</label>
+//		</div>
+//	</div>
 	
 	return `
 		<table class="table">

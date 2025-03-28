@@ -30,7 +30,7 @@
 		background-color: #f2f2f2;
 	}
 
-	span.error, span.success {
+	.error, .success {
 		display: inline-block;
 		padding-top: 7px;
 	}
@@ -84,17 +84,25 @@
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
 					<div class="form-group mb-4">
-						<div class="form-check small mb-1">
+						<%-- <div class="form-check small mb-1">
 							<label class="form-check-label">
 								<form:checkbox class="form-check-input" path="agree"/>
 								<span>마케팅 활용 및 광고 수신 동의 (선택)</span>
 							</label>
-						</div>
-						<div class="form-check small">
+						</div> --%>
+						<!-- <div class="form-check small">
 							<label class="form-check-label">
 								<input class="form-check-input" type="checkbox" id="agreeJoin">
 								<span><a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의</span>
 							</label>
+						</div> -->
+						<div class="form-check small mb-1">		
+							<form:checkbox path="agree" class="form-check-input"/>
+							<label class="form-check-label" for="agree">마케팅 활용 및 광고 수신 동의 (선택)</label>
+						</div>
+						<div class="form-check small">		
+							<input class="form-check-input" type="checkbox" id="agreeJoin">
+							<label class="form-check-label" for="agreeJoin"><a href="#">이용약관</a> 및 <a href="#">개인정보 처리방침</a> 동의</label>
 						</div>
 					</div>
 					<div class="mb-3">

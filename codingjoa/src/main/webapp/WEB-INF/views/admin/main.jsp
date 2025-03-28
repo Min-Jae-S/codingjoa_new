@@ -234,7 +234,6 @@
 	
 	.modify-form-wrap {
 		padding: 3rem 6rem;
-		min-height: 720px;
 	}
 	
 	.modify-form-wrap form {
@@ -329,8 +328,7 @@
 						</button>
 						<div class="collapse" id="collapseUserMenu">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 목록</a>
-								<a href="${contextPath}/admin/users/role" class="nav-link" aria-pressed="false">권한 관리</a>
+								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 통합 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>
