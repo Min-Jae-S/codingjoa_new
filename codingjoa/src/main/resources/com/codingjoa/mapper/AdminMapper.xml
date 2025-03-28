@@ -27,7 +27,7 @@
 	
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
-			/*+ ORDERED USE_NL(final_users) */
+			/*+ ORDERED USE_NL(auth) */
 			final_users.*,
 			sns_info.*,
 			auth.*
