@@ -301,7 +301,7 @@
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">Users</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseMembers" aria-expanded="false">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseUserMenu" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-user-gear fa-fw pl-1"></i>
 							</div>
@@ -310,14 +310,14 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseMembers">
+						<div class="collapse" id="collapseUserMenu">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 목록</a>
 								<a href="${contextPath}/admin/users/role" class="nav-link" aria-pressed="false">권한 관리</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContents" aria-expanded="false">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContentMenu" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-columns fa-fw"></i>
 							</div>
@@ -326,13 +326,13 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseContents">
+						<div class="collapse" id="collapseContentMenu">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/boards" class="nav-link" aria-pressed="false">게시글 관리</a>
 								<a href="${contextPath}/admin/comments" class="nav-link" aria-pressed="false">댓글 관리</a>
 							</nav>
 						</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotifications" aria-expanded="false">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseNotificationMenu" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-book-open fa-fw"></i>
 							</div>
@@ -341,14 +341,14 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseNotifications">
+						<div class="collapse" id="collapseNotificationMenu">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/notifications1" class="nav-link" aria-pressed="false">공지사항1</a>
 								<a href="${contextPath}/admin/notifications2" class="nav-link" aria-pressed="false">공지사항2</a>
 							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Systems</div>
-						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseSystems" aria-expanded="false">
+						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseSystemMenu" aria-expanded="false">
 							<div class="sb-nav-link-icon">
 								<i class="fa-solid fa-list fa-fw"></i>
 							</div>
@@ -357,7 +357,7 @@
 								<i class="fas fa-angle-up fa-fw"></i>
 							</div>
 						</button>
-						<div class="collapse" id="collapseSystems"> <!-- data-bs-parent="#sidenavAccordion" -->
+						<div class="collapse" id="collapseSystemMenu"> <!-- data-bs-parent="#sidenavAccordion" -->
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/categories" class="nav-link" aria-pressed="false">카테고리 관리</a>
 								<a href="${contextPath}/admin/menues" class="nav-link" aria-pressed="false">메뉴 관리</a>

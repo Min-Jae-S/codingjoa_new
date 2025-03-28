@@ -198,7 +198,6 @@ function createPaginationHtml(pagination) {
 	
 	const { startPage, endPage, prevPage, nextPage, page, pageCnt, prev, next, first, last } = pagination;
 	
-	
 	let firstPageBtn = "";
 	if (first) {
 		firstPageBtn = `
@@ -305,7 +304,7 @@ function createUsersFormHtml(options, adminUserCri) {
 }
 
 function createUsersTableHtml(pagedUsers) {
-	let rowsHtml = pagedUsers.map(adminUser => {
+	let rowsHtml = pagedUsers.map((adminUser, index) => {
 		let providerRow = ``;
 		
 		switch (adminUser.provider) {
@@ -355,7 +354,17 @@ function createUsersTableHtml(pagedUsers) {
 				<td class="d-md-table-cell">
 					${providerRow}
 				</td>
-			</tr>`}).join("");
+				<td>
+					<button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser${index}">정보</button>
+				</td>
+			</tr>
+			<tr class="collapse" id="collapseUser${index}">
+				<td colspan="8">
+					<p class="mb-0">USER INFO EDIT VIEW</p>
+				</td>
+			</tr>
+		`
+		}).join("");
 	
 	return `
 		<table class="table">
@@ -372,6 +381,7 @@ function createUsersTableHtml(pagedUsers) {
 					<th class="d-md-table-cell">가입일 (수정일)</th>
 					<th class="d-md-table-cell">권한</th>
 					<th class="d-md-table-cell">계정 연동</th>
+					<th class="d-md-table-cell">상세보기</th>
 				</tr>
 			</thead>
 			<tbody>
