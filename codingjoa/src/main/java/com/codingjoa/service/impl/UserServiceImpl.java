@@ -1,6 +1,5 @@
 package com.codingjoa.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -147,7 +146,6 @@ public class UserServiceImpl implements UserService {
 				.userId(userId)
 				.snsId(oAuth2Attributes.getId())
 				.provider(oAuth2Attributes.getProvider())
-				.connectedAt(LocalDateTime.now())
 				.build();
 		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
@@ -335,8 +333,6 @@ public class UserServiceImpl implements UserService {
 		if (!isSaved) {
 			throw new ExpectedException("error.user.savePassword");
 		}
-		
-		// connect oAuth2
 	}
 	
 	@Override
@@ -375,10 +371,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public SnsInfo getSnsInfoByUserIdAndProvider(Long userId, String provider) {
-		return snsMapper.findSnsInfoByUserIdAndProvider(userId, provider);
+	public SnsInfo getSnsInfoByUserId(Long userId) {
+		return snsMapper.findSnsInfoByUserId(userId);
 	}
-
-	
 
 }

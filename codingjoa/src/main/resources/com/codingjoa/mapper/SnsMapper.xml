@@ -7,8 +7,7 @@
 	user_id         NUMBER              NOT NULL,
     sns_id          VARCHAR2(200)       NOT NULL,
 	provider        VARCHAR2(20)        NOT NULL,
-    connected_at    DATE                NULL,
-	created_at      DATE                NOT NULL,
+    connected_at    DATE                NOT NULL
 -->
 	
 	<insert id="insertSnsInfo" parameterType="SnsInfo">
@@ -20,27 +19,23 @@
 			user_id,
 			sns_id,
 			provider,
-			connected_at,
-			created_at
+			connected_at
 		) VALUES (
 			#{id},
 			#{userId},
 			#{snsId},
 			#{provider},
-			#{connectedAt},
 			SYSDATE
 		)
 	</insert>
 	
-	<select id="findSnsInfoByUserIdAndProvider" parameterType="map" resultType="SnsInfo">
+	<select id="findSnsInfoByUserId" parameterType="long" resultType="SnsInfo">
 		SELECT
 			*
 		FROM
 			sns_info
 		WHERE
 			user_id = #{userId}
-		AND
-			provider = #{provider}
 	</select>
 	
 </mapper>

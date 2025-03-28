@@ -48,6 +48,6 @@ public interface UserService {
 	
 	PrincipalDetails getUserDetailsById(long userId); // for JWT re-issuance after updating
 	
-	SnsInfo getSnsInfoByUserIdAndProvider(Long userId, String provider);
+	SnsInfo getSnsInfoByUserId(Long userId);
 	
 }
