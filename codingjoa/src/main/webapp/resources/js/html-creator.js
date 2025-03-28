@@ -326,8 +326,7 @@ function createUsersTableHtml(pagedUsers) {
 				break;
 				
 			default:
-				providerRow = `<span class="provider">Codingjoa</span>`;
-				//providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa30.png">`;
+				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa.png">`;
 		}
 		
 		return `

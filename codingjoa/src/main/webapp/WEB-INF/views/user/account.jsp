@@ -254,7 +254,7 @@
 					<div class="form-wrap d-none">
 						<form id="addrForm">
 							<dd class="input-group">
-								<input type="text" id="zipcode" name="zipcode" placeholder="우편번호를 등록해주세요" readonly/>
+								<input type="text" id="zipcode" name="zipcode" placeholder="우편번호를 입력해주세요" readonly/>
 								<div>
 									<button type="button" class="btn btn-warning btn-sm" id="searchAddrBtn">주소 찾기</button>
 									<button type="submit" class="btn btn-outline-primary btn-sm">확인</button>
@@ -262,10 +262,10 @@
 								</div>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="addr" name="addr" placeholder="기본주소를 등록해주세요" readonly/>
+								<input type="text" id="addr" name="addr" placeholder="기본주소를 입력해주세요" readonly/>
 							</dd>
 							<dd class="input-group">
-								<input type="text" id="addrDetail" name="addrDetail" placeholder="상세주소를 등록해주세요"/>
+								<input type="text" id="addrDetail" name="addrDetail" placeholder="상세주소를 입력해주세요"/>
 							</dd>
 						</form>
 					</div>
@@ -312,7 +312,7 @@
 					<div class="show-wrap">
 						<dd class="input-group" id="showPassword">
 							<div>
-								<span class="inner-text text-danger">* 비밀번호를 설정해주세요</span>
+								<span class="inner-text text-danger">* 비밀번호를 등록해주세요</span>
 							</div>
 							<button class="btn btn-outline-primary btn-sm">등록</button>
 						</dd>

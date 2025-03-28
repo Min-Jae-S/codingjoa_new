@@ -17,9 +17,7 @@ import io.jsonwebtoken.Claims;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @SuppressWarnings("serial")
 @ToString
 @Getter
@@ -99,7 +97,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	// from DB(userDetailsMap)
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { 
-		log.info("## PrincipalDetails.from(map)");
 		List<String> roles = (List<String>) map.get("roles");
 		return PrincipalDetails.builder()
 				.id((long) map.get("id"))
