@@ -106,7 +106,7 @@ html, body {
 html * {
     font-family: Pretendard, -apple-system, BlinkMacSystemFont, Apple SD Gothic Neo, Malgun Gothic, 맑은 고딕, helvetica, sans-serif;
     font-variant-numeric: tabular-nums;
-    scrollbar-width: thin;
+   	scrollbar-width: thin;
 }
 
 .container {

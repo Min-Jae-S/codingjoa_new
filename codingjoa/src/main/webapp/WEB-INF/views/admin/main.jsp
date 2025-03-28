@@ -233,7 +233,8 @@
 	}
 	
 	.modify-form-wrap {
-		padding: 2.5rem;
+		padding: 3rem 6rem;
+		min-height: 720px;
 	}
 	
 	.modify-form-wrap form {
