@@ -50,7 +50,7 @@
 	}
 	
 	dt {
-		font-size: 14px;
+		font-size: 15px;
 		font-weight: bold;
 	}
 	

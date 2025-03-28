@@ -377,11 +377,11 @@ function createUsersTableHtml(pagedUsers) {
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">주소</label>
 								<div class="input-group mb-3 w-40">
-									<input class="form-control rounded-md" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요"/>
+									<input class="form-control rounded-md" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요" readonly/>
 									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" id="searchAddrBtn">주소 찾기</button>
 								</div>
 								<div class="input-group mb-3">
-									<input class="form-control rounded-md" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요"/>
+									<input class="form-control rounded-md" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요" readonly/>
 								</div>
 								<div class="input-group">			
 									<input class="form-control rounded-md" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요"/>

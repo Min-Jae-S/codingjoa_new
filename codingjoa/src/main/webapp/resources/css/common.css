@@ -141,7 +141,7 @@ html * {
 
 input::placeholder, 
 input::-webkit-input-placeholder {
-	font-size: .875rem !important;
+	font-size: 0.9rem !important;
 	color: #868e96; 
 }
 
@@ -162,12 +162,12 @@ textarea:focus::-webkit-input-placeholder {
 
 .error {
 	color: red;
-	font-size: 13px;
+	font-size: 13.5px;
 }
 
 .success {
 	color: green;
-	font-size: 13px;
+	font-size: 13.5px;
 }
 
 .navbar-custom {
