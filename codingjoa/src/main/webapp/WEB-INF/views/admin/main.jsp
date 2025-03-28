@@ -231,6 +231,15 @@
 	span.provider {
 		font-weight: bold;
 	}
+	
+	.modify-form-wrap {
+		padding: 2.5rem;
+	}
+	
+	.modify-form-wrap form {
+		width: 100%; 
+		text-align: left;
+	}
 
 }
 </style>

@@ -360,7 +360,34 @@ function createUsersTableHtml(pagedUsers) {
 			</tr>
 			<tr class="collapse" id="collapseUser${index}">
 				<td colspan="8">
-					<p class="mb-0">USER INFO EDIT VIEW</p>
+					<div class="modify-form-wrap">
+						<form>
+							<div class="form-group mb-4">
+								<label class="font-weight-bold">이메일</label>
+								<div class="input-group mb-3">
+									<input class="form-control rounded-md" name="email" value=${adminUser.email} placeholder="이메일을 입력해주세요"/>
+								</div>
+							</div>
+							<div class="form-group mb-4">
+								<label class="font-weight-bold">닉네임</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" name="nickname" value=${adminUser.nickname} placeholder="닉네임을 입력해주세요"/>
+								</div>
+							</div>
+							<div class="form-group mb-4">
+								<div class="form-check small mb-1">
+									<label class="form-check-label">
+										<checkbox class="form-check-input" name="agree"/>
+										<span>마케팅 활용 및 광고 수신 동의</span>
+									</label>
+								</div>
+							</div>
+							<div class="mr-auto">
+								<button type="submit" class="btn btn-primary rounded-md">수정</button>
+								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+							</div>
+						</form>
+					</div>
 				</td>
 			</tr>
 		`
