@@ -366,16 +366,16 @@ function createUsersTableHtml(pagedUsers) {
 				<td colspan="8">
 					<ul class="nav nav-tabs mt-4">
 						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Active</a>
+							<button class="nav-link active" aria-current="page">page1</button>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Link</a>
+							<button class="nav-link">page2</button>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Link</a>
+							<button class="nav-link">page3</button>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+							<button class="nav-link">page4</button>
 						</li>
 					</ul>
 					<div class="modify-form-wrap">
