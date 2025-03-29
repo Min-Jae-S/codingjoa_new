@@ -50,7 +50,7 @@
     	padding: 0.75rem;
     	height: 75px;
 	}
-	
+
 	.table tbody tr:has(button[aria-expanded="true"]) {
     	background-color: #e7f1ff;
 	}
