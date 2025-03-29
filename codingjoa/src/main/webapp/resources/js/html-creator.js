@@ -365,31 +365,35 @@ function createUsersTableHtml(pagedUsers) {
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">이메일</label>
 								<div class="input-group mb-3">
-									<input class="form-control rounded-md" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
+									<input class="form-control rounded-md" type="text" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">닉네임</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
+									<input class="form-control rounded-md" type="text" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group mb-4">
 								<label class="font-weight-bold">주소</label>
 								<div class="input-group mb-3 w-40">
-									<input class="form-control rounded-md" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
+									<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" id="searchAddrBtn">주소 찾기</button>
 								</div>
 								<div class="input-group mb-3">
-									<input class="form-control rounded-md" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
+									<input class="form-control rounded-md" type="text" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
 								</div>
 								<div class="input-group">			
-									<input class="form-control rounded-md" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
+									<input class="form-control rounded-md" type="text" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
 								</div>
 							</div>
-							<div class="form-check mb-4">		
-								<input class="form-check-input" type="checkbox" value="" checked>
-								<label class="form-check-label">마케팅 활용 및 광고 수신 동의</label>
+							<div class="form-group mb-4">
+								<div class="form-check small">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" name="agree"/>
+										<span>마케팅 활용 및 광고 수신 동의</span>
+									</label>
+								</div>
 							</div>
 							<div class="text-end">
 								<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
@@ -398,18 +402,8 @@ function createUsersTableHtml(pagedUsers) {
 						</form>
 					</div>
 				</td>
-			</tr>
-		`
+			</tr>`
 		}).join("");
-	
-//	<div class="form-group mb-4">
-//		<div class="form-check small mb-1">
-//			<label class="form-check-label">
-//				<checkbox class="form-check-input" name="agree"/>
-//				<span>마케팅 활용 및 광고 수신 동의</span>
-//			</label>
-//		</div>
-//	</div>
 	
 	return `
 		<table class="table">
