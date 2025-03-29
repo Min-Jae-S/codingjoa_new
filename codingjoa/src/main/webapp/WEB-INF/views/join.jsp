@@ -26,6 +26,10 @@
 		margin-top: .15rem !important;
 	}
 	
+	.join-wrap .form-group {
+		margin-bottom: 2.5rem;
+	}
+	
 	.form-control:disabled {
 		background-color: #f2f2f2;
 	}
@@ -48,7 +52,7 @@
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
 				<form:form action="${contextPath}/join" method="POST" modelAttribute="joinDto">
-					<div class="form-group mb-4">
+					<div class="form-group">
 						<form:label path="email" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
 							<form:input path="email" class="form-control rounded-md" placeholder="이메일을 입력해주세요"/>
@@ -62,28 +66,28 @@
 						<form:errors path="email" cssClass="error"/>
 						<form:errors path="authCode" cssClass="error"/>
 					</div>
-					<div class="form-group mb-4">
+					<div class="form-group">
 						<form:label path="nickname" class="font-weight-bold">닉네임</form:label>
 						<div class="input-group">
 							<form:input path="nickname" class="form-control rounded-md" placeholder="닉네임을 입력해주세요"/>
 						</div>
 						<form:errors path="nickname" cssClass="error"/>
 					</div>
-					<div class="form-group mb-4">
+					<div class="form-group">
 						<form:label path="password" class="font-weight-bold">비밀번호</form:label>
 						<div class="input-group">
 							<form:password path="password" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요" showPassword="true"/>
 						</div>
 						<form:errors path="password" cssClass="error"/>
 					</div>
-					<div class="form-group mb-4">
+					<div class="form-group">
 						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
 						<div class="input-group">
 							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요" showPassword="true"/>
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>
-					<div class="form-group mb-4">
+					<div class="form-group">
 						<div class="form-check small mb-1">
 							<label class="form-check-label">
 								<form:checkbox class="form-check-input" path="agree"/>

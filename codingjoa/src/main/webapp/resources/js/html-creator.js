@@ -304,7 +304,7 @@ function createUsersFormHtml(options, adminUserCri) {
 }
 
 function createUsersTableHtml(pagedUsers) {
-	let rowsHtml = pagedUsers.map((adminUser, index) => {
+	let rowsHtml = pagedUsers.map(adminUser => {
 		let providerRow = ``;
 		
 		switch (adminUser.provider) {
@@ -355,27 +355,45 @@ function createUsersTableHtml(pagedUsers) {
 					${providerRow}
 				</td>
 				<td>
-					<button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUser${index}">정보</button>
+					<button type="button" class="btn-unstyled collapsed" data-bs-toggle="collapse" data-bs-target="#collapseUser${adminUser.id}">
+						<div class="collapse-arrow">
+							<i class="fas fa-angle-up fa-fw"></i>
+						</div>
+					</button>
 				</td>
 			</tr>
-			<tr class="collapse" id="collapseUser${index}">
+			<tr class="collapse" id="collapseUser${adminUser.id}" data-bs-parent="#collapseUserParent">
 				<td colspan="8">
+					<ul class="nav nav-tabs mt-4">
+						<li class="nav-item">
+							<a class="nav-link active" aria-current="page" href="#">Active</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Link</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Link</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" aria-disabled="true">Disabled</a>
+						</li>
+					</ul>
 					<div class="modify-form-wrap">
 						<form>
-							<div class="form-group mb-4">
-								<label class="font-weight-bold">이메일</label>
-								<div class="input-group mb-3">
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
+								<div class="input-group">
 									<input class="form-control rounded-md" type="text" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
 								</div>
 							</div>
-							<div class="form-group mb-4">
-								<label class="font-weight-bold">닉네임</label>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
 								<div class="input-group">
 									<input class="form-control rounded-md" type="text" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
 								</div>
 							</div>
-							<div class="form-group mb-4">
-								<label class="font-weight-bold">주소</label>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>주소</label>
 								<div class="input-group mb-3 w-40">
 									<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" id="searchAddrBtn">주소 찾기</button>
@@ -387,11 +405,12 @@ function createUsersTableHtml(pagedUsers) {
 									<input class="form-control rounded-md" type="text" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
 								</div>
 							</div>
-							<div class="form-group mb-4">
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
 								<div class="form-check small">
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" name="agree"/>
-										<span>마케팅 활용 및 광고 수신 동의</span>
+										<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
+										<span>이메일</span>
 									</label>
 								</div>
 							</div>
@@ -423,7 +442,7 @@ function createUsersTableHtml(pagedUsers) {
 					<th class="d-md-table-cell"></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="collapseUserParent">
 				${rowsHtml}
 			</tbody>
 		</table>`;

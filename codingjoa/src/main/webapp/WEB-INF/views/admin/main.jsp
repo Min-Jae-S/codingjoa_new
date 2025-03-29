@@ -51,6 +51,10 @@
     	height: 75px;
 	}
 	
+	.table tbody tr:has(button[aria-expanded="true"]) {
+    	background-color: #e7f1ff;
+	}
+	
 	.table .created-at {
 		/* font-size: 90%; */
 	}
@@ -240,6 +244,10 @@
 		width: 100%; 
 		text-align: left;
 	}
+
+	.modify-form-wrap form .form-group {
+		margin-bottom: 2.5rem;
+	}
 	
 	input[name="zipcode"], input[name="addr"] {
 		cursor: pointer;
@@ -248,6 +256,17 @@
 	input[name="zipcode"][readonly], input[name="addr"][readonly] {
 		background-color: #fff;
 	}
+	
+	.collapsed .collapse-arrow {
+   		color: rgb(172, 176, 185);
+   		transform: rotate(180deg);
+	}
+	
+	.collapse-arrow {
+		color: #525661;
+		transition: transform 0.15s ease;
+	}
+	
 }
 </style>
 </head>
