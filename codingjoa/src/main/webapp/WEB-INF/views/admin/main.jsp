@@ -660,6 +660,11 @@
 			$(this).blur();
 		});
 		
+		$(document).on("click", ".form-menu button", function() {
+			$(".form-menu").find("button").removeClass("active");
+			$(this).addClass("active");
+		});
+		
 	});
 	
 	function execPostcode() {

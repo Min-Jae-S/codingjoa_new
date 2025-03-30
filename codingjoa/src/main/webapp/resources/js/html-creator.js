@@ -364,18 +364,15 @@ function createUsersTableHtml(pagedUsers) {
 			</tr>
 			<tr class="collapse" id="collapseUser${adminUser.id}" data-bs-parent="#collapseUserParent">
 				<td colspan="8">
-					<ul class="nav nav-tabs mt-4">
+					<ul class="nav nav-tabs form-menu mt-4">
 						<li class="nav-item">
-							<button class="nav-link active" aria-current="page">page1</button>
+							<button class="nav-link active" aria-current="page">회원 정보</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link">page2</button>
+							<button class="nav-link">권한</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link">page3</button>
-						</li>
-						<li class="nav-item">
-							<button class="nav-link">page4</button>
+							<button class="nav-link">비밀번호 재설정</button>
 						</li>
 					</ul>
 					<div class="modify-form-wrap">
