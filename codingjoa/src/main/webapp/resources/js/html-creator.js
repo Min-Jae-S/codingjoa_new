@@ -366,17 +366,17 @@ function createUsersTableHtml(pagedUsers) {
 				<td colspan="8">
 					<ul class="nav nav-tabs form-menu mt-4">
 						<li class="nav-item">
-							<button class="nav-link active" aria-current="page">회원 정보</button>
+							<button class="nav-link active" data-target="modifyUserForm">회원 정보</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link">권한</button>
+							<button class="nav-link" data-target="modifyAuthForm">권한</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link">비밀번호 재설정</button>
+							<button class="nav-link" data-target="modifyPasswordForm">비밀번호 변경</button>
 						</li>
 					</ul>
-					<div class="modify-form-wrap">
-						<form>
+					<div class="modify-forms-wrap">
+						<form class="active-form" name="modifyUserForm">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
 								<div class="input-group">
@@ -415,6 +415,12 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
+						</form>
+						<form name="modifyAuthForm">
+							<h1>권한 변경</h1>
+						</form>
+						<form name="modifyPasswordForm">
+							<h1>비밀번호 변경</h1>
 						</form>
 					</div>
 				</td>

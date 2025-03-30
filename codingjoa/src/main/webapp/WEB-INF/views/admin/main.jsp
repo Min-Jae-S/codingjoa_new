@@ -236,16 +236,21 @@
 		font-weight: bold;
 	}
 	
-	.modify-form-wrap {
+	.modify-forms-wrap {
 		padding: 3rem 6rem;
 	}
 	
-	.modify-form-wrap form {
+	.modify-forms-wrap form {
 		width: 100%; 
 		text-align: left;
+		display: none;
+	}
+	
+	.modify-forms-wrap form.active-form {
+		display: block !important;
 	}
 
-	.modify-form-wrap form .form-group {
+	.modify-forms-wrap form .form-group {
 		margin-bottom: 2.5rem;
 	}
 	
@@ -661,7 +666,13 @@
 		});
 		
 		$(document).on("click", ".form-menu button", function() {
-			$(".form-menu").find("button").removeClass("active");
+			let targetFormName = $(this).data("target");
+			
+			let $modifyFormsWrap = $(this).closest("td").find(".modify-forms-wrap");
+			$modifyFormsWrap.find("form").removeClass("active-form");
+			$modifyFormsWrap.find(`form[name=\${targetFormName}]`).addClass("active-form");
+			
+			$(this).closest(".form-menu").find("button").removeClass("active");
 			$(this).addClass("active");
 		});
 		
