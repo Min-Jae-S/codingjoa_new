@@ -276,6 +276,22 @@
 		transition: transform 0.15s ease;
 	}
 	
+	.form-menu button.nav-link {
+		color: #495057;
+	}
+
+	.form-menu button.nav-link:hover {
+		font-weight: bold;
+	}
+
+	.form-menu button.nav-link:hover:not(.active) {
+		border-color: transparent;
+	}
+	
+	.form-menu button.nav-link.active {
+		font-weight: bold;
+	}
+	
 }
 </style>
 </head>
@@ -661,7 +677,7 @@
 			$(this).closest(".category-badge").remove();
 		});
 		
-		$(document).on("click", "#searchAddrBtn, input[name='zipcode'], input[name='addr']", function() {
+		$(document).on("click", "button[name='searchAddrBtn'], input[name='zipcode'], input[name='addr']", function() {
 			execPostcode();
 		});
 		

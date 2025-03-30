@@ -33,7 +33,7 @@
 	}
 	
 	#configHeader a:hover {
-		color: black
+		color: black;
 	}
 	
 	#configBody {

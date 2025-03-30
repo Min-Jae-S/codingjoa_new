@@ -367,13 +367,13 @@ function createUsersTableHtml(pagedUsers) {
 				<td colspan="8">
 					<ul class="nav nav-tabs form-menu mt-4">
 						<li class="nav-item">
-							<button class="nav-link active" data-target="modifyUserForm">회원 정보</button>
+							<button class="nav-link active" data-target="modifyUserForm">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyAuthForm">권한</button>
+							<button class="nav-link" data-target="modifyAuthForm">권한 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyPasswordForm">비밀번호 변경</button>
+							<button class="nav-link" data-target="modifyPasswordForm">비밀번호 관리</button>
 						</li>
 					</ul>
 					<div class="modify-forms-wrap">
@@ -394,7 +394,7 @@ function createUsersTableHtml(pagedUsers) {
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>주소</label>
 								<div class="input-group mb-3 w-40">
 									<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
-									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" id="searchAddrBtn">주소 찾기</button>
+									<button type="button" class="btn btn-sm btn-outline-secondary rounded-md" name="searchAddrBtn">주소 찾기</button>
 								</div>
 								<div class="input-group mb-3">
 									<input class="form-control rounded-md" type="text" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
@@ -421,7 +421,22 @@ function createUsersTableHtml(pagedUsers) {
 							<h1>권한 변경</h1>
 						</form>
 						<form name="modifyPasswordForm">
-							<h1>비밀번호 변경</h1>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요."/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="text" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요."/>
+								</div>
+							</div>
+							<div class="text-end">
+								<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
+								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+							</div>		
 						</form>
 					</div>
 				</td>
