@@ -277,11 +277,11 @@
 	}
 	
 	.form-menu button.nav-link {
-		color: #495057;
+		color: #858994;
 	}
 
 	.form-menu button.nav-link:hover {
-		font-weight: bold;
+		color: black;
 	}
 
 	.form-menu button.nav-link:hover:not(.active) {
@@ -289,6 +289,7 @@
 	}
 	
 	.form-menu button.nav-link.active {
+		color: black;
 		font-weight: bold;
 	}
 	
@@ -685,8 +686,8 @@
 			$(this).blur();
 		});
 		
-		$(document).on("click", "#collapseUserParent .form-menu button[aria-expanded='false']", function() {
-			console.log("## form-menu button[aria-expanded='false'] clicked...");
+		$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
+			console.log("## button[data-bs-toggle='collapse'][aria-expanded='false'] clicked...");
 			let targetId = $(this).data("bs-target"); // #collapseUser64
 			console.log("\t > targetId:", targetId);
 			

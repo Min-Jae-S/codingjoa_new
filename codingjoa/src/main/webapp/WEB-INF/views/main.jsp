@@ -23,7 +23,7 @@
 	}
 
 	#configHeader a {
-	    color: #525661;;
+	    color: #858994;
 	    font-size: .95rem;
 	    padding: .4rem .8rem;
 	}
@@ -34,6 +34,11 @@
 	
 	#configHeader a:hover {
 		color: black;
+	}
+	
+	#configHeader a.active {
+		color: black;
+		font-weight: bold;
 	}
 	
 	#configBody {
