@@ -236,6 +236,10 @@
 		font-weight: bold;
 	}
 	
+	span.provider {
+		font-weight: bold;
+	}
+	
 	.modify-forms-wrap {
 		padding: 3rem 6rem;
 	}
@@ -665,7 +669,22 @@
 			$(this).blur();
 		});
 		
-		$(document).on("click", ".form-menu button", function() {
+		$(document).on("click", "#collapseUserParent .form-menu button[aria-expanded='false']", function() {
+			console.log("## form-menu button[aria-expanded='false'] clicked...");
+			let targetId = $(this).data("bs-target"); // #collapseUser64
+			console.log("\t > targetId:", targetId);
+			
+			$(targetId).find("form").each(function() {
+				this.reset();
+			});
+			
+			$formMenuBtns = $(targetId).find("button");
+			$formMenuBtns.removeClass("acitve");
+			$formMenuBtns.first().addClass("active");
+		});
+		
+		$(document).on("click", "#collapseUserParent .form-menu button", function() {
+			console.log("## form-menu button clicked...");
 			let targetFormName = $(this).data("target");
 			
 			let $modifyFormsWrap = $(this).closest("td").find(".modify-forms-wrap");
