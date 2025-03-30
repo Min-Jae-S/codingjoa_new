@@ -38,7 +38,7 @@
 	
 	#configHeader a.active {
 		color: black;
-		font-weight: bold;
+		font-weight: 600;
 	}
 	
 	#configBody {

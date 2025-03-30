@@ -290,7 +290,7 @@
 	
 	.form-menu button.nav-link.active {
 		color: black;
-		font-weight: bold;
+		font-weight: 600;
 	}
 	
 }
