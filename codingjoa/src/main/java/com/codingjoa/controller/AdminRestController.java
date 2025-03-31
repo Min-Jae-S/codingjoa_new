@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +78,30 @@ public class AdminRestController {
 		data.put("pagination", pagination);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
+	}
+	
+	@PutMapping("/users/{userId}")
+	public ResponseEntity<Object> updateUser(@PathVariable Long userId) {
+		log.info("## updateUser");
+		log.info("\t > userId = {}", userId);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@PutMapping("/users/{userId}/roles")
+	public ResponseEntity<Object> updateUserRoles(@PathVariable Long userId) {
+		log.info("## updateUserRoles");
+		log.info("\t > userId = {}", userId);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@PutMapping("/users/{userId}/password")
+	public ResponseEntity<Object> updateUserPassword(@PathVariable Long userId) {
+		log.info("## updateUserRoles");
+		log.info("\t > userId = {}", userId);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/boards")

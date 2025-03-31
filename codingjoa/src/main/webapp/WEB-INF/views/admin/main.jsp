@@ -513,10 +513,7 @@
 		pageRouter.addRouter("${contextPath}/admin/users/", function(params) {
 			$contentContainer.empty();
 			adminService.getPagedUsersBySearch(params, function(result) {
-				//let boardsTableHtml = createBoardsTableHtml(result.data.pagedBoards);
-				//let paginationHtml = createPaginationHtml(result.data.pagination);
-				//$(".table-wrap").html(boardsTableHtml);
-				//$(".board-pagination").html(paginationHtml);
+				// ...
 			});
 		});
 
@@ -739,24 +736,25 @@
 			e.preventDefault();
 			console.log("## modfiyUserForm submit");
 			
+			let userId = $(this).data("user-id");
+			console.log("\t > userId:", userId);
+			
 			let formData = $(this).serializeObject();
 			console.log(JSON.stringify(formData, null, 2));
 		});
 
-		// modifyAuthForm submit
-		$(document).on("submit", "form[name='modifyAuthForm']", function(e) {
+		// modifyRoleForm submit
+		$(document).on("submit", "form[name='modifyRolesForm']", function(e) {
 			e.preventDefault();
-			console.log("## modifyAuthForm submit");
+			console.log("## modifyRolesForm submit");
 			
-			let userId = $(this).find("input[name='userId']").val();
+			let userId = $(this).data("user-id");
+			console.log("\t > userId:", userId);
+			
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
 				.map(el => el.value);
-			
-			let formData = { 
-				"userId" :  userId,
-				"roles" : roles 
-			};
+			let formData = { "roles" : roles };
 			console.log(JSON.stringify(formData, null, 2));
 		});
 		
@@ -764,6 +762,9 @@
 		$(document).on("submit", "form[name='modifyPasswordForm']", function(e) {
 			e.preventDefault();
 			console.log("## modifyPasswordForm submit");
+			
+			let userId = $(this).data("user-id");
+			console.log("\t > userId:", userId);
 			
 			let formData = $(this).serializeObject();
 			console.log(JSON.stringify(formData, null, 2));
