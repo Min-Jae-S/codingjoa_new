@@ -430,7 +430,7 @@ function createUsersTableHtml(pagedUsers) {
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" type="text" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요."/>
+									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="text-end">

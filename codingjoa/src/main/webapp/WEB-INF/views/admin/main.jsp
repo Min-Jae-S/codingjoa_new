@@ -712,6 +712,33 @@
 			$(this).addClass("active");
 		});
 		
+		// modifyUserForm submit
+		$(document).on("submit", "form[name='modifyUserForm']", function(e) {
+			e.preventDefault();
+			console.log("## modfiyUserForm submit");
+			
+			let formData = $(this).serializeObject();
+			console.log(JSON.stringify(formData, null, 2));
+		});
+
+		// modifyAuthForm submit
+		$(document).on("submit", "form[name='modifyAuthForm']", function(e) {
+			e.preventDefault();
+			console.log("## modifyAuthForm submit");
+			
+			let formData = $(this).serializeObject();
+			console.log(JSON.stringify(formData, null, 2));
+		});
+		
+		// modifyPasswordForm submit
+		$(document).on("submit", "form[name='modifyPasswordForm']", function(e) {
+			e.preventDefault();
+			console.log("## modifyPasswordForm submit");
+			
+			let formData = $(this).serializeObject();
+			console.log(JSON.stringify(formData, null, 2));
+		});
+		
 	});
 	
 	function execPostcode() {
