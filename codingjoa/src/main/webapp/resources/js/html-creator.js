@@ -373,7 +373,7 @@ function createUsersTableHtml(pagedUsers) {
 							<button class="nav-link active" data-target="adminUserInfoForm">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="adminUserRolesForm">권한 관리</button>
+							<button class="nav-link" data-target="adminUserAuthForm">권한 관리</button>
 						</li>
 						<li class="nav-item">
 							<button class="nav-link" data-target="adminUserPasswordForm">비밀번호 관리</button>
@@ -420,7 +420,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="adminUserRolesForm" data-user-id="${adminUser.id}">
+						<form name="adminUserAuthForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
 								<div class="form-check ml-4">

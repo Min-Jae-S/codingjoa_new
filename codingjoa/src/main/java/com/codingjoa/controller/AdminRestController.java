@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminUserCri;
 import com.codingjoa.dto.AdminBoardDto;
+import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.AdminUserInfoDto;
+import com.codingjoa.dto.AdminUserPasswordDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -81,25 +84,28 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/info")
-	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId) {
+	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId, @RequestBody AdminUserInfoDto adminUserInfoDto) {
 		log.info("## updateAdminUserInfo");
 		log.info("\t > userId = {}", userId);
+		log.info("\t > adminUserInfoDto = {}", adminUserInfoDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@PutMapping("/users/{userId}/roles")
-	public ResponseEntity<Object> updateAdminUserRoles(@PathVariable Long userId) {
-		log.info("## updateUserRoles");
+	@PutMapping("/users/{userId}/auth")
+	public ResponseEntity<Object> updateAdminUserAuth(@PathVariable Long userId, @RequestBody AdminUserAuthDto adminUserAuthDto) {
+		log.info("## updateAdminUserAuth");
 		log.info("\t > userId = {}", userId);
+		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId) {
+	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @RequestBody AdminUserPasswordDto adminUserPasswordDto) {
 		log.info("## updateAdminUserPassword");
 		log.info("\t > userId = {}", userId);
+		log.info("\t > adminUserPasswordDto = {}", adminUserPasswordDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

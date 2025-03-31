@@ -738,8 +738,8 @@
 			});
 		});
 
-		// adminUserRolesForm submit
-		$(document).on("submit", "form[name='adminUserRolesForm']", function(e) {
+		// adminUserAuthForm submit
+		$(document).on("submit", "form[name='adminUserAuthForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
@@ -747,7 +747,7 @@
 				.map(el => el.value);
 			let formData = { "roles" : roles };
 			
-			adminService.updateAdminUserRoles(userId, formData, function(result) {
+			adminService.updateAdminUserAuth(userId, formData, function(result) {
 				alert(result.message);
 			});
 		});

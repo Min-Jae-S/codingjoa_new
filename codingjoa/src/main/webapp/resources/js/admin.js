@@ -73,11 +73,11 @@ let adminService = (function() {
 		});
 	}
 
-	function updateAdminUserRoles(userId, formData, callback) {
-		console.log("## updateAdminUserRoles");
+	function updateAdminUserAuth(userId, formData, callback) {
+		console.log("## updateAdminUserAuth");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/admin/users/${userId}/roles`,
+			url : `${contextPath}/api/admin/users/${userId}/auth`,
 			data : JSON.stringify(formData),
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
@@ -219,7 +219,7 @@ let adminService = (function() {
 		getPagedUsers:getPagedUsers,
 		getPagedUsersBySearch:getPagedUsersBySearch,
 		updateAdminUserInfo:updateAdminUserInfo,
-		updateAdminUserRoles:updateAdminUserRoles,
+		updateAdminUserAuth:updateAdminUserAuth,
 		updateAdminUserPassword:updateAdminUserPassword,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
