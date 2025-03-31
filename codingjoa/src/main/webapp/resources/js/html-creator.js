@@ -381,6 +381,7 @@ function createUsersTableHtml(pagedUsers) {
 					</ul>
 					<div class="modify-forms-wrap">
 						<form class="active-form" name="modifyUserForm">
+							<input type="hidden" name="userId" value="${adminUser.id}"/>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
 								<div class="input-group">
@@ -421,6 +422,7 @@ function createUsersTableHtml(pagedUsers) {
 							</div>
 						</form>
 						<form name="modifyAuthForm">
+							<input type="hidden" name="userId" value="${adminUser.id}"/>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
 								<div class="form-check ml-4">
@@ -431,7 +433,7 @@ function createUsersTableHtml(pagedUsers) {
 								</div>
 								<div class="form-check ml-4">
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" name="roles" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
+										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN", ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
 										<span>관리자</span>
 									</label>
 								</div>
@@ -442,6 +444,7 @@ function createUsersTableHtml(pagedUsers) {
 							</div>
 						</form>
 						<form name="modifyPasswordForm">
+							<input type="hidden" name="userId" value="${adminUser.id}"/>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
 								<div class="input-group">
