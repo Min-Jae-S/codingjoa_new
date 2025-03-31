@@ -373,10 +373,10 @@ function createUsersTableHtml(pagedUsers) {
 							<button class="nav-link active" data-target="modifyUserForm">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyAuthForm">권한 관리</button>
+							<button class="nav-link" data-target="modifyUserRolesForm">권한 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyPasswordForm">비밀번호 관리</button>
+							<button class="nav-link" data-target="modifyUserPasswordForm">비밀번호 관리</button>
 						</li>
 					</ul>
 					<div class="modify-forms-wrap">
@@ -420,7 +420,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="modifyRolesForm" data-user-id=${adminUser.id}>
+						<form name="modifyUserRolesForm" data-user-id=${adminUser.id}>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
 								<div class="form-check ml-4">
@@ -441,7 +441,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="modifyPasswordForm" data-user-id=${adminUser.id}>
+						<form name="modifyUserPasswordForm" data-user-id=${adminUser.id}>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
 								<div class="input-group">

@@ -49,6 +49,76 @@ let adminService = (function() {
 		});
 	}
 	
+	function updateUser(userId, formData, callback) {
+		console.log("## updateUser");
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/${userId}`,
+			data : JSON.stringify(formData),
+			traditional : true,
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+
+	function updateUserRoles(userId, formData, callback) {
+		console.log("## updateUserRoles");
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/{userId}/roles`,
+			data : JSON.stringify(formData),
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	function updateUserPassword(userId, formData, callback) {
+		console.log("## updateUserPassword");
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/{userId}/password`,
+			data : JSON.stringify(formData),
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
 	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
 		$.ajax({
@@ -148,6 +218,9 @@ let adminService = (function() {
 	return {
 		getPagedUsers:getPagedUsers,
 		getPagedUsersBySearch:getPagedUsersBySearch,
+		updateUser,
+		updateUserRoles,
+		updateUserPassword,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

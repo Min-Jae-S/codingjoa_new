@@ -737,37 +737,40 @@
 			console.log("## modfiyUserForm submit");
 			
 			let userId = $(this).data("user-id");
-			console.log("\t > userId:", userId);
-			
 			let formData = $(this).serializeObject();
-			console.log(JSON.stringify(formData, null, 2));
+			
+			adminService.updateUser(userId, formData, function(result) {
+				alert(result.data.message);
+			});
 		});
 
-		// modifyRoleForm submit
-		$(document).on("submit", "form[name='modifyRolesForm']", function(e) {
+		// modifyUserRolesForm submit
+		$(document).on("submit", "form[name='modifyUserRolesForm']", function(e) {
 			e.preventDefault();
-			console.log("## modifyRolesForm submit");
+			console.log("## modifyUserRolesForm submit");
 			
 			let userId = $(this).data("user-id");
-			console.log("\t > userId:", userId);
-			
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
 				.map(el => el.value);
 			let formData = { "roles" : roles };
-			console.log(JSON.stringify(formData, null, 2));
+			
+			adminService.updateUserRoles(userId, formData, function(result) {
+				alert(result.data.message);
+			});
 		});
 		
-		// modifyPasswordForm submit
-		$(document).on("submit", "form[name='modifyPasswordForm']", function(e) {
+		// modifyUserPasswordForm submit
+		$(document).on("submit", "form[name='modifyUserPasswordForm']", function(e) {
 			e.preventDefault();
-			console.log("## modifyPasswordForm submit");
+			console.log("## modifyUserPasswordForm submit");
 			
 			let userId = $(this).data("user-id");
-			console.log("\t > userId:", userId);
-			
 			let formData = $(this).serializeObject();
-			console.log(JSON.stringify(formData, null, 2));
+			
+			adminService.updateUserPassword(userId, formData, function(result) {
+				alert(result.data.message);
+			});
 		});
 		
 	});
