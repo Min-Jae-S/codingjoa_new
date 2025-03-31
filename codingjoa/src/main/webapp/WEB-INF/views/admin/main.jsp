@@ -697,14 +697,17 @@
 			$(this).blur();
 		});
 		
-		$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse']", function() {
-			console.log("## button[data-bs-toggle='collapse'] clicked...");
-			console.log("\t > aria-expanded:", $(this).attr("aria-expanded"));
-		});
-		
-		//$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
 		$(document).on("shown.bs.collapse", "#collapseUserParent .collapse", function() {
 			console.log("## collapse expanded");
+			$(this).find("form").each(function() {
+				this.reset();
+			});
+			
+			$formMenuBtns = $(this).find(".form-menu button");
+			$formMenuBtns.first().trigger("click");
+		});
+
+		/* $(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
 			let targetId = $(this).data("bs-target"); // #collapseUser64
 			console.log("\t > targetId:", targetId);
 			
@@ -713,17 +716,19 @@
 			});
 			
 			$formMenuBtns = $(targetId).find("button");
-			$formMenuBtns.removeClass("acitve");
+			$formMenuBtns.removeClass("active");
 			$formMenuBtns.first().addClass("active");
-		});
+		}); */
 		
 		$(document).on("click", "#collapseUserParent .form-menu button", function() {
-			console.log("## form-menu button clicked...");
-			let targetFormName = $(this).data("target");
+			console.log("## form-menu button clicked");
 			
-			let $modifyFormsWrap = $(this).closest("td").find(".modify-forms-wrap");
-			$modifyFormsWrap.find("form").removeClass("active-form");
-			$modifyFormsWrap.find(`form[name=\${targetFormName}]`).addClass("active-form");
+			let targetFormName = $(this).data("target");
+			console.log("\t > target form:", targetFormName);
+			
+			let $collapse = $(this).closest(".collapse");
+			$collapse.find("form").removeClass("active-form");
+			$collapse.find(`form[name=\${targetFormName}]`).addClass("active-form");
 			
 			$(this).closest(".form-menu").find("button").removeClass("active");
 			$(this).addClass("active");
