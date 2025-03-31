@@ -26,6 +26,8 @@
 	    color: #858994;
 	    font-size: .95rem;
 	    padding: .4rem .8rem;
+	    border-top-left-radius: 0.5rem;
+	    border-top-right-radius: 0.5rem;
 	}
 	
 	#configHeader a:hover:not(.active) {

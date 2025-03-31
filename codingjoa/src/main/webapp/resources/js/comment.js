@@ -3,6 +3,7 @@ let commentService = (function() {
 	
 	function writeComment(comment, callback) {
 		console.log("## writeComment");
+		console.log(JSON.stringify(comment, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/comments`,
@@ -11,7 +12,7 @@ let commentService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.dir(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.dir(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -33,7 +34,7 @@ let commentService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -49,6 +50,7 @@ let commentService = (function() {
 
 	function modifyComment(commentId, comment, callback) {
 		console.log("## modifyComment");
+		console.log(JSON.stringify(comment, null, 2));
 		$.ajax({
 			type : "PATCH",
 			url : `${contextPath}/api/comments/${commentId}`,
@@ -57,7 +59,7 @@ let commentService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -79,7 +81,7 @@ let commentService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

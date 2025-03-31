@@ -3,6 +3,7 @@ let adminService = (function() {
 	
 	function getPagedUsers(adminUserCri, callback) {
 		console.log("## getPagedUsers");
+		console.log(JSON.stringify(adminUserCri, null, 2));
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/users`,
@@ -11,7 +12,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -27,6 +28,7 @@ let adminService = (function() {
 
 	function getPagedUsersBySearch(adminUserCri, callback) {
 		console.log("## getPagedUsersBySearch");
+		console.log(JSON.stringify(adminUserCri, null, 2));
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/users/`,
@@ -35,7 +37,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -51,15 +53,16 @@ let adminService = (function() {
 	
 	function updateAdminUserInfo(userId, formData, callback) {
 		console.log("## updateAdminUserInfo");
+		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/admin/users/${userId}/info`,
 			data : JSON.stringify(formData),
-			traditional : true,
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -75,14 +78,16 @@ let adminService = (function() {
 
 	function updateAdminUserAuth(userId, formData, callback) {
 		console.log("## updateAdminUserAuth");
+		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/admin/users/${userId}/auth`,
 			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -98,14 +103,16 @@ let adminService = (function() {
 	
 	function updateAdminUserPassword(userId, formData, callback) {
 		console.log("## updateAdminUserPassword");
+		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/admin/users/${userId}/password`,
 			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -121,6 +128,7 @@ let adminService = (function() {
 	
 	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
+		console.log(JSON.stringify(adminBoardCri, null, 2));
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards`,
@@ -129,7 +137,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -145,6 +153,7 @@ let adminService = (function() {
 
 	function getPagedBoardsBySearch(adminBoardCri, callback) {
 		console.log("## getPagedBoardsBySearch");
+		console.log(JSON.stringify(adminBoardCri, null, 2));
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/boards/`,
@@ -153,7 +162,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -169,6 +178,7 @@ let adminService = (function() {
 	
 	function deleteUsers(userIds, callback) {
 		console.log("## deleteUsers");
+		console.log(JSON.stringify(userIds, null, 2));
 		$.ajax({
 			type : "DELETE",
 			url : `${contextPath}/api/admin/users`,
@@ -177,7 +187,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -193,6 +203,7 @@ let adminService = (function() {
 
 	function deleteBoards(boardIds, callback) {
 		console.log("## deleteBoards");
+		console.log(JSON.stringify(boardIds, null, 2));
 		$.ajax({
 			type : "DELETE",
 			url : `${contextPath}/api/admin/boards`,
@@ -201,7 +212,7 @@ let adminService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
