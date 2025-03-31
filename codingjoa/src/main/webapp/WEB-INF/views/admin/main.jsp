@@ -695,7 +695,6 @@
 		});
 		
 		$(document).on("shown.bs.collapse", "#collapseUserParent .collapse", function() {
-			console.log("## collapse expanded");
 			$(this).find("form").each(function() {
 				this.reset();
 			});
@@ -718,10 +717,7 @@
 		}); */
 		
 		$(document).on("click", "#collapseUserParent .form-menu button", function() {
-			console.log("## form-menu button clicked");
-			
 			let targetFormName = $(this).data("target");
-			console.log("\t > target form:", targetFormName);
 			
 			let $collapse = $(this).closest(".collapse");
 			$collapse.find("form").removeClass("active-form");
@@ -731,45 +727,39 @@
 			$(this).addClass("active");
 		});
 		
-		// modifyUserForm submit
-		$(document).on("submit", "form[name='modifyUserForm']", function(e) {
+		// adminUserInfoForm submit
+		$(document).on("submit", "form[name='adminUserInfoForm']", function(e) {
 			e.preventDefault();
-			console.log("## modfiyUserForm submit");
-			
 			let userId = $(this).data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateUser(userId, formData, function(result) {
-				alert(result.data.message);
+			adminService.updateAdminUserInfo(userId, formData, function(result) {
+				alert(result.message);
 			});
 		});
 
-		// modifyUserRolesForm submit
-		$(document).on("submit", "form[name='modifyUserRolesForm']", function(e) {
+		// adminUserRolesForm submit
+		$(document).on("submit", "form[name='adminUserRolesForm']", function(e) {
 			e.preventDefault();
-			console.log("## modifyUserRolesForm submit");
-			
 			let userId = $(this).data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
 				.map(el => el.value);
 			let formData = { "roles" : roles };
 			
-			adminService.updateUserRoles(userId, formData, function(result) {
-				alert(result.data.message);
+			adminService.updateAdminUserRoles(userId, formData, function(result) {
+				alert(result.message);
 			});
 		});
 		
-		// modifyUserPasswordForm submit
-		$(document).on("submit", "form[name='modifyUserPasswordForm']", function(e) {
+		// adminUserPasswordForm submit
+		$(document).on("submit", "form[name='adminUserPasswordForm']", function(e) {
 			e.preventDefault();
-			console.log("## modifyUserPasswordForm submit");
-			
 			let userId = $(this).data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateUserPassword(userId, formData, function(result) {
-				alert(result.data.message);
+			adminService.updateAdminUserPassword(userId, formData, function(result) {
+				alert(result.message);
 			});
 		});
 		

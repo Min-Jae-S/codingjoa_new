@@ -49,11 +49,11 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateUser(userId, formData, callback) {
-		console.log("## updateUser");
+	function updateAdminUserInfo(userId, formData, callback) {
+		console.log("## updateAdminUserInfo");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/admin/users/${userId}`,
+			url : `${contextPath}/api/admin/users/${userId}/info`,
 			data : JSON.stringify(formData),
 			traditional : true,
 			dataType : "json",
@@ -73,11 +73,11 @@ let adminService = (function() {
 		});
 	}
 
-	function updateUserRoles(userId, formData, callback) {
-		console.log("## updateUserRoles");
+	function updateAdminUserRoles(userId, formData, callback) {
+		console.log("## updateAdminUserRoles");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/admin/users/{userId}/roles`,
+			url : `${contextPath}/api/admin/users/${userId}/roles`,
 			data : JSON.stringify(formData),
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
@@ -96,11 +96,11 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateUserPassword(userId, formData, callback) {
-		console.log("## updateUserPassword");
+	function updateAdminUserPassword(userId, formData, callback) {
+		console.log("## updateAdminUserPassword");
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/admin/users/{userId}/password`,
+			url : `${contextPath}/api/admin/users/${userId}/password`,
 			data : JSON.stringify(formData),
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
@@ -218,9 +218,9 @@ let adminService = (function() {
 	return {
 		getPagedUsers:getPagedUsers,
 		getPagedUsersBySearch:getPagedUsersBySearch,
-		updateUser,
-		updateUserRoles,
-		updateUserPassword,
+		updateAdminUserInfo:updateAdminUserInfo,
+		updateAdminUserRoles:updateAdminUserRoles,
+		updateAdminUserPassword:updateAdminUserPassword,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

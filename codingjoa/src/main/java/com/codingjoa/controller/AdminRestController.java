@@ -80,16 +80,16 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
-	@PutMapping("/users/{userId}")
-	public ResponseEntity<Object> updateUser(@PathVariable Long userId) {
-		log.info("## updateUser");
+	@PutMapping("/users/{userId}/info")
+	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId) {
+		log.info("## updateAdminUserInfo");
 		log.info("\t > userId = {}", userId);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@PutMapping("/users/{userId}/roles")
-	public ResponseEntity<Object> updateUserRoles(@PathVariable Long userId) {
+	public ResponseEntity<Object> updateAdminUserRoles(@PathVariable Long userId) {
 		log.info("## updateUserRoles");
 		log.info("\t > userId = {}", userId);
 		
@@ -97,8 +97,8 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateUserPassword(@PathVariable Long userId) {
-		log.info("## updateUserRoles");
+	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId) {
+		log.info("## updateAdminUserPassword");
 		log.info("\t > userId = {}", userId);
 		
 		return ResponseEntity.ok(SuccessResponse.create());

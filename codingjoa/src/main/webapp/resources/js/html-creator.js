@@ -370,17 +370,17 @@ function createUsersTableHtml(pagedUsers) {
 				<td colspan="9">
 					<ul class="nav nav-tabs form-menu">
 						<li class="nav-item">
-							<button class="nav-link active" data-target="modifyUserForm">회원정보 관리</button>
+							<button class="nav-link active" data-target="adminUserInfoForm">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyUserRolesForm">권한 관리</button>
+							<button class="nav-link" data-target="adminUserRolesForm">권한 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="modifyUserPasswordForm">비밀번호 관리</button>
+							<button class="nav-link" data-target="adminUserPasswordForm">비밀번호 관리</button>
 						</li>
 					</ul>
 					<div class="modify-forms-wrap">
-						<form class="active-form" name="modifyUserForm" data-user-id=${adminUser.id}>
+						<form class="active-form" name="adminUserInfoForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
 								<div class="input-group">
@@ -420,7 +420,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="modifyUserRolesForm" data-user-id=${adminUser.id}>
+						<form name="adminUserRolesForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
 								<div class="form-check ml-4">
@@ -441,7 +441,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="modifyUserPasswordForm" data-user-id=${adminUser.id}>
+						<form name="adminUserPasswordForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
 								<div class="input-group">
