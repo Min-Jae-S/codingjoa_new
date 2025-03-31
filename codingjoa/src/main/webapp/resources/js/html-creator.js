@@ -367,7 +367,7 @@ function createUsersTableHtml(pagedUsers) {
 				</td>
 			</tr>
 			<tr class="collapse" id="collapseUser${adminUser.id}" data-bs-parent="#collapseUserParent">
-				<td colspan="8">
+				<td colspan="9">
 					<ul class="nav nav-tabs form-menu">
 						<li class="nav-item">
 							<button class="nav-link active" data-target="modifyUserForm">회원정보 관리</button>

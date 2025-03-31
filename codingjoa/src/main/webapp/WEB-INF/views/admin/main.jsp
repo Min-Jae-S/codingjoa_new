@@ -697,8 +697,14 @@
 			$(this).blur();
 		});
 		
-		$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
-			console.log("## button[data-bs-toggle='collapse'][aria-expanded='false'] clicked...");
+		$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse']", function() {
+			console.log("## button[data-bs-toggle='collapse'] clicked...");
+			console.log("\t > aria-expanded:", $(this).attr("aria-expanded"));
+		});
+		
+		//$(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
+		$(document).on("shown.bs.collapse", "#collapseUserParent .collapse", function() {
+			console.log("## collapse expanded");
 			let targetId = $(this).data("bs-target"); // #collapseUser64
 			console.log("\t > targetId:", targetId);
 			
