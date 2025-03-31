@@ -40,6 +40,7 @@
     	border-top: 1px solid black;
     	border-bottom: 1px solid #dee2e6;
     	padding: 0.75rem;
+    	white-space: nowrap;
     }
     
     .table tbody td {
@@ -49,6 +50,7 @@
     	border-bottom: 1px solid #dee2e6;
     	padding: 0.75rem;
     	height: 75px;
+    	white-space: nowrap;
 	}
 
 	.table tbody tr:has(button[aria-expanded="true"]) {
@@ -56,12 +58,16 @@
 	}
 	
 	.table .created-at {
-		/* font-size: 90%; */
+		font-size: 90%;
 	}
 	
 	.table .updated-at {
-		/* font-size: 90%; */
+		font-size: 90%;
 		color: #969691;
+	}
+	
+	.table .connected-at {
+		font-size: 90%;
 	}
 	
 	.table .email {

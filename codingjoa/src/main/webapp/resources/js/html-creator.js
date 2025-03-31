@@ -305,8 +305,7 @@ function createUsersFormHtml(options, adminUserCri) {
 
 function createUsersTableHtml(pagedUsers) {
 	let rowsHtml = pagedUsers.map(adminUser => {
-		let providerRow = ``;
-		
+		let providerRow = "";
 		switch (adminUser.provider) {
 			case "kakao":
 				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/kakao.png">`;
@@ -349,11 +348,21 @@ function createUsersTableHtml(pagedUsers) {
 					<span class="created-at">${adminUser.createdAt}</span></br>
 					${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
 				</td>
-				<td class="d-md-table-cell">
-					<span>${adminUser.roles}</span>
+				<td class="d-md-table-cell text-start">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="roles" value="ROLE_USER" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} readonly>
+						<label class="form-check-label">일반 사용자</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""} readonly>
+						<label class="form-check-label">관리자</label>
+					</div>
 				</td>
 				<td class="d-md-table-cell">
 					${providerRow}
+				</td>
+				<td class="d-md-table-cell">
+					<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
 				</td>
 				<td>
 					<button type="button" class="btn-unstyled collapsed" data-bs-toggle="collapse" data-bs-target="#collapseUser${adminUser.id}">
@@ -424,13 +433,13 @@ function createUsersTableHtml(pagedUsers) {
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요."/>
+									<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요."/>
+									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
 								</div>
 							</div>
 							<div class="text-end">
@@ -458,7 +467,8 @@ function createUsersTableHtml(pagedUsers) {
 					<th class="d-md-table-cell">가입일 (수정일)</th>
 					<th class="d-md-table-cell">권한</th>
 					<th class="d-md-table-cell">계정 연동</th>
-					<th class="d-md-table-cell"></th>
+					<th class="d-md-table-cell">연동일</th>
+					<th class="d-md-table-cell">상세정보</th>
 				</tr>
 			</thead>
 			<tbody id="collapseUserParent">
