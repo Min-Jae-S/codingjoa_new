@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <link href="${contextPath}/resources/sb/css/styles.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
@@ -263,7 +264,7 @@
 	.modify-forms-wrap form .form-group {
 		margin-bottom: 2.5rem;
 	}
-	
+
 	input[name="zipcode"], input[name="addr"] {
 		cursor: pointer;
 	}
@@ -280,6 +281,10 @@
 	.collapse-arrow {
 		color: #525661;
 		transition: transform 0.15s ease;
+	}
+	
+	.form-menu {
+		margin-top: 1.5rem;
 	}
 	
 	.form-menu button.nav-link {

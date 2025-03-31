@@ -29,17 +29,17 @@ function createPasswordChangeForm() {
 	html += '<div class="form-wrap d-none">';
 	html += '<form id="passwordChangeForm">';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요."/>';
+	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요." autocomplete="off"/>';
 	html += '<div>';
 	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
 	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
 	html += '</div>';
 	html += '</dd>';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>';
+	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요." autocomplete="off"/>';
 	html += '</dd>';
 	html += '<dd class="input-group">';
-	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>';
+	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요." autocomplete="off"/>';
 	html += '</dd>';
 	html += '</form>';
 	html += '</div>';
@@ -349,14 +349,8 @@ function createUsersTableHtml(pagedUsers) {
 					${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
 				</td>
 				<td class="d-md-table-cell text-start">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" name="roles" value="ROLE_USER" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} readonly>
-						<label class="form-check-label">일반 사용자</label>
-					</div>
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""} readonly>
-						<label class="form-check-label">관리자</label>
-					</div>
+					<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
+					<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
 				</td>
 				<td class="d-md-table-cell">
 					${providerRow}
@@ -374,7 +368,7 @@ function createUsersTableHtml(pagedUsers) {
 			</tr>
 			<tr class="collapse" id="collapseUser${adminUser.id}" data-bs-parent="#collapseUserParent">
 				<td colspan="8">
-					<ul class="nav nav-tabs form-menu mt-4">
+					<ul class="nav nav-tabs form-menu">
 						<li class="nav-item">
 							<button class="nav-link active" data-target="modifyUserForm">회원정보 관리</button>
 						</li>
@@ -414,7 +408,7 @@ function createUsersTableHtml(pagedUsers) {
 							</div>
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
-								<div class="form-check small">
+								<div class="form-check ml-4">
 									<label class="form-check-label">
 										<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
 										<span>이메일</span>
@@ -427,7 +421,25 @@ function createUsersTableHtml(pagedUsers) {
 							</div>
 						</form>
 						<form name="modifyAuthForm">
-							<h1>권한 변경</h1>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
+								<div class="form-check ml-4">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
+										<span>일반 사용자</span>
+									</label>
+								</div>
+								<div class="form-check ml-4">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" name="roles" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
+										<span>관리자</span>
+									</label>
+								</div>
+							</div>
+							<div class="text-end">
+								<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
+								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+							</div>
 						</form>
 						<form name="modifyPasswordForm">
 							<div class="form-group">

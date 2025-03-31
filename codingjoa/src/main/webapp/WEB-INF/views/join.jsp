@@ -76,14 +76,14 @@
 					<div class="form-group">
 						<form:label path="password" class="font-weight-bold">비밀번호</form:label>
 						<div class="input-group">
-							<form:password path="password" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요" showPassword="true"/>
+							<form:password path="password" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요" showPassword="true" autocomplete="off"/>
 						</div>
 						<form:errors path="password" cssClass="error"/>
 					</div>
 					<div class="form-group">
 						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
 						<div class="input-group">
-							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요" showPassword="true"/>
+							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요" showPassword="true" autocomplete="off"/>
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>

@@ -320,14 +320,14 @@
 					<div class="form-wrap d-none">
 						<form id="passwordSaveForm">
 							<dd class="input-group">
-								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요."/>
+								<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요." autocomplete="off"/>
 								<div>
 									<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
 									<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
 								</div>
 							</dd>
 							<dd class="input-group">
-								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요."/>
+								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요." autocomplete="off"/>
 							</dd>
 						</form>
 					</div>
