@@ -126,6 +126,28 @@ let adminService = (function() {
 		});
 	}
 	
+	function getAdminUser(userId, callback) {
+		console.log("## getAdminUser");
+		$.ajax({
+			type : "GET",
+			url : `${contextPath}/api/admin/users/${userId}`,
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
 	function getPagedBoards(adminBoardCri, callback) {
 		console.log("## getPagedBoards");
 		console.log(JSON.stringify(adminBoardCri, null, 2));
@@ -232,6 +254,7 @@ let adminService = (function() {
 		updateAdminUserInfo:updateAdminUserInfo,
 		updateAdminUserAuth:updateAdminUserAuth,
 		updateAdminUserPassword:updateAdminUserPassword,
+		getAdminUser:getAdminUser,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

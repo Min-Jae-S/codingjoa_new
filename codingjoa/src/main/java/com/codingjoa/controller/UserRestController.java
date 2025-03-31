@@ -124,7 +124,7 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/account/nickname")
-	public ResponseEntity<Object> updateNickname(@RequestBody @Valid NicknameDto nicknameDto,
+	public ResponseEntity<Object> updateNickname(@Valid @RequestBody NicknameDto nicknameDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateNickname");
 		log.info("\t > nicknameDto = {}", nicknameDto);
@@ -132,7 +132,7 @@ public class UserRestController {
 		userService.updateNickname(nicknameDto, principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
+		refreshJwt(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.updateNickname")
@@ -140,7 +140,7 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/account/email")
-	public ResponseEntity<Object> updateEmail(@RequestBody @Valid EmailAuthDto emailAuthDto,
+	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateEmail");
 		log.info("\t > emailAuthDto = {}", emailAuthDto);
@@ -149,7 +149,7 @@ public class UserRestController {
 		redisService.deleteKey(emailAuthDto.getEmail());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
+		refreshJwt(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.updateEmail")
@@ -157,7 +157,7 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/account/address")
-	public ResponseEntity<Object> updateAddress(@RequestBody @Valid AddrDto addrDto, 
+	public ResponseEntity<Object> updateAddress(@Valid @RequestBody AddrDto addrDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddress");
 		log.info("\t > addrDto = {}", addrDto);
@@ -183,14 +183,14 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/account/image")
-	public ResponseEntity<Object> saveImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto,
+	public ResponseEntity<Object> saveImageWithUpload(@Valid @ModelAttribute ImageFileDto imageFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## saveImageWithUpload");
 		
 		imageService.saveUserImageWithUpload(imageFileDto.getFile(), principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
+		refreshJwt(newPrincipal, request, response);
 		
 		return ResponseEntity.ok().body(SuccessResponse.builder()
 				.messageByCode("success.user.saveImageWithUpload")
@@ -198,7 +198,7 @@ public class UserRestController {
 	}
 	
 	@PutMapping("/account/password")
-	public ResponseEntity<Object> updatePassword(@RequestBody @Valid PasswordChangeDto passwordChangeDto, 
+	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updatePassword");
 		log.info("\t > passwordChangeDto = {}", passwordChangeDto);
@@ -206,7 +206,7 @@ public class UserRestController {
 		userService.updatePassword(passwordChangeDto, principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
+		refreshJwt(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.updatePassword")
@@ -214,7 +214,7 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/account/password")
-	public ResponseEntity<Object> savePassword(@RequestBody @Valid PasswordSaveDto passwordDto, 
+	public ResponseEntity<Object> savePassword(@Valid @RequestBody PasswordSaveDto passwordDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## savePassword");
 		log.info("\t > passwordDto = {}", passwordDto);
@@ -222,14 +222,14 @@ public class UserRestController {
 		userService.savePassword(passwordDto, principal.getId());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
-		addJwtCookie(newPrincipal, request, response);
+		refreshJwt(newPrincipal, request, response);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.savePassword")
 				.build());
 	}
 	
-	private void addJwtCookie(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
+	private void refreshJwt(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 		String jwt = jwtProvider.createJwt(authentication, request);
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);

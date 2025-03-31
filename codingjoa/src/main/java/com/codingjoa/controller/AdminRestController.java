@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -104,7 +106,7 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/info")
-	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId, @RequestBody AdminUserInfoDto adminUserInfoDto) {
+	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId, @Valid @RequestBody AdminUserInfoDto adminUserInfoDto) {
 		log.info("## updateAdminUserInfo");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserInfoDto = {}", adminUserInfoDto);
@@ -113,7 +115,7 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/users/{userId}/auth")
-	public ResponseEntity<Object> updateAdminUserAuth(@PathVariable Long userId, @RequestBody AdminUserAuthDto adminUserAuthDto) {
+	public ResponseEntity<Object> updateAdminUserAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
 		log.info("## updateAdminUserAuth");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
@@ -122,10 +124,18 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
+	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updateAdminUserPassword");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/users/{userId}")
+	public ResponseEntity<Object> getAdminUser(@PathVariable Long userId) {
+		log.info("## getAdminUser");
+		log.info("\t > userId = {}", userId);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

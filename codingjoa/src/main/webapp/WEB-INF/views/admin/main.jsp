@@ -728,6 +728,9 @@
 			
 			adminService.updateAdminUserInfo(userId, formData, function(result) {
 				alert(result.message);
+				adminService.getAdminUser(userId, function(result) {
+					// ...
+				});
 			});
 		});
 
@@ -742,6 +745,9 @@
 			
 			adminService.updateAdminUserAuth(userId, formData, function(result) {
 				alert(result.message);
+				adminService.getAdminUser(userId, function(result) {
+					// ...
+				});
 			});
 		});
 		
