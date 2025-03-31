@@ -3,6 +3,7 @@ let authenticationService = (function() {
 
 	function login(formData, continueUrl, callback) {
 		console.log("## login");
+		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/login?continue=${continueUrl}`,
@@ -11,7 +12,7 @@ let authenticationService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

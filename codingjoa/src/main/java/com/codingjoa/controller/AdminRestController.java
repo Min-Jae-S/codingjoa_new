@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,7 @@ import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.AdminUserInfoDto;
-import com.codingjoa.dto.AdminUserPasswordDto;
+import com.codingjoa.dto.AdminUserPasswordChangeDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -27,6 +29,9 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.validator.AdminUserAuthValidator;
+import com.codingjoa.validator.AdminUserInfoValidator;
+import com.codingjoa.validator.AdminUserPasswordChangeValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +45,21 @@ public class AdminRestController {
 	private final AdminService adminService;
 	private final AdminUserCriResolver adminUserCriResolver;
 	private final AdminBoardCriResolver adminBoardCriResolver;
+	
+	@InitBinder("adminUserInfoDto")
+	public void InitBinderAdminUserInfo(WebDataBinder binder) {
+		binder.addValidators(new AdminUserInfoValidator());
+	}
+
+	@InitBinder("adminUserAuthDto")
+	public void InitBinderAdminUserAuth(WebDataBinder binder) {
+		binder.addValidators(new AdminUserAuthValidator());
+	}
+	
+	@InitBinder("adminUserPasswordChangeDto")
+	public void InitBinderAdminUserPasswordChange(WebDataBinder binder) {
+		binder.addValidators(new AdminUserPasswordChangeValidator());
+	}
 	
 	@GetMapping("/users")
 	public ResponseEntity<Object> getPagedUsers(@AdminUserCri AdminUserCriteria adminUserCri) {
@@ -102,10 +122,10 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @RequestBody AdminUserPasswordDto adminUserPasswordDto) {
+	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updateAdminUserPassword");
 		log.info("\t > userId = {}", userId);
-		log.info("\t > adminUserPasswordDto = {}", adminUserPasswordDto);
+		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class AdminUserPasswordDto {
+public class AdminUserPasswordChangeDto {
 	
 	private String newPassword;
 	private String confirmPassword;

@@ -696,40 +696,31 @@
 			$(this).blur();
 		});
 		
-		$(document).on("shown.bs.collapse", "#collapseUserParent .collapse", function() {
-			$(this).find("form").each(function() {
-				this.reset();
-			});
-			
-			$formMenuBtns = $(this).find(".form-menu button");
-			$formMenuBtns.first().trigger("click");
+		// close collapse 
+		$(document).on("hidden.bs.collapse", "#collapseUserParent .collapse", function() {
+			console.log("## collapse closed");
+			$(this).find(".form-menu button").first().trigger("click");
 		});
-
-		/* $(document).on("click", "#collapseUserParent button[data-bs-toggle='collapse'][aria-expanded='false']", function() {
-			let targetId = $(this).data("bs-target"); // #collapseUser64
-			console.log("\t > targetId:", targetId);
-			
-			$(targetId).find("form").each(function() {
-				this.reset();
-			});
-			
-			$formMenuBtns = $(targetId).find("button");
-			$formMenuBtns.removeClass("active");
-			$formMenuBtns.first().addClass("active");
-		}); */
 		
+		// click form-menu button 
 		$(document).on("click", "#collapseUserParent .form-menu button", function() {
-			let targetFormName = $(this).data("target");
+			console.log("## form-menu button click");
 			
 			let $collapse = $(this).closest(".collapse");
 			$collapse.find("form").removeClass("active-form");
-			$collapse.find(`form[name=\${targetFormName}]`).addClass("active-form");
+			
+			let targetFormName = $(this).data("target");
+			console.info("> target form:", targetFormName);
+			
+			let $targetForm = $collapse.find(`form[name='\${targetFormName}']`);
+			$targetForm[0].reset();
+			$targetForm.addClass("active-form");
 			
 			$(this).closest(".form-menu").find("button").removeClass("active");
 			$(this).addClass("active");
 		});
 		
-		// adminUserInfoForm submit
+		// submit adminUserInfoForm 
 		$(document).on("submit", "form[name='adminUserInfoForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
@@ -740,7 +731,7 @@
 			});
 		});
 
-		// adminUserAuthForm submit
+		// submit adminUserAuthForm
 		$(document).on("submit", "form[name='adminUserAuthForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
@@ -754,7 +745,7 @@
 			});
 		});
 		
-		// adminUserPasswordForm submit
+		// submit adminUserPasswordForm
 		$(document).on("submit", "form[name='adminUserPasswordForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");

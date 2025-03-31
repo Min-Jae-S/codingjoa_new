@@ -69,7 +69,7 @@ public class UserRestController {
 	}
 
 	@InitBinder("nicknameDto")
-	public void InitBinderNicknmae(WebDataBinder binder) {
+	public void InitBinderNickname(WebDataBinder binder) {
 		binder.addValidators(new NicknameValidator());
 	}
 	
@@ -79,7 +79,7 @@ public class UserRestController {
 	}
 	
 	@InitBinder("imageFileDto")
-	public void initBinderUpload(WebDataBinder binder) {
+	public void initBinderImage(WebDataBinder binder) {
 		binder.addValidators(new ImageFileValidator());
 	}
 
