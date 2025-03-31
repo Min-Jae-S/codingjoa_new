@@ -3,6 +3,7 @@ let mainService = (function() {
 	
 	function sendAuthCodeForJoin(obj, callback) {
 		console.log("## sendAuthCodeForJoin");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/join/auth-code/send`,
@@ -11,7 +12,7 @@ let mainService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -37,6 +38,7 @@ let mainService = (function() {
 
 	function sendPasswordResetLink(obj, callback) {
 		console.log("## sendPasswordResetLink");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/password/reset-link/send`,
@@ -45,16 +47,17 @@ let mainService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
-				$(".error").remove();
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
+				$(".error").remove();
 				console.log(JSON.stringify(result, null, 2));
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
+				$(".error").remove();
 				handleValidationError(parseError(jqXHR));
 			}
 		});
@@ -62,6 +65,7 @@ let mainService = (function() {
 	
 	function resetPassword(obj, callback) {
 		console.log("## resetPassword");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/password/reset`,
@@ -70,7 +74,7 @@ let mainService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

@@ -9,7 +9,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -25,6 +25,7 @@ let userService = (function() {
 	
 	function sendAuthCodeForEmailUpdate(obj, callback) {
 		console.log("## sendAuthCodeForEmailUpdate");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/user/account/email/auth-code/send`,
@@ -33,7 +34,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -51,6 +52,7 @@ let userService = (function() {
 	
 	function updateNickname(obj, callback) {
 		console.log("## updateNickname");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/user/account/nickname`,
@@ -59,7 +61,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -77,6 +79,7 @@ let userService = (function() {
 	
 	function updateEmail(obj, callback) {
 		console.log("## updateEmail");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/user/account/email`,
@@ -85,7 +88,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -103,6 +106,7 @@ let userService = (function() {
 
 	function updateAddr(obj, callback) {
 		console.log("## updateAddr");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/user/account/address`,
@@ -111,7 +115,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -129,6 +133,7 @@ let userService = (function() {
 
 	function updateAgree(obj, callback) {
 		console.log("## updateAgree");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/user/account/agree`,
@@ -137,7 +142,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -164,7 +169,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -180,6 +185,7 @@ let userService = (function() {
 	
 	function updatePassword(obj, callback) {
 		console.log("## updatePassword");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
 			url : `${contextPath}/api/user/account/password`,
@@ -188,7 +194,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -206,6 +212,7 @@ let userService = (function() {
 	
 	function savePassword(obj, callback) {
 		console.log("## savePassword");
+		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
 			url : `${contextPath}/api/user/account/password`,
@@ -214,7 +221,7 @@ let userService = (function() {
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType", "data"], 2));
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
 			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
