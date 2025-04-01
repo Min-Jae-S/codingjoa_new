@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.AdminUserInfoDto;
 import com.codingjoa.dto.AdminUserPasswordChangeDto;
+import com.codingjoa.dto.AdminUserRegistrationDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -136,6 +138,13 @@ public class AdminRestController {
 	public ResponseEntity<Object> getAdminUser(@PathVariable Long userId) {
 		log.info("## getAdminUser");
 		log.info("\t > userId = {}", userId);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@PostMapping("/users/register")
+	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
+		log.info("## registerUser");
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

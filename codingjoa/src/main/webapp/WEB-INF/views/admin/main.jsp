@@ -388,6 +388,9 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a href="${contextPath}/admin/users" class="nav-link" aria-pressed="false">회원 통합 관리</a>
 							</nav>
+							<nav class="sb-sidenav-menu-nested nav">
+								<a href="${contextPath}/admin/users/register" class="nav-link" aria-pressed="false">회원 등록</a>
+							</nav>
 						</div>
 						<div class="sb-sidenav-menu-heading">Contents</div>
 						<button type="button" class="nav-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseContentMenu" aria-expanded="false">
@@ -517,6 +520,12 @@
 			adminService.getPagedUsersBySearch(params, function(result) {
 				// ...
 			});
+		});
+
+		pageRouter.addRouter("${contextPath}/admin/users/register", function() {
+			$contentContainer.empty();
+			let userRegistrationPage = createUserRegistrationPageHtml();
+			$contentContainer.html(userRegistrationPage);
 		});
 
 		// 1. exclude empty values, null, and undefined
@@ -710,7 +719,7 @@
 			$collapse.find("form").removeClass("active-form");
 			
 			let targetFormName = $(this).data("target");
-			console.info("> target form:", targetFormName);
+			console.info("\t > target form:", targetFormName);
 			
 			let $targetForm = $collapse.find(`form[name='\${targetFormName}']`);
 			$targetForm[0].reset();

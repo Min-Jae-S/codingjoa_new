@@ -230,6 +230,7 @@ public class UserRestController {
 	}
 	
 	private void refreshJwt(PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
+		log.info("## refreshJwt");
 		Authentication authentication = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 		String jwt = jwtProvider.createJwt(authentication, request);
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
