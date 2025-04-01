@@ -224,6 +224,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.deleteBoards", deletedRows)
 				.build());
+		
 	}
 
 }
