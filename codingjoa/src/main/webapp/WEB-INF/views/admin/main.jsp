@@ -264,6 +264,10 @@
 	.modify-forms-wrap form .form-group {
 		margin-bottom: 2.5rem;
 	}
+	
+	.registration-form-wrap form .form-group {
+		margin-bottom: 2.5rem;
+	}
 
 	input[name="zipcode"], input[name="addr"] {
 		cursor: pointer;
@@ -729,13 +733,13 @@
 			$(this).addClass("active");
 		});
 		
-		// submit adminUserInfoForm 
-		$(document).on("submit", "form[name='adminUserInfoForm']", function(e) {
+		// submit userInfoForm 
+		$(document).on("submit", "form[name='userInfoForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateAdminUserInfo(userId, formData, function(result) {
+			adminService.updateUserInfo(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
 					// ...
@@ -743,8 +747,8 @@
 			});
 		});
 
-		// submit adminUserAuthForm
-		$(document).on("submit", "form[name='adminUserAuthForm']", function(e) {
+		// submit userAuthForm
+		$(document).on("submit", "form[name='userAuthForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
@@ -752,7 +756,7 @@
 				.map(el => el.value);
 			let formData = { "roles" : roles };
 			
-			adminService.updateAdminUserAuth(userId, formData, function(result) {
+			adminService.updateUserAuth(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
 					// ...
@@ -760,13 +764,23 @@
 			});
 		});
 		
-		// submit adminUserPasswordForm
-		$(document).on("submit", "form[name='adminUserPasswordForm']", function(e) {
+		// submit userPasswordForm
+		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateAdminUserPassword(userId, formData, function(result) {
+			adminService.updateUserPassword(userId, formData, function(result) {
+				alert(result.message);
+			});
+		});
+		
+		// submit userRegistrationForm
+		$(document).on("submit", "#userRegistrationForm", function(e) {
+			e.preventDefault();
+			let formData = $(this).serializeObject();
+			
+			adminService.registerUser(formData, function(result) {
 				alert(result.message);
 			});
 		});

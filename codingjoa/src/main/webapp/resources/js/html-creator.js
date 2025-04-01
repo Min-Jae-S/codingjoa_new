@@ -292,6 +292,7 @@ function createPaginationHtml(pagination) {
 // =============================================
 
 function createErrorPageHtml() {
+	console.log("## createErrorPageHtml");
 	return `
 		<div class="error-wrap">
 			<p class="error-code">404</p>
@@ -300,6 +301,7 @@ function createErrorPageHtml() {
 }
 
 function createWelcomePageHtml() {
+	console.log("## createWelcomePageHtml");
 	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;
 }
 
@@ -401,17 +403,17 @@ function createUsersTableHtml(pagedUsers) {
 				<td colspan="9">
 					<ul class="nav nav-tabs form-menu">
 						<li class="nav-item">
-							<button class="nav-link active" data-target="adminUserInfoForm">회원정보 관리</button>
+							<button class="nav-link active" data-target="userInfoForm">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="adminUserAuthForm">권한 관리</button>
+							<button class="nav-link" data-target="userAuthForm">권한 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="adminUserPasswordForm">비밀번호 관리</button>
+							<button class="nav-link" data-target="userPasswordForm">비밀번호 관리</button>
 						</li>
 					</ul>
 					<div class="modify-forms-wrap">
-						<form class="active-form" name="adminUserInfoForm" data-user-id="${adminUser.id}">
+						<form class="active-form" name="userInfoForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
 								<div class="input-group">
@@ -451,7 +453,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="adminUserAuthForm" data-user-id="${adminUser.id}">
+						<form name="userAuthForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
 								<div class="form-check ml-4">
@@ -472,7 +474,7 @@ function createUsersTableHtml(pagedUsers) {
 								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 							</div>
 						</form>
-						<form name="adminUserPasswordForm" data-user-id="${adminUser.id}">
+						<form name="userPasswordForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
 								<div class="input-group">
@@ -704,6 +706,47 @@ function createCategoryBadgeHtml(categoryId) {
 			${categoryName}
 			<button class="category-badge-btn" type="button" name="categoryBadgeBtn" data-category-id="${categoryId}"></button>
 		</span>`;
+}
+
+function createUserRegistrationPageHtml() {
+	console.log("## createUserRegistrationPageHtml");
+	return `
+			<div class="card rounded-xl">
+				<div class="card-body">
+					<div class="registration-form-wrap">
+						<form id="userRegistrationForm">
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="text" name="email" placeholder="이메일을 입력해주세요."/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="text" name="email" placeholder="닉네임을 입력해주세요."/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="password" name="password" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
+								<div class="input-group">
+									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
+								</div>
+							</div>
+							<div class="text-end">
+								<button type="submit" class="btn btn-primary mr-2 rounded-md">등록</button>
+								<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+							</div>	
+						</form>
+					</div>
+				</div>
+			</div>`;
 }
 
 

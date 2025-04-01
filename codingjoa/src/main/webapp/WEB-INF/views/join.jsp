@@ -55,13 +55,13 @@
 					<div class="form-group">
 						<form:label path="email" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
-							<form:input path="email" class="form-control rounded-md" placeholder="이메일을 입력해주세요"/>
+							<form:input path="email" class="form-control rounded-md" placeholder="이메일을 입력해주세요."/>
 							<div class="input-group-append">
 								<button type="button" class="btn btn-outline-secondary btn-sm rounded-md" id="sendAuthCodeBtn">인증코드 받기</button>
 							</div>
 						</div>
 						<div class="input-group">
-							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력해주세요"/>
+							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력해주세요."/>
 						</div>
 						<form:errors path="email" cssClass="error"/>
 						<form:errors path="authCode" cssClass="error"/>
@@ -69,21 +69,21 @@
 					<div class="form-group">
 						<form:label path="nickname" class="font-weight-bold">닉네임</form:label>
 						<div class="input-group">
-							<form:input path="nickname" class="form-control rounded-md" placeholder="닉네임을 입력해주세요"/>
+							<form:input path="nickname" class="form-control rounded-md" placeholder="닉네임을 입력해주세요."/>
 						</div>
 						<form:errors path="nickname" cssClass="error"/>
 					</div>
 					<div class="form-group">
 						<form:label path="password" class="font-weight-bold">비밀번호</form:label>
 						<div class="input-group">
-							<form:password path="password" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요" showPassword="true" autocomplete="off"/>
+							<form:password path="password" class="form-control rounded-md" placeholder="비밀번호를 입력해주세요." showPassword="true" autocomplete="off"/>
 						</div>
 						<form:errors path="password" cssClass="error"/>
 					</div>
 					<div class="form-group">
 						<form:label path="confirmPassword" class="font-weight-bold">비밀번호 확인</form:label>
 						<div class="input-group">
-							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요" showPassword="true" autocomplete="off"/>
+							<form:password path="confirmPassword" class="form-control rounded-md" placeholder="비밀번호 확인을 입력해주세요." showPassword="true" autocomplete="off"/>
 						</div>
 						<form:errors path="confirmPassword" cssClass="error"/>
 					</div>

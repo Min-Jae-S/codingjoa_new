@@ -51,8 +51,8 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateAdminUserInfo(userId, formData, callback) {
-		console.log("## updateAdminUserInfo");
+	function updateUserInfo(userId, formData, callback) {
+		console.log("## updateUserInfo");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
@@ -76,8 +76,8 @@ let adminService = (function() {
 		});
 	}
 
-	function updateAdminUserAuth(userId, formData, callback) {
-		console.log("## updateAdminUserAuth");
+	function updateUserAuth(userId, formData, callback) {
+		console.log("## updateUserAuth");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
@@ -101,8 +101,8 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateAdminUserPassword(userId, formData, callback) {
-		console.log("## updateAdminUserPassword");
+	function updateUserPassword(userId, formData, callback) {
+		console.log("## updateUserPassword");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
@@ -146,6 +146,11 @@ let adminService = (function() {
 				handleError(parseError(jqXHR));
 			}
 		});
+	}
+	
+	function registerUser(formData, callback) {
+		console.log("## registerUser");
+		console.log(JSON.stringify(formData, null, 2));
 	}
 	
 	function getPagedBoards(adminBoardCri, callback) {
@@ -251,10 +256,11 @@ let adminService = (function() {
 	return {
 		getPagedUsers:getPagedUsers,
 		getPagedUsersBySearch:getPagedUsersBySearch,
-		updateAdminUserInfo:updateAdminUserInfo,
-		updateAdminUserAuth:updateAdminUserAuth,
-		updateAdminUserPassword:updateAdminUserPassword,
+		updateUserInfo:updateUserInfo,
+		updateUserAuth:updateUserAuth,
+		updateUserPassword:updateUserPassword,
 		getAdminUser:getAdminUser,
+		registerUser:registerUser,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

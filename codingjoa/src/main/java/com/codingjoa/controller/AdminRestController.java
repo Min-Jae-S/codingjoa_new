@@ -36,6 +36,7 @@ import com.codingjoa.service.AdminService;
 import com.codingjoa.validator.AdminUserAuthValidator;
 import com.codingjoa.validator.AdminUserInfoValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
+import com.codingjoa.validator.AdminUserRegistrationValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +64,11 @@ public class AdminRestController {
 	@InitBinder("adminUserPasswordChangeDto")
 	public void InitBinderAdminUserPasswordChange(WebDataBinder binder) {
 		binder.addValidators(new AdminUserPasswordChangeValidator());
+	}
+
+	@InitBinder("adminUserRegistrationDto")
+	public void InitBinderAdminUserRegistration(WebDataBinder binder) {
+		binder.addValidators(new AdminUserRegistrationValidator());
 	}
 	
 	@GetMapping("/users")
@@ -108,8 +114,8 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/info")
-	public ResponseEntity<Object> updateAdminUserInfo(@PathVariable Long userId, @Valid @RequestBody AdminUserInfoDto adminUserInfoDto) {
-		log.info("## updateAdminUserInfo");
+	public ResponseEntity<Object> updateUserInfo(@PathVariable Long userId, @Valid @RequestBody AdminUserInfoDto adminUserInfoDto) {
+		log.info("## updateUserInfo");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserInfoDto = {}", adminUserInfoDto);
 		
@@ -117,8 +123,8 @@ public class AdminRestController {
 	}
 
 	@PutMapping("/users/{userId}/auth")
-	public ResponseEntity<Object> updateAdminUserAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
-		log.info("## updateAdminUserAuth");
+	public ResponseEntity<Object> updateUserAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
+		log.info("## updateUserAuth");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
@@ -126,8 +132,8 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateAdminUserPassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
-		log.info("## updateAdminUserPassword");
+	public ResponseEntity<Object> updateUserPassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
+		log.info("## updateUserPassword");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
 		
@@ -145,6 +151,7 @@ public class AdminRestController {
 	@PostMapping("/users/register")
 	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
 		log.info("## registerUser");
+		log.info("\t > adminUserRegistrationDto = {}", adminUserRegistrationDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
