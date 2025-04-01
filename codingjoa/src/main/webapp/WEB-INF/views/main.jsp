@@ -14,7 +14,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> -->
-<script src="${contextPath}/resources/js/main.js"></script>
+<script src="${contextPath}/resources/js/config.js"></script>
 <script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <style>
@@ -80,45 +80,47 @@
 			<div class="card-header">
 				<ul class="nav nav-tabs card-header-tabs config-menu">
 					<li class="nav-item">
-						<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
+						<a class="nav-link active" href="${contextPath}/api/config/filters">Filter</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/handler-mappings">HandlerMapping &amp; Handler</a>
+						<a class="nav-link" href="${contextPath}/api/config/handler-mappings">HandlerMapping &amp; Handler</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/interceptors">Interceptor</a>
+						<a class="nav-link" href="${contextPath}/api/config/interceptors">Interceptor</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/handler-adapters">HandlerAdapter</a>
+						<a class="nav-link" href="${contextPath}/api/config/handler-adapters">HandlerAdapter</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/argument-resolvers">ArgumentResolver</a>
+						<a class="nav-link" href="${contextPath}/api/config/argument-resolvers">ArgumentResolver</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/validators">Validator</a>
+						<a class="nav-link" href="${contextPath}/api/config/validators">Validator</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/return-value-handlers">ReturnValueHandler</a>
+						<a class="nav-link" href="${contextPath}/api/config/return-value-handlers">ReturnValueHandler</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/view-resolvers">ViewResolver</a>
+						<a class="nav-link" href="${contextPath}/api/config/view-resolvers">ViewResolver</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/message-converters">HttpMessageConverter</a>
+						<a class="nav-link" href="${contextPath}/api/config/message-converters">HttpMessageConverter</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/exception-resolvers">ExceptionResolver</a>
+						<a class="nav-link" href="${contextPath}/api/config/exception-resolvers">ExceptionResolver</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/object-mappers">ObjectMapper</a>
+						<a class="nav-link" href="${contextPath}/api/config/object-mappers">ObjectMapper</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="${contextPath}/config/beans">Beans</a>
+						<a class="nav-link" href="${contextPath}/api/config/beans">Beans</a>
 					</li>
 				</ul>
 			</div>
 			<div class="card-body">
-				<!-- config -->
+				<!------------------------>
+				<!----     config     ---->
+				<!------------------------>
 			</div>
 		</div>
 	</div>
@@ -136,7 +138,7 @@
 			$(".config-menu a").removeClass("active");
 			$(this).addClass("active");
 			
-			mainService.getConfig($(this).attr("href"), function(result) {
+			configService.getConfig($(this).attr("href"), function(result) {
 				let configHtml = createConfigHtml(result.data);
 				$(".card-body").html(configHtml);
 			});
@@ -145,7 +147,7 @@
 		function initMainPage() {
 			console.log("## initMainPage");
 			let url = $(".config-menu a.active").attr("href");
-			mainService.getConfig(url, function(result) {
+			configService.getConfig(url, function(result) {
 				let configHtml = createConfigHtml(result.data);
 				$(".card-body").html(configHtml);
 			});

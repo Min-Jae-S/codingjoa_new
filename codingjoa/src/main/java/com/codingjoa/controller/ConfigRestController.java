@@ -46,7 +46,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequestMapping("/config")
+@RequestMapping("/api/config")
 @RequiredArgsConstructor
 @RestController
 public class ConfigRestController {
