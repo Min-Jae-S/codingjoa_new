@@ -300,6 +300,7 @@
 	.form-menu button.nav-link.active {
 		color: black;
 		font-weight: 600;
+		padding-bottom: 9px;
 	}
 
 	.form-menu button.nav-link:hover {
