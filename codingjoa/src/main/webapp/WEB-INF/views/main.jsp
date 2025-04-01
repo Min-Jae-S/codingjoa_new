@@ -14,6 +14,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> -->
+<script src="${contextPath}/resources/js/main.js"></script>
+<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <style>
 	.main-wrap {
@@ -21,40 +23,45 @@
 		min-width: 860px;
 		margin: 0 auto;
 	}
+	
+	.card {
+		width: 860px;
+		min-width: 860px;
+	}
 
-	#configHeader a {
+	.card-header a {
 	    color: #858994;
 	    font-size: .95rem;
-	    padding: .4rem .8rem;
-	    border-top-left-radius: 0.5rem;
-	    border-top-right-radius: 0.5rem;
+	    padding: .4rem .6rem;
+	    border-top-left-radius: 0.5rem !important;
+	    border-top-right-radius: 0.5rem !important;
 	}
 	
-	#configHeader a:hover:not(.active) {
+	.card-header a:hover:not(.active) {
 		border-color: transparent;
 	}
 	
-	#configHeader a:hover {
+	.card-header a:hover {
 		color: black;
 	}
 	
-	#configHeader a.active {
+	.card-header a.active {
 		color: black;
 		font-weight: 600;
 	}
 	
-	#configBody {
+	.card-body {
 		padding: 2.5rem;
 		height: 380px;
 		overflow-y: auto;
 	}
 	
-	#configBody p {
+	.card-body p {
 		font-size: 0.9rem;
 		margin-bottom: 0.8rem;
 	}
 	
-	#configBody p:last-child {
+	.card-body p:last-child {
 		margin-bottom: 0;
 	}
 	
@@ -69,9 +76,9 @@
 
 <div class="container main-container">
 	<div class="main-wrap">
-		<div class="card rounded-md" id="configContainer">
-			<div class="card-header" id="configHeader">
-				<ul class="nav nav-tabs card-header-tabs">
+		<div class="card rounded-md">
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs config-menu">
 					<li class="nav-item">
 						<a class="nav-link active" href="${contextPath}/config/filters">Filter</a>
 					</li>
@@ -110,8 +117,8 @@
 					</li>
 				</ul>
 			</div>
-			<div class="card-body" id="configBody">
-				<!-- cofing info -->
+			<div class="card-body">
+				<!-- config -->
 			</div>
 		</div>
 	</div>
@@ -121,59 +128,30 @@
 
 <script>
 	$(function() {
-		$("#configHeader a").on("click", function (e) {
+		initMainPage();
+		
+		$(".config-menu a").on("click", function(e) {
 			e.preventDefault();
-			$("#configBody").empty();
-			$("#configHeader a").removeClass("active");
+			$(".card-body").empty();
+			$(".config-menu a").removeClass("active");
 			$(this).addClass("active");
 			
-			$.ajax({
-				type : "GET",
-				url : $(this).attr("href"),
-				dataType : "json",
-				success : function(result) {
-					console.log(JSON.stringify(result, null, 2));
-					let configHtml = createConfigHtml(result.data);
-					$("#configBody").html(configHtml);
-				},
-				error : function(jqXHR) {
-					console.log(JSON.stringify(jqXHR, null, 2));
-					let errorResponse = JSON.parse(jqXHR.responseText);
-					alert(errorResponse.errorMessage);
-				}
+			mainService.getConfig($(this).attr("href"), function(result) {
+				let configHtml = createConfigHtml(result.data);
+				$(".card-body").html(configHtml);
 			});
 		});
-	});
-	
-	function createConfigHtml(data) {
-		let html = "";
-		if (data instanceof Array) { // Array.isArray()
-			$.each(data, function(index, item) {
-				if (typeof item == "string") {
-					html += "<p class='card-text'>";
-					html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
-				} else {
-					$.each(item, function(key, value) {
-						html += "<p class='card-text'>";
-						html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
-						$.each(value, function(index, item) {
-							html += "<p class='card-text'>";
-							html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
-						});
-					});
-				}
-			});	
-		} else {
-			$.each(data, function(key, value) {
-				html += "<p class='card-text'>";
-				html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
-				html += "<p class='card-text'>";
-				html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + value + "</p>";
-			});
-		} 
 		
-		return html;
-	}
+		function initMainPage() {
+			console.log("## initMainPage");
+			let url = $(".config-menu a.active").attr("href");
+			mainService.getConfig(url, function(result) {
+				let configHtml = createConfigHtml(result.data);
+				$(".card-body").html(configHtml);
+			});
+		}
+		
+	});
 </script>
 
 </body>

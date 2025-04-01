@@ -16,9 +16,9 @@
 						<a href="${contextPath}${parentCategory.path}" class="nav-link"><c:out value="${parentCategory.name}"/></a>
 						<div class="dropdown-menu">
 							<!-- categories -->
-							<!-- <a href="/codingjoa/board/?categoryCode=4" class="dropdown-item" >공지게시판</a> -->
+							<!-- <a href="/codingjoa/board/?categoryCode=4" class="dropdown-item">공지게시판</a> -->
 							<!-- <a href="/codingjoa/board/?categoryCode=5" class="dropdown-item">질문게시판</a> -->
-							<!-- <a href="/codingjoa/board/?categoryCode=6" class="dropdown-item" >자유게시판</a> -->
+							<!-- <a href="/codingjoa/board/?categoryCode=6" class="dropdown-item">자유게시판</a> -->
 						</div>
 					</li>
 				</c:forEach>

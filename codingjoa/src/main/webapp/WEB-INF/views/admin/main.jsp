@@ -289,8 +289,8 @@
 	
 	.form-menu button.nav-link {
 		color: #858994;
-		border-top-left-radius: 0.5rem;
-	    border-top-right-radius: 0.5rem;
+		border-top-left-radius: 0.5rem !important;
+	    border-top-right-radius: 0.5rem !important;
 	}
 	
 	.form-menu button.nav-link.active {
