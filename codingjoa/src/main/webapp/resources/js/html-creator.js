@@ -455,7 +455,7 @@ function createUsersTableHtml(pagedUsers) {
 						</form>
 						<form name="userAuthForm" data-user-id="${adminUser.id}">
 							<div class="form-group">
-								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한 변경</label>
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
 								<div class="form-check ml-4">
 									<label class="form-check-label">
 										<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
@@ -464,7 +464,7 @@ function createUsersTableHtml(pagedUsers) {
 								</div>
 								<div class="form-check ml-4">
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN", ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
+										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
 										<span>관리자</span>
 									</label>
 								</div>
@@ -737,6 +737,21 @@ function createUserRegistrationPageHtml() {
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
 								<div class="input-group">
 									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
+								<div class="form-check ml-4">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_USER" checked/>
+										<span>일반 사용자</span>
+									</label>
+								</div>
+								<div class="form-check ml-4">
+									<label class="form-check-label">
+										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN"/>
+										<span>관리자</span>
+									</label>
 								</div>
 							</div>
 							<div class="text-end">

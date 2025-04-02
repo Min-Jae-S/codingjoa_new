@@ -1,6 +1,6 @@
 package com.codingjoa.dto;
 
-import com.codingjoa.entity.User;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -13,14 +13,6 @@ public class AdminUserRegistrationDto {
 	private String nickname;
 	private String password;
 	private String confirmPassword;
-	
-	public User toEntity() {
-		return User.builder()
-				.email(this.email)
-				.nickname(this.nickname)
-				.password(this.password)
-				.agree(false)
-				.build();
-	}
+	private List<String> roles;
 	
 }
