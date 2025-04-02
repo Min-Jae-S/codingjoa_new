@@ -724,7 +724,7 @@ function createUserRegistrationPageHtml() {
 							<div class="form-group">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
 								<div class="input-group">
-									<input class="form-control rounded-md" type="text" name="email" placeholder="닉네임을 입력해주세요."/>
+									<input class="form-control rounded-md" type="text" name="nickname" placeholder="닉네임을 입력해주세요."/>
 								</div>
 							</div>
 							<div class="form-group">

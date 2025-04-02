@@ -739,6 +739,7 @@
 			e.preventDefault();
 			let userId = $(this).data("user-id");
 			let formData = $(this).serializeObject();
+			formData.agree = $(this).find("input[name='agree']").prop("checked");	
 			
 			adminService.updateUserInfo(userId, formData, function(result) {
 				alert(result.message);
@@ -780,6 +781,10 @@
 		$(document).on("submit", "#userRegistrationForm", function(e) {
 			e.preventDefault();
 			let formData = $(this).serializeObject();
+			let roles = $(this).find("input[name='roles']:checked")
+				.get()
+				.map(el => el.value);
+			formData.roles = roles;
 			
 			adminService.registerUser(formData, function(result) {
 				alert(result.message);
