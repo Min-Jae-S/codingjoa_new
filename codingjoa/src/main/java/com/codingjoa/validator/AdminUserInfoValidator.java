@@ -66,17 +66,14 @@ public class AdminUserInfoValidator implements Validator {
 		
 		if (!StringUtils.hasText(zipcode)) {
 			errors.rejectValue("zipcode", "NotBlank");
-			return;
 		}
 
 		if (!StringUtils.hasText(addr)) {
 			errors.rejectValue("addr", "NotBlank");
-			return;
 		}
 
 		if (!StringUtils.hasText(addrDetail)) {
 			errors.rejectValue("addrDetail", "NotBlank");
-			return;
 		}
 		
 	}
