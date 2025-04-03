@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdminUserAuthValidator implements Validator {
 
-	private static final Set<String> ROLES = Set.of("ROLE_USER", "ROLE_ADMIN");
+	private static final Set<String> ROLES = Set.of("ROLE_ADMIN");
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -26,8 +26,12 @@ public class AdminUserAuthValidator implements Validator {
 		AdminUserAuthDto adminUserAuthDto = (AdminUserAuthDto) target;
 		Set<String> roles = adminUserAuthDto.getRoles();
 		
-		if (roles == null || roles.isEmpty()) {
-			errors.rejectValue("roles", "NotEmpty");
+		if (roles == null) {
+			errors.rejectValue("roles", "NotNull");
+		}
+		
+		if (roles.isEmpty()) {
+			return;
 		}
 		
 		for (String role : roles) {
