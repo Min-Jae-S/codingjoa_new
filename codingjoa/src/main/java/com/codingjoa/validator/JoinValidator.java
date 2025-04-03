@@ -35,7 +35,7 @@ public class JoinValidator implements Validator {
 		JoinDto joinDto = (JoinDto) target;
 		validateEmailAuth(joinDto, errors);
 		validateNickname(joinDto, errors);
-		validatePassword(joinDto, errors);
+		validatePasswords(joinDto, errors);
 	}
 	
 	private void validateEmailAuth(JoinDto joinDto, Errors errors) {
@@ -88,7 +88,7 @@ public class JoinValidator implements Validator {
 		}
 	}
 
-	private void validatePassword(JoinDto joinDto, Errors errors) {
+	private void validatePasswords(JoinDto joinDto, Errors errors) {
 		String password = joinDto.getPassword();
 		String confirmPassword = joinDto.getConfirmPassword();
 		
