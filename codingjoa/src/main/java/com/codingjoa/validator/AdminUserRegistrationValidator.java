@@ -67,19 +67,20 @@ public class AdminUserRegistrationValidator implements Validator {
 		
 		if (!StringUtils.hasText(password)) {
 			errors.rejectValue("password", "NotBlank");
-			return;
-		} 
-		
-		if (!Pattern.matches(PASSWORD_REGEXP, password)) {
+		} else if (!Pattern.matches(PASSWORD_REGEXP, password)) {
 			errors.rejectValue("password", "Pattern");
-			return;
 		}
 
 		if (!StringUtils.hasText(confirmPassword)) {
 			errors.rejectValue("confirmPassword", "NotBlank");
+		} else if (!Pattern.matches(PASSWORD_REGEXP, confirmPassword)) {
+			errors.rejectValue("confirmPassword", "Pattern");
+		}
+
+		if (errors.hasFieldErrors("password") || errors.hasFieldErrors("confirmPassword")) {
 			return;
-		} 
-		
+		}
+
 		if (!password.equals(confirmPassword)) {
 			errors.rejectValue("password", "NotEquals");
 			errors.rejectValue("confirmPassword", "NotEquals");
