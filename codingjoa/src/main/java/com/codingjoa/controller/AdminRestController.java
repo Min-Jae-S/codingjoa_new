@@ -148,7 +148,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@PostMapping("/users")
+	@PostMapping("/users/register")
 	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
 		log.info("## registerUser");
 		log.info("\t > adminUserRegistrationDto = {}", adminUserRegistrationDto);

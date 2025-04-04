@@ -11,6 +11,7 @@ class PageRouter {
 
 	route(routingPath, pushStatePath = null, params = {}, pushState = true) {
 		console.log("## route");
+		console.log("\t > routingPath: %s, pushStatePath: %s", routingPath, pushStatePath);
 		console.log("\t > params:", params);
 		
 		let url = pushStatePath ? new URL(pushStatePath, window.location.origin) : new URL(routingPath, window.location.origin);

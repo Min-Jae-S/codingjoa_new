@@ -153,7 +153,7 @@ let adminService = (function() {
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/admin/users`,
+			url : `${contextPath}/api/admin/users/register`,
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
