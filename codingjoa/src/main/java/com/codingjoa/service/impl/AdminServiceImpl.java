@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
@@ -105,7 +105,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void updateAddr(AddrDto addrDto, Long userId) {
+	public void updateAddr(AdminUserAddrDto adminUserAddrDto, Long userId) {
 		User user = userMapper.findUserById(userId);
 		if (user == null) {
 			throw new ExpectedException("error.admin.userNotFound");
@@ -113,9 +113,9 @@ public class AdminServiceImpl implements AdminService {
 		
 		User modifyUser = User.builder()
 				.id(user.getId())
-				.zipcode(addrDto.getZipcode())
-				.addr(addrDto.getAddr())
-				.addrDetail(addrDto.getAddrDetail())
+				.zipcode(adminUserAddrDto.getZipcode())
+				.addr(adminUserAddrDto.getAddr())
+				.addrDetail(adminUserAddrDto.getAddrDetail())
 				.build();
 		
 		boolean isUpdated = userMapper.updateAddr(modifyUser);

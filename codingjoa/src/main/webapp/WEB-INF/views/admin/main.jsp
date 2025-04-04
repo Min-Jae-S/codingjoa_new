@@ -738,28 +738,31 @@
 		// submit userNicknameForm 
 		$(document).on("submit", "form[name='userNicknameForm']", function(e) {
 			e.preventDefault();
+			let $nickname = $(this).find("input[name='nickname']");
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateNickname(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
-					// ...
+					let adminUser = result.data;
+					$nickname.val(adminUser.nickname);
 				});
 			});
 		});
 		
-		
 		// submit userEmailForm 
 		$(document).on("submit", "form[name='userEmailForm']", function(e) {
 			e.preventDefault();
+			let $email = $(this).find("input[name='email']");
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateEmail(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
-					// ...
+					let adminUser = result.data;
+					$email.val(adminUser.email);
 				});
 			});
 		});

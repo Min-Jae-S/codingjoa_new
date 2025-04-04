@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminUserCri;
-import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
@@ -36,7 +36,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
-import com.codingjoa.validator.AddrValidator;
+import com.codingjoa.validator.AdminUserAddrValidator;
 import com.codingjoa.validator.AdminUserAuthValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
 import com.codingjoa.validator.AdminUserRegistrationValidator;
@@ -57,18 +57,18 @@ public class AdminRestController {
 	private final AdminBoardCriResolver adminBoardCriResolver;
 	
 	@InitBinder("emailDto")
-	public void InitBinderEmail(WebDataBinder binder) {
+	public void InitBinderAdminUserEmail(WebDataBinder binder) {
 		binder.addValidators(new EmailValidator());
 	}
 	
 	@InitBinder("nicknameDto")
-	public void InitBinderNickname(WebDataBinder binder) {
+	public void InitBinderAdminUserNickname(WebDataBinder binder) {
 		binder.addValidators(new NicknameValidator());
 	}
 	
-	@InitBinder("addrDto")
-	public void InitBinderAddr(WebDataBinder binder) {
-		binder.addValidators(new AddrValidator());
+	@InitBinder("adminUserAddrDto")
+	public void InitBinderAdminUserAddr(WebDataBinder binder) {
+		binder.addValidators(new AdminUserAddrValidator());
 	}
 	
 	@InitBinder("adminUserAuthDto")
@@ -155,12 +155,12 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/address")
-	public ResponseEntity<Object> updateAddress(@PathVariable Long userId, @Valid @RequestBody AddrDto addrDto) {
+	public ResponseEntity<Object> updateAddress(@PathVariable Long userId, @Valid @RequestBody AdminUserAddrDto adminUserAddrDto) {
 		log.info("## updateAddress");
 		log.info("\t > userId = {}", userId);
-		log.info("\t > addrDto = {}", addrDto);
+		log.info("\t > adminUserAddrDto = {}", adminUserAddrDto);
 		
-		adminService.updateAddr(addrDto, userId);
+		adminService.updateAddr(adminUserAddrDto, userId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.updateAddress")

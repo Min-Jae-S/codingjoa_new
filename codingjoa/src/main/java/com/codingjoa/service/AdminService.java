@@ -2,7 +2,7 @@ package com.codingjoa.service;
 
 import java.util.List;
 
-import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
@@ -23,7 +23,7 @@ public interface AdminService {
 	
 	void updateEmail(EmailDto emailDto, Long userId);
 	
-	void updateAddr(AddrDto addrDto, Long userId);
+	void updateAddr(AdminUserAddrDto adminUserAddrDto, Long userId);
 	
 	void updateAgree(AgreeDto agreeDto, Long userId);
 	

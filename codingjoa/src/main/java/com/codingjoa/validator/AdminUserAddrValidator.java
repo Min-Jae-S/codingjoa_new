@@ -4,35 +4,35 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.codingjoa.dto.AddrDto;
+import com.codingjoa.dto.AdminUserAddrDto;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AddrValidator implements Validator {
+public class AdminUserAddrValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return AddrDto.class.isAssignableFrom(clazz);
+		return AdminUserAddrDto.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		AddrDto addrDto = (AddrDto) target;
+		AdminUserAddrDto adminUserAddrDto = (AdminUserAddrDto) target;
 		
-		if (!StringUtils.hasText(addrDto.getZipcode())) {
+		if (!StringUtils.hasText(adminUserAddrDto.getZipcode())) {
 			errors.rejectValue("zipcode", "NotBlank");
 			return;
 		}
 		
-		if (!StringUtils.hasText(addrDto.getAddr())) {
+		if (!StringUtils.hasText(adminUserAddrDto.getAddr())) {
 			errors.rejectValue("addr", "NotBlank");
 			return;
 		}
 		
-		if (!StringUtils.hasText(addrDto.getAddrDetail())) {
+		if (!StringUtils.hasText(adminUserAddrDto.getAddrDetail())) {
 			errors.rejectValue("addrDetail", "NotBlank");
 			return;
 		}
