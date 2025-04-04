@@ -18,21 +18,11 @@ public interface AdminMapper {
 	
 	int findTotalCntForUserPaging(AdminUserCriteria adminUserCri);
 	
-	User findUserById(Long userId);
-	
-	boolean updateNickname(User user);
-	
-	boolean updateEmail(User user);
-	
-	boolean updateAddr(User user);
-	
-	boolean updateAgree(User user);
+	boolean updateAuth(Auth auth);
 	
 	boolean updatePassword(User user);
 	
-	boolean updateAuth(Auth auth);
-	
-	boolean insertUser(User user);
+	AdminUser findAdminUser(Long userId);
 	
 	int deleteUsers(List<Long> userIds);
 

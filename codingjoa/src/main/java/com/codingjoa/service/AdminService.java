@@ -33,7 +33,7 @@ public interface AdminService {
 	
 	void saveUser(AdminUserRegistrationDto adminUserRegistrationDto, Long userId);
 	
-	AdminUserDto getUser(Long userId);
+	AdminUserDto getAdminUser(Long userId);
 	
 	List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri);
 

@@ -128,7 +128,11 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > nicknameDto = {}", nicknameDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		adminService.updateNickname(nicknameDto, userId);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updateNickname")
+				.build());
 	}
 	
 	@PutMapping("/users/{userId}/email")
@@ -137,7 +141,11 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > emailDto = {}", emailDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		adminService.updateEmail(emailDto, userId);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updateEmail")
+				.build());
 	}
 	
 	@PutMapping("/users/{userId}/address")
@@ -146,7 +154,11 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > addrDto = {}", addrDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		adminService.updateAddr(addrDto, userId);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updateAddress")
+				.build());
 	}
 	
 	@PutMapping("/users/{userId}/agree")
@@ -155,7 +167,11 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > agreeDto = {}", agreeDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		adminService.updateAgree(agreeDto, userId);
+		
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updateAgree")
+				.build());
 	}
 	
 	@PutMapping("/users/{userId}/password")
@@ -164,7 +180,9 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updatePassword")
+				.build());
 	}
 
 	@PutMapping("/users/{userId}/auth")
@@ -173,7 +191,9 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.updateAuth")
+				.build());
 	}
 	
 	@PostMapping("/users/register")
@@ -181,15 +201,20 @@ public class AdminRestController {
 		log.info("## registerUser");
 		log.info("\t > adminUserRegistrationDto = {}", adminUserRegistrationDto);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.builder()
+				.messageByCode("success.admin.registerUser")
+				.build());
 	}
 	
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<Object> getUser(@PathVariable Long userId) {
-		log.info("## getUser");
+	public ResponseEntity<Object> getAdminUser(@PathVariable Long userId) {
+		log.info("## getAdminUser");
 		log.info("\t > userId = {}", userId);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		AdminUserDto adminUser = adminService.getAdminUser(userId);
+		log.info("\t > adminUser = {}", adminUser);
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(adminUser).build());
 	}
 
 	@GetMapping("/boards")

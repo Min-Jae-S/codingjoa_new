@@ -743,7 +743,7 @@
 			
 			adminService.updateNickname(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getUser(userId, function(result) {
+				adminService.getAdminUser(userId, function(result) {
 					// ...
 				});
 			});
@@ -758,7 +758,7 @@
 			
 			adminService.updateEmail(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getUser(userId, function(result) {
+				adminService.getAdminUser(userId, function(result) {
 					// ...
 				});
 			});
@@ -772,7 +772,7 @@
 			
 			adminService.updateAddr(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getUser(userId, function(result) {
+				adminService.getAdminUser(userId, function(result) {
 					// ...
 				});
 			});
@@ -788,7 +788,7 @@
 			
 			adminService.updateAgree(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getUser(userId, function(result) {
+				adminService.getAdminUser(userId, function(result) {
 					// ...
 				});
 			});

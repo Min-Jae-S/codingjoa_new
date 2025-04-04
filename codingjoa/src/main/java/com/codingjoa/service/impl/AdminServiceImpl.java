@@ -16,7 +16,11 @@ import com.codingjoa.dto.AdminUserRegistrationDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.NicknameDto;
+import com.codingjoa.entity.AdminUser;
+import com.codingjoa.entity.User;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.AdminMapper;
+import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
 import com.codingjoa.pagination.Pagination;
@@ -30,10 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminServiceImpl implements AdminService {
 
 	private final AdminMapper adminMapper;
+	private final UserMapper userMapper;
 	private final int pageRange;
 	
-	public AdminServiceImpl(AdminMapper adminMapper, @Value("${pagination.pageRange}") int pageRange) {
+	public AdminServiceImpl(AdminMapper adminMapper, UserMapper userMapper, @Value("${pagination.pageRange}") int pageRange) {
 		this.adminMapper = adminMapper;
+		this.userMapper = userMapper;
 		this.pageRange = pageRange;
 	}
 
@@ -48,26 +54,89 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, Long userId) {
-		// TODO Auto-generated method stub
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
+		
+		String currentNickname = user.getNickname();
+		String newNickname = nicknameDto.getNickname();
+		if (!newNickname.equals(currentNickname) && userMapper.isNicknameExist(newNickname)) {
+			throw new ExpectedException("error.admin.nicknameExists", "nickname");
+		}
+		
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.nickname(newNickname)
+				.build();
+		
+		boolean isUpdated = userMapper.updateNickname(modifyUser);
+		if (!isUpdated) {
+			throw new ExpectedException("error.admin.updateNickname");
+		}
 		
 	}
 
 	@Override
 	public void updateEmail(EmailDto emailDto, Long userId) {
-		// TODO Auto-generated method stub
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
 		
+		String currentEmail = user.getEmail();
+		String newEmail = emailDto.getEmail();
+		if (!currentEmail.equals(newEmail) && userMapper.findUserByEmail(newEmail) != null) {
+			throw new ExpectedException("error.admin.emailExists", "email");
+		}
+		
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.email(newEmail)
+				.build();
+		
+		boolean isUpdated = userMapper.updateEmail(modifyUser);
+		if (!isUpdated) {
+			throw new ExpectedException("error.admin.updateEmail");
+		}
 	}
 
 	@Override
 	public void updateAddr(AddrDto addrDto, Long userId) {
-		// TODO Auto-generated method stub
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
 		
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.zipcode(addrDto.getZipcode())
+				.addr(addrDto.getAddr())
+				.addrDetail(addrDto.getAddrDetail())
+				.build();
+		
+		boolean isUpdated = userMapper.updateAddr(modifyUser);
+		if (!isUpdated) {
+			throw new ExpectedException("error.admin.updateAddr");
+		}
 	}
 
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Long userId) {
-		// TODO Auto-generated method stub
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
 		
+		User modifyUser = User.builder()
+				.id(user.getId())
+				.agree(agreeDto.isAgree())
+				.build();
+		
+		boolean isUpdated = userMapper.updateAgree(modifyUser);
+		if (!isUpdated) {
+			throw new ExpectedException("error.admin.updateAgree");
+		}
 	}
 
 	@Override
@@ -89,9 +158,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public AdminUserDto getUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public AdminUserDto getAdminUser(Long userId) {
+		AdminUser adminUser = adminMapper.findAdminUser(userId);
+		if (adminUser == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
+		
+		return AdminUserDto.from(adminUser);
 	}
 	
 	@Override
@@ -124,12 +197,6 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteBoards(List<Long> boardIds) {
 		return adminMapper.deleteBoards(boardIds);
 	}
-
-	
-
-	
-
-	
 
 
 }

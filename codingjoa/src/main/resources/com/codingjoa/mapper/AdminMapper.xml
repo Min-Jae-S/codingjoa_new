@@ -70,17 +70,6 @@
 			users
 	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<delete id="deleteUsers" parameterType="list">
 		DELETE FROM 
 			users
