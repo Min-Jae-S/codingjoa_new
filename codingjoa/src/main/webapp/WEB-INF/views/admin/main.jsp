@@ -254,13 +254,16 @@
 	.modify-forms-wrap form {
 		width: 100%; 
 		text-align: left;
+	}
+	
+	.modify-forms-wrap > div {
 		display: none;
 	}
 	
-	.modify-forms-wrap form.active-form {
-		display: block !important;
+	.modify-forms-wrap > div.active {
+		display: block;	
 	}
-
+	
 	.modify-forms-wrap form .form-group {
 		margin-bottom: 2.5rem;
 	}
@@ -268,7 +271,7 @@
 	.registration-form-wrap form .form-group {
 		margin-bottom: 2.5rem;
 	}
-
+	
 	input[name="zipcode"], input[name="addr"] {
 		cursor: pointer;
 	}
@@ -719,27 +722,67 @@
 			console.log("## form-menu button click");
 			
 			let $collapse = $(this).closest(".collapse");
-			$collapse.find("form").removeClass("active-form");
+			$collapse.find(".modify-forms-wrap > div").removeClass("active");
 			
-			let targetFormName = $(this).data("target");
-			console.info("\t > target form:", targetFormName);
+			let targetName = $(this).data("target");
+			console.info("\t > target:", targetName);
 			
-			let $targetForm = $collapse.find(`form[name='\${targetFormName}']`);
-			$targetForm[0].reset();
-			$targetForm.addClass("active-form");
+			let $target = $collapse.find(`div[name='\${targetName}']`);
+			$target.addClass("active");
+			$target.find("form").trigger("reset");
 			
 			$(this).closest(".form-menu").find("button").removeClass("active");
 			$(this).addClass("active");
 		});
 		
-		// submit userInfoForm 
-		$(document).on("submit", "form[name='userInfoForm']", function(e) {
+		// submit userNicknameForm 
+		$(document).on("submit", "form[name='userNicknameForm']", function(e) {
 			e.preventDefault();
-			let userId = $(this).data("user-id");
+			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
-			formData.agree = $(this).find("input[name='agree']").prop("checked");	
 			
-			adminService.updateUserInfo(userId, formData, function(result) {
+			adminService.updateUserNickname(userId, formData, function(result) {
+				alert(result.message);
+				adminService.getAdminUser(userId, function(result) {
+					// ...
+				});
+			});
+		});
+		
+		$(document).on("submit", "form[name='userEmailForm']", function(e) {
+			e.preventDefault();
+			let userId = $(this).closest(".collapse").data("user-id");
+			let formData = $(this).serializeObject();
+			
+			adminService.updateUserEmail(userId, formData, function(result) {
+				alert(result.message);
+				adminService.getAdminUser(userId, function(result) {
+					// ...
+				});
+			});
+		});
+		
+		$(document).on("submit", "form[name='userAddrForm']", function(e) {
+			e.preventDefault();
+			let userId = $(this).closest(".collapse").data("user-id");
+			let formData = $(this).serializeObject();
+			
+			adminService.updateUserAddrs(userId, formData, function(result) {
+				alert(result.message);
+				adminService.getAdminUser(userId, function(result) {
+					// ...
+				});
+			});
+		});
+
+		$(document).on("submit", "form[name='userAgreeForm']", function(e) {
+			e.preventDefault();
+			let userId = $(this).closest(".collapse").data("user-id");
+			let formData = {
+				agree : $(this).find("input[name='agree']").prop("checked")
+			};
+			
+			adminService.updateUserAgree(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
 					// ...
@@ -750,7 +793,7 @@
 		// submit userAuthForm
 		$(document).on("submit", "form[name='userAuthForm']", function(e) {
 			e.preventDefault();
-			let userId = $(this).data("user-id");
+			let userId = $(this).closest(".collapse").data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
 				.map(el => el.value);
@@ -767,7 +810,7 @@
 		// submit userPasswordForm
 		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
 			e.preventDefault();
-			let userId = $(this).data("user-id");
+			let userId = $(this).closest("tr.collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateUserPassword(userId, formData, function(result) {

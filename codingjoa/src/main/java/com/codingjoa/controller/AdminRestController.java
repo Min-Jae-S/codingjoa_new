@@ -20,12 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminUserCri;
+import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
-import com.codingjoa.dto.AdminUserInfoDto;
 import com.codingjoa.dto.AdminUserPasswordChangeDto;
 import com.codingjoa.dto.AdminUserRegistrationDto;
+import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -34,9 +37,10 @@ import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
 import com.codingjoa.validator.AdminUserAuthValidator;
-import com.codingjoa.validator.AdminUserInfoValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
 import com.codingjoa.validator.AdminUserRegistrationValidator;
+import com.codingjoa.validator.EmailValidator;
+import com.codingjoa.validator.NicknameValidator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,11 +55,16 @@ public class AdminRestController {
 	private final AdminUserCriResolver adminUserCriResolver;
 	private final AdminBoardCriResolver adminBoardCriResolver;
 	
-	@InitBinder("adminUserInfoDto")
-	public void InitBinderAdminUserInfo(WebDataBinder binder) {
-		binder.addValidators(new AdminUserInfoValidator());
+	@InitBinder("emailDto")
+	public void InitBinderEmail(WebDataBinder binder) {
+		binder.addValidators(new EmailValidator());
 	}
-
+	
+	@InitBinder("nicknameDto")
+	public void InitBinderNickname(WebDataBinder binder) {
+		binder.addValidators(new NicknameValidator());
+	}
+	
 	@InitBinder("adminUserAuthDto")
 	public void InitBinderAdminUserAuth(WebDataBinder binder) {
 		binder.addValidators(new AdminUserAuthValidator());
@@ -113,18 +122,45 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
-	@PutMapping("/users/{userId}/info")
-	public ResponseEntity<Object> updateUserInfo(@PathVariable Long userId, @Valid @RequestBody AdminUserInfoDto adminUserInfoDto) {
-		log.info("## updateUserInfo");
+	@PutMapping("/users/{userId}/nickname")
+	public ResponseEntity<Object> updateNickname(@PathVariable Long userId, @Valid @RequestBody NicknameDto nicknameDto) {
+		log.info("## updateNickname");
 		log.info("\t > userId = {}", userId);
-		log.info("\t > adminUserInfoDto = {}", adminUserInfoDto);
+		log.info("\t > nicknameDto = {}", nicknameDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@PutMapping("/users/{userId}/email")
+	public ResponseEntity<Object> updateEmail(@PathVariable Long userId, @Valid @RequestBody EmailDto emailDto) {
+		log.info("## updateEmail");
+		log.info("\t > userId = {}", userId);
+		log.info("\t > emailDto = {}", emailDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@PutMapping("/users/{userId}/address")
+	public ResponseEntity<Object> updateAddress(@PathVariable Long userId, @Valid @RequestBody AddrDto addrDto) {
+		log.info("## updateAddress");
+		log.info("\t > userId = {}", userId);
+		log.info("\t > addrDto = {}", addrDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@PutMapping("/users/{userId}/agree")
+	public ResponseEntity<Object> updateAgree(@PathVariable Long userId, @RequestBody AgreeDto agreeDto) {
+		log.info("## updateAgree");
+		log.info("\t > userId = {}", userId);
+		log.info("\t > agreeDto = {}", agreeDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@PutMapping("/users/{userId}/auth")
-	public ResponseEntity<Object> updateUserAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
-		log.info("## updateUserAuth");
+	public ResponseEntity<Object> updateAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
+		log.info("## updateAuth");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
@@ -132,18 +168,10 @@ public class AdminRestController {
 	}
 	
 	@PutMapping("/users/{userId}/password")
-	public ResponseEntity<Object> updateUserPassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
-		log.info("## updateUserPassword");
+	public ResponseEntity<Object> updatePassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
+		log.info("## updatePassword");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
-		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
-	
-	@GetMapping("/users/{userId}")
-	public ResponseEntity<Object> getAdminUser(@PathVariable Long userId) {
-		log.info("## getAdminUser");
-		log.info("\t > userId = {}", userId);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -152,6 +180,14 @@ public class AdminRestController {
 	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
 		log.info("## registerUser");
 		log.info("\t > adminUserRegistrationDto = {}", adminUserRegistrationDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/users/{userId}")
+	public ResponseEntity<Object> getUser(@PathVariable Long userId) {
+		log.info("## getUser");
+		log.info("\t > userId = {}", userId);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

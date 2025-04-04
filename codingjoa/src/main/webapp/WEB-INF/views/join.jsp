@@ -56,9 +56,7 @@
 						<form:label path="email" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
 							<form:input path="email" class="form-control rounded-md" placeholder="이메일을 입력해주세요."/>
-							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-secondary btn-sm rounded-md" id="sendAuthCodeBtn">인증코드 받기</button>
-							</div>
+							<button type="button" class="btn btn-outline-secondary btn-sm rounded-md ml-2" id="sendAuthCodeBtn">인증코드 받기</button>
 						</div>
 						<div class="input-group">
 							<form:input path="authCode" class="form-control rounded-md" placeholder="인증코드를 입력해주세요."/>

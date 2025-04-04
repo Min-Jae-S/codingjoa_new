@@ -455,11 +455,11 @@ textarea:focus::-webkit-input-placeholder {
 }
 
 .rounded-md {
-	border-radius: 0.5rem;
+	border-radius: 0.5rem !important;
 }
 
 .rounded-xl {
-	border-radius: 1rem;
+	border-radius: 1rem !important;
 }
 
 .dropdown-divider {
