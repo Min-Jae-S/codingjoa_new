@@ -51,37 +51,12 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateUserInfo(userId, formData, callback) {
-		console.log("## updateUserInfo");
+	function updateNickname(userId, formData, callback) {
+		console.log("## updateNickname");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/admin/users/${userId}/info`,
-			data : JSON.stringify(formData),
-			contentType : "application/json; charset=utf-8",
-			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				handleError(parseError(jqXHR));
-			}
-		});
-	}
-
-	function updateUserAuth(userId, formData, callback) {
-		console.log("## updateUserAuth");
-		console.log(JSON.stringify(formData, null, 2));
-		$.ajax({
-			type : "PUT",
-			url : `${contextPath}/api/admin/users/${userId}/auth`,
+			url : `${contextPath}/api/admin/users/${userId}/nickname`,
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -101,8 +76,83 @@ let adminService = (function() {
 		});
 	}
 	
-	function updateUserPassword(userId, formData, callback) {
-		console.log("## updateUserPassword");
+	function updateEmail(userId, formData, callback) {
+		console.log("## updateEmail");
+		console.log(JSON.stringify(formData, null, 2));
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/${userId}/email`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	function updateAddr(userId, formData, callback) {
+		console.log("## updateAddr");
+		console.log(JSON.stringify(formData, null, 2));
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/${userId}/address`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	function updateAgree(userId, formData, callback) {
+		console.log("## updateAgree");
+		console.log(JSON.stringify(formData, null, 2));
+		$.ajax({
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/${userId}/agree`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	function updatePassword(userId, formData, callback) {
+		console.log("## updatePassword");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "PUT",
@@ -125,12 +175,15 @@ let adminService = (function() {
 			}
 		});
 	}
-	
-	function getAdminUser(userId, callback) {
-		console.log("## getAdminUser");
+
+	function updateAuth(userId, formData, callback) {
+		console.log("## updateAuth");
+		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
-			type : "GET",
-			url : `${contextPath}/api/admin/users/${userId}`,
+			type : "PUT",
+			url : `${contextPath}/api/admin/users/${userId}/auth`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -156,6 +209,28 @@ let adminService = (function() {
 			url : `${contextPath}/api/admin/users/register`,
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	function getUser(userId, callback) {
+		console.log("## getUser");
+		$.ajax({
+			type : "GET",
+			url : `${contextPath}/api/admin/users/${userId}`,
 			dataType : "json",
 			beforeSend : function(xhr, settings) {
 				console.log("%c> BEFORE SEND", "color:blue");
@@ -276,11 +351,14 @@ let adminService = (function() {
 	return {
 		getPagedUsers:getPagedUsers,
 		getPagedUsersBySearch:getPagedUsersBySearch,
-		updateUserInfo:updateUserInfo,
-		updateUserAuth:updateUserAuth,
-		updateUserPassword:updateUserPassword,
-		getAdminUser:getAdminUser,
+		updateNickname:updateNickname,
+		updateEmail:updateEmail,
+		updateAddr:updateAddr,
+		updateAgree:updateAgree,
+		updatePassword:updatePassword,
+		updateAuth:updateAuth,
 		registerUser:registerUser,
+		getUser:getUser,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

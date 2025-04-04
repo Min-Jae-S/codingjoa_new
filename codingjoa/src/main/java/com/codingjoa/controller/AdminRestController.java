@@ -157,21 +157,21 @@ public class AdminRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
-
-	@PutMapping("/users/{userId}/auth")
-	public ResponseEntity<Object> updateAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
-		log.info("## updateAuth");
-		log.info("\t > userId = {}", userId);
-		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
-		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
 	
 	@PutMapping("/users/{userId}/password")
 	public ResponseEntity<Object> updatePassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updatePassword");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@PutMapping("/users/{userId}/auth")
+	public ResponseEntity<Object> updateAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
+		log.info("## updateAuth");
+		log.info("\t > userId = {}", userId);
+		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

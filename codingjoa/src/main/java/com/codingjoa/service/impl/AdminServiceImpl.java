@@ -7,8 +7,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AdminBoardDto;
+import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
+import com.codingjoa.dto.AdminUserPasswordChangeDto;
+import com.codingjoa.dto.AdminUserRegistrationDto;
+import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.EmailDto;
+import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -37,6 +44,54 @@ public class AdminServiceImpl implements AdminService {
 				.stream()
 				.map(adminUser -> AdminUserDto.from(adminUser))
 				.collect(Collectors.toList());
+	}
+	
+	@Override
+	public void updateNickname(NicknameDto nicknameDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmail(EmailDto emailDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAddr(AddrDto addrDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAgree(AgreeDto agreeDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAuth(AdminUserAuthDto adminUserAuthDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updatePassword(AdminUserPasswordChangeDto adminUserPasswordChangeDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void saveUser(AdminUserRegistrationDto adminUserRegistrationDto, Long userId) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public AdminUserDto getUser(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override
@@ -69,6 +124,12 @@ public class AdminServiceImpl implements AdminService {
 	public int deleteBoards(List<Long> boardIds) {
 		return adminMapper.deleteBoards(boardIds);
 	}
+
+	
+
+	
+
+	
 
 
 }

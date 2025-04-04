@@ -741,40 +741,44 @@
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateUserNickname(userId, formData, function(result) {
+			adminService.updateNickname(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
+				adminService.getUser(userId, function(result) {
 					// ...
 				});
 			});
 		});
 		
+		
+		// submit userEmailForm 
 		$(document).on("submit", "form[name='userEmailForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateUserEmail(userId, formData, function(result) {
+			adminService.updateEmail(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
+				adminService.getUser(userId, function(result) {
 					// ...
 				});
 			});
 		});
 		
+		// submit userAddrForm 
 		$(document).on("submit", "form[name='userAddrForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
-			adminService.updateUserAddrs(userId, formData, function(result) {
+			adminService.updateAddr(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
+				adminService.getUser(userId, function(result) {
 					// ...
 				});
 			});
 		});
 
+		// submit userAgreeForm 
 		$(document).on("submit", "form[name='userAgreeForm']", function(e) {
 			e.preventDefault();
 			let userId = $(this).closest(".collapse").data("user-id");
@@ -782,14 +786,25 @@
 				agree : $(this).find("input[name='agree']").prop("checked")
 			};
 			
-			adminService.updateUserAgree(userId, formData, function(result) {
+			adminService.updateAgree(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
+				adminService.getUser(userId, function(result) {
 					// ...
 				});
 			});
 		});
 
+		// submit userPasswordForm
+		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
+			e.preventDefault();
+			let userId = $(this).closest("tr.collapse").data("user-id");
+			let formData = $(this).serializeObject();
+			
+			adminService.updatePassword(userId, formData, function(result) {
+				alert(result.message);
+			});
+		});
+		
 		// submit userAuthForm
 		$(document).on("submit", "form[name='userAuthForm']", function(e) {
 			e.preventDefault();
@@ -799,22 +814,11 @@
 				.map(el => el.value);
 			let formData = { "roles" : roles };
 			
-			adminService.updateUserAuth(userId, formData, function(result) {
+			adminService.updateAuth(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
+				adminService.getUser(userId, function(result) {
 					// ...
 				});
-			});
-		});
-		
-		// submit userPasswordForm
-		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
-			e.preventDefault();
-			let userId = $(this).closest("tr.collapse").data("user-id");
-			let formData = $(this).serializeObject();
-			
-			adminService.updateUserPassword(userId, formData, function(result) {
-				alert(result.message);
 			});
 		});
 		

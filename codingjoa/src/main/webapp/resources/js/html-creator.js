@@ -406,10 +406,10 @@ function createUsersTableHtml(pagedUsers) {
 							<button class="nav-link active" data-target="userAccountFormWrap">회원정보 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="userAuthFormWrap">권한 관리</button>
+							<button class="nav-link" data-target="userPasswordFormWrap">비밀번호 관리</button>
 						</li>
 						<li class="nav-item">
-							<button class="nav-link" data-target="userPasswordFormWrap">비밀번호 관리</button>
+							<button class="nav-link" data-target="userAuthFormWrap">권한 관리</button>
 						</li>
 					</ul>
 					<div class="modify-forms-wrap">
@@ -463,6 +463,26 @@ function createUsersTableHtml(pagedUsers) {
 								</div>
 							</form>
 						</div>
+						<div name="userPasswordFormWrap">
+							<form name="userPasswordForm">
+								<div class="form-group">
+									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
+									<div class="input-group">
+										<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
+									<div class="input-group">
+										<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
+									</div>
+								</div>
+								<div class="text-end">
+									<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
+									<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+								</div>		
+							</form>
+						</div>
 						<div name="userAuthFormWrap">
 							<form name="userAuthForm">
 								<div class="form-group">
@@ -484,26 +504,6 @@ function createUsersTableHtml(pagedUsers) {
 									<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
 									<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 								</div>
-							</form>
-						</div>
-						<div name="userPasswordFormWrap">
-							<form name="userPasswordForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
-									</div>
-								</div>
-								<div class="text-end">
-									<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
-									<button type="reset" class="btn btn-secondary rounded-md">취소</button>
-								</div>		
 							</form>
 						</div>
 					</div>

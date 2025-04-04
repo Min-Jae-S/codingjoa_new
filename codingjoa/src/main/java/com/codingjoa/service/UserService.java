@@ -26,27 +26,27 @@ public interface UserService {
 	
 	AccountDto getAccountById(Long userId);
 	
-	void checkEmailForUpdate(String email, long userId);
+	void checkEmailForUpdate(String email, Long userId);
 	
 	Long checkEmailForReset(String email);
 	
-	void updateNickname(NicknameDto nicknameDto, long userId);
+	void updateNickname(NicknameDto nicknameDto, Long userId);
 	
-	void updateEmail(EmailAuthDto emailAuthDto, long userId);
+	void updateEmail(EmailAuthDto emailAuthDto, Long userId);
 	
-	void updateAddr(AddrDto addrDto, long userId);
+	void updateAddr(AddrDto addrDto, Long userId);
 	
-	void updateAgree(AgreeDto agreeDto, long userId);
+	void updateAgree(AgreeDto agreeDto, Long userId);
 	
-	void updatePassword(PasswordChangeDto passwordChangeDto, long userId);
+	void updatePassword(PasswordChangeDto passwordChangeDto, Long userId);
 	
-	void savePassword(PasswordSaveDto passwordSaveDto, long userId);
+	void savePassword(PasswordSaveDto passwordSaveDto, Long userId);
 	
 	void resetPassword(String newPassword, Long userId);
 	
 	PrincipalDetails getUserDetailsByEmail(String email); // for authentication in UserDetailsService, OAuth2UserService
 	
-	PrincipalDetails getUserDetailsById(long userId); // for JWT re-issuance after updating
+	PrincipalDetails getUserDetailsById(Long userId); // for JWT re-issuance after updating
 	
 	SnsInfo getSnsInfoByUserId(Long userId);
 	
