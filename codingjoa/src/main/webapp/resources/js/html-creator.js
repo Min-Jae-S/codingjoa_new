@@ -739,11 +739,11 @@ function createUserRegistrationPageHtml() {
 									<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group mb-0">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
 								<div class="form-check ml-4">
 									<label class="form-check-label">
-										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_USER" checked/>
+										<input class="form-check-input" type="checkbox" checked disabled/>
 										<span>일반 사용자</span>
 									</label>
 								</div>

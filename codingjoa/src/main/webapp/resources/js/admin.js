@@ -151,6 +151,26 @@ let adminService = (function() {
 	function registerUser(formData, callback) {
 		console.log("## registerUser");
 		console.log(JSON.stringify(formData, null, 2));
+		$.ajax({
+			type : "POST",
+			url : `${contextPath}/api/admin/users`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			beforeSend : function(xhr, settings) {
+				console.log("%c> BEFORE SEND", "color:blue");
+				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
+			},
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
 	}
 	
 	function getPagedBoards(adminBoardCri, callback) {

@@ -311,6 +311,10 @@
 		border-color: transparent;
 	}
 	
+	.registration-form-wrap {
+		padding: 2rem;
+	}
+	
 }
 </style>
 </head>
