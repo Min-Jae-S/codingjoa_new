@@ -244,7 +244,7 @@ public class UserServiceImpl implements UserService {
 			throw new ExpectedException("error.user.updateEmail");
 		}
 		
-		// update snsInfo
+		// update or delete sns_info
 		// ...
 	}
 	

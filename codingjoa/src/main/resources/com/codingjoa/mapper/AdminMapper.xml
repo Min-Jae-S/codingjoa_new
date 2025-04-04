@@ -44,6 +44,7 @@
 						users.*
 					FROM 
 						users
+						<!-- search criteria -->		
 					ORDER BY
 						id DESC
 				) filterd_users
@@ -68,6 +69,26 @@
 			COUNT(*)
 		FROM
 			users
+		<!-- search criteria -->			
+	</select>
+	
+	<select id="findAdminUserById" parameterType="long" resultMap="adminUserMap">
+		SELECT
+			users.*,
+			sns_info.*,
+			auth.*
+		FROM
+			users
+		LEFT OUTER JOIN
+			sns_info
+		ON
+			users.id = sns_info.user_id
+		INNER JOIN
+			auth
+		ON
+			auth.id = auth.user_id
+		WHERE
+			users.id = #{userId}
 	</select>
 	
 	<delete id="deleteUsers" parameterType="list">

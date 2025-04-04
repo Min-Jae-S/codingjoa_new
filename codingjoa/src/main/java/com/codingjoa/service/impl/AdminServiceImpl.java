@@ -99,6 +99,9 @@ public class AdminServiceImpl implements AdminService {
 		if (!isUpdated) {
 			throw new ExpectedException("error.admin.updateEmail");
 		}
+		
+		// update or delete sns_info
+		// ...
 	}
 
 	@Override
@@ -159,7 +162,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public AdminUserDto getAdminUser(Long userId) {
-		AdminUser adminUser = adminMapper.findAdminUser(userId);
+		AdminUser adminUser = adminMapper.findAdminUserById(userId);
 		if (adminUser == null) {
 			throw new ExpectedException("error.admin.userNotFound");
 		}

@@ -22,7 +22,7 @@ public interface AdminMapper {
 	
 	boolean updatePassword(User user);
 	
-	AdminUser findAdminUser(Long userId);
+	AdminUser findAdminUserById(Long userId);
 	
 	int deleteUsers(List<Long> userIds);
 

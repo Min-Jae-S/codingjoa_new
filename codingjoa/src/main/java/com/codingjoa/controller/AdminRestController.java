@@ -36,6 +36,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.validator.AddrValidator;
 import com.codingjoa.validator.AdminUserAuthValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
 import com.codingjoa.validator.AdminUserRegistrationValidator;
@@ -63,6 +64,11 @@ public class AdminRestController {
 	@InitBinder("nicknameDto")
 	public void InitBinderNickname(WebDataBinder binder) {
 		binder.addValidators(new NicknameValidator());
+	}
+	
+	@InitBinder("addrDto")
+	public void InitBinderAddr(WebDataBinder binder) {
+		binder.addValidators(new AddrValidator());
 	}
 	
 	@InitBinder("adminUserAuthDto")
