@@ -170,6 +170,11 @@ textarea:focus::-webkit-input-placeholder {
 	font-size: 14px;
 }
 
+span.error, span.success {
+	display: inline-block;
+	padding-top: 10px;
+}
+
 .small {
 	font-size: 85%;
 }

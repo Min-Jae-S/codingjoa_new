@@ -60,6 +60,15 @@
 		WHERE
 			nickname = #{nickname}
 	</select>
+
+	<select id="isEmailExist" parameterType="string" resultType="boolean">
+		SELECT
+			COUNT(*)
+		FROM
+			users
+		WHERE
+			email = #{email}
+	</select>
 	
 	<resultMap id="accountMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->

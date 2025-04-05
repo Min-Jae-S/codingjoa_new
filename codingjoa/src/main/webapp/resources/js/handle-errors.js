@@ -31,7 +31,26 @@ function handleValidationError(errorResponse) {
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
-			$("#" + item.field).closest("dd").after("<dd id='" + item.field + ".errors' class='error'>" + item.message + "</dd>");
+			$(`#${item.field}`).closest("dd").after(`<dd id='${item.field}.errors' class='error'>${item.message}</dd>`);
+		});
+		return;
+	}
+	
+	let message = errorResponse.message.replace(/\.\s/g, ".\n");
+	console.log("> handled message = %s", message);
+	
+	alert(message);
+}
+
+function handleAdminValidationError(errorResponse) {
+	console.log("## handleAdminValidationError");
+	console.log(JSON.stringify(errorResponse, null, 2));
+	
+	let details = errorResponse.details;
+	if (details.length > 0) {
+		$.each(details, function(index, item) {
+			$(`input[name='${item.field}']`).closest("div.input-group")
+				.after(`<span id='${item.field}.errors' class='error'>${item.message}</span>`);
 		});
 		return;
 	}

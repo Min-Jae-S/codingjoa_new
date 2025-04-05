@@ -156,6 +156,11 @@ public class UserServiceImpl implements UserService {
 	public boolean isNicknameExist(String nickname) {
 		return userMapper.isNicknameExist(nickname);
 	}
+	
+	@Override
+	public boolean isEmailExist(String email) {
+		return userMapper.isEmailExist(email);
+	}
 
 	@Override
 	public void checkEmailForJoin(String email) {

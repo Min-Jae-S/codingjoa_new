@@ -217,11 +217,13 @@ let adminService = (function() {
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
+				$(".error").remove();
 				callback(result);
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				handleError(parseError(jqXHR));
+				$(".error").remove();
+				handleAdminValidationError(parseError(jqXHR));
 			}
 		});
 	}

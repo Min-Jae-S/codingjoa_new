@@ -31,7 +31,7 @@ public interface AdminService {
 	
 	void updatePassword(AdminUserPasswordChangeDto adminUserPasswordChangeDto, Long userId);
 	
-	void saveUser(AdminUserRegistrationDto adminUserRegistrationDto, Long userId);
+	void registerUser(AdminUserRegistrationDto adminUserRegistrationDto);
 	
 	AdminUserDto getAdminUser(Long userId);
 	

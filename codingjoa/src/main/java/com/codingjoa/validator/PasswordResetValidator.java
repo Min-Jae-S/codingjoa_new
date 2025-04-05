@@ -48,6 +48,7 @@ public class PasswordResetValidator implements Validator {
 			errors.rejectValue("confirmPassword", "NotEquals");
 			return;
 		}
+		
 	}
 
 }

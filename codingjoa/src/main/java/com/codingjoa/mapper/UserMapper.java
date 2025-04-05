@@ -13,6 +13,8 @@ public interface UserMapper {
 	boolean insertUser(User user);
 	
 	boolean isNicknameExist(String nickname);
+
+	boolean isEmailExist(String email);
 	
 	Map<String, Object> findAccountById(Long userId);
 	

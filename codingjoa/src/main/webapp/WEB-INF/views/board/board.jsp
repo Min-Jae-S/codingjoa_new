@@ -112,7 +112,7 @@
 				<div class="input-group">
 					<form:input path="keyword" class="form-control rounded-md" placeholder="검색어를 입력해주세요."/>
 				  	<div class="input-group-append">
-				  		<form:button class="btn btn-outline-secondary rounded-md">검색</form:button>
+				  		<form:button class="btn btn-secondary rounded-md ml-3">검색</form:button>
 				  	</div>
         		</div>
         		<form:select path="recordCnt" class="custom-select rounded-md ml-auto">

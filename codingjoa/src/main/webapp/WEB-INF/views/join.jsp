@@ -33,11 +33,6 @@
 	.form-control:disabled {
 		background-color: #f2f2f2;
 	}
-
-	.error, .success {
-		display: inline-block;
-		padding-top: 7px;
-	}
 </style>
 </head>
 <body>

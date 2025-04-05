@@ -471,7 +471,7 @@ function createUserEditModalHtml(adminUser) {
 							<div>
 								<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 							</div>
-							<button type="button" class="btn btn-sm btn-outline-secondary rounded-md ml-2" name="searchAddrBtn">주소 찾기</button>
+							<button type="button" class="btn btn-sm btn-secondary rounded-md ml-2" name="searchAddrBtn">주소 찾기</button>
 							<button type="submit" class="btn btn-primary rounded-md ms-auto">수정</button>
 						</div>
 						<div class="input-group mb-3">
@@ -541,7 +541,7 @@ function createUserEditModalHtml(adminUser) {
 		</div> <!-- /modify-forms-wrap -->`;
 		
 	return `
-		<div class="modal fade bd-example-modal-lg" id="userEditModal">
+		<div class="modal fade bd-example-modal-lg" id="userEditModal" data-user-id="${adminUser.id}">
 			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -630,7 +630,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 				<div class="input-group">
 					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요."/>
 					<div class="input-group-append">
-						<button type="submit" class="btn btn-outline-secondary rounded-md">검색</button>
+						<button type="submit" class="btn btn-secondary rounded-md ml-3">검색</button>
 					</div>
 				</div>
 			</div>

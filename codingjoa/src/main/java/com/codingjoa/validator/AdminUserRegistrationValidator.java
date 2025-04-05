@@ -7,15 +7,19 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.codingjoa.dto.AdminUserRegistrationDto;
+import com.codingjoa.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class AdminUserRegistrationValidator implements Validator {
 
 	private static final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 	private static final String NICKNAME_REGEXP = "^([a-zA-Z가-힣0-9]{2,10})$";
 	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
+	private final UserService userService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -44,7 +48,12 @@ public class AdminUserRegistrationValidator implements Validator {
 		if (!Pattern.matches(EMAIL_REGEXP, email)) {
 			errors.rejectValue("email", "Pattern");
 			return;
-		} 
+		}
+		
+		if (userService.isEmailExist(email)) {
+			errors.rejectValue("email", "EmailExists");
+			return;
+		}
 	}
 	
 	private void validateNickname(AdminUserRegistrationDto adminUserRegistrationDto, Errors errors) {
@@ -58,7 +67,12 @@ public class AdminUserRegistrationValidator implements Validator {
 		if (!Pattern.matches(NICKNAME_REGEXP, nickname)) {
 			errors.rejectValue("nickname", "Pattern");
 			return;
-		} 
+		}
+		
+		if (userService.isNicknameExist(nickname)) {
+			errors.rejectValue("nickname", "NicknameExists");
+			return;
+		}
 	}
 	
 	private void validatePasswords(AdminUserRegistrationDto adminUserRegistrationDto, Errors errors) {

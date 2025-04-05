@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminUserCri;
-import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminBoardDto;
+import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminUserAuthDto;
 import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.AdminUserPasswordChangeDto;
@@ -36,6 +36,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.service.UserService;
 import com.codingjoa.validator.AdminUserAddrValidator;
 import com.codingjoa.validator.AdminUserAuthValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
@@ -53,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRestController {
 
 	private final AdminService adminService;
+	private final UserService userService;
 	private final AdminUserCriResolver adminUserCriResolver;
 	private final AdminBoardCriResolver adminBoardCriResolver;
 	
@@ -83,7 +85,7 @@ public class AdminRestController {
 
 	@InitBinder("adminUserRegistrationDto")
 	public void InitBinderAdminUserRegistration(WebDataBinder binder) {
-		binder.addValidators(new AdminUserRegistrationValidator());
+		binder.addValidators(new AdminUserRegistrationValidator(userService));
 	}
 	
 	@GetMapping("/users")
@@ -185,6 +187,8 @@ public class AdminRestController {
 		log.info("## updatePassword");
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserPasswordChangeDto = {}", adminUserPasswordChangeDto);
+
+		adminService.updatePassword(adminUserPasswordChangeDto, userId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.updatePassword")
@@ -197,6 +201,8 @@ public class AdminRestController {
 		log.info("\t > userId = {}", userId);
 		log.info("\t > adminUserAuthDto = {}", adminUserAuthDto);
 		
+		adminService.updateAuth(adminUserAuthDto, userId);
+		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.updateAuth")
 				.build());
@@ -206,6 +212,8 @@ public class AdminRestController {
 	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
 		log.info("## registerUser");
 		log.info("\t > adminUserRegistrationDto = {}", adminUserRegistrationDto);
+		
+		adminService.registerUser(adminUserRegistrationDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.registerUser")

@@ -86,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		String currentEmail = user.getEmail();
 		String newEmail = emailDto.getEmail();
-		if (!currentEmail.equals(newEmail) && userMapper.findUserByEmail(newEmail) != null) {
+		if (!currentEmail.equals(newEmail) && userMapper.isEmailExist(newEmail)) {
 			throw new ExpectedException("error.admin.emailExists", "email");
 		}
 		
@@ -155,8 +155,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public void saveUser(AdminUserRegistrationDto adminUserRegistrationDto, Long userId) {
-		// TODO Auto-generated method stub
+	public void registerUser(AdminUserRegistrationDto adminUserRegistrationDto) {
+
 		
 	}
 	

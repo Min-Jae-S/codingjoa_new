@@ -22,6 +22,8 @@ public interface UserService {
 	
 	boolean isNicknameExist(String nickname);
 	
+	boolean isEmailExist(String email);
+	
 	void checkEmailForJoin(String email);
 	
 	AccountDto getAccountById(Long userId);

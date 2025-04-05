@@ -728,6 +728,8 @@
 			console.log("## hidden.bs.modal");
 			$(this).modal("dispose");
 			$(this).remove();
+			
+			// search again
 		});
 		
 		// click form-menu button 
@@ -751,7 +753,7 @@
 		$(document).on("submit", "form[name='userNicknameForm']", function(e) {
 			e.preventDefault();
 			let $nickname = $(this).find("input[name='nickname']");
-			let userId = $(this).closest(".collapse").data("user-id");
+			let userId = $(this).closest(".modal").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateNickname(userId, formData, function(result) {
@@ -767,7 +769,7 @@
 		$(document).on("submit", "form[name='userEmailForm']", function(e) {
 			e.preventDefault();
 			let $email = $(this).find("input[name='email']");
-			let userId = $(this).closest(".collapse").data("user-id");
+			let userId = $(this).closest(".modal").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateEmail(userId, formData, function(result) {
@@ -785,7 +787,7 @@
 			let $zipcode = $(this).find("input[name='zipcode']");
 			let $addr = $(this).find("input[name='addr']");
 			let $addrDetail = $(this).find("input[name='addrDetail']");
-			let userId = $(this).closest(".collapse").data("user-id");
+			let userId = $(this).closest(".modal").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateAddr(userId, formData, function(result) {
@@ -803,7 +805,7 @@
 		$(document).on("submit", "form[name='userAgreeForm']", function(e) {
 			e.preventDefault();
 			let $agree = $(this).find("input[name='agree']");
-			let userId = $(this).closest(".collapse").data("user-id");
+			let userId = $(this).closest(".modal").data("user-id");
 			let formData = {
 				agree : $(this).find("input[name='agree']").prop("checked")
 			};
@@ -820,18 +822,20 @@
 		// submit userPasswordForm
 		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
 			e.preventDefault();
-			let userId = $(this).closest("tr.collapse").data("user-id");
+			let $form = $(this);
+			let userId = $(this).closest(".modal").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updatePassword(userId, formData, function(result) {
 				alert(result.message);
+				$form[0].reset();
 			});
 		});
 		
 		// submit userAuthForm
 		$(document).on("submit", "form[name='userAuthForm']", function(e) {
 			e.preventDefault();
-			let userId = $(this).closest(".collapse").data("user-id");
+			let userId = $(this).closest(".modal").data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
 				.map(el => el.value);
@@ -839,7 +843,7 @@
 			
 			adminService.updateAuth(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getUser(userId, function(result) {
+				adminService.getAdminUser(userId, function(result) {
 					// ...
 				});
 			});
@@ -848,6 +852,7 @@
 		// submit userRegistrationForm
 		$(document).on("submit", "#userRegistrationForm", function(e) {
 			e.preventDefault();
+			let $form = $(this);
 			let formData = $(this).serializeObject();
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
@@ -856,7 +861,16 @@
 			
 			adminService.registerUser(formData, function(result) {
 				alert(result.message);
+				let userRegistrationPage = createUserRegistrationPageHtml();
+				$contentContainer.html(userRegistrationPage);
 			});
+		});
+		
+		// reset userRegistrationForm --> new userRegistrationPage
+		$(document).on("reset", "#userRegistrationForm", function(e) {
+			e.preventDefault();
+			let userRegistrationPage = createUserRegistrationPageHtml();
+			$contentContainer.html(userRegistrationPage);
 		});
 		
 	});
@@ -877,24 +891,11 @@
 	            }
 	
 	            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	            document.querySelector('.collapse.show input[name="zipcode"]').value = data.zonecode;
-	            document.querySelector('.collapse.show input[name="addr"]').value = addr;
-	            document.querySelector('.collapse.show input[name="addrDetail"]').value = '';
+	            document.querySelector('.modal.show input[name="zipcode"]').value = data.zonecode;
+	            document.querySelector('.modal.show input[name="addr"]').value = addr;
 	            
-	            // 우편번호와 주소에 해당하는 에러메세지를 제거한다.
-	            let zipcodeErrorElement = document.getElementById('zipcode.errors');
-	            let addrErrorElement = document.getElementById('addr.errors');
-	            
-	            if (zipcodeErrorElement != null) {
-	            	zipcodeErrorElement.remove();
-	            }
-	            
-	            if (addrErrorElement != null) {
-	            	addrErrorElement.remove();
-	            }
-	
 	            // 커서를 상세주소 필드로 이동한다.
-	            document.querySelector('.collapse.show input[name="addrDetail"]').focus();
+	            document.querySelector('.modal.show input[name="addrDetail"]').focus();
 	        }
 	    }).open();
 	}
