@@ -305,6 +305,7 @@ function createWelcomePageHtml() {
 	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;
 }
 
+// create user page (search, table, pagination)
 function createUsersPageHtml(result) {
 	console.log("## createUsersPageHtml");
 	const { options, adminUserCri, pagedUsers, pagination } = result.data;
@@ -332,10 +333,12 @@ function createUsersPageHtml(result) {
 		</div>`;
 }
 
+// create user search form
 function createUsersFormHtml(options, adminUserCri) {
 	return "";
 }
 
+// create user table
 function createUsersTableHtml(pagedUsers) {
 	let rowsHtml = pagedUsers.map(adminUser => {
 		let providerRow = "";
@@ -392,121 +395,11 @@ function createUsersTableHtml(pagedUsers) {
 					<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
 				</td>
 				<td>
-					<button type="button" class="btn-unstyled collapsed" data-bs-toggle="collapse" data-bs-target="#collapseUser${adminUser.id}">
+					<button type="button" class="btn-unstyled" name="openUserEditModal">
 						<div class="collapse-arrow">
 							<i class="fas fa-angle-up fa-fw"></i>
 						</div>
 					</button>
-				</td>
-			</tr>
-			<tr class="collapse" id="collapseUser${adminUser.id}" data-bs-parent="#collapseUserParent" data-user-id="${adminUser.id}">
-				<td colspan="9">
-					<ul class="nav nav-tabs form-menu">
-						<li class="nav-item">
-							<button class="nav-link active" data-target="userAccountFormWrap">회원정보 관리</button>
-						</li>
-						<li class="nav-item">
-							<button class="nav-link" data-target="userPasswordFormWrap">비밀번호 관리</button>
-						</li>
-						<li class="nav-item">
-							<button class="nav-link" data-target="userAuthFormWrap">권한 관리</button>
-						</li>
-					</ul>
-					<div class="modify-forms-wrap">
-						<div class="active" name="userAccountFormWrap">
-							<form name="userEmailForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="text" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
-										<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
-									</div>
-								</div>
-							</form>
-							<form name="userNicknameForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="text" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
-										<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
-									</div>
-								</div>
-							</form>
-							<form name="userAddrForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>주소</label>
-									<div class="input-group mb-3">
-										<div>
-											<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
-										</div>
-										<button type="button" class="btn btn-sm btn-outline-secondary rounded-md ml-2" name="searchAddrBtn">주소 찾기</button>
-										<button type="submit" class="btn btn-primary rounded-md ms-auto">수정</button>
-									</div>
-									<div class="input-group mb-3">
-										<input class="form-control rounded-md" type="text" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
-									</div>
-									<div class="input-group">			
-										<input class="form-control rounded-md" type="text" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
-									</div>
-								</div>
-							</form>
-							<form name="userAgreeForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
-									<div class="form-check ml-4">
-										<label class="form-check-label">
-											<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
-											<span>이메일</span>
-										</label>
-										<button type="submit" class="btn btn-primary rounded-md float-end">수정</button>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div name="userPasswordFormWrap">
-							<form name="userPasswordForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
-									<div class="input-group">
-										<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
-									</div>
-								</div>
-								<div class="text-end">
-									<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
-									<button type="reset" class="btn btn-secondary rounded-md">취소</button>
-								</div>		
-							</form>
-						</div>
-						<div name="userAuthFormWrap">
-							<form name="userAuthForm">
-								<div class="form-group">
-									<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
-									<div class="form-check ml-4">
-										<label class="form-check-label">
-											<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
-											<span>일반 사용자</span>
-										</label>
-									</div>
-									<div class="form-check ml-4">
-										<label class="form-check-label">
-											<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
-											<span>관리자</span>
-										</label>
-									</div>
-								</div>
-								<div class="text-end">
-									<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
-									<button type="reset" class="btn btn-secondary rounded-md">취소</button>
-								</div>
-							</form>
-						</div>
-					</div>
 				</td>
 			</tr>`
 		}).join("");
@@ -527,15 +420,127 @@ function createUsersTableHtml(pagedUsers) {
 					<th class="d-md-table-cell">권한</th>
 					<th class="d-md-table-cell">계정 연동</th>
 					<th class="d-md-table-cell">연동일</th>
-					<th class="d-md-table-cell">상세정보</th>
+					<th class="d-md-table-cell">관리</th>
 				</tr>
 			</thead>
-			<tbody id="collapseUserParent">
+			<tbody>
 				${rowsHtml}
 			</tbody>
 		</table>`;
 }
 
+// create user edit modal
+function createUserEditModalHtml(adminUser) {
+	return `
+		<ul class="nav nav-tabs form-menu">
+			<li class="nav-item">
+				<button class="nav-link active" data-target="userAccountFormWrap">회원정보 관리</button>
+			</li>
+			<li class="nav-item">
+				<button class="nav-link" data-target="userPasswordFormWrap">비밀번호 관리</button>
+			</li>
+			<li class="nav-item">
+				<button class="nav-link" data-target="userAuthFormWrap">권한 관리</button>
+			</li>
+		</ul>
+		<div class="modify-forms-wrap">
+			<div class="active" name="userAccountFormWrap">
+				<form name="userEmailForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
+						<div class="input-group">
+							<input class="form-control rounded-md" type="text" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
+							<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
+						</div>
+					</div>
+				</form>
+				<form name="userNicknameForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
+						<div class="input-group">
+							<input class="form-control rounded-md" type="text" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
+							<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
+						</div>
+					</div>
+				</form>
+				<form name="userAddrForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>주소</label>
+						<div class="input-group mb-3">
+							<div>
+								<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
+							</div>
+							<button type="button" class="btn btn-sm btn-outline-secondary rounded-md ml-2" name="searchAddrBtn">주소 찾기</button>
+							<button type="submit" class="btn btn-primary rounded-md ms-auto">수정</button>
+						</div>
+						<div class="input-group mb-3">
+							<input class="form-control rounded-md" type="text" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
+						</div>
+						<div class="input-group">			
+							<input class="form-control rounded-md" type="text" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
+						</div>
+					</div>
+				</form>
+				<form name="userAgreeForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
+						<div class="form-check ml-4">
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
+								<span>이메일</span>
+							</label>
+							<button type="submit" class="btn btn-primary rounded-md float-end">수정</button>
+						</div>
+					</div>
+				</form>
+			</div> <!-- userAccountFormWrap -->
+			<div name="userPasswordFormWrap">
+				<form name="userPasswordForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>새로운 비밀번호</label>
+						<div class="input-group">
+							<input class="form-control rounded-md" type="password" name="newPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>비밀번호 확인</label>
+						<div class="input-group">
+							<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
+						</div>
+					</div>
+					<div class="text-end">
+						<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
+						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+					</div>		
+				</form>
+			</div> <!-- userPasswordFormWrap -->
+			<div name="userAuthFormWrap">
+				<form name="userAuthForm">
+					<div class="form-group">
+						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
+						<div class="form-check ml-4">
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
+								<span>일반 사용자</span>
+							</label>
+						</div>
+						<div class="form-check ml-4">
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
+								<span>관리자</span>
+							</label>
+						</div>
+					</div>
+					<div class="text-end">
+						<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
+						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
+					</div>
+				</form>
+			</div> <!-- userAuthFormWrap -->
+		</div> <!-- modify-forms-wrap -->`;
+}
+
+// create board page (search, table, pagination)
 function createBoardsPageHtml(result) {
 	console.log("## createBoardsPageHtml");
 	const { options, adminBoardCri, pagedBoards, pagination } = result.data;
@@ -563,6 +568,7 @@ function createBoardsPageHtml(result) {
 		</div>`;
 }
 
+// create search boards form
 function createBoardsFormHtml(options, adminBoardCri) {
 	let typeOptionHtml = Object.entries(options.typeOption)
 		.map(([key, value]) => {
@@ -640,6 +646,7 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		</form>`;
 }
 
+// create board table
 function createBoardsTableHtml(pagedBoards) {
 	let rowsHtml = "";
 	if (!pagedBoards || pagedBoards.length == 0) {

@@ -711,14 +711,26 @@
 			$(this).blur();
 		});
 		
-		// close collapse 
-		$(document).on("hidden.bs.collapse", "#collapseUserParent .collapse", function() {
-			console.log("## collapse closed");
-			$(this).find(".form-menu button").first().trigger("click");
+		// open modal
+		$(document).on("click", "button[name='openUserEditModal']", function() {
+			console.log("## openUserEditModal button clicked...");
+			adminService.getAdminUser(userId, function(result) {
+				let adminUser = result.data;
+				let modalHtml = createUserEditModalHtml(adminUser);
+				console.log(modalHtml);
+				
+				//$("body").append(modalHtml);
+			});
 		});
 		
+		// close collapse 
+		/* $(document).on("hidden.bs.collapse", "#collapseUserParent .collapse", function() {
+			console.log("## collapse closed");
+			$(this).find(".form-menu button").first().trigger("click");
+		}); */
+		
 		// click form-menu button 
-		$(document).on("click", "#collapseUserParent .form-menu button", function() {
+		/* $(document).on("click", "#collapseUserParent .form-menu button", function() {
 			console.log("## form-menu button click");
 			
 			let $collapse = $(this).closest(".collapse");
@@ -733,7 +745,7 @@
 			
 			$(this).closest(".form-menu").find("button").removeClass("active");
 			$(this).addClass("active");
-		});
+		}); */
 		
 		// submit userNicknameForm 
 		$(document).on("submit", "form[name='userNicknameForm']", function(e) {
