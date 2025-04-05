@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		log.info("\t > convert JoinDto to user entity = {}", user);
 		
 		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user);
+		log.info("\t > saved user = {}", user.getId());
 		
 		if (!isUserSaved) {
 			throw new ExpectedException("error.user.saveUser");
