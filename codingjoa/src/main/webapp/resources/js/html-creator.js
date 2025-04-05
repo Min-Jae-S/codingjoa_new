@@ -372,10 +372,10 @@ function createUsersTableHtml(pagedUsers) {
 					<span>${adminUser.id}</span>
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminUser.email}</span>
+					<span class="email">${adminUser.email}</span>
 				</td>
 				<td class="d-md-table-cell">
-					<span>${adminUser.nickname}</span>
+					<span class="nickname">${adminUser.nickname}</span>
 				</td>
 				<td class="d-md-table-cell">
 					<span class="created-at">${adminUser.createdAt}</span></br>
@@ -383,7 +383,7 @@ function createUsersTableHtml(pagedUsers) {
 				</td>
 				<td class="d-md-table-cell text-start">
 					<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
-					<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
+					<span class="text-primary mr-2 role bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
 				</td>
 				<td class="d-md-table-cell">
 					${providerRow}
@@ -512,7 +512,7 @@ function createUsersTableHtml(pagedUsers) {
 		}).join("");
 	
 	return `
-		<table class="table">
+		<table class="table users-table">
 			<thead>
 				<tr>
 					<th class="d-md-table-cell">
@@ -687,7 +687,7 @@ function createBoardsTableHtml(pagedBoards) {
 	}
 	
 	return `
-		<table class="table">
+		<table class="table boards-table">
 			<thead>
 				<tr>
 					<th class="d-md-table-cell">

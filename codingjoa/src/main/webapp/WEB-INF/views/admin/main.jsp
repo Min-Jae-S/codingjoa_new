@@ -71,7 +71,7 @@
 		font-size: 90%;
 	}
 	
-	.table .email {
+	.table.boards-table .email {
 		font-size: 90%;
 		color: #969691; 
 	}
@@ -746,7 +746,7 @@
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
 					let adminUser = result.data;
-					$nickname.val(adminUser.nickname);
+					$nickname.val(adminUser.nickname).prop("defaultValue", adminUser.nickname);
 				});
 			});
 		});
@@ -762,7 +762,7 @@
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
 					let adminUser = result.data;
-					$email.val(adminUser.email);
+					$email.val(adminUser.email).prop("defaultValue", adminUser.email);
 				});
 			});
 		});
@@ -770,13 +770,19 @@
 		// submit userAddrForm 
 		$(document).on("submit", "form[name='userAddrForm']", function(e) {
 			e.preventDefault();
+			let $zipcode = $(this).find("input[name='zipcode']");
+			let $addr = $(this).find("input[name='addr']");
+			let $addrDetail = $(this).find("input[name='addrDetail']");
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = $(this).serializeObject();
 			
 			adminService.updateAddr(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
-					// ...
+					let adminUser = result.data;
+					$zipcode.val(adminUser.zipcode).prop("defaultValue", adminUser.zipcode);
+					$addr.val(adminUser.addr).prop("defaultValue", adminUser.addr);
+					$addrDetail.val(adminUser.addrDetail).prop("defaultValue", adminUser.addrDetail);
 				});
 			});
 		});
@@ -784,6 +790,7 @@
 		// submit userAgreeForm 
 		$(document).on("submit", "form[name='userAgreeForm']", function(e) {
 			e.preventDefault();
+			let $agree = $(this).find("input[name='agree']");
 			let userId = $(this).closest(".collapse").data("user-id");
 			let formData = {
 				agree : $(this).find("input[name='agree']").prop("checked")
@@ -792,7 +799,8 @@
 			adminService.updateAgree(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
-					// ...
+					let adminUser = result.data;
+					$agree.prop("checked", adminUser.agree).prop("defaultChecked", adminUser.agree);
 				});
 			});
 		});
