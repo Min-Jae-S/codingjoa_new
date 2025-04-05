@@ -1,5 +1,7 @@
 package com.codingjoa.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.codingjoa.entity.Auth;
@@ -8,5 +10,7 @@ import com.codingjoa.entity.Auth;
 public interface AuthMapper {
 	
 	boolean insertAuth(Auth auth);
+
+	List<String> findRolesByUserId(Long userId);
 	
 }

@@ -26,5 +26,14 @@
 		)
 	</insert>
 	
+	<select id="findRolesByUserId" parameterType="long" resultType="string">
+		SELECT
+			role
+		FROM
+			auth
+		WHERE
+			user_id = #{userId}
+	</select>
+	
 	
 </mapper>

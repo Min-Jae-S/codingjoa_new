@@ -1,6 +1,6 @@
 package com.codingjoa.validator;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdminUserAuthValidator implements Validator {
 
-	private static final Set<String> ROLES = Set.of("ROLE_ADMIN");
+	private static final List<String> ROLES = List.of("ROLE_ADMIN");
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -24,7 +24,7 @@ public class AdminUserAuthValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 
 		AdminUserAuthDto adminUserAuthDto = (AdminUserAuthDto) target;
-		Set<String> roles = adminUserAuthDto.getRoles();
+		List<String> roles = adminUserAuthDto.getRoles();
 		
 		if (roles == null) {
 			errors.rejectValue("roles", "NotNull");

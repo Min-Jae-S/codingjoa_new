@@ -158,8 +158,16 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void updateAuth(AdminUserAuthDto adminUserAuthDto, Long userId) {
-		List<String> roles =  new ArrayList<>(Collections.singletonList("ROLE_USER"));;
-		roles.addAll(adminUserAuthDto.getRoles());
+		User user = userMapper.findUserById(userId);
+		if (user == null) {
+			throw new ExpectedException("error.admin.userNotFound");
+		}
+		
+		List<String> currentRoles = authMapper.findRolesByUserId(user.getId());
+		log.info("\t > currentRoles = {}", currentRoles);
+		
+		List<String> newRoles = adminUserAuthDto.getRoles();
+		log.info("\t > newRoles = {}", newRoles);
 	}
 
 	@Override
@@ -201,6 +209,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		List<String> roles =  new ArrayList<>(Collections.singletonList("ROLE_USER"));;
 		roles.addAll(adminUserRegistrationDto.getRoles());
+		log.info("\t > roles = {}", roles);
 		
 		for (String role : roles) {
 			Auth auth = Auth.builder()

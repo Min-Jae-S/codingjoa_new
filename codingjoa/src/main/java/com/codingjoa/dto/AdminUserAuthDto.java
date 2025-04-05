@@ -1,6 +1,6 @@
 package com.codingjoa.dto;
 
-import java.util.Set;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -9,6 +9,6 @@ import lombok.ToString;
 @Getter
 public class AdminUserAuthDto {
 	
-	private Set<String> roles;
+	private List<String> roles;
 	
 }
