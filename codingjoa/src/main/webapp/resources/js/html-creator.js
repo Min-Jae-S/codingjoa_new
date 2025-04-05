@@ -509,10 +509,7 @@ function createUserEditModalHtml(adminUser) {
 							<input class="form-control rounded-md" type="password" name="confirmPassword" placeholder="비밀번호 확인을 입력해주세요." autocomplete="off"/>
 						</div>
 					</div>
-					<div class="text-end">
-						<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
-						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
-					</div>		
+					<button type="submit" class="btn btn-primary rounded-md float-end">수정</button>
 				</form>
 			</div> <!-- /userPasswordFormWrap -->
 			<div name="userAuthFormWrap">
@@ -532,10 +529,7 @@ function createUserEditModalHtml(adminUser) {
 							</label>
 						</div>
 					</div>
-					<div class="text-end">
-						<button type="submit" class="btn btn-primary mr-2 rounded-md">수정</button>
-						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
-					</div>
+					<button type="submit" class="btn btn-primary rounded-md float-end">수정</button>
 				</form>
 			</div> <!-- /userAuthFormWrap -->
 		</div> <!-- /modify-forms-wrap -->`;

@@ -47,8 +47,6 @@ public class UserServiceImpl implements UserService {
 		joinDto.setPassword(encPassword);
 		
 		User user = joinDto.toEntity();
-		log.info("\t > convert JoinDto to user entity = {}", user);
-		
 		boolean isUserSaved = userMapper.insertUser(user);
 		log.info("\t > saved user = {}", user.getId());
 		
@@ -60,10 +58,9 @@ public class UserServiceImpl implements UserService {
 				.userId(user.getId())
 				.role("ROLE_USER")
 				.build();
-		log.info("\t > create auth entity = {}", auth);
 		
 		boolean isAuthSaved = authMapper.insertAuth(auth);
-		log.info("\t > saved auth = {}", auth);
+		log.info("\t > saved auth = {}", auth.getId());
 		
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.user.saveAuth");
@@ -80,10 +77,9 @@ public class UserServiceImpl implements UserService {
 				.email(oAuth2Attributes.getEmail())
 				.agree(false)
 				.build();
-		log.info("\t > create user entity = {}", user);
 		
 		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user);
+		log.info("\t > saved user = {}", user.getId());
 		
 		if (!isUserSaved) {
 			throw new ExpectedException("error.user.saveUser");
@@ -94,10 +90,9 @@ public class UserServiceImpl implements UserService {
 				.snsId(oAuth2Attributes.getId())
 				.provider(oAuth2Attributes.getProvider())
 				.build();
-		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
 		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
-		log.info("\t > saved snsInfo = {}", snsInfo);
+		log.info("\t > saved snsInfo = {}", snsInfo.getId());
 		
 		if (!isSnsInfoSaved) {
 			throw new ExpectedException("error.user.saveSnsInfo");
@@ -107,10 +102,9 @@ public class UserServiceImpl implements UserService {
 				.userId(user.getId())
 				.role("ROLE_USER")
 				.build();
-		log.info("\t > create auth entity = {}", auth);
 		
 		boolean isAuthSaved = authMapper.insertAuth(auth);
-		log.info("\t > saved auth = {}", auth);
+		log.info("\t > saved auth = {}", auth.getId());
 		
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.user.saveAuth");
@@ -147,9 +141,8 @@ public class UserServiceImpl implements UserService {
 				.snsId(oAuth2Attributes.getId())
 				.provider(oAuth2Attributes.getProvider())
 				.build();
-		log.info("\t > create snsInfo entity = {}", snsInfo);
 		
-		snsMapper.insertSnsInfo(snsInfo);
+		log.info("\t > saved snsInfo = {}", snsInfo.getId());
 	}
 	
 	@Override

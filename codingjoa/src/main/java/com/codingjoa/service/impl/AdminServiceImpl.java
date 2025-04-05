@@ -163,11 +163,43 @@ public class AdminServiceImpl implements AdminService {
 			throw new ExpectedException("error.admin.userNotFound");
 		}
 		
-		List<String> currentRoles = authMapper.findRolesByUserId(user.getId());
-		log.info("\t > currentRoles = {}", currentRoles);
+		List<String> newRoles =  new ArrayList<>(Collections.singletonList("ROLE_USER"));;
+		newRoles.addAll(adminUserAuthDto.getRoles());
+		log.info("\t > newRoles = {}", newRoles); // ["ROLE_USER", "ROLE_MANAGER"]
 		
-		List<String> newRoles = adminUserAuthDto.getRoles();
-		log.info("\t > newRoles = {}", newRoles);
+		List<String> currentRoles = authMapper.findRolesByUserId(user.getId());
+		log.info("\t > currentRoles = {}", currentRoles); // ["ROLE_USER", "ROLE_ADMIN"]
+		
+		// rolesToInsert = newRoles - currentRoles
+		List<String> rolesToInsert = new ArrayList<>(newRoles);
+		rolesToInsert.removeAll(currentRoles);
+		log.info("\t > rolesToInsert = {}", rolesToInsert); // ["ROLE_MANAGER"]
+
+		// rolesToDelete = currentRoles - newRoles
+		List<String> rolesToDelete = new ArrayList<>(currentRoles);
+		rolesToDelete.removeAll(newRoles);
+		log.info("\t > rolesToDelete = {}", rolesToDelete); // ["ROLE_ADMIN"]
+		
+		for (String role : rolesToDelete) {
+			boolean isDeleted = authMapper.deleteAuthByUserIdAndRole(user.getId(), role);
+			if (!isDeleted) {
+				throw new ExpectedException("error.admin.deleteAuth");
+			}
+		}
+		
+		for (String role : rolesToInsert) {
+			Auth auth = Auth.builder()
+					.userId(user.getId())
+					.role(role)
+					.build();
+			
+			boolean isSaved = authMapper.insertAuth(auth);
+			log.info("\t > saved auth = {}", auth.getId());
+			
+			if (!isSaved) {
+				throw new ExpectedException("error.admin.saveAuth");
+			}
+		}
 	}
 
 	@Override
@@ -216,10 +248,9 @@ public class AdminServiceImpl implements AdminService {
 				.userId(user.getId())
 				.role(role)
 				.build();
-			log.info("\t > create auth entity = {}", auth);
 			
 			boolean isAuthSaved = authMapper.insertAuth(auth);
-			log.info("\t > saved auth = {}", auth);
+			log.info("\t > saved auth = {}", auth.getId());
 			
 			if (!isAuthSaved) {
 				throw new ExpectedException("error.admin.saveAuth");
@@ -245,7 +276,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public int deleteUsers(List<Long> userIds) {
-		return adminMapper.deleteUsers(userIds);
+		int deletedRows = adminMapper.deleteUsers(userIds);
+		if (deletedRows == 0) {
+			throw new ExpectedException("error.admin.deleteUsers");
+		}
+		
+		return deletedRows;
 	}
 
 	@Override
@@ -265,7 +301,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public int deleteBoards(List<Long> boardIds) {
-		return adminMapper.deleteBoards(boardIds);
+		int deletedRows = adminMapper.deleteBoards(boardIds);
+		if (deletedRows == 0) {
+			throw new ExpectedException("error.admin.deleteBoards");
+		}
+		
+		return deletedRows;
 	}
 
 }

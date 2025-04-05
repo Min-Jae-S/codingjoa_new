@@ -289,7 +289,6 @@
 	.form-menu button.nav-link.active {
 		color: black;
 		font-weight: 600;
-		padding-bottom: 10px;
 	}
 
 	.form-menu button.nav-link:hover {

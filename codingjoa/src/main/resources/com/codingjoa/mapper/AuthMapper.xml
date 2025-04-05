@@ -28,12 +28,15 @@
 	
 	<select id="findRolesByUserId" parameterType="long" resultType="string">
 		SELECT
-			role
+			string
 		FROM
 			auth
 		WHERE
 			user_id = #{userId}
 	</select>
+	
+	<delete id="deleteAuthByUserIdAndRole" parameterType="map">
+	</delete>
 	
 	
 </mapper>

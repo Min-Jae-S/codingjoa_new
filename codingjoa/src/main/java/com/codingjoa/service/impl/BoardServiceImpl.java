@@ -44,10 +44,8 @@ public class BoardServiceImpl implements BoardService {
 		boardDto.setSearchContent(searchContent);
 
 		Board board = boardDto.toEntity();
-		log.info("\t > convert boardDto to board entity = {}", board);
-		
 		boolean isBoardSaved = boardMapper.insertBoard(board);
-		log.info("\t > saved board = {}", (board != null) ? board.getId() : board);
+		log.info("\t > saved board = {}", board.getId());
 
 		if (!isBoardSaved) {
 			throw new ExpectedException("error.board.save");
@@ -125,9 +123,8 @@ public class BoardServiceImpl implements BoardService {
 		boardDto.setSearchContent(searchContent);
 		
 		Board modifiyBoard = boardDto.toEntity();
-		log.info("\t > convert boardDto to board entity = {}", modifiyBoard);
-		
 		boolean isUpdated = boardMapper.updateBoard(modifiyBoard);
+		
 		if (!isUpdated) {
 			throw new ExpectedException("error.board.update");
 		}
@@ -151,6 +148,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		boolean isDeleted = boardMapper.deleteBoard(board);
+		
 		if (!isDeleted) {
 			throw new ExpectedException("error.board.delete");
 		}
