@@ -280,20 +280,6 @@
 		background-color: #fff;
 	}
 	
-	.collapsed .collapse-arrow {
-   		color: rgb(172, 176, 185);
-   		transform: rotate(180deg);
-	}
-	
-	.collapse-arrow {
-		color: #525661;
-		transition: transform 0.15s ease;
-	}
-	
-	.form-menu {
-		margin-top: 1.5rem;
-	}
-	
 	.form-menu button.nav-link {
 		color: #858994;
 		border-top-left-radius: 0.5rem !important;
@@ -303,7 +289,7 @@
 	.form-menu button.nav-link.active {
 		color: black;
 		font-weight: 600;
-		padding-bottom: 9px;
+		padding-bottom: 10px;
 	}
 
 	.form-menu button.nav-link:hover {
@@ -316,6 +302,15 @@
 	
 	.registration-form-wrap {
 		padding: 2rem;
+	}
+	
+	.modal-body {
+		padding: 2rem 0;
+	}
+	
+	.modal-backdrop {
+		width: 100%; 	/* 100vw -> 100% */
+		height: 100%;	/* 100vh -> 100% */
 	}
 	
 }
@@ -713,39 +708,44 @@
 		
 		// open modal
 		$(document).on("click", "button[name='openUserEditModal']", function() {
-			console.log("## openUserEditModal button clicked...");
+			let userId = $(this).data("user-id");
 			adminService.getAdminUser(userId, function(result) {
 				let adminUser = result.data;
 				let modalHtml = createUserEditModalHtml(adminUser);
-				console.log(modalHtml);
-				
-				//$("body").append(modalHtml);
+				$("body").append(modalHtml);
+				$("#userEditModal").modal("show");
 			});
 		});
 		
-		// close collapse 
-		/* $(document).on("hidden.bs.collapse", "#collapseUserParent .collapse", function() {
-			console.log("## collapse closed");
-			$(this).find(".form-menu button").first().trigger("click");
-		}); */
+		$(document).on("hide.bs.modal", "#userEditModal", function() {
+			console.log("## hide.bs.modal");
+			$(this).find("button, input").each(function() {
+				$(this).blur();
+			});
+		});
+		
+		$(document).on("hidden.bs.modal", "#userEditModal", function() {
+			console.log("## hidden.bs.modal");
+			$(this).modal("dispose");
+			$(this).remove();
+		});
 		
 		// click form-menu button 
-		/* $(document).on("click", "#collapseUserParent .form-menu button", function() {
+		$(document).on("click", "#userEditModal .form-menu button.nav-link", function() {
 			console.log("## form-menu button click");
 			
-			let $collapse = $(this).closest(".collapse");
-			$collapse.find(".modify-forms-wrap > div").removeClass("active");
+			$("#userEditModal").find(".modify-forms-wrap > div").removeClass("active");
 			
 			let targetName = $(this).data("target");
 			console.info("\t > target:", targetName);
 			
-			let $target = $collapse.find(`div[name='\${targetName}']`);
+			let $target = $("#userEditModal").find(`div[name='\${targetName}']`);
 			$target.addClass("active");
 			$target.find("form").trigger("reset");
 			
-			$(this).closest(".form-menu").find("button").removeClass("active");
+			$("#userEditModal .form-menu button.nav-link").removeClass("active");
 			$(this).addClass("active");
-		}); */
+		}); 
 		
 		// submit userNicknameForm 
 		$(document).on("submit", "form[name='userNicknameForm']", function(e) {

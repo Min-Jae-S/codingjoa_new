@@ -395,7 +395,7 @@ function createUsersTableHtml(pagedUsers) {
 					<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
 				</td>
 				<td>
-					<button type="button" class="btn-unstyled" name="openUserEditModal">
+					<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
 						<div class="collapse-arrow">
 							<i class="fas fa-angle-up fa-fw"></i>
 						</div>
@@ -431,10 +431,10 @@ function createUsersTableHtml(pagedUsers) {
 
 // create user edit modal
 function createUserEditModalHtml(adminUser) {
-	return `
+	let content = `
 		<ul class="nav nav-tabs form-menu">
 			<li class="nav-item">
-				<button class="nav-link active" data-target="userAccountFormWrap">회원정보 관리</button>
+				<button class="nav-link ml-4 active" data-target="userAccountFormWrap">회원정보 관리</button>
 			</li>
 			<li class="nav-item">
 				<button class="nav-link" data-target="userPasswordFormWrap">비밀번호 관리</button>
@@ -442,6 +442,7 @@ function createUserEditModalHtml(adminUser) {
 			<li class="nav-item">
 				<button class="nav-link" data-target="userAuthFormWrap">권한 관리</button>
 			</li>
+			<button type="button" class="btn-close ml-auto mr-4" data-bs-dismiss="modal"></button>
 		</ul>
 		<div class="modify-forms-wrap">
 			<div class="active" name="userAccountFormWrap">
@@ -493,7 +494,7 @@ function createUserEditModalHtml(adminUser) {
 						</div>
 					</div>
 				</form>
-			</div> <!-- userAccountFormWrap -->
+			</div> <!-- /userAccountFormWrap -->
 			<div name="userPasswordFormWrap">
 				<form name="userPasswordForm">
 					<div class="form-group">
@@ -513,7 +514,7 @@ function createUserEditModalHtml(adminUser) {
 						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 					</div>		
 				</form>
-			</div> <!-- userPasswordFormWrap -->
+			</div> <!-- /userPasswordFormWrap -->
 			<div name="userAuthFormWrap">
 				<form name="userAuthForm">
 					<div class="form-group">
@@ -536,8 +537,19 @@ function createUserEditModalHtml(adminUser) {
 						<button type="reset" class="btn btn-secondary rounded-md">취소</button>
 					</div>
 				</form>
-			</div> <!-- userAuthFormWrap -->
-		</div> <!-- modify-forms-wrap -->`;
+			</div> <!-- /userAuthFormWrap -->
+		</div> <!-- /modify-forms-wrap -->`;
+		
+	return `
+		<div class="modal fade bd-example-modal-lg" id="userEditModal">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
+				<div class="modal-content">
+					<div class="modal-body">
+						${content}
+					</div>
+				</div>
+			</div>
+		</div>`;
 }
 
 // create board page (search, table, pagination)
