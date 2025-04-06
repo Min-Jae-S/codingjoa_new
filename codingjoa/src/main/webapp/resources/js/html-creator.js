@@ -485,7 +485,7 @@ function createUserEditModalHtml(adminUser) {
 				<form name="userAgreeForm">
 					<div class="form-group">
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
-						<div class="form-check ml-4">
+						<div class="form-check">
 							<label class="form-check-label">
 								<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
 								<span>이메일</span>
@@ -516,13 +516,13 @@ function createUserEditModalHtml(adminUser) {
 				<form name="userAuthForm">
 					<div class="form-group">
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
-						<div class="form-check ml-4">
+						<div class="form-check">
 							<label class="form-check-label">
 								<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
 								<span>일반 사용자</span>
 							</label>
 						</div>
-						<div class="form-check ml-4">
+						<div class="form-check">
 							<label class="form-check-label">
 								<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
 								<span>관리자</span>
@@ -768,13 +768,13 @@ function createUserRegistrationPageHtml() {
 							</div>
 							<div class="form-group mb-0">
 								<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
-								<div class="form-check ml-4">
+								<div class="form-check">
 									<label class="form-check-label">
 										<input class="form-check-input" type="checkbox" checked disabled/>
 										<span>일반 사용자</span>
 									</label>
 								</div>
-								<div class="form-check ml-4">
+								<div class="form-check">
 									<label class="form-check-label">
 										<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN"/>
 										<span>관리자</span>

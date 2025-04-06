@@ -230,6 +230,7 @@ public class AdminServiceImpl implements AdminService {
 			.email(adminUserRegistrationDto.getEmail())
 			.nickname(adminUserRegistrationDto.getNickname())
 			.password(encPassword)
+			.agree(false)
 			.build();
 		
 		boolean isUserSaved = userMapper.insertUser(user);

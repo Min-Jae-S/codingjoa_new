@@ -49,7 +49,7 @@ function handleAdminValidationError(errorResponse) {
 	let details = errorResponse.details;
 	if (details.length > 0) {
 		$.each(details, function(index, item) {
-			$(`input[name='${item.field}']`).closest("div.input-group")
+			$(`input[name='${item.field}']`).closest("div")
 				.after(`<span id='${item.field}.errors' class='error'>${item.message}</span>`);
 		});
 		return;
