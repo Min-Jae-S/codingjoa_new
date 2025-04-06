@@ -92,12 +92,13 @@
 		margin-bottom: 1.5rem;
 	}
 	
-	.board-pagination {
+	.board-pagination, .user-pagination {
 		display: flex;   
 		justify-content: center;
 	}
 	
-	.board-pagination .pagination {
+	.board-pagination .pagination,
+	.user-pagination .pagination {
 		margin-bottom: 0;
 	}
 	
@@ -136,26 +137,26 @@
 		text-align: center;
 	}
 	
-	#adminBoardsForm #keyword {
+	#adminBoardsSearchForm input[name='keyword'] {
 		height: 38px;
 	}
 	
-	#adminBoardsForm #sort, #adminBoardsForm #recordCnt {
+	#adminBoardsSearchForm select[name='sort'], #adminBoardsSearchForm select[name='recordCnt'] {
 		width: 95px;
 		height: 38px;
 		margin: 0;
 	}
 	
-	#adminBoardsForm #type {
+	#adminBoardsSearchForm select[name='type'] {
 		width: 110px;
 		height: 38px;
 	}
 	
-	#adminBoardsForm .categories.dropdown {
+	#adminBoardsSearchForm .categories.dropdown {
 		margin-right: 1rem;
 	}
 	
-	#adminBoardsForm .categories.dropdown button.custom-select {
+	#adminBoardsSearchForm .categories.dropdown button.custom-select {
 		width: 110px;
 		height: 38px;
 		text-align: left;
@@ -163,16 +164,16 @@
 		/* background-image: url(../resources/images/down-triangle.svg); */
 	}
 	
-	#adminBoardsForm .categories.dropdown button.dropdown-toggle::after {
+	#adminBoardsSearchForm .categories.dropdown button.dropdown-toggle::after {
 		display: none !important;
 	}
 	
-	#adminBoardsForm .categories.dropdown .dropdown-menu {
+	#adminBoardsSearchForm .categories.dropdown .dropdown-menu {
 		padding: 0;
 		border-radius: 0.5rem;
 	}
 	
-	#adminBoardsForm .categories.dropdown .dropdown-menu li {
+	#adminBoardsSearchForm .categories.dropdown .dropdown-menu li {
 		display: flex;
 		align-items: center;
 		height: 30px;
@@ -180,36 +181,36 @@
 		color: #495057;
 	}
 	
-	#adminBoardsForm .categories.dropdown .dropdown-menu li:first-child {
+	#adminBoardsSearchForm .categories.dropdown .dropdown-menu li:first-child {
 		border-radius: .5rem .5rem 0 0;
 	}
 
-	#adminBoardsForm .categories.dropdown .dropdown-menu li:last-child {
+	#adminBoardsSearchForm .categories.dropdown .dropdown-menu li:last-child {
 		border-radius: 0 0 .5rem .5rem;
 	}
 	
-	#adminBoardsForm .categories.dropdown .dropdown-menu li:hover {
+	#adminBoardsSearchForm .categories.dropdown .dropdown-menu li:hover {
 		background-color: #0a58ca;
 		color: #fff;
 	}
 	
-	#adminBoardsForm .categories.dropdown .form-check .form-check-input {
+	#adminBoardsSearchForm .categories.dropdown .form-check .form-check-input {
 		margin-left: -0.5em;
 		margin-right: 0.5em;
 	}
 
-	#adminBoardsForm .categories.dropdown .form-check .form-check-input:checked {
+	#adminBoardsSearchForm .categories.dropdown .form-check .form-check-input:checked {
 		background-image: url(/codingjoa/resources/images/checked.svg);
 		background-color: #fff;
 	}
 	
-	#adminBoardsForm .selected-categories {
+	#adminBoardsSearchForm .selected-categories {
 		display: flex;
 		align-items: center;
 		column-gap: 10px;
 	}
 	
-	#adminBoardsForm .selected-categories .badge.category-badge {
+	#adminBoardsSearchForm .selected-categories .badge.category-badge {
 		/* color: rgb(0, 196, 113); */
 		/* background-color: rgb(229, 249, 241); */
 		color: #fff;
@@ -220,7 +221,7 @@
 		font-size: 95%;
 	}
 	
-	#adminBoardsForm .selected-categories .category-badge-btn {
+	#adminBoardsSearchForm .selected-categories .category-badge-btn {
 		width: 12px;
 		height: 12px;
 		border: 0;
@@ -558,6 +559,22 @@
 				$("#sidebarToggle").trigger("click");
 			}
 		});
+		
+		$(document).on("change", "#toggleAllUsers", function() {
+			$("input[type='checkbox'][name='userIds']").prop("checked", this.checked);
+			
+			let anyChecked = $("input[type='checkbox'][name='userIds']:checked").length > 0;
+			$("#deleteUsersBtn").prop("disabled", !anyChecked);
+		});
+		
+		$(document).on("change", "input[type='checkbox'][name='userIds']", function() {
+			let totalCnt =  $("input[type='checkbox'][name='userIds']").length;
+			let checkedCnt = $("input[type='checkbox'][name='userIds']:checked").length;
+			$("#toggleAllUsers").prop("checked", totalCnt > 0 && totalCnt == checkedCnt);
+			
+			let anyChecked = checkedCnt > 0;
+			$("#deleteUsersBtn").prop("disabled", !anyChecked);
+		});
 	
 		$(document).on("change", "#toggleAllBoards", function() {
 			$("input[type='checkbox'][name='boardIds']").prop("checked", this.checked);
@@ -574,48 +591,8 @@
 			let anyChecked = checkedCnt > 0;
 			$("#deleteBoardsBtn").prop("disabled", !anyChecked);
 		});
-
-		$(document).on("change", "#toggleAllUsers", function() {
-			$("input[type='checkbox'][name='userIds']").prop("checked", this.checked);
-			
-			let anyChecked = $("input[type='checkbox'][name='userIds']:checked").length > 0;
-			$("#deleteUsersBtn").prop("disabled", !anyChecked);
-		});
 		
-		$(document).on("change", "input[type='checkbox'][name='userIds']", function() {
-			let totalCnt =  $("input[type='checkbox'][name='userIds']").length;
-			let checkedCnt = $("input[type='checkbox'][name='userIds']:checked").length;
-			$("#toggleAllUsers").prop("checked", totalCnt > 0 && totalCnt == checkedCnt);
-			
-			let anyChecked = checkedCnt > 0;
-			$("#deleteUsersBtn").prop("disabled", !anyChecked);
-		});
-		
-		// click delete board btn
-		$(document).on("click", "#deleteBoardsBtn", function() {
-			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
-				.get()
-				.map(el => el.value);
-		
-			if (!boardIds.length) {
-				alert("삭제할 게시물을 선택해주세요.");
-				return;
-			}
-			
-			if (!confirm(`총 \${boardIds.length}개의 게시글을 삭제하시겠습니까?`)) {
-				return;
-			}
-		
-			adminService.deleteBoards(boardIds, function(result) {
-				alert(result.message);
-				let params = new URLSearchParams(window.location.search);
-				params.delete("page");
-				
-				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
-			});
-		});
-
-		// click delete user btn
+		// click delete user button
 		$(document).on("click", "#deleteUsersBtn", function() {
 			let userIds = $("input[type='checkbox'][name='userIds']:checked")
 				.get()
@@ -638,9 +615,42 @@
 				pageRouter.route("${contextPath}/admin/users/", "${contextPath}/admin/users", transformParams(params));
 			});
 		});
+
+		// click delete board button
+		$(document).on("click", "#deleteBoardsBtn", function() {
+			let boardIds = $("input[type='checkbox'][name='boardIds']:checked")
+				.get()
+				.map(el => el.value);
 		
-		// click search
-		$(document).on("submit", "#adminBoardsForm", function(e) {
+			if (!boardIds.length) {
+				alert("삭제할 게시물을 선택해주세요.");
+				return;
+			}
+			
+			if (!confirm(`총 \${boardIds.length}개의 게시글을 삭제하시겠습니까?`)) {
+				return;
+			}
+		
+			adminService.deleteBoards(boardIds, function(result) {
+				alert(result.message);
+				let params = new URLSearchParams(window.location.search);
+				params.delete("page");
+				
+				pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
+			});
+		});
+		
+		// submit user search
+		$(document).on("submit", "#adminUsersSearchForm", function(e) {
+			e.preventDefault();
+			let formData = $(this).serializeObject();
+			let params = new URLSearchParams(formData);
+			
+			pageRouter.route("${contextPath}/admin/users/", "${contextPath}/admin/users", transformParams(params));
+		});
+		
+		// submit board search
+		$(document).on("submit", "#adminBoardsSearchForm", function(e) {
 			e.preventDefault();
 			let formData = $(this).serializeObject();
 			let params = new URLSearchParams(formData);
@@ -648,17 +658,33 @@
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
-		// click pagination
+		// click user pagination
+		$(document).on("click", ".user-pagination button.page-link", function() {
+			let params = new URLSearchParams(window.location.search);
+			params.set("page", $(this).data("page"));
+			
+			pageRouter.route("${contextPath}/admin/users/", "${contextPath}/admin/users", transformParams(params));
+		});
+		
+		// click board pagination
 		$(document).on("click", ".board-pagination button.page-link", function() {
-			console.log("## pagination clicked...");
 			let params = new URLSearchParams(window.location.search);
 			params.set("page", $(this).data("page"));
 			
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
-		// change recordCnt, sort
-		$(document).on("change", "#recordCnt, #sort", function() {
+		// change user recordCnt, sort
+		$(document).on("change", "#adminUsersSearchForm select[name='recordCnt'], #adminUsersSearchForm select[name='sort']", function() {
+			let params = new URLSearchParams(window.location.search);
+			params.set($(this).attr("name"), $(this).val());
+			params.delete("page");
+			
+			pageRouter.route("${contextPath}/admin/users/", "${contextPath}/admin/users", transformParams(params));
+		});
+		
+		// change board recordCnt, sort
+		$(document).on("change", "#adminBoardsSearchForm select[name='recordCnt'], #adminBoardsSearchForm select[name='sort']", function() {
 			let params = new URLSearchParams(window.location.search);
 			params.set($(this).attr("name"), $(this).val());
 			params.delete("page");
@@ -666,8 +692,8 @@
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
-		// change categories
-		$(document).on("change", "input[name='categories']", function() {
+		// change board categories
+		$(document).on("change", "#adminBoardsSearchForm input[name='categories']", function() {
 			let categoryId = $(this).val();
 			
 			if ($(this).prop("checked")) {
@@ -688,8 +714,8 @@
 			pageRouter.route("${contextPath}/admin/boards/", "${contextPath}/admin/boards", transformParams(params));
 		});
 		
-		// click category badge btn
-		$(document).on("click", "button[name='categoryBadgeBtn']", function() {
+		// click category badge button
+		$(document).on("click", "#adminBoardsSearchForm button[name='categoryBadgeBtn']", function() {
 			let categoryId = $(this).data("category-id");
 			let $categoryCheck = $(`input[name='categories'][value='\${categoryId}']`);
 			$categoryCheck.prop("checked", false).trigger("change");
@@ -746,7 +772,7 @@
 		}); 
 		
 		// submit userNicknameForm 
-		$(document).on("submit", "form[name='userNicknameForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userNicknameForm']", function(e) {
 			e.preventDefault();
 			let $nickname = $(this).find("input[name='nickname']");
 			let userId = $(this).closest(".modal").data("user-id");
@@ -762,7 +788,7 @@
 		});
 		
 		// submit userEmailForm 
-		$(document).on("submit", "form[name='userEmailForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userEmailForm']", function(e) {
 			e.preventDefault();
 			let $email = $(this).find("input[name='email']");
 			let userId = $(this).closest(".modal").data("user-id");
@@ -778,7 +804,7 @@
 		});
 		
 		// submit userAddrForm 
-		$(document).on("submit", "form[name='userAddrForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userAddrForm']", function(e) {
 			e.preventDefault();
 			let $zipcode = $(this).find("input[name='zipcode']");
 			let $addr = $(this).find("input[name='addr']");
@@ -798,7 +824,7 @@
 		});
 
 		// submit userAgreeForm 
-		$(document).on("submit", "form[name='userAgreeForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userAgreeForm']", function(e) {
 			e.preventDefault();
 			let $agree = $(this).find("input[name='agree']");
 			let userId = $(this).closest(".modal").data("user-id");
@@ -816,7 +842,7 @@
 		});
 
 		// submit userPasswordForm
-		$(document).on("submit", "form[name='userPasswordForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userPasswordForm']", function(e) {
 			e.preventDefault();
 			let $form = $(this);
 			let userId = $(this).closest(".modal").data("user-id");
@@ -829,7 +855,7 @@
 		});
 		
 		// submit userAuthForm
-		$(document).on("submit", "form[name='userAuthForm']", function(e) {
+		$(document).on("submit", "#userEditModal form[name='userAuthForm']", function(e) {
 			e.preventDefault();
 			let $adminCheckBox = $(this).find("input[name='roles'][value='ROLE_ADMIN']");
 			let userId = $(this).closest(".modal").data("user-id");

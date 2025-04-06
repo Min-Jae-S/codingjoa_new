@@ -310,7 +310,7 @@ function createUsersPageHtml(result) {
 	console.log("## createUsersPageHtml");
 	const { options, adminUserCri, pagedUsers, pagination } = result.data;
 	
-	let formHtml = createUsersFormHtml(options, adminUserCri);
+	let searchFormHtml = createUsersSearchFormHtml(options, adminUserCri);
 	let tableHtml = createUsersTableHtml(pagedUsers);
 	let paginationHtml = createPaginationHtml(pagination);
 	
@@ -318,7 +318,7 @@ function createUsersPageHtml(result) {
 		<div class="card rounded-xl">
 			<div class="card-body">
 				<div class="form-wrap">
-					${formHtml}
+					${searchFormHtml}
 				</div>
 				<div class="table-wrap">
 					${tableHtml}
@@ -326,7 +326,7 @@ function createUsersPageHtml(result) {
 				<div class="mb-3">
 					<button type="button" id="deleteUsersBtn" class="btn btn-primary rounded-md mr-auto" disabled>선택삭제</button>
 				</div>
-				<div class="board-pagination">
+				<div class="user-pagination">
 					${paginationHtml}
 				</div>
 			</div>
@@ -334,8 +334,34 @@ function createUsersPageHtml(result) {
 }
 
 // create user search form
-function createUsersFormHtml(options, adminUserCri) {
-	return "";
+function createUsersSearchFormHtml(options, adminBoardCri) {
+	let typeOptionHtml = Object.entries(options.typeOption)
+		.map(([key, value]) => {
+			let selected = (adminBoardCri.type == key) ? "selected" : "";
+			return `<option value="${key}" ${selected}>${value}</option>`;
+		}).join("");
+	
+	let recordCntOptionHtml = Object.entries(options.recordCntOption)
+		.map(([key, value]) => {
+			let selected = (adminBoardCri.recordCnt == key) ? "selected" : "";
+			return `<option value="${key}" ${selected}>${value}</option>`;
+		}).join("");
+	
+	return `
+		<form id="adminUsersSearchForm" class="form-inline">
+			<select name="type" class="custom-select mr-3 rounded-md">
+				${typeOptionHtml}
+			</select>
+			<div class="input-group">
+				<input name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요."/>
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-secondary rounded-md ml-3">검색</button>
+				</div>
+			</div>
+			<select name="recordCnt" class="custom-select rounded-md ml-auto">
+				${recordCntOptionHtml}
+			</select>
+		</form>`;
 }
 
 // create user table
@@ -551,7 +577,7 @@ function createBoardsPageHtml(result) {
 	console.log("## createBoardsPageHtml");
 	const { options, adminBoardCri, pagedBoards, pagination } = result.data;
 	
-	let formHtml = createBoardsFormHtml(options, adminBoardCri);
+	let searchFormHtml = createBoardsSearchFormHtml(options, adminBoardCri);
 	let tableHtml = createBoardsTableHtml(pagedBoards);
 	let paginationHtml = createPaginationHtml(pagination);
 	
@@ -559,7 +585,7 @@ function createBoardsPageHtml(result) {
 		<div class="card rounded-xl">
 			<div class="card-body">
 				<div class="form-wrap">
-					${formHtml}
+					${searchFormHtml}
 				</div>
 				<div class="table-wrap">
 					${tableHtml}
@@ -574,8 +600,8 @@ function createBoardsPageHtml(result) {
 		</div>`;
 }
 
-// create search boards form
-function createBoardsFormHtml(options, adminBoardCri) {
+// create boards search form
+function createBoardsSearchFormHtml(options, adminBoardCri) {
 	let typeOptionHtml = Object.entries(options.typeOption)
 		.map(([key, value]) => {
 			let selected = (adminBoardCri.type == key) ? "selected" : "";
@@ -616,13 +642,13 @@ function createBoardsFormHtml(options, adminBoardCri) {
 		}).join("");
 	
 	return `
-		<form id="adminBoardsForm">
+		<form id="adminBoardsSearchForm">
 			<div class="d-flex mb-3">
-				<select id="type" name="type" class="custom-select mr-3 rounded-md">
+				<select name="type" class="custom-select mr-3 rounded-md">
 					${typeOptionHtml}
 				</select>
 				<div class="input-group">
-					<input id="keyword" name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요."/>
+					<input name="keyword" class="form-control rounded-md" value="${adminBoardCri.keyword}" placeholder="검색어를 입력해주세요."/>
 					<div class="input-group-append">
 						<button type="submit" class="btn btn-secondary rounded-md ml-3">검색</button>
 					</div>
@@ -641,10 +667,10 @@ function createBoardsFormHtml(options, adminBoardCri) {
 					</div>
 				</div>
 				<div class="d-flex">
-					<select id="sort" name="sort" class="custom-select rounded-md mr-3">
+					<select name="sort" class="custom-select rounded-md mr-3">
 						${sortOptionHtml}
 					</select>
-					<select id="recordCnt" name="recordCnt" class="custom-select rounded-md">
+					<select name="recordCnt" class="custom-select rounded-md">
 						${recordCntOptionHtml}
 					</select>
 				</div>
