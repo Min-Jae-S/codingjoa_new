@@ -65,6 +65,22 @@ public class AdminServiceImpl implements AdminService {
 				.map(adminUser -> AdminUserDto.from(adminUser))
 				.collect(Collectors.toList());
 	}
+	
+	@Override
+	public Pagination getUserPagination(AdminUserCriteria adminUserCri) {
+		int totalCnt = adminMapper.findTotalCntForUserPaging(adminUserCri);
+		return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
+	}
+	
+	@Override
+	public int deleteUsers(List<Long> userIds) {
+		int deletedRows = adminMapper.deleteUsers(userIds);
+		if (deletedRows == 0) {
+			throw new ExpectedException("error.admin.deleteUsers");
+		}
+		
+		return deletedRows;
+	}
 
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, Long userId) {
@@ -88,7 +104,6 @@ public class AdminServiceImpl implements AdminService {
 		if (!isUpdated) {
 			throw new ExpectedException("error.admin.updateNickname");
 		}
-
 	}
 
 	@Override
@@ -267,22 +282,6 @@ public class AdminServiceImpl implements AdminService {
 		}
 
 		return AdminUserDto.from(adminUser);
-	}
-
-	@Override
-	public Pagination getUserPagination(AdminUserCriteria adminUserCri) {
-		int totalCnt = adminMapper.findTotalCntForUserPaging(adminUserCri);
-		return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
-	}
-
-	@Override
-	public int deleteUsers(List<Long> userIds) {
-		int deletedRows = adminMapper.deleteUsers(userIds);
-		if (deletedRows == 0) {
-			throw new ExpectedException("error.admin.deleteUsers");
-		}
-		
-		return deletedRows;
 	}
 
 	@Override

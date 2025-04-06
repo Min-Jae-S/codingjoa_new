@@ -19,6 +19,10 @@ public interface AdminService {
 	
 	List<AdminUserDto> getPagedUsers(AdminUserCriteria adminUserCri);
 	
+	Pagination getUserPagination(AdminUserCriteria adminUserCri);
+	
+	int deleteUsers(List<Long> userIds);
+	
 	void updateNickname(NicknameDto nicknameDto, Long userId);
 	
 	void updateEmail(EmailDto emailDto, Long userId);
@@ -37,11 +41,7 @@ public interface AdminService {
 	
 	List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri);
 
-	Pagination getUserPagination(AdminUserCriteria adminUserCri);
-
 	Pagination getBoardPagination(AdminBoardCriteria adminBoardCri);
-	
-	int deleteUsers(List<Long> userIds);
 
 	int deleteBoards(List<Long> boardIds);
 	

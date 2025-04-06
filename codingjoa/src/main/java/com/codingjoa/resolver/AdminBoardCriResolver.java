@@ -73,7 +73,7 @@ public class AdminBoardCriResolver implements HandlerMethodArgumentResolver {
 		String defaultType = typeOption.keySet().iterator().next();
 		String defaultSort = sortOption.keySet().iterator().next();
 		
-		List<String> categoryList = categories != null ? Arrays.asList(categories) : Collections.emptyList();
+		List<String> categoryList = (categories != null) ? Arrays.asList(categories) : Collections.emptyList();
 		List<Integer> parsedCategories = categoryOption.keySet().containsAll(categoryList) ? 
 				categoryList.stream().map(s -> Integer.parseInt(s)).collect(Collectors.toList()) : Collections.emptyList();
 		
