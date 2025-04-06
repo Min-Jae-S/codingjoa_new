@@ -36,7 +36,7 @@ public class AdminUserAuthValidator implements Validator {
 		
 		for (String role : roles) {
 			if (!ROLES.contains(role)) {
-				errors.rejectValue("roles", "NotValid", new Object[] {role}, null);
+				errors.rejectValue("roles", "NotValid", new Object[] { role }, null);
 				return;
 			}
 		}

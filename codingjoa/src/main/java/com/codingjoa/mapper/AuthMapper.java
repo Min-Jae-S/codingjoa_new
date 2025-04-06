@@ -14,6 +14,6 @@ public interface AuthMapper {
 
 	List<String> findRolesByUserId(Long userId);
 	
-	boolean deleteAuthByUserIdAndRole(@Param("userId") Long userId, @Param("userId") String role);
+	boolean deleteAuthByUserIdAndRole(@Param("userId") Long userId, @Param("role") String role);
 	
 }

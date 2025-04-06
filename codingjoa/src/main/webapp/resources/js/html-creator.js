@@ -471,7 +471,7 @@ function createUserEditModalHtml(adminUser) {
 							<div>
 								<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 							</div>
-							<button type="button" class="btn btn-sm btn-secondary rounded-md ml-2" name="searchAddrBtn">주소 찾기</button>
+							<button type="button" class="btn btn-sm btn-secondary rounded-md ml-3" name="searchAddrBtn">주소 찾기</button>
 							<button type="submit" class="btn btn-primary rounded-md ms-auto">수정</button>
 						</div>
 						<div class="input-group mb-3">

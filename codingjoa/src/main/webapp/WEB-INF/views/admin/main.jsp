@@ -717,28 +717,25 @@
 		});
 		
 		$(document).on("hide.bs.modal", "#userEditModal", function() {
-			console.log("## hide.bs.modal");
+			console.log("## hide.bs.modal: removing focus from all buttons and inputs");
 			$(this).find("button, input").each(function() {
 				$(this).blur();
 			});
 		});
 		
 		$(document).on("hidden.bs.modal", "#userEditModal", function() {
-			console.log("## hidden.bs.modal");
+			console.log("## hidden.bs.modal: modal disposed and removed from DOM");
 			$(this).modal("dispose");
 			$(this).remove();
-			
 			// search again
 		});
 		
 		// click form-menu button 
 		$(document).on("click", "#userEditModal .form-menu button.nav-link", function() {
-			console.log("## form-menu button click");
-			
 			$("#userEditModal").find(".modify-forms-wrap > div").removeClass("active");
 			
 			let targetName = $(this).data("target");
-			console.info("\t > target:", targetName);
+			console.log("## activate target:", targetName)
 			
 			let $target = $("#userEditModal").find(`div[name='\${targetName}']`);
 			$target.addClass("active");
@@ -834,6 +831,7 @@
 		// submit userAuthForm
 		$(document).on("submit", "form[name='userAuthForm']", function(e) {
 			e.preventDefault();
+			let $adminCheckBox = $(this).find("input[name='roles'][value='ROLE_ADMIN']");
 			let userId = $(this).closest(".modal").data("user-id");
 			let roles = $(this).find("input[name='roles']:checked")
 				.get()
@@ -843,7 +841,9 @@
 			adminService.updateAuth(userId, formData, function(result) {
 				alert(result.message);
 				adminService.getAdminUser(userId, function(result) {
-					// ...
+					let adminUser = result.data;
+					let hasAdminRole = adminUser.roles.includes("ROLE_ADMIN");
+					$adminCheckBox.prop("checked", hasAdminRole).prop("defaultChecked", hasAdminRole);
 				});
 			});
 		});

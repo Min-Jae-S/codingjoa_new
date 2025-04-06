@@ -28,7 +28,7 @@
 	
 	<select id="findRolesByUserId" parameterType="long" resultType="string">
 		SELECT
-			string
+			role
 		FROM
 			auth
 		WHERE
@@ -36,6 +36,12 @@
 	</select>
 	
 	<delete id="deleteAuthByUserIdAndRole" parameterType="map">
+		DELETE FROM
+			auth
+		WHERE
+			user_id = #{userId}
+		AND
+			role = #{role}
 	</delete>
 	
 	

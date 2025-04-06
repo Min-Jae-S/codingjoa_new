@@ -1,5 +1,6 @@
 package com.codingjoa.validator;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.util.StringUtils;
@@ -19,6 +20,7 @@ public class AdminUserRegistrationValidator implements Validator {
 	private static final String EMAIL_REGEXP = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
 	private static final String NICKNAME_REGEXP = "^([a-zA-Z가-힣0-9]{2,10})$";
 	private static final String PASSWORD_REGEXP = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()])(?=\\S+$).{8,16}$";
+	private static final List<String> ROLES = List.of("ROLE_ADMIN");
 	private final UserService userService;
 
 	@Override
@@ -35,6 +37,8 @@ public class AdminUserRegistrationValidator implements Validator {
 		validateEmail(adminUserRegistrationDto, errors);
 		validateNickname(adminUserRegistrationDto, errors);
 		validatePasswords(adminUserRegistrationDto, errors);
+		validateRoles(adminUserRegistrationDto, errors);
+		
 	}
 	
 	private void validateEmail(AdminUserRegistrationDto adminUserRegistrationDto, Errors errors) {
@@ -99,6 +103,25 @@ public class AdminUserRegistrationValidator implements Validator {
 			errors.rejectValue("password", "NotEquals");
 			errors.rejectValue("confirmPassword", "NotEquals");
 			return;
+		}
+	}
+	
+	private void validateRoles(AdminUserRegistrationDto adminUserRegistrationDto, Errors errors) {
+		List<String> roles = adminUserRegistrationDto.getRoles();
+		
+		if (roles == null) {
+			errors.rejectValue("roles", "NotNull");
+		}
+		
+		if (roles.isEmpty()) {
+			return;
+		}
+		
+		for (String role : roles) {
+			if (!ROLES.contains(role)) {
+				errors.rejectValue("roles", "NotValid", new Object[] { role }, null);
+				return;
+			}
 		}
 	}
 
