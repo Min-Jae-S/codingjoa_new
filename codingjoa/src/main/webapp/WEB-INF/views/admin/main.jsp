@@ -106,7 +106,7 @@
 		padding: .5rem .75rem;
 	}
 	
-	.no-board, .no-user {
+	.no-results {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;

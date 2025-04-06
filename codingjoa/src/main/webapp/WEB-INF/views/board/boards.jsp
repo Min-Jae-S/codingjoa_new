@@ -69,7 +69,7 @@
 		content: ")";
 	}
 	
-	.no-board {
+	.no-results {
 		display: flex;
 	    flex-direction: column;
     	justify-content: center;
@@ -132,7 +132,7 @@
 							<c:otherwise>
 								<tr>
 									<td colspan="6">
-										<div class="no-board">등록된 게시글이 없습니다.</div>
+										<div class="no-results">일치하는 결과가 없습니다.</div>
 									</td>
 								</tr>
 							</c:otherwise>

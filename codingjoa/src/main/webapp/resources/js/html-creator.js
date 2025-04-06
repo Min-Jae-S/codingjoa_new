@@ -371,7 +371,7 @@ function createUsersTableHtml(pagedUsers) {
 		rowsHtml = `
 			<tr>
 				<td colspan="9">
-					<div class="no-user">사용자가 존재하지 않습니다.</div>
+					<div class="no-results">일치하는 결과가 없습니다.</div>
 				</td>	
 			</tr>`;
 	} else {
@@ -431,9 +431,7 @@ function createUsersTableHtml(pagedUsers) {
 					</td>
 					<td>
 						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
-							<div class="collapse-arrow">
-								<i class="fas fa-angle-up fa-fw"></i>
-							</div>
+							<i class="fas fa-gear fa-fw text-secondary"></i>
 						</button>
 					</td>
 				</tr>`
@@ -695,7 +693,7 @@ function createBoardsTableHtml(pagedBoards) {
 		rowsHtml = `
 			<tr>
 				<td colspan="9">
-					<div class="no-board">게시글이 존재하지 않습니다.</div>
+					<div class="no-results">일치하는 결과가 없습니다.</div>
 				</td>	
 			</tr>`;
 	} else {
