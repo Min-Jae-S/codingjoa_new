@@ -106,11 +106,12 @@
 		padding: .5rem .75rem;
 	}
 	
-	.no-board {
+	.no-board, .no-user {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		min-height: 250px;
+		font-size: 16px !important;
 	}
 	
 	.welcome {
@@ -512,7 +513,6 @@
 
 		pageRouter.addRouter("${contextPath}/admin/users", function(params) {
 			adminService.getPagedUsers(params, function(result) {
-				localStorage.setItem("adminUserOptions", JSON.stringify(result.data.options))
 				let usersPageHtml = createUsersPageHtml(result);
 				$contentContainer.html(usersPageHtml);
 			});
@@ -520,7 +520,10 @@
 
 		pageRouter.addRouter("${contextPath}/admin/users/", function(params) {
 			adminService.getPagedUsersBySearch(params, function(result) {
-				// ...
+				let usersTableHtml = createUsersTableHtml(result.data.pagedUsers);
+				let paginationHtml = createPaginationHtml(result.data.pagination);
+				$(".table-wrap").html(usersTableHtml);
+				$(".user-pagination").html(paginationHtml);
 			});
 		});
 

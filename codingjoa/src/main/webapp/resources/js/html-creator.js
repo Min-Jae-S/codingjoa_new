@@ -366,69 +366,79 @@ function createUsersSearchFormHtml(options, adminBoardCri) {
 
 // create user table
 function createUsersTableHtml(pagedUsers) {
-	let rowsHtml = pagedUsers.map(adminUser => {
-		let providerRow = "";
-		switch (adminUser.provider) {
-			case "kakao":
-				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/kakao.png">`;
-				break;
-				
-			case "naver":
-				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/naver.png">`;
-				break;
-			
-			case "google":
-				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/google.png">`;
-				break;
-
-			case "github":
-				providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/github.png">`;
-				break;
-				
-			default:
-				//providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa.png">`;
-				providerRow = `<span class="provider">codingjoa</span>`;
-		}
-		
-		return `
+	let rowsHtml = "";
+	if (!pagedUsers || pagedUsers.length == 0) {
+		rowsHtml = `
 			<tr>
-				<td class="d-md-table-cell">
-					<div class="form-check">
-						<input class="form-check-input position-static" type="checkbox" name="userIds" value="${adminUser.id}">
-					</div>
-				</td>		
-				<td class="d-md-table-cell">
-					<span>${adminUser.id}</span>
-				</td>
-				<td class="d-md-table-cell">
-					<span class="email">${adminUser.email}</span>
-				</td>
-				<td class="d-md-table-cell">
-					<span class="nickname">${adminUser.nickname}</span>
-				</td>
-				<td class="d-md-table-cell">
-					<span class="created-at">${adminUser.createdAt}</span></br>
-					${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
-				</td>
-				<td class="d-md-table-cell text-start">
-					<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
-					<span class="text-primary mr-2 role bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
-				</td>
-				<td class="d-md-table-cell">
-					${providerRow}
-				</td>
-				<td class="d-md-table-cell">
-					<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
-				</td>
-				<td>
-					<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
-						<div class="collapse-arrow">
-							<i class="fas fa-angle-up fa-fw"></i>
+				<td colspan="9">
+					<div class="no-user">사용자가 존재하지 않습니다.</div>
+				</td>	
+			</tr>`;
+	} else {
+		rowsHtml = pagedUsers.map(adminUser => {
+			let providerRow = "";
+			switch (adminUser.provider) {
+				case "kakao":
+					providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/kakao.png">`;
+					break;
+					
+				case "naver":
+					providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/naver.png">`;
+					break;
+			
+				case "google":
+					providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/google.png">`;
+					break;
+
+				case "github":
+					providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/github.png">`;
+					break;
+				
+				default:
+					//providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa.png">`;
+					providerRow = `<span class="provider">codingjoa</span>`;
+			}
+		
+			return `
+				<tr>
+					<td class="d-md-table-cell">
+						<div class="form-check">
+							<input class="form-check-input position-static" type="checkbox" name="userIds" value="${adminUser.id}">
 						</div>
-					</button>
-				</td>
-			</tr>`
-		}).join("");
+					</td>		
+					<td class="d-md-table-cell">
+						<span>${adminUser.id}</span>
+					</td>
+					<td class="d-md-table-cell">
+						<span class="email">${adminUser.email}</span>
+					</td>
+					<td class="d-md-table-cell">
+						<span class="nickname">${adminUser.nickname}</span>
+					</td>
+					<td class="d-md-table-cell">
+						<span class="created-at">${adminUser.createdAt}</span></br>
+						${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
+					</td>
+					<td class="d-md-table-cell text-start">
+						<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
+						<span class="text-primary mr-2 role bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
+					</td>
+					<td class="d-md-table-cell">
+						${providerRow}
+					</td>
+					<td class="d-md-table-cell">
+						<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
+					</td>
+					<td>
+						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
+							<div class="collapse-arrow">
+								<i class="fas fa-angle-up fa-fw"></i>
+							</div>
+						</button>
+					</td>
+				</tr>`
+			}).join("");
+	}
 	
 	return `
 		<table class="table users-table">
@@ -685,7 +695,7 @@ function createBoardsTableHtml(pagedBoards) {
 		rowsHtml = `
 			<tr>
 				<td colspan="9">
-					<div class="no-board">등록된 게시글이 없습니다.</div>
+					<div class="no-board">게시글이 존재하지 않습니다.</div>
 				</td>	
 			</tr>`;
 	} else {

@@ -25,9 +25,22 @@
 		</collection>
 	</resultMap>
 	
+	<sql id="userSearchCriteria">
+		<where>
+			<if test='!keyword.empty'>
+				<if test='type.equals("email")'>
+					email LIKE '%' || #{keyword} || '%'
+				</if>
+				<if test='type.equals("nickname")'>
+					nickname LIKE '%' || #{keyword} || '%'
+				</if>
+			</if>
+		</where>
+	</sql>
+	
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
-			/*+ ORDERED USE_NL(auth) */
+			/*+ USE_NL(sns_info) */
 			final_users.*,
 			sns_info.*,
 			auth.*
@@ -44,7 +57,7 @@
 						users.*
 					FROM 
 						users
-						<!-- search criteria -->		
+					<include refid="userSearchCriteria"/>	
 					ORDER BY
 						id DESC
 				) filterd_users
@@ -69,7 +82,7 @@
 			COUNT(*)
 		FROM
 			users
-		<!-- search criteria -->			
+		<include refid="userSearchCriteria"/>		
 	</select>
 	
 	<select id="findAdminUserById" parameterType="long" resultMap="adminUserMap">
@@ -135,7 +148,7 @@
 		</association>
 	</resultMap>
 	
-	<sql id="searchBoardCriteria">
+	<sql id="boardSearchCriteria">
 		<where>
 			<if test='!categories.empty'>
 				board.category_code IN
@@ -210,7 +223,7 @@
 						users
 					ON
 						board.user_id = users.id
-					<include refid="searchBoardCriteria"/>
+					<include refid="boardSearchCriteria"/>
 					ORDER BY
 						<choose>
 							<when test="'latest'.equals(sort)">
@@ -282,7 +295,7 @@
 				ON
 					board.board_writer_idx = member.member_idx
 				WHERE 
-					<include refid="searchBoardCriteria"/>
+					<include refid="boardSearchCriteria"/>
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
 			) filterd_board
 			WHERE 
@@ -323,7 +336,7 @@
 			users
 		ON
 			board.user_id = users.id
-		<include refid="searchBoardCriteria"/>
+		<include refid="boardSearchCriteria"/>
 	</select>
 	
 	<delete id="deleteBoards" parameterType="list">
