@@ -18,23 +18,14 @@ function createConfigHtml(data) {
 	let html = "";
 	
 	if (data instanceof Array) { // Array.isArray()
-		$.each(data, function(index, item) {
+		$.each(data, function(key, item) {
 			if (typeof item == "string") {
-				html += `
-					<p class='card-text'>
-						<i class='fa-solid fa-asterisk mr-2'></i>${item}
-					</p>`;
+				html += `<p class='card-text'><i class='fa-solid fa-asterisk mr-2'></i>${item}</p>`;
 			} else {
 				$.each(item, function(key, value) {
-					html += `
-						<p class='card-text'>
-							<i class='fa-solid fa-asterisk mr-2'></i>${key}
-						</p>`;
+					html += `<p class='card-text'><i class='fa-solid fa-asterisk mr-2'></i>${key}</p>`;
 					$.each(value, function(key, value) {
-						html += `
-							<p class='card-text'>
-								<i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}
-							</p>`;
+						html += `<p class='card-text'><i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}</p>`;
 					});
 				});
 			}
@@ -42,12 +33,8 @@ function createConfigHtml(data) {
 	} else {
 		$.each(data, function(key, value) {
 			html += `
-				<p class='card-text'>
-					<i class='fa-solid fa-asterisk mr-2'></i>${key}</p>"
-				</p>
-				<p class='card-text'>
-					<i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}
-				</p>`;
+				<p class='card-text'><i class='fa-solid fa-asterisk mr-2'></i>${key}</p>
+				<p class='card-text'><i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}</p>`;
 		});
 	} 
 	
@@ -101,7 +88,7 @@ function createPagedCommentsHtml(pagedComments) {
 		return "";
 	}
 	
-	let commentItemsHtml = pagedComments.map(commentDetials => {
+	let commentItemsHtml = pagedComments.map(commentDetails => {
 		if (!commentDetails) {
 			return `
 				<li class='list-group-item deleted-comment'>
@@ -118,61 +105,59 @@ function createPagedCommentsHtml(pagedComments) {
 						</div>
 					</div>
 				</li>`;
-		}
-		
-		return `
+		} else {
+			return `
 				<li class='list-group-item' data-id='${commentDetails.id}'>
-					<div class='comment-thum'>
-						<img src='${commentDetails.writerImagePath ? `${contextPath}${commentDetails.writerImagePath}` : `${contextPath}/resources/images/img_profile.png`}'>
-					</div>
-					<div class='comment-area'>
-						<div class='comment-area-header'>
-							<div class='comment-info'>
-								<span class='comment-writer'>${commentDetails.writerNickname}</span>
-								${commentDetails.isBoardWriter ? "<span class='badge badge-pill badge-primary'>글쓴이</span>" : ""}
-								<span class='comment-createdat'>${commentDetails.createdAt}</span>
-								<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
-								<!-- test -->
-								<span class='text-danger'>(${commentDetails.id})</span>
-							</div>
-							<div class='dropend ml-auto'>
-								<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' ${commentDetails.isWriter ? "" : "disabled"}>
-									<i class='fa-ellipsis-vertical fa-solid'></i>
-								</button>
-								<ul class='dropdown-menu'>
-									<h6 class='dropdown-header'>댓글 관리</h6>
-									<hr class='dropdown-divider'>
-									<li>
-										<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>
-										<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div class='comment-area-body'>
-							<div class='comment-content'>
-								<p>${commentDetails.content.replace(/(?:\r\n|\r|\n)/g, "<br>")}</p>
-							</div>
-						</div>
-						<div class='comment-area-footer'>
-							<button type='button' name='commentLikeBtn'>
-								<span class='icon'>
-								${commentDetails.isLiked
-									? "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>"
-									: "<i class='fa-thumbs-up fa-fw fa-regular'></i>"}
-							</span>
-								<span class='comment-like-cnt'>${commentDetails.likeCount}</span>
-							</button>
-						</div>
-					</div>
+					${createCommentHtml(commentDetails)}
 				</li>`;
-		}).join("");
-	});
+		}
+	}).join("");
 	
+	return `<ul class='list-group list-group-flush'>${commentItemsHtml}</ul>`;
+}
+
+function createCommentHtml(commentDetails) {
 	return `
-		<ul class='list-group list-group-flush'>
-			${commentItemsHtml}
-		</ul>`;
+		<div class='comment-thum'>
+			<img src='${commentDetails.writerImagePath ? `${contextPath}${commentDetails.writerImagePath}` : `${contextPath}/resources/images/img_profile.png`}'>
+		</div>
+		<div class='comment-area'>
+			<div class='comment-area-header'>
+				<div class='comment-info'>
+					<span class='comment-writer'>${commentDetails.writerNickname}</span>
+					${commentDetails.isBoardWriter ? "<span class='badge badge-pill badge-primary'>글쓴이</span>" : ""}
+					<span class='comment-createdat'>${commentDetails.createdAt}</span>
+					<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
+					<span class='text-danger'>(${commentDetails.id})</span>
+				</div>
+				<div class='dropend ml-auto'>
+					<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' ${commentDetails.isWriter ? "" : "disabled"}>
+						<i class='fa-ellipsis-vertical fa-solid'></i>
+					</button>
+					<ul class='dropdown-menu'>
+						<h6 class='dropdown-header'>댓글 관리</h6>
+						<hr class='dropdown-divider'>
+						<li>
+							<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>
+							<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class='comment-area-body'>
+				<div class='comment-content'>
+					<p>${commentDetails.content.replace(/(?:\r\n|\r|\n)/g, "<br>")}</p>
+				</div>
+			</div>
+			<div class='comment-area-footer'>
+				<button type='button' name='commentLikeBtn'>
+					<span class='icon'>
+						${commentDetails.isLiked ? "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>" : "<i class='fa-thumbs-up fa-fw fa-regular'></i>"}
+					</span>
+					<span class='comment-like-cnt'>${commentDetails.likeCount}</span>
+				</button>
+			</div>
+		</div>`;
 }
 
 // create edit comment
