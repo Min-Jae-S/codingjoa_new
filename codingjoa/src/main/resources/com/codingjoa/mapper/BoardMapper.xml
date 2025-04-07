@@ -124,6 +124,7 @@
 
 	<select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
 		SELECT
+			/*+ ORDERED */
 			final_board.id,
 			final_board.category_code,
 			final_board.title,

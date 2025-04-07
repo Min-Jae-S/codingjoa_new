@@ -128,7 +128,6 @@ function createCommentHtml(commentDetails) {
 					${commentDetails.isBoardWriter ? "<span class='badge badge-pill badge-primary'>글쓴이</span>" : ""}
 					<span class='comment-createdat'>${commentDetails.createdAt}</span>
 					<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
-					<span class='text-danger'>(${commentDetails.id})</span>
 				</div>
 				<div class='dropend ml-auto'>
 					<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' ${commentDetails.isWriter ? "" : "disabled"}>
@@ -268,6 +267,7 @@ function createPaginationHtml(pagination) {
 //			ADMIN
 // ========================
 
+// create error page
 function createErrorPageHtml() {
 	console.log("## createErrorPageHtml");
 	return `
@@ -277,6 +277,7 @@ function createErrorPageHtml() {
 		</div>`;
 }
 
+// create welcome page
 function createWelcomePageHtml() {
 	console.log("## createWelcomePageHtml");
 	return `<p class='welcome'>Welcome to Admin Dashboard</p>`;

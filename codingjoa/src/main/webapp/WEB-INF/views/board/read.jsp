@@ -763,7 +763,7 @@
 			e.preventDefault();
 			let $form = $(this);
 			let comment = $form.serializeObject();
-			let currentPage = $(".comment-pagination .active .page-link").data("page");
+			let currentPage = 1;
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
