@@ -51,10 +51,10 @@
 		<result column="is_board_writer" property="isBoardWriter" javaType="boolean"/>
 	</resultMap>
 	
+	<!-- /*+ ORDERED USE_NL(latest_user_image) */ -->
 	<!-- /*+ ORDERED USE_NL(users) USE_NL(latest_user_image) USE_NL(board) */ -->
 	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(latest_user_image) */
 			final_comment.id,
 			final_comment.content,
 			final_comment.status,

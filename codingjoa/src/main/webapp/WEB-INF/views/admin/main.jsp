@@ -889,16 +889,13 @@
 			
 			adminService.registerUser(formData, function(result) {
 				alert(result.message);
-				let userRegistrationPage = createUserRegistrationPageHtml();
-				$contentContainer.html(userRegistrationPage);
+				$form.trigger("reset");
 			});
 		});
 		
-		// reset userRegistrationForm --> new userRegistrationPage
-		$(document).on("reset", "#userRegistrationForm", function(e) {
-			e.preventDefault();
-			let userRegistrationPage = createUserRegistrationPageHtml();
-			$contentContainer.html(userRegistrationPage);
+		// reset userRegistrationForm 
+		$(document).on("reset", "#userRegistrationForm", function() {
+			$(this).find(".error").remove();
 		});
 		
 	});

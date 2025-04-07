@@ -528,10 +528,9 @@
 		console.log("## getAccountPage"); 
 		userService.getAccount(function(result) {
 			// destructuring assignment (구조 분해 할당)
-			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword} = result.data;
+			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword } = result.data;
 			
-			$("#userThumbImage").attr("src", imagePath ? 
-					`${contextPath}\${imagePath}` : "${contextPath}/resources/images/img_profile.png");
+			$("#userThumbImage").attr("src", imagePath ? `${contextPath}\${imagePath}` : `${contextPath}/resources/images/img_profile.png`);
 			
 			$("#nickname").attr("value", nickname);
 			$("#showNickname span").text(nickname);
