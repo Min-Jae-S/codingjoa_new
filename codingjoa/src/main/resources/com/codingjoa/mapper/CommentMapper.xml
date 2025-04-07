@@ -53,7 +53,7 @@
 	
 	<!-- /*+ ORDERED USE_NL(latest_user_image) */ -->
 	<!-- /*+ ORDERED USE_NL(users) USE_NL(latest_user_image) USE_NL(board) */ -->
-	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
+	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap" flushCache="true">
 		SELECT
 			final_comment.id,
 			final_comment.content,
@@ -64,8 +64,7 @@
 	        users.nickname 				AS writer_nickname,
 	        latest_user_image.path 		AS writer_image_path,
     		CASE
-    			WHEN final_comment.user_id = #{userId} THEN 1
-    			ELSE 0
+    			WHEN final_comment.user_id = #{userId} THEN 1 ELSE 0
     		END AS is_writer,
     		CASE
     			WHEN EXISTS ( 
@@ -73,23 +72,14 @@
     				FROM comment_like
     				WHERE comment_like.comment_id = final_comment.id 
     				AND comment_like.user_id = #{userId} 
-    			) THEN 1
-    			ELSE 0
+    			) THEN 1 ELSE 0
     		END AS is_liked,
     		CASE
-    			WHEN final_comment.user_id = board.user_id THEN 1
-    			ELSE 0
+    			WHEN final_comment.user_id = board.user_id THEN 1 ELSE 0
     		END AS is_board_writer
 		FROM (
 			SELECT
-				paged_comment.id,
-				paged_comment.board_id,
-				paged_comment.user_id,
-				paged_comment.content,
-				paged_comment.status,
-				paged_comment.like_count,
-				paged_comment.created_at,
-				paged_comment.updated_at
+				paged_comment.*
 			FROM (
 				SELECT
 					ROWNUM rn,
@@ -97,14 +87,15 @@
 				FROM (
 					SELECT
 						/*+ INDEX_DESC(comments pk_comments) */
-				        id,
+				        <!-- id,
 				        board_id,
 				        user_id,
 				        content,
 				        status,
 				        like_count,
 				        created_at,
-				       	updated_at
+				       	updated_at -->
+				       	comments.*
 				    FROM 
 				        comments
 				    WHERE

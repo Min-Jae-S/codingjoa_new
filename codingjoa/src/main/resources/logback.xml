@@ -90,7 +90,7 @@
   		<appender-ref ref="jdbc_console"/>
   	</logger>
   	
-  	<logger name="jdbc.resultsettable" additivity="false" level="OFF">
+  	<logger name="jdbc.resultsettable" additivity="false" level="INFO">
   		<appender-ref ref="jdbc_console"/>
   	</logger>
   	
