@@ -1,5 +1,6 @@
 const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
+// top-menu.jsp
 function createCategoryMenuHtml(categories, parentPath) {
 	console.log("## createCategoryMenuHtml");
 	if (!categories || categories.length == 0) {
@@ -12,39 +13,51 @@ function createCategoryMenuHtml(categories, parentPath) {
 	}).join("");
 }
 
+// main.jsp
 function createConfigHtml(data) {
 	let html = "";
 	
 	if (data instanceof Array) { // Array.isArray()
 		$.each(data, function(index, item) {
 			if (typeof item == "string") {
-				html += "<p class='card-text'>";
-				html += "<i class='fa-solid fa-asterisk mr-2'></i>" + item + "</p>";
+				html += `
+					<p class='card-text'>
+						<i class='fa-solid fa-asterisk mr-2'></i>${item}
+					</p>`;
 			} else {
 				$.each(item, function(key, value) {
-					html += "<p class='card-text'>";
-					html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
-					$.each(value, function(index, item) {
-						html += "<p class='card-text'>";
-						html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + item + "</p>";
+					html += `
+						<p class='card-text'>
+							<i class='fa-solid fa-asterisk mr-2'></i>${key}
+						</p>`;
+					$.each(value, function(key, value) {
+						html += `
+							<p class='card-text'>
+								<i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}
+							</p>`;
 					});
 				});
 			}
 		});	
 	} else {
 		$.each(data, function(key, value) {
-			html += "<p class='card-text'>";
-			html += "<i class='fa-solid fa-asterisk mr-2'></i>" +  key + "</p>";
-			html += "<p class='card-text'>";
-			html += "<i class='fa-solid fa-caret-right ml-4 mr-2'></i>" + value + "</p>";
+			html += `
+				<p class='card-text'>
+					<i class='fa-solid fa-asterisk mr-2'></i>${key}</p>"
+				</p>
+				<p class='card-text'>
+					<i class='fa-solid fa-caret-right ml-4 mr-2'></i>${value}
+				</p>`;
 		});
 	} 
 	
 	return html;
 }
 
+// account.jsp (password change form)
 function createPasswordChangeForm() {
 	console.log("## createPasswordChangeForm");
+	
 	return `
 		<!-- password change form -->
 		<h5 class="mb-4 font-weight-bold">계정 보안</h5>
@@ -80,151 +93,127 @@ function createPasswordChangeForm() {
 		</div>`;
 }
 
+// create paged comments
 function createPagedCommentsHtml(pagedComments) {
 	console.log("## createPagedCommentsHtml");
-	let html = "";
+	
 	if (!pagedComments || pagedComments.length == 0) {
-		return html;
+		return "";
 	}
 	
-	html += "<ul class='list-group list-group-flush'>";
-	$.each(pagedComments, function(index, commentDetails) {
+	let commentItemsHtml = pagedComments.map(commentDetials => {
 		if (!commentDetails) {
-			html += "<li class='list-group-item deleted-comment'>";
-			html += "<div class='comment-area'>";
-			html += "<div class='comment-area-header'>";
-			html += "<div class='comment-info'>";
-			html += "<span class='comment-writer'>삭제된 댓글</span>";
-			html += "</div>";
-			html += "</div>";
-			html += "<div class='comment-area-body'>";
-			html += "<div class='comment-content' style='line-height:180%;'>";
-			html += "<p>삭제된 댓글입니다.</p>";
-			html += "</div>";
-			html += "</div>";
-			html += "</div>";
-			html += "</li>";
-			return true;
+			return `
+				<li class='list-group-item deleted-comment'>
+					<div class='comment-area'>
+						<div class='comment-area-header'>
+							<div class='comment-info'>
+								<span class='comment-writer'>삭제된 댓글</span>
+							</div>
+						</div>
+						<div class='comment-area-body'>
+							<div class='comment-content' style='line-height:180%;'>
+								<p>삭제된 댓글입니다.</p>
+							</div>
+						</div>
+					</div>
+				</li>`;
 		}
 		
-		html += "<li class='list-group-item' data-id='" + commentDetails.id + "'>";
-		html += createCommentHtml(commentDetails);
-		html += "</li>";
+		return `
+				<li class='list-group-item' data-id='${commentDetails.id}'>
+					<div class='comment-thum'>
+						<img src='${commentDetails.writerImagePath ? `${contextPath}${commentDetails.writerImagePath}` : `${contextPath}/resources/images/img_profile.png`}'>
+					</div>
+					<div class='comment-area'>
+						<div class='comment-area-header'>
+							<div class='comment-info'>
+								<span class='comment-writer'>${commentDetails.writerNickname}</span>
+								${commentDetails.isBoardWriter ? "<span class='badge badge-pill badge-primary'>글쓴이</span>" : ""}
+								<span class='comment-createdat'>${commentDetails.createdAt}</span>
+								<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
+								<!-- test -->
+								<span class='text-danger'>(${commentDetails.id})</span>
+							</div>
+							<div class='dropend ml-auto'>
+								<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' ${commentDetails.isWriter ? "" : "disabled"}>
+									<i class='fa-ellipsis-vertical fa-solid'></i>
+								</button>
+								<ul class='dropdown-menu'>
+									<h6 class='dropdown-header'>댓글 관리</h6>
+									<hr class='dropdown-divider'>
+									<li>
+										<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>
+										<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class='comment-area-body'>
+							<div class='comment-content'>
+								<p>${commentDetails.content.replace(/(?:\r\n|\r|\n)/g, "<br>")}</p>
+							</div>
+						</div>
+						<div class='comment-area-footer'>
+							<button type='button' name='commentLikeBtn'>
+								<span class='icon'>
+								${commentDetails.isLiked
+									? "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>"
+									: "<i class='fa-thumbs-up fa-fw fa-regular'></i>"}
+							</span>
+								<span class='comment-like-cnt'>${commentDetails.likeCount}</span>
+							</button>
+						</div>
+					</div>
+				</li>`;
+		}).join("");
 	});
-	html += "</ul>";
-	return html;
+	
+	return `
+		<ul class='list-group list-group-flush'>
+			${commentItemsHtml}
+		</ul>`;
 }
 
-function createCommentHtml(commentDetails) {
-	let html = "";
-	html += "<div class='comment-thum'>";
-	if (commentDetails.writerImagePath) {
-		html += `<img src='${contextPath}${commentDetails.writerImagePath}'>`;
-	} else {
-		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
-	}
-	
-	html += "</div>";
-	html += "<div class='comment-area'>";
-	html += "<div class='comment-area-header'>";
-	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer'>" + commentDetails.writerNickname + "</span>";
-	if (commentDetails.isBoardWriter) {
-		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
-	}
-	
-	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
-	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
-	// for test
-	html += `<span class="text-danger">(${commentDetails.id})</span>`;
-	html += "</div>";
-	html += "<div class='dropend ml-auto'>"; // dropright --> dropend
-	if (commentDetails.isWriter) {
-		html += "<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside'>";
-	} else {
-		html += "<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' disabled>";
-	}
-	
-	html += "<i class='fa-ellipsis-vertical fa-solid'></i>";
-	html += "</button>";
-	html += "<ul class='dropdown-menu'>";
-	html += "<h6 class='dropdown-header'>댓글 관리</h6>";
-	html += "<hr class='dropdown-divider'>";
-	html += "<li>";
-	html += "<button class='dropdown-item' type='button' name='showEditCommentBtn'>수정하기</button>";
-	html += "<button class='dropdown-item' type='button' name='deleteCommentBtn'>삭제하기</button>";
-	html += "</li>";
-	html += "</ul>";
-	html += "</div>";
-	html += "</div>";
-	html += "<div class='comment-area-body'>";
-	html += "<div class='comment-content'>";
-	html += "<p>" + commentDetails.content.replace(/(?:\r\n|\r|\n)/g, "<br>") + "</p>";
-	html += "</div>";
-	html += "</div>";
-	html += "<div class='comment-area-footer'>";
-	html += "<button type='button' name='commentLikeBtn'>";
-	html += "<span class='icon'>";
-	if (commentDetails.isLiked) {
-		html += "<i class='fa-thumbs-up fa-fw fa-regular text-primary'></i>";
-	} else {
-		html += "<i class='fa-thumbs-up fa-fw fa-regular'></i>";
-	}
-
-	html += "</span>";
-	html += "<span class='comment-like-cnt'>" + commentDetails.likeCount + "</span>";	
-	html += "</button>";
-	html += "</div>";
-	html += "</div>";
-	return html;
-}
-
+// create edit comment
 function createEditCommentHtml(commentDetails) {
 	console.log("## createEditCommentHtml");
 	console.log(commentDetails);
-	
-	let html = "";
+
 	if (!commentDetails.isWriter) {
-		return html;
+		return "";
 	}
-	
-	html += "<div class='comment-thum'>";
-	if (commentDetails.writerImagePath) {
-		html += `<img src='${contextPath}${commentDetails.writerImagePath}'>`;
-	} else {
-		html += `<img src='${contextPath}/resources/images/img_profile.png'>`;
-	}
-	
-	html += "</div>";
-	html += "<div class='comment-area'>";
-	html += "<div class='comment-area-header'>";
-	html += "<div class='comment-info'>";
-	html += "<span class='comment-writer'>" + commentDetails.writerNickname + "</span>";
-	if (commentDetails.isBoardWriter) {
-		html += "<span class='badge badge-pill badge-primary'>글쓴이</span>";
-	}
-	
-	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
-	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
-	html += "</div>";
-	html += "</div>";
-	html += "<div class='comment-edit-wrap'>";
-	html += "<form>"
-	html += "<div class='input-group'>";
-	html += "<div class='comment-edit form-control'>";
-	html += "<textarea name='content' rows='1'>" + commentDetails.content + "</textarea>";
-	html += "<div class='mt-2'>";
-	html += "<button type='submit' class='btn btn-sm btn-outline-primary'>수정</button>";
-	html += "<button type='button' class='btn btn-sm btn-outline-secondary ml-2'>취소</button>";
-	html += "</div>";		
-	html += "</div>";			
-	html += "</div>";	
-	html += "</form>";
-	html += "</div>";
-	html += "</div>";
-	return html;
+
+	return `
+		<div class='comment-thum'>
+			<img src='${commentDetails.writerImagePath ? `${contextPath}${commentDetails.writerImagePath}` : `${contextPath}/resources/images/img_profile.png`}'>
+		</div>
+		<div class='comment-area'>
+			<div class='comment-area-header'>
+				<div class='comment-info'>
+					<span class='comment-writer'>${commentDetails.writerNickname}</span>
+					${commentDetails.isBoardWriter ? `<span class='badge badge-pill badge-primary'>글쓴이</span>` : ""}
+					<span class='comment-createdat'>${commentDetails.createdAt}</span>
+					<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
+				</div>
+			</div>
+			<div class='comment-edit-wrap'>
+				<form>
+					<div class='input-group'>
+						<div class='comment-edit form-control'>
+							<textarea name='content' rows='1'>${commentDetails.content}</textarea>
+							<div class='mt-2'>
+								<button type='submit' class='btn btn-sm btn-outline-primary'>수정</button>
+								<button type='button' class='btn btn-sm btn-outline-secondary ml-2'>취소</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>`;
 }
 
+// pagination
 function createPaginationHtml(pagination) {
 	if (!pagination) {
 		return "";
@@ -290,9 +279,9 @@ function createPaginationHtml(pagination) {
 		</ul>`;
 }
 
-// =============================================
-//				ADMIN HTML CREATOR
-// =============================================
+// ========================
+//			ADMIN
+// ========================
 
 function createErrorPageHtml() {
 	console.log("## createErrorPageHtml");
@@ -430,7 +419,7 @@ function createUsersTableHtml(pagedUsers) {
 						${providerRow}
 					</td>
 					<td class="d-md-table-cell">
-						<span class="connected-at">${adminUser.connectedAt ? adminUser.connectedAt : '-'}</span>
+						<span class="connected-at">${adminUser.connectedAt || '-'}</span>
 					</td>
 					<td>
 						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
