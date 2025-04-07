@@ -45,38 +45,39 @@ function createConfigHtml(data) {
 
 function createPasswordChangeForm() {
 	console.log("## createPasswordChangeForm");
-	let html = '<h5 class="mb-4 font-weight-bold">계정 보안</h5>';
-	html += '<div>';
-	html += '<dl class="form-group">';
-	html += '<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>';
-	html += '<div class="show-wrap">';
-	html += '<dd class="input-group" id="showPassword">';
-	html += '<div>';
-	html += '<span class="inner-text">********</span>';
-	html += '</div>';
-	html += '<button class="btn btn-outline-primary btn-sm">수정</button>';
-	html += '</dd>';
-	html += '</div>';
-	html += '<div class="form-wrap d-none">';
-	html += '<form id="passwordChangeForm">';
-	html += '<dd class="input-group">';
-	html += '<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요." autocomplete="off"/>';
-	html += '<div>';
-	html += '<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>';
-	html += '<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>';
-	html += '</div>';
-	html += '</dd>';
-	html += '<dd class="input-group">';
-	html += '<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요." autocomplete="off"/>';
-	html += '</dd>';
-	html += '<dd class="input-group">';
-	html += '<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요." autocomplete="off"/>';
-	html += '</dd>';
-	html += '</form>';
-	html += '</div>';
-	html += '</dl>';
-	html += '</div>';
-	return html;
+	return `
+		<!-- password change form -->
+		<h5 class="mb-4 font-weight-bold">계정 보안</h5>
+		<div>
+			<dl class="form-group">
+				<dt><i class="fa-solid fa-check mr-2"></i>비밀번호</dt>
+				<div class="show-wrap">
+					<dd class="input-group" id="showPassword">
+						<div>
+							<span class="inner-text">********</span>
+						</div>
+						<button class="btn btn-outline-primary btn-sm">수정</button>
+					</dd>
+				</div> <!-- /.show-wrap -->
+				<div class="form-wrap d-none">
+					<form id="passwordChangeForm">
+						<dd class="input-group">
+							<input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호를 입력해주세요." autocomplete="off"/>
+							<div>
+								<button class="btn btn-outline-primary btn-sm" type="submit">확인</button>
+								<button class="btn btn-outline-secondary btn-sm" type="reset">취소</button>
+							</div>
+						</dd>
+						<dd class="input-group">
+							<input type="password" id="newPassword" name="newPassword" placeholder="새로운 비밀번호를 입력해주세요." autocomplete="off"/>
+						</dd>
+						<dd class="input-group">
+							<input type="password" id="confirmPassword" name="confirmPassword" placeholder="확인 비밀번호를 입력해주세요." autocomplete="off"/>
+						</dd>
+					</form>
+				</div> <!-- /.form-wrap -->
+			</dl>
+		</div>`;
 }
 
 function createPagedCommentsHtml(pagedComments) {
@@ -134,6 +135,8 @@ function createCommentHtml(commentDetails) {
 	
 	html += "<span class='comment-createdat'>" + commentDetails.createdAt + "</span>";
 	html += "<span class='comment-updatedat d-none'>" + commentDetails.updatedAt + "</span>";
+	// for test
+	html += `<span class="text-danger">(${commentDetails.id})</span>`;
 	html += "</div>";
 	html += "<div class='dropend ml-auto'>"; // dropright --> dropend
 	if (commentDetails.isWriter) {

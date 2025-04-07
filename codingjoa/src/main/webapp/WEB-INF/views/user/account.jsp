@@ -305,6 +305,7 @@
 			</div>
 		</div>
 		<div class="security-wrap">
+			<!-- password save form -->
 			<h5 class="mb-4 font-weight-bold">계정 보안</h5>
 			<div>
 				<dl class="form-group">
@@ -342,7 +343,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	// ## initiate account page
-	getAccountPage();
+	initAccountPage();
 	
 	$(function() {
 		$("#userImageBtn").on("click", function() {
@@ -524,8 +525,8 @@
 		});
 	});
 	
-	function getAccountPage() {
-		console.log("## getAccountPage"); 
+	function initAccountPage() {
+		console.log("## initAccountPage"); 
 		userService.getAccount(function(result) {
 			// destructuring assignment (구조 분해 할당)
 			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword } = result.data;

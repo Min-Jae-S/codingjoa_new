@@ -38,9 +38,9 @@
 		</where>
 	</sql>
 	
+	<!-- /*+ USE_NL(sns_info) */  -->
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
-			/*+ USE_NL(sns_info) */
 			final_users.*,
 			sns_info.*,
 			auth.*
