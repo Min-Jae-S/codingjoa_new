@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		
 		User user = joinDto.toEntity();
 		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user.getId());
+		log.info("\t > saved user, id = {}", user.getId());
 		
 		if (!isUserSaved) {
 			throw new ExpectedException("error.user.saveUser");
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		
 		boolean isAuthSaved = authMapper.insertAuth(auth);
-		log.info("\t > saved auth = {}", auth.getId());
+		log.info("\t > saved auth, id = {}", auth.getId());
 		
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.user.saveAuth");
@@ -329,7 +329,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		
 		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user.getId());
+		log.info("\t > saved user, id = {}", user.getId());
 		
 		if (!isUserSaved) {
 			throw new ExpectedException("error.user.saveUser");
@@ -342,7 +342,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		
 		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
-		log.info("\t > saved snsInfo = {}", snsInfo.getId());
+		log.info("\t > saved snsInfo, id = {}", snsInfo.getId());
 		
 		if (!isSnsInfoSaved) {
 			throw new ExpectedException("error.user.saveSnsInfo");
@@ -354,7 +354,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		
 		boolean isAuthSaved = authMapper.insertAuth(auth);
-		log.info("\t > saved auth = {}", auth.getId());
+		log.info("\t > saved auth, id = {}", auth.getId());
 		
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.user.saveAuth");
@@ -394,7 +394,7 @@ public class UserServiceImpl implements UserService {
 				.build();
 		
 		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
-		log.info("\t > saved snsInfo = {}", snsInfo.getId());
+		log.info("\t > saved snsInfo, id = {}", snsInfo.getId());
 		
 		if (!isSnsInfoSaved) {
 			throw new ExpectedException("error.user.saveSnsInfo");

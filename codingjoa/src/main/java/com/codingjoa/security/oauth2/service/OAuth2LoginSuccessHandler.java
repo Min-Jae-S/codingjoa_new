@@ -48,22 +48,27 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
 		OAuth2LoginStatus loginStatus = principal.getLoginStatus();
-		
+		log.info("\t > loginStatus = {}", loginStatus); 
+
 		String message;
 		switch (loginStatus) {
 		case NEW:
+			log.info("\t > case: NEW");
 			message = MessageUtils.getMessage("success.login.oauth2.new");
 			break;
 			
 		case LINKED:
+			log.info("\t > case: LINKED");
 			message = MessageUtils.getMessage("success.login.oauth2.linked");
 			break;
 			
 		case LOGGED_IN:
 		default:
+			log.info("\t > case: LOGGED_IN or default");
 			message = MessageUtils.getMessage("success.login.oauth2");
 		}
 		
+		log.info("\t > message = {}", message);
 		request.setAttribute("message", message);
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");

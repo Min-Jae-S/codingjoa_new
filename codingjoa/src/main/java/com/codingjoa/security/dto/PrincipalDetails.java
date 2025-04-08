@@ -21,8 +21,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 @SuppressWarnings("serial")
-@ToString
 @Getter
+@ToString
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	private final long id;
@@ -98,6 +98,11 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return this.getAttributes().get(this.nameAttributeKey).toString();
 	}
 	
+	@JsonIgnore
+	public OAuth2LoginStatus getLoginStatus() {
+		return loginStatus;
+	}
+	
 	// from DB (userDetailsMap)
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { 
@@ -158,4 +163,5 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
 	}
+	
 }

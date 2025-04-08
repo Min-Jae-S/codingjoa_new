@@ -25,7 +25,6 @@ import com.codingjoa.entity.User;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.AdminMapper;
 import com.codingjoa.mapper.AuthMapper;
-import com.codingjoa.mapper.SnsMapper;
 import com.codingjoa.mapper.UserMapper;
 import com.codingjoa.pagination.AdminBoardCriteria;
 import com.codingjoa.pagination.AdminUserCriteria;
@@ -34,7 +33,6 @@ import com.codingjoa.service.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @Service
@@ -43,16 +41,14 @@ public class AdminServiceImpl implements AdminService {
 	private final AdminMapper adminMapper;
 	private final UserMapper userMapper;
 	private final AuthMapper authMapper;
-	private final SnsMapper snsMapper;
 	private final PasswordEncoder passwordEncoder;
 	private final int pageRange;
 
-	public AdminServiceImpl(AdminMapper adminMapper, UserMapper userMapper, AuthMapper authMapper, SnsMapper snsMapper,
+	public AdminServiceImpl(AdminMapper adminMapper, UserMapper userMapper, AuthMapper authMapper,
 			PasswordEncoder passwordEncoder, @Value("${pagination.pageRange}") int pageRange) {
 		this.adminMapper = adminMapper;
 		this.userMapper = userMapper;
 		this.authMapper = authMapper;
-		this.snsMapper = snsMapper;
 		this.passwordEncoder = passwordEncoder;
 		this.pageRange = pageRange;
 	}
@@ -72,16 +68,6 @@ public class AdminServiceImpl implements AdminService {
 		return (totalCnt > 0) ? new Pagination(totalCnt, adminUserCri.getPage(), adminUserCri.getRecordCnt(), pageRange) : null;
 	}
 	
-	@Override
-	public int deleteUsers(List<Long> userIds) {
-		int deletedRows = adminMapper.deleteUsers(userIds);
-		if (deletedRows == 0) {
-			throw new ExpectedException("error.admin.deleteUsers");
-		}
-		
-		return deletedRows;
-	}
-
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, Long userId) {
 		User user = userMapper.findUserById(userId);
@@ -249,7 +235,7 @@ public class AdminServiceImpl implements AdminService {
 			.build();
 		
 		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user.getId());
+		log.info("\t > saved user, id = {}", user.getId());
 		
 		if (!isUserSaved) {
 			throw new ExpectedException("error.admin.saveUser");
@@ -266,7 +252,7 @@ public class AdminServiceImpl implements AdminService {
 				.build();
 			
 			boolean isAuthSaved = authMapper.insertAuth(auth);
-			log.info("\t > saved auth = {}", auth.getId());
+			log.info("\t > saved auth, id = {}", auth.getId());
 			
 			if (!isAuthSaved) {
 				throw new ExpectedException("error.admin.saveAuth");
@@ -282,6 +268,16 @@ public class AdminServiceImpl implements AdminService {
 		}
 
 		return AdminUserDto.from(adminUser);
+	}
+	
+	@Override
+	public int deleteUsers(List<Long> userIds) {
+		int deletedRows = adminMapper.deleteUsers(userIds);
+		if (deletedRows == 0) {
+			throw new ExpectedException("error.admin.deleteUsers");
+		}
+		
+		return deletedRows;
 	}
 
 	@Override

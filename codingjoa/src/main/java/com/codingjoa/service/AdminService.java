@@ -21,8 +21,6 @@ public interface AdminService {
 	
 	Pagination getUserPagination(AdminUserCriteria adminUserCri);
 	
-	int deleteUsers(List<Long> userIds);
-	
 	void updateNickname(NicknameDto nicknameDto, Long userId);
 	
 	void updateEmail(EmailDto emailDto, Long userId);
@@ -36,6 +34,8 @@ public interface AdminService {
 	void updatePassword(AdminUserPasswordChangeDto adminUserPasswordChangeDto, Long userId);
 	
 	void registerUser(AdminUserRegistrationDto adminUserRegistrationDto);
+	
+	int deleteUsers(List<Long> userIds);
 	
 	AdminUserDto getAdminUser(Long userId);
 	

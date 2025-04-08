@@ -245,10 +245,6 @@
 		font-weight: bold;
 	}
 	
-	span.provider {
-		font-weight: bold;
-	}
-	
 	.modify-forms-wrap {
 		padding: 3rem 6rem;
 	}
