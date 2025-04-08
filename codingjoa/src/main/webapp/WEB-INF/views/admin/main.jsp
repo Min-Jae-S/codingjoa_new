@@ -67,7 +67,7 @@
 		color: #969691;
 	}
 	
-	.table .connected-at {
+	.table .linked-at{
 		font-size: 90%;
 	}
 	

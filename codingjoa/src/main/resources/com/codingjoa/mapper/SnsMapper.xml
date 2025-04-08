@@ -7,7 +7,7 @@
 	user_id         NUMBER              NOT NULL,
     sns_id          VARCHAR2(200)       NOT NULL,
 	provider        VARCHAR2(20)        NOT NULL,
-    connected_at    DATE                NOT NULL
+    linked_at    	DATE                NOT NULL
 -->
 	
 	<insert id="insertSnsInfo" parameterType="SnsInfo">
@@ -19,7 +19,7 @@
 			user_id,
 			sns_id,
 			provider,
-			connected_at
+			linked_at
 		) VALUES (
 			#{id},
 			#{userId},

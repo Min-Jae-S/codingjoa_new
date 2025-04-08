@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.AdminMapper">
+<!--
+## users
+    id                  NUMBER,
+    email               VARCHAR2(100)   UNIQUE  NOT NULL,
+    password            VARCHAR2(200)           NULL,
+    nickname            VARCHAR2(50)    UNIQUE  NOT NULL,
+    zipcode             CHAR(5)                 NULL,
+    addr                VARCHAR2(150)           NULL,
+    addr_detail         VARCHAR2(150)           NULL,
+    agree               CHAR(1)                 NOT NULL,
+    created_at          DATE                    NOT NULL,
+    updated_at          DATE                    NOT NULL,
+    
+## auth
+    id          NUMBER,
+    user_id     NUMBER          NOT NULL,
+    role        VARCHAR2(30)    NOT NULL,
+    created_at  DATE            NOT NULL,
+    
+## sns_info
+	id              NUMBER,
+	user_id         NUMBER              NOT NULL,
+    sns_id          VARCHAR2(200)       NOT NULL,
+	provider        VARCHAR2(20)        NOT NULL,
+	linked_at      	DATE                NOT NULL,
+	
+## board  
+    id                  NUMBER,
+    user_id             NUMBER                      NOT NULL,
+    category_code       NUMBER                      NOT NULL,
+	title               VARCHAR2(500)               NOT NULL,
+    content             CLOB                        NOT NULL,
+    search_content      CLOB                        NULL,  
+    view_count          NUMBER          DEFAULT 0   NOT NULL,   
+    comment_count       NUMBER          DEFAULT 0   NOT NULL, 
+    like_count          NUMBER          DEFAULT 0   NOT NULL,
+	created_at          DATE                        NOT NULL,
+    updated_at          DATE                        NOT NULL,
+-->
 
 	<resultMap id="adminUserMap" type="AdminUser">
 		<id column="id" property="user.id"/>
@@ -18,7 +57,7 @@
 		</association>
 		<association property="snsInfo" javaType="SnsInfo">
 			<result column="provider" property="provider"/>
-			<result column="connected_at" property="connectedAt"/>
+			<result column="linked_at" property="linkedAt"/>
 		</association>
 		<collection property="auths" ofType="Auth">
 			<result column="role" property="role"/>

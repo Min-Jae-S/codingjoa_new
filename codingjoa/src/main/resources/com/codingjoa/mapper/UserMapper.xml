@@ -25,8 +25,7 @@
 	user_id         NUMBER              NOT NULL,
     sns_id          VARCHAR2(200)       NOT NULL,
 	provider        VARCHAR2(20)        NOT NULL,
-    connected_at    DATE                NULL,
-	created_at      DATE                NOT NULL,
+	linked_at      	DATE                NOT NULL,
 -->
 
 	<insert id="insertUser" parameterType="User">

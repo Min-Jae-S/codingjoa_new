@@ -374,6 +374,7 @@ function createUsersTableHtml(pagedUsers) {
 				
 				default:
 					//providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/codingjoa.png">`;
+					//providerRow = `<span class="provider">codingjoa</span>`;
 					providerRow = `<span class="provider">codingjoa</span>`;
 			}
 		
@@ -405,7 +406,7 @@ function createUsersTableHtml(pagedUsers) {
 						${providerRow}
 					</td>
 					<td class="d-md-table-cell">
-						<span class="connected-at">${adminUser.connectedAt || '-'}</span>
+						<span class="linked-at">${adminUser.linkedAt || '-'}</span>
 					</td>
 					<td>
 						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">

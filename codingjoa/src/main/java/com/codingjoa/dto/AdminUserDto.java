@@ -35,14 +35,14 @@ public class AdminUserDto {
 	private String provider;
 		
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime connectedAt;
+	private LocalDateTime linkedAt;
 	
 	// auth
 	private List<String> roles;
 	
 	@Builder
 	private AdminUserDto(long id, String email, String nickname, String zipcode, String addr, String addrDetail,
-			boolean agree, LocalDateTime createdAt, LocalDateTime updatedAt, String provider, LocalDateTime connectedAt,
+			boolean agree, LocalDateTime createdAt, LocalDateTime updatedAt, String provider, LocalDateTime linkedAt,
 			List<String> roles) {
 		this.id = id;
 		this.email = email;
@@ -54,7 +54,7 @@ public class AdminUserDto {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.provider = provider;
-		this.connectedAt = connectedAt;
+		this.linkedAt = linkedAt;
 		this.roles = roles;
 	}
 	
@@ -70,7 +70,7 @@ public class AdminUserDto {
 				.createdAt(adminUser.getUser().getCreatedAt())
 				.updatedAt(adminUser.getUser().getUpdatedAt())
 				.provider(adminUser.getSnsInfo().getProvider())
-				.connectedAt(adminUser.getSnsInfo().getConnectedAt())
+				.linkedAt(adminUser.getSnsInfo().getLinkedAt())
 				.roles(toRoles(adminUser.getAuths()))
 				.build();
 	}
