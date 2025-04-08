@@ -95,7 +95,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		return this.getAttributes().get(this.nameAttributeKey).toString();
 	}
 	
-	// from DB(userDetailsMap)
+	// from DB (userDetailsMap)
 	@SuppressWarnings("unchecked")
 	public static PrincipalDetails from(Map<String, Object> map) { 
 		List<String> roles = (List<String>) map.get("roles");
@@ -122,13 +122,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	}
 
 	// from OAuth2
-	public static PrincipalDetails from(PrincipalDetails principalDetails, Map<String, Object> attributes,
-			String nameAttributeKey) { 
-		principalDetails.setAttributes(attributes);
-		principalDetails.setNameAttributeKey(nameAttributeKey);
-		return principalDetails;
-	}
-
 	public static PrincipalDetails from(PrincipalDetails principalDetails, OAuth2Attributes oAuth2Attributes) {
 		principalDetails.setAttributes(oAuth2Attributes.getAttributes());
 		principalDetails.setNameAttributeKey(oAuth2Attributes.getNameAttributeKey());

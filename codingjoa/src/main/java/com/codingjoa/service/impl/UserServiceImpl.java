@@ -68,7 +68,30 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public void saveOAuth2User(OAuth2Attributes oAuth2Attributes) {
+	public PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes) {
+		log.info("## processOAuth2Login");
+		
+		String email = oAuth2Attributes.getEmail();
+		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
+		
+		if (userDetailsMap == null) {
+			log.info("\t > no existing user found. Registering new user with OAuth2 account");
+			saveOAuth2User(oAuth2Attributes);
+		} else {
+			Long userId = (Long) userDetailsMap.get("id");
+			SnsInfo snsInfo = snsMapper.findSnsInfoByUserId(userId);
+			if (snsInfo == null) {
+				log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
+				connectOAuth2User(oAuth2Attributes, userId);
+			} else {
+				log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
+			}
+		}
+		
+		return null;
+	}
+	
+	private void saveOAuth2User(OAuth2Attributes oAuth2Attributes) {
 		String nickname = resolveNickname(oAuth2Attributes.getNickname());
 		log.info("\t > resolved nickname = {}", nickname);
 		
@@ -134,8 +157,7 @@ public class UserServiceImpl implements UserService {
 		return nickname;
 	}
 	
-	@Override
-	public void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId) {
+	private void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId) {
 		SnsInfo snsInfo = SnsInfo.builder()
 				.userId(userId)
 				.snsId(oAuth2Attributes.getId())
@@ -372,5 +394,6 @@ public class UserServiceImpl implements UserService {
 	public SnsInfo getSnsInfoByUserId(Long userId) {
 		return snsMapper.findSnsInfoByUserId(userId);
 	}
+	
 
 }

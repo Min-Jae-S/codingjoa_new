@@ -16,9 +16,7 @@ public interface UserService {
 
 	void saveUser(JoinDto joinDto);
 	
-	void saveOAuth2User(OAuth2Attributes oAuth2Attributes);
-	
-	void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId);
+	PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes);
 	
 	boolean isNicknameExist(String nickname);
 	
