@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.codingjoa.enums.OAuth2LoginStatus;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,8 +31,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private final String nickname;
 	private final String imagePath;						// LEFT OUTER JOIN user_image
 	private final List<GrantedAuthority> authorities;	// INNER JOIN auth
-	private Map<String, Object> attributes;				// OAuth2User
+	
+	private Map<String, Object> attributes;				// about OAuth2User
 	private String nameAttributeKey;
+	private OAuth2LoginStatus loginStatus;
 
 	@Builder
 	private PrincipalDetails(Long id, String email, String password, String nickname, String imagePath,
@@ -121,10 +124,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 				.build();
 	}
 
-	// from OAuth2
-	public static PrincipalDetails from(PrincipalDetails principalDetails, OAuth2Attributes oAuth2Attributes) {
+	// from processOAuth2Login
+	public static PrincipalDetails from(Map<String, Object> map, OAuth2Attributes oAuth2Attributes, OAuth2LoginStatus loginStatus) {
+		PrincipalDetails principalDetails = from(map);
 		principalDetails.setAttributes(oAuth2Attributes.getAttributes());
 		principalDetails.setNameAttributeKey(oAuth2Attributes.getNameAttributeKey());
+		principalDetails.setLoginStatus(loginStatus);
 		return principalDetails;
 	}
 	
@@ -135,8 +140,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private void setNameAttributeKey(String nameAttributeKey) {
 		this.nameAttributeKey = nameAttributeKey;
 	}
+
+	public void setLoginStatus(OAuth2LoginStatus loginStatus) {
+		this.loginStatus = loginStatus;
+	}
 	
-	// from DB(UserDetailsMap) to PrincipalDetails
+	// from DB (UserDetailsMap) to PrincipalDetails
 	private static List<GrantedAuthority> toGrantedAuthorities(List<String> roles) {
 		return roles.stream()
 			.map(role -> new SimpleGrantedAuthority(role))
@@ -149,5 +158,4 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			.map(role -> new SimpleGrantedAuthority(role))
 			.collect(Collectors.toList());
 	}
-	
 }

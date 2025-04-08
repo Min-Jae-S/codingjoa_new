@@ -44,7 +44,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 		log.info("\t > extract oAuth2Attributes: {}", FormatUtils.formatPrettyJson(oAuth2Attributes));
 		
 		// 1) to apply spring transaction, move logic to service layer
-		// 2) delegate OAuth2 login handling to userService for clear separation of concerns
+		// 2) for clear separation of concerns
 		PrincipalDetails principalDetails = userService.processOAuth2Login(oAuth2Attributes);
 		
 		return principalDetails;

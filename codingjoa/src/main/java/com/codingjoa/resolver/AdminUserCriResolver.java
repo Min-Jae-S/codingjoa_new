@@ -48,7 +48,6 @@ public class AdminUserCriResolver implements HandlerMethodArgumentResolver {
 		String recordCnt = webRequest.getParameter("recordCnt");
 		String type = webRequest.getParameter("type");
 		String keyword = webRequest.getParameter("keyword");
-		
 		log.info("\t > page = {}, recordCnt = {}, keyword = {}, type = {}", page, recordCnt, keyword, type);
 		
 		int defaultRecordCnt = Integer.parseInt(recordCntOption.keySet().iterator().next());

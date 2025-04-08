@@ -18,6 +18,7 @@ import com.codingjoa.dto.PasswordSaveDto;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.entity.User;
+import com.codingjoa.enums.OAuth2LoginStatus;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.AuthMapper;
 import com.codingjoa.mapper.SnsMapper;
@@ -65,106 +66,6 @@ public class UserServiceImpl implements UserService {
 		if (!isAuthSaved) {
 			throw new ExpectedException("error.user.saveAuth");
 		}
-	}
-	
-	@Override
-	public PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes) {
-		log.info("## processOAuth2Login");
-		
-		String email = oAuth2Attributes.getEmail();
-		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
-		
-		if (userDetailsMap == null) {
-			log.info("\t > no existing user found. Registering new user with OAuth2 account");
-			saveOAuth2User(oAuth2Attributes);
-		} else {
-			Long userId = (Long) userDetailsMap.get("id");
-			SnsInfo snsInfo = snsMapper.findSnsInfoByUserId(userId);
-			if (snsInfo == null) {
-				log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
-				connectOAuth2User(oAuth2Attributes, userId);
-			} else {
-				log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
-			}
-		}
-		
-		return null;
-	}
-	
-	private void saveOAuth2User(OAuth2Attributes oAuth2Attributes) {
-		String nickname = resolveNickname(oAuth2Attributes.getNickname());
-		log.info("\t > resolved nickname = {}", nickname);
-		
-		User user = User.builder()
-				.nickname(nickname) 
-				.email(oAuth2Attributes.getEmail())
-				.agree(false)
-				.build();
-		
-		boolean isUserSaved = userMapper.insertUser(user);
-		log.info("\t > saved user = {}", user.getId());
-		
-		if (!isUserSaved) {
-			throw new ExpectedException("error.user.saveUser");
-		}
-		
-		SnsInfo snsInfo = SnsInfo.builder()
-				.userId(user.getId())
-				.snsId(oAuth2Attributes.getId())
-				.provider(oAuth2Attributes.getProvider())
-				.build();
-		
-		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
-		log.info("\t > saved snsInfo = {}", snsInfo.getId());
-		
-		if (!isSnsInfoSaved) {
-			throw new ExpectedException("error.user.saveSnsInfo");
-		}
-
-		Auth auth = Auth.builder()
-				.userId(user.getId())
-				.role("ROLE_USER")
-				.build();
-		
-		boolean isAuthSaved = authMapper.insertAuth(auth);
-		log.info("\t > saved auth = {}", auth.getId());
-		
-		if (!isAuthSaved) {
-			throw new ExpectedException("error.user.saveAuth");
-		}
-	}
-	
-	private String resolveNickname(String nickname) {
-		final int MAX_NICKNAME_LENGTH = 10;
-		final int RANDOM_SUFFIX_LENGTH = 4;
-		final int MAX_BASE_NICKNAME_LENGTH = MAX_NICKNAME_LENGTH - RANDOM_SUFFIX_LENGTH;
-		
-		nickname = nickname.replaceAll("\\s+", ""); // google: MinJae Suh --> MinJaeSuh
-		if (nickname.length() > MAX_NICKNAME_LENGTH) {
-			nickname = nickname.substring(0, MAX_NICKNAME_LENGTH);
-		}
-		
-		if (userMapper.isNicknameExist(nickname)) {
-	        String baseNickname = (nickname.length() > MAX_BASE_NICKNAME_LENGTH) 
-	        		? nickname.substring(0, MAX_BASE_NICKNAME_LENGTH) 
-	        		: nickname;
-			do {
-				log.info("\t > create new nickname based on '{}' due to conflict: {}", baseNickname, nickname);
-				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
-			} while (userMapper.isNicknameExist(nickname)); 
-		}
-		
-		return nickname;
-	}
-	
-	private void connectOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId) {
-		SnsInfo snsInfo = SnsInfo.builder()
-				.userId(userId)
-				.snsId(oAuth2Attributes.getId())
-				.provider(oAuth2Attributes.getProvider())
-				.build();
-		
-		log.info("\t > saved snsInfo = {}", snsInfo.getId());
 	}
 	
 	@Override
@@ -389,10 +290,117 @@ public class UserServiceImpl implements UserService {
 		
 		return PrincipalDetails.from(userDetailsMap);
 	}
-
+	
 	@Override
-	public SnsInfo getSnsInfoByUserId(Long userId) {
-		return snsMapper.findSnsInfoByUserId(userId);
+	public PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes) {
+		log.info("## processOAuth2Login");
+		
+		String email = oAuth2Attributes.getEmail();
+		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
+		OAuth2LoginStatus loginStatus;
+		
+		if (userDetailsMap == null) {
+			log.info("\t > no existing user found. Registering new user with OAuth2 account");
+			userDetailsMap = saveOAuth2User(oAuth2Attributes);
+			loginStatus = OAuth2LoginStatus.NEW;
+		} else {
+			Long userId = (Long) userDetailsMap.get("id");
+			SnsInfo snsInfo = snsMapper.findSnsInfoByUserId(userId);
+			
+			if (snsInfo == null) {
+				log.info("\t > existing user found with local account. Linking OAuth2 account to existing user");
+				userDetailsMap = linkOAuth2User(oAuth2Attributes, userId);
+				loginStatus = OAuth2LoginStatus.LINKED;
+			} else {
+				log.info("\t > OAuth2 account is already linked to the existing user. Proceeding with login");
+				loginStatus = OAuth2LoginStatus.LOGGED_IN;
+			}
+		}
+		
+		return PrincipalDetails.from(userDetailsMap, oAuth2Attributes, loginStatus);
+	}
+	
+	private Map<String, Object> saveOAuth2User(OAuth2Attributes oAuth2Attributes) {
+		String nickname = resolveNickname(oAuth2Attributes.getNickname());
+		User user = User.builder()
+				.nickname(nickname) 
+				.email(oAuth2Attributes.getEmail())
+				.agree(false)
+				.build();
+		
+		boolean isUserSaved = userMapper.insertUser(user);
+		log.info("\t > saved user = {}", user.getId());
+		
+		if (!isUserSaved) {
+			throw new ExpectedException("error.user.saveUser");
+		}
+		
+		SnsInfo snsInfo = SnsInfo.builder()
+				.userId(user.getId())
+				.snsId(oAuth2Attributes.getId())
+				.provider(oAuth2Attributes.getProvider())
+				.build();
+		
+		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
+		log.info("\t > saved snsInfo = {}", snsInfo.getId());
+		
+		if (!isSnsInfoSaved) {
+			throw new ExpectedException("error.user.saveSnsInfo");
+		}
+
+		Auth auth = Auth.builder()
+				.userId(user.getId())
+				.role("ROLE_USER")
+				.build();
+		
+		boolean isAuthSaved = authMapper.insertAuth(auth);
+		log.info("\t > saved auth = {}", auth.getId());
+		
+		if (!isAuthSaved) {
+			throw new ExpectedException("error.user.saveAuth");
+		}
+		
+		return userMapper.findUserDetailsById(user.getId());
+	}
+	
+	private String resolveNickname(String nickname) {
+		final int MAX_LENGTH = 10;
+		final int RANDOM_SUFFIX_LENGTH = 4;
+		final int MAX_BASE_LENGTH = MAX_LENGTH - RANDOM_SUFFIX_LENGTH;
+		
+		nickname = nickname.replaceAll("\\s+", ""); // google: MinJae Suh --> MinJaeSuh
+		if (nickname.length() > MAX_LENGTH) {
+			nickname = nickname.substring(0, MAX_LENGTH);
+		}
+		
+		if (userMapper.isNicknameExist(nickname)) {
+	        String baseNickname = (nickname.length() > MAX_BASE_LENGTH) ? nickname.substring(0, MAX_BASE_LENGTH) : nickname;
+			do {
+				log.info("\t > nickname '{}' already exists, generating new nickname based on '{}'", nickname, baseNickname);
+				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
+			} while (userMapper.isNicknameExist(nickname)); 
+		}
+		
+		log.info("\t > resolved nickname = {}", nickname);
+		
+		return nickname;
+	}
+	
+	private Map<String, Object> linkOAuth2User(OAuth2Attributes oAuth2Attributes, Long userId) {
+		SnsInfo snsInfo = SnsInfo.builder()
+				.userId(userId)
+				.snsId(oAuth2Attributes.getId())
+				.provider(oAuth2Attributes.getProvider())
+				.build();
+		
+		boolean isSnsInfoSaved = snsMapper.insertSnsInfo(snsInfo);
+		log.info("\t > saved snsInfo = {}", snsInfo.getId());
+		
+		if (!isSnsInfoSaved) {
+			throw new ExpectedException("error.user.saveSnsInfo");
+		}
+		
+		return userMapper.findUserDetailsById(userId);
 	}
 	
 

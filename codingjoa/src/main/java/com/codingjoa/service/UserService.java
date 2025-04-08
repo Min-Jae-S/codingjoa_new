@@ -8,15 +8,12 @@ import com.codingjoa.dto.JoinDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.PasswordChangeDto;
 import com.codingjoa.dto.PasswordSaveDto;
-import com.codingjoa.entity.SnsInfo;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.security.oauth2.OAuth2Attributes;
 
 public interface UserService {
 
 	void saveUser(JoinDto joinDto);
-	
-	PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes);
 	
 	boolean isNicknameExist(String nickname);
 	
@@ -48,6 +45,6 @@ public interface UserService {
 	
 	PrincipalDetails getUserDetailsById(Long userId); // for JWT re-issuance after updating
 	
-	SnsInfo getSnsInfoByUserId(Long userId);
+	PrincipalDetails processOAuth2Login(OAuth2Attributes oAuth2Attributes);
 	
 }
