@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.codingjoa.security.oauth2.OAuth2Attributes;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.jsonwebtoken.Claims;
@@ -125,6 +126,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 			String nameAttributeKey) { 
 		principalDetails.setAttributes(attributes);
 		principalDetails.setNameAttributeKey(nameAttributeKey);
+		return principalDetails;
+	}
+
+	public static PrincipalDetails from(PrincipalDetails principalDetails, OAuth2Attributes oAuth2Attributes) {
+		principalDetails.setAttributes(oAuth2Attributes.getAttributes());
+		principalDetails.setNameAttributeKey(oAuth2Attributes.getNameAttributeKey());
 		return principalDetails;
 	}
 	

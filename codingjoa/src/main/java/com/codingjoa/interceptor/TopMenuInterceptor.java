@@ -18,19 +18,20 @@ import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.UriUtils;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RequiredArgsConstructor
 public class TopMenuInterceptor implements HandlerInterceptor {
 
 	private static final String FORWARD_PREFIX = "forward:";
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
-	private final CategoryService categoryService;
-	private final List<RequestMatcher> disallowedMatchers = 
-			List.of(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
+	private final List<RequestMatcher> disallowedMatchers = List.of(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
+	private final List<Category> parentCategories;
+	
+	public TopMenuInterceptor(CategoryService categoryService) {
+		this.parentCategories = categoryService.getParentCategories();
+	}
 	
 	/*
 	 * If there is no mapped handler or if the mapping information cannot be found, the preHandle method is not called 
@@ -60,7 +61,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		List<Category> parentCategories = categoryService.getParentCategories();
+		//List<Category> parentCategories = categoryService.getParentCategories();
 		modelAndView.addObject("parentCategories", parentCategories);
 		
 		String currentUrl = UriUtils.buildCurrentUrl(request);
@@ -83,5 +84,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private boolean isDisallowedPath(HttpServletRequest request) {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
+
+	
 	
 }

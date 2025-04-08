@@ -64,7 +64,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 			}
 		}
 		
-		return PrincipalDetails.from(principal, oAuth2Attributes.getAttributes(), oAuth2Attributes.getNameAttributeKey());
+		return PrincipalDetails.from(principal, oAuth2Attributes);
 	}
 	
 	private OAuth2Attributes extractOAuth2Attributes(OAuth2UserRequest userRequest, Map<String, Object> attributes) {
