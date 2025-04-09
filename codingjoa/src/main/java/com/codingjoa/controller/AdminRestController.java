@@ -138,6 +138,7 @@ public class AdminRestController {
 		
 		adminService.updateNickname(nicknameDto, userId);
 		
+		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.admin.updateNickname")
 				.build());
