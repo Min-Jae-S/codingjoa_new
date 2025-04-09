@@ -77,7 +77,6 @@
 		</where>
 	</sql>
 	
-	<!-- /*+ USE_NL(sns_info) */  -->
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
 			final_users.*,
