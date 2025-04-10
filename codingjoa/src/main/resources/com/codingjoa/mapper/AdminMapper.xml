@@ -72,6 +72,7 @@
 				</if>
 				<if test='type.equals("nickname")'>
 					nickname LIKE '%' || #{keyword} || '%'
+
 				</if>
 			</if>
 		</where>
