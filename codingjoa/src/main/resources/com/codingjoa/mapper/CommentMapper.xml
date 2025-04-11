@@ -117,7 +117,7 @@
 					user_image
 			)
 			WHERE rn = 1 
-		) latest_image
+		) latest_user_image
 		ON
 			final_comment.user_id = latest_user_image.user_id
 		INNER JOIN
