@@ -198,13 +198,13 @@
 			<if test='!keyword.empty'>
 				<foreach collection='types' item="item" open="AND (" close=")" separator="OR">
 					<if test='item.equals("title")'>
-						REGEXP_LIKE( board.title, #{keywordRegexp} )
+						REGEXP_LIKE(board.title, #{keywordRegexp})
 					</if>
 					<if test='item.equals("content")'>
-						REGEXP_LIKE( board.search_content, #{keywordRegexp} )
+						REGEXP_LIKE(board.search_content, #{keywordRegexp})
 					</if>
 					<if test='item.equals("writer")'>
-						REGEXP_LIKE( users.nickname, #{keywordRegexp} )
+						REGEXP_LIKE(users.nickname, #{keywordRegexp})
 					</if> 
 				</foreach>
 			</if>

@@ -107,14 +107,14 @@
 				<foreach collection='boardCri.type.split("_")' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
-							REGEXP_LIKE( board.title, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE(board.title, #{boardCri.keywordRegexp})
 						</if>
 						<if test='item.equals("content")'>
-							REGEXP_LIKE( board.search_content, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE(board.search_content, #{boardCri.keywordRegexp})
 						</if>
 						<if test='item.equals("writer")'>
 							<!-- users.nickname LIKE '%' || #{boardCri.keyword} || '%' -->
-							REGEXP_LIKE( users.nickname, #{boardCri.keywordRegexp} )
+							REGEXP_LIKE(users.nickname, #{boardCri.keywordRegexp})
 						</if> 
 					</trim>
 				</foreach>
