@@ -115,7 +115,7 @@
 					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
 				FROM
 					user_image
-			)
+			) 
 			WHERE rn = 1 
 		) latest_user_image
 		ON
