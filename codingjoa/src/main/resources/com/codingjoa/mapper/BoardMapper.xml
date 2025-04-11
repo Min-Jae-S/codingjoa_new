@@ -135,17 +135,16 @@
 			final_board.updated_at,
 			final_board.nickname AS writer_nickname,
 			CASE
-				WHEN final_board.user_id = #{userId} THEN 1 
-				ELSE 0
+				WHEN final_board.user_id = #{userId} 
+				THEN 1 ELSE 0
 			END AS is_writer,
 			CASE
 				WHEN EXISTS ( 
-   					SELECT 1 
-   					FROM board_like
-    				WHERE board_like.board_id = final_board.id 
-    				AND board_like.user_id = #{userId} 
-    			) THEN 1
-    			ELSE 0 
+					SELECT 1 
+					FROM board_like 
+					WHERE board_like.board_id = final_board.id 
+					AND board_like.user_id = #{userId} 
+				) THEN 1 ELSE 0 
     		END AS is_liked
 		FROM (
 			SELECT
@@ -155,7 +154,7 @@
 			    	ROWNUM rn,
 			    	filtered_board.*
 			    FROM (
-					SELECT
+					SELECT 
 						/*+ INDEX_DESC(board pk_board) */
 			        	board.*,
 			        	users.nickname

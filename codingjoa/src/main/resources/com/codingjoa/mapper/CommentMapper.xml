@@ -63,7 +63,8 @@
 	        users.nickname 				AS writer_nickname,
 	        latest_user_image.path 		AS writer_image_path,
     		CASE
-    			WHEN final_comment.user_id = #{userId} THEN 1 ELSE 0
+    			WHEN final_comment.user_id = #{userId} 
+    			THEN 1 ELSE 0
     		END AS is_writer,
     		CASE
     			WHEN EXISTS ( 
@@ -74,7 +75,8 @@
     			) THEN 1 ELSE 0
     		END AS is_liked,
     		CASE
-    			WHEN final_comment.user_id = board.user_id THEN 1 ELSE 0
+    			WHEN final_comment.user_id = board.user_id 
+    			THEN 1 ELSE 0
     		END AS is_board_writer
 		FROM (
 			SELECT
@@ -84,9 +86,9 @@
 					ROWNUM rn,
 					sorted_comment.*
 				FROM (
-					SELECT
-						/*+ INDEX_DESC(comments pk_comments) */
-				       comments.*
+					SELECT 
+						/*+ INDEX_DESC(comments pk_comments) */ 
+						comments.*
 				    FROM 
 				        comments
 				    WHERE
