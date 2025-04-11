@@ -107,13 +107,17 @@
 		ON 
 			final_comment.user_id = users.id
 		LEFT OUTER JOIN (
-			SELECT
-				user_id, path
-			FROM
-				user_image
-			WHERE 
-				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
-		) latest_user_image
+			SELECT user_id, path
+			FROM (
+				SELECT 
+					user_id,
+					path,
+					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
+				FROM
+					user_image
+			)
+			WHERE rn = 1 
+		) latest_image
 		ON
 			final_comment.user_id = latest_user_image.user_id
 		INNER JOIN

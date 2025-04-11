@@ -9,7 +9,7 @@ import lombok.ToString;
 
 /*
 	id              NUMBER,
-	user_id         NUMBER              NULL,
+	user_id         NUMBER              NOT NULL,
 	name            VARCHAR2(200)       NOT NULL,
     path            VARCHAR2(200)       NOT NULL,
 	created_at      DATE                NOT NULL,
