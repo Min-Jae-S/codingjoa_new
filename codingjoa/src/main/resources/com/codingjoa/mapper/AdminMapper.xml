@@ -79,7 +79,7 @@
 	
 	<select id="findPagedUsers" resultMap="adminUserMap">
 		SELECT
-			<!-- /*+ ORDERED USE_NL(sns_info) USE_NL(auth) */ -->
+			/*+ ORDERED USE_NL(sns_info) USE_NL(auth) */
 			final_users.*,
 			sns_info.*,
 			auth.*
@@ -213,7 +213,7 @@
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
-			<!-- /*+ ORDERED USE_NL(category) */ -->
+			/*+ ORDERED USE_NL(category) */
 			final_board.id,
 			final_board.user_id,
 			final_board.category_code,
