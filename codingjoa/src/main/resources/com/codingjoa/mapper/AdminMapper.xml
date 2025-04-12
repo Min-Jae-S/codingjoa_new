@@ -289,7 +289,7 @@
 					users.addr_detail,
 					users.agree,
 					users.created_at 	AS users_created_at,
-					users.updated_at 	AS users_updated_at
+					users.updated_at 	AS users_updated_at,
 					category.*
 				FROM (
 					SELECT

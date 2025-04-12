@@ -104,7 +104,7 @@
 	<sql id="searchCriteria">
 		<if test='boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='types' item="item">
+				<foreach collection='boardCri.types' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
 							REGEXP_LIKE(board.title, #{boardCri.keywordRegexp})
@@ -125,7 +125,7 @@
 	<select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
 		<choose>
 			<!-- [1] writer 검색 포함: board + users 먼저 join -->
-			<when test="types.contains('writer')">
+			<when test="boardCri.types.contains('writer')">
 				SELECT
 					final_board.id,
 					final_board.category_code,
@@ -184,6 +184,7 @@
 			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
 			<otherwise>
 				SELECT
+					/*+ ORDERED USE_NL(users) */
 					final_board.id,
 					final_board.category_code,
 					final_board.title,
@@ -234,7 +235,7 @@
 				INNER JOIN
 					users
 				ON
-					final_board.user_id = user.id
+					final_board.user_id = users.id
 			</otherwise>
 		</choose>
 	</select>
@@ -242,7 +243,7 @@
 	<select id="findTotalCntForPaging" parameterType="map" resultType="int">
 		<choose>
 			<!-- [1] writer 검색 포함: board + users 먼저 join -->
-			<when test="types.contains('writer')">
+			<when test="boardCri.types.contains('writer')">
 				SELECT COUNT(*)
 				FROM board
 				INNER JOIN users ON board.user_id = users.id

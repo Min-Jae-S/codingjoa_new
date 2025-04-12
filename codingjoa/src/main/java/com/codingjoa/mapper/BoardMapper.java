@@ -18,7 +18,7 @@ public interface BoardMapper {
 
 	void increaseViewCount(Long boardId);
 
-	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode,
+	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode, 
 			@Param("boardCri") BoardCriteria boardCri, @Param("userId") Long userId);
 
 	int findTotalCntForPaging(@Param("categoryCode") int categoryCode, @Param("boardCri") BoardCriteria boardCri);
