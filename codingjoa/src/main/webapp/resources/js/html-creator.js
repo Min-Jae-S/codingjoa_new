@@ -128,7 +128,7 @@ function createCommentHtml(commentDetails) {
 					${commentDetails.isBoardWriter ? "<span class='badge badge-pill badge-primary'>글쓴이</span>" : ""}
 					<span class='comment-createdat'>${commentDetails.createdAt}</span>
 					<span class='comment-updatedat d-none'>${commentDetails.updatedAt}</span>
-					<span class='text-danger font-weight-bold'>( id: ${commentDetails.id} )</span>
+					<!-- <span class='text-danger font-weight-bold'>( id: ${commentDetails.id} )</span> -->
 				</div>
 				<div class='dropend ml-auto'>
 					<button class='comment-utils-btn' data-bs-toggle='dropdown' data-bs-auto-close='outside' ${commentDetails.isWriter ? "" : "disabled"}>
