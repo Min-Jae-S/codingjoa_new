@@ -170,7 +170,6 @@
 		<association property="user" javaType="User">
 			<id column="users_id" property="id"/>
 			<result column="email" property="email"/>
-			<result column="password" property="password"/>
 			<result column="nickname" property="nickname"/>
 			<result column="zipcode" property="zipcode"/>
 			<result column="addr" property="addr"/>
@@ -212,9 +211,140 @@
 	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
+		<choose>
+			<!-- [1] writer 검색 포함: board + users 먼저 join -->
+			<when test="types.contains('writer')">
+				SELECT
+					/*+ ORDERED USE_NL(category) */
+					final_board.*,
+					category.*
+				FROM (
+					SELECT
+						paged_board.*
+					FROM (
+						SELECT
+							ROWNUM rn,
+							filterd_board.*
+						FROM (
+							SELECT
+								/*+ INDEX_DESC(board pk_board) */
+								board.*,
+								users.id			AS users_id,
+								users.email,
+								users.nickname,
+								users.zipcode,
+								users.addr,
+								users.addr_detail,
+								users.agree,
+								users.created_at 	AS users_created_at,
+								users.updated_at 	AS users_updated_at
+							FROM 
+								board
+							INNER JOIN
+								users
+							ON
+								board.user_id = users.id
+							<include refid="boardSearchCriteria"/>
+							ORDER BY
+								<choose>
+									<when test="'latest'.equals(sort)">
+										board.id DESC
+									</when>
+									<when test="'popular'.equals(sort)">
+										board.like_count DESC, board.id DESC
+									</when>
+									<when test="'view'.equals(sort)">
+										board.view_count DESC, board.id DESC
+									</when>
+									<when test="'comment'.equals(sort)">
+										board.comment_count DESC, board.id DESC
+									</when>
+									<otherwise>
+										board.id DESC 
+									</otherwise>
+								</choose>
+						) filterd_board
+						WHERE
+							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+					) paged_board
+					WHERE 
+						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+				) final_board
+				INNER JOIN
+					category
+				ON
+					final_board.category_code = category.code
+			</when>
+			
+			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
+			<otherwise>
+				SELECT
+					/*+ ORDERED USE_NL(users) USE_NL(category) */
+					final_board.*,
+					users.id			AS users_id,
+					users.email,
+					users.nickname,
+					users.zipcode,
+					users.addr,
+					users.addr_detail,
+					users.agree,
+					users.created_at 	AS users_created_at,
+					users.updated_at 	AS users_updated_at
+					category.*
+				FROM (
+					SELECT
+						paged_board.*
+					FROM (
+						SELECT
+							ROWNUM rn,
+							filterd_board.*
+						FROM (
+							SELECT
+								/*+ INDEX_DESC(board pk_board) */
+								board.*
+							FROM 
+								board
+							<include refid="boardSearchCriteria"/>
+							ORDER BY
+								<choose>
+									<when test="'latest'.equals(sort)">
+										board.id DESC
+									</when>
+									<when test="'popular'.equals(sort)">
+										board.like_count DESC, board.id DESC
+									</when>
+									<when test="'view'.equals(sort)">
+										board.view_count DESC, board.id DESC
+									</when>
+									<when test="'comment'.equals(sort)">
+										board.comment_count DESC, board.id DESC
+									</when>
+									<otherwise>
+										board.id DESC 
+									</otherwise>
+								</choose>
+						) filterd_board
+						WHERE
+							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+					) paged_board
+					WHERE 
+						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+				) final_board
+				INNER JOIN
+					users
+				ON
+					final_board.user_id = users.id
+				INNER JOIN
+					category
+				ON
+					final_board.category_code = category.code
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
 			/*+ ORDERED USE_NL(category) */
-			final_board.id,
 			final_board.user_id,
 			final_board.category_code,
 			final_board.title,
@@ -249,7 +379,6 @@
 						board.*,
 						users.id			AS users_id,
 						users.email,
-						users.password,
 						users.nickname,
 						users.zipcode,
 						users.addr,
@@ -293,7 +422,7 @@
 			category
 		ON
 			final_board.category_code = category.code
-	</select>
+	</select> -->
 	
 	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
@@ -368,6 +497,25 @@
 	</select> -->
 	
 	<select id="findTotalCntForBoardPaging" resultType="int">
+		<choose>
+			<!-- [1] writer 검색 포함: board + users 먼저 join -->
+			<when test="types.contains('writer')">
+				SELECT COUNT(*)
+				FROM board
+				INNER JOIN users ON board.user_id = users.id
+				<include refid="boardSearchCriteria"/>
+			</when>
+			
+			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
+			<otherwise>
+				SELECT COUNT(*)
+				FROM board
+				<include refid="boardSearchCriteria"/>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- <select id="findTotalCntForBoardPaging" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
@@ -377,7 +525,7 @@
 		ON
 			board.user_id = users.id
 		<include refid="boardSearchCriteria"/>
-	</select>
+	</select> -->
 	
 	<delete id="deleteBoards" parameterType="list">
 		DELETE FROM 
