@@ -1,7 +1,11 @@
 package com.codingjoa.pagination;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.Getter;
@@ -43,10 +47,14 @@ public class BoardCriteria {
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 	
+	public List<String> getTypes() {
+		return StringUtils.hasText(type) ? Arrays.stream(type.split("_")).collect(Collectors.toList()) : List.of();
+	}
+
 	@Override
 	public String toString() {
 		return "BoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", type=" + type + ", keyword=" + keyword
-				+ ", keywordRegexp=" + getKeywordRegexp() + "]";
+				+ ", getKeywordRegexp()=" + getKeywordRegexp() + ", getTypes()=" + getTypes() + "]";
 	}
 
 }

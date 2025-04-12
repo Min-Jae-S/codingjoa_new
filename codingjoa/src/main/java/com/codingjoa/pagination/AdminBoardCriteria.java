@@ -2,6 +2,7 @@ package com.codingjoa.pagination;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
 
@@ -34,15 +35,15 @@ public class AdminBoardCriteria {
 	}
 	
 	@JsonIgnore
-	public String[] getTypes() {
-		return StringUtils.hasText(type)? type.split("_") : new String[] {};
+	public List<String> getTypes() {
+		return StringUtils.hasText(type) ? Arrays.stream(type.split("_")).collect(Collectors.toList()) : List.of();
 	}
 
 	@Override
 	public String toString() {
 		return "AdminBoardCriteria [page=" + page + ", recordCnt=" + recordCnt + ", keyword=" + keyword + ", type="
 				+ type + ", sort=" + sort + ", categories=" + categories + ", getKeywordRegexp()=" + getKeywordRegexp()
-				+ ", getTypes()=" + Arrays.toString(getTypes()) + "]";
+				+ ", getTypes()=" + getTypes() + "]";
 	}
-	
+
 }

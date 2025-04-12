@@ -104,7 +104,7 @@
 	<sql id="searchCriteria">
 		<if test='boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
-				<foreach collection='boardCri.type.split("_")' item="item">
+				<foreach collection='types' item="item">
 					<trim suffix="OR">
 						<if test='item.equals("title")'>
 							REGEXP_LIKE(board.title, #{boardCri.keywordRegexp})
