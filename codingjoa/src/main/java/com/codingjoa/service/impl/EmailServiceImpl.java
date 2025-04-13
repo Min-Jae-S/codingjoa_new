@@ -11,6 +11,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.codingjoa.enums.MailType;
+import com.codingjoa.error.ExpectedException;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.test.Sample;
 
@@ -27,22 +28,17 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async // must return void, Future, CompletableFuture
 	@Override
-	public void send(String to, MailType mailType, String value) {
+	public void send(String to, MailType mailType, String value) throws MessagingException {
 		log.info("## {}.send ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
-		try {
-			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-			mailHelper.setTo(to);
-			mailHelper.setSubject(getSubject(mailType));
-			
-			String html = buildTemplate(mailType, value);
-			mailHelper.setText(html, true);
-			mailSender.send(mimeMessage);
-			
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+		MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+		mailHelper.setTo(to);
+		mailHelper.setSubject(getSubject(mailType));
 		
+		String html = buildTemplate(mailType, value);
+		mailHelper.setText(html, true);
+		mailSender.send(mimeMessage);
+			
 		//redisService.save(email, authCode);
 		//return authCode; because @Async --> null
 	}
@@ -83,7 +79,7 @@ public class EmailServiceImpl implements EmailService {
 	public void triggerAsyncEx(Sample sample, String param) {
 		log.info("## {}.triggerAsyncEx ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
 		log.info("\t > smaple = {}, param = {}", sample, param);
-		throw new RuntimeException("asynce exception");
+		throw new ExpectedException("asynce exception");
 	}
 
 }
