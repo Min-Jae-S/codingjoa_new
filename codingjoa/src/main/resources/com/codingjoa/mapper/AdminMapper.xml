@@ -227,7 +227,23 @@
 							filterd_board.*
 						FROM (
 							SELECT
-								/*+ INDEX_DESC(board pk_board) */
+							<choose>
+								<when test="'latest'.equals(sort)">
+									/*+ INDEX_DESC(board pk_board) */
+								</when>
+								<when test="'popular'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_like) */
+								</when>
+								<when test="'view'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_view) */
+								</when>
+								<when test="'comment'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_comment) */
+								</when>
+								<otherwise>
+									board.id DESC 
+								</otherwise>
+							</choose>
 								board.*,
 								users.id			AS users_id,
 								users.email,
@@ -300,7 +316,23 @@
 							filterd_board.*
 						FROM (
 							SELECT
-								/*+ INDEX_DESC(board pk_board) */
+								<choose>
+									<when test="'latest'.equals(sort)">
+										/*+ INDEX_DESC(board pk_board) */
+									</when>
+									<when test="'popular'.equals(sort)">
+										/*+ INDEX_DESC(board idx_board_like) */
+									</when>
+									<when test="'view'.equals(sort)">
+										/*+ INDEX_DESC(board idx_board_view) */
+									</when>
+									<when test="'comment'.equals(sort)">
+										/*+ INDEX_DESC(board idx_board_comment) */
+									</when>
+									<otherwise>
+										board.id DESC 
+									</otherwise>
+								</choose>
 								board.*
 							FROM 
 								board
