@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
 	@Async // must return void, Future, CompletableFuture
 	@Override
 	public void send(String to, MailType mailType, String value) {
-		log.info("## {}.send, current thread: {}", this.getClass().getSimpleName(), Thread.currentThread().getName());
+		log.info("## {}.send ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

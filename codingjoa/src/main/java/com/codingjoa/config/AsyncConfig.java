@@ -7,14 +7,18 @@ import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @EnableAsync
 @Configuration
 public class AsyncConfig extends AsyncConfigurerSupport {
 
-	/*
+	/* 
+	 * @@ https://dkswnkk.tistory.com/706
+	 * 
+	 * Exception Handling
+	 * 	- By default, exceptions occurring in methods annotated with @Async are not propagated to the caller
+	 *    This is because methods annotated with @Async are executed in separate threads, and thus cannot be caught by the main thread.
+	 *    To handle exceptions, use AsyncUncaughtExceptionHandler to properly manage the exceptions.
+	 * 
 	 * Transaction Management
 	 * 	- When using transactions within asynchronous methods, special care is required.
 	 * 	  Methods annotated with @Async run in a separate thread from the caller, meaning that any transaction started within the async method has its own independent lifecycle.
@@ -35,9 +39,6 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	
 	@Override
 	public Executor getAsyncExecutor() {
-		log.info("## getAsyncExecutor");
-		log.info("\t > default = {}", super.getAsyncExecutor());
-		
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10); 	// 기본 스레드 수
 		executor.setMaxPoolSize(50);	// 최대 스레드 수
