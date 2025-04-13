@@ -82,6 +82,7 @@ public class EmailServiceImpl implements EmailService {
 	@Override
 	public void triggerAsyncEx(Sample sample, String param) {
 		log.info("## {}.triggerAsyncEx ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
+		log.info("\t > smaple = {}, param = {}", sample, param);
 		throw new RuntimeException("asynce exception");
 	}
 
