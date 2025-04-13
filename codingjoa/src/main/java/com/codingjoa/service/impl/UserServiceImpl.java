@@ -368,7 +368,7 @@ public class UserServiceImpl implements UserService {
 		final int RANDOM_SUFFIX_LENGTH = 4;
 		final int MAX_BASE_LENGTH = MAX_LENGTH - RANDOM_SUFFIX_LENGTH;
 		
-		nickname = nickname.replaceAll("\\s+", ""); // google: MinJae Suh --> MinJaeSuh
+		nickname = nickname.replaceAll("\\s+", ""); // ex) google: 'MinJae Suh' --> 'MinJaeSuh'
 		if (nickname.length() > MAX_LENGTH) {
 			nickname = nickname.substring(0, MAX_LENGTH);
 		}
