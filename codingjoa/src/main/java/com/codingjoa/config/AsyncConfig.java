@@ -2,11 +2,17 @@ package com.codingjoa.config;
 
 import java.util.concurrent.Executor;
 
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@ComponentScan("com.codingjoa.async")
 @EnableAsync
 @Configuration
 public class AsyncConfig extends AsyncConfigurerSupport {
@@ -34,8 +40,10 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	 *    
 	 *    There are two common ways to define a custom executor in Spring:
 	 *    	1. Define the executor directly as a Bean.
-	 *    	2. Extend AsyncConfigurerSupport and override the getAsyncExecutor() method.
+	 *    	2. Extend AsyncConfigurer, AsyncConfigurerSupport and override the getAsyncExecutor() method.
 	 */
+	
+	private final AsyncUncaughtExceptionHandler asyncExceptionHandler;
 	
 	@Override
 	public Executor getAsyncExecutor() {
@@ -46,6 +54,11 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 		executor.setThreadNamePrefix("Async-");
 		executor.initialize();
 		return executor;
+	}
+
+	@Override
+	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+		return asyncExceptionHandler;
 	}
 	
 }

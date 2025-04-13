@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import com.codingjoa.enums.MailType;
 import com.codingjoa.service.EmailService;
+import com.codingjoa.test.Sample;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,13 @@ public class EmailServiceImpl implements EmailService {
 		default:
 			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
 		}
+	}
+
+	@Async
+	@Override
+	public void triggerAsyncEx(Sample sample, String param) {
+		log.info("## {}.triggerAsyncEx ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
+		throw new RuntimeException("asynce exception");
 	}
 
 }

@@ -13,4 +13,8 @@ public class Sample {
 	private String field2;
 	private String field3;
 	
+	public static Sample create() {
+		return new Sample("ab", "cd", "ef");
+	}
+	
 }

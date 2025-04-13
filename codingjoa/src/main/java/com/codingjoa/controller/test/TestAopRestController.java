@@ -23,6 +23,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.UserService;
 import com.codingjoa.service.test.TestProxyService;
+import com.codingjoa.test.Sample;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,13 +67,13 @@ public class TestAopRestController {
 	@GetMapping("/exception/interceptor")
 	public ResponseEntity<Object> triggerExceptionInInterceptor() {
 		log.info("## triggerExceptionInInterceptor");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/exception/filter")
 	public ResponseEntity<Object> triggerExceptionInFilter() {
 		log.info("## triggerExceptionInFilter");
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/exception-handler")
@@ -115,7 +116,7 @@ public class TestAopRestController {
 						key, methodResolver.getClass().getSimpleName(), AopUtils.isAopProxy(methodResolver));
 			});
 		}
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/test1")
@@ -138,7 +139,7 @@ public class TestAopRestController {
 		
 		log.info("\t > emailService = {}", emailService.getClass().getName().split(regexp, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(emailService));
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@AnnoTest
@@ -150,7 +151,7 @@ public class TestAopRestController {
 		log.info("\t > testProxyService = {}", testProxyService.getClass().getName().split(regexp, 2)[1]);
 		log.info("\t > testProxyService isAopProxy = {}", AopUtils.isAopProxy(testProxyService));
 		testProxyService.test();
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/test3")
@@ -159,7 +160,7 @@ public class TestAopRestController {
 		Map<String, ExceptionHandlerMethodResolver> map = context.getBeansOfType(ExceptionHandlerMethodResolver.class);
 		log.info("\t > exceptionHandlerMethodResolver from context = {}", map);
 		log.info("\t > exceptionHandlerMethodResolver from @autowired = {}", exceptionHandlerMethodResolver);
-		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/test4")
@@ -167,6 +168,13 @@ public class TestAopRestController {
 		log.info("## test4");
 		response.sendError(HttpServletResponse.SC_BAD_GATEWAY);
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
+	}
+	
+	@GetMapping("/exception/async")
+	public ResponseEntity<Object> triggerAsyncEx(HttpServletResponse response) throws IOException {
+		log.info("## triggerAsyncEx");
+		emailService.triggerAsyncEx(Sample.create(), "test");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 }

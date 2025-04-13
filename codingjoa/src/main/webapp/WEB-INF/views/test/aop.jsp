@@ -77,6 +77,9 @@
 		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test5'">test5<br>(noView)</button>
 		<button class="btn btn-primary btn-lg" onclick="location.href='${contextPath}/test/aop/test6'">test6<br>(testEx)</button>
 	</div>
+	<div class="test mb-3 px-5">
+		<button class="btn btn-warning btn-lg btn-lg-fixed" onclick="triggerAsyncEx()">triggerAsyncException</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -274,6 +277,22 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/test4",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				parseError(jqXHR);
+			}
+		});
+	}
+	
+	function triggerAsyncEx() {
+		console.log("## triggerAsyncEx");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/api/aop/exception/async",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
