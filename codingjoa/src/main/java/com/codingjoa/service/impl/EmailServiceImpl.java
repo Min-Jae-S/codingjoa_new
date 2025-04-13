@@ -14,7 +14,9 @@ import com.codingjoa.enums.MailType;
 import com.codingjoa.service.EmailService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -22,9 +24,10 @@ public class EmailServiceImpl implements EmailService {
 	private final JavaMailSender mailSender;
 	private final TemplateEngine templateEngine;
 	
-	@Async
+	@Async // must return void, Future, CompletableFuture
 	@Override
 	public void send(String to, MailType mailType, String value) {
+		log.info("## {}.send, current thread: {}", this.getClass().getSimpleName(), Thread.currentThread().getName());
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		try {
 			MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");

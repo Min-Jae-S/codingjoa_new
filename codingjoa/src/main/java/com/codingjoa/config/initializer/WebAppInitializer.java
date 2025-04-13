@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.codingjoa.config.AopConfig;
 import com.codingjoa.config.AppConfig;
+import com.codingjoa.config.AsyncConfig;
 import com.codingjoa.config.BatchConfig;
 import com.codingjoa.config.BatchJobConfig;
 import com.codingjoa.config.DataSourceConfig;
@@ -52,6 +53,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				DataSourceConfig.class,
 				MybatisConfig.class,
 				SecurityConfig.class,
+				AsyncConfig.class,
 				EmailConfig.class, 
 				RedisConfig.class,
 				QuartzConfig.class,

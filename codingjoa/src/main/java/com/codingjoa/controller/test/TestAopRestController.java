@@ -20,8 +20,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 
 import com.codingjoa.annotation.AnnoTest;
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.service.EmailService;
 import com.codingjoa.service.UserService;
-import com.codingjoa.service.impl.EmailServiceImpl;
 import com.codingjoa.service.test.TestProxyService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,13 +37,13 @@ public class TestAopRestController {
 	private TestAopRestController self;
 
 	@Autowired
-	private UserService memberService;
+	private UserService userService;
 	
 	@Autowired
 	private TestProxyService testProxyService;
 	
 	@Autowired
-	private EmailServiceImpl emailService;
+	private EmailService emailService;
 	
 	@Autowired
 	private WebApplicationContext context;
@@ -131,10 +131,10 @@ public class TestAopRestController {
 		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(testProxyService));
 		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(testProxyService));
 
-		log.info("\t > memberService = {}", memberService.getClass().getName().split(regexp, 2)[1]);
-		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(memberService));
-		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(memberService));
-		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(memberService));
+		log.info("\t > memberService = {}", userService.getClass().getName().split(regexp, 2)[1]);
+		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(userService));
+		log.info("\t\t - isJdkDynamicProxy = {}", AopUtils.isJdkDynamicProxy(userService));
+		log.info("\t\t - isCglibProxy = {}", AopUtils.isCglibProxy(userService));
 		
 		log.info("\t > emailService = {}", emailService.getClass().getName().split(regexp, 2)[1]);
 		log.info("\t\t - isAopProxy = {}", AopUtils.isAopProxy(emailService));
