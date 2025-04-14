@@ -12,10 +12,10 @@ import com.codingjoa.dto.CommentDto;
 import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.error.ExpectedException;
-import com.codingjoa.mapper.BoardMapper;
 import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
+import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,27 +26,23 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService {
 
 	private final CommentMapper commentMapper;
-	private final BoardMapper boardMapper;
+	private final BoardService boardService;
 	private final int pageRange;
 	
-	public CommentServiceImpl(CommentMapper commentMapper, BoardMapper boardMapper,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;
-		this.boardMapper = boardMapper;
+		this.boardService = boardService;
 		this.pageRange = pageRange;
 	}
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId) {
 		log.info("\t > prior to finding pagedComments, find board");
-		Board board = boardMapper.findBoardById(boardId);
-		
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
+		Board board = boardService.getBoard(boardId);
 		
 		log.info("\t > find pagedComments");
-		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(boardId, commentCri, userId)
+		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(board.getId(), commentCri, userId)
 				.stream()
 				.map(commentDetailsmap -> {
 					log.info("\t\t - id: {}, status: {}", commentDetailsmap.get("id"), commentDetailsmap.get("status"));
@@ -68,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void saveComment(CommentDto commentDto) {
 		log.info("\t > prior to inserting comment, find board");
-		Board board = boardMapper.findBoardById(commentDto.getBoardId());
+		Board board = boardService.getBoard(commentDto.getBoardId());
 		
 		if (board == null) {
 			throw new ExpectedException("error.board.notFound");
@@ -84,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-		boardMapper.increaseCommentCount(board.getId());
+		boardService.increaseCommentCount(board.getId());
 	}
 
 	@Override
@@ -140,7 +136,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.delete");
 		}
 		
-		boardMapper.decreaseCommentCount(comment.getBoardId());
+		boardService.decreaseCommentCount(comment.getBoardId());
 	}
 
 }

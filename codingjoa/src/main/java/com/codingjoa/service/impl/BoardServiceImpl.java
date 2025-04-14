@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardDetailsDto;
@@ -22,7 +23,6 @@ import com.codingjoa.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Transactional
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -37,6 +37,7 @@ public class BoardServiceImpl implements BoardService {
 		this.pageRange = pageRange;
 	}
 
+	@Transactional
 	@Override
 	public Board saveBoard(BoardDto boardDto) {
 		log.info("\t > produce searchContent by parsing content for search");
@@ -56,6 +57,7 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
+	
 	@Override
 	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
@@ -68,6 +70,7 @@ public class BoardServiceImpl implements BoardService {
 		return BoardDetailsDto.from(boardDetailsMap);
 	}
 	
+	@Transactional
 	@Override
 	public void increaseViewCount(Long boardId) {
 		log.info("\t > increase view count");
@@ -155,5 +158,31 @@ public class BoardServiceImpl implements BoardService {
 		
 		return board;
 	}
+	
+	@Override
+	public Board getBoard(Long boardId) {
+		Board board = boardMapper.findBoardById(boardId);
+		if (board == null) {
+			throw new ExpectedException("error.board.notFound");
+		}
+		
+		return board;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void increaseCommentCount(Long boardId) {
+		log.info("\t > increase comment count");
+		boardMapper.increaseCommentCount(boardId);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void decreaseCommentCount(Long boardId) {
+		log.info("\t > decrease comment count");
+		boardMapper.decreaseCommentCount(boardId);
+	}
+
+	
 	
 }

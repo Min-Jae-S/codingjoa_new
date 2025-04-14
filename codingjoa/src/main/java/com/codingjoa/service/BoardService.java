@@ -26,4 +26,10 @@ public interface BoardService {
 	
 	Board deleteBoard(Long boardId, Long userId);
 	
+	Board getBoard(Long boardId);
+	
+	void increaseCommentCount(Long boardId); 
+	
+	void decreaseCommentCount(Long boardId);
+	
 }
