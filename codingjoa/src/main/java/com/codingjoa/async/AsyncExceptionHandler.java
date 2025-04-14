@@ -3,9 +3,7 @@ package com.codingjoa.async;
 import java.lang.reflect.Method;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -17,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-@RequiredArgsConstructor
-@Component
 public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
 	
 	//private fianl SlackService slackService;

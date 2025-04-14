@@ -3,16 +3,13 @@ package com.codingjoa.config;
 import java.util.concurrent.Executor;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import lombok.RequiredArgsConstructor;
+import com.codingjoa.async.AsyncExceptionHandler;
 
-@ComponentScan("com.codingjoa.async")
-@RequiredArgsConstructor
 @EnableAsync
 @Configuration
 public class AsyncConfig extends AsyncConfigurerSupport {
@@ -43,22 +40,20 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	 *    	2. Extend AsyncConfigurer, AsyncConfigurerSupport and override the getAsyncExecutor() method.
 	 */
 	
-	private final AsyncUncaughtExceptionHandler asyncExceptionHandler;
-	
 	@Override
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(10); 	// 기본 스레드 수
-		executor.setMaxPoolSize(50); 	// 최대 스레드 수
+		executor.setCorePoolSize(4); 	// 기본 스레드 수
+		executor.setMaxPoolSize(20); 	// 최대 스레드 수
 		executor.setQueueCapacity(100); // 대기 큐의 용량
-		executor.setThreadNamePrefix("Async-");
+		executor.setThreadNamePrefix("Async-Executor-");
 		executor.initialize();
 		return executor;
 	}
 
 	@Override
 	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-		return asyncExceptionHandler;
+		return new AsyncExceptionHandler();
 	}
 	
 }
