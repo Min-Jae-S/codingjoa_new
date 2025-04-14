@@ -104,8 +104,7 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/account/email/auth-code/send")
-	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, 
-			@AuthenticationPrincipal PrincipalDetails principal) throws Exception {
+	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## sendAuthCodeForEmailUpdate");
 		log.info("\t > emailDto = {}", emailDto);
 

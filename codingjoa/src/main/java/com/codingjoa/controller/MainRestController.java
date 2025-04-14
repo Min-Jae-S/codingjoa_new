@@ -53,7 +53,7 @@ public class MainRestController {
 	}
 	
 	@PostMapping("/join/auth-code/send")
-	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) throws Exception {
+	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendAuthCodeForJoin");
 		log.info("\t > emailDto = {}", emailDto);
 
@@ -72,7 +72,7 @@ public class MainRestController {
 	}
 	
 	@PostMapping("/password/reset-link/send")
-	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid EmailDto emailDto) throws Exception {
+	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendPasswordResetLink");
 		log.info("\t > emailDto = {}", emailDto);
 		

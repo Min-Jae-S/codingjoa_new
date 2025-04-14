@@ -28,16 +28,25 @@ public class EmailServiceImpl implements EmailService {
 	
 	@Async // must return void, Future, CompletableFuture
 	@Override
-	public void send(String to, MailType mailType, String value) throws MessagingException {
+	public void send(String to, MailType mailType, String value) {
 		log.info("## {}.send ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
-		MimeMessageHelper mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-		mailHelper.setTo(to);
-		mailHelper.setSubject(getSubject(mailType));
-		
-		String html = buildTemplate(mailType, value);
-		mailHelper.setText(html, true);
-		mailSender.send(mimeMessage);
+		MimeMessageHelper mailHelper;
+		try {
+			mailHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+			mailHelper.setTo(to);
+			mailHelper.setSubject(getSubject(mailType));
+			
+			String html = buildTemplate(mailType, value);
+			mailHelper.setText(html, true);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			
+			// MessagingException은 checked exception이라 @Async 메서드에서 발생해도 AsyncUncaughtExceptionHandler에서 처리되지 않음
+			// 따라서 RuntimeException으로 wrapping하여 비동기 예외 처리 핸들러에서 감지 가능하도록 함
+			throw new RuntimeException("메일 전송 중 오류 발생", e);
+		}
 			
 		//redisService.save(email, authCode);
 		//return authCode; because @Async --> null
@@ -47,31 +56,43 @@ public class EmailServiceImpl implements EmailService {
 		switch (mailType) {
 		case JOIN:
 			return "[CodingJoa] 회원가입 안내";
+			
 		case EMAIL_UPDATE:
 			return "[CodingJoa] 이메일 변경 안내";
+			
 		case PASSWORD_RESET:
 			return "[CodingJoa] 비밀번호 재설정 안내";
+			
 		default:
 			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
 		}
 	}
 	
 	private String buildTemplate(MailType mailType, String value) {
+		String template;
 		Context context = new Context();
 		
 		switch (mailType) {
 		case JOIN:
+			template = "template/join";
 			context.setVariable("authCode", value);
-			return templateEngine.process("template/join", context);
+			break;
+			
 		case EMAIL_UPDATE:
+			template = "template/email-update";
 			context.setVariable("authCode", value);
-			return templateEngine.process("template/email-update", context);
+			break;
+			
 		case PASSWORD_RESET:
+			template = "template/password-reset";
 			context.setVariable("passwordResetLink", value);
-			return templateEngine.process("template/password-reset", context);
+			break;
+			
 		default:
 			throw new IllegalArgumentException("Unsupported mail type: " + mailType);
 		}
+		
+		return templateEngine.process(template, context);
 	}
 
 	@Async
