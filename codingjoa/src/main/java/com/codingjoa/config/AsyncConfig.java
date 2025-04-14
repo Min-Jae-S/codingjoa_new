@@ -11,8 +11,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @ComponentScan("com.codingjoa.async")
+@RequiredArgsConstructor
 @EnableAsync
 @Configuration
 public class AsyncConfig extends AsyncConfigurerSupport {
@@ -49,7 +49,7 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10); 	// 기본 스레드 수
-		executor.setMaxPoolSize(50);	// 최대 스레드 수
+		executor.setMaxPoolSize(50); 	// 최대 스레드 수
 		executor.setQueueCapacity(100); // 대기 큐의 용량
 		executor.setThreadNamePrefix("Async-");
 		executor.initialize();

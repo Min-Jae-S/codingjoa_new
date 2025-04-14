@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
  * this handler allows for logging or forwarding those exceptions to external alerting systems (ex. Slack).
  * 
  * SlackService integration is not implemented, but the structure is designed to be easily extendable for future alerting integrations.
- * 
  */
 
 @Slf4j

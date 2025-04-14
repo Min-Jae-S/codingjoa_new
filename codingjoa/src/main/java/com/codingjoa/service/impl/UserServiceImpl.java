@@ -376,7 +376,7 @@ public class UserServiceImpl implements UserService {
 		if (userMapper.isNicknameExist(nickname)) {
 	        String baseNickname = (nickname.length() > MAX_BASE_LENGTH) ? nickname.substring(0, MAX_BASE_LENGTH) : nickname;
 			do {
-				log.info("\t > nickname '{}' already exists, generating new nickname based on '{}'", nickname, baseNickname);
+				log.info("\t > nickname '{}' exists, generating new nickname based on '{}'", nickname, baseNickname);
 				nickname = baseNickname + RandomStringUtils.randomNumeric(RANDOM_SUFFIX_LENGTH);
 			} while (userMapper.isNicknameExist(nickname)); 
 		}
