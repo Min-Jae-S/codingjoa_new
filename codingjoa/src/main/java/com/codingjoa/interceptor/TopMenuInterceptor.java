@@ -2,6 +2,7 @@ package com.codingjoa.interceptor;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,8 +19,10 @@ import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 import com.codingjoa.util.UriUtils;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
 public class TopMenuInterceptor implements HandlerInterceptor {
 
@@ -27,10 +30,14 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
 	private final List<RequestMatcher> disallowedMatchers = List.of(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
-	private final List<Category> parentCategories;
+	private final CategoryService categoryService;
+	private List<Category> parentCategories;
 	
-	public TopMenuInterceptor(CategoryService categoryService) {
+	@PostConstruct
+	public void init() {
+		log.info("## {}.init", this.getClass().getSimpleName());
 		this.parentCategories = categoryService.getParentCategories();
+		log.info("\t > loaded parentCategories = {}", parentCategories);
 	}
 	
 	/*

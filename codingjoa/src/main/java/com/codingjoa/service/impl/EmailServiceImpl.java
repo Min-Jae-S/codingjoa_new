@@ -45,7 +45,7 @@ public class EmailServiceImpl implements EmailService {
 			
 			// MessagingException은 checked exception이라 @Async 메서드에서 발생해도 AsyncUncaughtExceptionHandler에서 처리되지 않음
 			// 따라서 RuntimeException으로 wrapping하여 비동기 예외 처리 핸들러에서 감지 가능하도록 함
-			throw new RuntimeException("메일 전송 중 오류 발생", e);
+			throw new RuntimeException("error occurred while sending the email", e);
 		}
 			
 		//redisService.save(email, authCode);
