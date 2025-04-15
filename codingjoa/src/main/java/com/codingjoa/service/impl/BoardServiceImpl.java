@@ -23,6 +23,7 @@ import com.codingjoa.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -37,7 +38,6 @@ public class BoardServiceImpl implements BoardService {
 		this.pageRange = pageRange;
 	}
 
-	@Transactional
 	@Override
 	public Board saveBoard(BoardDto boardDto) {
 		log.info("\t > produce searchContent by parsing content for search");
@@ -45,10 +45,10 @@ public class BoardServiceImpl implements BoardService {
 		boardDto.setSearchContent(searchContent);
 
 		Board board = boardDto.toEntity();
-		boolean isBoardSaved = boardMapper.insertBoard(board);
+		boolean isSaved = boardMapper.insertBoard(board);
 		log.info("\t > saved board = {}", board.getId());
 
-		if (!isBoardSaved) {
+		if (!isSaved) {
 			throw new ExpectedException("error.board.save");
 		}
 		
@@ -57,7 +57,6 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
-	
 	@Override
 	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
@@ -70,7 +69,7 @@ public class BoardServiceImpl implements BoardService {
 		return BoardDetailsDto.from(boardDetailsMap);
 	}
 	
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseViewCount(Long boardId) {
 		log.info("\t > increase view count");
@@ -127,7 +126,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		Board modifiyBoard = boardDto.toEntity();
 		boolean isUpdated = boardMapper.updateBoard(modifiyBoard);
-		
 		if (!isUpdated) {
 			throw new ExpectedException("error.board.update");
 		}
@@ -151,7 +149,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		boolean isDeleted = boardMapper.deleteBoard(board);
-		
 		if (!isDeleted) {
 			throw new ExpectedException("error.board.delete");
 		}
