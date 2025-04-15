@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.CommentDetailsDto;
@@ -37,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId) {
+	public List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId) {
 		log.info("\t > prior to finding pagedComments, find board");
 		Board board = boardService.getBoard(boardId);
 		
@@ -55,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public Pagination getPagination(Long boardId, CommentCriteria commentCri) {
+	public Pagination getPagination(long boardId, CommentCriteria commentCri) {
 		int totalCnt = commentMapper.findTotalCntForPaging(boardId);
 		int validCnt = commentMapper.findValidCntForPaging(boardId);
 		return (totalCnt > 0) ? new Pagination(totalCnt, validCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
@@ -65,10 +66,6 @@ public class CommentServiceImpl implements CommentService {
 	public void saveComment(CommentDto commentDto) {
 		log.info("\t > prior to inserting comment, find board");
 		Board board = boardService.getBoard(commentDto.getBoardId());
-		
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
 		
 		Comment comment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", comment);
@@ -85,12 +82,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void updateComment(CommentDto commentDto) {
-		Comment comment = commentMapper.findCommentById(commentDto.getId());
-		log.info("\t > found comment = {}", comment);
-		
-		if (comment == null) {
-			throw new ExpectedException("error.comment.notFound");
-		}
+		Comment comment = getComment(commentDto.getId());
 		
 		if (!comment.getStatus()) {
 			throw new ExpectedException("error.comment.alreadyDeleted");
@@ -110,13 +102,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public void deleteComment(Long commentId, Long userId) {
-		Comment comment = commentMapper.findCommentById(commentId);
-		log.info("\t > found comment = {}", comment);
-		
-		if (comment == null) {
-			throw new ExpectedException("error.comment.notFound");
-		}
+	public void deleteComment(long commentId, long userId) {
+		Comment comment = getComment(commentId);
 		
 		if (!comment.getStatus()) {
 			throw new ExpectedException("error.comment.alreadyDeleted");
@@ -137,6 +124,32 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		boardService.decreaseCommentCount(comment.getBoardId()); // Propagation.REQUIRES_NEW
+	}
+
+	@Override
+	public Comment getComment(long commentId) {
+		Comment comment = commentMapper.findCommentById(commentId);
+		log.info("\t > found comment = {}", comment);
+		
+		if (comment == null) {
+			throw new ExpectedException("error.comment.notFound");
+		}
+		
+		return comment;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void increaseLikeCount(long commentId) {
+		log.info("\t > increase like count");
+		commentMapper.increaseLikeCount(commentId);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void decreaseLikeCount(long commentId) {
+		log.info("\t > decrease like count");
+		commentMapper.decreaseLikeCount(commentId);
 	}
 
 }

@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
+	public BoardDetailsDto getBoardDetails(long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
 		log.info("\t > found boardDetailsMap = {}", boardDetailsMap);
 		
@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void increaseViewCount(Long boardId) {
+	public void increaseViewCount(long boardId) {
 		log.info("\t > increase view count");
 		boardMapper.increaseViewCount(boardId);
 	}
@@ -92,13 +92,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(Long boardId, Long userId) {
-		Board board = boardMapper.findBoardById(boardId);
-		log.info("\t > found board = {}", board);
-		
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
+	public BoardDto getModifyBoard(long boardId, long userId) {
+		Board board = getBoard(boardId);
 		
 		if (board.getUserId() != userId) {
 			throw new ExpectedException("error.board.notWriter");
@@ -109,12 +104,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public Board modifyBoard(BoardDto boardDto) {
-		Board board = boardMapper.findBoardById(boardDto.getId());
-		log.info("\t > found board = {}", board);
-
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
+		Board board = getBoard(boardDto.getId());
 		
 		if (board.getUserId() != boardDto.getUserId()) {
 			throw new ExpectedException("error.board.notWriter");
@@ -136,13 +126,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board deleteBoard(Long boardId, Long userId) {
-		Board board = boardMapper.findBoardById(boardId);
-		log.info("\t > found board = {}", board);
-
-		if (board == null) {
-			throw new ExpectedException("error.board.notFound");
-		}
+	public Board deleteBoard(long boardId, long userId) {
+		Board board = getBoard(boardId);
 		
 		if (board.getUserId() != userId) {
 			throw new ExpectedException("error.board.notWriter");
@@ -157,8 +142,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board getBoard(Long boardId) {
+	public Board getBoard(long boardId) {
 		Board board = boardMapper.findBoardById(boardId);
+		log.info("\t > found board = {}", board);
+		
 		if (board == null) {
 			throw new ExpectedException("error.board.notFound");
 		}
@@ -168,18 +155,30 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void increaseCommentCount(Long boardId) {
+	public void increaseCommentCount(long boardId) {
 		log.info("\t > increase comment count");
 		boardMapper.increaseCommentCount(boardId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void decreaseCommentCount(Long boardId) {
+	public void decreaseCommentCount(long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);
 	}
 
-	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void increaseLikeCount(long boardId) {
+		log.info("\t > increase like count");
+		boardMapper.increaseLikeCount(boardId);
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void decreaseLikeCount(long boardId) {
+		log.info("\t > decrease like count");
+		boardMapper.decreaseLikeCount(boardId);
+	}
 	
 }

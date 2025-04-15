@@ -12,24 +12,28 @@ public interface BoardService {
 	
 	Board saveBoard(BoardDto boardDto);
 	
-	BoardDetailsDto getBoardDetails(Long boardId, Long userId);
+	BoardDetailsDto getBoardDetails(long boardId, Long userId);
 	
-	void increaseViewCount(Long boardId);
+	void increaseViewCount(long boardId);
 	
 	List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Long userId);
 
 	Pagination getPagination(int categoryCode, BoardCriteria boardCri);
 	
-	BoardDto getModifyBoard(Long boardId, Long userId);
+	BoardDto getModifyBoard(long boardId, long userId);
 	
 	Board modifyBoard(BoardDto boardDto);
 	
-	Board deleteBoard(Long boardId, Long userId);
+	Board deleteBoard(long boardId, long userId);
 	
-	Board getBoard(Long boardId);
+	Board getBoard(long boardId);
 	
-	void increaseCommentCount(Long boardId); 
+	void increaseCommentCount(long boardId); 
 	
-	void decreaseCommentCount(Long boardId);
+	void decreaseCommentCount(long boardId);
+	
+	void increaseLikeCount(long boardId);
+	
+	void decreaseLikeCount(long boardId);
 	
 }
