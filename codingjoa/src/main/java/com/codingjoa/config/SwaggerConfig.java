@@ -22,7 +22,11 @@ public class SwaggerConfig {
 			.apis(RequestHandlerSelectors.basePackage("com.codingjoa.controller"))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo());
+			.apiInfo(apiInfo())
+			// Unable to infer base url. This is common when using dynamic servlet registration or when the API is behind an API Gateway. 
+			// The base url is the root of where all the swagger resources are served. 
+			// For e.g. if the api is available at http://example.org/api/v2/api-docs then the base url is http://example.org/api/. Please enter the location manually: 
+			.pathMapping("/codingjoa");
 	}
 	
 	private ApiInfo apiInfo() {
