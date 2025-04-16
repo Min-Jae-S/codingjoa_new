@@ -98,11 +98,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void checkEmailForUpdate(String email, Long userId) {
-		User userById = userMapper.findUserById(userId);
-		if (userById == null) {
-			throw new ExpectedException("error.user.notFound", "email");
-		}
-		
+		User userById = getUser(userId);
 		String currentEmail = userById.getEmail();
 		if (email.equals(currentEmail)) {
 			throw new ExpectedException("error.user.notCurrentEmail", "email");
@@ -126,11 +122,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateNickname(NicknameDto nicknameDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		String currentNickname = user.getNickname();
 		String newNickname = nicknameDto.getNickname();
 		if (!newNickname.equals(currentNickname) && userMapper.isNicknameExist(newNickname)) {
@@ -150,11 +142,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateEmail(EmailAuthDto emailAuthDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.email(emailAuthDto.getEmail())
@@ -171,11 +159,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateAddr(AddrDto addrDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.zipcode(addrDto.getZipcode())
@@ -191,11 +175,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateAgree(AgreeDto agreeDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.agree(agreeDto.isAgree())
@@ -209,11 +189,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updatePassword(PasswordChangeDto passwordChangeDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		String password = user.getPassword();
 		String currentPassword = passwordChangeDto.getCurrentPassword();
 		if (!passwordEncoder.matches(currentPassword, password)) {
@@ -238,13 +214,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void savePassword(PasswordSaveDto passwordSaveDto, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		String rawPassword = passwordSaveDto.getNewPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
+		
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.password(encPassword)
@@ -258,12 +231,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void resetPassword(String newPassword, Long userId) {
-		User user = userMapper.findUserById(userId);
-		if (user == null) {
-			throw new ExpectedException("error.user.notFound");
-		}
-		
+		User user = getUser(userId);
 		String encPassword = passwordEncoder.encode(newPassword);
+		
 		User modifyUser = User.builder()
 				.id(user.getId())
 				.password(encPassword)
