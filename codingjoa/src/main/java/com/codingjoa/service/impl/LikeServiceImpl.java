@@ -3,7 +3,9 @@ package com.codingjoa.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.entity.Board;
 import com.codingjoa.entity.BoardLike;
+import com.codingjoa.entity.Comment;
 import com.codingjoa.entity.CommentLike;
 import com.codingjoa.mapper.LikeMapper;
 import com.codingjoa.service.BoardService;
@@ -67,13 +69,13 @@ public class LikeServiceImpl implements LikeService {
 
 	@Override
 	public int getBoardLikeCnt(long boardId) {
-		boardService.getBoard(boardId);
-		return likeMapper.findBoardLikeCnt(boardId);
+		Board board = boardService.getBoard(boardId);
+		return likeMapper.findBoardLikeCnt(board.getId());
 	}
 
 	@Override
 	public int getCommentLikeCnt(long commentId) {
-		commentService.getComment(commentId);
-		return likeMapper.findCommentLikeCnt(commentId);
+		Comment comment = commentService.getComment(commentId);
+		return likeMapper.findCommentLikeCnt(comment.getId());
 	}
 }

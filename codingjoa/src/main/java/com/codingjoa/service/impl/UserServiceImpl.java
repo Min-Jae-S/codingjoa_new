@@ -276,6 +276,18 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User getUser(Long userId) {
+		User user = userMapper.findUserById(userId);
+		log.info("\t > found user = {}", user);
+		
+		if (user == null) {
+			throw new ExpectedException("error.user.notFound");
+		}
+		
+		return user;
+	}
+	
+	@Override
 	public PrincipalDetails getUserDetailsByEmail(String email) {
 		Map<String, Object> userDetailsMap = userMapper.findUserDetailsByEmail(email);
 		return (userDetailsMap == null) ? null : PrincipalDetails.from(userDetailsMap);
