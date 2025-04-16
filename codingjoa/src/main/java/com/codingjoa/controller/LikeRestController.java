@@ -12,9 +12,11 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.LikeService;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Api(tags = "Like API")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor

@@ -46,9 +46,11 @@ import com.codingjoa.validator.NicknameValidator;
 import com.codingjoa.validator.PasswordChangeValidator;
 import com.codingjoa.validator.PasswordSaveValidator;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Api(tags = "User API")
 @Slf4j
 @RequestMapping("/api/user")
 @RequiredArgsConstructor

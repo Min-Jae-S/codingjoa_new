@@ -29,9 +29,11 @@ import com.codingjoa.service.UserService;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.PasswordResetValidator;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Api(tags = "Main API")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor

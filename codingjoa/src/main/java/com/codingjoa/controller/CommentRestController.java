@@ -29,12 +29,14 @@ import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.validator.CommentValidator;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // https://velog.io/@yoojkim/Rest-API-RESTful%ED%95%98%EA%B2%8C-URL-%EC%84%A4%EA%B3%84%ED%95%98%EA%B8%B0
 // REST : 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
+@Api(tags = "Comment API")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor

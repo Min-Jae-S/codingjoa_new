@@ -44,9 +44,11 @@ import com.codingjoa.validator.AdminUserRegistrationValidator;
 import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.NicknameValidator;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Api(tags = "Admin API")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")

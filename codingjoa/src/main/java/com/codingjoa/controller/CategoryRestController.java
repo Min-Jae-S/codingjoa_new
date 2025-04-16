@@ -12,9 +12,11 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Api(tags = "Category API")
 @Slf4j
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
