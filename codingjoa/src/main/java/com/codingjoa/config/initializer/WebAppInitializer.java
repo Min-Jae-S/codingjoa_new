@@ -61,8 +61,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				BatchConfig.class,
 				BatchJobConfig.class,
 				OAuth2Config.class,
-				AopConfig.class,
-				SwaggerConfig.class
+				AopConfig.class
 		};
 	}
 
@@ -72,7 +71,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		return new Class[] { 
 				ServletConfig.class, 
 				WebSocketConfig.class,
-				WebSocketStompConfig.class
+				WebSocketStompConfig.class,
+				SwaggerConfig.class
 		};  
 	}
 

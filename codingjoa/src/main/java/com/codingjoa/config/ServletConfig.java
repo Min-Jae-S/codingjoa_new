@@ -104,7 +104,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 		
-		// for swagger UI
+		// for swagger
 		registry.addResourceHandler("swagger-ui.html") 
         		.addResourceLocations("classpath:/META-INF/resources/");
 		registry.addResourceHandler("/webjars/**")

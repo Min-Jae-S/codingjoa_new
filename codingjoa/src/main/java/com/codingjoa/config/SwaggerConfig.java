@@ -3,6 +3,7 @@ package com.codingjoa.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import io.swagger.annotations.ApiOperation;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -14,26 +15,27 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
-
+	
+	private static final String API_NAME = "Codingjoa API";
+	private static final String API_DESCRIPTION  = "Codingjoa API specification";
+	private static final String API_VERSION = "1.0.0";
+	
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 			.select()
-			.apis(RequestHandlerSelectors.basePackage("com.codingjoa.controller"))
+			//.apis(RequestHandlerSelectors.basePackage("com.codingjoa.controller"))
+			.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo())
-			// Unable to infer base url. This is common when using dynamic servlet registration or when the API is behind an API Gateway. 
-			// The base url is the root of where all the swagger resources are served. 
-			// For e.g. if the api is available at http://example.org/api/v2/api-docs then the base url is http://example.org/api/. Please enter the location manually: 
-			.pathMapping("/codingjoa");
+			.apiInfo(apiInfo());
 	}
 	
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-			.title("CODINGJOA REST API")
-			.description("CODINGJOA | SWAGGER TEST")
-			.version("1.0.0")
+			.title(API_NAME)
+			.description(API_DESCRIPTION)
+			.version(API_VERSION)
 			.build();
 	}
 	
