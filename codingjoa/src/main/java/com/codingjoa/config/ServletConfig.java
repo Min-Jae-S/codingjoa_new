@@ -77,7 +77,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.jsp("/WEB-INF/views/", ".jsp");
 		//registry.viewResolver(beanNameViewResolver());
 	}
-
+	
 	@Bean
 	public ViewResolver beanNameViewResolver() {
 		BeanNameViewResolver resolver = new BeanNameViewResolver();
@@ -138,7 +138,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
-				.excludePathPatterns("/resources/**", "/api/**");
+				.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/password/reset");
 		
@@ -166,6 +166,7 @@ public class ServletConfig implements WebMvcConfigurer {
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
 		PreExceptionHandlerExceptionResolver preResolver = null;
+		
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver baseResolver = (ExceptionHandlerExceptionResolver) resolver;

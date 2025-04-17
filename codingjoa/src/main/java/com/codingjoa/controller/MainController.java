@@ -88,5 +88,11 @@ public class MainController {
 		model.addAttribute("token", token);
 		return "reset-password";
 	}
+
+	@GetMapping("/api-docs")
+	public String forwardSwaggerUI() {
+		log.info("## forwardSwaggerUI");
+		return "forward:/swagger-ui.html";
+	}
 	
 }
