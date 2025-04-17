@@ -32,7 +32,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
@@ -97,23 +96,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/resources/**")
 				.addResourceLocations("/resources/");
 		registry.addResourceHandler("/user/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.user.image")); 	// D:/Dev/upload/user/images/
 		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
-		
-		// Swagger UI (3.0.0)
-		registry.addResourceHandler("/swagger-ui/**")
-				.addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
-		
-		// Swagger UI (2.9.2)
-//		registry.addResourceHandler("/webjars/**")
-//				.addResourceLocations("classpath:/META-INF/resources/webjars/");
-//		registry.addResourceHandler("swagger-ui.html")
-//				.addResourceLocations("classpath:/META-INF/resources/");
 	}
 	
 	@Override
@@ -258,12 +246,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		return factoryBean;
 	}
 
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addRedirectViewController("/api-docs", "/swagger-ui/index.html");
-		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui/index.html"); 	// 2.9.2
-		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui.html");			// 3.0.0
-	}
-	
 
 }

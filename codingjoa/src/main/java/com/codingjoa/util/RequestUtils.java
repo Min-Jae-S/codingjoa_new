@@ -63,8 +63,8 @@ public class RequestUtils {
 	}
 	
 	public static boolean isJsonRequest(HttpServletRequest request) {
-		log.info("\t > accept: {}, contentType: {}", request.getHeader(HttpHeaders.ACCEPT), request.getContentType());
-		return isJsonAccept(request) || isJsonContentType(request);
+		log.info("\t > accept: {}", request.getHeader(HttpHeaders.ACCEPT));
+		return isJsonAccept(request);
 	}
 	
 }
