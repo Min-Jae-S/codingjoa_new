@@ -87,7 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
-		web.ignoring().antMatchers("/resources/**", "/user/images/**", "/board/images/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
+		web.ignoring().antMatchers("/resources/**", "/user/images/**", "/board/images/**", 
+				"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
 		//web.debug(true);
 	}
 	

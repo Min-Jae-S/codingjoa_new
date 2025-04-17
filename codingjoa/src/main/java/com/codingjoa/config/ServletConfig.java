@@ -32,6 +32,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
@@ -105,8 +106,8 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 		
 		// for swagger
-		registry.addResourceHandler("swagger-ui.html") 
-        		.addResourceLocations("classpath:/META-INF/resources/");
+		registry.addResourceHandler("/swagger-ui/**")
+				.addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
 		registry.addResourceHandler("/webjars/**")
         		.addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
@@ -138,7 +139,8 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
-				.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
+				.excludePathPatterns("/resources/**", "/api/**");
+				//.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/password/reset");
 		
@@ -252,5 +254,12 @@ public class ServletConfig implements WebMvcConfigurer {
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		return factoryBean;
 	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/docs").setViewName("forward:/swagger-ui/index.html");
+	}
+	
+	
 
 }
