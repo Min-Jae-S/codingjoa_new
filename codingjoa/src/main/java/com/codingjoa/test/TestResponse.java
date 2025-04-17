@@ -1,4 +1,4 @@
-package com.codingjoa.basic.test;
+package com.codingjoa.test;
 
 import java.time.LocalDateTime;
 import java.util.List;

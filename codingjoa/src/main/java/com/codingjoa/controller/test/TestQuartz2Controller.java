@@ -34,12 +34,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.codingjoa.basic.test.TestSchedulerData;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.quartz.AlarmDto;
 import com.codingjoa.quartz.AlarmJob;
 import com.codingjoa.quartz.JobC;
 import com.codingjoa.service.SchedulerService;
+import com.codingjoa.test.TestSchedulerData;
 import com.codingjoa.websocket.test.WebSocketHandler;
 
 import lombok.extern.slf4j.Slf4j;

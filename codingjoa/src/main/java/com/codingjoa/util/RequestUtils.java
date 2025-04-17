@@ -62,7 +62,7 @@ public class RequestUtils {
 		return (contentType != null) && contentType.startsWith(MediaType.APPLICATION_JSON_VALUE);
 	}
 	
-	public static boolean isJsonRequest(HttpServletRequest request) {
+	public static boolean isRestApiRequest(HttpServletRequest request) {
 		log.info("\t > accept: {}", request.getHeader(HttpHeaders.ACCEPT));
 		return isJsonAccept(request);
 	}

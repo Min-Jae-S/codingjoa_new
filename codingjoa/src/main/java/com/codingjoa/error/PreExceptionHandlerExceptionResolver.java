@@ -54,17 +54,17 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 			return null;
 		}
 
-		boolean isJsonRequest = RequestUtils.isJsonRequest(request);
+		boolean isRestApiRequest = RequestUtils.isRestApiRequest(request);
 		
 		for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache().entrySet()) {
-			ControllerAdviceBean advice = entry.getKey();
-			boolean isRestControllerAdvice = advice.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
-			if (isJsonRequest == isRestControllerAdvice) {
-				log.info("\t > isJsonRequest: {}, matched advice: {}", isJsonRequest, advice);
+			ControllerAdviceBean adviceBean = entry.getKey();
+			boolean isRestControllerAdvice = adviceBean.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
+			if (isRestApiRequest == isRestControllerAdvice) {
+				log.info("\t > isRestApiRequest: {}, Matched ControllerAdviceBean: {}", isRestApiRequest, adviceBean);
 				ExceptionHandlerMethodResolver resolver = entry.getValue();
 				Method method = resolver.resolveMethod(exception);
 				if (method != null) {
-					return new ServletInvocableHandlerMethod(advice.resolveBean(), method);
+					return new ServletInvocableHandlerMethod(adviceBean.resolveBean(), method);
 				}
 			}
 		}

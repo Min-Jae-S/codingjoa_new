@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.basic.test.TestSchedulerData;
+import com.codingjoa.test.TestSchedulerData;
 
 @Mapper
 public interface TestSchedulerMapper {

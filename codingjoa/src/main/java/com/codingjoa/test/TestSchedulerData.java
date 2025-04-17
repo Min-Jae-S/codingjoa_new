@@ -1,4 +1,4 @@
-package com.codingjoa.basic.test;
+package com.codingjoa.test;
 
 import lombok.Builder;
 import lombok.Data;

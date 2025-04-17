@@ -2,7 +2,7 @@ package com.codingjoa.service;
 
 import java.util.List;
 
-import com.codingjoa.basic.test.TestSchedulerData;
+import com.codingjoa.test.TestSchedulerData;
 
 public interface SchedulerService {
 	

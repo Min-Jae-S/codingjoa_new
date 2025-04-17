@@ -45,6 +45,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		try {
 			filterChain.doFilter(request, response);
+			
 		} catch (Exception e) {
 			log.info("## {}.doFilterInternal", this.getClass().getSimpleName());
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
@@ -57,7 +58,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 					.messageByCode("error.server")
 					.build();
 			
-			if (RequestUtils.isJsonRequest(request)) {
+			if (RequestUtils.isRestApiRequest(request)) {
 				log.info("\t > respond with errorResponse in JSON format");
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);

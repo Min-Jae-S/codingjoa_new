@@ -19,11 +19,11 @@ import org.springframework.web.servlet.handler.HandlerExceptionResolverComposite
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 import com.codingjoa.annotation.AnnoTest;
-import com.codingjoa.basic.test.Sample;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.UserService;
 import com.codingjoa.service.test.TestProxyService;
+import com.codingjoa.test.Sample;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.codingjoa.basic.test;
+package com.codingjoa.test;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;

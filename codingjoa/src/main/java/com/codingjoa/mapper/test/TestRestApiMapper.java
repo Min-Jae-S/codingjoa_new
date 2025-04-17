@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.codingjoa.basic.test.TestApiRequestData;
-import com.codingjoa.basic.test.TestApiResponseData;
+import com.codingjoa.test.TestApiRequestData;
+import com.codingjoa.test.TestApiResponseData;
 
 @Mapper
 public interface TestRestApiMapper {

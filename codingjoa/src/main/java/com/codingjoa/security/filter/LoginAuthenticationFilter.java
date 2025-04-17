@@ -43,7 +43,7 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
-		if (!RequestUtils.isJsonRequest(request)) {
+		if (!RequestUtils.isRestApiRequest(request)) {
 			log.info("\t > invalid request");
 			throw new AuthenticationServiceException("invalid request");
 		}

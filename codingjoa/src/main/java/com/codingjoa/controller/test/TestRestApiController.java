@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codingjoa.basic.test.TestApiRequestData;
-import com.codingjoa.basic.test.TestApiResponseData;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.test.TestRestApiService;
+import com.codingjoa.test.TestApiRequestData;
+import com.codingjoa.test.TestApiResponseData;
 
 import lombok.extern.slf4j.Slf4j;
 
