@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 import com.codingjoa.util.UriUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {

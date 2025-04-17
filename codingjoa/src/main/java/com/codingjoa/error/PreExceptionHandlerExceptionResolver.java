@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.mvc.method.annotation.JsonViewResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
-import com.codingjoa.util.AjaxUtils;
+import com.codingjoa.util.RequestUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,13 +54,13 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 			return null;
 		}
 
-		boolean isAjaxRequest = AjaxUtils.isAjaxRequest(request);
+		boolean isJsonRequest = RequestUtils.isJsonRequest(request);
 		
 		for (Map.Entry<ControllerAdviceBean, ExceptionHandlerMethodResolver> entry : getExceptionHandlerAdviceCache().entrySet()) {
 			ControllerAdviceBean advice = entry.getKey();
 			boolean isRestControllerAdvice = advice.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
-			if (isAjaxRequest == isRestControllerAdvice) {
-				log.info("\t > ajax: {}, matched advice: {}", isAjaxRequest, advice);
+			if (isJsonRequest == isRestControllerAdvice) {
+				log.info("\t > isJsonRequest: {}, matched advice: {}", isJsonRequest, advice);
 				ExceptionHandlerMethodResolver resolver = entry.getValue();
 				Method method = resolver.resolveMethod(exception);
 				if (method != null) {

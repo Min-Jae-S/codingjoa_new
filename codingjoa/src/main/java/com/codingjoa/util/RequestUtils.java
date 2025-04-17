@@ -5,7 +5,13 @@ import java.nio.charset.StandardCharsets;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class HttpUtils {
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class RequestUtils {
 	
 	/*
 	 * 	StringBuffer: thread-safe
@@ -44,6 +50,22 @@ public class HttpUtils {
 		StringBuffer requestMethod = new StringBuffer(request.getMethod());
 		String fullUri = getFullURI(request);
 		return requestMethod.append(" '").append(fullUri).append("'").toString();
+	}
+	
+	public static boolean isJsonAccept(HttpServletRequest request) {
+		String accept = request.getHeader(HttpHeaders.ACCEPT);
+		log.info("\t > accept: {}", accept);
+		return (accept != null) && accept.contains(MediaType.APPLICATION_JSON_VALUE);
+	}
+	
+	public static boolean isJsonContentType(HttpServletRequest request) {
+		String contentType = request.getContentType();
+		log.info("\t > contentType: {}", contentType);
+		return (contentType != null) && contentType.startsWith(MediaType.APPLICATION_JSON_VALUE);
+	}
+	
+	public static boolean isJsonRequest(HttpServletRequest request) {
+		return isJsonAccept(request) || isJsonContentType(request);
 	}
 	
 }

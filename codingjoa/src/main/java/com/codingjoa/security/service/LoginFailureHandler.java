@@ -16,14 +16,13 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.MessageUtils;
-import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -62,21 +61,32 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.message(message)
 				.build();
 		
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        
+		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+
+		log.info("\t > respond with errorResponse in JSON format");
+		response.getWriter().write(jsonResponse);
+		response.getWriter().close();
 		
-		if (AjaxUtils.isAjaxRequest(request)) {
-			log.info("\t > respond with errorResponse in JSON format");
-			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.getWriter().write(jsonResponse);
-			response.getWriter().close();
-		} else {
-			request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
-			request.setAttribute("message", message);
-			
-			log.info("\t > forward to 'alert-and-redirect.jsp'");
-			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
-		}
+//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+//		
+//		if (RequestUtils.isJsonRequest(request)) {
+//			log.info("\t > respond with errorResponse in JSON format");
+//			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+//			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//			response.getWriter().write(jsonResponse);
+//			response.getWriter().close();
+//		} else {
+//			request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
+//			request.setAttribute("message", message);
+//			
+//			log.info("\t > forward to 'alert-and-redirect.jsp'");
+//			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
+//		}
+		
 	}
 }

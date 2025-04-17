@@ -17,9 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.dto.LoginDto;
-import com.codingjoa.util.AjaxUtils;
 import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
+import com.codingjoa.util.RequestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter { // Use
 			throws AuthenticationException {
 		log.info("## {}.attemptAuthentication", this.getClass().getSimpleName());
 		
-		if (!AjaxUtils.isAjaxRequest(request)) {
+		if (!RequestUtils.isJsonRequest(request)) {
 			log.info("\t > invalid request");
 			throw new AuthenticationServiceException("invalid request");
 		}

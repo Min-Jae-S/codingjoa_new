@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.security.service.JwtProvider;
 import com.codingjoa.util.CookieUtils;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 
 		String jwt = resolveJwt(request);
 		

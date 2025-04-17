@@ -17,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.codingjoa.converter.NullToEmptyStringSerializer;
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.AjaxUtils;
+import com.codingjoa.util.RequestUtils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -57,7 +57,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 					.messageByCode("error.server")
 					.build();
 			
-			if (AjaxUtils.isAjaxRequest(request)) {
+			if (RequestUtils.isJsonRequest(request)) {
 				log.info("\t > respond with errorResponse in JSON format");
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);

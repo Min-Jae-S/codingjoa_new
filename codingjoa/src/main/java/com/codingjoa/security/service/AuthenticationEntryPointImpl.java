@@ -16,8 +16,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.AjaxUtils;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,7 +47,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	 * 
 	 * 1. header: x-requested-with(key) --> XMLHttpRequest(value) 
 	 * 		- x: Non-standard
-	 * 		- jQuery나 대중성 있는 라이브러리들이 ajax 전송시 기본으로 추가하여 전송
+	 * 		- jQuery나 대중성 있는 라이브러리들이 AJAX 통신시 기본으로 추가하여 전송
 	 * 
 	 * 2. custom header
 	 * 		beforeSend: function(xmlHttpRequest) {
@@ -60,7 +59,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > {}: {}", authException.getClass().getSimpleName(), authException.getMessage());
 		
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -71,7 +70,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 				.messageByCode("error.auth.unauthorized")
 				.build();
 		
-		if (AjaxUtils.isAjaxRequest(request)) {
+		if (RequestUtils.isJsonRequest(request)) {
 			log.info("\t > respond with errorResponse in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);

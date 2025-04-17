@@ -105,11 +105,13 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/board/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.board.image")); 	// D:/Dev/upload/board/images/
 		
-		// Swagger UI
+		// Swagger UI (3.0.0)
 		registry.addResourceHandler("/swagger-ui/**")
 				.addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
-		registry.addResourceHandler("/webjars/**")
-        		.addResourceLocations("classpath:/META-INF/resources/webjars/");
+		
+		// Swagger UI (2.9.2)
+//		registry.addResourceHandler("/webjars/**")
+//				.addResourceLocations("classpath:/META-INF/resources/webjars/");
 //		registry.addResourceHandler("swagger-ui.html")
 //				.addResourceLocations("classpath:/META-INF/resources/");
 	}
@@ -142,7 +144,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**");
-				//.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/password/reset");
 		
@@ -260,8 +261,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addRedirectViewController("/api-docs", "/swagger-ui/index.html");
-		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui/index.html");
-		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui.html");
+		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui/index.html"); 	// 2.9.2
+		//registry.addViewController("/api-docs").setViewName("forward:/swagger-ui.html");			// 3.0.0
 	}
 	
 

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +20,7 @@ public class ErrorController {
 	@RequestMapping
 	public String error(HttpServletRequest request, Model model) {
 		log.info("## error");
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 
 		ErrorResponse errorResponse = null;
 		Object obj = request.getAttribute("errorResponse");

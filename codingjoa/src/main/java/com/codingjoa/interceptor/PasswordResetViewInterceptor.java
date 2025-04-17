@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.codingjoa.service.RedisService;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 import com.codingjoa.util.MessageUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class PasswordResetViewInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		
 		String token = request.getParameter("token");
 		

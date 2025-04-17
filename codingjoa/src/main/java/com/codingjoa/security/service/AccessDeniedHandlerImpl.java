@@ -17,8 +17,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
-import com.codingjoa.util.AjaxUtils;
-import com.codingjoa.util.HttpUtils;
+import com.codingjoa.util.RequestUtils;
 import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,7 +44,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", HttpUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > {}: {}", accessDeniedException.getClass().getSimpleName(), accessDeniedException.getMessage());
 		
 		response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -56,7 +55,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 				.messageByCode("error.auth.forbidden")
 				.build();
 		
-		if (AjaxUtils.isAjaxRequest(request)) {
+		if (RequestUtils.isJsonRequest(request)) {
 			log.info("\t > respond with errorResponse in JSON format");
 			String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
