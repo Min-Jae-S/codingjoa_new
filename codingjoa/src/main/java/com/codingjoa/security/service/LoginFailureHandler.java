@@ -61,9 +61,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 				.message(message)
 				.build();
 		
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         
 		String jsonResponse = objectMapper.writeValueAsString(errorResponse);
 

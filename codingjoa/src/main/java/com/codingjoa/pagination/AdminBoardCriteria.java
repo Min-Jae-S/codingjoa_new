@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
 @Getter
@@ -29,11 +30,13 @@ public class AdminBoardCriteria {
 		this.categories = categories;
 	}
 	
+	@ApiModelProperty(hidden = true)
 	@JsonIgnore
 	public String getKeywordRegexp() {
 		return "writer".equals(type) ? keyword : String.join("|", keyword.split("\\s+"));
 	}
 	
+	@ApiModelProperty(hidden = true)
 	@JsonIgnore
 	public List<String> getTypes() {
 		return StringUtils.hasText(type) ? Arrays.stream(type.split("_")).collect(Collectors.toList()) : List.of();

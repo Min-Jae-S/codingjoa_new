@@ -54,17 +54,16 @@ public class RequestUtils {
 	
 	public static boolean isJsonAccept(HttpServletRequest request) {
 		String accept = request.getHeader(HttpHeaders.ACCEPT);
-		log.info("\t > accept: {}", accept);
 		return (accept != null) && accept.contains(MediaType.APPLICATION_JSON_VALUE);
 	}
 	
 	public static boolean isJsonContentType(HttpServletRequest request) {
 		String contentType = request.getContentType();
-		log.info("\t > contentType: {}", contentType);
 		return (contentType != null) && contentType.startsWith(MediaType.APPLICATION_JSON_VALUE);
 	}
 	
 	public static boolean isJsonRequest(HttpServletRequest request) {
+		log.info("\t > accept: {}, contentType: {}", request.getHeader(HttpHeaders.ACCEPT), request.getContentType());
 		return isJsonAccept(request) || isJsonContentType(request);
 	}
 	

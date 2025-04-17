@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 	
 	private static final String API_TITLE = "Codingjoa API";
-	private static final String API_DESCRIPTION  = "Codingjoa API specification";
+	private static final String API_DESCRIPTION = "Codingjoa API specification";
 	private static final String API_VERSION = "1.0.0";
 	
 	@Bean
@@ -28,7 +28,8 @@ public class SwaggerConfig {
 			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo());
+			.apiInfo(apiInfo())
+			.useDefaultResponseMessages(false);
 	}
 	
 	private ApiInfo apiInfo() {

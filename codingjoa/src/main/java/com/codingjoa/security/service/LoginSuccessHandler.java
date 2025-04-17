@@ -53,8 +53,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         
 		String jsonResponse = objectMapper.writeValueAsString(successResponse);
 
