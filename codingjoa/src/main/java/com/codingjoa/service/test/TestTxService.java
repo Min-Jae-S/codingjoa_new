@@ -23,10 +23,10 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.codingjoa.basic.test.TestVo;
 import com.codingjoa.mapper.test.TestInnerMapper;
 import com.codingjoa.mapper.test.TestIsoMapper;
 import com.codingjoa.mapper.test.TestOuterMapper;
-import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 

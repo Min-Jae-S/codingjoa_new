@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.codingjoa.basic.test.TestEvent;
+import com.codingjoa.basic.test.TestVo;
 import com.codingjoa.mapper.test.TestOuterMapper;
-import com.codingjoa.test.TestEvent;
-import com.codingjoa.test.TestVo;
 
 import lombok.extern.slf4j.Slf4j;
 

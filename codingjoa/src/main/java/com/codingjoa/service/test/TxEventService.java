@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.codingjoa.test.TestEvent;
+import com.codingjoa.basic.test.TestEvent;
 
 import lombok.extern.slf4j.Slf4j;
 

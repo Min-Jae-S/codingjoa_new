@@ -25,8 +25,8 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.codingjoa.basic.test.TestItem;
 import com.codingjoa.repository.test.TestJdbcTxRepository;
-import com.codingjoa.test.TestItem;
 
 import lombok.extern.slf4j.Slf4j;
 

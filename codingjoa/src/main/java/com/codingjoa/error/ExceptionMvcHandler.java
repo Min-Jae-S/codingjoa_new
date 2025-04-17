@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.codingjoa.basic.test.TestResponse;
 import com.codingjoa.dto.ErrorDetails;
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.dto.ErrorResponse.ErrorResponseBuilder;
-import com.codingjoa.test.TestResponse;
 
 import lombok.extern.slf4j.Slf4j;
 

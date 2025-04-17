@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codingjoa.basic.test.TestApiRequestData;
+import com.codingjoa.basic.test.TestApiResponseData;
 import com.codingjoa.mapper.test.TestRestApiMapper;
-import com.codingjoa.test.TestApiRequestData;
-import com.codingjoa.test.TestApiResponseData;
 
 import lombok.extern.slf4j.Slf4j;
 

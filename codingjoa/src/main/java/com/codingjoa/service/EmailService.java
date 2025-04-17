@@ -1,7 +1,7 @@
 package com.codingjoa.service;
 
+import com.codingjoa.basic.test.Sample;
 import com.codingjoa.enums.MailType;
-import com.codingjoa.test.Sample;
 
 public interface EmailService {
 	

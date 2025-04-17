@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
+import com.codingjoa.basic.test.TestSchedulerData;
 import com.codingjoa.mapper.test.TestSchedulerMapper;
 import com.codingjoa.service.SchedulerService;
-import com.codingjoa.test.TestSchedulerData;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

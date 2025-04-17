@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.basic.test.TestItem;
 import com.codingjoa.service.test.TestJdbcService;
-import com.codingjoa.test.TestItem;
 
 import lombok.extern.slf4j.Slf4j;
 

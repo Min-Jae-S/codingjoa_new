@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.codingjoa.test.TestVo;
+import com.codingjoa.basic.test.TestVo;
 
 @Mapper
 public interface TestOuterMapper {

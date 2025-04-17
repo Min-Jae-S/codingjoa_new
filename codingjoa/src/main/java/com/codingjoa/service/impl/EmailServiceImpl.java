@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.codingjoa.basic.test.Sample;
 import com.codingjoa.enums.MailType;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.service.EmailService;
-import com.codingjoa.test.Sample;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
