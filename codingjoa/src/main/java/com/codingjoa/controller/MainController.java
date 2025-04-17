@@ -89,10 +89,10 @@ public class MainController {
 		return "reset-password";
 	}
 
-	@GetMapping("/api-docs")
-	public String forwardSwaggerUI() {
-		log.info("## forwardSwaggerUI");
-		return "forward:/swagger-ui.html";
-	}
+//	@GetMapping("/api-docs")
+//	public String forwardSwaggerUI() {
+//		log.info("## forwardSwaggerUI");
+//		return "forward:/swagger-ui/index.html";
+//	}
 	
 }
