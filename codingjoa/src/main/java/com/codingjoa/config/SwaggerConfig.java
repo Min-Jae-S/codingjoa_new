@@ -40,7 +40,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// swagger2: {protocol}://{host}:{port}/{contextPath}/swagger-ui.html
 		// swagger3: {protocol}://{host}:{port}/{contextPath}/swagger-ui/index.html
-		registry.addViewController("/swagger-ui/apis").setViewName("forward:/swagger-ui/index.html"); 	
+		registry.addViewController("/swagger-ui/api-docs").setViewName("forward:/swagger-ui/index.html"); 	
 	}
 
 	@Bean
