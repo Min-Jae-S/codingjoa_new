@@ -1,4 +1,4 @@
-package com.codingjoa.security.oauth2.service;
+package com.codingjoa.security.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,10 +13,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.codingjoa.security.dto.KakaoTokenResponse;
-import com.codingjoa.security.dto.KakaoUserInfoResponse;
-import com.codingjoa.security.dto.NaverTokenResponse;
-import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.util.FormatUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

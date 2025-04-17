@@ -28,9 +28,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.codingjoa.security.filter.JwtFilter;
-import com.codingjoa.security.filter.LoginFilter;
-import com.codingjoa.security.filter.OAuth2LoginFilter;
+import com.codingjoa.security.filter.JwtAuthenticationFilter;
+import com.codingjoa.security.filter.LoginAuthenticationFilter;
+import com.codingjoa.security.filter.AppOAuth2LoginAuthenticationFilter;
 import com.codingjoa.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.codingjoa.security.oauth2.OAuth2CustomAuthorizationRequestResolver;
 import com.codingjoa.security.oauth2.service.OAuth2LoginFailureHandler;
@@ -147,7 +147,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// add it right after the LogoutFilter, which is the point just before the actual authentication process takes place.
 			.addFilterBefore(loginFilter(), OAuth2AuthorizationRequestRedirectFilter.class)
 			.addFilterBefore(oAuth2LoginFilter(), OAuth2LoginAuthenticationFilter.class)
-			.addFilterAfter(new JwtFilter(jwtProvider), OAuth2LoginAuthenticationFilter.class);
+			.addFilterAfter(new JwtAuthenticationFilter(jwtProvider), OAuth2LoginAuthenticationFilter.class);
 	}
 	
 	@Override // register provider with AuthenticationManager
@@ -156,8 +156,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(new OAuth2LoginProvider(accessTokenResponseClient, oAuth2UserService));
 	}
 	
-	private LoginFilter loginFilter() throws Exception {
-		LoginFilter filter = new LoginFilter();
+	private LoginAuthenticationFilter loginFilter() throws Exception {
+		LoginAuthenticationFilter filter = new LoginAuthenticationFilter();
 		// Error creating bean with name 'loginFilter' defined in com.codingjoa.security.config.SecurityConfig: 
 		// Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: authenticationManager must be specified
 		//filter.setAuthenticationManager(this.authenticationManagerBean());
@@ -167,8 +167,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 
-	private OAuth2LoginFilter oAuth2LoginFilter() throws Exception {
-		OAuth2LoginFilter filter = new OAuth2LoginFilter(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
+	private AppOAuth2LoginAuthenticationFilter oAuth2LoginFilter() throws Exception {
+		AppOAuth2LoginAuthenticationFilter filter = new AppOAuth2LoginAuthenticationFilter(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
 		//filter.setAuthenticationManager(this.authenticationManagerBean()); 	// by AuthenticationManagerDelegator
 		filter.setAuthenticationManager(this.authenticationManager());			// by ProviderManager
 		filter.setAuthenticationSuccessHandler(oAuth2LoginSuccessHandler);

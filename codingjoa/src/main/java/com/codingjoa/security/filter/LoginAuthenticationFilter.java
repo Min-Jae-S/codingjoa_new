@@ -25,16 +25,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LoginFilter extends AbstractAuthenticationProcessingFilter { // UsernamePasswordAuthenticationFilter
+public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter { // UsernamePasswordAuthenticationFilter
 	
 	public static final String DEFAULT_FILTER_PROCESSES_URL= "/api/login";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
-	public LoginFilter() {
+	public LoginAuthenticationFilter() {
 		super(new AntPathRequestMatcher(DEFAULT_FILTER_PROCESSES_URL, "POST"));
 	}
 	
-	public LoginFilter(String filterProcessesUrl) {
+	public LoginAuthenticationFilter(String filterProcessesUrl) {
 		super(new AntPathRequestMatcher(filterProcessesUrl, "POST"));
 	}
 	

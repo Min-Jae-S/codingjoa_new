@@ -29,12 +29,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.security.dto.KakaoTokenResponse;
-import com.codingjoa.security.dto.KakaoUserInfoResponse;
-import com.codingjoa.security.dto.NaverTokenResponse;
-import com.codingjoa.security.dto.NaverUserInfoResponse;
 import com.codingjoa.security.oauth2.OAuth2CustomProvider;
-import com.codingjoa.security.oauth2.service.TestOAuth2Service;
+import com.codingjoa.security.test.KakaoTokenResponse;
+import com.codingjoa.security.test.KakaoUserInfoResponse;
+import com.codingjoa.security.test.NaverTokenResponse;
+import com.codingjoa.security.test.NaverUserInfoResponse;
+import com.codingjoa.security.test.TestOAuth2Service;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.codingjoa.security.filter;
+package com.codingjoa.obsolete;
 
 import java.io.IOException;
 import java.util.ArrayList;

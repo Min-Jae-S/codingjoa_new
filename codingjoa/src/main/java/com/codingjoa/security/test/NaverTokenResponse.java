@@ -1,4 +1,4 @@
-package com.codingjoa.security.dto;
+package com.codingjoa.security.test;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
