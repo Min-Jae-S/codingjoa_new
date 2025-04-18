@@ -16,13 +16,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.util.CookieUtils;
-import com.codingjoa.util.UriUtils;
+import com.codingjoa.security.dto.JwtResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -41,15 +41,20 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		log.info("\t > create JWT and issue it as a cookie");
 		String jwt = jwtProvider.createJwt(authentication, request);
-		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
+		//CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
-		String continueUrl = (String) authentication.getDetails();
-		continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		//String continueUrl = (String) authentication.getDetails();
+		//continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		
+		JwtResponseDto jwtResponse = JwtResponseDto.builder()
+				.accessToken(jwt)
+				.build();
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
 				.messageByCode("success.login")
-				.data(continueUrl)
+				.data(jwtResponse)
+				//.data(continueUrl)
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -63,7 +68,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.getWriter().close();
 	}
 	
-	@SuppressWarnings("unused")
 	private void clearAuthenticationDetails(Authentication authentication) {
 		log.info("\t > clear authentication details");
 		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);

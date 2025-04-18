@@ -56,6 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 	
 	private String extractJwtFromHeader(HttpServletRequest request) {
+		
 		return null;
 	}
 	

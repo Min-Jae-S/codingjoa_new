@@ -159,7 +159,9 @@
 			authenticationService.login(formData, continueUrl, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = result.data;
+					localStorage.setItem("access_token", response.accessToken);
+					document.cookie = `access_token=${response.accessToken}; Path=/; HttpOnly`;
+					//location.href = result.data;
 				}, 50);
 			});
 		});
