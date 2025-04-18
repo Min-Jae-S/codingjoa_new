@@ -2,7 +2,9 @@ package com.codingjoa.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -164,21 +166,23 @@ public class AdminServiceImpl implements AdminService {
 			throw new ExpectedException("error.admin.userNotFound");
 		}
 		
-		List<String> newRoles =  new ArrayList<>(Collections.singletonList("ROLE_USER"));;
+		Set<String> newRoles = new HashSet<>();
+		newRoles.add("ROLE_USER");
 		newRoles.addAll(adminUserAuthDto.getRoles());
 		log.info("\t > newRoles = {}", newRoles); // ["ROLE_USER", "ROLE_MANAGER"]
 		
-		List<String> currentRoles = authMapper.findRolesByUserId(user.getId());
+		Set<String> currentRoles = authMapper.findRolesByUserId(user.getId());
 		log.info("\t > currentRoles = {}", currentRoles); // ["ROLE_USER", "ROLE_ADMIN"]
 		
 		// rolesToInsert = newRoles - currentRoles
-		List<String> rolesToInsert = new ArrayList<>(newRoles);
+		Set<String> rolesToInsert = new HashSet<>(newRoles);
 		rolesToInsert.removeAll(currentRoles);
 		log.info("\t > rolesToInsert = {}", rolesToInsert); // ["ROLE_MANAGER"]
 
 		// rolesToDelete = currentRoles - newRoles
-		List<String> rolesToDelete = new ArrayList<>(currentRoles);
+		Set<String> rolesToDelete = new HashSet<>(currentRoles);
 		rolesToDelete.removeAll(newRoles);
+		rolesToDelete.remove("ROLE_USER"); // 보호 주석
 		log.info("\t > rolesToDelete = {}", rolesToDelete); // ["ROLE_ADMIN"]
 		
 		for (String role : rolesToDelete) {

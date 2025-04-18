@@ -44,5 +44,4 @@
 			role = #{role}
 	</delete>
 	
-	
 </mapper>

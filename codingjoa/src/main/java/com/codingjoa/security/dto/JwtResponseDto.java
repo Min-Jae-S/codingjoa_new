@@ -1,21 +1,23 @@
 package com.codingjoa.security.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.Builder;
 import lombok.Getter;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY) // temporary
 @Getter
 public class JwtResponseDto {
 	
-	private String tokenType;
+	private final String tokenType = "bearer";
 	private String accessToken;
 	private String refreshToken;
 	private Integer accessTokenExpiresIn;
 	private Integer refreshTokenExpiresIn;
 	
 	@Builder
-	private JwtResponseDto(String tokenType, String accessToken, String refreshToken, Integer accessTokenExpiresIn,
+	private JwtResponseDto(String accessToken, String refreshToken, Integer accessTokenExpiresIn,
 			Integer refreshTokenExpiresIn) {
-		this.tokenType = tokenType;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 		this.accessTokenExpiresIn = accessTokenExpiresIn;

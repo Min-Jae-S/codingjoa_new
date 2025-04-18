@@ -1,6 +1,6 @@
 package com.codingjoa.validator;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdminUserAuthValidator implements Validator {
 
-	private static final List<String> ROLES = List.of("ROLE_ADMIN");
+	private static final Set<String> ALLOWED_ROLES = Set.of("ROLE_USER", "ROLE_ADMIN");
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -24,22 +24,24 @@ public class AdminUserAuthValidator implements Validator {
 		log.info("## {}", this.getClass().getSimpleName());
 
 		AdminUserAuthDto adminUserAuthDto = (AdminUserAuthDto) target;
-		List<String> roles = adminUserAuthDto.getRoles();
+		Set<String> roles = adminUserAuthDto.getRoles();
 		
-		if (roles == null) {
-			errors.rejectValue("roles", "NotNull");
-		}
+		// "ROLE_USER"는 역직렬화 단계에서 기본값으로 포함
+		// 따라서 roles는 항상 NotNull, NotEmpty
 		
-		if (roles.isEmpty()) {
-			return;
-		}
+//		if (roles == null) {
+//			errors.rejectValue("roles", "NotNull");
+//		}
+//		
+//		if (roles.isEmpty()) {
+//			return;
+//		}
 		
 		for (String role : roles) {
-			if (!ROLES.contains(role)) {
+			if (!ALLOWED_ROLES.contains(role)) {
 				errors.rejectValue("roles", "NotValid", new Object[] { role }, null);
 				return;
 			}
 		}
 	}
-
 }

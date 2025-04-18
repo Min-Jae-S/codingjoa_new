@@ -1,6 +1,6 @@
 package com.codingjoa.mapper;
 
-import java.util.List;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +12,7 @@ public interface AuthMapper {
 	
 	boolean insertAuth(Auth auth);
 
-	List<String> findRolesByUserId(Long userId);
+	Set<String> findRolesByUserId(Long userId);
 	
 	boolean deleteAuthByUserIdAndRole(@Param("userId") Long userId, @Param("role") String role);
 	
