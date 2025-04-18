@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.codingjoa.dto.JoinDto;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.UriUtils;
 import com.codingjoa.validator.JoinValidator;
@@ -44,10 +43,8 @@ public class MainController {
 	}
 
 	@GetMapping("/login") 
-	public String login(@RequestParam(name = "continue", required = false) String continueUrl, Model model) {
+	public String login() {
 		log.info("## login");
-		log.info("\t > continueUrl = {}", FormatUtils.formatString(continueUrl));
-		model.addAttribute("continueUrl", continueUrl);
 		return "login";
 	}
 

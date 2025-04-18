@@ -11,9 +11,9 @@
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav categories">
-				<c:forEach var="parentCategory" items="${parentCategories}">
-					<li class="nav-item dropdown category" data-code="${parentCategory.code}" data-path="${parentCategory.path}">
-						<a href="${contextPath}${parentCategory.path}" class="nav-link"><c:out value="${parentCategory.name}"/></a>
+				<c:forEach var="category" items="${parentCategories}">
+					<li class="nav-item dropdown category" data-code="${category.code}" data-path="${category.path}">
+						<a href="${contextPath}${category.path}" class="nav-link"><c:out value="${category.name}"/></a>
 						<div class="dropdown-menu">
 							<!-- categories -->
 							<!-- <a href="/codingjoa/board/?categoryCode=4" class="dropdown-item">공지게시판</a> -->

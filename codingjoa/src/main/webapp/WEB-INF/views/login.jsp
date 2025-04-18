@@ -146,8 +146,9 @@
 
 <script>
 	$(function() {
-		const continueUrl = "<c:out value='${continueUrl}'/>";
-		console.log("## continueUrl = '%s'", continueUrl);
+		const urlParams = new URLSearchParams(window.location.search);
+		const continueUrl = urlParams.get("continue");
+		console.log("## continuUrl from location.search:", continueUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -158,13 +159,13 @@
 			
 			authenticationService.login(formData, continueUrl, function(result) {
 				alert(result.message);
-				localStorage.setItem("access_token", response.accessToken);
-				document.cookie = `access_token=${response.accessToken}; Path=/; HttpOnly`;
+				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
+				document.cookie = `access_token=${result.data.accessToken}; Path=/; HttpOnly`;
 				
 				/* setTimeout(function() {
 					alert(result.message);
-					localStorage.setItem("access_token", response.accessToken);
-					document.cookie = `access_token=${response.accessToken}; Path=/; HttpOnly`;
+					localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
+					document.cookie = `access_token=${result.data.accessToken}; Path=/; HttpOnly`;
 					//location.href = result.data;
 				}, 50); */
 			});

@@ -1,8 +1,5 @@
 package com.codingjoa.util;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpHeaders;
@@ -31,7 +28,8 @@ public class RequestUtils {
 	}
 	
 	public static String getFullURI(HttpServletRequest request) {
-		StringBuffer requestURI = new StringBuffer(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
+		StringBuffer requestURI = new StringBuffer(request.getRequestURI());
+		//StringBuffer requestURI = new StringBuffer(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
 	    String queryString = request.getQueryString();
 	    
 	    if (queryString == null) {
