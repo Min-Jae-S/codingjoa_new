@@ -2,6 +2,7 @@ package com.codingjoa.util;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,30 +20,27 @@ public class UriUtils {
 	// '/login' will be allowed, '/login/callback' will be disallowed
 	private static final List<String> disallowedPaths = List.of("/login/*/**", "/error/**"); 
 	
-	// TopMenuInterceptor 
-	public static String buildCurrentUrl(HttpServletRequest request) {
+	public static String buildFullCurrentUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
 		return encode(currentUrl);
 	}
 	
-	// AuthenticationEntryPointImpl
-	public static String buildLoginUrl(HttpServletRequest request) {
-		return getLoginUrlBuilder(request)
-				.queryParam("continue", buildCurrentUrl(request))
-				.build()
-				.toUriString();
-	}
-	
-	// OAuth2LoginFailureHandler, MemberController.join
-	public static String buildLoginUrl(HttpServletRequest request, String continueUrl) {
-		return getLoginUrlBuilder(request)
-				.queryParam("continue", continueUrl)
-				.build()
-				.toUriString();
-	}
-	
-	private static UriComponentsBuilder getLoginUrlBuilder(HttpServletRequest request) {
+	private static UriComponentsBuilder getFullLoginUrlBuilder(HttpServletRequest request) {
 		return ServletUriComponentsBuilder.fromContextPath(request).path("/login");
+	}
+	
+	// OAuth2LoginFailureHandler, MainController.join()
+	public static String buildDefaultLoginUrl(HttpServletRequest request) {
+		return getFullLoginUrlBuilder(request).build().toUriString();
+	}
+	
+	// AuthenticationEntryPointImpl
+	public static String buildFullLoginUrl(HttpServletRequest request) {
+		String continueUrl = buildFullCurrentUrl(request);
+		return getFullLoginUrlBuilder(request)
+				.queryParamIfPresent("continue", Optional.ofNullable(continueUrl).filter(url -> !url.isEmpty()))
+				.build()
+				.toUriString();
 	}
 	
 	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl

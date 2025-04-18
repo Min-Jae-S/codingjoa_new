@@ -1,4 +1,4 @@
-package com.codingjoa.obsolete.quartz;
+package com.codingjoa.obsolete;
 
 import java.util.Set;
 import java.util.stream.Collectors;

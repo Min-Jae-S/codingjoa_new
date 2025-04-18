@@ -84,7 +84,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 //			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 
 			log.info("\t > redirect to login page");
-			redirectStrategy.sendRedirect(request, response, UriUtils.buildLoginUrl(request));
+			redirectStrategy.sendRedirect(request, response, UriUtils.buildFullLoginUrl(request));
 		}
 	}
 }

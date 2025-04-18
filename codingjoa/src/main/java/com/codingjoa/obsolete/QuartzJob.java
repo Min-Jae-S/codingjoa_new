@@ -1,4 +1,4 @@
-package com.codingjoa.obsolete.quartz;
+package com.codingjoa.obsolete;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

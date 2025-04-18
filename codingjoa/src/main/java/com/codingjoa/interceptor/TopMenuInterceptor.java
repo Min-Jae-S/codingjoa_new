@@ -1,6 +1,7 @@
 package com.codingjoa.interceptor;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -70,21 +72,13 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			return;
 		}
 		
-		//List<Category> parentCategories = categoryService.getParentCategories();
 		modelAndView.addObject("parentCategories", parentCategories);
 		
-		String currentUrl = UriUtils.buildCurrentUrl(request);
-		log.info("\t > currentUrl: {}", UriUtils.decode(currentUrl));
-		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-			String loginContinueUrl = isDisallowedPath(request) ? "" : currentUrl;
-			modelAndView.addObject("loginContinueUrl", loginContinueUrl);
-			log.info("\t > loginContinueUrl: {}", UriUtils.decode(loginContinueUrl));
-			
-		} else if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			modelAndView.addObject("logoutContinueUrl", currentUrl);
-			log.info("\t > logoutContinueUrl: {}", UriUtils.decode(currentUrl));
+		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+			modelAndView.addObject("loginPath", buildPath(request, "/login"));
+		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
+			modelAndView.addObject("logoutPath", buildPath(request, "/logout"));
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
@@ -93,7 +87,14 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private boolean isDisallowedPath(HttpServletRequest request) {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
-
 	
+	private String buildPath(HttpServletRequest request, String baseUrl) {
+		String currentUrl = UriUtils.buildFullCurrentUrl(request);
+		return UriComponentsBuilder
+			.fromPath(request.getContextPath() + baseUrl)
+			.queryParamIfPresent("continue", Optional.of(currentUrl).filter(url -> !isDisallowedPath(request)))
+			.build()
+			.toUriString();
+	}
 	
 }

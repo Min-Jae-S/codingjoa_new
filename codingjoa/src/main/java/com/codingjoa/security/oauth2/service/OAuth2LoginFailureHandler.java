@@ -40,7 +40,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		
-		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
+		request.setAttribute("continueUrl", UriUtils.buildDefaultLoginUrl(request));
 		request.setAttribute("message", message);
 		
 		log.info("\t > forward to 'alert-and-redirect.jsp'");

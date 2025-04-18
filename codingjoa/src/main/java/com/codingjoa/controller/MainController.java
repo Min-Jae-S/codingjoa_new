@@ -70,8 +70,8 @@ public class MainController {
 		userService.saveUser(joinDto);
 		redisService.deleteKey(joinDto.getEmail());
 		
-		request.setAttribute("message", MessageUtils.getMessage("success.join.join"));
-		request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request, ""));
+		request.setAttribute("message", MessageUtils.getMessage("success.join"));
+		request.setAttribute("continueUrl", UriUtils.buildDefaultLoginUrl(request));
 		
 		return "feedback/alert-and-redirect";
 	}
