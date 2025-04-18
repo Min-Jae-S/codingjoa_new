@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,9 +75,9 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			modelAndView.addObject("loginPath", buildPath(request, "/login"));
-		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
 			modelAndView.addObject("logoutPath", buildPath(request, "/logout"));
+		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
+			modelAndView.addObject("loginPath", buildPath(request, "/login"));
 		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());

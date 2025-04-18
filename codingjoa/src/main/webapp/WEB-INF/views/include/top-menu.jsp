@@ -27,7 +27,6 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item">
-						<%-- <a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a> --%>
 						<a href="${loginUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
@@ -36,7 +35,6 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item">
-						<%-- <a href="${contextPath}/login?continue=${loginContinueUrl}" class="nav-link">로그인</a> --%>
 						<a href="${loginPath}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
@@ -85,7 +83,6 @@
 							<hr class="dropdown-divider">
 							<li>
 								<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
-								<%-- <a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a> --%>
 								<a href="${logoutPath}" class="dropdown-item logout">로그아웃</a>
 							</li>
 						</ul>

@@ -160,6 +160,7 @@
 				alert(result.message);
 				localStorage.setItem("access_token", response.accessToken);
 				document.cookie = `access_token=${response.accessToken}; Path=/; HttpOnly`;
+				
 				/* setTimeout(function() {
 					alert(result.message);
 					localStorage.setItem("access_token", response.accessToken);
