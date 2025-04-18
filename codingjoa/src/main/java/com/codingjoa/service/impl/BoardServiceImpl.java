@@ -58,7 +58,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardDetailsDto getBoardDetails(long boardId, Long userId) {
+	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
 		log.info("\t > found boardDetailsMap = {}", boardDetailsMap);
 		
@@ -71,7 +71,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void increaseViewCount(long boardId) {
+	public void increaseViewCount(Long boardId) {
 		log.info("\t > increase view count");
 		boardMapper.increaseViewCount(boardId);
 	}
@@ -92,10 +92,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardDto getModifyBoard(long boardId, long userId) {
+	public BoardDto getModifyBoard(Long boardId, Long userId) {
 		Board board = getBoard(boardId);
 		
-		if (board.getUserId() != userId) {
+		if (!board.getUserId().equals(userId)) {
 			throw new ExpectedException("error.board.notWriter");
 		}
 		
@@ -126,10 +126,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board deleteBoard(long boardId, long userId) {
+	public Board deleteBoard(Long boardId, Long userId) {
 		Board board = getBoard(boardId);
 		
-		if (board.getUserId() != userId) {
+		if (!board.getUserId().equals(userId)) {
 			throw new ExpectedException("error.board.notWriter");
 		}
 		
@@ -142,7 +142,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public Board getBoard(long boardId) {
+	public Board getBoard(Long boardId) {
 		Board board = boardMapper.findBoardById(boardId);
 		log.info("\t > found board = {}", board);
 		
@@ -155,28 +155,28 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void increaseCommentCount(long boardId) {
+	public void increaseCommentCount(Long boardId) {
 		log.info("\t > increase comment count");
 		boardMapper.increaseCommentCount(boardId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void decreaseCommentCount(long boardId) {
+	public void decreaseCommentCount(Long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void increaseLikeCount(long boardId) {
+	public void increaseLikeCount(Long boardId) {
 		log.info("\t > increase like count");
 		boardMapper.increaseLikeCount(boardId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
-	public void decreaseLikeCount(long boardId) {
+	public void decreaseLikeCount(Long boardId) {
 		log.info("\t > decrease like count");
 		boardMapper.decreaseLikeCount(boardId);
 	}

@@ -26,7 +26,7 @@ public class CategoryRestController {
 	private final CategoryService categoryService;
 	
 	@GetMapping("/parent/{parentCode}")
-	public ResponseEntity<Object> getCategoriesByParent(@PathVariable("parentCode") int parentCode) {
+	public ResponseEntity<Object> getCategoriesByParent(@PathVariable("parentCode") Integer parentCode) {
 		log.info("## getCategoriesByParent");
 		List<Category> categories = categoryService.getCategoriesByParent(parentCode);
 		return ResponseEntity.ok(SuccessResponse.builder().data(categories).build());

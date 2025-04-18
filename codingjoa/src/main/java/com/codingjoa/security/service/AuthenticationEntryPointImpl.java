@@ -77,14 +77,14 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-//			request.setAttribute("continueUrl", UriUtils.buildLoginUrl(request));
+			log.info("\t > redirect to login page");
+			redirectStrategy.sendRedirect(request, response, UriUtils.buildFullLoginUrl(request));
+			
+//			request.setAttribute("continueUrl", UriUtils.buildFullLoginUrl(request));
 //			request.setAttribute("message", errorResponse.getMessage());
 //
 //			log.info("\t > forward to 'alert-and-redirect.jsp'");
 //			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
-
-			log.info("\t > redirect to login page");
-			redirectStrategy.sendRedirect(request, response, UriUtils.buildFullLoginUrl(request));
 		}
 	}
 }

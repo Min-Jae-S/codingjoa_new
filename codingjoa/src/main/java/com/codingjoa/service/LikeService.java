@@ -2,11 +2,11 @@ package com.codingjoa.service;
 
 public interface LikeService {
 
-	boolean toggleBoardLike(long boardId, long userId);
+	boolean toggleBoardLike(Long boardId, Long userId);
 	
-	boolean toggleCommentLike(long commentId, long userId);
+	boolean toggleCommentLike(Long commentId, Long userId);
 	
-	int getBoardLikeCnt(long boardId);
+	int getBoardLikeCnt(Long boardId);
 
-	int getCommentLikeCnt(long commentId);
+	int getCommentLikeCnt(Long commentId);
 }

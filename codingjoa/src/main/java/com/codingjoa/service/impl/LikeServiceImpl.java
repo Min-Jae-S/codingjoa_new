@@ -26,55 +26,55 @@ public class LikeServiceImpl implements LikeService {
 	private final CommentService commentService;
 	
 	@Override
-	public boolean toggleBoardLike(long boardId, long userId) {
+	public boolean toggleBoardLike(Long boardId, Long userId) {
 		log.info("\t > prior to toggling boardLike, find board");
-		boardService.getBoard(boardId);
+		Board board = boardService.getBoard(boardId);
 	
 		log.info("\t > to check whether the board is liked or not, find boardLike");
-		BoardLike boardLike = likeMapper.findBoardLike(boardId, userId);
+		BoardLike boardLike = likeMapper.findBoardLike(board.getId(), userId);
 		
 		if (boardLike == null) {
 			log.info("\t > insert boardLike");
-			likeMapper.insertBoardLike(boardId, userId);
-			boardService.increaseLikeCount(boardId);
+			likeMapper.insertBoardLike(board.getId(), userId);
+			boardService.increaseLikeCount(board.getId());
 			return true;
 		} else {
 			log.info("\t > delete boardLike");
 			likeMapper.deleteBoardLike(boardLike.getId());
-			boardService.decreaseLikeCount(boardId);
+			boardService.decreaseLikeCount(board.getId());
 			return false;
 		}
 	}
 	
 	@Override
-	public boolean toggleCommentLike(long commentId, long userId) {
+	public boolean toggleCommentLike(Long commentId, Long userId) {
 		log.info("\t > prior to toggling commentLike, find comment");
-		commentService.getComment(commentId);
+		Comment comment = commentService.getComment(commentId);
 	
 		log.info("\t > to check whether the comment is liked or not, find commentLike");
-		CommentLike commentLike = likeMapper.findCommentLike(commentId, userId);
+		CommentLike commentLike = likeMapper.findCommentLike(comment.getId(), userId);
 		
 		if (commentLike == null) {
 			log.info("\t > insert commentLike");
-			likeMapper.insertCommentLike(commentId, userId);
-			commentService.increaseLikeCount(commentId);
+			likeMapper.insertCommentLike(comment.getId(), userId);
+			commentService.increaseLikeCount(comment.getId());
 			return true;
 		} else {
 			log.info("\t > delete commentLike");
 			likeMapper.deleteCommentLike(commentLike.getId());
-			commentService.decreaseLikeCount(commentId);
+			commentService.decreaseLikeCount(comment.getId());
 			return false;
 		}
 	}
 
 	@Override
-	public int getBoardLikeCnt(long boardId) {
+	public int getBoardLikeCnt(Long boardId) {
 		Board board = boardService.getBoard(boardId);
 		return likeMapper.findBoardLikeCnt(board.getId());
 	}
 
 	@Override
-	public int getCommentLikeCnt(long commentId) {
+	public int getCommentLikeCnt(Long commentId) {
 		Comment comment = commentService.getComment(commentId);
 		return likeMapper.findCommentLikeCnt(comment.getId());
 	}

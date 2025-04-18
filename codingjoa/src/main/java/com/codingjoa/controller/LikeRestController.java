@@ -26,7 +26,7 @@ public class LikeRestController {
 	private final LikeService likeService;
 
 	@PostMapping("/boards/{boardId}/likes")
-	public ResponseEntity<Object> toggleBoardLike(@PathVariable long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
+	public ResponseEntity<Object> toggleBoardLike(@PathVariable Long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLike, boardId = {}", boardId);
 		
 		boolean isBoardLiked = likeService.toggleBoardLike(boardId, principal.getId());
@@ -39,7 +39,7 @@ public class LikeRestController {
 	}
 	
 	@GetMapping("/boards/{boardId}/likes")
-	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable long boardId) {
+	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable Long boardId) {
 		log.info("## getBoardLikeCnt, boardId = {}", boardId);
 		
 		int boardLikeCnt = likeService.getBoardLikeCnt(boardId);
@@ -49,7 +49,7 @@ public class LikeRestController {
 	}
 	
 	@PostMapping("/comments/{commentId}/likes")
-	public ResponseEntity<Object> toggleCommentLike(@PathVariable long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
+	public ResponseEntity<Object> toggleCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
 		
 		boolean isCommentLiked = likeService.toggleCommentLike(commentId, principal.getId());
@@ -63,7 +63,7 @@ public class LikeRestController {
 	}
 
 	@GetMapping("/comments/{commentId}/likes")
-	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable long commentId) {
+	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable Long commentId) {
 		log.info("## getCommentLikeCnt, commentId = {}", commentId);
 		
 		int commentLikeCnt = likeService.getCommentLikeCnt(commentId);
