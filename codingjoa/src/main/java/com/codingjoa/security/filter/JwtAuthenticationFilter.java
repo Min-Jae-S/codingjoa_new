@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 
-		String jwt = resolveJwt(request);
+		String jwt = extractJwt(request);
 		
 		if (jwtProvider.isValidJwt(jwt)) {
 			log.info("\t > valid JWT, obtain authenticaion from jwt(claims)");
@@ -45,7 +45,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 	
-	private String resolveJwt(HttpServletRequest request) {
+	private String extractJwt(HttpServletRequest request) {
+		if (RequestUtils.isRestApiRequest(request)) {
+			log.info("\t > REST API request detected, extract JWT from Authorization header");
+			return extractJwtFromHeader(request);
+		} else {
+			log.info("\t > view request detected, extract JWT from cookie");
+			return extractJwtFromCookie(request);
+		}
+	}
+	
+	private String extractJwtFromHeader(HttpServletRequest request) {
+		return null;
+	}
+	
+	private String extractJwtFromCookie(HttpServletRequest request) {
 		Cookie cookie = CookieUtils.getCookie(request, JWT_COOKIE);
 		return (cookie == null) ? null : cookie.getValue();
 	}
