@@ -37,7 +37,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 	private OAuth2LoginStatus loginStatus;
 
 	@Builder
-	private PrincipalDetails(Long id, String email, String password, String nickname, String imagePath,
+	private PrincipalDetails(long id, String email, String password, String nickname, String imagePath,
 			String provider, List<GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;

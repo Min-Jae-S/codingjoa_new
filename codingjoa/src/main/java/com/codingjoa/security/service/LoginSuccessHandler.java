@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.JwtResponseDto;
+import com.codingjoa.util.CookieUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -39,9 +40,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > principal = {}", authentication.getPrincipal());
 		
-		log.info("\t > create JWT and issue it as a cookie");
+		log.info("\t > create JWT and issue it via cookie and JSON body");
 		String jwt = jwtProvider.createJwt(authentication, request);
-		//CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
+		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 
 		//String continueUrl = (String) authentication.getDetails();
 		//continueUrl = UriUtils.resolveContinueUrl(continueUrl, request);

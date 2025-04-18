@@ -10,19 +10,19 @@ import com.codingjoa.pagination.Pagination;
 
 public interface CommentService {
 
-	List<CommentDetailsDto> getPagedComments(long boardId, CommentCriteria commentCri, long userId);
+	List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId);
 	
-	Pagination getPagination(long boardId, CommentCriteria commentCri);
+	Pagination getPagination(Long boardId, CommentCriteria commentCri);
 	
 	void saveComment(CommentDto commentDto);
 	
 	void updateComment(CommentDto commentDto);
 	
-	void deleteComment(long commentId, long userId);
+	void deleteComment(Long commentId, Long userId);
 	
-	Comment getComment(long commentId);
+	Comment getComment(Long commentId);
 	
-	void increaseLikeCount(long commentId);
+	void increaseLikeCount(Long commentId);
 	
-	void decreaseLikeCount(long commentId);
+	void decreaseLikeCount(Long commentId);
 }

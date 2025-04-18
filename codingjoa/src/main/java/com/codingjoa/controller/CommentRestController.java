@@ -54,7 +54,7 @@ public class CommentRestController {
 	}
 
 	@GetMapping("/boards/{boardId}/comments")
-	public ResponseEntity<Object> getPagedComments(@PathVariable long boardId,
+	public ResponseEntity<Object> getPagedComments(@PathVariable Long boardId,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getPagedComments, boardId = {}", boardId);
 		log.info("\t > commentCri = {}", commentCri);
@@ -91,7 +91,7 @@ public class CommentRestController {
 	}
 	
 	@PatchMapping(value = { "/comments/", "/comments/{commentId}" })
-	public ResponseEntity<Object> modify(@PathVariable long commentId, 
+	public ResponseEntity<Object> modify(@PathVariable Long commentId, 
 			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modify, commentId = {}", commentId);
 		
@@ -107,7 +107,7 @@ public class CommentRestController {
 	}
 	
 	@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
-	public ResponseEntity<Object> delete(@PathVariable long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
+	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
 		commentService.deleteComment(commentId, principal.getId()); // update status
 		
