@@ -160,12 +160,6 @@
 			authenticationService.login(formData, continueUrl, function(result) {
 				alert(result.message);
 				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
-				
-				/* setTimeout(function() {
-					alert(result.message);
-					localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
-					//location.href = result.data;
-				}, 50); */
 			});
 		});
 	})

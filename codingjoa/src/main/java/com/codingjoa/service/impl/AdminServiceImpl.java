@@ -166,9 +166,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new ExpectedException("error.admin.userNotFound");
 		}
 		
-		Set<String> newRoles = new HashSet<>();
-		newRoles.add("ROLE_USER");
-		newRoles.addAll(adminUserAuthDto.getRoles());
+		Set<String> newRoles = new HashSet<>(adminUserAuthDto.getRoles());
 		log.info("\t > newRoles = {}", newRoles); // ["ROLE_USER", "ROLE_MANAGER"]
 		
 		Set<String> currentRoles = authMapper.findRolesByUserId(user.getId());
@@ -182,7 +180,6 @@ public class AdminServiceImpl implements AdminService {
 		// rolesToDelete = currentRoles - newRoles
 		Set<String> rolesToDelete = new HashSet<>(currentRoles);
 		rolesToDelete.removeAll(newRoles);
-		rolesToDelete.remove("ROLE_USER"); // 보호 주석
 		log.info("\t > rolesToDelete = {}", rolesToDelete); // ["ROLE_ADMIN"]
 		
 		for (String role : rolesToDelete) {
