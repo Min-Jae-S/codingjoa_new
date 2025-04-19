@@ -12,17 +12,10 @@ public class JwtResponseDto {
 	private final String tokenType = "bearer";
 	private String accessToken;
 	private String refreshToken;
-	private Integer accessTokenExpiresIn;
-	private Integer refreshTokenExpiresIn;
 	
 	@Builder
-	private JwtResponseDto(String accessToken, String refreshToken, Integer accessTokenExpiresIn,
-			Integer refreshTokenExpiresIn) {
+	private JwtResponseDto(String accessToken, String refreshToken) {
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
-		this.accessTokenExpiresIn = accessTokenExpiresIn;
-		this.refreshTokenExpiresIn = refreshTokenExpiresIn;
 	}
-	
-	
 }

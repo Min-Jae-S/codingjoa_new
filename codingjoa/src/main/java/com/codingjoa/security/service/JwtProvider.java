@@ -37,7 +37,7 @@ public class JwtProvider {
 	 */
 
 	private final Key signingKey;
-	private final long validityInMillis; // 1000 * 60 * 60 * 1 (1 hour)
+	private final long validityInMillis; // 1000 * 60 * 60 * 1 (1hour)
 	
 	// since Spring 4.3, if a class has only one constructor, the @Autowired annotation can be omitted.
 	@Autowired
@@ -73,11 +73,11 @@ public class JwtProvider {
 	}
 	
 	/*
-	 * UnsupportedJwtException - if the claimsJws argument does not represent an Claims JWS ex) no claims
-	 * MalformedJwtException - if the claimsJws string is not a valid JWS
-	 * SignatureException - if the claimsJws JWS signature validation fails
-	 * ExpiredJwtException - if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
-	 * IllegalArgumentException - if the claimsJws string is null or empty or only whitespace
+	 * UnsupportedJwtException 	: if the claimsJws argument does not represent an Claims JWS ex) no claims
+	 * MalformedJwtException 	: if the claimsJws string is not a valid JWS
+	 * SignatureException 		: if the claimsJws JWS signature validation fails
+	 * ExpiredJwtException 		: if the specified JWT is a Claims JWT and the Claims has an expiration timebefore the time this method is invoked.
+	 * IllegalArgumentException : if the claimsJws string is null or empty or only whitespace
 	 */
 	public boolean isValidJwt(String jwt) {
 		try {
@@ -130,7 +130,6 @@ public class JwtProvider {
 		claims.put("roles", toRolesString(principal));
 		claims.put("image_path", principal.getImagePath());
 		claims.put("token_type", "access_token");
-		
 		//log.info("\t > created claims: {}", claims.keySet());
 		
 		return claims;
