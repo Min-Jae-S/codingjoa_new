@@ -20,6 +20,7 @@ public class AdminUserAuthDto {
 	@JsonSetter
 	private void setRoles(Set<String> roles) {
 		log.info("## AdminUserAuthDto.setRoles");
+		
 		this.roles.addAll(roles);
 		log.info("\t > roles = {}", roles);
 	}
