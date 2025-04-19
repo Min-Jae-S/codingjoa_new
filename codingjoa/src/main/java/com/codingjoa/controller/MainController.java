@@ -43,8 +43,9 @@ public class MainController {
 	}
 
 	@GetMapping("/login") 
-	public String login() {
+	public String login(@RequestParam(name = "continue", required = false) String continueUrl, HttpServletRequest request) {
 		log.info("## login");
+		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
 		return "login";
 	}
 

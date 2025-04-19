@@ -146,9 +146,8 @@
 
 <script>
 	$(function() {
-		const urlParams = new URLSearchParams(window.location.search);
-		const continueUrl = urlParams.get("continue");
-		console.log("## continuUrl from urlParams:", continueUrl);
+		const continueUrl = "${continueUrl}";
+		console.log("## resolved continuUrl from server:", continueUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -160,6 +159,7 @@
 			authenticationService.login(formData, continueUrl, function(result) {
 				alert(result.message);
 				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
+				//location.href = continueUrl;
 			});
 		});
 	})
