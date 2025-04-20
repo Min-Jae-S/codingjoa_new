@@ -7,10 +7,6 @@ let userService = (function() {
 			type : "GET",
 			url : `${contextPath}/api/user/account`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -32,10 +28,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#email\\.errors, #authCode\\.errors, .success").remove();
@@ -59,10 +51,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#nickname\\.errors").remove();
@@ -86,10 +74,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#email\\.errors, #authCode\\.errors, .success").remove();
@@ -113,10 +97,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#zipcode\\.errors, #addr\\.errors, #addrDetail\\.errors").remove();
@@ -140,10 +120,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#agree\\.errors").remove();
@@ -167,10 +143,6 @@ let userService = (function() {
 		    contentType: false,
 			data : formData,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -192,10 +164,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#currentPassword\\.errors, #newPassword\\.errors, #confirmPassword\\.errors").remove();
@@ -219,10 +187,6 @@ let userService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#newPassword\\.errors, #confirmPassword\\.errors").remove();

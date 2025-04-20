@@ -10,10 +10,6 @@ let commentService = (function() {
 			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.dir(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -32,10 +28,6 @@ let commentService = (function() {
 			type : "GET",
 			url : `${contextPath}/api/boards/${boardId}/comments?page=${page}`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -57,10 +49,6 @@ let commentService = (function() {
 			data : JSON.stringify(comment),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -79,10 +67,6 @@ let commentService = (function() {
 			type : "DELETE",
 			url : `${contextPath}/api/comments/${commentId}`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

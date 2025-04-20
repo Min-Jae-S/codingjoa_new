@@ -93,7 +93,8 @@
 	</div>
 </nav>
 
-<script src="${contextPath}/resources/utils/jquery.serialize.js"></script>
+<script src="${contextPath}/resources/js/utils/jquery.serialize.js"></script>
+<script src="${contextPath}/resources/js/utils/ajax-setup.js"></script>
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/service/category.js"></script>

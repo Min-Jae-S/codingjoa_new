@@ -17,7 +17,6 @@
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-creator.js"></script>
-
 <style>
 	.write-wrap {
 		min-width: 820px;

@@ -10,10 +10,6 @@ let mainService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
  			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$("#email\\.errors, #authCode\\.errors, .success").remove();
@@ -45,10 +41,6 @@ let mainService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$(".error").remove();
@@ -72,10 +64,6 @@ let mainService = (function() {
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				$(".error").remove();

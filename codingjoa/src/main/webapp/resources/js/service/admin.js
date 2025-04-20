@@ -10,10 +10,6 @@ let adminService = (function() {
 			data : adminUserCri,
 			traditional : true,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -35,10 +31,6 @@ let adminService = (function() {
 			data : adminUserCri,
 			traditional : true,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -60,10 +52,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -85,10 +73,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -110,10 +94,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -135,10 +115,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -160,10 +136,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -185,10 +157,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -210,10 +178,6 @@ let adminService = (function() {
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -234,10 +198,6 @@ let adminService = (function() {
 			type : "GET",
 			url : `${contextPath}/api/admin/users/${userId}`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -259,10 +219,6 @@ let adminService = (function() {
 			data : adminBoardCri, // categories[]=4&categories[]=5 -> categories=4&categories=5
 			traditional : true,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -284,10 +240,6 @@ let adminService = (function() {
 			data : adminBoardCri, // categories[]=4&categories[]=5 -> categories=4&categories=5
 			traditional : true,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -309,10 +261,6 @@ let adminService = (function() {
 			data : JSON.stringify(userIds),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -334,10 +282,6 @@ let adminService = (function() {
 			data : JSON.stringify(boardIds),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

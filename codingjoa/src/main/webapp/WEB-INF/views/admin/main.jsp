@@ -18,12 +18,10 @@
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
-<!-- utils -->
 <script src="${contextPath}/resources/js/utils/jquery.serialize.js"></script>
 <script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/page-router.js"></script>
-<!-- service -->
 <script src="${contextPath}/resources/js/service/admin.js"></script>
 <style>
 	.admin-content-container .card {

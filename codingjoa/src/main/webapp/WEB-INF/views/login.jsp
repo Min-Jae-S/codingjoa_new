@@ -13,7 +13,6 @@
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- service -->
 <script src="${contextPath}/resources/js/service/authentication.js"></script>
 <style>
 	.login-wrap {

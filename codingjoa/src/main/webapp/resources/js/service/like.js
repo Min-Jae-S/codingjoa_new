@@ -7,10 +7,6 @@ let likeService = (function() {
 			type : "POST",
 			url : `${contextPath}/api/boards/${boardId}/likes`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -29,10 +25,6 @@ let likeService = (function() {
 			type : "POST",
 			url : `${contextPath}/api/comments/${commentId}/likes`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -51,10 +43,6 @@ let likeService = (function() {
 			type : "GET",
 			url : `${contextPath}/api/boards/${boardId}/likes`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -73,10 +61,6 @@ let likeService = (function() {
 			type : "GET",
 			url : `${contextPath}/api/comments/${commentId}/likes`,
 			dataType : "json",
-			beforeSend : function(xhr, settings) {
-				console.log("%c> BEFORE SEND", "color:blue");
-				console.log(JSON.stringify(settings, ["type", "url", "contentType", "dataType"], 2));
-			},
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
