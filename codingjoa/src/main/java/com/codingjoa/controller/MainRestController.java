@@ -23,6 +23,7 @@ import com.codingjoa.dto.PasswordResetDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.enums.MailType;
 import com.codingjoa.error.ExpectedException;
+import com.codingjoa.security.dto.LoginDto;
 import com.codingjoa.service.EmailService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
@@ -30,8 +31,10 @@ import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.PasswordResetValidator;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "Main API")
 @Slf4j
@@ -118,6 +121,7 @@ public class MainRestController {
 				.build());
 	}
 
+	@ApiIgnore
 	@GetMapping("/password/reset/token") 
 	public ResponseEntity<Object> createPasswordResetToken() {
 		log.info("## createPasswordResetToken");
@@ -137,6 +141,7 @@ public class MainRestController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
+	@ApiIgnore
 	@DeleteMapping("/password/reset/token") 
 	public ResponseEntity<Object> removePasswordResetToken(@RequestBody Map<String, String> map) {
 		log.info("## removePasswordResetToken");
@@ -155,5 +160,20 @@ public class MainRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+	
+	@ApiOperation("로그인 API (Security Filter에서 처리됨)")
+	@PostMapping("/login")
+	public ResponseEntity<Object> login(@RequestBody LoginDto loginDto) {
+		log.info("## login");
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@ApiOperation("로그아웃 API (Security Filter에서 처리됨)")
+	@PostMapping("/logout")
+	public ResponseEntity<Object> logout() {
+		log.info("## logout");
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
 
 }

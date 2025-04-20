@@ -90,7 +90,8 @@ public class CommentRestController {
 				.build());
 	}
 	
-	@PatchMapping(value = { "/comments/", "/comments/{commentId}" })
+	//@PatchMapping(value = { "/comments/", "/comments/{commentId}" })
+	@PatchMapping("/comments/{commentId}")
 	public ResponseEntity<Object> modify(@PathVariable Long commentId, 
 			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modify, commentId = {}", commentId);
@@ -106,7 +107,8 @@ public class CommentRestController {
 				.build());
 	}
 	
-	@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
+	//@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
+	@DeleteMapping("/comments/")
 	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
 		commentService.deleteComment(commentId, principal.getId()); // update status

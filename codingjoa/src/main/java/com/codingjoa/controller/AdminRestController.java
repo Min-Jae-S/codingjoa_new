@@ -223,12 +223,12 @@ public class AdminRestController {
 	}
 	
 	@GetMapping("/users/{userId}")
-	public ResponseEntity<Object> getAdminUser(@PathVariable Long userId) {
-		log.info("## getAdminUser");
+	public ResponseEntity<Object> getUser(@PathVariable Long userId) {
+		log.info("## getUser");
 		log.info("\t > userId = {}", userId);
 		
 		AdminUserDto user = adminService.getUser(userId);
-		log.info("\t > adminUser = {}", user);
+		log.info("\t > user = {}", user);
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(user).build());
 	}

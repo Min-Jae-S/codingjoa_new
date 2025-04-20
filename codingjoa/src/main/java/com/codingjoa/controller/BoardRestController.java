@@ -19,7 +19,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "Board Image API")
+@Api(tags = "Board API")
 @Slf4j
 @RequestMapping("/api/board")
 @RequiredArgsConstructor
