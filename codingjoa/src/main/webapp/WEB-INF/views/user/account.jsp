@@ -15,8 +15,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
-<script src="${contextPath}/resources/js/user.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
+<!-- service -->
+<script src="${contextPath}/resources/js/service/user.js"></script>
+
 <style>
 	input[type="text"], input[type="password"] {
 		border: none;

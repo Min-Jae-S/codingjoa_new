@@ -14,8 +14,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
-<script src="${contextPath}/resources/js/main.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
+<!-- service -->
+<script src="${contextPath}/resources/service/main.js"></script>
 <style>
 	.find-password-wrap {
 		min-width: 540px;

@@ -15,13 +15,13 @@
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/js/comment.js"></script>
-<script src="${contextPath}/resources/js/like.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
-<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
+<!-- ckeditor -->
 <script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
+<!-- service -->
+<script src="${contextPath}/resources/js/service/comment.js"></script>
+<script src="${contextPath}/resources/js/service/like.js"></script>
 <style>
 	.read-wrap {
 		min-width: 820px;

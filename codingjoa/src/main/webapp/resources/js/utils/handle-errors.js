@@ -80,5 +80,3 @@ function handleError(errorResponse) {
 	
 	alert(message);
 }
-
-

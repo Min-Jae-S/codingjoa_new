@@ -15,14 +15,16 @@
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="${contextPath}/resources/sb/js/scripts.js"></script>
 <script src="${contextPath}/resources/sb/js/datatables.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
-<script src="${contextPath}/resources/js/admin.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
-<script src="${contextPath}/resources/js/html-creator.js"></script>
-<script src="${contextPath}/resources/js/page-router.js"></script>
+<!-- utils -->
+<script src="${contextPath}/resources/js/utils/jquery.serialize.js"></script>
+<script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
+<script src="${contextPath}/resources/js/utils/html-creator.js"></script>
+<script src="${contextPath}/resources/js/utils/page-router.js"></script>
+<!-- service -->
+<script src="${contextPath}/resources/js/service/admin.js"></script>
 <style>
 	.admin-content-container .card {
 		min-width: 1020px;

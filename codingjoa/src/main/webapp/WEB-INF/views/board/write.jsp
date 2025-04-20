@@ -11,16 +11,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${contextPath}/resources/js/jquery.serialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- ckeditor -->
+<script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/upload-adapter.js"></script>
 <script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-plugins.js"></script>
-<script src="${contextPath}/resources/ckeditor5/build/ckeditor.js"></script>
-<script src="${contextPath}/resources/js/editor.js"></script>
-<!-- test -->
-<script src="${contextPath}/resources/js/attrchange.js"></script>
-<script src="${contextPath}/resources/js/attrchange_ext.js"></script>
+<script src="${contextPath}/resources/ckeditor5/plugins/ckeditor-creator.js"></script>
+
 <style>
 	.write-wrap {
 		min-width: 820px;

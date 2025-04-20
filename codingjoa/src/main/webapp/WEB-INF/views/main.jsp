@@ -14,9 +14,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script> -->
-<script src="${contextPath}/resources/js/config.js"></script>
-<script src="${contextPath}/resources/js/handle-errors.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
+<!-- service -->
+<script src="${contextPath}/resources/js/service/config.js"></script>
 <style>
 	.main-wrap {
 		width: 860px;
