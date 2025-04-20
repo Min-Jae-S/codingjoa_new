@@ -6,7 +6,7 @@ let authenticationService = (function() {
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/login`
+			url : `${contextPath}/api/login`,
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
