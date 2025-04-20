@@ -1,12 +1,12 @@
 let authenticationService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 
-	function login(formData, continueUrl, callback) {
+	function login(formData, callback) {
 		console.log("## login");
 		console.log(JSON.stringify(formData, null, 2));
 		$.ajax({
 			type : "POST",
-			url : continueUrl ? `${contextPath}/api/login?continue=${continueUrl}`: `${contextPath}/api/login`,
+			url : `${contextPath}/api/login`
 			data : JSON.stringify(formData),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",

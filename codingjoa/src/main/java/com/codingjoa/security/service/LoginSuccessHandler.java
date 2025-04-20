@@ -55,7 +55,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.status(HttpStatus.OK)
 				.messageByCode("success.login")
 				.data(jwtResponse)
-				//.data(continueUrl)
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);

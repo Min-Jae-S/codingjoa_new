@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
-	private static final String COOKIE_NAME = "ACCESS_TOKEN";
+	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String TOKEN_PREFIX = "Bearer ";
 	private final JwtProvider jwtProvider;
@@ -68,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 	
 	private String extractJwtFromCookie(HttpServletRequest request) {
-		Cookie cookie = CookieUtils.getCookie(request, COOKIE_NAME);
+		Cookie cookie = CookieUtils.getCookie(request, JWT_COOKIE);
 		return (cookie == null) ? null : cookie.getValue();
 	}
 	

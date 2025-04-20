@@ -156,7 +156,7 @@
 				password : $("#password").val(),
 			};
 			
-			authenticationService.login(formData, continueUrl, function(result) {
+			authenticationService.login(formData, function(result) {
 				alert(result.message);
 				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
 				//location.href = continueUrl;

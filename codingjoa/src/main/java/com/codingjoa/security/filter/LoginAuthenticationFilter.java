@@ -17,7 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StringUtils;
 
 import com.codingjoa.security.dto.LoginDto;
-import com.codingjoa.util.FormatUtils;
 import com.codingjoa.util.MessageUtils;
 import com.codingjoa.util.RequestUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -76,9 +75,9 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 		UsernamePasswordAuthenticationToken authenticatedLoginToken = 
 				(UsernamePasswordAuthenticationToken) this.getAuthenticationManager().authenticate(loginToken);
 		
-		String continueParameter = request.getParameter("continue");
-		authenticatedLoginToken.setDetails(continueParameter);
-		log.info("## set the continueUrl in details: {}", FormatUtils.formatString(continueParameter));
+		//String continueParameter = request.getParameter("continue");
+		//authenticatedLoginToken.setDetails(continueParameter);
+		//log.info("## set the continueUrl in details: {}", FormatUtils.formatString(continueParameter));
 		
 		return authenticatedLoginToken;
 	}
