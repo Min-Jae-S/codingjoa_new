@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.BoardImageDto;
 import com.codingjoa.dto.ImageFileDto;
 import com.codingjoa.dto.SuccessResponse;
@@ -28,6 +29,7 @@ public class BoardRestController {
 	
 	private final ImageService imageService;
 	
+	@PrivateApi
 	@PostMapping("/image")
 	public ResponseEntity<Object> saveImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto)
 			throws IllegalStateException, IOException {

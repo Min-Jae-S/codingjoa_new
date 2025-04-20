@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.AccountDto;
 import com.codingjoa.dto.AddrDto;
 import com.codingjoa.dto.AgreeDto;
@@ -50,7 +51,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "User API")
+@Api(tags = "User API") @PrivateApi
 @Slf4j
 @RequestMapping("/api/users")
 @RequiredArgsConstructor

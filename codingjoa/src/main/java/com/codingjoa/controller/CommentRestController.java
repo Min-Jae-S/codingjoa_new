@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.CommentCri;
+import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
 import com.codingjoa.dto.SuccessResponse;
@@ -74,6 +75,7 @@ public class CommentRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
+	@PrivateApi
 	@PostMapping("/comments")
 	public ResponseEntity<Object> write(@Valid @RequestBody CommentDto commentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
@@ -89,9 +91,9 @@ public class CommentRestController {
 				.messageByCode("success.comment.write")
 				.build());
 	}
-	
-	//@PatchMapping(value = { "/comments/", "/comments/{commentId}" })
-	@PatchMapping("/comments/{commentId}")
+
+	@PrivateApi
+	@PatchMapping("/comments/{commentId}") //@PatchMapping(value =  { "/comments/", "/comments/{commentId}" })
 	public ResponseEntity<Object> modify(@PathVariable Long commentId, 
 			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modify, commentId = {}", commentId);
@@ -106,9 +108,9 @@ public class CommentRestController {
 				.messageByCode("success.comment.modify")
 				.build());
 	}
-	
-	//@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
-	@DeleteMapping("/comments/")
+
+	@PrivateApi
+	@DeleteMapping("/comments/") //@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
 	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
 		commentService.deleteComment(commentId, principal.getId()); // update status

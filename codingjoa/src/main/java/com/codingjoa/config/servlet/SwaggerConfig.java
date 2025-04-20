@@ -1,12 +1,17 @@
 package com.codingjoa.config.servlet;
 
+import java.util.function.Predicate;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.codingjoa.annotation.PrivateApi;
+
 import io.swagger.annotations.Api;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -59,10 +64,13 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
 	@Bean
 	public Docket publicApi() {
+		Predicate<RequestHandler> isNotPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
+				.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class))
+				.negate();
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("public-apis")
 			.select()
-			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isNotPrivateApi))
 			.paths(PathSelectors.any())
 			.build()
 			.apiInfo(apiInfo("인증 없이 접근 가능한 API"))
@@ -71,17 +79,19 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
 	@Bean
 	public Docket privateApi() {
+		Predicate<RequestHandler> isPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
+				.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class));
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("private-apis")
 			.select()
-			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isPrivateApi))
 			.paths(PathSelectors.any())
 			.build()
 			.apiInfo(apiInfo("JWT 인증이 필요한 API"))
 			.useDefaultResponseMessages(false);
 	}
 
-	private ApiInfo apiInfo( String description) {
+	private ApiInfo apiInfo(String description) {
 		return new ApiInfoBuilder()
 			.title(API_TITLE)
 			.description(description)
