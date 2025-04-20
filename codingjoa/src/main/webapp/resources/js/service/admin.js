@@ -192,8 +192,8 @@ let adminService = (function() {
 		});
 	}
 	
-	function getAdminUser(userId, callback) {
-		console.log("## getAdminUser");
+	function getUser(userId, callback) {
+		console.log("## getUser");
 		$.ajax({
 			type : "GET",
 			url : `${contextPath}/api/admin/users/${userId}`,
@@ -304,7 +304,7 @@ let adminService = (function() {
 		updatePassword:updatePassword,
 		updateAuth:updateAuth,
 		registerUser:registerUser,
-		getAdminUser:getAdminUser,
+		getUser:getUser,
 		getPagedBoards:getPagedBoards,
 		getPagedBoardsBySearch:getPagedBoardsBySearch,
 		deleteUsers:deleteUsers,

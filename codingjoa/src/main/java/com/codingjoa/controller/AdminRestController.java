@@ -227,10 +227,10 @@ public class AdminRestController {
 		log.info("## getAdminUser");
 		log.info("\t > userId = {}", userId);
 		
-		AdminUserDto adminUser = adminService.getAdminUser(userId);
-		log.info("\t > adminUser = {}", adminUser);
+		AdminUserDto user = adminService.getUser(userId);
+		log.info("\t > adminUser = {}", user);
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(adminUser).build());
+		return ResponseEntity.ok(SuccessResponse.builder().data(user).build());
 	}
 
 	@GetMapping("/boards")

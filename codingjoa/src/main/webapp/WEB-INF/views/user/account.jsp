@@ -526,7 +526,7 @@
 	});
 	
 	function initAccountPage() {
-		console.log("## initAccountPage"); 
+		console.log("## initiate account page");
 		userService.getAccount(function(result) {
 			// destructuring assignment (구조 분해 할당)
 			let { imagePath, nickname, email, zipcode, addr, addrDetail, agree, hasPassword } = result.data;

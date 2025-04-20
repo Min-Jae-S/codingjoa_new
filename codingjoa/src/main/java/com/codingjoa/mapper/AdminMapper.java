@@ -16,7 +16,7 @@ public interface AdminMapper {
 	
 	int findTotalCntForUserPaging(AdminUserCriteria adminUserCri);
 	
-	AdminUser findAdminUserById(Long userId);
+	AdminUser findUserById(Long userId);
 	
 	int deleteUsers(List<Long> userIds);
 	

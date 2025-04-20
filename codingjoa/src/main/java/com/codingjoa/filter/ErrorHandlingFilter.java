@@ -45,7 +45,6 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		try {
 			filterChain.doFilter(request, response);
-			
 		} catch (Exception e) {
 			log.info("## {}.doFilterInternal", this.getClass().getSimpleName());
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());

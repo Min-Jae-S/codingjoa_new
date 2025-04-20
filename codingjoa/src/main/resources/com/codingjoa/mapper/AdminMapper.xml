@@ -124,7 +124,7 @@
 		<include refid="userSearchCriteria"/>		
 	</select>
 	
-	<select id="findAdminUserById" parameterType="long" resultMap="adminUserMap">
+	<select id="findUserById" parameterType="long" resultMap="adminUserMap">
 		SELECT
 			users.*,
 			sns_info.*,

@@ -354,9 +354,9 @@ function createUsersTableHtml(pagedUsers) {
 				</td>	
 			</tr>`;
 	} else {
-		rowsHtml = pagedUsers.map(adminUser => {
+		rowsHtml = pagedUsers.map(user => {
 			let providerRow = "";
-			switch (adminUser.provider) {
+			switch (user.provider) {
 				case "kakao":
 					providerRow = `<img class="provider" src="${contextPath}/resources/images/provider/kakao.png">`;
 					break;
@@ -383,34 +383,34 @@ function createUsersTableHtml(pagedUsers) {
 				<tr>
 					<td class="d-md-table-cell">
 						<div class="form-check">
-							<input class="form-check-input position-static" type="checkbox" name="userIds" value="${adminUser.id}">
+							<input class="form-check-input position-static" type="checkbox" name="userIds" value="${user.id}">
 						</div>
 					</td>		
 					<td class="d-md-table-cell">
-						<span>${adminUser.id}</span>
+						<span>${user.id}</span>
 					</td>
 					<td class="d-md-table-cell">
-						<span class="email">${adminUser.email}</span>
+						<span class="email">${user.email}</span>
 					</td>
 					<td class="d-md-table-cell">
-						<span class="nickname">${adminUser.nickname}</span>
+						<span class="nickname">${user.nickname}</span>
 					</td>
 					<td class="d-md-table-cell">
-						<span class="created-at">${adminUser.createdAt}</span></br>
-						${adminUser.isUpdated ? `<span class="updated-at">${adminUser.updatedAt}</span>` : ``}
+						<span class="created-at">${user.createdAt}</span></br>
+						${user.isUpdated ? `<span class="updated-at">${user.updatedAt}</span>` : ``}
 					</td>
 					<td class="d-md-table-cell text-start">
-						<span class="text-primary mr-2 bi ${adminUser.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
-						<span class="text-primary mr-2 role bi ${adminUser.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
+						<span class="text-primary mr-2 bi ${user.roles.includes("ROLE_USER") ? 'bi-check-square' : 'bi-square'}"></span>일반 사용자</br>
+						<span class="text-primary mr-2 role bi ${user.roles.includes("ROLE_ADMIN") ? 'bi-check-square' : 'bi-square'}"></span>관리자
 					</td>
 					<td class="d-md-table-cell">
 						${providerRow}
 					</td>
 					<td class="d-md-table-cell">
-						<span class="linked-at">${adminUser.linkedAt || '-'}</span>
+						<span class="linked-at">${user.linkedAt || '-'}</span>
 					</td>
 					<td>
-						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${adminUser.id}">
+						<button type="button" class="btn-unstyled" name="openUserEditModal" data-user-id="${user.id}">
 							<i class="fas fa-gear fa-fw text-secondary"></i>
 						</button>
 					</td>
@@ -444,7 +444,7 @@ function createUsersTableHtml(pagedUsers) {
 }
 
 // create user edit modal
-function createUserEditModalHtml(adminUser) {
+function createUserEditModalHtml(user) {
 	let content = `
 		<ul class="nav nav-tabs form-menu">
 			<li class="nav-item">
@@ -464,7 +464,7 @@ function createUserEditModalHtml(adminUser) {
 					<div class="form-group">
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>이메일</label>
 						<div class="input-group">
-							<input class="form-control rounded-md" type="text" name="email" value="${adminUser.email}" placeholder="이메일을 입력해주세요."/>
+							<input class="form-control rounded-md" type="text" name="email" value="${user.email}" placeholder="이메일을 입력해주세요."/>
 							<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
 						</div>
 					</div>
@@ -473,7 +473,7 @@ function createUserEditModalHtml(adminUser) {
 					<div class="form-group">
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>닉네임</label>
 						<div class="input-group">
-							<input class="form-control rounded-md" type="text" name="nickname" value="${adminUser.nickname}" placeholder="닉네임을 입력해주세요."/>
+							<input class="form-control rounded-md" type="text" name="nickname" value="${user.nickname}" placeholder="닉네임을 입력해주세요."/>
 							<button type="submit" class="btn btn-primary rounded-md ml-3">수정</button>
 						</div>
 					</div>
@@ -483,16 +483,16 @@ function createUserEditModalHtml(adminUser) {
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>주소</label>
 						<div class="input-group mb-3">
 							<div>
-								<input class="form-control rounded-md" type="text" name="zipcode" value="${adminUser.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
+								<input class="form-control rounded-md" type="text" name="zipcode" value="${user.zipcode}" placeholder="우편번호를 입력해주세요." readonly/>
 							</div>
 							<button type="button" class="btn btn-sm btn-secondary rounded-md ml-3" name="searchAddrBtn">주소 찾기</button>
 							<button type="submit" class="btn btn-primary rounded-md ms-auto">수정</button>
 						</div>
 						<div class="input-group mb-3">
-							<input class="form-control rounded-md" type="text" name="addr" value="${adminUser.addr}" placeholder="주소를 입력해주세요." readonly/>
+							<input class="form-control rounded-md" type="text" name="addr" value="${user.addr}" placeholder="주소를 입력해주세요." readonly/>
 						</div>
 						<div class="input-group">			
-							<input class="form-control rounded-md" type="text" name="addrDetail" value="${adminUser.addrDetail}" placeholder="상세주소를 입력해주세요."/>
+							<input class="form-control rounded-md" type="text" name="addrDetail" value="${user.addrDetail}" placeholder="상세주소를 입력해주세요."/>
 						</div>
 					</div>
 				</form>
@@ -501,7 +501,7 @@ function createUserEditModalHtml(adminUser) {
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>광고성 정보 수신동의</label>
 						<div class="form-check">
 							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" name="agree" ${adminUser.agree ? "checked" : ""}/>
+								<input class="form-check-input" type="checkbox" name="agree" ${user.agree ? "checked" : ""}/>
 								<span>이메일</span>
 							</label>
 							<button type="submit" class="btn btn-primary rounded-md float-end">수정</button>
@@ -532,13 +532,13 @@ function createUserEditModalHtml(adminUser) {
 						<label class="font-weight-bold"><i class="fa-solid fa-check mr-2"></i>권한</label>
 						<div class="form-check">
 							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" ${adminUser.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
+								<input class="form-check-input" type="checkbox" ${user.roles.includes("ROLE_USER") ? "checked" : ""} disabled>
 								<span>일반 사용자</span>
 							</label>
 						</div>
 						<div class="form-check">
 							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${adminUser.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
+								<input class="form-check-input" type="checkbox" name="roles" value="ROLE_ADMIN" ${user.roles.includes("ROLE_ADMIN") ? "checked" : ""}>
 								<span>관리자</span>
 							</label>
 						</div>
@@ -549,7 +549,7 @@ function createUserEditModalHtml(adminUser) {
 		</div> <!-- /modify-forms-wrap -->`;
 		
 	return `
-		<div class="modal fade bd-example-modal-lg" id="userEditModal" data-user-id="${adminUser.id}">
+		<div class="modal fade bd-example-modal-lg" id="userEditModal" data-user-id="${user.id}">
 			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-body">

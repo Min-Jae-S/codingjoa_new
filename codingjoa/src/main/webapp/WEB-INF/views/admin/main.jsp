@@ -476,6 +476,12 @@
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+function initAdminPage() {
+	let params = new URLSearchParams(window.location.search);
+	// route(routingPath, pushStatePath, params = {}, pushState = true) 
+	pageRouter.route(window.location.pathname, null, transformParams(params), false);
+}
+
 	$(function() {
 		const $contentContainer = $("#contentContainer");
 		const pageRouter = new PageRouter();
@@ -538,14 +544,8 @@
 				);
 		}
 		
-		function initPage() {
-			let params = new URLSearchParams(window.location.search);
-			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, transformParams(params), false);
-		}
-		
-		console.log("## initializing page, routing to URL:", window.location.pathname);
-		initPage();
+		console.log("## initiate admin page, routing to URL:", window.location.pathname);
+		initAdminPage();
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();
@@ -733,9 +733,9 @@
 		// open modal
 		$(document).on("click", "button[name='openUserEditModal']", function() {
 			let userId = $(this).data("user-id");
-			adminService.getAdminUser(userId, function(result) {
-				let adminUser = result.data;
-				let modalHtml = createUserEditModalHtml(adminUser);
+			adminService.getUser(userId, function(result) {
+				let user = result.data;
+				let modalHtml = createUserEditModalHtml(user);
 				$("body").append(modalHtml);
 				$("#userEditModal").modal("show");
 			});
@@ -779,9 +779,9 @@
 			
 			adminService.updateNickname(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
-					let adminUser = result.data;
-					$nickname.val(adminUser.nickname).prop("defaultValue", adminUser.nickname);
+				adminService.getUser(userId, function(result) {
+					let user = result.data;
+					$nickname.val(user.nickname).prop("defaultValue", user.nickname);
 				});
 			});
 		});
@@ -795,9 +795,9 @@
 			
 			adminService.updateEmail(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
-					let adminUser = result.data;
-					$email.val(adminUser.email).prop("defaultValue", adminUser.email);
+				adminService.getUser(userId, function(result) {
+					let user = result.data;
+					$email.val(user.email).prop("defaultValue", user.email);
 				});
 			});
 		});
@@ -813,11 +813,11 @@
 			
 			adminService.updateAddr(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
-					let adminUser = result.data;
-					$zipcode.val(adminUser.zipcode).prop("defaultValue", adminUser.zipcode);
-					$addr.val(adminUser.addr).prop("defaultValue", adminUser.addr);
-					$addrDetail.val(adminUser.addrDetail).prop("defaultValue", adminUser.addrDetail);
+				adminService.getUser(userId, function(result) {
+					let user = result.data;
+					$zipcode.val(user.zipcode).prop("defaultValue", user.zipcode);
+					$addr.val(user.addr).prop("defaultValue", user.addr);
+					$addrDetail.val(user.addrDetail).prop("defaultValue", user.addrDetail);
 				});
 			});
 		});
@@ -833,9 +833,9 @@
 			
 			adminService.updateAgree(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
-					let adminUser = result.data;
-					$agree.prop("checked", adminUser.agree).prop("defaultChecked", adminUser.agree);
+				adminService.getUser(userId, function(result) {
+					let user = result.data;
+					$agree.prop("checked", user.agree).prop("defaultChecked", user.agree);
 				});
 			});
 		});
@@ -865,9 +865,9 @@
 			
 			adminService.updateAuth(userId, formData, function(result) {
 				alert(result.message);
-				adminService.getAdminUser(userId, function(result) {
-					let adminUser = result.data;
-					let hasAdminRole = adminUser.roles.includes("ROLE_ADMIN");
+				adminService.getUser(userId, function(result) {
+					let user = result.data;
+					let hasAdminRole = user.roles.includes("ROLE_ADMIN");
 					$adminCheckBox.prop("checked", hasAdminRole).prop("defaultChecked", hasAdminRole);
 				});
 			});

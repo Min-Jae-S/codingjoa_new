@@ -142,17 +142,16 @@
 				$(".card-body").html(configHtml);
 			});
 		});
-		
-		function initMainPage() {
-			console.log("## initMainPage");
-			let url = $(".config-menu a.active").attr("href");
-			configService.getConfig(url, function(result) {
-				let configHtml = createConfigHtml(result.data);
-				$(".card-body").html(configHtml);
-			});
-		}
-		
 	});
+	
+	function initMainPage() {
+		console.log("## initiate main page");
+		let url = $(".config-menu a.active").attr("href");
+		configService.getConfig(url, function(result) {
+			let configHtml = createConfigHtml(result.data);
+			$(".card-body").html(configHtml);
+		});
+	}
 </script>
 
 </body>

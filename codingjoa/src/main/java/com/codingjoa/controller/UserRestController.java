@@ -52,7 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Api(tags = "User API")
 @Slf4j
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @RestController
 public class UserRestController {
@@ -95,7 +95,7 @@ public class UserRestController {
 		binder.addValidators(new PasswordSaveValidator());
 	}
 	
-	@GetMapping("/account")
+	@GetMapping("/me")
 	public ResponseEntity<Object> getAccount(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getAccount");
 		
@@ -105,7 +105,7 @@ public class UserRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(account).build());
 	}
 	
-	@PostMapping("/account/email/auth-code/send")
+	@PostMapping("/me/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## sendAuthCodeForEmailUpdate");
 		log.info("\t > emailDto = {}", emailDto);
@@ -124,7 +124,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PutMapping("/account/nickname")
+	@PutMapping("/me/nickname")
 	public ResponseEntity<Object> updateNickname(@Valid @RequestBody NicknameDto nicknameDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateNickname");
@@ -140,7 +140,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PutMapping("/account/email")
+	@PutMapping("/me/email")
 	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateEmail");
@@ -157,7 +157,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PutMapping("/account/address")
+	@PutMapping("/me/address")
 	public ResponseEntity<Object> updateAddress(@Valid @RequestBody AddrDto addrDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddress");
@@ -170,7 +170,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PutMapping("/account/agree")
+	@PutMapping("/me/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
@@ -183,7 +183,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PostMapping("/account/image")
+	@PostMapping("/me/image")
 	public ResponseEntity<Object> saveImageWithUpload(@Valid @ModelAttribute ImageFileDto imageFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## saveImageWithUpload");
@@ -198,7 +198,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PutMapping("/account/password")
+	@PutMapping("/me/password")
 	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updatePassword");
@@ -214,7 +214,7 @@ public class UserRestController {
 				.build());
 	}
 	
-	@PostMapping("/account/password")
+	@PostMapping("/me/password")
 	public ResponseEntity<Object> savePassword(@Valid @RequestBody PasswordSaveDto passwordDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## savePassword");

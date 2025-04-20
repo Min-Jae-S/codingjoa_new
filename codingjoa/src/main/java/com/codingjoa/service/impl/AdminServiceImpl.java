@@ -262,8 +262,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public AdminUserDto getAdminUser(Long userId) {
-		AdminUser adminUser = adminMapper.findAdminUserById(userId);
+	public AdminUserDto getUser(Long userId) {
+		AdminUser adminUser = adminMapper.findUserById(userId);
 		if (adminUser == null) {
 			throw new ExpectedException("error.admin.userNotFound");
 		}

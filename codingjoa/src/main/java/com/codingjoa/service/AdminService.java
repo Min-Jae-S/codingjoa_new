@@ -37,7 +37,7 @@ public interface AdminService {
 	
 	int deleteUsers(List<Long> userIds);
 	
-	AdminUserDto getAdminUser(Long userId);
+	AdminUserDto getUser(Long userId);
 	
 	List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri);
 

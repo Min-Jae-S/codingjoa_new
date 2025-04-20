@@ -5,7 +5,7 @@ let userService = (function() {
 		console.log("## getAccount");
 		$.ajax({
 			type : "GET",
-			url : `${contextPath}/api/user/account`,
+			url : `${contextPath}/api/users/me`,
 			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -24,7 +24,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/user/account/email/auth-code/send`,
+			url : `${contextPath}/api/users/me/auth-code/send`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -47,7 +47,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/user/account/nickname`,
+			url : `${contextPath}/api/users/me/nickname`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -70,7 +70,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/user/account/email`,
+			url : `${contextPath}/api/users/me/email`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -93,7 +93,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/user/account/address`,
+			url : `${contextPath}/api/users/me/address`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -116,7 +116,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/user/account/agree`,
+			url : `${contextPath}/api/users/me/agree`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -138,7 +138,7 @@ let userService = (function() {
 		console.log("## saveImageWithUpload");
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/user/account/image`,
+			url : `${contextPath}/api/users/me/image`,
 			processData: false,
 		    contentType: false,
 			data : formData,
@@ -160,7 +160,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "PUT",
-			url : `${contextPath}/api/user/account/password`,
+			url : `${contextPath}/api/users/me/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -183,7 +183,7 @@ let userService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/user/account/password`,
+			url : `${contextPath}/api/users/me/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
