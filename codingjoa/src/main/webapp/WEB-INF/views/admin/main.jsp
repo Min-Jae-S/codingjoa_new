@@ -753,7 +753,7 @@
 			console.log("## hidden.bs.modal: modal disposed and removed from DOM");
 			$(this).modal("dispose");
 			$(this).remove();
-			// search again
+			// + search again
 		});
 		
 		// click form-menu button 

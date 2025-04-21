@@ -1,5 +1,6 @@
 package com.codingjoa.config.servlet;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.annotation.PrivateApi;
+import com.codingjoa.security.dto.PrincipalDetails;
 
 import io.swagger.annotations.Api;
 import springfox.documentation.RequestHandler;
@@ -19,11 +21,13 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SuppressWarnings("unused")
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig implements WebMvcConfigurer {
@@ -48,7 +52,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// swagger2: {protocol}://{host}:{port}/{contextPath}/swagger-ui.html
 		// swagger3: {protocol}://{host}:{port}/{contextPath}/swagger-ui/index.html
-		registry.addViewController("/swagger-ui/api-docs").setViewName("forward:/swagger-ui/index.html"); 	
+		registry.addViewController("/swagger-ui/api-docs").setViewName("forward:/swagger-ui/index.html");
 	}
 	
 	@Bean
@@ -63,40 +67,44 @@ public class SwaggerConfig implements WebMvcConfigurer {
 			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 			.paths(PathSelectors.any())
 			.build()
-			.useDefaultResponseMessages(false);
+			.ignoredParameterTypes(PrincipalDetails.class)
+			.useDefaultResponseMessages(false)
+			.securitySchemes(List.of(apiKey()))
+			.securityContexts(List.of(securityContext()));
 	}
 
 	@Bean
 	public Docket publicApi() {
-		Predicate<RequestHandler> isNotPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
-				.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class))
-				.negate();
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("public-apis")
 			.apiInfo(apiInfo("인증 없이 접근 가능한 API"))
 			.consumes(getConsumes())
 			.produces(getProduces())
 			.select()
-			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isNotPrivateApi))
+			.apis(getPublicPredicate())
 			.paths(PathSelectors.any())
 			.build()
-			.useDefaultResponseMessages(false);
+			.ignoredParameterTypes(PrincipalDetails.class)
+			.useDefaultResponseMessages(false)
+			.securitySchemes(List.of(apiKey()))
+			.securityContexts(List.of(securityContext()));
 	}
 
 	@Bean
 	public Docket privateApi() {
-		Predicate<RequestHandler> isPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
-				.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class));
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("private-apis")
 			.apiInfo(apiInfo("JWT 인증이 필요한 API"))
 			.consumes(getConsumes())
 			.produces(getProduces())
 			.select()
-			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isPrivateApi))
+			.apis(getPrivatePredicate())
 			.paths(PathSelectors.any())
 			.build()
-			.useDefaultResponseMessages(false);
+			.ignoredParameterTypes(PrincipalDetails.class)
+			.useDefaultResponseMessages(false)
+			.securitySchemes(List.of(apiKey()))
+			.securityContexts(List.of(securityContext()));
 	}
 
 	private ApiInfo apiInfo(String description) {
@@ -118,8 +126,32 @@ public class SwaggerConfig implements WebMvcConfigurer {
 		return Set.of(MediaType.APPLICATION_JSON_VALUE); 	// application/json
 	}
 	
+	private Predicate<RequestHandler> getPublicPredicate() {
+		Predicate<RequestHandler> isNotPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
+			.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class))
+			.negate();
+		return RequestHandlerSelectors.withClassAnnotation(Api.class).and(isNotPrivateApi);
+	}
+	
+	private Predicate<RequestHandler> getPrivatePredicate() {
+		Predicate<RequestHandler> isPrivateApi = RequestHandlerSelectors.withClassAnnotation(PrivateApi.class)
+			.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class));
+		return RequestHandlerSelectors.withClassAnnotation(Api.class).and(isPrivateApi);
+	}
+	
 	private ApiKey apiKey() {
-		return new ApiKey("JWT", "Authorization", "header");
+		return new ApiKey("Bearer Token (JWT)", "Authorization", "header");
+	}
+	
+	private SecurityContext securityContext() {
+		return SecurityContext.builder()
+			.securityReferences(securityReferences())
+			.build();
+	}
+	
+	private List<SecurityReference> securityReferences() {
+		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+	    return List.of(new SecurityReference("JWT", new AuthorizationScope[] { authorizationScope }));
 	}
 	
 }

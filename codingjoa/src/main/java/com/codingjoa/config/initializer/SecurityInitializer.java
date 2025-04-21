@@ -15,7 +15,7 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	// https://stackoverflow.com/questions/19941466/spring-security-allows-unauthorized-user-access-to-restricted-url-from-a-forward
 	// https://stackoverflow.com/questions/22548222/both-isanonymous-and-isauthenticated-are-returning-false(top menu, isAnonymous)
 	// https://stackoverflow.com/questions/11999656/both-isanonymous-and-isauthenticated-return-false-on-error-page
-	// https://develop-writing.tistory.com/97(DistptcherType)
+	// https://develop-writing.tistory.com/97 (DistptcherType)
 	
 	/*
 	 * SecurityFilterChain의 인스턴스에서 호출되는 메서드로서 
@@ -36,7 +36,7 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	protected EnumSet<DispatcherType> getSecurityDispatcherTypes() {
 		log.info("## getSecurityDispatcherTypes");
 		EnumSet<DispatcherType> securityDispatcherTypes = super.getSecurityDispatcherTypes(); // REQUEST, ASYNC, ERROR
-		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.allOf(DispatcherType.class)
+		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.allOf(DispatcherType.class);
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.INCLUDE);
 		//EnumSet<DispatcherType> securityDispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
 		log.info("\t > dispatcherTypes = {}", securityDispatcherTypes);

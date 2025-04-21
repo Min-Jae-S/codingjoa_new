@@ -42,9 +42,12 @@ import org.springframework.web.servlet.view.ViewResolverComposite;
 import com.codingjoa.dto.SuccessResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
+@ApiIgnore @Api(tags = "Configuration API")
 @Slf4j
 @RequestMapping("/api/config")
 @RequiredArgsConstructor

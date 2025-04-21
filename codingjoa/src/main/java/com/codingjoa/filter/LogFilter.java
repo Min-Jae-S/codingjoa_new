@@ -18,6 +18,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.codingjoa.util.RequestUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j //@WebFilter
@@ -78,7 +80,7 @@ public class LogFilter implements Filter {
 	
 	private void logRequestDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
 		log.info("## {} [ REQUEST ]", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		log.info("\t > accept = {}", request.getHeader("accept")); // The header name is case insensitive.
@@ -88,12 +90,13 @@ public class LogFilter implements Filter {
 
 	private void logResponseDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
 		log.info("## {} [ RESPONSE ]", this.getClass().getSimpleName());
-		log.info("\t > URI = {} '{}'", request.getMethod(), getFullURI(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		log.info("\t > contentType = {}", response.getContentType());
 	}
 	
+	@SuppressWarnings("unused")
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 
 				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));

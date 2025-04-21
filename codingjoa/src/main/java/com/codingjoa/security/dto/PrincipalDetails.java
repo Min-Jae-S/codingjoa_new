@@ -46,17 +46,20 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 		this.imagePath = (imagePath == null) ? "" : imagePath;
 		this.authorities = authorities;
 	}
-	
+
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
 
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return this.email;
 	}
 
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return this.password;

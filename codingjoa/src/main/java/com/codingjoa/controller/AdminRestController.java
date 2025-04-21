@@ -192,7 +192,7 @@ public class AdminRestController {
 				.build());
 	}
 	
-	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원 ID(Long userId)와 비밀번호 정보를 입력받아 기존 비밀번호를 수정한다. (관리자 권한 필요)")
+	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원 ID(Long userId)와 비밀번호 정보를 전달받아 기존 비밀번호를 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/password")
 	public ResponseEntity<Object> updatePassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updatePassword");

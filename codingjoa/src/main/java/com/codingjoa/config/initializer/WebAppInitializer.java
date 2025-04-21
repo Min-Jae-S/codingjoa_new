@@ -113,6 +113,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		
 		log.info("## register filters");
 		registerCharacterEncodingFilter(servletContext);
+		//registerLogFilter(servletContext);
 		registerErrorHandlingFilter(servletContext);
 		//registerTestAopFilter(servletContext);
 	}
@@ -163,7 +164,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	private void registerLogFilter(ServletContext servletContext) {
 		log.info("\t > logFilter");
 		FilterRegistration.Dynamic registration = servletContext.addFilter("LogFilter", new LogFilter());
-		registration.setInitParameter("excludePatterns", "/resources/, /member/images/, /board/images/");
+		registration.setInitParameter("excludePatterns", "/resources/, /user/images/, /board/images/");
 		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
 	}
 	

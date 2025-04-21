@@ -107,7 +107,7 @@ public class MainRestController {
 				.build());
 	}
 	
-	@ApiOperation(value = "비밀번호 재설정", notes = "비밀번호 재설정 링크를 통해 접근한 사용로부터 새로운 비밀번호를 받아, 해당 계정의 비밀번호를 변경한다.")
+	@ApiOperation(value = "비밀번호 재설정", notes = "비밀번호 재설정 링크를 통해 접근한 사용로부터 새로운 비밀번호를 전달받아, 해당 계정의 비밀번호를 변경한다.")
 	@PostMapping("/password/reset")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordResetDto passwordResetDto) {
 		log.info("## resetPassword");
