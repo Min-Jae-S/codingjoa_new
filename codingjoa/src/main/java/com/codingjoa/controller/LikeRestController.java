@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@PrivateApi @Api(tags = "Like API")
+@Api(tags = "Like API")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -27,7 +27,8 @@ public class LikeRestController {
 	
 	private final LikeService likeService;
 
-	@ApiOperation(value = "", notes = "")
+	@PrivateApi
+	@ApiOperation(value = "게시글 좋아요 토글", notes = "게시글에 좋아요 또는 좋아요 취소를 수행한다. (인증 필요)")
 	@PostMapping("/boards/{boardId}/likes")
 	public ResponseEntity<Object> toggleBoardLike(@PathVariable Long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLike, boardId = {}", boardId);
@@ -41,7 +42,7 @@ public class LikeRestController {
 				.build());
 	}
 	
-	@ApiOperation(value = "", notes = "")
+	@ApiOperation(value = "게시글 좋아요 수 조회", notes = "특정 게시글의 총 좋아요 수를 반환한다.")
 	@GetMapping("/boards/{boardId}/likes")
 	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable Long boardId) {
 		log.info("## getBoardLikeCnt, boardId = {}", boardId);
@@ -52,7 +53,8 @@ public class LikeRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikeCnt).build());
 	}
 	
-	@ApiOperation(value = "", notes = "")
+	@PrivateApi
+	@ApiOperation(value = "댓글 좋아요 토글", notes = "댓글에 좋아요 또는 좋아요 취소를 수행한다. (인증 필요)")
 	@PostMapping("/comments/{commentId}/likes")
 	public ResponseEntity<Object> toggleCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
@@ -67,7 +69,7 @@ public class LikeRestController {
 				.build());
 	}
 
-	@ApiOperation(value = "", notes = "")
+	@ApiOperation(value = "댓글 좋아요 수 조회", notes = "특정 댈글의 총 좋아요 수를 반환한다.")
 	@GetMapping("/comments/{commentId}/likes")
 	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable Long commentId) {
 		log.info("## getCommentLikeCnt, commentId = {}", commentId);

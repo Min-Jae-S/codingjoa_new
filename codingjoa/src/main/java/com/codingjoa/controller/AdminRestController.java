@@ -46,6 +46,7 @@ import com.codingjoa.validator.EmailValidator;
 import com.codingjoa.validator.NicknameValidator;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,6 +92,7 @@ public class AdminRestController {
 		binder.addValidators(new AdminUserRegistrationValidator(userService));
 	}
 	
+	@ApiOperation(value = "회원 목록 조회", notes = "회원 목록과 pagination, 뷰를 구성하기 위한 요소를 조회한다. (관리자 권한 필요)")
 	@GetMapping("/users")
 	public ResponseEntity<Object> getPagedUsers(@AdminUserCri AdminUserCriteria adminUserCri) {
 		log.info("## getPagedUsers");
@@ -113,6 +115,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
+	@ApiOperation(value = "회원 목록 검색 조회", notes = "검색 조건을 기준으로 회원 목록과 pagination을 조회한다. (관리자 권한 필요)")
 	@GetMapping("/users/")
 	public ResponseEntity<Object> getPagedUsersBySearch(@AdminUserCri AdminUserCriteria adminUserCri) {
 		log.info("## getPagedUsers");
@@ -133,6 +136,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
+	@ApiOperation(value = "회원 닉네임 수정", notes = "회원 ID(Long userId)와 닉네임 정보를 전달받아 닉네임을 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/nickname")
 	public ResponseEntity<Object> updateNickname(@PathVariable Long userId, @Valid @RequestBody NicknameDto nicknameDto) {
 		log.info("## updateNickname");
@@ -146,6 +150,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 이메일 수정", notes = "회원 ID(Long userId)와 이메일 정보를 전달받아 이메일을 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/email")
 	public ResponseEntity<Object> updateEmail(@PathVariable Long userId, @Valid @RequestBody EmailDto emailDto) {
 		log.info("## updateEmail");
@@ -159,6 +164,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 주소 수정", notes = "회원 ID(Long userId)와 주소 정보(우편번호, 기본주소, 상세주소)를 전달받아 주소를 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/address")
 	public ResponseEntity<Object> updateAddress(@PathVariable Long userId, @Valid @RequestBody AdminUserAddrDto adminUserAddrDto) {
 		log.info("## updateAddress");
@@ -172,6 +178,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 동의 정보 수정", notes = "회원 ID(Long userId)와 동의 정보를 동의 여부를 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/agree")
 	public ResponseEntity<Object> updateAgree(@PathVariable Long userId, @RequestBody AgreeDto agreeDto) {
 		log.info("## updateAgree");
@@ -185,6 +192,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원 ID(Long userId)와 비밀번호 정보를 입력받아 기존 비밀번호를 수정한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/password")
 	public ResponseEntity<Object> updatePassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updatePassword");
@@ -198,6 +206,7 @@ public class AdminRestController {
 				.build());
 	}
 
+	@ApiOperation(value = "회원 권한 수정", notes = "회원 ID(Long userId)와 권한 정보를 전달받아 회원의 권한을 부여하거나 삭제한다. (관리자 권한 필요)")
 	@PutMapping("/users/{userId}/auth")
 	public ResponseEntity<Object> updateAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
 		log.info("## updateAuth");
@@ -211,6 +220,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 등록", notes = "신규 회원 정보를 전달받아 회원을 등록한다. (관리자 권한 필요)")
 	@PostMapping("/users/register")
 	public ResponseEntity<Object> registerUser(@Valid @RequestBody AdminUserRegistrationDto adminUserRegistrationDto) {
 		log.info("## registerUser");
@@ -223,6 +233,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "회원 상세정보 조회", notes = "회원 ID(Long userId)를 전달받아 회원의 상세정보(기본정보, 권한, SNS정보)를 조회한다. (관리자 권한 필요)")
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<Object> getUser(@PathVariable Long userId) {
 		log.info("## getUser");
@@ -234,6 +245,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(user).build());
 	}
 
+	@ApiOperation(value = "게시글 목록 조회", notes = "게시글 목록과 pagination, 뷰를 구성하기 위한 요소를 조회한다.")
 	@GetMapping("/boards")
 	public ResponseEntity<Object> getPagedBoards(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoards");
@@ -257,6 +269,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
+	@ApiOperation(value = "게시글 목록 검색 조회", notes = "검색 조건을 기준으로 게시글 목록과 pagination을 조회한다. (관리자 권한 필요)")
 	@GetMapping("/boards/")
 	public ResponseEntity<Object> getPagedBoardsBySearch(@AdminBoardCri AdminBoardCriteria adminBoardCri) {
 		log.info("## getPagedBoardsBySearch");
@@ -278,6 +291,7 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 	
+	@ApiOperation(value = "회원 삭제", notes = "삭제할 회원의 ID 리스트를 전달받아 해당 회원들을 삭제한다. (관리자 권한 필요)")
 	@DeleteMapping("/users")
 	public ResponseEntity<Object> deleteUsers(@RequestBody List<Long> userIds) {
 		log.info("## deleteUsers");
@@ -291,6 +305,7 @@ public class AdminRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "게시글 삭제", notes = "삭제할 게시글의 ID 리스트를 전달받아 해당 게시글들을 삭제한다. (관리자 권한 필요)")
 	@DeleteMapping("/boards")
 	public ResponseEntity<Object> deleteBoards(@RequestBody List<Long> boardIds) {
 		log.info("## deleteBoards");

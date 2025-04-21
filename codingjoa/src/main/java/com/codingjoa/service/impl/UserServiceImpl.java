@@ -215,6 +215,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void savePassword(PasswordSaveDto passwordSaveDto, Long userId) {
 		User user = getUser(userId);
+		if (user.getPassword() != null) {
+			throw new ExpectedException("error.user.hasPassword");
+		}
+		
 		String rawPassword = passwordSaveDto.getNewPassword();
 		String encPassword = passwordEncoder.encode(rawPassword);
 		
