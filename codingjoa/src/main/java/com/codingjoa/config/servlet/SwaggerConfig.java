@@ -1,9 +1,11 @@
 package com.codingjoa.config.servlet;
 
+import java.util.Set;
 import java.util.function.Predicate;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,12 +55,14 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	public Docket allApi() {
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("all-apis")
+			.apiInfo(apiInfo("전체 API 목록 (인증 필요 여부와 관계없이 모두 포함)"))
+			.consumes(getConsumes())
+			.produces(getProduces())
 			.select()
 			//.apis(RequestHandlerSelectors.basePackage("com.codingjoa.controller"))
 			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo("전체 API 목록 (인증 필요 여부와 관계없이 모두 포함)"))
 			.useDefaultResponseMessages(false);
 	}
 
@@ -69,11 +73,13 @@ public class SwaggerConfig implements WebMvcConfigurer {
 				.negate();
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("public-apis")
+			.apiInfo(apiInfo("인증 없이 접근 가능한 API"))
+			.consumes(getConsumes())
+			.produces(getProduces())
 			.select()
 			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isNotPrivateApi))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo("인증 없이 접근 가능한 API"))
 			.useDefaultResponseMessages(false);
 	}
 
@@ -83,11 +89,13 @@ public class SwaggerConfig implements WebMvcConfigurer {
 				.or(RequestHandlerSelectors.withMethodAnnotation(PrivateApi.class));
 		return new Docket(DocumentationType.SWAGGER_2)
 			.groupName("private-apis")
+			.apiInfo(apiInfo("JWT 인증이 필요한 API"))
+			.consumes(getConsumes())
+			.produces(getProduces())
 			.select()
 			.apis(RequestHandlerSelectors.withClassAnnotation(Api.class).and(isPrivateApi))
 			.paths(PathSelectors.any())
 			.build()
-			.apiInfo(apiInfo("JWT 인증이 필요한 API"))
 			.useDefaultResponseMessages(false);
 	}
 
@@ -97,6 +105,17 @@ public class SwaggerConfig implements WebMvcConfigurer {
 			.description(description)
 			.version(API_VERSION)
 			.build();
+	}
+	
+	private Set<String> getConsumes() {
+		return Set.of(
+			MediaType.APPLICATION_JSON_VALUE, 				// application/json
+			MediaType.APPLICATION_FORM_URLENCODED_VALUE		// application/x-www-form-urlencoded
+		);
+	}
+	
+	private Set<String> getProduces() {
+		return Set.of(MediaType.APPLICATION_JSON_VALUE); 	// application/json
 	}
 	
 	private ApiKey apiKey() {

@@ -8,15 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.LikeService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "Like API")
+@PrivateApi @Api(tags = "Like API")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class LikeRestController {
 	
 	private final LikeService likeService;
 
+	@ApiOperation(value = "", notes = "")
 	@PostMapping("/boards/{boardId}/likes")
 	public ResponseEntity<Object> toggleBoardLike(@PathVariable Long boardId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleBoardLike, boardId = {}", boardId);
@@ -38,6 +41,7 @@ public class LikeRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "", notes = "")
 	@GetMapping("/boards/{boardId}/likes")
 	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable Long boardId) {
 		log.info("## getBoardLikeCnt, boardId = {}", boardId);
@@ -48,6 +52,7 @@ public class LikeRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikeCnt).build());
 	}
 	
+	@ApiOperation(value = "", notes = "")
 	@PostMapping("/comments/{commentId}/likes")
 	public ResponseEntity<Object> toggleCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
@@ -62,6 +67,7 @@ public class LikeRestController {
 				.build());
 	}
 
+	@ApiOperation(value = "", notes = "")
 	@GetMapping("/comments/{commentId}/likes")
 	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable Long commentId) {
 		log.info("## getCommentLikeCnt, commentId = {}", commentId);

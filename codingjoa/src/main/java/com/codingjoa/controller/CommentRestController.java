@@ -31,6 +31,7 @@ import com.codingjoa.service.CommentService;
 import com.codingjoa.validator.CommentValidator;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,7 +54,8 @@ public class CommentRestController {
 	public void InitBinderEmail(WebDataBinder binder) {
 		binder.addValidators(new CommentValidator());
 	}
-
+	
+	@ApiOperation(value = "댓글 목록 조회", notes = "게시판에 해당하는 댓글 목록을 pagination과 함께 조회한다.")
 	@GetMapping("/boards/{boardId}/comments")
 	public ResponseEntity<Object> getPagedComments(@PathVariable Long boardId,
 			@CommentCri CommentCriteria commentCri, @AuthenticationPrincipal PrincipalDetails principal) {
@@ -76,6 +78,7 @@ public class CommentRestController {
 	}
 	
 	@PrivateApi
+	@ApiOperation(value = "댓글 작성", notes = "인증된 사용자가 게시물에 새로운 댓글을 작성한다.")
 	@PostMapping("/comments")
 	public ResponseEntity<Object> write(@Valid @RequestBody CommentDto commentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
@@ -93,6 +96,7 @@ public class CommentRestController {
 	}
 
 	@PrivateApi
+	@ApiOperation(value = "댓글 수정", notes = "인증된 사용자가 수정할 댓글의 ID와 댓글 내용이 전달하여 기존의 댓글을 수정한다.")
 	@PatchMapping("/comments/{commentId}") //@PatchMapping(value =  { "/comments/", "/comments/{commentId}" })
 	public ResponseEntity<Object> modify(@PathVariable Long commentId, 
 			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
@@ -110,7 +114,8 @@ public class CommentRestController {
 	}
 
 	@PrivateApi
-	@DeleteMapping("/comments/") //@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
+	@ApiOperation(value = "댓글 삭제", notes = "인증된 사용자가 삭제할 댓글의 ID를 전달하여 기존의 댓글을 삭제한다.")
+	@DeleteMapping("/comments/{commentId}") //@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
 	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
 		commentService.deleteComment(commentId, principal.getId()); // update status

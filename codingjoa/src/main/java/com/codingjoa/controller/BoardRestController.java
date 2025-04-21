@@ -17,6 +17,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.ImageService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,7 @@ public class BoardRestController {
 	private final ImageService imageService;
 	
 	@PrivateApi
+	@ApiOperation(value = "게시글 이미지 업로드", notes = "인증된 사용자가 게시글 이미지를 업로드하여 새로운 이미지를 등록하거나 기존 게시글의 이미지를 수정한다.")
 	@PostMapping("/image")
 	public ResponseEntity<Object> saveImageWithUpload(@ModelAttribute @Valid ImageFileDto imageFileDto)
 			throws IllegalStateException, IOException {

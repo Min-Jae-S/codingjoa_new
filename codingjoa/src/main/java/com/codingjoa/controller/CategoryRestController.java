@@ -13,6 +13,7 @@ import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +26,7 @@ public class CategoryRestController {
 	
 	private final CategoryService categoryService;
 	
+	@ApiOperation(value = "하위 카테고리 목록 조회", notes = "상위 카테고리 코드로 하위 카테고리 목록을 조회한다.")
 	@GetMapping("/parent/{parentCode}")
 	public ResponseEntity<Object> getCategoriesByParent(@PathVariable("parentCode") Integer parentCode) {
 		log.info("## getCategoriesByParent");

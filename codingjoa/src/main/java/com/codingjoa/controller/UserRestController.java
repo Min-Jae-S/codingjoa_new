@@ -48,10 +48,11 @@ import com.codingjoa.validator.PasswordChangeValidator;
 import com.codingjoa.validator.PasswordSaveValidator;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "User API") @PrivateApi
+@PrivateApi @Api(tags = "User API")
 @Slf4j
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -96,6 +97,7 @@ public class UserRestController {
 		binder.addValidators(new PasswordSaveValidator());
 	}
 	
+	@ApiOperation(value = "내 정보 조회", notes = "인증된 사용자의 계정 정보를 조회한다.")
 	@GetMapping("/me")
 	public ResponseEntity<Object> getAccount(@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## getAccount");
@@ -106,6 +108,7 @@ public class UserRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(account).build());
 	}
 	
+	@ApiOperation(value = "이메일 인증 코드 전송", notes = "인증된 사용자의 이메일 변경을 위한 인증 코드가 포함된 메일을 전송한다.")
 	@PostMapping("/me/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForEmailUpdate(@RequestBody @Valid EmailDto emailDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## sendAuthCodeForEmailUpdate");
@@ -125,6 +128,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "내 정보 수정(닉네임)", notes = "인증된 사용자가 자신의 닉네임을 수정한다.")
 	@PutMapping("/me/nickname")
 	public ResponseEntity<Object> updateNickname(@Valid @RequestBody NicknameDto nicknameDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
@@ -141,6 +145,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "내 정보 수정(이메일)", notes = "인증된 사용자가 자신의 이메일을 수정한다.")
 	@PutMapping("/me/email")
 	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
@@ -158,6 +163,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "내 정보 수정(주소)", notes = "인증된 사용자가 자신의 주소(우편번호, 기본주소, 상세주소)를 수정한다.")
 	@PutMapping("/me/address")
 	public ResponseEntity<Object> updateAddress(@Valid @RequestBody AddrDto addrDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
@@ -171,6 +177,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "내 정보 수정(수신 동의 여부)", notes = "인증된 사용자가 이메일 광고 수신 여부를 수정한다.")
 	@PutMapping("/me/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
@@ -184,6 +191,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "프로필 이미지 업로드", notes = "인증된 사용자가 프로필 이미지를 업로드하여 새로운 이미지를 등록하거나 기존 이미지를 수정한다.")
 	@PostMapping("/me/image")
 	public ResponseEntity<Object> saveImageWithUpload(@Valid @ModelAttribute ImageFileDto imageFileDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
@@ -199,6 +207,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "내 정보 수정(비밀번호)", notes = "인증된 사용자가 기존 비밀번호를 수정한다.")
 	@PutMapping("/me/password")
 	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
@@ -215,6 +224,7 @@ public class UserRestController {
 				.build());
 	}
 	
+	@ApiOperation(value = "비밀번호 등록", notes = "SNS 계정을 통해 가입한 사용자는 초기 비밀번호가 설정되지 않으며, 비밀번호를 새로 등록한다.")
 	@PostMapping("/me/password")
 	public ResponseEntity<Object> savePassword(@Valid @RequestBody PasswordSaveDto passwordDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {

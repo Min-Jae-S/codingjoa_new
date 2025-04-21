@@ -57,6 +57,7 @@ public class MainRestController {
 		binder.addValidators(new PasswordResetValidator());
 	}
 	
+	@ApiOperation(value = "회원 가입용 인증코드 전송", notes = "회원 가입시 이메일 인증을 위해 인증코드가 포함된 메일을 발송한다.")
 	@PostMapping("/join/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendAuthCodeForJoin");
@@ -76,6 +77,11 @@ public class MainRestController {
 				.build());
 	}
 	
+	@ApiOperation(
+		value = "비밀번호 재설정 링크 전송",
+		notes = "가입 시 등록한 이메일을 입력받아 비밀번호 재설정 링크를 전송한다.\n"
+			+ "입력된 이메일이 존재하는 경우, 해당 이메일로 재설정 링크가 포함된 메일을 발송한다."
+	)
 	@PostMapping("/password/reset-link/send")
 	public ResponseEntity<Object> sendPasswordResetLink(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendPasswordResetLink");
@@ -100,7 +106,8 @@ public class MainRestController {
 				.messageByCode("success.reset-password.sendPasswordResetLink")
 				.build());
 	}
-		
+	
+	@ApiOperation(value = "비밀번호 재설정", notes = "비밀번호 재설정 링크를 통해 접근한 사용로부터 새로운 비밀번호를 받아, 해당 계정의 비밀번호를 변경한다.")
 	@PostMapping("/password/reset")
 	public ResponseEntity<Object> resetPassword(@RequestBody @Valid PasswordResetDto passwordResetDto) {
 		log.info("## resetPassword");
@@ -120,7 +127,7 @@ public class MainRestController {
 				.messageByCode("success.reset-password.resetPassword")
 				.build());
 	}
-
+	
 	@ApiIgnore
 	@GetMapping("/password/reset/token") 
 	public ResponseEntity<Object> createPasswordResetToken() {
@@ -161,19 +168,28 @@ public class MainRestController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@ApiOperation("로그인 API (Security Filter에서 처리됨)")
+	@ApiOperation(
+		value = "로그인", 
+		notes = "로그인 요청을 처리한다.\n"
+			+ "실제 인증 처리는 Spring Security의 Filter에서 수행된다.\n"
+			+ "이 엔드포인트는 Swagger 문서에서만 확인용으로 제공되며, 응답은 더미이다."
+	)
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody LoginDto loginDto) {
 		log.info("## login");
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@ApiOperation("로그아웃 API (Security Filter에서 처리됨)")
+	@ApiOperation(
+		value = "로그아웃", 
+		notes = "로그아웃 요청을 처리한다.\n"
+			+ "실제 인증 처리는 Spring Security의 Filter에서 수행된다.\n"
+			+ "이 엔드포인트는 Swagger 문서에서만 확인용으로 제공되며, 응답은 더미이다."
+	)
 	@PostMapping("/logout")
 	public ResponseEntity<Object> logout() {
 		log.info("## logout");
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
-	
 
 }

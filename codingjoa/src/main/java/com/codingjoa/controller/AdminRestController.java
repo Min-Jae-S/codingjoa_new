@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.AdminBoardCri;
 import com.codingjoa.annotation.AdminUserCri;
+import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.AdminBoardDto;
 import com.codingjoa.dto.AdminUserAddrDto;
 import com.codingjoa.dto.AdminUserAuthDto;
@@ -48,7 +49,7 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "Admin API")
+@PrivateApi @Api(tags = "Admin API")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
