@@ -34,9 +34,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private final List<Category> parentCategories;
 	
 	public TopMenuInterceptor(CategoryService categoryService) {
-		log.info("## {}", this.getClass().getSimpleName());
 		this.parentCategories = categoryService.getParentCategories();
-		log.info("\t > loaded parentCategories = {}", parentCategories);
 	}
 	
 	/*
@@ -48,7 +46,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
+		log.info("\t > {}", RequestUtils.getRequestLine(request));
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {

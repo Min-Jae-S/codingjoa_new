@@ -3,11 +3,8 @@ package com.codingjoa.config.initializer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,7 +13,6 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -37,9 +33,6 @@ import com.codingjoa.config.servlet.ServletConfig;
 import com.codingjoa.config.servlet.SwaggerConfig;
 import com.codingjoa.config.servlet.WebSocketConfig;
 import com.codingjoa.config.servlet.WebSocketStompConfig;
-import com.codingjoa.filter.ErrorHandlingFilter;
-import com.codingjoa.filter.LogFilter;
-import com.codingjoa.filter.test.TestAopFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -110,12 +103,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		log.info("## onStartup");
 		super.onStartup(servletContext);
-		
-		log.info("## register filters");
-		registerCharacterEncodingFilter(servletContext);
-		//registerLogFilter(servletContext);
-		registerErrorHandlingFilter(servletContext);
-		//registerTestAopFilter(servletContext);
 	}
 	
 	/*
@@ -147,40 +134,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 		
 		//StandardServletMultipartResolver.cleanupMultipart(94) - Failed to perform cleanup of multipart items
 		registration.setMultipartConfig(config);
-	}
-
-	private void registerCharacterEncodingFilter(ServletContext servletContext) {
-		log.info("\t > characterEncodingFilter");
-		FilterRegistration.Dynamic registration = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
-		registration.setInitParameter("encoding", "UTF-8");
-		registration.setInitParameter("forceEncoding", "true");
-
-		// If isMatchAfter is set to true, the filter is placed after existing filters in the chain; 
-		// if false, the filter is placed before existing filters.
-		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-	}
-	
-	@SuppressWarnings("unused")
-	private void registerLogFilter(ServletContext servletContext) {
-		log.info("\t > logFilter");
-		FilterRegistration.Dynamic registration = servletContext.addFilter("LogFilter", new LogFilter());
-		registration.setInitParameter("excludePatterns", "/resources/, /user/images/, /board/images/");
-		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
-	}
-	
-	private void registerErrorHandlingFilter(ServletContext servletContext) {
-		log.info("\t > errorHandlingFilter");
-		FilterRegistration.Dynamic registration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
-		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC);
-		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
-	}
-
-	@SuppressWarnings("unused")
-	private void registerTestAopFilter(ServletContext servletContext) {
-		log.info("\t > testAopFilter");
-		FilterRegistration.Dynamic registration = servletContext.addFilter("TestAopFilter", new TestAopFilter());
-		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC);
-		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter", "/test/aop/exception/filter");
 	}
 	
 }

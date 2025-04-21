@@ -26,7 +26,7 @@ public class PasswordResetViewInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		log.info("## {}", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
+		log.info("\t > {}", RequestUtils.getRequestLine(request));
 		
 		String token = request.getParameter("token");
 		

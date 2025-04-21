@@ -46,8 +46,8 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 		try {
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			log.info("## {}.doFilterInternal", this.getClass().getSimpleName());
-			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			log.info("## {}", this.getClass().getSimpleName());
+			log.info("\t > {}, {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());

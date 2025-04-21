@@ -3,9 +3,15 @@ package com.codingjoa.config.initializer;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+import org.springframework.web.filter.CharacterEncodingFilter;
+
+import com.codingjoa.filter.ErrorHandlingFilter;
+import com.codingjoa.filter.LogFilter;
+import com.codingjoa.filter.test.TestAopFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +52,9 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	@Override
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
 		log.info("## beforeSpringSecurityFilterChain");
+		registerCharacterEncodingFilter(servletContext);
+		registerLogFilter(servletContext);
+		registerErrorHandlingFilter(servletContext);
 		super.beforeSpringSecurityFilterChain(servletContext);
 	}
 
@@ -53,6 +62,39 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	protected void afterSpringSecurityFilterChain(ServletContext servletContext) {
 		log.info("## afterSpringSecurityFilterChain");
 		super.afterSpringSecurityFilterChain(servletContext);
+	}
+	
+	private void registerCharacterEncodingFilter(ServletContext servletContext) {
+		log.info("\t > register characterEncodingFilter");
+		FilterRegistration.Dynamic registration = servletContext.addFilter("CharacterEncodingFilter", new CharacterEncodingFilter());
+		registration.setInitParameter("encoding", "UTF-8");
+		registration.setInitParameter("forceEncoding", "true");
+
+		// If isMatchAfter is set to true, the filter is placed after existing filters in the chain; 
+		// if false, the filter is placed before existing filters.
+		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
+	
+	private void registerLogFilter(ServletContext servletContext) {
+		log.info("\t > register logFilter");
+		FilterRegistration.Dynamic registration = servletContext.addFilter("LogFilter", new LogFilter());
+		registration.setInitParameter("excludePatterns", "/resources/, /user/images/, /board/images/");
+		registration.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, "/*");
+	}
+	
+	private void registerErrorHandlingFilter(ServletContext servletContext) {
+		log.info("\t > register errorHandlingFilter");
+		FilterRegistration.Dynamic registration = servletContext.addFilter("ErrorHandlingFilter", new ErrorHandlingFilter());
+		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC);
+		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
+	}
+	
+	@SuppressWarnings("unused")
+	private void registerTestAopFilter(ServletContext servletContext) {
+		log.info("\t > testAopFilter");
+		FilterRegistration.Dynamic registration = servletContext.addFilter("TestAopFilter", new TestAopFilter());
+		EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC);
+		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/test/api/aop/exception/filter", "/test/aop/exception/filter");
 	}
 	
 }

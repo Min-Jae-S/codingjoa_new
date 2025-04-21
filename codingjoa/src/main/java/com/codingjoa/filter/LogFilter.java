@@ -22,6 +22,7 @@ import com.codingjoa.util.RequestUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j //@WebFilter
 public class LogFilter implements Filter {
 	
@@ -47,24 +48,23 @@ public class LogFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
 		HttpServletResponse response = (HttpServletResponse) servletResponse;
+		
 		String requestURI = request.getRequestURI();
 		UUID uuid = UUID.randomUUID();
 		
 		if (isExcludePattern(requestURI)) {
-			log.info("## '{}' is excludePattern", requestURI);
 			chain.doFilter(servletRequest, servletResponse);
 		} else {
-			log.info("## '{}' is includePattern.", requestURI);
+			log.info("## {}, [{}] {}", this.getClass().getSimpleName(), request.getDispatcherType(), RequestUtils.getRequestLine(request));
 			try {
-				logRequestDetails(request, response, uuid);
+				//logRequestDetails(request, response, uuid);
 				chain.doFilter(servletRequest, servletResponse);
 			} catch (Exception e) {
 				log.info("## catch exception");
-				log.info("\t > exception = {}", e.getClass().getSimpleName());
-				//log.info("\t > message = {}", e.getMessage());
+				log.info("\t > exception: {}", e.getClass().getSimpleName());
 				//throw e;
 			} finally {
-				logResponseDetails(request, response, uuid);
+				//logResponseDetails(request, response, uuid);
 			}
 		}
 	}
@@ -80,23 +80,19 @@ public class LogFilter implements Filter {
 	
 	private void logRequestDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
 		log.info("## {} [ REQUEST ]", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		log.info("\t > accept = {}", request.getHeader("accept")); // The header name is case insensitive.
-		log.info("\t > x-requested-with = {}", request.getHeader("x-requested-with"));
 		log.info("\t > contentType = {}", response.getContentType());
 	}
 
 	private void logResponseDetails(HttpServletRequest request, HttpServletResponse response, UUID uuid) {
 		log.info("## {} [ RESPONSE ]", this.getClass().getSimpleName());
-		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > UUID = {}", uuid);
 		log.info("\t > dispatcherType = {}", request.getDispatcherType());
 		log.info("\t > contentType = {}", response.getContentType());
 	}
 	
-	@SuppressWarnings("unused")
 	private String getFullURI(HttpServletRequest request) {
 		StringBuilder requestURI = 
 				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));

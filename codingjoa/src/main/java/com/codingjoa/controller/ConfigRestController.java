@@ -19,7 +19,6 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,35 +58,80 @@ public class ConfigRestController {
 	@GetMapping("/filters")
 	public ResponseEntity<Object> getFilters() {
 		log.info("## getFilters");
-//		FilterChainProxy filterChainProxy = context.getBean(FilterChainProxy.class);
-//		List<String> filters = filterChainProxy.getFilterChains()
-//			.stream()
-//			.filter(filterChain -> filterChain instanceof SecurityFilterChain)
-//			.findFirst().get().getFilters()
-//			.stream()
-//			.map(filter -> filter.getClass().getName())
-//			.collect(Collectors.toList());
+
+//		ServletContext servletContext = context.getServletContext();
+//		Map<String, ? extends FilterRegistration> map = servletContext.getFilterRegistrations();
+//		
+//		List<Object> filters = new ArrayList<>();
+//		for (String filterName : map.keySet()) {
+//			log.info("\t > {}", filterName);
+//			try {
+//				FilterChainProxy filterChainProxy = (FilterChainProxy) context.getBean(filterName);
+//				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
+//				List<String> securityFilters = filterChains.stream()
+//						.flatMap(filterChain -> filterChain.getFilters().stream())
+//						.map(filter -> filter.getClass().getName())
+//						.collect(Collectors.toList());
+//				filters.add(Map.of(filterName, securityFilters));
+//				securityFilters.forEach(filter -> log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
+//			} catch (NoSuchBeanDefinitionException e) {
+//				filters.add(filterName);
+//			}
+//		}
 		
 		ServletContext servletContext = context.getServletContext();
 		Map<String, ? extends FilterRegistration> map = servletContext.getFilterRegistrations();
+
 		List<Object> filters = new ArrayList<>();
-		for (String filterName : map.keySet()) {
-			log.info("\t > {}", filterName);
+		Map.Entry<String, ? extends FilterRegistration> securityFilterEntry = null;
+
+		for (Map.Entry<String, ? extends FilterRegistration> entry : map.entrySet()) {
+			String filterName = entry.getKey();
 			try {
-				FilterChainProxy filterChainProxy = (FilterChainProxy) context.getBean(filterName);
-				List<SecurityFilterChain> filterChains = filterChainProxy.getFilterChains();
-				List<String> securityFilters = filterChains.stream()
-						.flatMap(filterChain -> filterChain.getFilters().stream())
-						.map(filter -> filter.getClass().getName())
-						.collect(Collectors.toList());
-				filters.add(Map.of(filterName, securityFilters));
-				securityFilters.forEach(filter -> log.info("\t\t - {}", filter.substring(filter.lastIndexOf(".") + 1)));
+				Object filterBean = context.getBean(filterName);
+				if (filterBean instanceof FilterChainProxy) {
+					securityFilterEntry = entry;
+					continue;
+				}
+
+				filters.add(filterName);
 			} catch (NoSuchBeanDefinitionException e) {
 				filters.add(filterName);
 			}
 		}
+
+		if (securityFilterEntry != null) {
+			String filterName = securityFilterEntry.getKey();
+			try {
+				FilterChainProxy filterChainProxy = (FilterChainProxy) context.getBean(filterName);
+				List<String> securityFilters = filterChainProxy.getFilterChains().stream()
+					.flatMap(chain -> chain.getFilters().stream())
+					.map(filter -> filter.getClass().getName())
+					.collect(Collectors.toList());
+				filters.add(Map.of(capitalizeFirstLetter(filterName), securityFilters));
+			} catch (Exception e) {
+				log.warn("\t > failed to resolve FilterChainProxy", e);
+				filters.add(filterName);
+			}
+		}
+		
+		filters.forEach(filter -> {
+			if (filter instanceof String) {
+				log.info("\t > {}", filter);
+			} else if (filter instanceof Map) {
+				((Map<?, ?>) filter).keySet().forEach(key -> log.info("\t > {}", key));
+			}
+		});
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(filters).build());
+	}
+	
+	private String capitalizeFirstLetter(String input) {
+		if (input == null || input.isEmpty()) {
+			return input;
+		}
+		
+		return input.substring(0, 1).toUpperCase() + input.substring(1);
 	}
 	
 	@GetMapping("/handler-mappings")
