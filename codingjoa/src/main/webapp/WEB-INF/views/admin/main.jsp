@@ -22,6 +22,7 @@
 <script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/page-router.js"></script>
+<script src="${contextPath}/resources/js/utils/ajax-setup.js"></script>
 <script src="${contextPath}/resources/js/service/admin.js"></script>
 <style>
 	.admin-content-container .card {
@@ -476,12 +477,6 @@
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-function initAdminPage() {
-	let params = new URLSearchParams(window.location.search);
-	// route(routingPath, pushStatePath, params = {}, pushState = true) 
-	pageRouter.route(window.location.pathname, null, transformParams(params), false);
-}
-
 	$(function() {
 		const $contentContainer = $("#contentContainer");
 		const pageRouter = new PageRouter();
@@ -542,6 +537,12 @@ function initAdminPage() {
 					.filter(([key, value]) => value != null && value.trim() != "")
 					.map(([key, value]) => [key, value.includes(",") ? value.split(",") : value])
 				);
+		}
+		
+		function initAdminPage() {
+			let params = new URLSearchParams(window.location.search);
+			// route(routingPath, pushStatePath, params = {}, pushState = true) 
+			pageRouter.route(window.location.pathname, null, transformParams(params), false);
 		}
 		
 		console.log("## initiate admin page, routing to URL:", window.location.pathname);
