@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -68,6 +67,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.getWriter().close();
 	}
 	
+	@SuppressWarnings("unused")
 	private void clearAuthenticationDetails(Authentication authentication) {
 		log.info("\t > clear authentication details");
 		((UsernamePasswordAuthenticationToken) authentication).setDetails(null);

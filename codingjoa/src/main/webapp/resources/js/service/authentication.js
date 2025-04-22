@@ -24,8 +24,27 @@ let authenticationService = (function() {
 		});
 	}
 	
+	function logout(callback) {
+		console.log("## logout");
+		$.ajax({
+			type : "POST",
+			url : `${contextPath}/api/logout`,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
 	return { 
-		login:login
+		login:login,
+		logout:logout
 	};
 	
 })();

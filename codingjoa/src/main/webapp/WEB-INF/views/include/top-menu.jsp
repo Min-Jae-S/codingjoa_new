@@ -98,10 +98,11 @@
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/service/category.js"></script>
+<script src="${contextPath}/resources/js/service/authentication.js"></script>
 <script>
 	$(function() {
-		const continueUrl = "${currentUrl}";
-		console.log("## continueUrl:", continueUrl);
+		const currentUrl = "${currentUrl}";
+		console.log("## currentUrl: '%s'", currentUrl);
 
 		let timer; 
 		let delay = 200; // 0.2s
@@ -134,11 +135,14 @@
 		});
 		
 		$("#longinLink").on("click", function() {
-			location.href = continueUrl ? `${contextPath}/login?continue=${continueUrl}` : `${contextPath}/login`;
+			location.href = currentUrl ? `${contextPath}/login?continue=${currentUrl}` : `${contextPath}/login`;
 		});
 		
 		$("#logoutLink").on("click", function() {
-			// ...
+			authenticationService.logout(function(result) {
+				alert(result.message);
+				// location.href = currentUrl;
+			});
 		});
 		
 		$("#notificationBtn").on("click", function() {
