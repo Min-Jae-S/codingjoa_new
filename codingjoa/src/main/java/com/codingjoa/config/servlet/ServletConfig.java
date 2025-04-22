@@ -131,15 +131,10 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
-				.excludePathPatterns("/resources/**", "/api/**", "/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**");
+				.excludePathPatterns("/api/**");
+				//.excludePathPatterns("/api/**", "/resources/**", "/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/password/reset");
-		
-//		registry.addInterceptor(new TestRestApiInterceptor())
-//				.addPathPatterns("/test/rest-api/**")
-//				.excludePathPatterns("/test/rest-api");
-//		registry.addInterceptor(new TestAopInterceptor())
-//				.addPathPatterns("/test/api/aop/exception/interceptor", "/test/aop/exception/interceptor");
 	}
 
 	@Override

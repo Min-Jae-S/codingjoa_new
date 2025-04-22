@@ -27,7 +27,7 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item">
-						<a class="nav-link" id="loginLink">로그인</a>
+						<a href="#" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/join" class="nav-link">회원가입</a>
@@ -35,7 +35,7 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item">
-						<a class="nav-link" id="loginLink">로그인</a>
+						<a href="#" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/join" class="nav-link">회원가입</a>
@@ -83,7 +83,7 @@
 							<hr class="dropdown-divider">
 							<li>
 								<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
-								<a class="dropdown-item logout" id="logoutLink">로그아웃</a>
+								<a href="#" class="dropdown-item logout" id="logoutLink">로그아웃</a>
 							</li>
 						</ul>
 					</li>
@@ -134,14 +134,16 @@
 			$dropdowns.removeClass("show").empty();
 		});
 		
-		$("#longinLink").on("click", function() {
+		$("#loginLink").on("click", function(e) {
+			e.preventDefault();
 			location.href = currentUrl ? `${contextPath}/login?continue=${currentUrl}` : `${contextPath}/login`;
 		});
 		
-		$("#logoutLink").on("click", function() {
+		$("#logoutLink").on("click", function(e) {
+			e.preventDefault();
 			authenticationService.logout(function(result) {
 				alert(result.message);
-				// location.href = currentUrl;
+				location.href = currentUrl;
 			});
 		});
 		

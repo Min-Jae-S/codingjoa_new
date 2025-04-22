@@ -69,7 +69,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 			.build()
 			.ignoredParameterTypes(PrincipalDetails.class)
 			.useDefaultResponseMessages(false)
-			.securitySchemes(List.of(apiKey()))
+			.securitySchemes(List.of(securityScheme()))
 			.securityContexts(List.of(securityContext()));
 	}
 
@@ -86,7 +86,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 			.build()
 			.ignoredParameterTypes(PrincipalDetails.class)
 			.useDefaultResponseMessages(false)
-			.securitySchemes(List.of(apiKey()))
+			.securitySchemes(List.of(securityScheme()))
 			.securityContexts(List.of(securityContext()));
 	}
 
@@ -103,7 +103,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 			.build()
 			.ignoredParameterTypes(PrincipalDetails.class)
 			.useDefaultResponseMessages(false)
-			.securitySchemes(List.of(apiKey()))
+			.securitySchemes(List.of(securityScheme()))
 			.securityContexts(List.of(securityContext()));
 	}
 
@@ -139,13 +139,15 @@ public class SwaggerConfig implements WebMvcConfigurer {
 		return RequestHandlerSelectors.withClassAnnotation(Api.class).and(isPrivateApi);
 	}
 	
-	private ApiKey apiKey() {
-		return new ApiKey("Bearer Token (JWT)", "Authorization", "header");
+	private ApiKey securityScheme() {
+		String headerKey = "Authorization";
+		return new ApiKey("JWT", headerKey, "header");
 	}
 	
 	private SecurityContext securityContext() {
 		return SecurityContext.builder()
 			.securityReferences(securityReferences())
+			.operationSelector(operationContext -> true)
 			.build();
 	}
 	

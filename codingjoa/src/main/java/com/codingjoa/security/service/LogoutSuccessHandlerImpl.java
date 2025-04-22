@@ -10,26 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.SuccessResponse;
-import com.codingjoa.util.MessageUtils;
-import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 	
-	private static final String JWT_COOKIE = "ACCESS_TOKEN";
 	private final ObjectMapper objectMapper;
 	
 	@Override
@@ -37,8 +31,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 			throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		// in logoutSuccessHandler? in logoutHandler?
-		// 1) remove cookie
+		// 1) remove cookie (http.logout().deleteCoookies("ACCESS_TOKEN"): this is a shortcut to easily invoke addLogoutHandler(LogoutHandler) with a CookieClearingLogoutHandler)
 		// 2) revoke access_token
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
