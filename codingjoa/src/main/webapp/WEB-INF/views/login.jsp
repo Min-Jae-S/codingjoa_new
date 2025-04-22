@@ -155,8 +155,8 @@
 			};
 			
 			authenticationService.login(formData, function(result) {
-				alert(result.message);
 				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
+				alert(result.message);
 				location.href = continueUrl;
 			});
 		});

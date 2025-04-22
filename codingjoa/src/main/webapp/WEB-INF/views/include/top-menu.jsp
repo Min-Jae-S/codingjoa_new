@@ -142,6 +142,7 @@
 		$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			authenticationService.logout(function(result) {
+				localStorage.removeItem("ACCESS_TOKEN");
 				alert(result.message);
 				location.href = encodedCurrentUrl ? decodeURIComponent(encodedCurrentUrl) : `${contextPath}`;
 			});
