@@ -145,7 +145,7 @@
 <script>
 	$(function() {
 		const continueUrl = "${continueUrl}";
-		console.log("## resolved continuUrl from server: '%s'", continueUrl);
+		console.log("## resolved continuUrl from Controller: '%s'", continueUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();

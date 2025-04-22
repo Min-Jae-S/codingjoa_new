@@ -101,8 +101,8 @@
 <script src="${contextPath}/resources/js/service/authentication.js"></script>
 <script>
 	$(function() {
-		const currentUrl = "${currentUrl}";
-		console.log("## currentUrl: '%s'", currentUrl);
+		const encodedCurrentUrl = "${currentUrl}";
+		console.log("## encoded currentUrl from TopmenuInterceptor: '%s'", encodedCurrentUrl);
 
 		let timer; 
 		let delay = 200; // 0.2s
@@ -136,14 +136,14 @@
 		
 		$("#loginLink").on("click", function(e) {
 			e.preventDefault();
-			location.href = currentUrl ? `${contextPath}/login?continue=${currentUrl}` : `${contextPath}/login`;
+			location.href = encodedCurrentUrl ? `${contextPath}/login?continue=\${encodedCurrentUrl}` : `${contextPath}/login`;
 		});
 		
 		$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
 			authenticationService.logout(function(result) {
 				alert(result.message);
-				location.href = currentUrl;
+				location.href = encodedCurrentUrl ? decodeURIComponent(encodedCurrentUrl) : `${contextPath}`;
 			});
 		});
 		
