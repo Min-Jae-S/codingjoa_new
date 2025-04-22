@@ -6,9 +6,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -67,13 +64,14 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		}
 		
 		modelAndView.addObject("parentCategories", parentCategories);
+		modelAndView.addObject("currentUrl", isDisallowedPath(request) ?  "" : UriUtils.buildFullCurrentUrl(request));
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-			modelAndView.addObject("logoutPath", buildPath(request, "/logout"));
-		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
-			modelAndView.addObject("loginPath", buildPath(request, "/login"));
-		}
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		if (authentication instanceof UsernamePasswordAuthenticationToken) {
+//			modelAndView.addObject("logoutPath", buildPath(request, "/logout"));
+//		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
+//			modelAndView.addObject("loginPath", buildPath(request, "/login"));
+//		}
 		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
@@ -82,6 +80,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
 	
+	@SuppressWarnings("unused")
 	private String buildPath(HttpServletRequest request, String baseUrl) {
 		String currentUrl = UriUtils.buildFullCurrentUrl(request);
 		return UriComponentsBuilder

@@ -87,7 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**", "/user/images/**", "/board/images/**", "/favicon.ico");
-		web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**");
+		//web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**");
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
 		//web.debug(true);
 	}
@@ -95,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.httpBasic().disable()
+			//.httpBasic().disable()
 			.formLogin().disable()
 			.csrf().disable()
 			// SecurityContextPersistenceFilter, SessionManagementFilter, HttpSessionSecurityContextRepository

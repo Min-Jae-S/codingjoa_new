@@ -27,7 +27,7 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item">
-						<a href="${loginUrl}" class="nav-link">로그인</a>
+						<a class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/join" class="nav-link">회원가입</a>
@@ -35,7 +35,7 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item">
-						<a href="${loginPath}" class="nav-link">로그인</a>
+						<a class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/join" class="nav-link">회원가입</a>
@@ -43,7 +43,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
-						<button href="${contextPath}/notifications" class="notification">
+						<button class="notification" id="notificationBtn">
 							<span></span>
 						</button>
 					</li>
@@ -83,7 +83,7 @@
 							<hr class="dropdown-divider">
 							<li>
 								<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
-								<a href="${logoutPath}" class="dropdown-item logout">로그아웃</a>
+								<a class="dropdown-item logout" id="logoutLink">로그아웃</a>
 							</li>
 						</ul>
 					</li>
@@ -100,6 +100,9 @@
 <script src="${contextPath}/resources/js/service/category.js"></script>
 <script>
 	$(function() {
+		const continueUrl = "${currentUrl}";
+		console.log("## continueUrl:", continueUrl);
+
 		let timer; 
 		let delay = 200; // 0.2s
 		let $dropdowns = $(".category .dropdown-menu");
@@ -130,7 +133,15 @@
 			$dropdowns.removeClass("show").empty();
 		});
 		
-		$("button.notification").on("click", function() {
+		$("#longinLink").on("click", function() {
+			location.href = continueUrl ? `${contextPath}/login?continue=${continueUrl}` : `${contextPath}/login`;
+		});
+		
+		$("#logoutLink").on("click", function() {
+			// ...
+		});
+		
+		$("#notificationBtn").on("click", function() {
 			location.href = "${contextPath}/notifications";
 		});
 	});
