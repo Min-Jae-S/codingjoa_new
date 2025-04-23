@@ -97,7 +97,8 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**")
-				.addResourceLocations("/resources/");
+				.addResourceLocations("/resources/")
+				.setCachePeriod(0);
 		registry.addResourceHandler("/user/images/**")
 				.addResourceLocations("file:///" + env.getProperty("upload.dir.user.image")); 	// D:/Dev/upload/user/images/
 		registry.addResourceHandler("/board/images/**")
@@ -131,7 +132,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		registry.addInterceptor(new TopMenuInterceptor(categoryService))
 				.addPathPatterns("/**")
-				.excludePathPatterns("/api/**");
+				.excludePathPatterns("/api/**", "/resources/**", "/user/images/**", "/board/images/**");
 				//.excludePathPatterns("/api/**", "/resources/**", "/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/password/reset");

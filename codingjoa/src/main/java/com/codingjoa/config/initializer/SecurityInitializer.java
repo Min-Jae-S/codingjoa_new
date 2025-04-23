@@ -15,6 +15,7 @@ import com.codingjoa.filter.test.TestAopFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 
@@ -53,7 +54,7 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
 		log.info("## beforeSpringSecurityFilterChain");
 		registerCharacterEncodingFilter(servletContext);
-		registerLogFilter(servletContext);
+		//registerLogFilter(servletContext);
 		registerErrorHandlingFilter(servletContext);
 		super.beforeSpringSecurityFilterChain(servletContext);
 	}
@@ -89,7 +90,6 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 		registration.addMappingForUrlPatterns(dispatcherTypes, false, "/*");
 	}
 	
-	@SuppressWarnings("unused")
 	private void registerTestAopFilter(ServletContext servletContext) {
 		log.info("\t > testAopFilter");
 		FilterRegistration.Dynamic registration = servletContext.addFilter("TestAopFilter", new TestAopFilter());

@@ -78,7 +78,7 @@
 				<div class="title-wrap mb-0">
 					<h4 class="font-weight-bold">
 						비밀번호 재설정
-						<div class="float-right">
+						<div class="float-right d-none">
 	 						<button type="button" class="btn btn-sm btn-primary py-0" id="createTokenBtn">CREATE TOKEN</button>
 							<button type="button" class="btn btn-sm btn-secondary py-0" id="removeTokenBtn">REMOVE TOKEN</button>
 						</div>

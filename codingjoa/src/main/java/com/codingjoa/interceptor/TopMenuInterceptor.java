@@ -1,7 +1,6 @@
 package com.codingjoa.interceptor;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +9,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.entity.Category;
 import com.codingjoa.service.CategoryService;
@@ -44,6 +42,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
 		log.info("\t > {}", RequestUtils.getRequestLine(request));
+		log.info("\t > handler = {}", handler);
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
 		if (modelAndView == null) {
@@ -66,28 +65,11 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		modelAndView.addObject("parentCategories", parentCategories);
 		modelAndView.addObject("currentUrl", isDisallowedPath(request) ?  "" : UriUtils.buildFullCurrentUrl(request));
 		
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (authentication instanceof UsernamePasswordAuthenticationToken) {
-//			modelAndView.addObject("logoutPath", buildPath(request, "/logout"));
-//		} else { // authentication == null || authentication instanceof AnonymousAuthenticationToken
-//			modelAndView.addObject("loginPath", buildPath(request, "/login"));
-//		}
-		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
 	private boolean isDisallowedPath(HttpServletRequest request) {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
-	
-	@SuppressWarnings("unused")
-	private String buildPath(HttpServletRequest request, String baseUrl) {
-		String currentUrl = UriUtils.buildFullCurrentUrl(request);
-		return UriComponentsBuilder
-			.fromPath(request.getContextPath() + baseUrl)
-			.queryParamIfPresent("continue", Optional.of(currentUrl).filter(url -> !isDisallowedPath(request)))
-			.build()
-			.toUriString();
-	}
 
 }
