@@ -17,10 +17,10 @@ public class AdminController {
 		return "admin/main";
 	}
 	
-	@GetMapping("/documentation/apis")
+	@GetMapping("/apis")
 	public String apis() {
-		log.info("## APIs documentation");
-		return "admin/apis-documentation";
+		log.info("## apis");
+		return "admin/apis";
 	}
 	
 }
