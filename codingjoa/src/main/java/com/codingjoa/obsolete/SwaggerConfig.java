@@ -1,4 +1,4 @@
-package com.codingjoa.config.servlet;
+package com.codingjoa.obsolete;
 
 import java.util.List;
 import java.util.Set;
@@ -7,6 +7,9 @@ import java.util.function.Predicate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.security.dto.PrincipalDetails;
@@ -27,10 +30,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
 @Configuration
-public class SwaggerConfig {
+public class SwaggerConfig implements WebMvcConfigurer {
 	
 	private static final String API_TITLE = "Codingjoa APIs";
 	private static final String API_VERSION = "1.0.0";
+	
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		// Swagger UI (3.0.0)
+		registry.addResourceHandler("/swagger-ui/**")
+				.addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
+		
+		// Swagger UI (2.9.2)
+//		registry.addResourceHandler("swagger-ui.html")
+//				.addResourceLocations("classpath:/META-INF/resources/");
+//		registry.addResourceHandler("/webjars/**")
+//				.addResourceLocations("classpath:/META-INF/resources/webjars/");
+	}
+
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		// swagger2: {protocol}://{host}:{port}/{contextPath}/swagger-ui.html
+		// swagger3: {protocol}://{host}:{port}/{contextPath}/swagger-ui/index.html
+		registry.addViewController("/swagger-ui/apis").setViewName("forward:/swagger-ui/index.html");
+	}
 	
 	@Bean
 	public Docket allApi() {
