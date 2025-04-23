@@ -61,7 +61,6 @@ public class LikeRestController {
 		
 		boolean isCommentLiked = likeService.toggleCommentLike(commentId, principal.getId());
 		String code = (isCommentLiked) ? "success.like.comment" : "success.dislike.comment";
-		//resetAuthentication(principal.getMember().getMemberId());
 
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
