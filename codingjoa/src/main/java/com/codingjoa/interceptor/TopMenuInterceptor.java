@@ -72,4 +72,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
 
+	
+
 }

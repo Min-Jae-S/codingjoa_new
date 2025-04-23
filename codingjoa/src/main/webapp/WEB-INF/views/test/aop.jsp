@@ -85,6 +85,7 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/aop/aa",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -101,6 +102,7 @@
 		$.ajax({
 			type : "POST",
 			url : "${contextPath}/test/api/aop/exception",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -116,6 +118,7 @@
 		console.log("## triggerExpectedExceptionByAjax");
 		$.ajax({
 			type : "GET",
+			dataType: "json",
 			url : "${contextPath}/test/api/aop/exception",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -150,6 +153,7 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/exception/controller",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -166,6 +170,7 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/exception/interceptor",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));
@@ -182,6 +187,7 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/api/aop/exception/filter",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null, 2));

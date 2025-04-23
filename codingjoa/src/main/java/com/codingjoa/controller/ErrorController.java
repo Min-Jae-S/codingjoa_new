@@ -1,6 +1,7 @@
 package com.codingjoa.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ErrorController {
 
 	@RequestMapping
-	public String error(HttpServletRequest request, Model model) {
+	public String error(HttpServletRequest request, HttpServletResponse response, Model model) {
 		log.info("## error");
-		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
+		log.info("\t > [{}] request-line = {}", request.getDispatcherType(), RequestUtils.getRequestLine(request));
 
 		ErrorResponse errorResponse = null;
 		Object obj = request.getAttribute("errorResponse");
@@ -33,6 +34,8 @@ public class ErrorController {
 					.status(HttpStatus.BAD_REQUEST)
 					.messageByCode("error.global")
 					.build();
+			
+			response.setStatus(HttpStatus.BAD_REQUEST.value());
 		}
 		
 		model.addAttribute("errorResponse", errorResponse);

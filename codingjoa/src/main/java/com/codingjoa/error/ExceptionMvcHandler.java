@@ -8,6 +8,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -25,11 +26,12 @@ public class ExceptionMvcHandler {
 	
 	private static final String FORWARD_URL = "/error";
 	
-	@ExceptionHandler(Exception.class) // NoHandlerFoundException, NestedServletException etc..
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(Exception.class)
 	protected String handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
 		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		e.printStackTrace();
+		//e.printStackTrace();
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()
 				.status(HttpStatus.BAD_REQUEST)
@@ -42,6 +44,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NoHandlerFoundException.class) 
 	protected String handleNoHandlerFoundEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleNoHandlerFoundEx", this.getClass().getSimpleName());
@@ -58,6 +61,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(BindException.class)
 	protected String handleBindEx(BindException e, HttpServletRequest request) {
 		log.info("## {}.handleBindEx", this.getClass().getSimpleName());
@@ -78,6 +82,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
+	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 	@ExceptionHandler(ConstraintViolationException.class) // /board/?boardCategoryCode=11
 	protected String handleConstraintViolationEx(ConstraintViolationException e, HttpServletRequest request) {
 		log.info("## {}.handleConstraintViolationEx", this.getClass().getSimpleName());
@@ -98,6 +103,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = { 
 		MissingServletRequestParameterException.class,	// /board/read
 		MethodArgumentTypeMismatchException.class		// /board/read?boardIdx=, /board/read?boardIdx=aa 
@@ -117,6 +123,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ExpectedException.class)
 	protected String handleExpectedEx(ExpectedException e, HttpServletRequest request) {
 		log.info("## {}.handleExpectedEx", this.getClass().getSimpleName());
@@ -124,6 +131,7 @@ public class ExceptionMvcHandler {
 		log.info("\t > errorCode = {}, errorField = {}", e.getErrorCode(), e.getErrorField());
 		
 		ErrorResponseBuilder builder = ErrorResponse.builder().status(HttpStatus.BAD_REQUEST);
+		
 		if (e.getErrorField() == null) { 
 			builder.messageByCode(e.getErrorCode());
 		} else { 
@@ -140,6 +148,7 @@ public class ExceptionMvcHandler {
 		return "forward:" + FORWARD_URL;
 	}
 	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(TestException.class)
 	protected String handleTestEx(TestException e, HttpServletRequest request) {
 		log.info("## {}.handleTestEx", this.getClass().getSimpleName());
