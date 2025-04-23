@@ -144,7 +144,8 @@
 			authenticationService.logout(function(result) {
 				localStorage.removeItem("ACCESS_TOKEN");
 				alert(result.message);
-				location.href = encodedCurrentUrl ? decodeURIComponent(encodedCurrentUrl) : `${contextPath}`;
+				location.href = "${contextPath}";
+				//location.href = encodedCurrentUrl ? decodeURIComponent(encodedCurrentUrl) : `${contextPath}`;
 			});
 		});
 		

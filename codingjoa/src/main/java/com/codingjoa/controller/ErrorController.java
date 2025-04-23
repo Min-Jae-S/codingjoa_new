@@ -28,10 +28,10 @@ public class ErrorController {
 		if (obj instanceof ErrorResponse) {
 			errorResponse = (ErrorResponse) obj;
 		} else {
-			log.info("\t > no errorResponse from exceptionHandler, create default errorResponse");
+			log.info("\t > no errorResponse from request, create default errorResponse");
 			errorResponse = ErrorResponse.builder()
 					.status(HttpStatus.BAD_REQUEST)
-					.messageByCode("error.Global")
+					.messageByCode("error.global")
 					.build();
 		}
 		

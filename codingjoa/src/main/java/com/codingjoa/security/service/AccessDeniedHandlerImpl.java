@@ -7,18 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.dto.ErrorResponse;
 import com.codingjoa.util.RequestUtils;
-import com.codingjoa.util.UriUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -30,14 +26,12 @@ import lombok.extern.slf4j.Slf4j;
  * 	AccessDeniedHandler, handles an access denied failure.
  */
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
-	private static final String FORWARD_PATH = "/WEB-INF/views/feedback/alert-and-redirect.jsp";
-	private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	private static final String FORWARD_URL = "/error";
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -62,17 +56,9 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			String referer = request.getHeader(HttpHeaders.REFERER);
-			log.info("\t > referer = {}", referer);
-			
-			String continueUrl = UriUtils.resolveContinueUrl(referer, request);
-			request.setAttribute("continueUrl", continueUrl);
-			request.setAttribute("message", errorResponse.getMessage());
-			
-			log.info("\t > forward to 'alert-and-redirect.jsp'");
-			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
-			
-			//redirectStrategy.sendRedirect(request, response, "/");
+			log.info("\t > forward to '{}'", FORWARD_URL);
+			request.setAttribute("errorResponse", errorResponse);
+			request.getRequestDispatcher(FORWARD_URL).forward(request, response);
 		}
 	}
 	

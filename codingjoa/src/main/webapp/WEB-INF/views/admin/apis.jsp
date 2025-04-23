@@ -32,6 +32,7 @@
 			if (token && request.url.includes("/v2/api-docs")) {
 				request.headers["Authorization"] = `Bearer \${token}`;
 			}
+			
 			return request;
 		}
 	});
