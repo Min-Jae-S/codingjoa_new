@@ -82,9 +82,6 @@ public class BoardController {
 		
 		List<BoardDetailsDto> pagedBoards = boardService.getPagedBoards(categoryCode, boardCri, userId);
 		
-		log.info("\t > pagedBoards");
-		pagedBoards.forEach(boardDetailsDto -> log.info("\t\t - id: {}, title: {}", boardDetailsDto.getId(), boardDetailsDto.getTitle()));
-		
 		Pagination pagination = boardService.getPagination(categoryCode, boardCri);
 		log.info("\t > pagination = {}", pagination);
 		
@@ -128,6 +125,7 @@ public class BoardController {
 		log.info("## write, categoryCode = {}", categoryCode);
 		BoardDto writeBoardDto = new BoardDto();
 		writeBoardDto.setCategoryCode(categoryCode);
+		
 		model.addAttribute("writeBoardDto", writeBoardDto);
 		model.addAttribute("boardCategories", categoryService.getBoardCategories());
 		

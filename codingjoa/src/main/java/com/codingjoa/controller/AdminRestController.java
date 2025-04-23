@@ -99,10 +99,6 @@ public class AdminRestController {
 		
 		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
 		
-		log.info("\t > pagedUsers");
-		pagedUsers.forEach(adminUserDto -> log.info("\t\t - id: {}, email: {}, roles: {}, provider: {}", 
-				adminUserDto.getId(), adminUserDto.getEmail(), adminUserDto.getRoles(), adminUserDto.getProvider()));
-		
 		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);
 		
@@ -121,10 +117,6 @@ public class AdminRestController {
 		log.info("## getPagedUsers");
 		
 		List<AdminUserDto> pagedUsers = adminService.getPagedUsers(adminUserCri);
-		
-		log.info("\t > pagedUsers");
-		pagedUsers.forEach(adminUserDto -> log.info("\t\t - id: {}, roles: {}, provider: {}", 
-				adminUserDto.getId(), adminUserDto.getRoles(), adminUserDto.getProvider()));
 		
 		Pagination pagination = adminService.getUserPagination(adminUserCri);
 		log.info("\t > pagination = {}", pagination);

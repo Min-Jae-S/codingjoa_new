@@ -23,19 +23,18 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	public OAuth2CustomAuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
 													String authorizationRequestBaseUri) {
-		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, 
-				authorizationRequestBaseUri);
+		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
-		log.info("## {}.resolve(request)", this.getClass().getSimpleName());
+		//log.info("## {}.resolve(request)", this.getClass().getSimpleName());
 		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
 		if (authorizationRequest == null) {
-			log.info("\t > not redirect for authorization, pass the request to the next filter");
+			//log.info("\t > not redirect for authorization, pass the request to the next filter");
 			return authorizationRequest;
 		} else {
-			log.info("\t > redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
+			//log.info("\t > redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
 			return customize(request, authorizationRequest);
 		}
 	}

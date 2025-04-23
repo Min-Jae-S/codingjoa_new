@@ -18,7 +18,8 @@ public class BoardCategoryCodeValidator implements ConstraintValidator<BoardCate
 	
 	@Override
 	public boolean isValid(Integer value, ConstraintValidatorContext context) {
-		log.info("## {}, value = {}", this.getClass().getSimpleName(), value);
+		log.info("## {}", this.getClass().getSimpleName());
+		log.info("\t > categoryCode = {}", value);
 		
 		// value can't be null? @BoardCategoryCode @RequestParam int boardCategoryCode
 		if (value == null) {

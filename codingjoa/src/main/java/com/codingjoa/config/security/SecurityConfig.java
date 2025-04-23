@@ -87,6 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**", "/user/images/**", "/board/images/**", "/favicon.ico");
+		web.ignoring().antMatchers("/swagger-ui/**.css", "/swagger-ui/**.js", "/swagger-ui/**.map", "/swagger-resources/**");
 		//web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui/**");
 		//web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
 		//web.debug(true);
@@ -114,7 +115,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/comments", "/comments/", "/api/comments/*").authenticated()
 				.antMatchers(HttpMethod.POST, "/api/board/image").authenticated()
 				.antMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
-				.antMatchers("/swagger-ui/**").hasRole("ADMIN")
+				.antMatchers("/swagger-ui/apis", "/swagger-ui/index.html", "/v2/api-docs").hasRole("ADMIN")
 				.anyRequest().permitAll()
 				.and()
 			.oauth2Login()
