@@ -1,5 +1,6 @@
 package com.codingjoa.controller;
 
+import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,7 @@ public class ErrorController {
 	/*
 	 * @@ Considering alternatives to block direct access to URL: /error
 	 * 	1. using dispatcherType to differentiate between request and forward: 
-	 *   	- check if the request is a direct access (dispatcherType == DispatcherType.REQUEST)
+	 *   	- check if the request is a direct access or error forward (by dispatcherType)
 	 * 	2. using Spring Security configuration:
 	 *   	- deny direct access to specific URLs using the 'denyAll()' method or custom access control
 	 */
@@ -30,6 +31,10 @@ public class ErrorController {
 	public String error(HttpServletRequest request, HttpServletResponse response, Model model) {
 		log.info("## error");
 		log.info("\t > request-line = {} [{}]", RequestUtils.getRequestLine(request), request.getDispatcherType());
+		
+		if (request.getDispatcherType() != DispatcherType.FORWARD) {
+			return "redirect:/";
+		}
 
 		ErrorResponse errorResponse = null;
 		Object obj = request.getAttribute("errorResponse");
@@ -48,6 +53,6 @@ public class ErrorController {
 		model.addAttribute("errorResponse", errorResponse);
 		log.info("\t > errorResponse = {}", errorResponse);
 		
-		return "error/error";
+		return "error/error-page";
 	}
 }

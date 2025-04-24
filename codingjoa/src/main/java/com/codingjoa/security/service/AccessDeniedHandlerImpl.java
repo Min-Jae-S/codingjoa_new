@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 
-	private static final String FORWARD_URL = "/error";
+	private static final String FORWARD_PATH = "/error";
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -56,9 +56,9 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 			response.getWriter().write(jsonResponse);
 			response.getWriter().close();
 		} else {
-			log.info("\t > forward to '{}'", FORWARD_URL);
+			log.info("\t > forward to '{}'", FORWARD_PATH);
 			request.setAttribute("errorResponse", errorResponse);
-			request.getRequestDispatcher(FORWARD_URL).forward(request, response);
+			request.getRequestDispatcher(FORWARD_PATH).forward(request, response);
 		}
 	}
 	

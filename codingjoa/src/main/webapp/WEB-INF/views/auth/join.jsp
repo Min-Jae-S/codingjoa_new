@@ -45,7 +45,7 @@
 		</div>
 		<div class="card rounded-xl">
 			<div class="card-body p-5">
-				<form:form action="${contextPath}/join" method="POST" modelAttribute="joinDto">
+				<form:form action="${contextPath}/auth/join" method="POST" modelAttribute="joinDto">
 					<div class="form-group">
 						<form:label path="email" class="font-weight-bold">이메일</form:label>
 						<div class="input-group mb-3">
@@ -115,7 +115,7 @@
 				email : $("#email").val()
 			};
 			
-			mainService.sendAuthCodeForJoin(obj, function(result) {
+			authService.sendAuthCodeForJoin(obj, function(result) {
 				$("#authCode").closest("div").after("<span class='success'>" + result.message + "</span>");
 				$("#authCode").val("");
 				$("#authCode").focus();

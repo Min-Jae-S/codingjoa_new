@@ -98,7 +98,7 @@
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/handle-errors.js"></script>
 <script src="${contextPath}/resources/js/service/category.js"></script>
-<script src="${contextPath}/resources/js/service/authentication.js"></script>
+<script src="${contextPath}/resources/js/service/auth.js"></script>
 <script>
 	$(function() {
 		const encodedCurrentUrl = "${currentUrl}";
@@ -141,7 +141,7 @@
 		
 		$("#logoutLink").on("click", function(e) {
 			e.preventDefault();
-			authenticationService.logout(function(result) {
+			authService.logout(function(result) {
 				localStorage.removeItem("ACCESS_TOKEN");
 				alert(result.message);
 				location.href = "${contextPath}";

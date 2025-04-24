@@ -1,4 +1,4 @@
-let mainService = (function() {
+let authService = (function() {
 	const contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
 	
 	function sendAuthCodeForJoin(obj, callback) {
@@ -6,7 +6,7 @@ let mainService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/join/auth-code/send`,
+			url : `${contextPath}/api/auth/join/auth-code/send`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -37,7 +37,7 @@ let mainService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/password/reset-link/send`,
+			url : `${contextPath}/api/auth/password/reset-link/send`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -60,7 +60,7 @@ let mainService = (function() {
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
 			type : "POST",
-			url : `${contextPath}/api/password/reset`,
+			url : `${contextPath}/api/auth/password/reset`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
 			dataType : "json",
@@ -77,11 +77,54 @@ let mainService = (function() {
 			}
 		});
 	}
+
+	function login(formData, callback) {
+		console.log("## login");
+		console.log(JSON.stringify(formData, null, 2));
+		$.ajax({
+			type : "POST",
+			url : `${contextPath}/api/auth/login`,
+			data : JSON.stringify(formData),
+			contentType : "application/json; charset=utf-8",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				$(".error").remove();
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				$(".error").remove();
+				handleLoginError(parseError(jqXHR));
+			}
+		});
+	}
 	
-	return {
+	function logout(callback) {
+		console.log("## logout");
+		$.ajax({
+			type : "POST",
+			url : `${contextPath}/api/auth/logout`,
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+				callback(result);
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				handleError(parseError(jqXHR));
+			}
+		});
+	}
+	
+	return { 
 		sendAuthCodeForJoin:sendAuthCodeForJoin,
 		sendPasswordResetLink:sendPasswordResetLink,
-		resetPassword:resetPassword
+		resetPassword:resetPassword,
+		login:login,
+		logout:logout
 	};
 	
 })();

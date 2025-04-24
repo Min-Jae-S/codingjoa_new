@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class ExceptionMvcHandler {
 	
-	private static final String FORWARD_URL = "/error";
+	private static final String FORWARD_PATH = "/error";
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(Exception.class)
@@ -38,10 +38,10 @@ public class ExceptionMvcHandler {
 				.messageByCode("error.global")
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -55,10 +55,10 @@ public class ExceptionMvcHandler {
 				.messageByCode("error.notFoundPage")
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -76,10 +76,10 @@ public class ExceptionMvcHandler {
 				.bindingResult(e.getBindingResult())
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 	@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -97,10 +97,10 @@ public class ExceptionMvcHandler {
 				.message(e.getMessage())
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -117,10 +117,10 @@ public class ExceptionMvcHandler {
 				.messageByCode("error.notValidFormat")
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -142,10 +142,10 @@ public class ExceptionMvcHandler {
 			builder.details(errorDetails);
 		}
 
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", builder.build());
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -159,10 +159,10 @@ public class ExceptionMvcHandler {
 				.message(e.getErrorMessage())
 				.build();
 		
-		log.info("\t > forward to '{}'", FORWARD_URL);
+		log.info("\t > forward to '{}'", FORWARD_PATH);
 		request.setAttribute("errorResponse", errorResponse);
 		
-		return "forward:" + FORWARD_URL;
+		return "forward:" + FORWARD_PATH;
 	}
 	
 }

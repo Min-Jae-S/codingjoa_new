@@ -13,7 +13,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
-<script src="${contextPath}/resources/js/service/main.js"></script>
 <style>
 	.reset-password-wrap {
 		width: 540px;
@@ -127,7 +126,7 @@
 				confirmPassword : $("#confirmPassword").val()
 			};
 			
-			mainService.resetPassword(formData, function(result) {
+			authService.resetPassword(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
 					location.href = "${contextPath}/login";
@@ -152,7 +151,7 @@
 		$("#createTokenBtn").on("click", function() {
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/api/password/reset/token",
+				url : "${contextPath}/api/auth/password/reset/token",
 				dataType : "json",
 				beforeSend : function(xhr, settings) {
 					console.log("%c> BEFORE SEND", "color:blue");
@@ -173,7 +172,7 @@
 		$("#removeTokenBtn").on("click", function() {
 			$.ajax({
 				type : "DELETE",
-				url : "${contextPath}/api/password/reset/token",
+				url : "${contextPath}/api/auth/password/reset/token",
 				data : JSON.stringify({
 					token : $("#token").val()
 				}),

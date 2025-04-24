@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codingjoa.dto.JoinDto;
@@ -24,9 +25,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Controller
-public class MainController {
+public class AuthController {
 	
 	private final RedisService redisService;
 	private final UserService userService;
@@ -36,12 +38,6 @@ public class MainController {
 		binder.addValidators(new JoinValidator(redisService, userService));
 	}
 	
-	@GetMapping
-	public String main() {
-		log.info("## main");
-		return "main";
-	}
-
 	@GetMapping("/login") 
 	public String login(@RequestParam(name = "continue", required = false) String continueUrl, HttpServletRequest request) {
 		log.info("## login");

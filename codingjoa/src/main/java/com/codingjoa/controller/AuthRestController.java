@@ -38,10 +38,10 @@ import springfox.documentation.annotations.ApiIgnore;
 
 @Api(tags = "Main API")
 @Slf4j
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @RestController
-public class MainRestController {
+public class AuthRestController {
 	
 	private final UserService userService;
 	private final EmailService emailService;
