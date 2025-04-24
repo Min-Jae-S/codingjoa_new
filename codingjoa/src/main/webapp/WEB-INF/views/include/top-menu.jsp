@@ -30,7 +30,7 @@
 						<a href="#" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/auth/join" class="nav-link">회원가입</a>
 					</li>
 				</c:if>
 				<sec:authorize access="isAnonymous()">
@@ -38,7 +38,7 @@
 						<a href="#" class="nav-link" id="loginLink">로그인</a>
 					</li>
 					<li class="nav-item">
-						<a href="${contextPath}/join" class="nav-link">회원가입</a>
+						<a href="${contextPath}/auth/join" class="nav-link">회원가입</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
@@ -136,7 +136,7 @@
 		
 		$("#loginLink").on("click", function(e) {
 			e.preventDefault();
-			location.href = encodedCurrentUrl ? `${contextPath}/login?continue=\${encodedCurrentUrl}` : `${contextPath}/login`;
+			location.href = encodedCurrentUrl ? `${contextPath}/auth/login?continue=\${encodedCurrentUrl}` : `${contextPath}/auth/login`;
 		});
 		
 		$("#logoutLink").on("click", function(e) {
@@ -150,7 +150,7 @@
 		});
 		
 		$("#notificationBtn").on("click", function() {
-			location.href = "${contextPath}/notifications";
+			location.href = "${contextPath}/user/notifications";
 		});
 	});
 </script>

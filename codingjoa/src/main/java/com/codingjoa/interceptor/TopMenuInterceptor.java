@@ -25,7 +25,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private static final String FORWARD_PREFIX = "forward:";
 	private static final String REDIRECT_PREFIX = "redirect:";
 	private static final String JSON_VIEW = "jsonView";
-	private final List<RequestMatcher> disallowedMatchers = List.of(new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/error"));
+	private final List<RequestMatcher> disallowedMatchers = List.of(new AntPathRequestMatcher("/auth/login"), new AntPathRequestMatcher("/error"));
 	private final List<Category> parentCategories;
 	
 	public TopMenuInterceptor(CategoryService categoryService) {

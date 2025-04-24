@@ -52,7 +52,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
-				.messageByCode("success.login")
+				.messageByCode("success.auth.login")
 				.data(jwtResponse)
 				.build();
 		
