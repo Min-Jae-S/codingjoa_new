@@ -133,7 +133,7 @@ public class ServletConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				.excludePathPatterns("/api/**", "/resources/**", "/user/images/**", "/board/images/**", "/v2/api-docs");
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
-				.addPathPatterns("/password/reset");
+				.addPathPatterns("/auth/password/reset");
 	}
 
 	@Override
