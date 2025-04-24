@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OAuth2AppLoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter { // OAuth2LoginAuthenticationFilter
 	
-	public static final String DEFAULT_FILTER_PROCESSES_URI = "/login/*/callback";
+	public static final String DEFAULT_FILTER_PROCESSES_URI = "/auth/login/*/callback";
 	private static final String AUTHORIZATION_REQUEST_NOT_FOUND_ERROR_CODE = "authorization_request_not_found";
 	private static final String CLIENT_REGISTRATION_NOT_FOUND_ERROR_CODE = "client_registration_not_found";
 	private final AuthorizationRequestRepository<OAuth2AuthorizationRequest> authorizationRequestRepository = 

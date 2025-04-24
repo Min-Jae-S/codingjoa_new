@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 	public void checkEmailForJoin(String email) {
 		User user = userMapper.findUserByEmail(email);
 		if (user != null) {
-			throw new ExpectedException("error.join.emailExists", "email");
+			throw new ExpectedException("error.auth.join.emailExists", "email");
 		}
 	}
 	

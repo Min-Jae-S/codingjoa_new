@@ -17,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UriUtils {
 	
-	// '/login' will be allowed, '/login/callback' will be disallowed
-	private static final List<String> disallowedPaths = List.of("/login/*/**", "/error/**"); 
+	// '/auth/login' will be allowed, '/auth/login/callback' will be disallowed
+	private static final List<String> disallowedPaths = List.of("/auth/login/*/**", "/error/**"); 
 	
 	public static String buildFullCurrentUrl(HttpServletRequest request) {
 		String currentUrl = UrlUtils.buildFullRequestUrl(request);
@@ -26,7 +26,7 @@ public class UriUtils {
 	}
 	
 	private static UriComponentsBuilder getFullLoginUrlBuilder(HttpServletRequest request) {
-		return ServletUriComponentsBuilder.fromContextPath(request).path("/login");
+		return ServletUriComponentsBuilder.fromContextPath(request).path("/auth/login");
 	}
 	
 	// OAuth2LoginFailureHandler, MainController.join()
@@ -78,7 +78,7 @@ public class UriUtils {
 		}
 		
 		return disallowedPaths.stream().noneMatch(path -> { 
-			// http://localhost:8888/codingjoa/login/*/**, http://localhost:8888/codingjoa/error/**
+			// http://localhost:8888/codingjoa/auth/login/*/**, http://localhost:8888/codingjoa/error/**
 			String disallowedPattern = ServletUriComponentsBuilder.fromContextPath(request)
 					.path(path)
 					.build(false)

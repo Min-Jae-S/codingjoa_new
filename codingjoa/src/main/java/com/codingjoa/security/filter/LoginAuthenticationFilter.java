@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter { // UsernamePasswordAuthenticationFilter
 	
-	public static final String DEFAULT_FILTER_PROCESSES_URL= "/api/login";
+	public static final String DEFAULT_FILTER_PROCESSES_URL= "/api/auth/login";
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	public LoginAuthenticationFilter() {
@@ -60,11 +60,11 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 		String password = loginDto.getPassword();
 		
 		if (!StringUtils.hasText(email)) {
-			throw new BadCredentialsException(MessageUtils.getMessage("error.login.emptyEmail"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.auth.login.emptyEmail"));
 		}
 		
 		if (!StringUtils.hasText(password)) {
-			throw new BadCredentialsException(MessageUtils.getMessage("error.login.emptyPassword"));
+			throw new BadCredentialsException(MessageUtils.getMessage("error.auth.login.emptyPassword"));
 		}
 		
 		email = email.trim();

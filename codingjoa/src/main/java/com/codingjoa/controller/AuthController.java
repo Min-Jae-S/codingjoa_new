@@ -42,14 +42,14 @@ public class AuthController {
 	public String login(@RequestParam(name = "continue", required = false) String continueUrl, HttpServletRequest request) {
 		log.info("## login");
 		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
-		return "login";
+		return "auth/login";
 	}
 
 	@GetMapping("/join")
 	public String join(@ModelAttribute JoinDto joinDto) {
 		log.info("## join");
 		log.info("\t > joinDto = {}", joinDto);
-		return "join";
+		return "auth/join";
 	}
 
 	@PostMapping("/join")
@@ -58,13 +58,13 @@ public class AuthController {
 		log.info("\t > joinDto = {}", joinDto);
 
 		if (bindingResult.hasErrors()) {
-			return "join";
+			return "auth/join";
 		}
 		
 		userService.saveUser(joinDto);
 		redisService.deleteKey(joinDto.getEmail());
 		
-		request.setAttribute("message", MessageUtils.getMessage("success.join"));
+		request.setAttribute("message", MessageUtils.getMessage("success.auth.join"));
 		request.setAttribute("continueUrl", UriUtils.buildDefaultLoginUrl(request));
 		
 		return "feedback/alert-and-redirect";
@@ -73,14 +73,14 @@ public class AuthController {
 	@GetMapping("/password/find")
 	public String findPassword() {
 		log.info("## findPassword");
-		return "find-password";
+		return "auth/find-password";
 	}
 	
 	@GetMapping("/password/reset") // pre-check key parameter in interceptor
 	public String resetPassword(@RequestParam String token, Model model) {
 		log.info("## resetPassword");
 		model.addAttribute("token", token);
-		return "reset-password";
+		return "auth/reset-password";
 	}
 	
 }

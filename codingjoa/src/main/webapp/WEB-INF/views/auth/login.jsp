@@ -110,10 +110,10 @@
 					</div>
 				</form>
 				<div class="info-user">
-					<a class="link-join" href="${contextPath}/join">회원가입</a>
+					<a class="link-join" href="${contextPath}/auth/join">회원가입</a>
 					<ul class="link-ul">
 						<li class="link-li">
-							<a href="${contextPath}/password/find">비밀번호 찾기</a>
+							<a href="${contextPath}/auth/password/find">비밀번호 찾기</a>
 						</li>
 					</ul>
 				</div>
@@ -121,13 +121,13 @@
 					<hr class="social-login-line">
 					<span class="social-login-title">SNS 계정 로그인</span>
 					<div class="social-login-body">
-						<a href="${contextPath}/login/kakao?continue=${continueUrl}">
+						<a href="${contextPath}/auth/login/kakao?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/provider/kakao.png">
 						</a>
-						<a href="${contextPath}/login/naver?continue=${continueUrl}">
+						<a href="${contextPath}/auth/login/naver?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/provider/naver.png">
 						</a>
-						<a href="${contextPath}/login/google?continue=${continueUrl}">
+						<a href="${contextPath}/auth/login/google?continue=${continueUrl}">
 							<img class="social-login-btn" src="${contextPath}/resources/images/provider/google.png">
 						</a>
 						<a href="#">

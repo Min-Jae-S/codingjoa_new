@@ -73,7 +73,7 @@ public class AuthRestController {
 		redisService.saveKeyAndValue(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.join.sendAuthCode")
+				.messageByCode("success.auth.join.sendAuthCode")
 				.build());
 	}
 	
@@ -94,7 +94,7 @@ public class AuthRestController {
 		redisService.saveKeyAndValue(token, userId);
 		
 		String passwordResetLink = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/password/reset")
+				.path("/auth/password/reset")
 				.queryParam("token", token)
 				.build()
 				.toString();
@@ -103,7 +103,7 @@ public class AuthRestController {
 		emailService.send(email, MailType.PASSWORD_RESET, passwordResetLink);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.reset-password.sendPasswordResetLink")
+				.messageByCode("success.auth.reset-password.sendPasswordResetLink")
 				.build());
 	}
 	
@@ -115,7 +115,7 @@ public class AuthRestController {
 		
 		String token = passwordResetDto.getToken();
 		if (!StringUtils.hasText(token) || !redisService.hasKey(token)) {
-			throw new ExpectedException("error.reset-password.notValidToken");
+			throw new ExpectedException("error.auth.reset-password.notValidToken");
 		}
 		
 		Long userId = (Long) redisService.findValueByKey(token);
@@ -124,7 +124,7 @@ public class AuthRestController {
 		redisService.deleteKey(token);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
-				.messageByCode("success.reset-password.resetPassword")
+				.messageByCode("success.auth.reset-password.resetPassword")
 				.build());
 	}
 	

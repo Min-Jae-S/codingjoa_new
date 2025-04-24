@@ -123,7 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					config.authorizationRequestRepository(authorizationRequestRepository());
 				})
 				.redirectionEndpoint(config -> 
-					config.baseUri("/login/*/callback")
+					config.baseUri("/auth/login/*/callback")
 				)
 				.tokenEndpoint(config -> 
 					config.accessTokenResponseClient(accessTokenResponseClient)
@@ -135,7 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.failureHandler(oAuth2LoginFailureHandler)
 				.and()
 			.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/api/logout", "POST"))
+				.logoutRequestMatcher(new AntPathRequestMatcher("/api/auth/logout", "POST"))
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.deleteCookies("ACCESS_TOKEN", "AUTHORIZATION_REQUEST")
 				.clearAuthentication(true)
@@ -179,7 +179,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private OAuth2AuthorizationRequestResolver authorizationRequestResolver() {
-		return new OAuth2CustomAuthorizationRequestResolver(clientRegistrationRepository, "/login");
+		return new OAuth2CustomAuthorizationRequestResolver(clientRegistrationRepository, "/auth/login");
 	}
 	
 	// ref) HttpSessionOAuth2AuthorizationRequestRepository

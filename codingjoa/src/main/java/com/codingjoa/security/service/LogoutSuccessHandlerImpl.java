@@ -36,7 +36,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
 		
 		SuccessResponse successResponse = SuccessResponse.builder()
 				.status(HttpStatus.OK)
-				.messageByCode("success.logout")
+				.messageByCode("success.auth.logout")
 				.build();
 		
 		response.setStatus(HttpServletResponse.SC_OK);

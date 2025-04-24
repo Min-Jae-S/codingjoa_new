@@ -28,7 +28,7 @@ public class OAuth2LoginFailureHandler implements AuthenticationFailureHandler {
 			AuthenticationException exception) throws IOException, ServletException {
 		log.info("## {}", this.getClass().getSimpleName());
 		
-		String message = MessageUtils.getMessage("error.login.oauth2");
+		String message = MessageUtils.getMessage("error.auth.login.oauth2");
 		
 		if (exception instanceof OAuth2AuthenticationException) {
 			OAuth2AuthenticationException e = (OAuth2AuthenticationException) exception;

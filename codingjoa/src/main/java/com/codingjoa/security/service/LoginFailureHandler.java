@@ -51,7 +51,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 		if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
 			message = e.getMessage();
 		} else {
-			message = MessageUtils.getMessage("error.login");
+			message = MessageUtils.getMessage("error.auth.login");
 		}
 		
 		ErrorResponse errorResponse = ErrorResponse.builder()

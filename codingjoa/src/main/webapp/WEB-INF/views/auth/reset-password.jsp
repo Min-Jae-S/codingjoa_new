@@ -129,7 +129,7 @@
 			authService.resetPassword(formData, function(result) {
 				setTimeout(function() {
 					alert(result.message);
-					location.href = "${contextPath}/login";
+					location.href = "${contextPath}/auth/login";
 				}, 50);
 			});
 		});
