@@ -111,7 +111,6 @@ public class ServletConfig implements WebMvcConfigurer {
 		//configurer.setUseTrailingSlashMatch(true);
 		
 		// @24.04.02 변경
-		// GetMapping(value = { "/rest-api/test-members/", "/rest-api/test-members/{id}"})
 		// GetMapping(value = { "/comments/", "/comments/{commentIdx}" })
 		configurer.setUseTrailingSlashMatch(false);
 		
@@ -186,11 +185,12 @@ public class ServletConfig implements WebMvcConfigurer {
 	}
 	
 	/* 
-	 * #mvcValidator, LocalValidatorFactoryBean - @Qualifier("localValidator")
+	 * ## mvcValidator, LocalValidatorFactoryBean - @Qualifier("localValidator")
 	 * 
 	 * Classes that implement the BeanPostProcessor interface are instantiated on startup, 
 	 * as part of the special startup phase of the ApplicationContext, before any other beans.
 	 * Enable @Valid validation exception handler for @PathVariable, @RequestParam and @RequestHeader.
+	 * 
 	 */
 	
 	@Bean

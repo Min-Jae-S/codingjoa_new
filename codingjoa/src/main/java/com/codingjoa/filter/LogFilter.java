@@ -55,13 +55,12 @@ public class LogFilter implements Filter {
 		if (isExcludePattern(requestURI)) {
 			chain.doFilter(servletRequest, servletResponse);
 		} else {
-			log.info("## {}, [{}] {}", this.getClass().getSimpleName(), request.getDispatcherType(), RequestUtils.getRequestLine(request));
+			log.info("## {}, request-line = {} [{}]", this.getClass().getSimpleName(), RequestUtils.getRequestLine(request), request.getDispatcherType());
 			try {
 				//logRequestDetails(request, response, uuid);
 				chain.doFilter(servletRequest, servletResponse);
 			} catch (Exception e) {
-				log.info("## catch exception");
-				log.info("\t > exception: {}", e.getClass().getSimpleName());
+				log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 				//throw e;
 			} finally {
 				//logResponseDetails(request, response, uuid);
@@ -93,16 +92,4 @@ public class LogFilter implements Filter {
 		log.info("\t > contentType = {}", response.getContentType());
 	}
 	
-	private String getFullURI(HttpServletRequest request) {
-		StringBuilder requestURI = 
-				new StringBuilder(URLDecoder.decode(request.getRequestURI(), StandardCharsets.UTF_8));
-	    String queryString = request.getQueryString();
-	    
-	    if (queryString == null) {
-	        return requestURI.toString();
-	    } else {
-	    	return requestURI.append('?')
-	    			.append(URLDecoder.decode(queryString, StandardCharsets.UTF_8)).toString();
-	    }
-	}
 }

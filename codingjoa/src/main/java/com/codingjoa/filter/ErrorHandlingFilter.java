@@ -47,7 +47,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("## {}", this.getClass().getSimpleName());
-			log.info("\t > {}, {}: {}", this.getClass().getSimpleName(), e.getClass().getSimpleName(), e.getMessage());
+			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.setCharacterEncoding(StandardCharsets.UTF_8.name());
@@ -60,6 +60,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 			if (RequestUtils.isRestApiRequest(request)) {
 				log.info("\t > respond with errorResponse in JSON format");
 				String jsonResponse = objectMapper.writeValueAsString(errorResponse);
+				
 				response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 				response.getWriter().write(jsonResponse);
 				response.getWriter().close();

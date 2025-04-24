@@ -41,7 +41,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		log.info("## {}.postHandle", this.getClass().getSimpleName());
-		log.info("\t > {}", RequestUtils.getRequestLine(request));
+		log.info("\t > request-line = {}", RequestUtils.getRequestLine(request));
 		log.info("\t > handler = {}", handler);
 		
 		// @RestController or @ResponseBody annotation is present, the ModelAndView object will be null.
@@ -64,14 +64,11 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		
 		modelAndView.addObject("parentCategories", parentCategories);
 		modelAndView.addObject("currentUrl", isDisallowedPath(request) ?  "" : UriUtils.buildFullCurrentUrl(request));
-		
 		log.info("\t > added model attrs = {}", modelAndView.getModel().keySet());
 	}
 	
 	private boolean isDisallowedPath(HttpServletRequest request) {
         return disallowedMatchers.stream().anyMatch(matcher -> matcher.matches(request));
     }
-
-	
 
 }
