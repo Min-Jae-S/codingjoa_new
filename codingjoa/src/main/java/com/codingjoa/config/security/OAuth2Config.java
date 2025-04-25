@@ -2,6 +2,7 @@ package com.codingjoa.config.security;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Bean;
@@ -26,7 +27,6 @@ import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
@@ -39,8 +39,6 @@ public class OAuth2Config {
 	public ClientRegistrationRepository clientRegistrationRepository() {
 		log.info("## clientRegistrationRepository");
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
-		registrations.forEach(registration -> 
-			log.info("\t > registrationId: {}, redirectUriTemplate: {}", registration.getRegistrationId(), registration.getRedirectUriTemplate()));
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
@@ -98,6 +96,7 @@ public class OAuth2Config {
 				.build();
 	}
 
+	@SuppressWarnings("unchecked")
 	private ClientRegistration getClientRegistration(String registrationId) {
 		String registrationKey = "security.oauth2.client.registration." + registrationId + ".";
 		String providerKey = "security.oauth2.client.provider." + registrationId + ".";
@@ -108,6 +107,7 @@ public class OAuth2Config {
 				.clientName(env.getProperty(registrationKey + "client-name"))
 				.redirectUriTemplate(env.getProperty(registrationKey + "redirect-uri-template"))
 				.authorizationGrantType(new AuthorizationGrantType(env.getProperty(registrationKey + "authorization-grant-type")))
+				.scope(env.getProperty(registrationKey + "scopes", Set.class))
 				.authorizationUri(env.getProperty(providerKey + "authorization-uri"))
 				.tokenUri(env.getProperty(providerKey + "token-uri"))
 				.userInfoUri(env.getProperty(providerKey + "user-info-uri"))

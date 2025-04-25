@@ -117,7 +117,9 @@ public class TestViewController {
 	public String oAuth2Main(Model model, HttpServletRequest request) {
 		log.info("## oAuth2 main");
 		
+		log.info("\t > testClientRegistrationRepository");
 		testClientRegistrationRepository.forEach(clientRegistration -> {
+			log.info("\t\t - registrationId: {}, scopes: {}", clientRegistration.getRegistrationId(), clientRegistration.getScopes());
 			String attributeName = clientRegistration.getRegistrationId() + "LoginUrl"; // kakaoLoginUrl, naverLoginUrl
 			String authorizationRequestUri = buildAuthorizationRequestUri(clientRegistration);
 			model.addAttribute(attributeName, authorizationRequestUri);
