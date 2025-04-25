@@ -41,7 +41,13 @@ public class AuthController {
 	@GetMapping("/login") 
 	public String login(@RequestParam(name = "continue", required = false) String continueUrl, HttpServletRequest request) {
 		log.info("## login");
-		request.setAttribute("continueUrl", UriUtils.resolveContinueUrl(continueUrl, request));
+
+		String resolvedContinueUrl = UriUtils.resolveContinueUrl(continueUrl, request);
+		log.info("\t > received continueUrl: '{}'", continueUrl);
+		log.info("\t > resolved continueUrl: '{}'", resolvedContinueUrl);
+		
+		request.setAttribute("continueUrl", UriUtils.encode(resolvedContinueUrl));
+		
 		return "auth/login";
 	}
 

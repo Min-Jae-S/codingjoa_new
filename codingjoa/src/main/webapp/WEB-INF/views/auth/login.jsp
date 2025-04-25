@@ -144,8 +144,8 @@
 
 <script>
 	$(function() {
-		const continueUrl = "${continueUrl}";
-		console.log("## resolved continuUrl from Controller: '%s'", continueUrl);
+		const encodedContinueUrl = "${continueUrl}";
+		console.log("## resolved continueUrl from Controller: '%s'", encodedContinueUrl);
 		
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
@@ -157,7 +157,7 @@
 			authService.login(formData, function(result) {
 				localStorage.setItem("ACCESS_TOKEN", result.data.accessToken);
 				alert(result.message);
-				location.href = continueUrl;
+				location.href = decodeURIComponent(encodedContinueUrl);
 			});
 		});
 	})

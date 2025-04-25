@@ -29,12 +29,10 @@ public class UriUtils {
 		return ServletUriComponentsBuilder.fromContextPath(request).path("/auth/login");
 	}
 	
-	// OAuth2LoginFailureHandler, MainController.join()
 	public static String buildDefaultLoginUrl(HttpServletRequest request) {
 		return getFullLoginUrlBuilder(request).build().toUriString();
 	}
 	
-	// AuthenticationEntryPointImpl
 	public static String buildFullLoginUrl(HttpServletRequest request) {
 		String continueUrl = buildFullCurrentUrl(request);
 		return getFullLoginUrlBuilder(request)
@@ -43,7 +41,6 @@ public class UriUtils {
 				.toUriString();
 	}
 	
-	// LoginSuccessHandler, OAuth2LoginSuccessHandler, LogoutSuccessHandlerImpl, AccessDeniedHandlerImpl
 	public static String resolveContinueUrl(String url, HttpServletRequest request) {
 		String continueUrl;
 		if (isAllowedUrl(url, request)) {

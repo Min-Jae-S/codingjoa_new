@@ -27,7 +27,7 @@
 				<sec:authentication property="principal" var="principal"/>
 				<c:if test="${empty principal}">
 					<li class="nav-item">
-						<a href="#" class="nav-link" id="loginLink">로그인</a>
+						<a href="${empty currentUrl ? contextPath += '/auth/login' : contextPath += '/auth/login?continue=' += currentUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/auth/join" class="nav-link">회원가입</a>
@@ -35,7 +35,7 @@
 				</c:if>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item">
-						<a href="#" class="nav-link" id="loginLink">로그인</a>
+						<a href="${empty currentUrl ? contextPath += '/auth/login' : contextPath += '/auth/login?continue=' += currentUrl}" class="nav-link">로그인</a>
 					</li>
 					<li class="nav-item">
 						<a href="${contextPath}/auth/join" class="nav-link">회원가입</a>
@@ -49,8 +49,7 @@
 					</li>
 					<li class="nav-item dropdown member-menu">
 						<a href="#" class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-							<img class="nav-member-image" src="${empty principal.imagePath ? 
-								contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
+							<img class="nav-member-image" src="${empty principal.imagePath ? contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 							<span class="nickname">
 								<c:out value="${principal.nickname}"/>
 							</span>
@@ -58,8 +57,7 @@
 						<ul class="dropdown-menu dropdown-menu-end">
 							<li>
 								<div class="dropdown-item">
-									<img class="nav-member-image" src="${empty principal.imagePath ? 
-										contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
+									<img class="nav-member-image" src="${empty principal.imagePath ? contextPath += '/resources/images/img_profile.png' : contextPath += principal.imagePath}">
 									<div class="nickname-email-box">
 										<span class="nickname">
 											<c:out value="${principal.nickname}"/>
@@ -83,7 +81,7 @@
 							<hr class="dropdown-divider">
 							<li>
 								<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
-								<a href="#" class="dropdown-item logout" id="logoutLink">로그아웃</a>
+								<a href="#" class="dropdown-item logout">로그아웃</a>
 							</li>
 						</ul>
 					</li>
@@ -102,7 +100,7 @@
 <script>
 	$(function() {
 		const encodedCurrentUrl = "${currentUrl}";
-		console.log("## encoded currentUrl from TopmenuInterceptor: '%s'", encodedCurrentUrl);
+		console.log("## resolved currentUrl from TopMenuInterceptor: '%s'", encodedCurrentUrl);
 
 		let timer; 
 		let delay = 200; // 0.2s
@@ -134,18 +132,12 @@
 			$dropdowns.removeClass("show").empty();
 		});
 		
-		$("#loginLink").on("click", function(e) {
-			e.preventDefault();
-			location.href = encodedCurrentUrl ? `${contextPath}/auth/login?continue=\${encodedCurrentUrl}` : `${contextPath}/auth/login`;
-		});
-		
-		$("#logoutLink").on("click", function(e) {
+		$(".logout").on("click", function(e) {
 			e.preventDefault();
 			authService.logout(function(result) {
 				localStorage.removeItem("ACCESS_TOKEN");
 				alert(result.message);
 				location.href = "${contextPath}";
-				//location.href = encodedCurrentUrl ? decodeURIComponent(encodedCurrentUrl) : `${contextPath}`;
 			});
 		});
 		
