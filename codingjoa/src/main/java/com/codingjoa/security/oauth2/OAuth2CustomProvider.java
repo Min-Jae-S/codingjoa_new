@@ -41,6 +41,24 @@ public enum OAuth2CustomProvider {
 					.userNameAttributeName("response")
 					.clientName("Naver");
 		}
+	},
+
+	/*
+	 * security.oauth2.client.provider.google.authorization-uri=https://accounts.google.com/o/oauth2/v2/auth
+	 * security.oauth2.client.provider.google.token-uri=https://www.googleapis.com/oauth2/v4/token
+	 * security.oauth2.client.provider.google.user-info-uri=https://www.googleapis.com/oauth2/v3/userinfo
+	 */	
+	GOOGLE {
+		
+		@Override
+		public Builder getBuilder(String registrationId) {
+			return getBuilder(registrationId, ClientAuthenticationMethod.BASIC, DEFAULT_REDIRECT_URL)
+					.authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
+					.tokenUri("https://www.googleapis.com/oauth2/v4/token")
+					.userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+					.userNameAttributeName("sub")
+					.clientName("Google");
+		}
 	};
 	
 	//private static final String DEFAULT_REDIRECT_URL = "{baseUrl}/{action}/oauth2/code/{registrationId}";

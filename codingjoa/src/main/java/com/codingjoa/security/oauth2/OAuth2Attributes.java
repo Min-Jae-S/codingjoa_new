@@ -41,8 +41,7 @@ public class OAuth2Attributes {
 		} else if (registrationId.equals("google")) {
 			oAuth2Attributes = ofGoogle(userNameAttributeName, attributes);
 		} else {
-			OAuth2Error oAuth2Error = new OAuth2Error(
-					"invalid_registration_id", "지원하지 않는 소셜 로그인 유형입니다: " + registrationId, null);	
+			OAuth2Error oAuth2Error = new OAuth2Error("invalid_registration_id", "지원하지 않는 소셜 로그인 유형입니다: " + registrationId, null);	
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
@@ -136,20 +135,17 @@ public class OAuth2Attributes {
 	
 	private static void validate(OAuth2Attributes oAuth2Attributes) {
 		if (!StringUtils.hasText(oAuth2Attributes.getId())) {
-			OAuth2Error oAuth2Error = new OAuth2Error(
-					"", "", null);	
+			OAuth2Error oAuth2Error = new OAuth2Error("missing_id", "OAuth2 인증 서버로부터 사용자 ID 정보를 받지 못했습니다.", null);	
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
 		if (!StringUtils.hasText(oAuth2Attributes.getEmail())) {
-			OAuth2Error oAuth2Error = new OAuth2Error(
-					"", "", null);	
+			OAuth2Error oAuth2Error = new OAuth2Error("missing_email", "OAuth2 인증 서버로부터 사용자 이메일 정보를 받지 못했습니다.", null);	
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
 		if (!StringUtils.hasText(oAuth2Attributes.getNickname())) {
-			OAuth2Error oAuth2Error = new OAuth2Error(
-					"", "", null);	
+			OAuth2Error oAuth2Error = new OAuth2Error("missing_nickname", "OAuth2 인증 서버로부터 사용자 닉네임 정보를 받지 못했습니다.", null);	
 			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 	}

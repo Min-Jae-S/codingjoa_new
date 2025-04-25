@@ -1,4 +1,4 @@
-package com.codingjoa.security.oauth2;
+package com.codingjoa.obsolete;
 
 import java.util.HashMap;
 import java.util.HashSet;
