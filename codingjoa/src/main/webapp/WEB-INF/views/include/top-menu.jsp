@@ -43,9 +43,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item">
-						<button class="notification" id="notificationBtn">
-							<span></span>
-						</button>
+						<button class="notification"></button>
 					</li>
 					<li class="nav-item dropdown member-menu">
 						<a href="#" class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">
@@ -141,7 +139,7 @@
 			});
 		});
 		
-		$("#notificationBtn").on("click", function() {
+		$(".notification").on("click", function() {
 			location.href = "${contextPath}/user/notifications";
 		});
 	});

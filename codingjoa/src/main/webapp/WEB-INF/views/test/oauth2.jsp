@@ -46,15 +46,9 @@
 <div class="container my-5">
 	<p>oauth2.jsp</p>
 	<div class="test mt-5 mb-5 px-5">
-		<a href="<c:out value='${kakaoLoginUrl}'/>">
-			<img class="social-login-btn" src="${contextPath}/resources/images/test/kakao.png">
-		</a>
-		<a href="<c:out value='${naverLoginUrl}'/>">
-			<img class="social-login-btn" src="${contextPath}/resources/images/test/naver.png">
-		</a>
-		<a class="btn btn-danger" href="${contextPath}/test/oauth2/aaa/callback">
-			trigger invalid auth
-		</a>
+		<a class="btn btn-warning" href="${kakaoLoginUrl}">Kakao Login</a>
+		<a class="btn btn-warning" href="${naverLoginUrl}">Naver Login</a>
+		<a class="btn btn-danger" href="${contextPath}/test/oauth2/aaa/callback">trigger invalid auth</a>
 	</div>
 	<div class="test mt-5 mb-5 px-5">
 		<button class="btn btn-primary" onclick="test1()">test1</button>

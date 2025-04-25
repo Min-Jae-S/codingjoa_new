@@ -361,22 +361,15 @@ span.error, span.success {
 }
 
 .navbar-custom button.notification {
-	border: 0;
-    width: 40px;
-    height: 40px;
-	border-radius: 50%;
-	background: transparent;
-	cursor: pointer;
-	padding: 0;
-	margin: 0;
-}
-
-.navbar-custom button.notification span {
 	display: block;
 	height: 40px;
 	width: 40px;
+	padding: 0;
+	margint: 0;
+	border: none;
 	content: "";
 	border-radius: 50%;
+	background: transparent;
 	background-position: 68% 50%;
     background-repeat: no-repeat;
     background-size: 32px 32px;
@@ -384,9 +377,9 @@ span.error, span.success {
     transition: filter;
 }
 
-.navbar-custom button.notification span:hover {
+.navbar-custom button.notification:hover {
     /* background-image: url(../images/notification_hover.svg); */
-    filter: brightness(0) saturate(100%);
+    filter: brightness(0);
 }
 
 .navbar-custom .member-menu a.dropdown-item.message::before {
@@ -546,6 +539,27 @@ footer {
 
 .sb-topnav .navbar-nav .nav-link:hover {
 	color: white;
+}
+
+.sb-topnav .navbar-nav button.notification {
+	display: block;
+	height: 40px;
+	width: 40px;
+	padding: 0;
+	margint: 0;
+	border: none;
+	content: "";
+	border-radius: 50%;
+	background: transparent;
+	background-position: 68% 50%;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    background-image: url(../images/notification.svg);
+    transition: filter;
+}
+
+.sb-topnav .navbar-nav button.notification:hover {
+    filter: brightness(100);
 }
 
 #sidebarToggle:focus {

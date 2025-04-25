@@ -2,6 +2,8 @@ package com.codingjoa.controller.test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,14 +12,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
 import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationResponseType;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 
@@ -102,19 +108,71 @@ public class TestViewController {
 	
 	@Qualifier("testClientRegistrationRepository")
 	@Autowired
-	private InMemoryClientRegistrationRepository clientRegistrationRepository;
+	private InMemoryClientRegistrationRepository testClientRegistrationRepository;
+	
+	@Autowired
+	private ClientRegistrationRepository clientRegistrationRepository;
 
 	@GetMapping("/oauth2")
 	public String oAuth2Main(Model model, HttpServletRequest request) {
 		log.info("## oAuth2 main");
 		
-		clientRegistrationRepository.forEach(clientRegistration -> {
+		testClientRegistrationRepository.forEach(clientRegistration -> {
 			String attributeName = clientRegistration.getRegistrationId() + "LoginUrl"; // kakaoLoginUrl, naverLoginUrl
 			String authorizationRequestUri = buildAuthorizationRequestUri(clientRegistration);
 			model.addAttribute(attributeName, authorizationRequestUri);
 		});
+		
+		ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId("google");
+		String redirectUriStr = expandRedirectUri(request, clientRegistration, "login");
+		log.info("\t > redirectUriStr = {}", redirectUriStr);
 
 		return "test/oauth2";
+	}
+	
+	// DefaultOAuth2AuthorizationRequestResolver.expandRedirectUri
+	private String expandRedirectUri(HttpServletRequest request, ClientRegistration clientRegistration, String action) {
+		log.info("## expandRedirectUri");
+		
+		if (clientRegistration == null) {
+			log.info("\t > no clientRegistration");
+			return null;
+		}
+		
+		Map<String, String> uriVariables = new HashMap<>();
+		uriVariables.put("registrationId", clientRegistration.getRegistrationId());
+		
+		UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(UrlUtils.buildFullRequestUrl(request))
+				.replacePath(request.getContextPath())
+				.replaceQuery(null)
+				.fragment(null)
+				.build();
+		String scheme = uriComponents.getScheme();
+		uriVariables.put("baseScheme", scheme == null ? "" : scheme);
+		String host = uriComponents.getHost();
+		uriVariables.put("baseHost", host == null ? "" : host);
+		// following logic is based on HierarchicalUriComponents#toUriString()
+		int port = uriComponents.getPort();
+		uriVariables.put("basePort", port == -1 ? "" : ":" + port);
+		String path = uriComponents.getPath();
+		if (StringUtils.hasLength(path)) {
+			if (path.charAt(0) != '/') {
+				path = '/' + path;
+			}
+		}
+		uriVariables.put("basePath", path == null ? "" : path);
+		uriVariables.put("baseUrl", uriComponents.toUriString());
+		uriVariables.put("action", action == null ? "" : action);
+		
+		log.info("\t > uriVariables");
+		uriVariables.entrySet().forEach(entry -> log.info("\t\t - {}: {}", entry.getKey(), entry.getValue()));
+		
+		String redirectUriTemplate = clientRegistration.getRedirectUriTemplate();
+		log.info("\t > redirectUriTemplate: {}", redirectUriTemplate);
+		
+		return UriComponentsBuilder.fromUriString(redirectUriTemplate)
+				.buildAndExpand(uriVariables)
+				.toUriString();
 	}
 	
 	private String buildAuthorizationRequestUri(ClientRegistration clientRegistration) {
@@ -124,11 +182,6 @@ public class TestViewController {
 		params.set("redirect_uri", encode(clientRegistration.getRedirectUriTemplate()));
 		params.set("state", encode(generateState()));
 		
-//		if (clientRegistration.getRegistrationId().equals("naver")) {
-//			String state = generateState();
-//			params.set("state", encode(state));
-//		}
-
 		return UriComponentsBuilder.fromHttpUrl(clientRegistration.getProviderDetails().getAuthorizationUri())
 				.queryParams(params)
 				.build()

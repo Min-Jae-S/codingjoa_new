@@ -23,6 +23,7 @@
 <script src="${contextPath}/resources/js/utils/html-creator.js"></script>
 <script src="${contextPath}/resources/js/utils/page-router.js"></script>
 <script src="${contextPath}/resources/js/utils/ajax-setup.js"></script>
+<script src="${contextPath}/resources/js/service/auth.js"></script>
 <script src="${contextPath}/resources/js/service/admin.js"></script>
 <style>
 	.admin-content-container .card {
@@ -329,6 +330,9 @@
 		<!-- Navbar-->
 		<ul class="navbar-nav ms-auto me-2"> <!-- ms-md-0 me-lg-4 -->
 			<sec:authentication property="principal" var="principal"/>
+			<li class="nav-item">
+				<button class="notification"></button>
+			</li>
 			<li class="nav-item dropdown member-menu">
 				<a class="nav-link dropdown-toggle nav-member-profile" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown">
 					<img class="nav-member-image" src="${empty principal.imagePath ? 
@@ -365,7 +369,7 @@
 					<hr class="dropdown-divider">
 					<li>
 						<a href="${contextPath}/user/account" class="dropdown-item account">계정 관리</a>
-						<a href="${contextPath}/logout?continue=${logoutContinueUrl}" class="dropdown-item logout">로그아웃</a>
+						<a href="#" class="dropdown-item logout">로그아웃</a>
 					</li>
 				</ul>
 			</li>
@@ -547,6 +551,19 @@
 		
 		console.log("## initiate admin page, routing to URL:", window.location.pathname);
 		initAdminPage();
+		
+		$(".logout").on("click", function(e) {
+			e.preventDefault();
+			authService.logout(function(result) {
+				localStorage.removeItem("ACCESS_TOKEN");
+				alert(result.message);
+				location.href = "${contextPath}";
+			});
+		});
+		
+		$(".notification").on("click", function() {
+			location.href = "${contextPath}/user/notifications";
+		});
 		
 		$("#sidenavAccordion a.nav-link").on("click", function(e) {
 			e.preventDefault();

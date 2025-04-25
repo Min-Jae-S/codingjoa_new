@@ -23,27 +23,33 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 	
 	public OAuth2CustomAuthorizationRequestResolver(ClientRegistrationRepository clientRegistrationRepository,
 													String authorizationRequestBaseUri) {
+		log.info("## {}.constructor", this.getClass().getSimpleName());
+		log.info("\t > authorizationRequestBaseUri: {}", authorizationRequestBaseUri);
 		this.defaultResolver = new DefaultOAuth2AuthorizationRequestResolver(clientRegistrationRepository, authorizationRequestBaseUri);
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request) {
-		//log.info("## {}.resolve(request)", this.getClass().getSimpleName());
-		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request);
-		if (authorizationRequest == null) {
+		log.info("## {}.resolve(request)", this.getClass().getSimpleName());
+		OAuth2AuthorizationRequest baseRequest = defaultResolver.resolve(request);
+		log.info("\t > baseRequest = {}", baseRequest);
+		
+		if (baseRequest == null) {
 			//log.info("\t > not redirect for authorization, pass the request to the next filter");
-			return authorizationRequest;
+			return baseRequest;
 		} else {
 			//log.info("\t > redirect for authorization in 'OAuth2AuthorizationRequestRedirectFilter'");
-			return customize(request, authorizationRequest);
+			log.info("\t\t - redirectUri: {}", baseRequest.getRedirectUri());
+			log.info("\t\t - authorizationRequestUri: {}", baseRequest.getAuthorizationRequestUri());
+			return customize(request, baseRequest);
 		}
 	}
 
 	@Override
 	public OAuth2AuthorizationRequest resolve(HttpServletRequest request, String clientRegistrationId) {
 		log.info("## {}.resolve(request, clientRegistrationId)", this.getClass().getSimpleName());
-		OAuth2AuthorizationRequest authorizationRequest = defaultResolver.resolve(request, clientRegistrationId);
-		return (authorizationRequest == null) ? authorizationRequest : customize(request, authorizationRequest);
+		OAuth2AuthorizationRequest baseRequest = defaultResolver.resolve(request, clientRegistrationId);
+		return (baseRequest == null) ? baseRequest : customize(request, baseRequest);
 	}
 	
 	private OAuth2AuthorizationRequest customize(HttpServletRequest request, OAuth2AuthorizationRequest authorizationRequest) {
@@ -68,16 +74,9 @@ public class OAuth2CustomAuthorizationRequestResolver implements OAuth2Authoriza
 		log.info("\t > 'redirect_uri' param is re-encoded");
 		
 		String registrationId = (String) authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
-		String promptParam = null;
-		if (registrationId.equals("kakao")) {
-			promptParam = "login";
-		} else if (registrationId.equals("google")) {
-			promptParam = "select_account";
-		}
-		
-		if (promptParam != null) {
-			builder.queryParam("prompt", promptParam);
-			log.info("\t > 'prompt' param is added with '{}'", promptParam);
+		if (registrationId.equals("kakao") || registrationId.equals("google")) {
+			builder.queryParam("prompt", "select_account");
+			log.info("\t > 'prompt' param is added with 'select_account'");
 		}
 		
 		return builder.build().toUriString();

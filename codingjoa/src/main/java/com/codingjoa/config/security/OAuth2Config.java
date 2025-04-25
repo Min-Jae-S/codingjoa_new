@@ -42,8 +42,10 @@ public class OAuth2Config {
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public ClientRegistrationRepository clientRegistrationRepository() {
-		List<ClientRegistration> registrations = Arrays.asList(
-				kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
+		log.info("## clientRegistrationRepository");
+		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
+		registrations.forEach(registration -> 
+			log.info("\t > registrationId: {}, redirectUriTemplate: {}", registration.getRegistrationId(), registration.getRedirectUriTemplate()));
 		return new InMemoryClientRegistrationRepository(registrations);
 	}
 
@@ -58,14 +60,12 @@ public class OAuth2Config {
 	}
 	
 	@Bean
-	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(
-			ClientRegistrationRepository clientRegistrationRepository) {
+	public OAuth2AuthorizedClientService oAuth2AuthorizedClientService(ClientRegistrationRepository clientRegistrationRepository) {
 		return new InMemoryOAuth2AuthorizedClientService(clientRegistrationRepository);
 	}
 	
 	@Bean
-	public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository(
-			OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
+	public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository(OAuth2AuthorizedClientService oAuth2AuthorizedClientService) {
 		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(oAuth2AuthorizedClientService);
 	}
 	
