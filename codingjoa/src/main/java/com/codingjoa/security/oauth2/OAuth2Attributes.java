@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.util.StringUtils;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -32,17 +33,22 @@ public class OAuth2Attributes {
 	}
 	
 	public static OAuth2Attributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
+		OAuth2Attributes oAuth2Attributes = null;
 		if (registrationId.equals("kakao")) {
-			return ofKakao(userNameAttributeName, attributes);
+			oAuth2Attributes = ofKakao(userNameAttributeName, attributes);
 		} else if (registrationId.equals("naver")) {
-			return ofNaver(userNameAttributeName, attributes);
+			oAuth2Attributes = ofNaver(userNameAttributeName, attributes);
 		} else if (registrationId.equals("google")) {
-			return ofGoogle(userNameAttributeName, attributes);
+			oAuth2Attributes = ofGoogle(userNameAttributeName, attributes);
 		} else {
-			OAuth2Error oauth2Error = new OAuth2Error(
-					"invalid_registration_id", "An error occurred due to invalid registrationId: " + registrationId, null);	
-			throw new OAuth2AuthenticationException(oauth2Error, oauth2Error.toString());
+			OAuth2Error oAuth2Error = new OAuth2Error(
+					"invalid_registration_id", "지원하지 않는 소셜 로그인 유형입니다: " + registrationId, null);	
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
+		
+		validate(oAuth2Attributes);
+		
+		return oAuth2Attributes;
 	}
 	
 /*
@@ -71,7 +77,7 @@ public class OAuth2Attributes {
 		Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 		return getBuilder(userNameAttributeName, attributes)
-				.id((String) attributes.get("id"))
+				.id(String.valueOf(attributes.get("id"))) // (String) attributes.get("id")
 				.email((String) kakaoAccount.get("email"))
 				.nickname((String) profile.get("nickname"))
 				.provider("kakao")
@@ -94,7 +100,7 @@ public class OAuth2Attributes {
 	private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 		return getBuilder(userNameAttributeName, attributes)
-				.id((String) response.get("id"))
+				.id(String.valueOf(attributes.get("id")))
 				.email((String) response.get("email"))
 				.nickname((String) response.get("nickname"))
 				.provider("naver")
@@ -115,7 +121,7 @@ public class OAuth2Attributes {
 */		
 	private static OAuth2Attributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 		return getBuilder(userNameAttributeName, attributes)
-				.id((String) attributes.get("sub"))
+				.id(String.valueOf(attributes.get("id")))
 				.email((String) attributes.get("email"))
 				.nickname((String) attributes.get("name"))
 				.provider("google")
@@ -126,6 +132,26 @@ public class OAuth2Attributes {
 		return OAuth2Attributes.builder()
 				.attributes(attributes)
 				.nameAttributeKey(userNameAttributeName);
+	}
+	
+	private static void validate(OAuth2Attributes oAuth2Attributes) {
+		if (!StringUtils.hasText(oAuth2Attributes.getId())) {
+			OAuth2Error oAuth2Error = new OAuth2Error(
+					"", "", null);	
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+		}
+		
+		if (!StringUtils.hasText(oAuth2Attributes.getEmail())) {
+			OAuth2Error oAuth2Error = new OAuth2Error(
+					"", "", null);	
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+		}
+		
+		if (!StringUtils.hasText(oAuth2Attributes.getNickname())) {
+			OAuth2Error oAuth2Error = new OAuth2Error(
+					"", "", null);	
+			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+		}
 	}
 	
 }

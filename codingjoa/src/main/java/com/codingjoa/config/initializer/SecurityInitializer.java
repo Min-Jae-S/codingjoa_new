@@ -54,7 +54,7 @@ public class SecurityInitializer extends AbstractSecurityWebApplicationInitializ
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
 		log.info("## beforeSpringSecurityFilterChain");
 		registerCharacterEncodingFilter(servletContext);
-		registerLogFilter(servletContext);
+		//registerLogFilter(servletContext);
 		registerErrorHandlingFilter(servletContext);
 		super.beforeSpringSecurityFilterChain(servletContext);
 	}

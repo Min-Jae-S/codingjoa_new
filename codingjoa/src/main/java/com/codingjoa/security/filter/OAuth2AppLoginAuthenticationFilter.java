@@ -70,7 +70,8 @@ public class OAuth2AppLoginAuthenticationFilter extends AbstractAuthenticationPr
 		
 		MultiValueMap<String, String> params = toMultiMap(request.getParameterMap());
 		log.info("\t > received authorization response, params = {}", params.keySet());
-		log.info("\t > prompt = {}", params.getFirst("prompt"));
+		params.entrySet().forEach(entry -> log.info("\t\t - {}: {}", entry.getKey(), entry.getValue()));
+		//log.info("\t > prompt = {}", params.getFirst("prompt"));
 		
 		OAuth2AuthorizationRequest authorizationRequest = authorizationRequestRepository.removeAuthorizationRequest(request, response);
 		if (authorizationRequest == null) {
@@ -78,7 +79,7 @@ public class OAuth2AppLoginAuthenticationFilter extends AbstractAuthenticationPr
 			throw new OAuth2AuthenticationException(oAuth2Error);
 		}
 		
-		log.info("\t > removed authorizationRequest");
+		log.info("\t > removed authorizationRequest from cookie");
 		authorizationRequest.getAttributes().forEach((key, value) -> log.info("\t\t - {}: {}", key, value));
 		
 		String registrationId = authorizationRequest.getAttribute(OAuth2ParameterNames.REGISTRATION_ID);
@@ -98,7 +99,6 @@ public class OAuth2AppLoginAuthenticationFilter extends AbstractAuthenticationPr
 		
 		// not authenticated
 		OAuth2LoginAuthenticationToken loginToken = new OAuth2LoginAuthenticationToken(clientRegistration, authorizationExchange);
-		log.info("\t > loginToken = {}", loginToken);
 		
 		// authenticate OAuth2LoginAuthenticationToken by OAuth2LoginProvider (request for accessToken and userInfo)
 		OAuth2LoginAuthenticationToken authenticatedLoginToken = 

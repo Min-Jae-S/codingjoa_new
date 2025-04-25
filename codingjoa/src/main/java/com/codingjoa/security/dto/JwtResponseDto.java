@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class JwtResponseDto {
 	
-	private final String tokenType = "bearer";
+	private final String tokenType = "Bearer";
 	private String accessToken;
 	private String refreshToken;
 	
