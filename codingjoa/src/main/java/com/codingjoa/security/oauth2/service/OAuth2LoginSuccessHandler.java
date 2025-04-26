@@ -39,7 +39,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("## {}", this.getClass().getSimpleName());
 		log.info("\t > principal = {}", authentication.getPrincipal());
 		
-		log.info("\t > create JWT and issue it via cookie and JSON body");
+		log.info("\t > create JWT, set in cookie and request attribute for JSP");
 		String jwt = jwtProvider.createJwt(authentication, request);
 		CookieUtils.addCookie(request, response, JWT_COOKIE, jwt, COOKIE_EXPIRE_SECONDS);
 		

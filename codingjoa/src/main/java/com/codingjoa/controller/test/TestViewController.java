@@ -119,7 +119,7 @@ public class TestViewController {
 		
 		log.info("\t > testClientRegistrationRepository");
 		testClientRegistrationRepository.forEach(clientRegistration -> {
-			log.info("\t\t - registrationId: {}, scopes: {}", clientRegistration.getRegistrationId(), clientRegistration.getScopes());
+			log.info("\t\t - registrationId: {}, scope: {}", clientRegistration.getRegistrationId(), clientRegistration.getScopes());
 			String attributeName = clientRegistration.getRegistrationId() + "LoginUrl"; // kakaoLoginUrl, naverLoginUrl
 			String authorizationRequestUri = buildAuthorizationRequestUri(clientRegistration);
 			model.addAttribute(attributeName, authorizationRequestUri);

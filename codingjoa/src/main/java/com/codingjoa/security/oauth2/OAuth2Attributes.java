@@ -1,6 +1,7 @@
 package com.codingjoa.security.oauth2;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -76,7 +77,7 @@ public class OAuth2Attributes {
 		Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 		Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 		return getBuilder(userNameAttributeName, attributes)
-				.id(String.valueOf(attributes.get("id"))) // (String) attributes.get("id")
+				.id(Objects.toString(attributes.get("id"), null)) // (String) attributes.get("id"): ClassCastException, String.valueOf(attributes.get("id")): null -> "null"
 				.email((String) kakaoAccount.get("email"))
 				.nickname((String) profile.get("nickname"))
 				.provider("kakao")
@@ -99,7 +100,7 @@ public class OAuth2Attributes {
 	private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 		return getBuilder(userNameAttributeName, attributes)
-				.id(String.valueOf(attributes.get("id")))
+				.id(Objects.toString(attributes.get("id"), null))
 				.email((String) response.get("email"))
 				.nickname((String) response.get("nickname"))
 				.provider("naver")
@@ -120,7 +121,7 @@ public class OAuth2Attributes {
 */		
 	private static OAuth2Attributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
 		return getBuilder(userNameAttributeName, attributes)
-				.id(String.valueOf(attributes.get("id")))
+				.id(Objects.toString(attributes.get("sub"), null))
 				.email((String) attributes.get("email"))
 				.nickname((String) attributes.get("name"))
 				.provider("google")

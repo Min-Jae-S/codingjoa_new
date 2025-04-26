@@ -107,7 +107,7 @@ public class OAuth2Config {
 				.clientName(env.getProperty(registrationKey + "client-name"))
 				.redirectUriTemplate(env.getProperty(registrationKey + "redirect-uri-template"))
 				.authorizationGrantType(new AuthorizationGrantType(env.getProperty(registrationKey + "authorization-grant-type")))
-				.scope(env.getProperty(registrationKey + "scopes", Set.class))
+				.scope(env.getProperty(registrationKey + "scope", Set.class))
 				.authorizationUri(env.getProperty(providerKey + "authorization-uri"))
 				.tokenUri(env.getProperty(providerKey + "token-uri"))
 				.userInfoUri(env.getProperty(providerKey + "user-info-uri"))
