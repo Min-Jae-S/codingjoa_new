@@ -53,17 +53,17 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		String code;
 		switch (loginStatus) {
-		case NEW:
-			code = "success.auth.login.oauth2.new";
-			break;
-			
-		case LINKED:
-			code = "success.auth.login.oauth2.linked";
-			break;
-			
-		case LOGGED_IN:
-		default:
-			code = "success.auth.login.oauth2";
+			case NEW:
+				code = "success.auth.login.oauth2.new";
+				break;
+				
+			case LINKED:
+				code = "success.auth.login.oauth2.linked";
+				break;
+				
+			case LOGGED_IN:
+			default:
+				code = "success.auth.login.oauth2";
 		}
 		
 		JwtResponseDto jwtResponse = JwtResponseDto.builder()

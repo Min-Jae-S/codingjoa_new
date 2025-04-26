@@ -34,16 +34,23 @@ public class OAuth2Attributes {
 	}
 	
 	public static OAuth2Attributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-		OAuth2Attributes oAuth2Attributes = null;
-		if (registrationId.equals("kakao")) {
-			oAuth2Attributes = ofKakao(userNameAttributeName, attributes);
-		} else if (registrationId.equals("naver")) {
-			oAuth2Attributes = ofNaver(userNameAttributeName, attributes);
-		} else if (registrationId.equals("google")) {
-			oAuth2Attributes = ofGoogle(userNameAttributeName, attributes);
-		} else {
-			OAuth2Error oAuth2Error = new OAuth2Error("invalid_registration_id", "지원하지 않는 소셜 로그인 유형입니다: " + registrationId, null);	
-			throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
+		OAuth2Attributes oAuth2Attributes;
+		switch (registrationId) {
+			case "kakao":
+				oAuth2Attributes = ofKakao(userNameAttributeName, attributes);
+				break;
+				
+			case "naver":
+				oAuth2Attributes = ofNaver(userNameAttributeName, attributes);
+				break;
+				
+			case "google":
+				oAuth2Attributes = ofGoogle(userNameAttributeName, attributes);
+				break;
+
+			default:
+				OAuth2Error oAuth2Error = new OAuth2Error("invalid_registration_id", "지원하지 않는 소셜 로그인 유형입니다: " + registrationId, null);	
+				throw new OAuth2AuthenticationException(oAuth2Error, oAuth2Error.toString());
 		}
 		
 		validate(oAuth2Attributes);
