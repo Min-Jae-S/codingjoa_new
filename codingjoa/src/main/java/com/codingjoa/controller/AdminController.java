@@ -22,5 +22,4 @@ public class AdminController {
 		log.info("## apis");
 		return "admin/apis";
 	}
-	
 }
