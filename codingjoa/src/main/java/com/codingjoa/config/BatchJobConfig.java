@@ -1,4 +1,4 @@
-package com.codingjoa.config.root;
+package com.codingjoa.config;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;

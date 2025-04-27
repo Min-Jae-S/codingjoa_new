@@ -1,4 +1,4 @@
-package com.codingjoa.config.servlet;
+package com.codingjoa.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;

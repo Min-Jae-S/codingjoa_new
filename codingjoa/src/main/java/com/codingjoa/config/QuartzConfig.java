@@ -1,4 +1,4 @@
-package com.codingjoa.config.root;
+package com.codingjoa.config;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;

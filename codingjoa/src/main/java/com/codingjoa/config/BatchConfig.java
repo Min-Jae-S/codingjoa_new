@@ -1,4 +1,4 @@
-package com.codingjoa.config.root;
+package com.codingjoa.config;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;

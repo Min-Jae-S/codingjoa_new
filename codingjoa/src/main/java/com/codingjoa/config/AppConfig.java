@@ -1,4 +1,4 @@
-package com.codingjoa.config.root;
+package com.codingjoa.config;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

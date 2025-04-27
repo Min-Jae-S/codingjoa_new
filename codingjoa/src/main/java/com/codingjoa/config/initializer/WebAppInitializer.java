@@ -17,22 +17,22 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.codingjoa.config.root.AopConfig;
-import com.codingjoa.config.root.AppConfig;
-import com.codingjoa.config.root.AsyncConfig;
-import com.codingjoa.config.root.BatchConfig;
-import com.codingjoa.config.root.BatchJobConfig;
-import com.codingjoa.config.root.DataSourceConfig;
-import com.codingjoa.config.root.EmailConfig;
-import com.codingjoa.config.root.MybatisConfig;
-import com.codingjoa.config.root.QuartzConfig;
-import com.codingjoa.config.root.RedisConfig;
-import com.codingjoa.config.security.OAuth2Config;
-import com.codingjoa.config.security.SecurityConfig;
-import com.codingjoa.config.servlet.ServletConfig;
-import com.codingjoa.config.servlet.SwaggerConfig;
-import com.codingjoa.config.servlet.WebSocketConfig;
-import com.codingjoa.config.servlet.WebSocketStompConfig;
+import com.codingjoa.config.AopConfig;
+import com.codingjoa.config.AppConfig;
+import com.codingjoa.config.AsyncConfig;
+import com.codingjoa.config.BatchConfig;
+import com.codingjoa.config.BatchJobConfig;
+import com.codingjoa.config.DataSourceConfig;
+import com.codingjoa.config.EmailConfig;
+import com.codingjoa.config.MybatisConfig;
+import com.codingjoa.config.OAuth2Config;
+import com.codingjoa.config.QuartzConfig;
+import com.codingjoa.config.RedisConfig;
+import com.codingjoa.config.SecurityConfig;
+import com.codingjoa.config.ServletConfig;
+import com.codingjoa.config.SwaggerConfig;
+import com.codingjoa.config.WebSocketConfig;
+import com.codingjoa.config.WebSocketStompConfig;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.codingjoa.config.security;
+package com.codingjoa.config;
 
 import java.util.Arrays;
 import java.util.List;

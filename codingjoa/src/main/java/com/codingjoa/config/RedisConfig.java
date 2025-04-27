@@ -1,4 +1,4 @@
-package com.codingjoa.config.root;
+package com.codingjoa.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
