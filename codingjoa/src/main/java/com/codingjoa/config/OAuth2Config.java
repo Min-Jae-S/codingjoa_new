@@ -25,9 +25,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import com.codingjoa.security.oauth2.OAuth2CustomProvider;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class OAuth2Config {
@@ -37,7 +35,6 @@ public class OAuth2Config {
 	@Primary
 	@Bean(name = "clientRegistrationRepository")
 	public ClientRegistrationRepository clientRegistrationRepository() {
-		log.info("## clientRegistrationRepository");
 		List<ClientRegistration> registrations = Arrays.asList(kakaoClientRegistration(), naverClientRegistration(), googleClientRegistration());
 		return new InMemoryClientRegistrationRepository(registrations);
 	}

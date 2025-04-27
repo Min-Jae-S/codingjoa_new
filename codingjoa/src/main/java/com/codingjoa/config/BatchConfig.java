@@ -75,8 +75,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	    
 	    // @@ ORA-08177: can't serialize access for this transaction
 	    // The issue arises when multiple Spring Batch jobs share a single JobRepository and are executed concurrently. 
-	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE 
-	    // when not specified separately.
+	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE when not specified separately.
 	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
 	    factory.afterPropertiesSet();
 		return factory.getObject();

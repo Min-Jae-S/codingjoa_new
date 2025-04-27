@@ -265,10 +265,6 @@ public class AdminRestController {
 		
 		List<AdminBoardDto> pagedBoards = adminService.getPagedBoards(adminBoardCri);
 		
-		log.info("\t > pagedBoard");
-		pagedBoards.forEach(adminBoarDto -> 
-			log.info("\t\t - id: {}, title: {}", adminBoarDto.getId(), adminBoarDto.getTitle()));
-		
 		Pagination pagination = adminService.getBoardPagination(adminBoardCri);
 		log.info("\t > pagination = {}", pagination);
 		
