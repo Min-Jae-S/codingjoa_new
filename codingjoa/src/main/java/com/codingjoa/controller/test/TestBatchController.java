@@ -3,8 +3,6 @@ package com.codingjoa.controller.test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Resource;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
@@ -18,6 +16,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,16 +52,18 @@ public class TestBatchController {
 	@Autowired
 	private JobLauncher jobLauncher;
 	
-	@Resource(name = "batchJobA")
+	@Qualifier("batchJobA")
+	@Autowired(required = false)
 	private Job batchJobA;
 
-	@Resource(name = "batchJobB")
+	@Qualifier("batchJobB")
+	@Autowired(required = false)
 	private Job batchJobB;
 	
-	@Resource(name = "jobBuilders")
+	@Autowired(required = false)
 	private JobBuilderFactory jobBuilders;
 
-	@Resource(name = "stepBuilders")
+	@Autowired(required = false)
 	private StepBuilderFactory stepBuilders;
 	
 	@GetMapping("/batch/config")
