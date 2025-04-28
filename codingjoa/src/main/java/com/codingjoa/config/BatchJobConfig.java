@@ -30,6 +30,7 @@ public class BatchJobConfig {
 		return jobBuilders.get("simpleJob")
 				.start(step1())
 				.next(step2())
+				.listener(jobListener())
 				.build();
 	}
 	

@@ -70,8 +70,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setTransactionManager(getTransactionManager());
-		factory.setDatabaseType("H2");
-	    factory.setTablePrefix("BATCH_");
+		//factory.setDatabaseType(DatabaseType.H2.name());
+		//factory.setTablePrefix("BATCH_");
 	    
 	    // @@ ORA-08177: can't serialize access for this transaction
 	    // The issue arises when multiple Spring Batch jobs share a single JobRepository and are executed concurrently. 

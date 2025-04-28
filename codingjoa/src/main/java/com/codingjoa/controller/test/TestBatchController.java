@@ -1,7 +1,6 @@
 package com.codingjoa.controller.test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobInstance;
@@ -69,14 +68,17 @@ public class TestBatchController {
 	@GetMapping("/batch/config")
 	public ResponseEntity<Object> config() throws Exception {
 		log.info("## batch config");
-		log.info("\t > context = {}", context);
-		log.info("\t > parent context = {}", context.getParent());
+		//log.info("\t > context = {}", context);
+		//log.info("\t > parent context = {}", context.getParent());
+		
 		try {
 			log.info("\t > finding BatchConfigurer...");
-			log.info("\t > batchConfigurer by getBeansOfType = {}", context.getBeansOfType(BatchConfigurer.class));
-			log.info("\t > batchConfigurer by beansOfTypeIncludingAncestors = {}", 
+			log.info("\t > context.getBeansOfType(BatchConfigurer.class) = {}", context.getBeansOfType(BatchConfigurer.class)); // only current context
+			log.info("\t > context.getParent().getBeansOfType(BatchConfigurer.class) = {}", context.getParent().getBeansOfType(BatchConfigurer.class));
+			log.info("\t > BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class) = {}", 
 					BeanFactoryUtils.beansOfTypeIncludingAncestors(context, DefaultBatchConfigurer.class));
-			log.info("\t > batchConfigurer by getBean = {}", context.getBean(DefaultBatchConfigurer.class));
+			log.info("\t > context.getBean(DefaultBatchConfigurer.class) = {}", context.getBean(DefaultBatchConfigurer.class));
+			log.info("\t > context.getBean(BatchConfigurer.class) = {}", context.getBean(BatchConfigurer.class));
 		} catch (Exception e) {
 			log.info("\t > can't find batch configurer", e.getMessage());
 		}
@@ -110,17 +112,13 @@ public class TestBatchController {
 		if (jobExplorer != null) {
 			List<String> jobNames = jobExplorer.getJobNames();
 			if (!jobNames.isEmpty()) {
-				log.info("\t > batch jobs = {}", jobNames);
+				log.info("\t > batch jobs:");
 				jobNames.forEach(jobName -> {
 					List<JobInstance> jobInstances = jobExplorer.findJobInstancesByJobName(jobName, 0, 10);
-					log.info("\t     - {}", jobInstances);
-				List<Long> instanceIds = jobInstances.stream()
-						.map(JobInstance -> JobInstance.getInstanceId())
-						.collect(Collectors.toList());
-				log.info("\t     - {} = {}", jobName, instanceIds);
+					log.info("\t\t - {}", jobInstances);
 				});
 			} else {
-				log.info("\t > NO batch jobs");
+				log.info("\t > no batch jobs");
 			}
 		}
 		return ResponseEntity.ok("success");
