@@ -3,28 +3,17 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.explore.JobExplorer;
-import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.batch.core.launch.support.SimpleJobLauncher;
-import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.batch.core.scope.JobScope;
-import org.springframework.batch.core.scope.StepScope;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@EnableBatchProcessing
 @Configuration
-public class BatchConfig extends DefaultBatchConfigurer {
+public class BatchConfig {
 	
 	/*
 	 * @@ Spring Batch - Application, Batch Core, Batch Infrastrcuture
@@ -54,84 +43,6 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		log.info("\t > transactionManager = {}", transactionManager);
 	}
 	
-	@Autowired
-	@Override
-	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
-		super.setDataSource(dataSource);
-	}
 
-	@Override
-	public PlatformTransactionManager getTransactionManager() {
-		return this.transactionManager;
-	}
-	
-	@Override
-	protected JobRepository createJobRepository() throws Exception {
-		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
-		factory.setDataSource(dataSource);
-		factory.setTransactionManager(getTransactionManager());
-		factory.setDatabaseType("H2");
-	    factory.setTablePrefix("BATCH_");
-	    
-	    // @@ ORA-08177: can't serialize access for this transaction
-	    // The issue arises when multiple Spring Batch jobs share a single JobRepository and are executed concurrently. 
-	    // This occurs because, by default, the IsolationLevelForCreate property of the transactionManager is set to ISOLATION_SERIALIZABLE when not specified separately.
-	    factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
-	    factory.afterPropertiesSet();
-		return factory.getObject();
-	}
-	
-	@Override
-	protected JobLauncher createJobLauncher() throws Exception {
-		SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
-		jobLauncher.setJobRepository(getJobRepository());
-		jobLauncher.setTaskExecutor(new SyncTaskExecutor()); // No TaskExecutor has been set, defaulting to synchronous executor.
-		jobLauncher.afterPropertiesSet();
-		return jobLauncher;
-	}
-	
-	@Bean
-	public JobRepository jobRepository() {
-		return getJobRepository();
-	}
-
-	@Bean
-	public JobExplorer jobExplorer() {
-		return getJobExplorer();
-	}
-	
-	@Bean
-	public JobLauncher jobLauncher() {
-		return getJobLauncher();
-	}
-	
-	/*
-	 * JobBuilderFactory, StepBuilderFactory from AbstractBatchConfiguration
-	 * StepScope, JobScope from ScopeConfiguration
-	 */
-	
-	@Bean 
-	public JobBuilderFactory jobBuilders() throws Exception { 
-		return new JobBuilderFactory(getJobRepository());
-	}
-	
-	@Bean 
-	public StepBuilderFactory stepBuilders() throws Exception { 
-		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
-	}
-	
-	@Bean 
-	public static StepScope stepScope() {
-		StepScope stepScope = new StepScope();
-		stepScope.setAutoProxy(false);
-		return stepScope;
-	}
-
-	@Bean
-	public static JobScope jobScope() {
-		JobScope jobScope = new JobScope();
-		jobScope.setAutoProxy(false);
-		return jobScope;
-	}
 	
 }

@@ -22,8 +22,8 @@ public class DataSourceConfig {
 	
 	private final Environment env;
 	
-	@Bean
-	public HikariConfig mainHikariConfig() {
+	@Bean(name = "mainDataSource")
+	public DataSource mainDataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(env.getProperty("datasource.main.classname"));
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.main.url"));
@@ -31,11 +31,14 @@ public class DataSourceConfig {
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
 		hikariConfig.setPoolName("MainHikarddPool");
 		hikariConfig.setAutoCommit(false);
-		return hikariConfig;
+		return new HikariDataSource(hikariConfig);
 	}
 	
-	@Bean
-	public HikariConfig batchHikariConfig() {
+	// @EnableBatchProcessing: Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
+	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
+	// expected single matching bean but found 2: mainDataSource,batchDataSource
+	@Bean(name = "batchDataSource")
+	public DataSource batchDataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName(env.getProperty("datasource.batch.classname"));
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.batch.url"));
@@ -43,20 +46,7 @@ public class DataSourceConfig {
 		hikariConfig.setPassword(env.getProperty("datasource.batch.password"));
 		hikariConfig.setPoolName("BatchHikariPool");
 		hikariConfig.setAutoCommit(false);
-		return hikariConfig;
-	}
-	
-	@Bean(name = "mainDataSource", destroyMethod = "close")
-	public DataSource mainDataSource() {
-		return new HikariDataSource(mainHikariConfig());
-	}
-	
-	// @EnableBatchProcessing: Error creating bean with name 'org.springframework.batch.core.configuration.annotation.SimpleBatchConfiguration'
-	// NoUniqueBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: 
-	// expected single matching bean but found 2: mainDataSource,batchDataSource
-	@Bean(name = "batchDataSource", destroyMethod = "close")
-	public DataSource batchDataSource() {
-		return new HikariDataSource(batchHikariConfig());
+		return new HikariDataSource(hikariConfig);
 	}
 	
 	@Primary // for @Transactional
@@ -65,11 +55,6 @@ public class DataSourceConfig {
 		return new DataSourceTransactionManager(mainDataSource());
 	}
 	
-	@Bean(name = "subTransactionManager")
-	public PlatformTransactionManager subTransactionManager() {
-		return new DataSourceTransactionManager(mainDataSource());
-	}
-
 	@Bean(name = "batchTransactionManager")
 	public PlatformTransactionManager batchTransactionManager() {
 		return new DataSourceTransactionManager(batchDataSource());
