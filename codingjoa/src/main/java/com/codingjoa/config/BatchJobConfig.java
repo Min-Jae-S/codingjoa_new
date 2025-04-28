@@ -167,12 +167,12 @@ public class BatchJobConfig {
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {
-				log.info("## beforeJob, jobExecution: {}", jobExecution.getId());
+				log.info("## beforeJob, jobExecutionId: {}", jobExecution.getId());
 			}
 			
 			@Override
 			public void afterJob(JobExecution jobExecution) {
-				log.info("## afterJob, jobExecution: {}", jobExecution.getId());
+				log.info("## afterJob, jobExecutionId: {}", jobExecution.getId());
 			}
 		};
 	}

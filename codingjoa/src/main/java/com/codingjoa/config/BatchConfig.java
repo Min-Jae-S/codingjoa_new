@@ -13,6 +13,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.scope.JobScope;
 import org.springframework.batch.core.scope.StepScope;
+import org.springframework.batch.support.DatabaseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -49,13 +50,13 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@PostConstruct
 	public void init() {
-		log.info("## BatchConfig.init");
+		log.info("## BatchConfig");
 		log.info("\t > dataSource = {}", dataSource);
 		log.info("\t > transactionManager = {}", transactionManager);
 	}
 
-	@Autowired
 	@Override
+	@Autowired
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
 		super.setDataSource(dataSource);
 	}
@@ -70,7 +71,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setTransactionManager(getTransactionManager());
-		//factory.setDatabaseType(DatabaseType.H2.name());
+		factory.setDatabaseType(DatabaseType.H2.name());
 		//factory.setTablePrefix("BATCH_");
 	    
 	    // @@ ORA-08177: can't serialize access for this transaction
