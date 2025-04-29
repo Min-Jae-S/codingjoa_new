@@ -33,7 +33,6 @@ public class TestBatchQuartzController {
 		log.info("\t > jobRepository = {}", jobRepository);
 		log.info("\t > jobExplorer = {}", jobExplorer);
 		log.info("\t > jobLauncher = {}", jobLauncher);
-		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 

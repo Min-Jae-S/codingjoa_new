@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	
 	private String extractJwt(HttpServletRequest request) {
 		if (RequestUtils.isRestApiRequest(request)) {
-			log.info("## rest-api request detected, extract JWT from Authorization header");
+			log.info("## rest api request detected, extract JWT from header(Authorization)");
 			return extractJwtFromHeader(request);
 		} else {
 			log.info("## normal request detected, extract JWT from cookie");

@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codingjoa.dto.SuccessResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -82,7 +84,8 @@ public class TestBatchController {
 		} catch (Exception e) {
 			log.info("\t > can't find batch configurer", e.getMessage());
 		}
-		return ResponseEntity.ok("success");
+		
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/batch/builders")
@@ -90,7 +93,7 @@ public class TestBatchController {
 		log.info("## builders");
 		log.info("\t > jobBuilderFactory = {}", jobBuilders);
 		log.info("\t > stepBuilderFactory = {}", stepBuilders);
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/batch/job-repository")
@@ -99,7 +102,7 @@ public class TestBatchController {
 		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
 		log.info("\t > jobRepository from BatchConfigurer = {}", batchConfigurer.getJobRepository());
 		log.info("\t > jobRepository from @Autowired = {}", jobRepository);
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/batch/job-explorer")
@@ -121,7 +124,7 @@ public class TestBatchController {
 				log.info("\t > no batch jobs");
 			}
 		}
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/batch/job-launcher")
@@ -130,7 +133,7 @@ public class TestBatchController {
 		BatchConfigurer batchConfigurer = context.getBean(BatchConfigurer.class);
 		log.info("\t > jobLauncher from BatchConfigurer = {}", batchConfigurer.getJobLauncher());
 		log.info("\t > jobLauncher from @Autowired = {}", jobLauncher);
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/batch/job-parameters")
@@ -140,20 +143,20 @@ public class TestBatchController {
 				.getNextJobParameters(this.batchJobA)
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
 	@GetMapping("/batch/run/job-a")
 	public ResponseEntity<Object> runJobA() throws Exception {
 		log.info("## runJobA");
 		jobLauncher.run(batchJobA, new JobParameters());
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
 	@GetMapping("/batch/run/job-b")
 	public ResponseEntity<Object> runJobB() throws Exception {
 		log.info("## runJobB");
 		jobLauncher.run(batchJobB, new JobParameters());
-		return ResponseEntity.ok("success");
+		return ResponseEntity.ok(SuccessResponse.create());
 	}
 }

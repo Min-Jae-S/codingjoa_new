@@ -66,7 +66,7 @@
 			url : "${contextPath}/test/batch/config",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -82,7 +82,7 @@
 			url : "${contextPath}/test/batch/builders",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -98,7 +98,7 @@
 			url : "${contextPath}/test/batch/job-parameters",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -114,7 +114,7 @@
 			url : "${contextPath}/test/batch/job-explorer",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -130,7 +130,7 @@
 			url : "${contextPath}/test/batch/job-repository",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -146,7 +146,7 @@
 			url : "${contextPath}/test/batch/job-launcher",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -162,7 +162,7 @@
 			url : "${contextPath}/test/batch/run/job-a",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
@@ -178,7 +178,7 @@
 			url : "${contextPath}/test/batch/run/job-b",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> result = %s", result);
+				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
