@@ -137,7 +137,8 @@
 			$(".config-menu a").removeClass("active");
 			$(this).addClass("active");
 			
-			configService.getConfig($(this).attr("href"), function(result) {
+			let url = $(this).attr("href");
+			configService.getConfig(url, function(result) {
 				let configHtml = createConfigHtml(result.data);
 				$(".card-body").html(configHtml);
 			});

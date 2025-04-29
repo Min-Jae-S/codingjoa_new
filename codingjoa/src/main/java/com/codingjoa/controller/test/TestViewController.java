@@ -258,5 +258,11 @@ public class TestViewController {
 		log.info("## render main");
 		return "test/render";
 	}
+
+	@GetMapping("/batch-quartz")
+	public String batchQurtz() {
+		log.info("## batchQuartz main");
+		return "test//batch-quartz";
+	}
 	
 }
