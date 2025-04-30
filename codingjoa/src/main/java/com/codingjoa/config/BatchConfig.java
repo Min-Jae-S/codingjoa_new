@@ -3,9 +3,12 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
+import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
@@ -128,6 +131,18 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		JobScope jobScope = new JobScope();
 		jobScope.setAutoProxy(false);
 		return jobScope;
+	}
+	
+	@Bean
+	public JobRegistry jobRegistry() {
+		return new MapJobRegistry();
+	}
+	
+	@Bean
+	public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
+		JobRegistryBeanPostProcessor processor = new JobRegistryBeanPostProcessor();
+		processor.setJobRegistry(jobRegistry);
+		return processor;
 	}
 	
 }

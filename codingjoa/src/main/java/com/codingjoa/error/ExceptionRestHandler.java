@@ -56,7 +56,7 @@ public class ExceptionRestHandler {
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
-		log.info("\t > {}: {}", e, e.getMessage());
+		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		//e.printStackTrace();
 
 		ErrorResponse errorResponse = ErrorResponse.builder()

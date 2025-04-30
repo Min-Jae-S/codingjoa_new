@@ -23,6 +23,10 @@
 	
 	div.test {
 		column-gap: 2rem; 
+
+	}
+	div.options {
+		column-gap: 0.75rem; 
 	}
 	
 	div.test button {
@@ -41,27 +45,29 @@
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
+		<div class="d-flex align-items-center options">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio1" value="exampleJob0">
-				<label class="form-check-label" for="radio1">exampleJob0 (not existing)</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio0" value="exampleJob0" checked>
+				<label class="form-check-label" for="radio0">not existing job</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio2" value="exampleJob1">
-				<label class="form-check-label" for="radio2">exampleJob1</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio1" value="exampleJob1">
+				<label class="form-check-label" for="radio1">exampleJob1</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio3" value="exampleJob2"> 
-				<label class="form-check-label" for="radio3">exampleJob2</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio2" value="exampleJob2"> 
+				<label class="form-check-label" for="radio2">exampleJob2</label>
 			</div>
 		</div>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
 	$(function() {
 		$("#runJobBtn").on("click", function() {
-			log.info("## runJob")
-			const jobName = $("input[name='jobNameOptions']").val();
-			log.info("\t > jobName:", jobName);
+			console.log("## runJob")
+			const jobName = $("input[name='jobNameOptions']:checked").val();
+			console.log("\t > jobName:", jobName);
 			
 			$.ajax({
 				type : "GET",

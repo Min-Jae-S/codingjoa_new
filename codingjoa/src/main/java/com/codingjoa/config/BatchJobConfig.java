@@ -4,11 +4,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
@@ -69,12 +65,12 @@ public class BatchJobConfig {
 		return new JobExecutionListener() {
 			@Override
 			public void beforeJob(JobExecution jobExecution) {
-				log.info("## beforeJob, jobExecutionId: {}", jobExecution.getId());
+				log.info("## beforeJob ({})", Thread.currentThread().getName());
 			}
 			
 			@Override
 			public void afterJob(JobExecution jobExecution) {
-				log.info("## afterJob, jobExecutionId: {}", jobExecution.getId());
+				log.info("## afterJob ({})", Thread.currentThread().getName());
 			}
 		};
 	}

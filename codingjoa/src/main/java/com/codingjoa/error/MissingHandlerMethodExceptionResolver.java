@@ -34,7 +34,7 @@ public class MissingHandlerMethodExceptionResolver extends ExceptionHandlerExcep
 	@Override
 	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request, HttpServletResponse response,
 			HandlerMethod handlerMethod, Exception exception) {
-		log.info("## {}.doResolveHandlerMethodException", this.getClass().getSimpleName());
+		log.info("## {}.doResolveHandlerMethodEx", this.getClass().getSimpleName());
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		
 		if (handlerMethod == null) {
