@@ -40,12 +40,45 @@
 		<button class="btn btn-lg btn-warning" onclick="test2()">test2<br>(no dataType)</button>
 	</div>
 	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-primary" onclick="runJobA()">run JobA</button>
-		<button class="btn btn-lg btn-primary" onclick="runJobB()">run JobB</button>
-	</div>
+		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio1" value="exampleJob0">
+				<label class="form-check-label" for="radio1">exampleJob0 (not existing)</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio2" value="exampleJob1">
+				<label class="form-check-label" for="radio2">exampleJob1</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio3" value="exampleJob2"> 
+				<label class="form-check-label" for="radio3">exampleJob2</label>
+			</div>
+		</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
+	$(function() {
+		$("#runJobBtn").on("click", function() {
+			log.info("## runJob")
+			const jobName = $("input[name='jobNameOptions']").val();
+			log.info("\t > jobName:", jobName);
+			
+			$.ajax({
+				type : "GET",
+				url : `${contextPath}/test/batch-quartz/job/\${jobName}/run`,
+				dataType: "json",
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+	});
+
 	function config() {
 		console.log("## config");
 		$.ajax({
@@ -95,40 +128,7 @@
 			}
 		});		
 	}
-	
-	function runJobA() {
-		console.log("## runJobA");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch/run/job-a",
-			dataType: "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null	, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(JSON.stringify(parseError(jqXHR), null, 2));
-			}
-		});		
-	}
 
-	function runJobB() {
-		console.log("## runJobB");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch/run/job-b",
-			dataType: "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null	, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(JSON.stringify(parseError(jqXHR), null, 2));
-			}
-		});		
-	}
 </script>
 </body>
 </html>

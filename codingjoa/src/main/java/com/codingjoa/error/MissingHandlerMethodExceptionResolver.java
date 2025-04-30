@@ -23,11 +23,11 @@ import com.codingjoa.util.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DelegatingExceptionResolver extends ExceptionHandlerExceptionResolver {
+public class MissingHandlerMethodExceptionResolver extends ExceptionHandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver baseResolver;
 
-	public DelegatingExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
+	public MissingHandlerMethodExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
 		this.baseResolver = baseResolver;
 	}
 	
