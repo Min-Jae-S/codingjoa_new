@@ -50,7 +50,7 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/job/{jobName}/run")
+	@GetMapping("/jobs/{jobName}/run")
 	public ResponseEntity<Object> runJob(@PathVariable String jobName, 
 			@RequestParam(name = "flow_status", required = false) Boolean flowStatus) throws Exception {
 		log.info("## runJob");
@@ -78,6 +78,30 @@ public class TestBatchQuartzController {
 //				jobExecution.getJobId(), jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus(), jobExecution.getJobParameters());
 		
 		jobLauncher.run(job, jobParameters);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/tasklet-job/run")
+	public ResponseEntity<Object> runTaskletJob() throws Exception {
+		log.info("## runTaskletJob");
+		
+		Job job = jobRegistry.getJob("taskletJob");
+		log.info("\t > taskletJob = {}", job);
+		
+		jobLauncher.run(job, new JobParameters());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/chunk-job/run")
+	public ResponseEntity<Object> runChunkJob() throws Exception {
+		log.info("## runChunkJob");
+		
+		Job job = jobRegistry.getJob("chunktJob");
+		log.info("\t > chunktJob = {}", job);
+		
+		jobLauncher.run(job, new JobParameters());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

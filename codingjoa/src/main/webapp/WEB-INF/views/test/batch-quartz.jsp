@@ -65,15 +65,15 @@
 		<div class="options">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio1" value="unregisterdJob" checked>
-				<label class="form-check-label" for="jobRadio0">unregisterd job</label>
+				<label class="form-check-label" for="jobRadio1">unregisterd job</label>
 			</div>
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio2" value="multiStepsJob">
-				<label class="form-check-label" for="jobRadio1">multiStepsJob</label>
+				<label class="form-check-label" for="jobRadio2">multiStepsJob</label>
 			</div>
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio3" value="flowJob"> 
-				<label class="form-check-label" for="jobRadio2">flowJob</label>
+				<label class="form-check-label mr-5" for="jobRadio3">flowJob</label>
 				<div id="flowControl">
 					<div class="form-check form-check-inline">
   						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio1" value="true" checked>
@@ -91,6 +91,10 @@
 			</div>
 		</div>
 	</div>
+	<div class="test d-flex mt-5">
+		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
+		<button class="btn btn-lg btn-primary" onclick="runChunkJob()">run ChunkJob</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -102,9 +106,9 @@
 			let url;
 			if (jobName == "multiStepsJob") {
 				const flowStatus = $("input[name='flowStatusOptions']:checked").val();
-				url = `${contextPath}/test/batch-quartz/job/\${jobName}/run?flow_status=\${flowStatus}`;
+				url = `${contextPath}/test/batch-quartz/jobs/\${jobName}/run?flow_status=\${flowStatus}`;
 			} else {
-				url = `${contextPath}/test/batch-quartz/job/\${jobName}/run`;
+				url = `${contextPath}/test/batch-quartz/jobs/\${jobName}/run`;
 			}
 			
 			$.ajax({
@@ -123,7 +127,7 @@
 		});
 		
 		$("input[name='jobNameOptions']").on("change", function() {
-			if ($(this).attr("id") == "jobRadio2") {
+			if ($(this).attr("id") == "jobRadio3") {
 				$("#flowControl").addClass("active")
 			} else {
 				$("#flowControl").removeClass("active");
@@ -179,6 +183,38 @@
 				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
+	}
+	
+	function runTaskletJob() {
+		console.log("## runTaskletJob");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/tasklet-job/run",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+
+	function runChunkJob() {
+		console.log("## runChunkJob");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/chunk-job/run",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
 	}
 
 </script>
