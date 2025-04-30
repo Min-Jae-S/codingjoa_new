@@ -36,13 +36,8 @@
 	<p>batch-quartz.jsp</p>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning" onclick="builders()">builders</button>
-	</div>
-	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-outline-primary" onclick="jobRepository()">jobRepository</button>
-		<button class="btn btn-lg btn-outline-primary" onclick="jobExplorer()">jobExplorer</button>
-		<button class="btn btn-lg btn-outline-primary" onclick="jobLauncher()">jobLauncher</button>
-		<button class="btn btn-lg btn-outline-primary" onclick="jobParameters()">jobParameters</button>
+		<button class="btn btn-lg btn-warning" onclick="test1()">test1<br>(dataType: json)</button>
+		<button class="btn btn-lg btn-warning" onclick="test2()">test2<br>(no dataType)</button>
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runJobA()">run JobA</button>
@@ -63,7 +58,74 @@
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function test1() {
+		console.log("## test1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/test1",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function test2() {
+		console.log("## test2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/test1",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+	
+	function runJobA() {
+		console.log("## runJobA");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/run/job-a",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function runJobB() {
+		console.log("## runJobB");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch/run/job-b",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}

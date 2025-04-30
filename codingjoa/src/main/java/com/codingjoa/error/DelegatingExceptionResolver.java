@@ -23,22 +23,30 @@ import com.codingjoa.util.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExceptionResolver {
+public class DelegatingExceptionResolver extends ExceptionHandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver baseResolver;
 
-	public PreExceptionHandlerExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
+	public DelegatingExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
 		this.baseResolver = baseResolver;
 	}
 	
 	@Override
 	protected ModelAndView doResolveHandlerMethodException(HttpServletRequest request, HttpServletResponse response,
 			HandlerMethod handlerMethod, Exception exception) {
-		log.info("## {}", this.getClass().getSimpleName());
+		log.info("## {}.doResolveHandlerMethodException", this.getClass().getSimpleName());
 		log.info("\t > handlerMethod = {}", handlerMethod);
 		
 		if (handlerMethod == null) {
-			log.info("\t > exception will be handled by this resolver: {}", this.getClass().getSimpleName());
+			log.info("\t > no handlerMethod, exception will be handled by this resolver: {}", this.getClass().getSimpleName());
+			
+			/*
+			 * NOTE:
+			 * 	Even though calling superclass's implementation (super.doResolveHandlerMethodException) here, 
+			 * 	the method getExceptionHandlerMethod(...) inside it will still invoke the overriden version (@Override getExceptionHandlerMethod)
+			 * 	in this class due to Java's dynamic dispatch
+			 */
+			
 			return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
 		}
 		
@@ -47,8 +55,9 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 	}
 
 	@Override
-	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod,
-			Exception exception) {
+	protected ServletInvocableHandlerMethod getExceptionHandlerMethod(HandlerMethod handlerMethod, Exception exception) {
+		log.info("## {}.getExceptionHandlerMethod", this.getClass().getSimpleName());
+		
 		HttpServletRequest request = getCurrentHttpRequest();
 		if (request == null) {
 			return null;
@@ -60,7 +69,7 @@ public class PreExceptionHandlerExceptionResolver extends ExceptionHandlerExcept
 			ControllerAdviceBean adviceBean = entry.getKey();
 			boolean isRestControllerAdvice = adviceBean.getBeanType().isAnnotationPresent(RestControllerAdvice.class);
 			if (isRestApiRequest == isRestControllerAdvice) {
-				log.info("\t > isRestApiRequest: {}, Matched ControllerAdviceBean: {}", isRestApiRequest, adviceBean);
+				log.info("\t > isRestApiRequest: {}, matched ControllerAdviceBean: {}", isRestApiRequest, adviceBean);
 				ExceptionHandlerMethodResolver resolver = entry.getValue();
 				Method method = resolver.resolveMethod(exception);
 				if (method != null) {

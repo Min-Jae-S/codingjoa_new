@@ -22,12 +22,11 @@
 	}
 	
 	div.test {
-		padding-left: 1.3rem;
-		padding-right: 1.3rem;
+		column-gap: 2rem; 
 	}
 	
 	div.test button {
-		width: 230px;
+		min-width: 230px;
 	}
 </style>
 </head>
@@ -35,21 +34,21 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>batch.jsp</p>
-	<div class="test d-flex justify-content-center mt-5">
+	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning mx-3" onclick="builders()">builders</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-flex justify-content-center mt-5">
+	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="jobRepository()">jobRepository</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="jobExplorer()">jobExplorer</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="jobLauncher()">jobLauncher</button>
 		<button class="btn btn-lg btn-outline-primary mx-3" onclick="jobParameters()">jobParameters</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
 	</div>
-	<div class="test d-flex justify-content-center mt-5">
+	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary mx-3" onclick="runJobA()">run JobA</button>
 		<button class="btn btn-lg btn-primary mx-3" onclick="runJobB()">run JobB</button>
 		<button class="btn btn-lg btn-primary mx-3 invisible" onclick="#">#</button>
@@ -64,13 +63,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/config",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -80,13 +80,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/builders",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -96,13 +97,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/job-parameters",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -112,13 +114,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/job-explorer",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -128,13 +131,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/job-repository",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -144,13 +148,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/job-launcher",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -160,13 +165,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/run/job-a",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
@@ -176,13 +182,14 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch/run/job-b",
+			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
 	}
