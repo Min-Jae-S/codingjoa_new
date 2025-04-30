@@ -1,13 +1,18 @@
 package com.codingjoa.config;
 
+import java.util.Map;
+
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
@@ -15,11 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
+@ComponentScan("com.codingjoa.batch")
 @Configuration
 public class BatchJobConfig {
 		
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
+	private final Tasklet tasklet;
 	
 	@Bean
 	public JobExecutionListener jobListener() {
@@ -39,8 +46,8 @@ public class BatchJobConfig {
 	}
 	
 	@Bean 
-	public Job exampleJob1() {
-		return jobBuilderFactory.get("exampleJob1")
+	public Job multiStepsJob() {
+		return jobBuilderFactory.get("multiStepsJob")
 				.start(firstStep())
 				.next(middleStep())
 				.next(lastStep())
@@ -79,14 +86,99 @@ public class BatchJobConfig {
 	}
 	
 	@Bean 
-	public Job exampleJob2() {
-		return jobBuilderFactory.get("exampleJob2")
-				.start(firstStep())
-				.next(middleStep())
-				.next(lastStep())
-				//.listener(jobListener())
+	public Job flowJob() {
+		return jobBuilderFactory.get("flowJob")
+				.start(entryStep())
+					.on(ExitStatus.COMPLETED.getExitCode()).to(successStep())
+					.on("*").to(alwaysStep())
+				.from(entryStep())
+					.on(ExitStatus.FAILED.getExitCode()).to(failureStep())
+					.on("*").to(alwaysStep())
+				.from(entryStep())
+					.on("*").to(alwaysStep())
+				.end()
+				.build();
+	}
+	
+	@Bean
+	public Step entryStep() {
+		return stepBuilderFactory.get("entryStep")
+				.tasklet((contribution, chunkContext) -> {
+					Map<String, Object> params = chunkContext.getStepContext().getJobParameters();
+					String flowStatusParam = (String) params.get("flowStatus");
+					Boolean flowStatus = (flowStatusParam != null) ? Boolean.valueOf(flowStatusParam) : null;
+					log.info("## entryStep, flowStatus = {}", flowStatus);
+
+					if (flowStatus == null) {
+						contribution.setExitStatus(ExitStatus.UNKNOWN);
+					} else if (flowStatus) {
+						contribution.setExitStatus(ExitStatus.COMPLETED);
+					} else {
+						contribution.setExitStatus(ExitStatus.FAILED);
+					}
+					
+					return RepeatStatus.FINISHED;
+				})
 				.build();
 	}
 
+	@Bean
+	public Step successStep() {
+		return stepBuilderFactory.get("successStep")
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## successStep");
+					return RepeatStatus.FINISHED;
+				})
+				.build();
+	}
+	
+	@Bean
+	public Step failureStep() {
+		return stepBuilderFactory.get("failureStep")
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## failureStep");
+					return RepeatStatus.FINISHED;
+				})
+				.build();
+	}
+
+	@Bean
+	public Step alwaysStep() {
+		return stepBuilderFactory.get("alwaysStep")
+				.tasklet((contribution, chunkContext) -> {
+					log.info("## alwaysStep");
+					return RepeatStatus.FINISHED;
+				})
+				.build();
+	}
+	
+	@Bean 
+	public Job taskletJob() {
+		return jobBuilderFactory.get("taskletJob")
+				.start(taskletStep())
+				.build();
+	}
+	
+	@Bean
+	public Step taskletStep() {
+		return stepBuilderFactory.get("taskletStep")
+				.tasklet(tasklet)
+				.build();
+	}
+
+	@Bean 
+	public Job chunkJob() {
+		return jobBuilderFactory.get("chunkJob")
+				.start(taskletStep())
+				.build();
+	}
+	
+	@Bean
+	public Step chunkStep() {
+		return null;
+//		return stepBuilderFactory.get("chunkStep")
+//				.tasklet(tasklet)
+//				.build();
+	}
 	
 }

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
@@ -92,8 +93,8 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		jobLauncher.setJobRepository(getJobRepository());
 		jobLauncher.setJobRepository(getJobRepository());
 		// SimpleJobLauncher: No TaskExecutor has been set, defaulting to synchronous executor.
-		//jobLauncher.setTaskExecutor(new SyncTaskExecutor());
-		jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
+		jobLauncher.setTaskExecutor(new SyncTaskExecutor());
+		//jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
 		jobLauncher.afterPropertiesSet();
 		return jobLauncher;
 	}

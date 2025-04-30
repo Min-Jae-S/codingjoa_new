@@ -42,6 +42,10 @@
 		justify-content: center;
 	}
 	
+	div.options .form-check-label {
+  		white-space: nowrap;
+	}
+	
 	div.test button {
 		min-width: 230px;
 	}
@@ -60,24 +64,28 @@
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
 		<div class="options">
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio0" value="exampleJob0" checked>
-				<label class="form-check-label" for="radio0">exampleJob0 (unregisterd)</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio1" value="unregisterdJob" checked>
+				<label class="form-check-label" for="jobRadio0">unregisterd job</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio1" value="exampleJob1">
-				<label class="form-check-label" for="radio1">exampleJob1 (multi steps)</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio2" value="multiStepsJob">
+				<label class="form-check-label" for="jobRadio1">multiStepsJob</label>
 			</div>
 			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio2" value="exampleJob2"> 
-				<label class="form-check-label" for="radio2">exampleJob2 (flow steps)</label>
+				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio3" value="flowJob"> 
+				<label class="form-check-label" for="jobRadio2">flowJob</label>
 				<div id="flowControl">
 					<div class="form-check form-check-inline">
-  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="inlineRadio1" value="true" checked>
-  						<label class="form-check-label" for="inlineRadio1">success</label>
+  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio1" value="true" checked>
+  						<label class="form-check-label" for="flowStatusRadio1">success</label>
 					</div>
 					<div class="form-check form-check-inline">
-  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="inlineRadio2" value="false">
-  						<label class="form-check-label" for="inlineRadio2">failure</label>
+  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio2" value="false">
+  						<label class="form-check-label" for="flowStatusRadio2">failure</label>
+					</div>
+					<div class="form-check form-check-inline">
+  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio3" value="">
+  						<label class="form-check-label" for="flowStatusRadio3">empty</label>
 					</div>
 				</div>
 			</div>
@@ -92,7 +100,7 @@
 			console.log("## runJob, %s", jobName)
 			
 			let url;
-			if (jobName == "exampleJob2") {
+			if (jobName == "multiStepsJob") {
 				const flowStatus = $("input[name='flowStatusOptions']:checked").val();
 				url = `${contextPath}/test/batch-quartz/job/\${jobName}/run?flow_status=\${flowStatus}`;
 			} else {
@@ -115,8 +123,7 @@
 		});
 		
 		$("input[name='jobNameOptions']").on("change", function() {
-			console.log("## jobNameOptions changed, current:", $(this).val());
-			if ($(this).attr("id") == "radio2") {
+			if ($(this).attr("id") == "jobRadio2") {
 				$("#flowControl").addClass("active")
 			} else {
 				$("#flowControl").removeClass("active");

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobRegistry;
@@ -74,9 +73,11 @@ public class TestBatchQuartzController {
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
-		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("\t > result: jobId = {}, jobName = {}, exitStatus = {}, jobParameters = {}", 
-				jobExecution.getJobId(), jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus(), jobExecution.getJobParameters());
+//		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+//		log.info("\t > result: jobId = {}, jobName = {}, exitStatus = {}, jobParameters = {}", 
+//				jobExecution.getJobId(), jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus(), jobExecution.getJobParameters());
+		
+		jobLauncher.run(job, jobParameters);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
