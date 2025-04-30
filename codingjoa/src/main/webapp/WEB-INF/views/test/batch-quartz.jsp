@@ -25,8 +25,21 @@
 		column-gap: 2rem; 
 
 	}
+	
 	div.options {
-		column-gap: 0.75rem; 
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	
+	div.options #flowControl {
+		display: none;
+		margin-left: 2rem;
+	}
+	
+	div.options #flowControl.active {
+		display: flex;
+		justify-content: center;
 	}
 	
 	div.test button {
@@ -45,18 +58,28 @@
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
-		<div class="d-flex align-items-center options">
+		<div class="options">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio0" value="exampleJob0" checked>
-				<label class="form-check-label" for="radio0">not existing job</label>
+				<label class="form-check-label" for="radio0">exampleJob0 (unregisterd)</label>
 			</div>
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio1" value="exampleJob1">
-				<label class="form-check-label" for="radio1">exampleJob1</label>
+				<label class="form-check-label" for="radio1">exampleJob1 (multi steps)</label>
 			</div>
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="radio2" value="exampleJob2"> 
-				<label class="form-check-label" for="radio2">exampleJob2</label>
+				<label class="form-check-label" for="radio2">exampleJob2 (flow steps)</label>
+				<div id="flowControl">
+					<div class="form-check form-check-inline">
+  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="inlineRadio1" value="true" checked>
+  						<label class="form-check-label" for="inlineRadio1">success</label>
+					</div>
+					<div class="form-check form-check-inline">
+  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="inlineRadio2" value="false">
+  						<label class="form-check-label" for="inlineRadio2">failure</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -65,13 +88,20 @@
 <script>
 	$(function() {
 		$("#runJobBtn").on("click", function() {
-			console.log("## runJob")
 			const jobName = $("input[name='jobNameOptions']:checked").val();
-			console.log("\t > jobName:", jobName);
+			console.log("## runJob, %s", jobName)
+			
+			let url;
+			if (jobName == "exampleJob2") {
+				const flowStatus = $("input[name='flowStatusOptions']:checked").val();
+				url = `${contextPath}/test/batch-quartz/job/\${jobName}/run?flow_status=\${flowStatus}`;
+			} else {
+				url = `${contextPath}/test/batch-quartz/job/\${jobName}/run`;
+			}
 			
 			$.ajax({
 				type : "GET",
-				url : `${contextPath}/test/batch-quartz/job/\${jobName}/run`,
+				url : url,
 				dataType: "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
@@ -82,6 +112,15 @@
 					console.log(JSON.stringify(parseError(jqXHR), null, 2));
 				}
 			});	
+		});
+		
+		$("input[name='jobNameOptions']").on("change", function() {
+			console.log("## jobNameOptions changed, current:", $(this).val());
+			if ($(this).attr("id") == "radio2") {
+				$("#flowControl").addClass("active")
+			} else {
+				$("#flowControl").removeClass("active");
+			}
 		});
 	});
 

@@ -26,6 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Configuration
 public class BatchConfig extends DefaultBatchConfigurer {
@@ -89,7 +90,10 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	protected JobLauncher createJobLauncher() throws Exception {
 		SimpleJobLauncher jobLauncher = new SimpleJobLauncher();
 		jobLauncher.setJobRepository(getJobRepository());
-		jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor()); // SimpleJobLauncher: No TaskExecutor has been set, defaulting to synchronous executor.
+		jobLauncher.setJobRepository(getJobRepository());
+		// SimpleJobLauncher: No TaskExecutor has been set, defaulting to synchronous executor.
+		//jobLauncher.setTaskExecutor(new SyncTaskExecutor());
+		jobLauncher.setTaskExecutor(new SimpleAsyncTaskExecutor());
 		jobLauncher.afterPropertiesSet();
 		return jobLauncher;
 	}
