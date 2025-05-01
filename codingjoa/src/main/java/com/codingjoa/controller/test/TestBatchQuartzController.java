@@ -87,7 +87,7 @@ public class TestBatchQuartzController {
 		log.info("## runTaskletJob");
 		
 		Job job = jobRegistry.getJob("taskletJob");
-		log.info("\t > taskletJob = {}", job);
+		log.info("\t > job = {}", job);
 		
 		jobLauncher.run(job, new JobParameters());
 		
@@ -98,8 +98,8 @@ public class TestBatchQuartzController {
 	public ResponseEntity<Object> runChunkJob() throws Exception {
 		log.info("## runChunkJob");
 		
-		Job job = jobRegistry.getJob("chunktJob");
-		log.info("\t > chunktJob = {}", job);
+		Job job = jobRegistry.getJob("chunkJob");
+		log.info("\t > job = {}", job);
 		
 		jobLauncher.run(job, new JobParameters());
 		

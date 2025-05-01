@@ -93,6 +93,8 @@
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
+	</div>
+	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runChunkJob()">run ChunkJob</button>
 	</div>
 </div>

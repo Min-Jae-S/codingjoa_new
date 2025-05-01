@@ -1,5 +1,6 @@
 package com.codingjoa.config;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.batch.core.ExitStatus;
@@ -10,6 +11,10 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.step.tasklet.Tasklet;
+import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -169,16 +174,49 @@ public class BatchJobConfig {
 	@Bean 
 	public Job chunkJob() {
 		return jobBuilderFactory.get("chunkJob")
-				.start(taskletStep())
+				.start(chunkStep())
 				.build();
 	}
 	
 	@Bean
 	public Step chunkStep() {
-		return null;
-//		return stepBuilderFactory.get("chunkStep")
-//				.tasklet(tasklet)
-//				.build();
+		return stepBuilderFactory.get("chunkStep")
+				.<String, String>chunk(10)
+				.reader(itemReader())
+				.processor(itemProcessor())
+				.writer(itemWriter())
+				.build();
 	}
+	
+	@Bean
+	public ItemReader<String> itemReader() {
+		List<String> items = List.of("kim", "lee", "park");
+		
+		return new ListItemReader<String>(items) {
+			@Override
+			public String read() {
+				String item = super.read();
+				log.info("## ItemReader.read, retrieved item: {}", item);
+				return item;
+			}
+		};
+	}
+	
+	@Bean
+	public ItemProcessor<String, String> itemProcessor() {
+		return item -> {
+			String processedItem = item.toUpperCase();
+			log.info("## ItemProcessor.proccess, proccessed item: {}", processedItem);
+			return processedItem;
+		};
+	}
+	
+	@Bean
+	public ItemWriter<String> itemWriter() {
+		return item -> {
+			log.info("## ItemWriter.write, written item: {}", item);
+		};
+	}
+	
 	
 }
