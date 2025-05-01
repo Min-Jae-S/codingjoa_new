@@ -1,5 +1,6 @@
 package com.codingjoa.controller.test;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 import org.springframework.aop.support.AopUtils;
@@ -12,11 +13,16 @@ import org.springframework.batch.core.explore.JobExplorer;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.scope.JobScope;
+import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,6 +63,15 @@ public class TestBatchQuartzController {
 	
 	@Autowired(required = false)
 	private ItemWriter<String> itemWriter;
+	
+	@Autowired
+	private ApplicationContext applicationContext;
+	
+	@Autowired(required = false)
+	private JobScope jobScope;
+
+	@Autowired(required = false)
+	private StepScope stepScope;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -125,6 +140,33 @@ public class TestBatchQuartzController {
 		inspect("itemProcessor", itemProcessor);
 		inspect("itemWriter", itemWriter);
 		
+		ConfigurableListableBeanFactory beanFactory =
+				((ConfigurableApplicationContext) applicationContext).getBeanFactory();
+		
+		String[] scopeNames = beanFactory.getRegisteredScopeNames();
+		log.info("\t > scopeNames: {}", Arrays.toString(scopeNames));
+		
+		log.info("===========================================================================");
+		log.info("\t > jobScope = {}", jobScope);
+		log.info("\t > stepScope = {}", stepScope);
+		
+//		Scope stepScope = beanFactory.getRegisteredScope("stepScope");
+//		log.info("\t > stepScope: {}", stepScope);
+//		log.info("\t > stepScope class: {}", stepScope.getClass());
+//		
+//		Scope registered = beanFactory.getRegisteredScope("stepScope");
+//		log.info("\t > registeredScope instance: {}", registered);
+//		log.info("\t > registeredScope class  : {}", registered.getClass().getName());
+//
+//		boolean hasMyBean = applicationContext.containsBean("stepScope");
+//		log.info("\t > containsBean(\"stepScope\"): {}", hasMyBean);
+//		if (hasMyBean) {
+//			Object mine = applicationContext.getBean("stepScope");
+//			log.info("\t > myStepScope bean       : {}", mine);
+//			log.info("\t > myStepScope class      : {}", mine.getClass().getName());
+//			log.info("\t > registered == mine?    : {}", registered == mine);
+//		}
+
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -142,7 +184,10 @@ public class TestBatchQuartzController {
 		
 		if (isProxy) {
 			log.info("\t\t • proxy class: {}", bean.getClass().getName());
+			log.info("\t\t • proxy type: {}", AopUtils.isJdkDynamicProxy(bean) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
 			log.info("\t\t • target class: {}", targetClass.getName());
+		} else {
+			log.info("\t\t • this class: {}", bean.getClass().getSimpleName());
 		}
 	}
 

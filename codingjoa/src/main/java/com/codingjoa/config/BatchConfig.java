@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -114,29 +116,29 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return getJobLauncher();
 	}
 	
-	@Bean // AbstractBatchConfiguration
+	@Bean // from AbstractBatchConfiguration
 	public JobBuilderFactory jobBuilders() throws Exception { 
 		return new JobBuilderFactory(getJobRepository());
 	}
 	
-	@Bean // AbstractBatchConfiguration
+	@Bean // from AbstractBatchConfiguration
 	public StepBuilderFactory stepBuilders() throws Exception { 
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
 	
-	@Bean // ScopeConfiguration
-	public static StepScope stepScope() {
-		StepScope stepScope = new StepScope();
-		stepScope.setAutoProxy(false);
-		return stepScope;
-	}
-
-	@Bean // ScopeConfiguration
-	public static JobScope jobScope() {
-		JobScope jobScope = new JobScope();
-		jobScope.setAutoProxy(false);
-		return jobScope;
-	}
+//	@Bean // from ScopeConfiguration
+//	public static StepScope stepScope() {
+//		StepScope stepScope = new StepScope();
+//		stepScope.setAutoProxy(false);
+//		return stepScope;
+//	}
+//
+//	@Bean // from ScopeConfiguration
+//	public static JobScope jobScope() {
+//		JobScope jobScope = new JobScope();
+//		jobScope.setAutoProxy(false);
+//		return jobScope;
+//	}
 	
 	@Bean
 	public JobRegistry jobRegistry() {
