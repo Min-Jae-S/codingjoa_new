@@ -95,6 +95,7 @@
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
 	</div>
 	<div class="test d-flex mt-5">
+		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config (ChunkJob)</button>
 		<button class="btn btn-lg btn-primary" onclick="runChunkJob()">run ChunkJob</button>
 	</div>
 </div>
@@ -106,7 +107,7 @@
 			console.log("## runJob, %s", jobName)
 			
 			let url;
-			if (jobName == "multiStepsJob") {
+			if (jobName == "flowJob") {
 				const flowStatus = $("input[name='flowStatusOptions']:checked").val();
 				url = `${contextPath}/test/batch-quartz/jobs/\${jobName}/run?flow_status=\${flowStatus}`;
 			} else {
@@ -202,6 +203,22 @@
 			}
 		});	
 	}
+	
+	function configChunkJob() {
+		console.log("## configChunkJob");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/chunk-job/config",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
 
 	function runChunkJob() {
 		console.log("## runChunkJob");
@@ -218,7 +235,6 @@
 			}
 		});	
 	}
-
 </script>
 </body>
 </html>

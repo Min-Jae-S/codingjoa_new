@@ -10,6 +10,7 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -189,34 +190,35 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
+	@StepScope
 	public ItemReader<String> itemReader() {
-		List<String> items = List.of("kim", "lee", "park");
+		List<String> items = List.of("kim", "lee", "park", "choi", "jung", "yoon", "han");
 		
 		return new ListItemReader<String>(items) {
 			@Override
 			public String read() {
 				String item = super.read();
-				log.info("## ItemReader.read, retrieved item: {}", item);
+				log.info("## [Reader] retrieved item: {}", item);
 				return item;
 			}
 		};
 	}
 	
 	@Bean
+	@StepScope
 	public ItemProcessor<String, String> itemProcessor() {
 		return item -> {
 			String processedItem = item.toUpperCase();
-			log.info("## ItemProcessor.proccess, proccessed item: {}", processedItem);
+			log.info("## [Processor] proccessed item: {}", processedItem);
 			return processedItem;
 		};
 	}
 	
 	@Bean
 	public ItemWriter<String> itemWriter() {
-		return item -> {
-			log.info("## ItemWriter.write, written item: {}", item);
+		return items -> {
+			log.info("## [Writer] writing items: {}", items);
 		};
 	}
-	
 	
 }
