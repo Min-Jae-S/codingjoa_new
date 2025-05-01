@@ -17,6 +17,8 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
+import org.springframework.batch.core.scope.JobScope;
+import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.support.DatabaseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -125,19 +127,19 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		return new StepBuilderFactory(getJobRepository(), getTransactionManager());
 	}
 	
-//	@Bean // from ScopeConfiguration
-//	public static StepScope stepScope() {
-//		StepScope stepScope = new StepScope();
-//		stepScope.setAutoProxy(false);
-//		return stepScope;
-//	}
-//
-//	@Bean // from ScopeConfiguration
-//	public static JobScope jobScope() {
-//		JobScope jobScope = new JobScope();
-//		jobScope.setAutoProxy(false);
-//		return jobScope;
-//	}
+	@Bean // from ScopeConfiguration
+	public static StepScope stepScope() {
+		StepScope stepScope = new StepScope();
+		stepScope.setAutoProxy(false);
+		return stepScope;
+	}
+
+	@Bean // from ScopeConfiguration
+	public static JobScope jobScope() {
+		JobScope jobScope = new JobScope();
+		jobScope.setAutoProxy(false);
+		return jobScope;
+	}
 	
 	@Bean
 	public JobRegistry jobRegistry() {
@@ -149,6 +151,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		log.info("## jobRegistryBeanPostProcessor");
 		log.info("\t > jobRegistry: {}", jobRegistry);
 		log.info("\t > proxy: {}", AopUtils.isAopProxy(jobRegistry));
+		log.info("\t > proxy type: {}", AopUtils.isJdkDynamicProxy(jobRegistry) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
 		log.info("\t > target class: {}", AopProxyUtils.ultimateTargetClass(jobRegistry));
 		
 		JobRegistryBeanPostProcessor processor = new JobRegistryBeanPostProcessor();

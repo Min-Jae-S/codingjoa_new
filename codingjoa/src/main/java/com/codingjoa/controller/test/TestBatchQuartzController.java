@@ -18,6 +18,7 @@ import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
 
@@ -66,6 +68,9 @@ public class TestBatchQuartzController {
 	
 	@Autowired
 	private ApplicationContext applicationContext;
+	
+	@Autowired
+	private WebApplicationContext webApplicationContext;
 	
 	@Autowired(required = false)
 	private JobScope jobScope;
@@ -140,13 +145,22 @@ public class TestBatchQuartzController {
 		inspect("itemProcessor", itemProcessor);
 		inspect("itemWriter", itemWriter);
 		
-		ConfigurableListableBeanFactory beanFactory =
+		log.info("---------------------------------------------------------------------------");
+		log.info("\t > applicationContext = {}", applicationContext.getClass().getName());
+		log.info("\t > parent = {}", applicationContext.getParent().getClass().getName());
+		
+		log.info("\t > webApplicationContext = {}", webApplicationContext.getClass().getName());
+		log.info("\t > serveletContext = {}", webApplicationContext.getServletContext().getClass().getName());
+
+		ConfigurableListableBeanFactory beanFactory = 
 				((ConfigurableApplicationContext) applicationContext).getBeanFactory();
+		log.info("\t > beanFactory from applicationContext = {}", beanFactory.getClass().getName());
+		
+		BeanFactory parentBeanFactory = applicationContext.getParentBeanFactory();
+		log.info("\t > beanFactory from applicationContext parent = {}", parentBeanFactory.getClass().getName());
 		
 		String[] scopeNames = beanFactory.getRegisteredScopeNames();
 		log.info("\t > scopeNames: {}", Arrays.toString(scopeNames));
-		
-		log.info("===========================================================================");
 		log.info("\t > jobScope = {}", jobScope);
 		log.info("\t > stepScope = {}", stepScope);
 		
@@ -187,7 +201,7 @@ public class TestBatchQuartzController {
 			log.info("\t\t • proxy type: {}", AopUtils.isJdkDynamicProxy(bean) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
 			log.info("\t\t • target class: {}", targetClass.getName());
 		} else {
-			log.info("\t\t • this class: {}", bean.getClass().getSimpleName());
+			log.info("\t\t • this class: {}", bean);
 		}
 	}
 

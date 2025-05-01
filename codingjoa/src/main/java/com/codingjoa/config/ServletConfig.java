@@ -194,11 +194,10 @@ public class ServletConfig implements WebMvcConfigurer {
 	 */
 	
 	@Bean
-	public static MethodValidationPostProcessor methodValidationPostProcessor(
-			@Lazy @Qualifier("localValidator") Validator validator) {
+	public static MethodValidationPostProcessor methodValidationPostProcessor(@Lazy @Qualifier("localValidator") Validator validator) {
 		log.info("## methodValidationPostProcessor");
-		log.info("\t > validator: {}", validator);
 		log.info("\t > proxy: {}", AopUtils.isAopProxy(validator));
+		log.info("\t > proxy type: {}", AopUtils.isJdkDynamicProxy(validator) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
 		log.info("\t > target class: {}", AopProxyUtils.ultimateTargetClass(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
@@ -239,6 +238,5 @@ public class ServletConfig implements WebMvcConfigurer {
 		//factoryBean.getValidationPropertyMap().put("hibernate.validator.fail_fast", "true");
 		return factoryBean;
 	}
-
 
 }
