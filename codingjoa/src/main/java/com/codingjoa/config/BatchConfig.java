@@ -3,11 +3,13 @@ package com.codingjoa.config;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+import org.springframework.aop.framework.AopProxyUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.support.AutomaticJobRegistrar;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
 import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -15,15 +17,12 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
-import org.springframework.batch.core.scope.JobScope;
-import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.support.DatabaseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -78,7 +77,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setTransactionManager(getTransactionManager());
-		factory.setDatabaseType(DatabaseType.H2.name());
+		//factory.setDatabaseType(DatabaseType.H2.name());
 		//factory.setTablePrefix("BATCH_");
 	    
 	    // @@ ORA-08177: can't serialize access for this transaction
@@ -146,10 +145,16 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	}
 	
 	@Bean
-	public JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
+	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(@Lazy JobRegistry jobRegistry) {
+		log.info("## jobRegistryBeanPostProcessor");
+		log.info("\t > jobRegistry: {}", jobRegistry);
+		log.info("\t > proxy: {}", AopUtils.isAopProxy(jobRegistry));
+		log.info("\t > target class: {}", AopProxyUtils.ultimateTargetClass(jobRegistry));
+		
 		JobRegistryBeanPostProcessor processor = new JobRegistryBeanPostProcessor();
 		processor.setJobRegistry(jobRegistry);
 		return processor;
 	}
+	
 	
 }

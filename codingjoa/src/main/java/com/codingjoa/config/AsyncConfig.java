@@ -4,12 +4,14 @@ import java.util.concurrent.Executor;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.codingjoa.async.AsyncExceptionHandler;
 
+@DependsOn
 @EnableAsync
 @Configuration
 public class AsyncConfig extends AsyncConfigurerSupport {

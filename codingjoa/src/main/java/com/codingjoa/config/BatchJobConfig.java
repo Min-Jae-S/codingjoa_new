@@ -13,8 +13,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -190,38 +188,40 @@ public class BatchJobConfig {
 				.build();
 	}
 	
-	@Bean
 	@StepScope
-	public ItemReader<String> itemReader() {
+	@Bean
+	public ListItemReader<String> itemReader() {
 		List<String> items = List.of("kim", "lee", "park", "choi", "jung", "yoon", "han");
-		return new ListItemReader<String>(items);
-//		return new ListItemReader<String>(items) {
-//			@Override
-//			public String read() {
-//				String item = super.read();
-//				log.info("## [Reader] retrieved item: {}", item);
-//				return item;
-//			}
-//		};
+		return new ListItemReader<String>(items) {
+			@Override
+			public String read() {
+				String item = super.read();
+				log.info("## [Reader] retrieved item: {}", item);
+				return item;
+			}
+		};
 	}
 	
-	@Bean
 	@StepScope
+	@Bean
 	public ItemProcessor<String, String> itemProcessor() {
-		return item -> item.toUpperCase();
-//		return item -> {
-//			String processedItem = item.toUpperCase();
-//			log.info("## [Processor] proccessed item: {}", processedItem);
-//			return processedItem;
-//		};
+		return item -> {
+			String processedItem = item.toUpperCase();
+			log.info("## [Processor] proccessed item: {}", processedItem);
+			return processedItem;
+		};
 	}
 	
+	@StepScope
 	@Bean
-	public ItemWriter<String> itemWriter() {
-		return new ListItemWriter<String>();
-//		return items -> {
-//			log.info("## [Writer] writing items: {}", items);
-//		};
+	public ListItemWriter<String> itemWriter() {
+		return new ListItemWriter<String>() {
+			@Override
+			public void write(List<? extends String> items) throws Exception {
+				log.info("## [Writer] writing items: {}", items);
+			}
+		};
+	
 	}
 	
 }

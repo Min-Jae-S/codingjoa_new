@@ -12,7 +12,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
@@ -56,7 +55,7 @@ import lombok.extern.slf4j.Slf4j;
 	"com.codingjoa.error"
 })
 @RequiredArgsConstructor
-@EnableAspectJAutoProxy
+//@EnableAspectJAutoProxy
 @EnableWebMvc 
 @Configuration
 public class ServletConfig implements WebMvcConfigurer {
@@ -198,14 +197,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	public static MethodValidationPostProcessor methodValidationPostProcessor(
 			@Lazy @Qualifier("localValidator") Validator validator) {
 		log.info("## methodValidationPostProcessor");
-		//log.info("\t > validator = {}", validator);
-		log.info("\t > isAopProxy = {}", AopUtils.isAopProxy(validator));
-		log.info("\t > target class = {}", AopProxyUtils.ultimateTargetClass(validator));
+		log.info("\t > validator: {}", validator);
+		log.info("\t > proxy: {}", AopUtils.isAopProxy(validator));
+		log.info("\t > target class: {}", AopProxyUtils.ultimateTargetClass(validator));
 		
 		MethodValidationPostProcessor processor = new MethodValidationPostProcessor();
 		processor.setValidator(validator);
 		processor.setProxyTargetClass(true);
-		//log.info("\t > isProxyTargetClass = {}", processor.isProxyTargetClass());
 		return processor;
 		
 		/* 
