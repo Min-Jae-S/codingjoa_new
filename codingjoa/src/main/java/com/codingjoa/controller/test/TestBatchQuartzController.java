@@ -216,13 +216,19 @@ public class TestBatchQuartzController {
 		log.info("## runChunkJob");
 		log.info("\t > useParam = {}, lastNames = {}", useParam, lastNames);
 		
+		
 		Job job = jobRegistry.getJob("chunkJob");
 		log.info("\t > found job = {}", job);
+		
+		if (lastNames == null) {
+			lastNames = List.of();
+		}
 		
 		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
 		if (useParam) {
 			String lastNamesStr = lastNames.stream()
 					.collect(Collectors.joining(","));
+			log.info("\t > lastNamesStr = {}", lastNamesStr);
 			builder.addString("lastNames", lastNamesStr);
 		}
 		

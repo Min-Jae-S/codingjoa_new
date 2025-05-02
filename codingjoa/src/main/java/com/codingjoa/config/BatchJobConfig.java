@@ -1,8 +1,11 @@
 package com.codingjoa.config;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -23,6 +26,7 @@ import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @ComponentScan("com.codingjoa.batch")
@@ -187,6 +192,11 @@ public class BatchJobConfig {
 	
 	@Bean
 	public Step chunkStep(ItemReader<String> itemReader, ItemProcessor<String, String> itemProcessor, ItemWriter<String> itemWriter) {
+		log.info("## {}.chunkStep", this.getClass().getSimpleName());
+		log.info("\t > itemReader = {}", itemReader.getClass().getName());
+		log.info("\t > itemProcessor = {}", itemProcessor.getClass().getName());
+		log.info("\t > itemWriter = {}", itemWriter.getClass().getName());
+		
 		return stepBuilderFactory.get("chunkStep")
 				.<String, String>chunk(10)
 				.reader(itemReader)
@@ -197,10 +207,17 @@ public class BatchJobConfig {
 	
 	@StepScope
 	@Bean
-	public ListItemReader<String> itemReader(JobParameters jobParameters) {
+	//public ListItemReader<String> itemReader(JobParameters jobParameters) {
+	public ListItemReader<String> itemReader(@Value("#{jobParameters['lastNames']}") String lastNamesStr) {
 		log.info("## {}.itemReader", this.getClass().getSimpleName());
-		List<String> items = List.of("kim", "lee", "park", "choi", "jung", "yoon", "han");
-		return new ListItemReader<String>(items) {
+		//String lastNamesStr = jobParameters.getString("lastNames");
+		log.info("\t > lastNamesStr = {}", lastNamesStr);
+		
+		List<String> lastNames = (lastNamesStr != null) ? Arrays.stream(lastNamesStr.split(",")).collect(Collectors.toList()) : List.of();
+		log.info("\t > lastNames = {}", lastNames);
+		log.info("\t > AopUtils.isAopProxy(null) = {}", AopUtils.isAopProxy(null));
+		
+		return new ListItemReader<String>(lastNames) {
 			
 			@BeforeStep
 			public void beforeStep(StepExecution stepExecution) {
@@ -215,7 +232,7 @@ public class BatchJobConfig {
 			@Override
 			public String read() {
 				String item = super.read();
-				log.info("## [ListItemReader] retrieved item: {}", item);
+				log.info("## ListItemWriter.read: {}", item);
 				return item;
 			}
 		};
@@ -227,7 +244,7 @@ public class BatchJobConfig {
 		log.info("## {}.itemProcessor", this.getClass().getSimpleName());
 		return item -> {
 			String processedItem = item.toUpperCase();
-			//log.info("## [ItemProcessor] proccessed item: {}", processedItem);
+			log.info("## ItemProcessor.process: {}", processedItem);
 			return processedItem;
 		};
 	}
@@ -249,7 +266,7 @@ public class BatchJobConfig {
 			
 			@Override
 			public void write(List<? extends String> items) throws Exception {
-				log.info("## ListItemWriter, writing items: {}", items);
+				log.info("## ListItemWriter.write: {}", items);
 			}
 		};
 	}
