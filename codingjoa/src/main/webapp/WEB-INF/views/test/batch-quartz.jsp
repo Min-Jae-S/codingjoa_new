@@ -57,8 +57,9 @@
 	<p>batch-quartz.jsp</p>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning" onclick="test1()">test1<br>(dataType: json)</button>
-		<button class="btn btn-lg btn-warning" onclick="test2()">test2<br>(no dataType)</button>
+		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(chunkJob)</button>
+		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
+		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
@@ -93,10 +94,21 @@
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
-	</div>
-	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config (ChunkJob)</button>
 		<button class="btn btn-lg btn-primary" onclick="runChunkJob()">run ChunkJob</button>
+		<div class="options">
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" id="check1" value=""  checked> 
+				<label class="form-check-label" for="check1">check1</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" id="check2" value="" > 
+				<label class="form-check-label" for="check2">check2</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" id="check3" value="" > 
+				<label class="form-check-label" for="check3">check3</label>
+			</div>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -154,12 +166,12 @@
 			}
 		});		
 	}
-
-	function test1() {
-		console.log("## test1");
+	
+	function configChunkJob() {
+		console.log("## configChunkJob");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch-quartz/test1",
+			url : "${contextPath}/test/batch-quartz/chunk-job/config",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -169,14 +181,15 @@
 				console.log("%c> ERROR", "color:red");
 				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
-		});		
+		});	
 	}
 
-	function test2() {
-		console.log("## test2");
+	function triggerNoHandler(dataType) {
+		console.log("## triggerNoHandler");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch-quartz/test1",
+			url : "${contextPath}/test/batch-quartz/no-handler",
+			dataType: `\${dataType}`,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
@@ -187,12 +200,13 @@
 			}
 		});		
 	}
-	
+
 	function runTaskletJob() {
 		console.log("## runTaskletJob");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch-quartz/tasklet-job/run",
+			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
@@ -204,27 +218,13 @@
 		});	
 	}
 	
-	function configChunkJob() {
-		console.log("## configChunkJob");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch-quartz/chunk-job/config",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null	, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(JSON.stringify(parseError(jqXHR), null, 2));
-			}
-		});	
-	}
-
 	function runChunkJob() {
 		console.log("## runChunkJob");
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch-quartz/chunk-job/run",
+			dataType: "json",
+			traditional : true,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));
