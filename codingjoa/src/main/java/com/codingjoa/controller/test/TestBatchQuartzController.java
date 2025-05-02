@@ -3,6 +3,7 @@ package com.codingjoa.controller.test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Job;
@@ -103,7 +104,7 @@ public class TestBatchQuartzController {
 		} catch (NoSuchJobException e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 		} finally {
-			log.info("\t > search job from jobRegistry, job = {}", job);
+			log.info("\t > found job = {}", job);
 		}
 		
 		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
@@ -128,7 +129,7 @@ public class TestBatchQuartzController {
 		log.info("## runTaskletJob");
 		
 		Job job = jobRegistry.getJob("taskletJob");
-		log.info("\t > search job from jobRegistry, job = {}", job);
+		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
@@ -211,16 +212,18 @@ public class TestBatchQuartzController {
 
 	@GetMapping("/chunk-job/run")
 	public ResponseEntity<Object> runChunkJob(@RequestParam(required = false) boolean useParam, 
-			@RequestParam List<String> lastNames) throws Exception {
+			@RequestParam(required = false) List<String> lastNames) throws Exception {
 		log.info("## runChunkJob");
 		log.info("\t > useParam = {}, lastNames = {}", useParam, lastNames);
 		
 		Job job = jobRegistry.getJob("chunkJob");
-		log.info("\t > search job from jobRegistry, job = {}", job);
+		log.info("\t > found job = {}", job);
 		
 		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
 		if (useParam) {
-			// ...
+			String lastNamesStr = lastNames.stream()
+					.collect(Collectors.joining(","));
+			builder.addString("lastNames", lastNamesStr);
 		}
 		
 		JobParameters jobParameters = builder.toJobParameters();

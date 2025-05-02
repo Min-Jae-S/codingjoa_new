@@ -110,7 +110,7 @@
 		<div class="options">
 			<div class="form-check form-switch">
 				<input class="form-check-input" type="checkbox" role="switch" id="paramSwitch">
-				<label class="form-check-label" for="paramSwitch">jobParameters</label>
+				<label class="form-check-label" for="paramSwitch">use jobParameters</label>
 			</div>
 		</div>
 		<div class="param-options">
@@ -138,10 +138,11 @@
 			const jobName = $("input[name='jobNameOptions']:checked").val();
 			console.log("## runJob, %s", jobName)
 			
-			let formData;
+			let formData = null;
 			if ($("#jobRadio3").prop("checked")) {
 				formData = $(".flow-options form").serializeObject();
 			}
+			console.log("\t > formData:", formData);
 			
 			$.ajax({
 				type : "GET",
@@ -181,11 +182,12 @@
 		$("#runChunkJobBtn").on("click", function() {
 			console.log("## runChunkJob");
 			
-			let formData;
+			let formData = null;
 			if ($("#paramSwitch").prop("checked")) {
-				let formData = $(".param-options form").serializeObject();
-				formData[useParam] = true;
+				formData = $(".param-options form").serializeObject();
+				formData["useParam"] = true;
 			}
+			console.log("\t > formData:", formData);
 			
 			$.ajax({
 				type : "GET",

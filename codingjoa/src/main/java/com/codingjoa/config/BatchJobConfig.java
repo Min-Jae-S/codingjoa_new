@@ -7,6 +7,7 @@ import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.AfterStep;
@@ -16,10 +17,12 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -176,25 +179,26 @@ public class BatchJobConfig {
 	}
 
 	@Bean 
-	public Job chunkJob() {
+	public Job chunkJob(@Qualifier("chunkStep") Step chunkStep) {
 		return jobBuilderFactory.get("chunkJob")
-				.start(chunkStep())
+				.start(chunkStep)
 				.build();
 	}
 	
 	@Bean
-	public Step chunkStep() {
+	public Step chunkStep(ItemReader<String> itemReader, ItemProcessor<String, String> itemProcessor, ItemWriter<String> itemWriter) {
 		return stepBuilderFactory.get("chunkStep")
 				.<String, String>chunk(10)
-				.reader(itemReader())
-				.processor(itemProcessor())
-				.writer(itemWriter())
+				.reader(itemReader)
+				.processor(itemProcessor)
+				.writer(itemWriter)
 				.build();
 	}
 	
 	@StepScope
 	@Bean
-	public ListItemReader<String> itemReader() {
+	public ListItemReader<String> itemReader(JobParameters jobParameters) {
+		log.info("## {}.itemReader", this.getClass().getSimpleName());
 		List<String> items = List.of("kim", "lee", "park", "choi", "jung", "yoon", "han");
 		return new ListItemReader<String>(items) {
 			
@@ -211,7 +215,7 @@ public class BatchJobConfig {
 			@Override
 			public String read() {
 				String item = super.read();
-				//log.info("## [Reader] retrieved item: {}", item);
+				log.info("## [ListItemReader] retrieved item: {}", item);
 				return item;
 			}
 		};
@@ -220,9 +224,10 @@ public class BatchJobConfig {
 	@StepScope
 	@Bean
 	public ItemProcessor<String, String> itemProcessor() {
+		log.info("## {}.itemProcessor", this.getClass().getSimpleName());
 		return item -> {
 			String processedItem = item.toUpperCase();
-			//log.info("## [Processor] proccessed item: {}", processedItem);
+			//log.info("## [ItemProcessor] proccessed item: {}", processedItem);
 			return processedItem;
 		};
 	}
@@ -230,8 +235,8 @@ public class BatchJobConfig {
 	@StepScope
 	@Bean
 	public ItemWriter<String> itemWriter() {
+		log.info("## {}.itemWriter", this.getClass().getSimpleName());
 		return new ListItemWriter<String>() {
-			
 			@BeforeStep
 			public void beforeStep(StepExecution stepExecution) {
 				log.info("## ListItemWriter.beforeStep");
@@ -244,7 +249,7 @@ public class BatchJobConfig {
 			
 			@Override
 			public void write(List<? extends String> items) throws Exception {
-				log.info("## [Writer] writing items: {}", items);
+				log.info("## ListItemWriter, writing items: {}", items);
 			}
 		};
 	}
