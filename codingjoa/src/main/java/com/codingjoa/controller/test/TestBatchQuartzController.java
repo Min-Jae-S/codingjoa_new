@@ -220,16 +220,10 @@ public class TestBatchQuartzController {
 		Job job = jobRegistry.getJob("chunkJob");
 		log.info("\t > found job = {}", job);
 		
-		if (lastNames == null) {
-			lastNames = List.of();
-		}
-		
 		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
 		if (useParam) {
-			String lastNamesStr = lastNames.stream()
-					.collect(Collectors.joining(","));
-			log.info("\t > lastNamesStr = {}", lastNamesStr);
-			builder.addString("lastNames", lastNamesStr);
+			String lastNamesStr = (lastNames != null) ? lastNames.stream().collect(Collectors.joining(",")) : null;
+			builder.addString("lastNamesStr", lastNamesStr);
 		}
 		
 		JobParameters jobParameters = builder.toJobParameters();

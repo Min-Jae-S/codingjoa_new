@@ -121,10 +121,12 @@ public class BatchJobConfig {
 	public Step entryStep() {
 		return stepBuilderFactory.get("entryStep")
 				.tasklet((contribution, chunkContext) -> {
+					log.info("## entryStep");
+
 					Map<String, Object> params = chunkContext.getStepContext().getJobParameters();
 					String flowStatusParam = (String) params.get("flowStatus");
 					Boolean flowStatus = (flowStatusParam != null) ? Boolean.valueOf(flowStatusParam) : null;
-					log.info("## entryStep, flowStatus = {}", flowStatus);
+					log.info("\t > flowStaus = {}", flowStatus);
 
 					if (flowStatus == null) {
 						contribution.setExitStatus(ExitStatus.UNKNOWN);
@@ -207,21 +209,21 @@ public class BatchJobConfig {
 	
 	@StepScope
 	@Bean
-	//public ListItemReader<String> itemReader(JobParameters jobParameters) {
 	public ListItemReader<String> itemReader(@Value("#{jobParameters['lastNames']}") String lastNamesStr) {
 		log.info("## {}.itemReader", this.getClass().getSimpleName());
-		//String lastNamesStr = jobParameters.getString("lastNames");
 		log.info("\t > lastNamesStr = {}", lastNamesStr);
 		
 		List<String> lastNames = (lastNamesStr != null) ? Arrays.stream(lastNamesStr.split(",")).collect(Collectors.toList()) : List.of();
 		log.info("\t > lastNames = {}", lastNames);
-		log.info("\t > AopUtils.isAopProxy(null) = {}", AopUtils.isAopProxy(null));
 		
 		return new ListItemReader<String>(lastNames) {
 			
+			private StepExecution stepExecution;
+			
 			@BeforeStep
-			public void beforeStep(StepExecution stepExecution) {
-				log.info("## ListItemWriter.beforeStep");
+			public void saveStepExecution(StepExecution stepExecution) {
+				log.info("## ListItemWriter.saveStepExecution");
+				this.stepExecution = stepExecution;
 			}
 			
 			@AfterStep
@@ -231,8 +233,10 @@ public class BatchJobConfig {
 			
 			@Override
 			public String read() {
+				log.info("## ListItemWriter.read");
+				log.info("\t > stepExecution = {}", stepExecution);
 				String item = super.read();
-				log.info("## ListItemWriter.read: {}", item);
+				log.info("\t > item = {}", item);
 				return item;
 			}
 		};
@@ -254,16 +258,6 @@ public class BatchJobConfig {
 	public ItemWriter<String> itemWriter() {
 		log.info("## {}.itemWriter", this.getClass().getSimpleName());
 		return new ListItemWriter<String>() {
-			@BeforeStep
-			public void beforeStep(StepExecution stepExecution) {
-				log.info("## ListItemWriter.beforeStep");
-			}
-			
-			@AfterStep
-			public void afterStep(StepExecution stepExecution) {
-				log.info("## ListItemWriter.afterStep");
-			}
-			
 			@Override
 			public void write(List<? extends String> items) throws Exception {
 				log.info("## ListItemWriter.write: {}", items);
