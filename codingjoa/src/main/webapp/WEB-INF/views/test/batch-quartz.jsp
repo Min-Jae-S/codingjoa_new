@@ -7,7 +7,7 @@
 <title>batch-quartz.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
 <link href="${contextPath}/resources/fontawesome/css/all.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -26,23 +26,33 @@
 
 	}
 	
-	div.options {
+	.options {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-	}
-	
-	div.options #flowControl {
-		display: none;
-		margin-left: 2rem;
-	}
-	
-	div.options #flowControl.active {
-		display: flex;
 		justify-content: center;
 	}
 	
-	div.options .form-check-label {
+	.flow-options {
+		display: flex;
+		flex-direction: column;
+		visibility: hidden;
+	}
+	
+	.flow-options.active {
+		visibility: visible;
+	}
+	
+	.param-options {
+		display: flex;
+		flex-direction: column;
+		visibility: hidden;
+	}
+	
+	.param-options.active {
+		visibility: visible;
+	}
+	
+	.form-check-label {
   		white-space: nowrap;
 	}
 	
@@ -64,50 +74,60 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
 		<div class="options">
-			<div class="form-check form-check-inline">
+			<div class="form-check">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio1" value="unregisterdJob" checked>
 				<label class="form-check-label" for="jobRadio1">unregisterd job</label>
 			</div>
-			<div class="form-check form-check-inline">
+			<div class="form-check">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio2" value="multiStepsJob">
 				<label class="form-check-label" for="jobRadio2">multiStepsJob</label>
 			</div>
-			<div class="form-check form-check-inline">
+			<div class="form-check">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio3" value="flowJob"> 
 				<label class="form-check-label mr-5" for="jobRadio3">flowJob</label>
-				<div id="flowControl">
-					<div class="form-check form-check-inline">
-  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio1" value="true" checked>
-  						<label class="form-check-label" for="flowStatusRadio1">success</label>
-					</div>
-					<div class="form-check form-check-inline">
-  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio2" value="false">
-  						<label class="form-check-label" for="flowStatusRadio2">failure</label>
-					</div>
-					<div class="form-check form-check-inline">
-  						<input class="form-check-input" type="radio" name="flowStatusOptions" id="flowStatusRadio3" value="">
-  						<label class="form-check-label" for="flowStatusRadio3">empty</label>
-					</div>
-				</div>
 			</div>
+		</div>
+		<div class="flow-options">
+			<form>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flowStatus" id="flowStatusRadio1" value="true" checked>
+					<label class="form-check-label" for="flowStatusRadio1">success</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flowStatus" id="flowStatusRadio2" value="false">
+					<label class="form-check-label" for="flowStatusRadio2">failure</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="flowStatus" id="flowStatusRadio3" value="">
+					<label class="form-check-label" for="flowStatusRadio3">empty</label>
+				</div>
+			</form>
 		</div>
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
-		<button class="btn btn-lg btn-primary" onclick="runChunkJob()">run ChunkJob</button>
+		<button class="btn btn-lg btn-primary" id="runChunkJobBtn">run ChunkJob</button>
 		<div class="options">
-			<div class="form-check">
-				<input class="form-check-input" type="checkbox" id="check1" value=""  checked> 
-				<label class="form-check-label" for="check1">check1</label>
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" role="switch" id="paramSwitch">
+				<label class="form-check-label" for="paramSwitch">jobParameters</label>
 			</div>
-			<div class="form-check">
-				<input class="form-check-input" type="checkbox" id="check2" value="" > 
-				<label class="form-check-label" for="check2">check2</label>
-			</div>
-			<div class="form-check">
-				<input class="form-check-input" type="checkbox" id="check3" value="" > 
-				<label class="form-check-label" for="check3">check3</label>
-			</div>
+		</div>
+		<div class="param-options">
+			<form>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" name="lastNames" id="check1" value="kim"> 
+					<label class="form-check-label" for="check1">kim</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" name="lastNames" id="check2" value="lee"> 
+					<label class="form-check-label" for="check2">lee</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" name="lastNames" id="check3" value="park"> 
+					<label class="form-check-label" for="check3">park</label>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -118,17 +138,15 @@
 			const jobName = $("input[name='jobNameOptions']:checked").val();
 			console.log("## runJob, %s", jobName)
 			
-			let url;
-			if (jobName == "flowJob") {
-				const flowStatus = $("input[name='flowStatusOptions']:checked").val();
-				url = `${contextPath}/test/batch-quartz/jobs/\${jobName}/run?flow_status=\${flowStatus}`;
-			} else {
-				url = `${contextPath}/test/batch-quartz/jobs/\${jobName}/run`;
+			let formData;
+			if ($("#jobRadio3").prop("checked")) {
+				formData = $(".flow-options form").serializeObject();
 			}
 			
 			$.ajax({
 				type : "GET",
-				url : url,
+				url : `${contextPath}/test/batch-quartz/jobs/\${jobName}/run`,
+				data : formData,
 				dataType: "json",
 				success : function(result) {
 					console.log("%c> SUCCESS", "color:green");
@@ -143,11 +161,49 @@
 		
 		$("input[name='jobNameOptions']").on("change", function() {
 			if ($(this).attr("id") == "jobRadio3") {
-				$("#flowControl").addClass("active")
+				$(".flow-options").addClass("active")
 			} else {
-				$("#flowControl").removeClass("active");
+				$(".flow-options").removeClass("active");
+				$(".flow-options form").trigger("reset");
 			}
 		});
+		
+		$("#paramSwitch").on("change", function() {
+			const checked = $(this).prop("checked");
+			if (checked) {
+				$(".param-options").addClass("active");
+			} else {
+				$(".param-options").removeClass("active");
+				$(".param-options form").trigger("reset");
+			}
+		})
+		
+		$("#runChunkJobBtn").on("click", function() {
+			console.log("## runChunkJob");
+			
+			let formData;
+			if ($("#paramSwitch").prop("checked")) {
+				let formData = $(".param-options form").serializeObject();
+				formData[useParam] = true;
+			}
+			
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/chunk-job/run",
+				data : formData,
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+		
 	});
 
 	function config() {
@@ -207,24 +263,6 @@
 			type : "GET",
 			url : "${contextPath}/test/batch-quartz/tasklet-job/run",
 			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null	, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(JSON.stringify(parseError(jqXHR), null, 2));
-			}
-		});	
-	}
-	
-	function runChunkJob() {
-		console.log("## runChunkJob");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch-quartz/chunk-job/run",
-			dataType: "json",
-			traditional : true,
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
 				console.log(JSON.stringify(result, null	, 2));

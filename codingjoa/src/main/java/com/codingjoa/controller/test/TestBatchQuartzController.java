@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.aop.support.AopUtils;
@@ -90,7 +91,7 @@ public class TestBatchQuartzController {
 	
 	@GetMapping("/jobs/{jobName}/run")
 	public ResponseEntity<Object> runJob(@PathVariable String jobName, 
-			@RequestParam(name = "flow_status", required = false) Boolean flowStatus) throws Exception {
+			@RequestParam(required = false) Boolean flowStatus) throws Exception {
 		log.info("## runJob");
 		log.info("\t > jobName = {}, flowStatus = {}", jobName, flowStatus);
 		//log.info("\t > jobNames from jobExplorer = {}", jobExplorer.getJobNames());
@@ -105,10 +106,13 @@ public class TestBatchQuartzController {
 			log.info("\t > search job from jobRegistry, job = {}", job);
 		}
 		
-		JobParameters jobParameters = new JobParametersBuilder()
-				.addLong("timestamp", System.currentTimeMillis())
-				.addString("flowStatus", Objects.toString(flowStatus, null))
-				.toJobParameters();
+		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
+		if ("flowJob".equals(jobName)) {
+			builder.addString("flowStatus", Objects.toString(flowStatus, null));
+		}
+		
+		JobParameters jobParameters = builder.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		log.info("## result: {}", jobExecution.getExitStatus());
@@ -206,15 +210,21 @@ public class TestBatchQuartzController {
 	}
 
 	@GetMapping("/chunk-job/run")
-	public ResponseEntity<Object> runChunkJob() throws Exception {
+	public ResponseEntity<Object> runChunkJob(@RequestParam(required = false) boolean useParam, 
+			@RequestParam List<String> lastNames) throws Exception {
 		log.info("## runChunkJob");
+		log.info("\t > useParam = {}, lastNames = {}", useParam, lastNames);
 		
 		Job job = jobRegistry.getJob("chunkJob");
 		log.info("\t > search job from jobRegistry, job = {}", job);
 		
-		JobParameters jobParameters = new JobParametersBuilder()
-				.addLong("timestamp", System.currentTimeMillis())
-				.toJobParameters();
+		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
+		if (useParam) {
+			// ...
+		}
+		
+		JobParameters jobParameters = builder.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		log.info("## result: {}", jobExecution.getExitStatus());
