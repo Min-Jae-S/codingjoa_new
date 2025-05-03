@@ -238,6 +238,7 @@ public class BatchJobConfig {
 	public MyBatisPagingItemReader<User> myBatisItemReader() {
 		return new MyBatisPagingItemReaderBuilder<User>()
 				.sqlSessionFactory(sqlSessionFactory)
+				.queryId("aaa.bbb")
 				.pageSize(10)
 				.build();
 	}
