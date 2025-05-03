@@ -1,6 +1,8 @@
 package com.codingjoa.config;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
@@ -228,8 +230,9 @@ public class BatchJobConfig {
 	@Bean
 	public Step myBatisStep() {
 		return stepBuilderFactory.get("myBatisStep")
-				.<User, User>chunk(100)
+				.<User, Long>chunk(10)
 				.reader(myBatisItemReader())
+				.processor(myBatisItemProcessor())
 				.writer(myBatisItemWriter())
 				.build();
 	}
@@ -238,15 +241,25 @@ public class BatchJobConfig {
 	public MyBatisPagingItemReader<User> myBatisItemReader() {
 		return new MyBatisPagingItemReaderBuilder<User>()
 				.sqlSessionFactory(sqlSessionFactory)
-				.queryId("aaa.bbb")
+				.queryId("com.codingjoa.mapper.BatchMapper.findUsers")
 				.pageSize(10)
+				.maxItemCount(30)
 				.build();
+	}
+
+	@Bean
+	public ItemProcessor<User, Long> myBatisItemProcessor() {
+		return user -> {
+			Long userId = user.getId();
+			log.info("## myBatisItemProcessor.process: {}", userId);
+			return userId;
+		};
 	}
 	
 	@Bean
-	public ItemWriter<User> myBatisItemWriter() {
-		return items -> {
-			log.info("## mybatisItemWriter.write: {}", items);
+	public ItemWriter<Long> myBatisItemWriter() {
+		return userIds -> {
+			log.info("## mybatisItemWriter.write: {}", userIds);
 		};
 	}
 	

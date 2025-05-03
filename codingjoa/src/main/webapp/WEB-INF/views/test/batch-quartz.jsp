@@ -195,7 +195,6 @@
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/mybatis-job/run",
-				data : formData,
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

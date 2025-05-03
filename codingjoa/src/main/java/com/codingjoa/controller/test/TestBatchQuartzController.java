@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
+import com.codingjoa.entity.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,11 +83,15 @@ public class TestBatchQuartzController {
 	
 	@Qualifier("myBatisItemReader")
 	@Autowired(required = false)
-	private ItemReader<String> myBatisItemReader;
+	private ItemReader<?> myBatisItemReader;
+
+	@Qualifier("myBatisItemProcessor")
+	@Autowired(required = false)
+	private ItemReader<?> myBatisItemProcessor;
 	
 	@Qualifier("myBatisItemWriter")
 	@Autowired(required = false)
-	private ItemWriter<String> myBatisItemWriter;
+	private ItemWriter<?> myBatisItemWriter;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {

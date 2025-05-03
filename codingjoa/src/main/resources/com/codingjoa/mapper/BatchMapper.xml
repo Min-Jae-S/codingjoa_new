@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.codingjoa.mapper.BatchMapper">
+
+	<select id="findUsers" resultType="User">
+		SELECT 
+			paged_users.*
+		FROM (
+			SELECT
+				ROWNUM rn,
+				sorted_users.*
+			FROM (
+				SELECT 
+					/*+ INDEX_DESC(users pk_users) */
+					users.*
+				FROM 
+					users
+				ORDER BY
+					id DESC
+			) sorted_users
+			WHERE
+				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
+		) paged_users
+		WHERE
+			<!-- paged_users.rn > #{_skiprows} -->
+			paged_users.rn > ( #{_page} * #{_pagesize} )
+	</select>
+	
+</mapper>
