@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
@@ -13,6 +15,7 @@ import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.annotation.AfterStep;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -22,6 +25,9 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.NonTransientResourceException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -30,6 +36,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import com.codingjoa.batch.ItemReader1;
+import com.codingjoa.batch.ItemReader2;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,30 +54,12 @@ public class BatchJobConfig {
 	private final StepBuilderFactory stepBuilderFactory;
 	private final Tasklet tasklet;
 	
-	@Bean
-	public JobExecutionListener jobListener() {
-		return new JobExecutionListener() {
-			@Override
-			public void beforeJob(JobExecution jobExecution) {
-				log.info("## beforeJob");
-				log.info("\t > jobExecution = {}", jobExecution);
-			}
-			
-			@Override
-			public void afterJob(JobExecution jobExecution) {
-				log.info("## afterJob");
-				log.info("\t > jobExecution = {}", jobExecution);
-			}
-		};
-	}
-	
 	@Bean 
 	public Job multiStepsJob() {
 		return jobBuilderFactory.get("multiStepsJob")
 				.start(firstStep())
 				.next(middleStep())
 				.next(lastStep())
-				//.listener(jobListener())
 				.build();
 	}
 	
@@ -200,124 +191,40 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public Step chunkStep1(@Qualifier("itemReader1") ItemReader<String> itemReader, 
-			@Qualifier("itemWriter1") ItemWriter<String> itemWriter) {
-		log.info("## create chunkStep1 bean");
-		log.info("\t > itemReader = {}", itemReader.getClass().getName());
-		log.info("\t > itemWriter = {}", itemWriter.getClass().getName());
-		
+	public Step chunkStep1(@Qualifier("itemReader1") ItemReader<String> itemReader) {
 		return stepBuilderFactory.get("chunkStep1")
 				.<String, String>chunk(10)
 				.reader(itemReader)
-				.writer(itemWriter)
+				.processor(itemProcessor())
+				.writer(itemWriter())
 				.build();
 	}
 
 	@Bean
-	public Step chunkStep2(@Qualifier("itemReader2") ItemReader<String> itemReader, 
-			@Qualifier("itemWriter2") ItemWriter<String> itemWriter) {
-		log.info("## create chunkStep2 bean");
-		log.info("\t > itemReader = {}", itemReader.getClass().getName());
-		log.info("\t > itemWriter = {}", itemWriter.getClass().getName());
-		
+	public Step chunkStep2(@Qualifier("itemReader2") ItemReader<String> itemReader) {
 		return stepBuilderFactory.get("chunkStep")
 				.<String, String>chunk(10)
 				.reader(itemReader)
-				.writer(itemWriter)
+				.processor(itemProcessor())
+				.writer(itemWriter())
 				.build();
 	}
 	
-	@StepScope
 	@Bean
-	public ListItemReader<String> itemReader1(@Value("#{jobParameters['lastNamesStr']}") String lastNamesStr) {
-		log.info("## create itemReader1 bean");
-		List<String> lastNames = (lastNamesStr != null) ? Arrays.stream(lastNamesStr.split(",")).collect(Collectors.toList()) : List.of();
-		
-		return new ListItemReader<String>(lastNames) {
-			
-			private StepExecution stepExecution;
-			
-			@BeforeStep
-			public void saveStepExecution(StepExecution stepExecution) {
-				log.info("## itemReader1.saveStepExecution");
-				this.stepExecution = stepExecution;
-			}
-			
-			@Override
-			public String read() {
-				log.info("## itemReader1.read");
-				log.info("\t > jobParameters = {}", stepExecution != null ? stepExecution.getJobParameters() : null);
-				String item = super.read();
-				log.info("\t > item = {}", item);
-				return item;
-			}
+	public ItemProcessor<String, String> itemProcessor() {
+		return item -> {
+			String processedItem = item.toUpperCase();
+			log.info("## ItemProcessor.process: {}", processedItem);
+			return processedItem;
 		};
 	}
 	
 	@Bean
-	public ListItemReader<String> itemReader2() {
-		log.info("## create itemReader2 bean");
-		List<String> lastNames = List.of("seo", "lee");
-		return new ListItemReader<String>(lastNames) {
-			
-			private StepExecution stepExecution;
-			
-			@BeforeStep
-			public void beforeStep(StepExecution stepExecution) {
-				log.info("## itemReader2.beforeStep");
-				this.stepExecution = stepExecution;
-			}
-
-			@AfterStep
-			public void afterStep(StepExecution stepExecution) {
-				log.info("## itemReader2.afterStep");
-			}
-			
-			@Override
-			public String read() {
-				log.info("## itemReader2.read");
-				log.info("\t > jobParameters = {}", stepExecution != null ? stepExecution.getJobParameters() : null);
-				String item = super.read();
-				log.info("\t > item = {}", item);
-				return item;
-			}
-		};
-	}
-	
-//	@StepScope
-//	@Bean
-//	public ItemProcessor<String, String> itemProcessor() {
-//		log.info("## {}.itemProcessor", this.getClass().getSimpleName());
-//		return item -> {
-//			String processedItem = item.toUpperCase();
-//			log.info("## ItemProcessor.process: {}", processedItem);
-//			return processedItem;
-//		};
-//	}
-	
-	@StepScope
-	@Bean
-	public ListItemWriter<String> itemWriter1() {
-		log.info("## create itemWriter1 bean");
-		return new ListItemWriter<String>() {
-			
-			@Override
-			public void write(List<? extends String> items) throws Exception {
-				log.info("## itemWriter1.write: {}", items);
-			}
+	public ItemWriter<String> itemWriter() {
+		return items -> {
+			log.info("## ItemWriter.write: {}", items);
 		};
 	}
 
-	@Bean
-	public ListItemWriter<String> itemWriter2() {
-		log.info("## create itemWriter2 bean");
-		return new ListItemWriter<String>() {
-			
-			@Override
-			public void write(List<? extends String> items) throws Exception {
-				log.info("## itemWriter2.write: {}", items);
-			}
-		};
-	}
 	
 }
