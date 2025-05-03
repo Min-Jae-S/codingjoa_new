@@ -125,6 +125,9 @@
 			</div>
 		</form>
 	</div>
+	<div class="test d-flex mt-5">
+		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -173,6 +176,25 @@
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/chunk-job/run",
+				data : formData,
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+
+		$("#runMyBatisJobBtn").on("click", function() {
+			console.log("## runMyBatisJob");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/mybatis-job/run",
 				data : formData,
 				dataType: "json",
 				traditional : true,

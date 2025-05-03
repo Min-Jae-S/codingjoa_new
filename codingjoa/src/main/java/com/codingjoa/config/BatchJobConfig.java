@@ -1,44 +1,27 @@
 package com.codingjoa.config;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.aop.support.AopUtils;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.batch.MyBatisPagingItemReader;
+import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
+import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobExecutionListener;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
-import org.springframework.batch.core.annotation.AfterStep;
-import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.batch.item.support.ListItemReader;
-import org.springframework.batch.item.support.ListItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.codingjoa.batch.ItemReader1;
-import com.codingjoa.batch.ItemReader2;
+import com.codingjoa.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +32,11 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.codingjoa.batch")
 @Configuration
 public class BatchJobConfig {
-		
+	
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
 	private final Tasklet tasklet;
+	private final SqlSessionFactory sqlSessionFactory;
 	
 	@Bean 
 	public Job multiStepsJob() {
@@ -92,6 +76,8 @@ public class BatchJobConfig {
 				})
 				.build();
 	}
+	
+	/*****************************************************************/
 	
 	@Bean 
 	public Job flowJob() {
@@ -162,6 +148,8 @@ public class BatchJobConfig {
 				.build();
 	}
 	
+	/*****************************************************************/
+	
 	@Bean 
 	public Job taskletJob() {
 		return jobBuilderFactory.get("taskletJob")
@@ -176,6 +164,8 @@ public class BatchJobConfig {
 				.build();
 	}
 
+	/*****************************************************************/
+	
 	@Bean 
 	public Job chunkJob1(@Qualifier("chunkStep1") Step chunkStep) {
 		return jobBuilderFactory.get("chunkJob1")
@@ -226,5 +216,37 @@ public class BatchJobConfig {
 		};
 	}
 
+	/*****************************************************************/
+	
+	@Bean
+	public Job myBatisJob() {
+		return jobBuilderFactory.get("myBatisJob")
+				.start(myBatisStep())
+				.build();
+	}
+
+	@Bean
+	public Step myBatisStep() {
+		return stepBuilderFactory.get("myBatisStep")
+				.<User, User>chunk(100)
+				.reader(myBatisItemReader())
+				.writer(myBatisItemWriter())
+				.build();
+	}
+	
+	@Bean
+	public MyBatisPagingItemReader<User> myBatisItemReader() {
+		return new MyBatisPagingItemReaderBuilder<User>()
+				.sqlSessionFactory(sqlSessionFactory)
+				.pageSize(10)
+				.build();
+	}
+	
+	@Bean
+	public ItemWriter<User> myBatisItemWriter() {
+		return items -> {
+			log.info("## mybatisItemWriter.write: {}", items);
+		};
+	}
 	
 }

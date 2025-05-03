@@ -1,9 +1,6 @@
 package com.codingjoa.controller.test;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Job;
@@ -20,13 +17,9 @@ import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
 
@@ -74,28 +66,27 @@ public class TestBatchQuartzController {
 	@Autowired(required = false)
 	private ItemReader<String> itemReader2;
 
+	@Qualifier("itemProcessor")
 	@Autowired(required = false)
 	private ItemProcessor<String, String> itemProcessor;
 	
-	@Qualifier("itemWriter1")
+	@Qualifier("itemWriter")
 	@Autowired(required = false)
-	private ItemWriter<String> itemWriter1;
+	private ItemWriter<String> itemWriter;
 
-	@Qualifier("itemWriter2")
-	@Autowired(required = false)
-	private ItemWriter<String> itemWriter2;
-	
-	@Autowired
-	private ApplicationContext applicationContext;
-	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
-	
 	@Autowired(required = false)
 	private JobScope jobScope;
 
 	@Autowired(required = false)
 	private StepScope stepScope;
+	
+	@Qualifier("myBatisItemReader")
+	@Autowired(required = false)
+	private ItemReader<String> myBatisItemReader;
+	
+	@Qualifier("myBatisItemWriter")
+	@Autowired(required = false)
+	private ItemWriter<String> myBatisItemWriter;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -162,36 +153,10 @@ public class TestBatchQuartzController {
 	public ResponseEntity<Object> configChunkJob() throws Exception {
 		log.info("## configChunkJob");
 		log.info("\t > chunckJob1 bean: {}", chunkJob1);
-		inspect("itemReader1", itemReader1);
-		inspect("itemProcessor", itemProcessor);
-		inspect("itemWriter1", itemWriter1);
-		
-		log.info("-------------------------------------------------------------------------------------------------------------------------------");
 		log.info("\t > chunckJob2 bean: {}", chunkJob2);
+		inspect("itemReader1", itemReader1);
 		inspect("itemReader2", itemReader2);
-		inspect("itemProcessor", itemProcessor);
-		inspect("itemWriter2", itemWriter2);
 		
-//		log.info("-------------------------------------------------------------------------------------------------------------------------------");
-//		log.info("\t > applicationContext = {}", applicationContext.getClass().getName());
-//		log.info("\t > parent = {}", applicationContext.getParent().getClass().getName());
-//		
-//		log.info("\t > webApplicationContext = {}", webApplicationContext.getClass().getName());
-//		log.info("\t > serveletContext = {}", webApplicationContext.getServletContext().getClass().getName());
-//
-//		ConfigurableListableBeanFactory beanFactory = 
-//				((ConfigurableApplicationContext) applicationContext).getBeanFactory();
-//		log.info("\t > beanFactory from applicationContext = {}", beanFactory.getClass().getName());
-//		
-//		BeanFactory parentBeanFactory = applicationContext.getParentBeanFactory();
-//		log.info("\t > beanFactory from applicationContext parent = {}", parentBeanFactory.getClass().getName());
-//		
-//		String[] scopeNames = beanFactory.getRegisteredScopeNames();
-//		log.info("\t > scopeNames: {}", Arrays.toString(scopeNames));
-		
-//		log.info("\t > jobScope = {}", jobScope);
-//		log.info("\t > stepScope = {}", stepScope);
-
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -228,6 +193,27 @@ public class TestBatchQuartzController {
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
 				.addString("lastNamesStr", lastNamesStr)
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/mybatis-job/run")
+	public ResponseEntity<Object> runMyBatisJob() throws Exception {
+		log.info("## runMyBatisJob");
+		
+		inspect("myBatisItemReader", myBatisItemReader);
+		inspect("myBatisItemWriter", myBatisItemWriter);
+		
+		Job job = jobRegistry.getJob("myBatisJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
