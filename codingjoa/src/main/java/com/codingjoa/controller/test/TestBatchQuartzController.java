@@ -217,24 +217,18 @@ public class TestBatchQuartzController {
 	}
 
 	@GetMapping("/chunk-job/run")
-	public ResponseEntity<Object> runChunkJob(@RequestParam(required = false) boolean useParam, 
-			@RequestParam(required = false) List<String> lastNames) throws Exception {
+	public ResponseEntity<Object> runChunkJob(@RequestParam(required = false) boolean useStepScope, 
+			@RequestParam(name = "lastNames", required = false) String lastNamesStr) throws Exception {
 		log.info("## runChunkJob");
-		log.info("\t > useParam = {}, lastNames = {}", useParam, lastNames);
+		log.info("\t > useStepScope = {}, lastNamesStr = {}", useStepScope, lastNamesStr);
 		
-		Job job = null;
-		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
-		if (useParam) {
-			job = jobRegistry.getJob("chunkJob1");
-			String lastNamesStr = (lastNames != null) ? lastNames.stream().collect(Collectors.joining(",")) : null;
-			builder.addString("lastNamesStr", lastNamesStr);
-		} else {
-			job = jobRegistry.getJob("chunkJob2");
-		}
-		
+		Job job = useStepScope ? jobRegistry.getJob("chunkJob1") : jobRegistry.getJob("chunkJob2");
 		log.info("\t > found job = {}", job);
-		
-		JobParameters jobParameters = builder.toJobParameters();
+
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.addString("lastNamesStr", lastNamesStr)
+				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);

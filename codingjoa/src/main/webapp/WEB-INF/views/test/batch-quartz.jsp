@@ -43,14 +43,12 @@
 		visibility: visible;
 	}
 	
-	.param-options {
-		display: flex;
-		flex-direction: column;
-		visibility: hidden;
+	.form-check {
+		padding-left: 1.5em;
 	}
-	
-	.param-options.active {
-		visibility: visible;
+
+	.form-check.form-switch {
+		padding-left: 2.5em;
 	}
 	
 	.form-check-label {
@@ -108,28 +106,24 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
 		<button class="btn btn-lg btn-primary" id="runChunkJobBtn">run ChunkJob</button>
-		<div class="options">
+		<form id="chunkJobForm">
 			<div class="form-check form-switch">
-				<input class="form-check-input" type="checkbox" role="switch" id="paramSwitch">
-				<label class="form-check-label" for="paramSwitch">use jobParameters</label>
+				<input class="form-check-input" type="checkbox" role="switch" id="useStepScope" name="useStepScope">
+				<label class="form-check-label" for="useStepScope">use @StepScope</label>
 			</div>
-		</div>
-		<div class="param-options">
-			<form>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="lastNames" id="check1" value="kim"> 
-					<label class="form-check-label" for="check1">kim</label>
-				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="lastNames" id="check2" value="lee"> 
-					<label class="form-check-label" for="check2">lee</label>
-				</div>
-				<div class="form-check">
-					<input class="form-check-input" type="checkbox" name="lastNames" id="check3" value="park"> 
-					<label class="form-check-label" for="check3">park</label>
-				</div>
-			</form>
-		</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" name="lastNames" id="check1" value="kim"> 
+				<label class="form-check-label" for="check1">kim</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" name="lastNames" id="check2" value="lee"> 
+				<label class="form-check-label" for="check2">lee</label>
+			</div>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" name="lastNames" id="check3" value="park"> 
+				<label class="form-check-label" for="check3">park</label>
+			</div>
+		</form>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -170,24 +164,10 @@
 			}
 		});
 		
-		$("#paramSwitch").on("change", function() {
-			const checked = $(this).prop("checked");
-			if (checked) {
-				$(".param-options").addClass("active");
-			} else {
-				$(".param-options").removeClass("active");
-				$(".param-options form").trigger("reset");
-			}
-		})
-		
 		$("#runChunkJobBtn").on("click", function() {
 			console.log("## runChunkJob");
 			
-			let formData = null;
-			if ($("#paramSwitch").prop("checked")) {
-				formData = $(".param-options form").serializeObject();
-				formData["useParam"] = true;
-			}
+			let formData = $("#chunkJobForm").serializeObject();
 			console.log("\t > formData:", formData);
 			
 			$.ajax({
