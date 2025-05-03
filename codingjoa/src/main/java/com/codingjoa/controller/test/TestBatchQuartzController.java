@@ -21,6 +21,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -33,11 +34,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 import com.codingjoa.dto.SuccessResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/batch-quartz")
 @RestController
@@ -55,18 +58,32 @@ public class TestBatchQuartzController {
 	@Autowired(required = false)
 	private JobRegistry jobRegistry;
 	
-	@Qualifier("chunkJob")
+	@Qualifier("chunkJob1")
 	@Autowired(required = false)
-	private Job chunkJob;
+	private Job chunkJob1;
+
+	@Qualifier("chunkJob2")
+	@Autowired(required = false)
+	private Job chunkJob2;
 	
+	@Qualifier("itemReader1")
 	@Autowired(required = false)
-	private ItemReader<String> itemReader;
+	private ItemReader<String> itemReader1;
+
+	@Qualifier("itemReader2")
+	@Autowired(required = false)
+	private ItemReader<String> itemReader2;
 
 	@Autowired(required = false)
 	private ItemProcessor<String, String> itemProcessor;
 	
+	@Qualifier("itemWriter1")
 	@Autowired(required = false)
-	private ItemWriter<String> itemWriter;
+	private ItemWriter<String> itemWriter1;
+
+	@Qualifier("itemWriter2")
+	@Autowired(required = false)
+	private ItemWriter<String> itemWriter2;
 	
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -116,10 +133,10 @@ public class TestBatchQuartzController {
 		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## result: {}", jobExecution.getExitStatus());
+		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 //		JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
-//		log.info("## result: {}", jobExecution.getExitStatus().getExitDescription());
+//		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus().getExitDescription());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -136,7 +153,7 @@ public class TestBatchQuartzController {
 				.toJobParameters();
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## result: {}", jobExecution.getExitStatus());
+		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -144,47 +161,36 @@ public class TestBatchQuartzController {
 	@GetMapping("/chunk-job/config")
 	public ResponseEntity<Object> configChunkJob() throws Exception {
 		log.info("## configChunkJob");
-		log.info("\t > chunckJob bean: {}", chunkJob);
-		
-		inspect("itemReader", itemReader);
+		log.info("\t > chunckJob1 bean: {}", chunkJob1);
+		inspect("itemReader1", itemReader1);
 		inspect("itemProcessor", itemProcessor);
-		inspect("itemWriter", itemWriter);
+		inspect("itemWriter1", itemWriter1);
 		
-		log.info("---------------------------------------------------------------------------");
-		log.info("\t > applicationContext = {}", applicationContext.getClass().getName());
-		log.info("\t > parent = {}", applicationContext.getParent().getClass().getName());
+		log.info("-------------------------------------------------------------------------------------------------------------------------------");
+		log.info("\t > chunckJob2 bean: {}", chunkJob2);
+		inspect("itemReader2", itemReader2);
+		inspect("itemProcessor", itemProcessor);
+		inspect("itemWriter2", itemWriter2);
 		
-		log.info("\t > webApplicationContext = {}", webApplicationContext.getClass().getName());
-		log.info("\t > serveletContext = {}", webApplicationContext.getServletContext().getClass().getName());
-
-		ConfigurableListableBeanFactory beanFactory = 
-				((ConfigurableApplicationContext) applicationContext).getBeanFactory();
-		log.info("\t > beanFactory from applicationContext = {}", beanFactory.getClass().getName());
-		
-		BeanFactory parentBeanFactory = applicationContext.getParentBeanFactory();
-		log.info("\t > beanFactory from applicationContext parent = {}", parentBeanFactory.getClass().getName());
-		
-		String[] scopeNames = beanFactory.getRegisteredScopeNames();
-		log.info("\t > scopeNames: {}", Arrays.toString(scopeNames));
-		log.info("\t > jobScope = {}", jobScope);
-		log.info("\t > stepScope = {}", stepScope);
-		
-//		Scope stepScope = beanFactory.getRegisteredScope("stepScope");
-//		log.info("\t > stepScope: {}", stepScope);
-//		log.info("\t > stepScope class: {}", stepScope.getClass());
+//		log.info("-------------------------------------------------------------------------------------------------------------------------------");
+//		log.info("\t > applicationContext = {}", applicationContext.getClass().getName());
+//		log.info("\t > parent = {}", applicationContext.getParent().getClass().getName());
 //		
-//		Scope registered = beanFactory.getRegisteredScope("stepScope");
-//		log.info("\t > registeredScope instance: {}", registered);
-//		log.info("\t > registeredScope class  : {}", registered.getClass().getName());
+//		log.info("\t > webApplicationContext = {}", webApplicationContext.getClass().getName());
+//		log.info("\t > serveletContext = {}", webApplicationContext.getServletContext().getClass().getName());
 //
-//		boolean hasMyBean = applicationContext.containsBean("stepScope");
-//		log.info("\t > containsBean(\"stepScope\"): {}", hasMyBean);
-//		if (hasMyBean) {
-//			Object mine = applicationContext.getBean("stepScope");
-//			log.info("\t > myStepScope bean       : {}", mine);
-//			log.info("\t > myStepScope class      : {}", mine.getClass().getName());
-//			log.info("\t > registered == mine?    : {}", registered == mine);
-//		}
+//		ConfigurableListableBeanFactory beanFactory = 
+//				((ConfigurableApplicationContext) applicationContext).getBeanFactory();
+//		log.info("\t > beanFactory from applicationContext = {}", beanFactory.getClass().getName());
+//		
+//		BeanFactory parentBeanFactory = applicationContext.getParentBeanFactory();
+//		log.info("\t > beanFactory from applicationContext parent = {}", parentBeanFactory.getClass().getName());
+//		
+//		String[] scopeNames = beanFactory.getRegisteredScopeNames();
+//		log.info("\t > scopeNames: {}", Arrays.toString(scopeNames));
+		
+//		log.info("\t > jobScope = {}", jobScope);
+//		log.info("\t > stepScope = {}", stepScope);
 
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -216,25 +222,26 @@ public class TestBatchQuartzController {
 		log.info("## runChunkJob");
 		log.info("\t > useParam = {}, lastNames = {}", useParam, lastNames);
 		
-		
-		Job job = jobRegistry.getJob("chunkJob");
-		log.info("\t > found job = {}", job);
-		
+		Job job = null;
 		JobParametersBuilder builder = new JobParametersBuilder().addLong("timestamp", System.currentTimeMillis());
 		if (useParam) {
+			job = jobRegistry.getJob("chunkJob1");
 			String lastNamesStr = (lastNames != null) ? lastNames.stream().collect(Collectors.joining(",")) : null;
 			builder.addString("lastNamesStr", lastNamesStr);
+		} else {
+			job = jobRegistry.getJob("chunkJob2");
 		}
+		
+		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = builder.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## result: {}", jobExecution.getExitStatus());
+		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	
 
 }

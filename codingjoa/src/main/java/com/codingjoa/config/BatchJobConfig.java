@@ -186,35 +186,52 @@ public class BatchJobConfig {
 	}
 
 	@Bean 
-	public Job chunkJob(@Qualifier("chunkStep") Step chunkStep) {
-		return jobBuilderFactory.get("chunkJob")
+	public Job chunkJob1(@Qualifier("chunkStep1") Step chunkStep) {
+		return jobBuilderFactory.get("chunkJob1")
+				.start(chunkStep)
+				.build();
+	}
+
+	@Bean 
+	public Job chunkJob2(@Qualifier("chunkStep2") Step chunkStep) {
+		return jobBuilderFactory.get("chunkJob2")
 				.start(chunkStep)
 				.build();
 	}
 	
 	@Bean
-	public Step chunkStep(ItemReader<String> itemReader, ItemProcessor<String, String> itemProcessor, ItemWriter<String> itemWriter) {
-		log.info("## {}.chunkStep", this.getClass().getSimpleName());
+	public Step chunkStep1(@Qualifier("itemReader1") ItemReader<String> itemReader, 
+			@Qualifier("itemWriter1") ItemWriter<String> itemWriter) {
+		log.info("## create chunkStep1 bean");
 		log.info("\t > itemReader = {}", itemReader.getClass().getName());
-		log.info("\t > itemProcessor = {}", itemProcessor.getClass().getName());
+		log.info("\t > itemWriter = {}", itemWriter.getClass().getName());
+		
+		return stepBuilderFactory.get("chunkStep1")
+				.<String, String>chunk(10)
+				.reader(itemReader)
+				.writer(itemWriter)
+				.build();
+	}
+
+	@Bean
+	public Step chunkStep2(@Qualifier("itemReader2") ItemReader<String> itemReader, 
+			@Qualifier("itemWriter2") ItemWriter<String> itemWriter) {
+		log.info("## create chunkStep2 bean");
+		log.info("\t > itemReader = {}", itemReader.getClass().getName());
 		log.info("\t > itemWriter = {}", itemWriter.getClass().getName());
 		
 		return stepBuilderFactory.get("chunkStep")
 				.<String, String>chunk(10)
 				.reader(itemReader)
-				.processor(itemProcessor)
 				.writer(itemWriter)
 				.build();
 	}
 	
 	@StepScope
 	@Bean
-	public ListItemReader<String> itemReader(@Value("#{jobParameters['lastNames']}") String lastNamesStr) {
-		log.info("## {}.itemReader", this.getClass().getSimpleName());
-		log.info("\t > lastNamesStr = {}", lastNamesStr);
-		
+	public ListItemReader<String> itemReader1(@Value("#{jobParameters['lastNamesStr']}") String lastNamesStr) {
+		log.info("## create itemReader1 bean");
 		List<String> lastNames = (lastNamesStr != null) ? Arrays.stream(lastNamesStr.split(",")).collect(Collectors.toList()) : List.of();
-		log.info("\t > lastNames = {}", lastNames);
 		
 		return new ListItemReader<String>(lastNames) {
 			
@@ -222,19 +239,14 @@ public class BatchJobConfig {
 			
 			@BeforeStep
 			public void saveStepExecution(StepExecution stepExecution) {
-				log.info("## ListItemWriter.saveStepExecution");
+				log.info("## itemReader1.saveStepExecution");
 				this.stepExecution = stepExecution;
-			}
-			
-			@AfterStep
-			public void afterStep(StepExecution stepExecution) {
-				log.info("## ListItemWriter.afterStep");
 			}
 			
 			@Override
 			public String read() {
-				log.info("## ListItemWriter.read");
-				log.info("\t > stepExecution = {}", stepExecution);
+				log.info("## itemReader1.read");
+				log.info("\t > jobParameters = {}", stepExecution != null ? stepExecution.getJobParameters() : null);
 				String item = super.read();
 				log.info("\t > item = {}", item);
 				return item;
@@ -242,25 +254,68 @@ public class BatchJobConfig {
 		};
 	}
 	
-	@StepScope
 	@Bean
-	public ItemProcessor<String, String> itemProcessor() {
-		log.info("## {}.itemProcessor", this.getClass().getSimpleName());
-		return item -> {
-			String processedItem = item.toUpperCase();
-			log.info("## ItemProcessor.process: {}", processedItem);
-			return processedItem;
+	public ListItemReader<String> itemReader2() {
+		log.info("## create itemReader2 bean");
+		List<String> lastNames = List.of("seo", "lee");
+		return new ListItemReader<String>(lastNames) {
+			
+			private StepExecution stepExecution;
+			
+			@BeforeStep
+			public void beforeStep(StepExecution stepExecution) {
+				log.info("## itemReader2.beforeStep");
+				this.stepExecution = stepExecution;
+			}
+
+			@AfterStep
+			public void afterStep(StepExecution stepExecution) {
+				log.info("## itemReader2.afterStep");
+			}
+			
+			@Override
+			public String read() {
+				log.info("## itemReader2.read");
+				log.info("\t > jobParameters = {}", stepExecution != null ? stepExecution.getJobParameters() : null);
+				String item = super.read();
+				log.info("\t > item = {}", item);
+				return item;
+			}
 		};
 	}
 	
+//	@StepScope
+//	@Bean
+//	public ItemProcessor<String, String> itemProcessor() {
+//		log.info("## {}.itemProcessor", this.getClass().getSimpleName());
+//		return item -> {
+//			String processedItem = item.toUpperCase();
+//			log.info("## ItemProcessor.process: {}", processedItem);
+//			return processedItem;
+//		};
+//	}
+	
 	@StepScope
 	@Bean
-	public ItemWriter<String> itemWriter() {
-		log.info("## {}.itemWriter", this.getClass().getSimpleName());
+	public ListItemWriter<String> itemWriter1() {
+		log.info("## create itemWriter1 bean");
 		return new ListItemWriter<String>() {
+			
 			@Override
 			public void write(List<? extends String> items) throws Exception {
-				log.info("## ListItemWriter.write: {}", items);
+				log.info("## itemWriter1.write: {}", items);
+			}
+		};
+	}
+
+	@Bean
+	public ListItemWriter<String> itemWriter2() {
+		log.info("## create itemWriter2 bean");
+		return new ListItemWriter<String>() {
+			
+			@Override
+			public void write(List<? extends String> items) throws Exception {
+				log.info("## itemWriter2.write: {}", items);
 			}
 		};
 	}

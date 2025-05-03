@@ -75,7 +75,7 @@
 	<logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="INFO"/>
 	
 	<!-- Batch -->
-	<logger name="org.springframework.batch" level="DEBUG"/>
+	<logger name="org.springframework.batch" level="OFF"/>
 	<!-- <logger name="org.springframework.batch.core.configuration.annotation" level="TRACE"/> -->
 	
 	<!-- HikariCP -->
