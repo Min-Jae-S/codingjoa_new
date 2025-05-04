@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
 import lombok.RequiredArgsConstructor;
@@ -262,5 +263,44 @@ public class BatchJobConfig {
 			log.info("## mybatisItemWriter.write: {}", userIds);
 		};
 	}
+	
+	/*****************************************************************/
+	
+	@Bean
+	public Job orphanBoardImagesCleanupJob() {
+		return jobBuilderFactory.get("orphanBoardImagesCleanupJob")
+				.start(myBatisStep())
+				.build();
+	}
+
+	@Bean
+	public Step orphanBoardImagesCleanupStep() {
+		return stepBuilderFactory.get("orphanBoardImagesCleanupStep")
+				.<BoardImage, BoardImage>chunk(10)
+				.reader(orphanBoardImagesItemReader())
+				.writer(orphanBoardImagesItemWriter())
+				.build();
+	}
+	
+	@Bean
+	public MyBatisPagingItemReader<BoardImage> orphanBoardImagesItemReader() {
+		return new MyBatisPagingItemReaderBuilder<BoardImage>()
+				.sqlSessionFactory(sqlSessionFactory)
+				.queryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages")
+				.pageSize(10)
+				.maxItemCount(100)
+				.build();
+	}
+	
+	@Bean
+	public ItemWriter<BoardImage> orphanBoardImagesItemWriter() {
+		return boardImages -> {
+			log.info("## orphanBoardImagesItemWriter.write");
+			for (BoardImage boardImage : boardImages) {
+				log.info("\t > {}", boardImage);
+			}
+		};
+	}
+	
 	
 }

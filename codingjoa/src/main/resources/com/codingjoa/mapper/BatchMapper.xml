@@ -26,7 +26,7 @@
 			paged_users.rn > ( #{_page} * #{_pagesize} )
 	</select>
 	
-	<select id="findInacitveBoardImages" resultType="BoardImage">
+	<select id="findOrphanBoardImages" resultType="BoardImage">
 		SELECT 
 			paged_images.*
 		FROM (

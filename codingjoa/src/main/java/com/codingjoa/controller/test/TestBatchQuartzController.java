@@ -87,11 +87,19 @@ public class TestBatchQuartzController {
 
 	@Qualifier("myBatisItemProcessor")
 	@Autowired(required = false)
-	private ItemReader<?> myBatisItemProcessor;
+	private ItemProcessor<?, ?> myBatisItemProcessor;
 	
 	@Qualifier("myBatisItemWriter")
 	@Autowired(required = false)
 	private ItemWriter<?> myBatisItemWriter;
+
+	@Qualifier("orphanBoardImagesItemReader")
+	@Autowired(required = false)
+	private ItemReader<?> orphanBoardImagesItemReader;
+	
+	@Qualifier("orphanBoardImagesItemWriter")
+	@Autowired(required = false)
+	private ItemWriter<?> orphanBoardImagesItemWriter;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -215,6 +223,27 @@ public class TestBatchQuartzController {
 		inspect("myBatisItemWriter", myBatisItemWriter);
 		
 		Job job = jobRegistry.getJob("myBatisJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/board-images-cleanup-job/run")
+	public ResponseEntity<Object> runBoardImagesCleanupJob() throws Exception {
+		log.info("## runBoardImagesCleanupJob");
+		
+		inspect("orphanBoardImagesItemReader", orphanBoardImagesItemReader);
+		inspect("orphanBoardImagesItemWriter", orphanBoardImagesItemWriter);
+		
+		Job job = jobRegistry.getJob("orphanBoardImagesCleanupJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
