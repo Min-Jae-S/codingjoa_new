@@ -17,6 +17,7 @@ import org.springframework.batch.core.scope.StepScope;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -33,7 +34,7 @@ import com.codingjoa.entity.User;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "rawtypes"})
 @Slf4j
 @RequestMapping("/test/batch-quartz")
 @RestController
@@ -61,19 +62,19 @@ public class TestBatchQuartzController {
 	
 	@Qualifier("itemReader1")
 	@Autowired(required = false)
-	private ItemReader<String> itemReader1;
+	private ItemReader itemReader1;
 
 	@Qualifier("itemReader2")
 	@Autowired(required = false)
-	private ItemReader<String> itemReader2;
+	private ItemReader itemReader2;
 
 	@Qualifier("itemProcessor")
 	@Autowired(required = false)
-	private ItemProcessor<String, String> itemProcessor;
+	private ItemProcessor itemProcessor;
 	
 	@Qualifier("itemWriter")
 	@Autowired(required = false)
-	private ItemWriter<String> itemWriter;
+	private ItemWriter itemWriter;
 
 	@Autowired(required = false)
 	private JobScope jobScope;
@@ -83,24 +84,31 @@ public class TestBatchQuartzController {
 	
 	@Qualifier("myBatisItemReader")
 	@Autowired(required = false)
-	private ItemReader<?> myBatisItemReader;
+	private ItemReader myBatisItemReader;
 
 	@Qualifier("myBatisItemProcessor")
 	@Autowired(required = false)
-	private ItemProcessor<?, ?> myBatisItemProcessor;
+	private ItemProcessor myBatisItemProcessor;
 	
 	@Qualifier("myBatisItemWriter")
 	@Autowired(required = false)
-	private ItemWriter<?> myBatisItemWriter;
+	private ItemWriter myBatisItemWriter;
 
-	@Qualifier("orphanBoardImagesItemReader")
+	@Qualifier("boardImagesCleanupReader")
 	@Autowired(required = false)
-	private ItemReader<?> orphanBoardImagesItemReader;
+	private ItemReader boardImagesReader;
 	
-	@Qualifier("orphanBoardImagesItemWriter")
 	@Autowired(required = false)
-	private ItemWriter<?> orphanBoardImagesItemWriter;
+	private CompositeItemWriter boardImagesCompositeWriter;
 	
+	@Qualifier("boardImagesCleanupDbWriter")
+	@Autowired(required = false)
+	private ItemWriter boardImagesDbWriter;
+	
+	@Qualifier("boardImagesCleanupFileWriter")
+	@Autowired(required = false)
+	private ItemWriter boardImagesFileWriter;
+
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
 		log.info("## config");
@@ -240,10 +248,12 @@ public class TestBatchQuartzController {
 	public ResponseEntity<Object> runBoardImagesCleanupJob() throws Exception {
 		log.info("## runBoardImagesCleanupJob");
 		
-		inspect("orphanBoardImagesItemReader", orphanBoardImagesItemReader);
-		inspect("orphanBoardImagesItemWriter", orphanBoardImagesItemWriter);
+		inspect("boardImagesReader", boardImagesReader);
+		inspect("boardImagesCompositeWriter", boardImagesCompositeWriter);
+		inspect("boardImagesDbWriter", boardImagesDbWriter);
+		inspect("boardImagesFileWriter", boardImagesFileWriter);
 		
-		Job job = jobRegistry.getJob("orphanBoardImagesCleanupJob");
+		Job job = jobRegistry.getJob("boardImagesCleanupJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
