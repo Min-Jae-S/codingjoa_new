@@ -159,16 +159,6 @@
 			$form.submit();
 		});
 		
-		// attrchange.js, attrchange_ext.js 
-		$(".navbar-custom").attrchange({
-			trackValues: true,
-			callback: function(e) {
-				console.log("attributeName	: " + e.attributeName);
-				console.log("oldValue		: " + e.oldValue);
-				console.log("newValue		: " + e.newValue);
-			}
-		});
-		
 		// testGetData
 		$("#testGetDataBtn").on("click", function() {
 			console.log("> '%s'", writeEditor.getData());

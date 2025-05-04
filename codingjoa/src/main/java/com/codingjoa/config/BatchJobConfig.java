@@ -241,9 +241,9 @@ public class BatchJobConfig {
 	public MyBatisPagingItemReader<User> myBatisItemReader() {
 		return new MyBatisPagingItemReaderBuilder<User>()
 				.sqlSessionFactory(sqlSessionFactory)
-				.queryId("com.codingjoa.mapper.BatchMapper.findUsers")
+				.queryId("com.codingjoa.mapper.BatchMapper.test")
 				.pageSize(10)
-				.maxItemCount(30)
+				.maxItemCount(100)
 				.build();
 	}
 

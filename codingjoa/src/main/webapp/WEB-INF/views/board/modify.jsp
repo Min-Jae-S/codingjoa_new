@@ -183,7 +183,7 @@
 			}
 			
 			let formData = $form.serializeObject();
-			console.log("## Check formData");
+			console.log("## check formData");
 			console.log(JSON.stringify(formData, null, 2));
 			
 			$.ajax({
