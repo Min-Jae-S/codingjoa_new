@@ -1,11 +1,13 @@
 package com.codingjoa.config;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
+import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
@@ -282,7 +284,7 @@ public class BatchJobConfig {
 	@Bean
 	public Step boardImagesCleanupStep() {
 		return stepBuilderFactory.get("boardImagesCleanupStep")
-				.<BoardImage, Long>chunk(10)
+				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupCompositeWriter())
 				.build();
@@ -295,22 +297,28 @@ public class BatchJobConfig {
 				.sqlSessionFactory(sqlSessionFactory)
 				.queryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages")
 				.pageSize(10)
+				.maxItemCount(100)
 				.build();
 	}
 	
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Bean
-	public CompositeItemWriter<Object> boardImagesCleanupCompositeWriter() {
-		List<ItemWriter> writers = List.of(boardImagesCleanupDbWriter(), boardImagesCleanupFileWriter());
+	public CompositeItemWriter<BoardImage> boardImagesCleanupCompositeWriter() {
 		CompositeItemWriter compositeWriter = new CompositeItemWriter();
+		List<ItemWriter<?>> writers = new ArrayList<>(2);
+		writers.add(boardImagesCleanupDbWriter());
+		writers.add(boardImagesCleanupFileWriter());
 		compositeWriter.setDelegates(writers);
 		return compositeWriter;
 	}
 	
 	@StepScope
 	@Bean
-	public MyBatisBatchItemWriter<Long> boardImagesCleanupDbWriter() {
-		return null;
+	public MyBatisBatchItemWriter<BoardImage> boardImagesCleanupDbWriter() {
+		return new MyBatisBatchItemWriterBuilder<BoardImage>()
+				.sqlSessionFactory(sqlSessionFactory)
+				.statementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage")
+				.build();
 	}
 
 	@StepScope

@@ -82,7 +82,7 @@
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
 	
 	<!-- JDBC logger -->
-	<logger name="jdbc.sqlonly" additivity="false" level="OFF">
+	<logger name="jdbc.sqlonly" additivity="false" level="INFO">
 		<appender-ref ref="jdbc_console"/>
 	</logger>
  	
