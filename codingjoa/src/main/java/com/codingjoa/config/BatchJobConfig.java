@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
@@ -13,6 +14,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -23,6 +25,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.codingjoa.batch.SimpleTasklet;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -38,7 +41,6 @@ public class BatchJobConfig {
 	
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
-	private final Tasklet tasklet;
 	private final SqlSessionFactory sqlSessionFactory;
 	
 	@Bean 
@@ -154,18 +156,19 @@ public class BatchJobConfig {
 	/*****************************************************************/
 	
 	@Bean 
-	public Job taskletJob() {
+	public Job taskletJob(@Qualifier("taskletStep") Step taskletStep) {
 		return jobBuilderFactory.get("taskletJob")
-				.start(taskletStep())
+				.start(taskletStep)
 				.build();
 	}
 	
 	@Bean
-	public Step taskletStep() {
+	public Step taskletStep(@Qualifier("simpleTasklet") Tasklet simpleTasklet) {
 		return stepBuilderFactory.get("taskletStep")
-				.tasklet(tasklet)
+				.tasklet(simpleTasklet)
 				.build();
 	}
+	
 
 	/*****************************************************************/
 	
@@ -269,37 +272,33 @@ public class BatchJobConfig {
 	@Bean
 	public Job orphanBoardImagesCleanupJob() {
 		return jobBuilderFactory.get("orphanBoardImagesCleanupJob")
-				.start(myBatisStep())
+				.start(orphanBoardImagesCleanupStep())
 				.build();
 	}
 
 	@Bean
 	public Step orphanBoardImagesCleanupStep() {
 		return stepBuilderFactory.get("orphanBoardImagesCleanupStep")
-				.<BoardImage, BoardImage>chunk(10)
+				.<BoardImage, Long>chunk(10)
 				.reader(orphanBoardImagesItemReader())
 				.writer(orphanBoardImagesItemWriter())
 				.build();
 	}
 	
+	@StepScope
 	@Bean
 	public MyBatisPagingItemReader<BoardImage> orphanBoardImagesItemReader() {
 		return new MyBatisPagingItemReaderBuilder<BoardImage>()
 				.sqlSessionFactory(sqlSessionFactory)
 				.queryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages")
 				.pageSize(10)
-				.maxItemCount(100)
 				.build();
 	}
 	
+	@StepScope
 	@Bean
-	public ItemWriter<BoardImage> orphanBoardImagesItemWriter() {
-		return boardImages -> {
-			log.info("## orphanBoardImagesItemWriter.write");
-			for (BoardImage boardImage : boardImages) {
-				log.info("\t > {}", boardImage);
-			}
-		};
+	public MyBatisBatchItemWriter<Long> orphanBoardImagesItemWriter() {
+		return null;
 	}
 	
 	

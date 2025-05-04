@@ -32,16 +32,18 @@
 		FROM (
 			SELECT
 				ROWNUM rn,
-				sorted_images.*
+				filtered_images.*
 			FROM (
 				SELECT 
-					/*+ INDEX_DESC(users pk_users) */
+					/*+ INDEX_DESC(board_image pk_boardimage) */
 					board_image.*
 				FROM 
 					board_image
+				WHERE
+					board_id IS NULL
 				ORDER BY
 					id DESC
-			) sorted_images
+			) filtered_images
 			WHERE
 				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
 		) paged_images
