@@ -40,79 +40,71 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class TestBatchQuartzController {
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobRepository jobRepository;
 
-	@Autowired(required = false)
+	@Autowired
 	private JobExplorer jobExplorer;
 
-	@Autowired(required = false)
+	@Autowired
 	private JobLauncher jobLauncher;
 	
-	@Autowired(required = false)
+	@Autowired
 	private JobRegistry jobRegistry;
 	
-	@Qualifier("chunkJob1")
-	@Autowired(required = false)
-	private Job chunkJob1;
-
-	@Qualifier("chunkJob2")
-	@Autowired(required = false)
-	private Job chunkJob2;
-	
 	@Qualifier("itemReader1")
-	@Autowired(required = false)
+	@Autowired
 	private ItemReader itemReader1;
 
 	@Qualifier("itemReader2")
-	@Autowired(required = false)
+	@Autowired
 	private ItemReader itemReader2;
 
 	@Qualifier("itemProcessor")
-	@Autowired(required = false)
+	@Autowired
 	private ItemProcessor itemProcessor;
 	
 	@Qualifier("itemWriter")
-	@Autowired(required = false)
+	@Autowired
 	private ItemWriter itemWriter;
 
-	@Autowired(required = false)
+	@Autowired
 	private JobScope jobScope;
 
-	@Autowired(required = false)
+	@Autowired
 	private StepScope stepScope;
 	
 	@Qualifier("myBatisItemReader")
-	@Autowired(required = false)
+	@Autowired
 	private ItemReader myBatisItemReader;
 
 	@Qualifier("myBatisItemProcessor")
-	@Autowired(required = false)
+	@Autowired
 	private ItemProcessor myBatisItemProcessor;
 	
 	@Qualifier("myBatisItemWriter")
-	@Autowired(required = false)
+	@Autowired
 	private ItemWriter myBatisItemWriter;
 
 	@Qualifier("boardImagesCleanupReader")
-	@Autowired(required = false)
+	@Autowired
 	private ItemReader boardImagesReader;
 	
-	@Autowired(required = false)
+	@Autowired
 	private CompositeItemWriter boardImagesCompositeWriter;
 	
 	@Qualifier("boardImagesCleanupDbWriter")
-	@Autowired(required = false)
+	@Autowired
 	private ItemWriter boardImagesDbWriter;
 	
 	@Qualifier("boardImagesCleanupFileWriter")
-	@Autowired(required = false)
+	@Autowired
 	private ItemWriter boardImagesFileWriter;
 	
 	@Qualifier("boardImagesCleanupJob")
-	@Autowired(required = false)
+	@Autowired
 	private Job boardImagesCleanupJob;
-
+	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
 		log.info("## config");
@@ -178,8 +170,8 @@ public class TestBatchQuartzController {
 	@GetMapping("/chunk-job/config")
 	public ResponseEntity<Object> configChunkJob() throws Exception {
 		log.info("## configChunkJob");
-		log.info("\t > chunckJob1 bean: {}", chunkJob1);
-		log.info("\t > chunckJob2 bean: {}", chunkJob2);
+		log.info("\t > chunckJob1: {}", jobRegistry.getJob("chnckJob1"));
+		log.info("\t > chunckJob2: {}", jobRegistry.getJob("chnckJob2"));
 		inspect("itemReader1", itemReader1);
 		inspect("itemReader2", itemReader2);
 		
@@ -258,16 +250,16 @@ public class TestBatchQuartzController {
 		inspect("boardImagesDbWriter", boardImagesDbWriter);
 		inspect("boardImagesFileWriter", boardImagesFileWriter);
 		
-//		Job job = jobRegistry.getJob("boardImagesCleanupJob");
-//		log.info("\t > found job = {}", job);
+		Job job = jobRegistry.getJob("boardImagesCleanupJob");
+		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
-//		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		JobExecution jobExecution = jobLauncher.run(boardImagesCleanupJob, jobParameters);
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		//JobExecution jobExecution = jobLauncher.run(boardImagesCleanupJob, jobParameters);
 		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());

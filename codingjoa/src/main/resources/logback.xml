@@ -71,18 +71,19 @@
 	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="TRACE"/> -->
 	<!-- <logger name="org.springframework.jdbc.datasource.DataSourceTransactionManager" level="DEBUG"/> -->
 	<!-- <logger name="org.mybatis.spring" level="TRACE"/> -->
-	<logger name="org.mybatis.spring.SqlSessionUtils" level="TRACE"/>
-	<logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="TRACE"/>
+	<!-- <logger name="org.mybatis.spring.SqlSessionUtils" level="TRACE"/> -->
+	<!-- <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="TRACE"/> -->
 	
 	<!-- Batch -->
-	<logger name="org.springframework.batch" level="TRACE"/>
+	<!-- <logger name="org.springframework.batch" level="TRACE"/> -->
 	<!-- <logger name="org.springframework.batch.core.configuration.annotation" level="TRACE"/> -->
+	<logger name="org.mybatis.spring.batch" level="TRACE"/>
 	
 	<!-- HikariCP -->
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
 	
 	<!-- JDBC logger -->
-	<logger name="jdbc.sqlonly" additivity="false" level="INFO">
+	<logger name="jdbc.sqlonly" additivity="false" level="OFF">
 		<appender-ref ref="jdbc_console"/>
 	</logger>
  	

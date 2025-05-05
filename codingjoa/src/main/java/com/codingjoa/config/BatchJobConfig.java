@@ -48,12 +48,6 @@ public class BatchJobConfig {
 	private final SqlSessionFactory sqlSessionFactory;
 	private final PlatformTransactionManager transactionManager;
 	
-//	@PostConstruct
-//	public void init() {
-//		log.info("## BatchJobConfig.init", this.getClass().getSimpleName());
-//		log.info("\t > transactionManager = {}", transactionManager);
-//	}
-	
 	@Bean 
 	public Job multiStepsJob() {
 		return jobBuilderFactory.get("multiStepsJob")
@@ -295,10 +289,10 @@ public class BatchJobConfig {
 	@Bean
 	public Step boardImagesCleanupStep() {
 		return stepBuilderFactory.get("boardImagesCleanupStep")
+				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImagesCleanupReader())
-				//.writer(boardImagesCleanupCompositeWriter())
-				.writer(boardImagesCleanupDbWriter())
+				.writer(boardImagesCleanupCompositeWriter())
 				.build();
 	}
 	

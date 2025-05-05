@@ -1,16 +1,13 @@
 package com.codingjoa.config;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
-import org.springframework.batch.core.configuration.JobFactory;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.support.AutomaticJobRegistrar;
 import org.springframework.batch.core.configuration.support.JobRegistryBeanPostProcessor;
 import org.springframework.batch.core.configuration.support.MapJobRegistry;
 import org.springframework.batch.core.explore.JobExplorer;
@@ -20,19 +17,16 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.scope.JobScope;
 import org.springframework.batch.core.scope.StepScope;
-import org.springframework.batch.support.DatabaseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Configuration
 public class BatchConfig extends DefaultBatchConfigurer {
@@ -58,13 +52,6 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		this.transactionManager = transactionManager;
 	}
 	
-	@PostConstruct
-	public void init() {
-		log.info("## BatchConfig.init");
-		log.info("\t > dataSource = {}", dataSource);
-		log.info("\t > transactionManager = {}", transactionManager);
-	}
-
 	@Override
 	@Autowired
 	public void setDataSource(@Qualifier("batchDataSource") DataSource dataSource) {
@@ -150,7 +137,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	}
 	
 	@Bean
-	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
+	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(@Lazy JobRegistry jobRegistry) {
 		log.info("## jobRegistryBeanPostProcessor");
 		log.info("\t > jobRegistry: {}", jobRegistry);
 		log.info("\t > proxy: {}", AopUtils.isAopProxy(jobRegistry));
@@ -161,6 +148,5 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		processor.setJobRegistry(jobRegistry);
 		return processor;
 	}
-	
 	
 }
