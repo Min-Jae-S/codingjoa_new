@@ -170,35 +170,14 @@ public class TestBatchQuartzController {
 	@GetMapping("/chunk-job/config")
 	public ResponseEntity<Object> configChunkJob() throws Exception {
 		log.info("## configChunkJob");
-		log.info("\t > chunckJob1: {}", jobRegistry.getJob("chnckJob1"));
-		log.info("\t > chunckJob2: {}", jobRegistry.getJob("chnckJob2"));
+		log.info("\t > job: {}", jobRegistry.getJob("chnckJob1"));
+		log.info("\t > job: {}", jobRegistry.getJob("chnckJob2"));
 		inspect("itemReader1", itemReader1);
 		inspect("itemReader2", itemReader2);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	private void inspect(String beanName, Object bean) {
-		if (bean == null) {
-			log.info("\t > {}: null", beanName);
-			return;
-		}
-		
-		boolean isProxy = AopUtils.isAopProxy(bean);
-		Class<?> targetClass = AopUtils.getTargetClass(bean);
-		
-		log.info("\t > {}", beanName);
-		log.info("\t\t • proxy: {}", isProxy);
-		
-		if (isProxy) {
-			log.info("\t\t • proxy class: {}", bean.getClass().getName());
-			log.info("\t\t • proxy type: {}", AopUtils.isJdkDynamicProxy(bean) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
-			log.info("\t\t • target class: {}", targetClass.getName());
-		} else {
-			log.info("\t\t • this class: {}", bean);
-		}
-	}
-
 	@GetMapping("/chunk-job/run")
 	public ResponseEntity<Object> runChunkJob(@RequestParam(required = false) boolean useStepScope, 
 			@RequestParam(name = "lastNames", required = false) String lastNamesStr) throws Exception {
@@ -223,7 +202,6 @@ public class TestBatchQuartzController {
 	@GetMapping("/mybatis-job/run")
 	public ResponseEntity<Object> runMyBatisJob() throws Exception {
 		log.info("## runMyBatisJob");
-		
 		inspect("myBatisItemReader", myBatisItemReader);
 		inspect("myBatisItemWriter", myBatisItemWriter);
 		
@@ -240,15 +218,23 @@ public class TestBatchQuartzController {
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
-
-	@GetMapping("/board-images-cleanup-job/run")
-	public ResponseEntity<Object> runBoardImagesCleanupJob() throws Exception {
-		log.info("## runBoardImagesCleanupJob");
+	
+	@GetMapping("/board-images-cleanup-job/config")
+	public ResponseEntity<Object> configBoardImagesCleanupJob() throws Exception {
+		log.info("## configBoardImagesCleanupJob");
+		log.info("\t > job: {}", jobRegistry.getJob("boardImagesCleanupJob"));
 		
 		inspect("boardImagesReader", boardImagesReader);
 		inspect("boardImagesCompositeWriter", boardImagesCompositeWriter);
 		inspect("boardImagesDbWriter", boardImagesDbWriter);
 		inspect("boardImagesFileWriter", boardImagesFileWriter);
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/board-images-cleanup-job/run")
+	public ResponseEntity<Object> runBoardImagesCleanupJob() throws Exception {
+		log.info("## runBoardImagesCleanupJob");
 		
 		Job job = jobRegistry.getJob("boardImagesCleanupJob");
 		log.info("\t > found job = {}", job);
@@ -263,6 +249,27 @@ public class TestBatchQuartzController {
 		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	private void inspect(String beanName, Object bean) {
+		if (bean == null) {
+			log.info("\t > {}: null", beanName);
+			return;
+		}
+		
+		boolean isProxy = AopUtils.isAopProxy(bean);
+		Class<?> targetClass = AopUtils.getTargetClass(bean);
+		
+		log.info("\t > {}", beanName);
+		log.info("\t\t • proxy: {}", isProxy);
+		
+		if (isProxy) {
+			log.info("\t\t • proxy class: {}", bean.getClass().getName());
+			log.info("\t\t • proxy type: {}", AopUtils.isJdkDynamicProxy(bean) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
+			log.info("\t\t • target class: {}", targetClass.getName());
+		} else {
+			log.info("\t\t • this class: {}", bean);
+		}
 	}
 
 

@@ -66,7 +66,10 @@
 	<p>batch-quartz.jsp</p>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(chunkJob)</button>
+		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
+		<button class="btn btn-lg btn-warning" onclick="configBoardImagesCleanupJob()">config<br>(BoardImagesCleanupJob)</button>
+	</div>
+	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
@@ -251,6 +254,23 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/batch-quartz/chunk-job/config",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+
+	function configBoardImagesCleanupJob() {
+		console.log("## configBoardImagesCleanupJob");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/board-images-cleanup-job/config",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

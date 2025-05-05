@@ -8,8 +8,10 @@ import javax.annotation.PostConstruct;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
+import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
+import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
@@ -30,6 +32,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.FileDeletingItemWriter;
+import com.codingjoa.batch.MybatisFirstPageItemReader;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -295,16 +298,20 @@ public class BatchJobConfig {
 				.writer(boardImagesCleanupCompositeWriter())
 				.build();
 	}
-	
+
+	// bean type) ItemReader --> MyBatisBatchItemReader --> MybatisFirstPageItemReader
+	// [WARN ]  o.s.b.c.l.AbstractListenerFactoryBean    : org.springframework.batch.item.ItemReader is an interface. 
+	// The implementing class will not be queried for annotation based listener configurations.
+	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MyBatisPagingItemReader<BoardImage> boardImagesCleanupReader() {
-		return new MyBatisPagingItemReaderBuilder<BoardImage>()
-				.sqlSessionFactory(sqlSessionFactory)
-				.queryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages")
-				.pageSize(10)
-				.maxItemCount(100)
-				.build();
+	public MybatisFirstPageItemReader<BoardImage> boardImagesCleanupReader() {
+		MybatisFirstPageItemReader reader = new MybatisFirstPageItemReader<BoardImage>();
+		reader.setSqlSessionFactory(sqlSessionFactory);
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
+		reader.setPageSize(10);
+		reader.setMaxItemCount(100);
+		return reader;
 	}
 	
 	@StepScope
