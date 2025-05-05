@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.FileDeletingItemWriter;
-import com.codingjoa.batch.MybatisFirstPageItemReader;
+import com.codingjoa.batch.MybatisFixedPagingItemReader;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -299,14 +299,14 @@ public class BatchJobConfig {
 				.build();
 	}
 
-	// bean type) ItemReader --> MyBatisBatchItemReader --> MybatisFirstPageItemReader
+	// bean type) ItemReader --> MyBatisPagingItemReader --> MybatisFixedPagingItemReader
 	// [WARN ]  o.s.b.c.l.AbstractListenerFactoryBean    : org.springframework.batch.item.ItemReader is an interface. 
 	// The implementing class will not be queried for annotation based listener configurations.
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MybatisFirstPageItemReader<BoardImage> boardImagesCleanupReader() {
-		MybatisFirstPageItemReader reader = new MybatisFirstPageItemReader<BoardImage>();
+	public MybatisFixedPagingItemReader<BoardImage> boardImagesCleanupReader() {
+		MybatisFixedPagingItemReader reader = new MybatisFixedPagingItemReader<BoardImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);

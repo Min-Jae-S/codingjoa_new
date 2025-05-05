@@ -14,12 +14,10 @@ public class FileDeletingItemWriter<T> implements ItemWriter<T> {
 
 	@Override
 	public void write(List<? extends T> items) throws Exception {
-		log.info("## {}.write", this.getClass().getSimpleName());
-
 		List<Long> boardImageIds = items.stream()
 				.map(item -> ((BoardImage) item).getId())
 				.collect(Collectors.toList());
-		log.info("\t > boardImageIds = {}", boardImageIds);
+		log.info("## {}.write: {}", this.getClass().getSimpleName(), boardImageIds);
 	}
 
 }
