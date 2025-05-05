@@ -29,7 +29,7 @@ public class DataSourceConfig {
 		hikariConfig.setJdbcUrl(env.getProperty("datasource.main.url"));
 		hikariConfig.setUsername(env.getProperty("datasource.main.username"));
 		hikariConfig.setPassword(env.getProperty("datasource.main.password"));
-		hikariConfig.setPoolName("MainHikarddPool");
+		hikariConfig.setPoolName("MainHikariPool");
 		hikariConfig.setAutoCommit(false);
 		return hikariConfig;
 	}

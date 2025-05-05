@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 
 import org.springframework.aop.framework.AopProxyUtils;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.batch.core.configuration.JobFactory;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -58,7 +60,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@PostConstruct
 	public void init() {
-		log.info("## BatchConfig");
+		log.info("## BatchConfig.init");
 		log.info("\t > dataSource = {}", dataSource);
 		log.info("\t > transactionManager = {}", transactionManager);
 	}
@@ -143,11 +145,12 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	
 	@Bean
 	public JobRegistry jobRegistry() {
-		return new MapJobRegistry();
+		MapJobRegistry jobRegistry = new MapJobRegistry();
+		return jobRegistry;
 	}
 	
 	@Bean
-	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(@Lazy JobRegistry jobRegistry) {
+	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(JobRegistry jobRegistry) {
 		log.info("## jobRegistryBeanPostProcessor");
 		log.info("\t > jobRegistry: {}", jobRegistry);
 		log.info("\t > proxy: {}", AopUtils.isAopProxy(jobRegistry));

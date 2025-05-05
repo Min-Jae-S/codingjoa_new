@@ -108,6 +108,10 @@ public class TestBatchQuartzController {
 	@Qualifier("boardImagesCleanupFileWriter")
 	@Autowired(required = false)
 	private ItemWriter boardImagesFileWriter;
+	
+	@Qualifier("boardImagesCleanupJob")
+	@Autowired(required = false)
+	private Job boardImagesCleanupJob;
 
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -116,6 +120,9 @@ public class TestBatchQuartzController {
 		log.info("\t > jobExplorer = {}", jobExplorer);
 		log.info("\t > jobLauncher = {}", jobLauncher);
 		log.info("\t > jobRegistry = {}", jobRegistry);
+		log.info("\t > registered jobs = {}", jobRegistry.getJobNames());
+		//log.info("\t > jobNames from jobExplorer = {}", jobExplorer.getJobNames());
+		//log.info("\t > jobNames from jobRegistry = {}", jobRegistry.getJobNames());
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -124,8 +131,6 @@ public class TestBatchQuartzController {
 			@RequestParam(required = false) Boolean flowStatus) throws Exception {
 		log.info("## runJob");
 		log.info("\t > jobName = {}, flowStatus = {}", jobName, flowStatus);
-		//log.info("\t > jobNames from jobExplorer = {}", jobExplorer.getJobNames());
-		//log.info("\t > jobNames from jobRegistry = {}", jobRegistry.getJobNames());
 		
 		Job job = null;
 		try {
@@ -253,15 +258,16 @@ public class TestBatchQuartzController {
 		inspect("boardImagesDbWriter", boardImagesDbWriter);
 		inspect("boardImagesFileWriter", boardImagesFileWriter);
 		
-		Job job = jobRegistry.getJob("boardImagesCleanupJob");
-		log.info("\t > found job = {}", job);
+//		Job job = jobRegistry.getJob("boardImagesCleanupJob");
+//		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		
-		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+//		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		JobExecution jobExecution = jobLauncher.run(boardImagesCleanupJob, jobParameters);
 		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());

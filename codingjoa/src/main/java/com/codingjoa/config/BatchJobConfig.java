@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
@@ -25,6 +27,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.FileDeletingItemWriter;
 import com.codingjoa.entity.BoardImage;
@@ -33,6 +36,7 @@ import com.codingjoa.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings({"unused", "rawtypes", "unchecked"})
 @Slf4j
 @RequiredArgsConstructor
 @ComponentScan("com.codingjoa.batch")
@@ -42,6 +46,13 @@ public class BatchJobConfig {
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
+	private final PlatformTransactionManager transactionManager;
+	
+//	@PostConstruct
+//	public void init() {
+//		log.info("## BatchJobConfig.init", this.getClass().getSimpleName());
+//		log.info("\t > transactionManager = {}", transactionManager);
+//	}
 	
 	@Bean 
 	public Job multiStepsJob() {
@@ -286,7 +297,8 @@ public class BatchJobConfig {
 		return stepBuilderFactory.get("boardImagesCleanupStep")
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImagesCleanupReader())
-				.writer(boardImagesCleanupCompositeWriter())
+				//.writer(boardImagesCleanupCompositeWriter())
+				.writer(boardImagesCleanupDbWriter())
 				.build();
 	}
 	
@@ -301,7 +313,7 @@ public class BatchJobConfig {
 				.build();
 	}
 	
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@StepScope
 	@Bean
 	public CompositeItemWriter<BoardImage> boardImagesCleanupCompositeWriter() {
 		CompositeItemWriter compositeWriter = new CompositeItemWriter();
@@ -326,6 +338,5 @@ public class BatchJobConfig {
 	public FileDeletingItemWriter<BoardImage> boardImagesCleanupFileWriter() {
 		return new FileDeletingItemWriter<BoardImage>();
 	}
-	
 	
 }

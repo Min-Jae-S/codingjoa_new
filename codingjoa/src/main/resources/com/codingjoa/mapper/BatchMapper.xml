@@ -58,7 +58,7 @@
 			id = #{id}
 	</delete>
 	
-	<delete id="deleteBoardImages">
+	<!-- <delete id="deleteBoardImages">
 		DELECT FROM 
 			board_image 
 		WHERE
@@ -66,6 +66,6 @@
 		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
 				#{id}
 			</foreach>
-	</delete>
+	</delete> -->
 	
 </mapper>
