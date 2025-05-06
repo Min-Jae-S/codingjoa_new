@@ -90,16 +90,16 @@ public class TestBatchQuartzController {
 	@Autowired
 	private ItemReader boardImagesReader;
 	
-	@Autowired
-	private CompositeItemWriter boardImagesCompositeWriter;
+//	@Autowired
+//	private CompositeItemWriter boardImagesCompositeWriter;
 	
-	@Qualifier("boardImagesCleanupDbWriter")
+	@Qualifier("boardImagesCleanupWriter")
 	@Autowired
-	private ItemWriter boardImagesDbWriter;
+	private ItemWriter boardImagesWriter;
 	
-	@Qualifier("boardImagesCleanupFileWriter")
-	@Autowired
-	private ItemWriter boardImagesFileWriter;
+//	@Qualifier("boardImagesCleanupFileWriter")
+//	@Autowired
+//	private ItemWriter boardImagesFileWriter;
 	
 	@Qualifier("boardImagesCleanupJob")
 	@Autowired
@@ -170,8 +170,8 @@ public class TestBatchQuartzController {
 	@GetMapping("/chunk-job/config")
 	public ResponseEntity<Object> configChunkJob() throws Exception {
 		log.info("## configChunkJob");
-		log.info("\t > job: {}", jobRegistry.getJob("chnckJob1"));
-		log.info("\t > job: {}", jobRegistry.getJob("chnckJob2"));
+		log.info("\t > job: {}", jobRegistry.getJob("chunkJob1"));
+		log.info("\t > job: {}", jobRegistry.getJob("chunkJob2"));
 		inspect("itemReader1", itemReader1);
 		inspect("itemReader2", itemReader2);
 		
@@ -225,9 +225,7 @@ public class TestBatchQuartzController {
 		log.info("\t > job: {}", jobRegistry.getJob("boardImagesCleanupJob"));
 		
 		inspect("boardImagesReader", boardImagesReader);
-		inspect("boardImagesCompositeWriter", boardImagesCompositeWriter);
-		inspect("boardImagesDbWriter", boardImagesDbWriter);
-		inspect("boardImagesFileWriter", boardImagesFileWriter);
+		inspect("boardImagesWriter", boardImagesWriter);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

@@ -13,6 +13,7 @@ import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
 import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
+import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -31,6 +32,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.codingjoa.batch.BoardImagesCleanupListener;
 import com.codingjoa.batch.FileDeletingItemWriter;
 import com.codingjoa.batch.MybatisFixedPagingItemReader;
 import com.codingjoa.entity.BoardImage;
@@ -295,7 +297,8 @@ public class BatchJobConfig {
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImagesCleanupReader())
-				.writer(boardImagesCleanupCompositeWriter())
+				.writer(boardImagesCleanupWriter())
+				.listener(boardImagesCleanupListener())
 				.build();
 	}
 
@@ -310,34 +313,39 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(100);
+		reader.setMaxItemCount(50);
 		return reader;
 	}
 	
-	@StepScope
-	@Bean
-	public CompositeItemWriter<BoardImage> boardImagesCleanupCompositeWriter() {
-		CompositeItemWriter compositeWriter = new CompositeItemWriter();
-		List<ItemWriter<?>> writers = new ArrayList<>(2);
-		writers.add(boardImagesCleanupDbWriter());
-		writers.add(boardImagesCleanupFileWriter());
-		compositeWriter.setDelegates(writers);
-		return compositeWriter;
-	}
+//	@StepScope
+//	@Bean
+//	public CompositeItemWriter<BoardImage> boardImagesCleanupCompositeWriter() {
+//		CompositeItemWriter compositeWriter = new CompositeItemWriter();
+//		List<ItemWriter<?>> writers = new ArrayList<>(2);
+//		writers.add(boardImagesCleanupDbWriter());
+//		writers.add(boardImagesCleanupFileWriter());
+//		compositeWriter.setDelegates(writers);
+//		return compositeWriter;
+//	}
 	
 	@StepScope
 	@Bean
-	public MyBatisBatchItemWriter<BoardImage> boardImagesCleanupDbWriter() {
+	public MyBatisBatchItemWriter<BoardImage> boardImagesCleanupWriter() {
 		return new MyBatisBatchItemWriterBuilder<BoardImage>()
 				.sqlSessionFactory(sqlSessionFactory)
 				.statementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage")
 				.build();
 	}
 
-	@StepScope
+//	@StepScope
+//	@Bean
+//	public FileDeletingItemWriter<BoardImage> boardImagesCleanupFileWriter() {
+//		return new FileDeletingItemWriter<BoardImage>();
+//	}
+	
 	@Bean
-	public FileDeletingItemWriter<BoardImage> boardImagesCleanupFileWriter() {
-		return new FileDeletingItemWriter<BoardImage>();
+	public BoardImagesCleanupListener boardImagesCleanupListener() {
+		return new BoardImagesCleanupListener();
 	}
 	
 }

@@ -49,7 +49,7 @@
 		) paged_images
 		WHERE
 			paged_images.rn > ( #{_page} * #{_pagesize} )
-	</select>
+	</select>	
 	
 	<delete id="deleteBoardImage">
 		DELETE FROM
@@ -57,15 +57,5 @@
 		WHERE
 			id = #{id}
 	</delete>
-	
-	<!-- <delete id="deleteBoardImages">
-		DELECT FROM 
-			board_image 
-		WHERE
-			id IN
-		 	<foreach collection="list" item="id" open="(" close=")" separator=",">	
-				#{id}
-			</foreach>
-	</delete> -->
 	
 </mapper>

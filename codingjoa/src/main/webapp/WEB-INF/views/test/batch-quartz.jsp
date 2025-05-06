@@ -69,7 +69,7 @@
 		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
 		<button class="btn btn-lg btn-warning" onclick="configBoardImagesCleanupJob()">config<br>(BoardImagesCleanupJob)</button>
 	</div>
-	<div class="test d-flex mt-5">
+	<div class="test d-none mt-5">
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>

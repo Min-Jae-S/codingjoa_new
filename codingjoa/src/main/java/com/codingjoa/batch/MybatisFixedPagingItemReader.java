@@ -14,8 +14,7 @@ public class MybatisFixedPagingItemReader<T> extends MyBatisPagingItemReader<T> 
 	@Override
 	public int getPage() {
 		if (logged) {
-			log.info("## {}.getPage", this.getClass().getSimpleName());
-			log.info("\t > page from super: {}, fixed page: {}", super.getPage(), FIXED_PAGE);
+			log.info("## {}.getPage, super: {}, fixed: {}", this.getClass().getSimpleName(), super.getPage(), FIXED_PAGE);
 			logged = false;
 		}
 		
