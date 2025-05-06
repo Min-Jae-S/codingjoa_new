@@ -299,7 +299,8 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.listener(boardImagesCleanupListener())
-				//.faultTolerant()
+				.faultTolerant()
+				.skip(Exception.class)
 				.build();
 	}
 
@@ -309,12 +310,12 @@ public class BatchJobConfig {
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MybatisFixedPagingItemReader<BoardImage> boardImagesCleanupReader() {
-		MybatisFixedPagingItemReader reader = new MybatisFixedPagingItemReader<BoardImage>();
+	public MyBatisPagingItemReader<BoardImage> boardImagesCleanupReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(50);
+		reader.setMaxItemCount(10);
 		return reader;
 	}
 	
