@@ -299,6 +299,7 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.listener(boardImagesCleanupListener())
+				//.faultTolerant()
 				.build();
 	}
 

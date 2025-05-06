@@ -1,6 +1,7 @@
 package com.codingjoa.batch;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.AfterChunk;
@@ -17,6 +18,12 @@ public class BoardImagesCleanupListener {
 	@AfterWrite
 	public void afterWrite(List<? extends BoardImage> items) {
 		log.info("## {}.afterWrite", this.getClass().getSimpleName());
+		List<Long> boardIds = items.stream()
+				.map(item -> ((BoardImage) item).getId())
+				.collect(Collectors.toList());
+		log.info("\t > boardIds = {}", boardIds);
+		
+		//throw new RuntimeException("trigger runtimeException");
 	}
 
 	@AfterChunk
@@ -27,6 +34,7 @@ public class BoardImagesCleanupListener {
 		log.info("\t > readCount: {}", stepExecution.getReadCount());
 		log.info("\t > writeCoutn: {}", stepExecution.getWriteCount());
 		log.info("\t > commitCount: {}", stepExecution.getCommitCount());
+		log.info("\t > rollbackCount: {}", stepExecution.getRollbackCount());
 	}
 
 }
