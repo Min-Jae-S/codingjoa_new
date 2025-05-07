@@ -298,13 +298,13 @@ public class BatchJobConfig {
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
-				.listener(boardImagesCleanupListener())
 				.faultTolerant()
 				.skip(Exception.class)
+				.skipLimit(100)
+				.listener(boardImagesCleanupListener())
 				.build();
 	}
 
-	// bean type) ItemReader --> MyBatisPagingItemReader --> MybatisFixedPagingItemReader
 	// [WARN ]  o.s.b.c.l.AbstractListenerFactoryBean    : org.springframework.batch.item.ItemReader is an interface. 
 	// The implementing class will not be queried for annotation based listener configurations.
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.

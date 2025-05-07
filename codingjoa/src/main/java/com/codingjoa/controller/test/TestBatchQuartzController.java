@@ -142,10 +142,10 @@ public class TestBatchQuartzController {
 		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		log.info("## result: {}", jobExecution.getExitStatus());
 		
 //		JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
-//		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus().getExitDescription());
+//		log.info("## result: {}", jobExecution.getExitStatus().getExitDescription());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -162,7 +162,7 @@ public class TestBatchQuartzController {
 				.toJobParameters();
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		log.info("## result: {}", jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -214,7 +214,7 @@ public class TestBatchQuartzController {
 		log.info("\t > jobParameters = {}", jobParameters);
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
-		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		log.info("## result: {}", jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -244,7 +244,7 @@ public class TestBatchQuartzController {
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		//JobExecution jobExecution = jobLauncher.run(boardImagesCleanupJob, jobParameters);
-		log.info("## {} result: {}", jobExecution.getJobInstance().getJobName(), jobExecution.getExitStatus());
+		log.info("## result: {}", jobExecution.getExitStatus());
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

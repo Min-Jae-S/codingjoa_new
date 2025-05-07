@@ -1,43 +1,63 @@
 package com.codingjoa.mybatis;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import org.apache.ibatis.session.ResultHandler;
-import org.apache.ibatis.session.RowBounds;
+
+import com.codingjoa.entity.BoardImage;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Intercepts({
 	@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
-	@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class })
+	@Signature(type = Executor.class, method = "flushStatements", args = {})
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	private List<Long> failIds = new ArrayList<>(List.of(3170L, 3166L));
+	private List<Long> failIds = new ArrayList<>(List.of(350L, 349L));
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		log.info("## {}.intercept", this.getClass().getSimpleName());
-		MappedStatement ms = (MappedStatement) invocation.getArgs()[0];
-		Object parameter = invocation.getArgs()[1];
-		log.info("\t > intercepted method: {}", ms.getId());
-		log.info("\t > parameter: {}", parameter);
-        
-        if (ms.getId().equals("deleteBoardImage") && parameter instanceof Long  && failIds.contains((Long) parameter)) {
-            throw new SQLException("강제 delete boardImage 실패: id=" + parameter);
-        }
-        
+		try {
+			String method = invocation.getMethod().getName();
+			Object[] args = invocation.getArgs();
+			log.info("\t > method: {}", method);
+			log.info("\t > args: {}", Arrays.toString(args));
+			
+			if ("update".equals(method)) {
+				MappedStatement ms = (MappedStatement) args[0];
+				Object parameter = args[1];
+				
+				if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
+					Long id = ((BoardImage) parameter).getId();
+					log.info("\t > boardIamge id: {}", id);
+					
+					BoundSql boundSql  = ms.getBoundSql(parameter);
+					log.info("\t > bound sql: {}", boundSql.getSql());
+					
+//					if (failIds.contains(id)) {
+//						throw new SQLException("id=" + id);
+//					}
+				}
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
         return invocation.proceed();
 	}
 
