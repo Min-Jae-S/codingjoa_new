@@ -82,10 +82,7 @@
 	</select> -->
 	
 	<delete id="deleteBoardImage">
-		DELETE FROM
-			board_image
-		WHERE
-			id = #{id}
+		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
 </mapper>

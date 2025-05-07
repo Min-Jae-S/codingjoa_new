@@ -299,8 +299,8 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.faultTolerant()
-				.skip(Exception.class)
-				.skipLimit(100)
+					.skip(Exception.class)
+					.skipLimit(100)
 				.listener(boardImagesCleanupListener())
 				.build();
 	}

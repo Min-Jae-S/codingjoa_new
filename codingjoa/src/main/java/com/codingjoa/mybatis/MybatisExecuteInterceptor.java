@@ -1,9 +1,11 @@
 package com.codingjoa.mybatis;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -26,37 +28,33 @@ import lombok.extern.slf4j.Slf4j;
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	private List<Long> failIds = new ArrayList<>(List.of(350L, 349L));
+	private List<Long> failIds = List.of(196L, 195L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		log.info("## {}.intercept", this.getClass().getSimpleName());
-		try {
-			String method = invocation.getMethod().getName();
-			Object[] args = invocation.getArgs();
-			log.info("\t > method: {}", method);
-			log.info("\t > args: {}", Arrays.toString(args));
-			
-			if ("update".equals(method)) {
-				MappedStatement ms = (MappedStatement) args[0];
-				Object parameter = args[1];
-				
-				if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
-					Long id = ((BoardImage) parameter).getId();
-					log.info("\t > boardIamge id: {}", id);
-					
-					BoundSql boundSql  = ms.getBoundSql(parameter);
-					log.info("\t > bound sql: {}", boundSql.getSql());
-					
-//					if (failIds.contains(id)) {
-//						throw new SQLException("id=" + id);
-//					}
-				}
-			} 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String method = invocation.getMethod().getName();
+		Object[] args = invocation.getArgs();
 		
+		List<String> argsClass = (args == null) ? null : 
+			Arrays.stream(args)
+				.map(obj -> obj.getClass().getSimpleName())
+				.collect(Collectors.toList());
+		log.info("\t > method: {}, args: {}", method, argsClass);
+		
+		if ("update".equals(method)) {
+			MappedStatement ms = (MappedStatement) args[0];
+			Object parameter = args[1];
+			
+			if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
+				Long id = ((BoardImage) parameter).getId();
+				log.info("\t > boardIamge id: {}", id);
+				
+				if (failIds.contains(id)) {
+					throw new SQLException("id=" + id);
+				}
+			}
+		}
 		
         return invocation.proceed();
 	}
