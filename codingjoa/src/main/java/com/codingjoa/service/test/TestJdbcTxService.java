@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TestJdbcTxService {
 	
-	@Autowired
+	@Autowired(required = false)
 	private TestJdbcTxRepository jdbcRepository;
 
 	private final PlatformTransactionManager txManager;

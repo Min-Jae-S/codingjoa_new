@@ -37,13 +37,16 @@ public class BoardImagesCleanupListener {
 		log.info("\t > commitCount: {}", stepExecution.getCommitCount());
 		log.info("\t > rollbackCount: {}", stepExecution.getRollbackCount());
 		log.info("\t > skipCount: {}", stepExecution.getSkipCount());
-		
 	}
 	
 	@OnSkipInWrite
 	public void onSkipInWrite(Object item, Throwable t) {
 		log.info("## {}.onSkipInWrite", this.getClass().getSimpleName());
-		log.info("\t > skipped item: {}, reason: {}", item, t.toString());
+		
+		BoardImage skippedBoardImage = (BoardImage) item;
+		log.info("\t > skipped: {}, reason: {}", skippedBoardImage, t.toString());
+		
+		
 	}
 
 }

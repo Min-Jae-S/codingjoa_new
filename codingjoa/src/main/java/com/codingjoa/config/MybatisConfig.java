@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,10 +10,11 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-@ComponentScan("com.codingjoa.repository") // TEST
+import com.codingjoa.mybatis.MybatisExecuteInterceptor;
+
+//@ComponentScan("com.codingjoa.repository")
 @MapperScan("com.codingjoa.mapper")
 @Configuration
 public class MybatisConfig {
@@ -31,6 +33,7 @@ public class MybatisConfig {
 		factoryBean.setDataSource(dataSource);
 		factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
+		factoryBean.setPlugins(new Interceptor[] { new MybatisExecuteInterceptor() });
 		factoryBean.afterPropertiesSet();
 		return factoryBean.getObject();
 	}
