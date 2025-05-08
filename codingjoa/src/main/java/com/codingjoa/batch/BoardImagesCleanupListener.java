@@ -9,11 +9,14 @@ import org.springframework.batch.core.annotation.AfterWrite;
 import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.batch.core.annotation.OnWriteError;
 import org.springframework.batch.core.scope.context.ChunkContext;
+import org.springframework.batch.core.scope.context.StepSynchronizationManager;
+import org.springframework.batch.item.ExecutionContext;
 
 import com.codingjoa.entity.BoardImage;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class BoardImagesCleanupListener {
 	
@@ -28,6 +31,9 @@ public class BoardImagesCleanupListener {
 	@OnWriteError
 	public void onWriteError(Exception exception, List<? extends BoardImage> items) {
 		log.info("[onWriteError]");
+		StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
+        ExecutionContext context = stepExecution.getExecutionContext();
+        //context.putInt("dynamicPage", 0);
 	}
 
 	@AfterChunk

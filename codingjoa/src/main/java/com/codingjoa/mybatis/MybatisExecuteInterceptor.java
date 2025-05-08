@@ -45,6 +45,7 @@ public class MybatisExecuteInterceptor implements Interceptor {
 		if ("update".equals(method)) {
 			MappedStatement ms = (MappedStatement) args[0];
 			Object parameter = args[1];
+			log.info("\t > paramter type: {}", parameter.getClass().getSimpleName());
 			
 			if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
 				Long id = ((BoardImage) parameter).getId();

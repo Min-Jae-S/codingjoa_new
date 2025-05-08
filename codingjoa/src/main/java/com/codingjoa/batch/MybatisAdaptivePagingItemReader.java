@@ -6,7 +6,7 @@ import org.springframework.batch.core.annotation.AfterRead;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MybatisFixedPagingItemReader<T> extends MyBatisPagingItemReader<T> {
+public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<T> {
 
 	private static final int FIXED_PAGE = 0;
 	private boolean logged = true;

@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.BoardImagesCleanupListener;
-import com.codingjoa.batch.MybatisFixedPagingItemReader;
+import com.codingjoa.batch.MybatisAdaptivePagingItemReader;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
