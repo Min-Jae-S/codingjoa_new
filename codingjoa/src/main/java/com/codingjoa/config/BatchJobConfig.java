@@ -33,7 +33,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.BoardImagesCleanupListener;
-import com.codingjoa.batch.FileDeletingItemWriter;
 import com.codingjoa.batch.MybatisFixedPagingItemReader;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
@@ -339,12 +338,6 @@ public class BatchJobConfig {
 				.build();
 	}
 
-//	@StepScope
-//	@Bean
-//	public FileDeletingItemWriter<BoardImage> boardImagesCleanupFileWriter() {
-//		return new FileDeletingItemWriter<BoardImage>();
-//	}
-	
 	@Bean
 	public BoardImagesCleanupListener boardImagesCleanupListener() {
 		return new BoardImagesCleanupListener();

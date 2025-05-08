@@ -50,9 +50,9 @@ public class MybatisExecuteInterceptor implements Interceptor {
 				Long id = ((BoardImage) parameter).getId();
 				log.info("\t > boardIamge id: {}", id);
 				
-				if (failIds.contains(id)) {
-					throw new SQLException("id=" + id);
-				}
+//				if (failIds.contains(id)) {
+//					throw new SQLException("id=" + id);
+//				}
 			}
 		}
 		
