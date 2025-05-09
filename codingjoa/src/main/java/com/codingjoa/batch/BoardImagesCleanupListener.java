@@ -33,7 +33,9 @@ public class BoardImagesCleanupListener {
 		log.info("[onWriteError]");
 		StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
         ExecutionContext context = stepExecution.getExecutionContext();
-        //context.putInt("adaptivePage", 0);
+        
+        int current = context.getInt("adaptivePage");
+        context.putInt("adaptivePage", current++);
 	}
 
 	@AfterChunk
