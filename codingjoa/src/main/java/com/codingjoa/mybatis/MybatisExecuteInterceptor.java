@@ -47,7 +47,11 @@ public class MybatisExecuteInterceptor implements Interceptor {
 			Object parameter = args[1];
 			log.info("\t > paramter type: {}", parameter.getClass().getSimpleName());
 			
-			if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
+			if (ms.getId().endsWith("BatchMapper.deleteBoardImage")) {
+				if (!(parameter instanceof BoardImage)) {
+					throw new RuntimeException("cant cast parameter to BoardImage");
+				}
+				
 				Long id = ((BoardImage) parameter).getId();
 				log.info("\t > boardIamge id: {}", id);
 				
@@ -66,8 +70,6 @@ public class MybatisExecuteInterceptor implements Interceptor {
 	}
 
 	@Override
-	public void setProperties(Properties properties) {
-		// TODO Auto-generated method stub
-	}
+	public void setProperties(Properties properties) {	}
 
 }

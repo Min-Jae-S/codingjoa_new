@@ -23,17 +23,17 @@ public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<
 	}
 
 	@Override
-	public int getPage() {
-		return adaptivePage;
-	}
-
-	@Override
 	public void update(ExecutionContext executionContext) throws ItemStreamException {
 		log.info("## {}.update", this.getClass().getSimpleName());
 		super.update(executionContext);
 		
 		executionContext.putInt(PAGE_KEY, adaptivePage);
 		log.info("\t > saved adaptivePage: {}", adaptivePage);
+	}
+	
+	@Override
+	public int getPage() {
+		return adaptivePage;
 	}
 	
 }

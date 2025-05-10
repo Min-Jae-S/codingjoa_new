@@ -275,9 +275,7 @@ public class BatchJobConfig {
 	
 	@Bean
 	public ItemWriter<Long> myBatisItemWriter() {
-		return userIds -> {
-			log.info("## mybatisItemWriter.write: {}", userIds);
-		};
+		return userIds -> log.info("## mybatisItemWriter.write: {}", userIds);
 	}
 	
 	/******************************************************************************************/
@@ -298,8 +296,6 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.faultTolerant()
-					.skip(Exception.class)
-					.skipLimit(100)
 				.listener(boardImagesCleanupListener())
 				.build();
 	}
@@ -317,17 +313,6 @@ public class BatchJobConfig {
 		reader.setMaxItemCount(10);
 		return reader;
 	}
-	
-//	@StepScope
-//	@Bean
-//	public CompositeItemWriter<BoardImage> boardImagesCleanupCompositeWriter() {
-//		CompositeItemWriter compositeWriter = new CompositeItemWriter();
-//		List<ItemWriter<?>> writers = new ArrayList<>(2);
-//		writers.add(boardImagesCleanupDbWriter());
-//		writers.add(boardImagesCleanupFileWriter());
-//		compositeWriter.setDelegates(writers);
-//		return compositeWriter;
-//	}
 	
 	@StepScope
 	@Bean
