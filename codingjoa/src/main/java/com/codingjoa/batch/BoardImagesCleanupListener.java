@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.AfterChunk;
 import org.springframework.batch.core.annotation.AfterWrite;
-import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.batch.core.annotation.OnWriteError;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepSynchronizationManager;
@@ -16,7 +15,6 @@ import com.codingjoa.entity.BoardImage;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 public class BoardImagesCleanupListener {
 	
@@ -48,12 +46,6 @@ public class BoardImagesCleanupListener {
 		log.info("\t > commitCount: {}", stepExecution.getCommitCount());
 		log.info("\t > rollbackCount: {}", stepExecution.getRollbackCount());
 		log.info("\t > skipCount: {}", stepExecution.getSkipCount());
-	}
-	
-	@OnSkipInWrite
-	public void onSkipInWrite(BoardImage item, Throwable t) {
-		log.info("[onSkipInWrite]");
-		log.info("\t > skipped item: {}", item.getId());
 	}
 
 }
