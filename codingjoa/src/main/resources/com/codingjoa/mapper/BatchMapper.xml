@@ -2,31 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BatchMapper">
 
-	<select id="test" resultType="User">
+	<select id="findOrphanBoardImages" resultType="BoardImage">
 		SELECT 
-			paged_users.*
+			paged_images.*
 		FROM (
 			SELECT
 				ROWNUM rn,
-				sorted_users.*
+				filtered_images.*
 			FROM (
 				SELECT 
-					/*+ INDEX_DESC(users pk_users) */
-					users.*
+					/*+ INDEX_DESC(board_image pk_boardimage) */
+					board_image.*
 				FROM 
-					users
+					board_image
+				WHERE
+					board_id IS NULL
 				ORDER BY
 					id DESC
-			) sorted_users
+			) filtered_images
 			WHERE
 				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
-		) paged_users
+		) paged_images
 		WHERE
-			<!-- paged_users.rn > #{_skiprows} -->
-			paged_users.rn > ( #{_page} * #{_pagesize} )
+			paged_images.rn > ( #{_page} * #{_pagesize} )
 	</select>
 	
-	<select id="findOrphanBoardImages" resultType="BoardImage">
+	<!-- <select id="findOrphanBoardImages" resultType="BoardImage">
 		SELECT 
 			id,
 			board_id,
@@ -54,35 +55,34 @@
 			WHERE
 				<![CDATA[ ROWNUM <= #{_pagesize} ]]>
 		)
-	</select>	
+	</select>	 -->
 
-	<!-- <select id="findOrphanBoardImages" resultType="BoardImage">
-		SELECT 
-			paged_images.*
-		FROM (
-			SELECT
-				ROWNUM rn,
-				filtered_images.*
-			FROM (
-				SELECT 
-					/*+ INDEX_DESC(board_image pk_boardimage) */
-					board_image.*
-				FROM 
-					board_image
-				WHERE
-					board_id IS NULL
-				ORDER BY
-					id DESC
-			) filtered_images
-			WHERE
-				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
-		) paged_images
-		WHERE
-			paged_images.rn > ( #{_page} * #{_pagesize} )
-	</select> -->
-	
 	<delete id="deleteBoardImage">
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
+	
+	<select id="test" resultType="User">
+		SELECT 
+			paged_users.*
+		FROM (
+			SELECT
+				ROWNUM rn,
+				sorted_users.*
+			FROM (
+				SELECT 
+					/*+ INDEX_DESC(users pk_users) */
+					users.*
+				FROM 
+					users
+				ORDER BY
+					id DESC
+			) sorted_users
+			WHERE
+				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
+		) paged_users
+		WHERE
+			<!-- paged_users.rn > #{_skiprows} -->
+			paged_users.rn > ( #{_page} * #{_pagesize} )
+	</select>
 	
 </mapper>

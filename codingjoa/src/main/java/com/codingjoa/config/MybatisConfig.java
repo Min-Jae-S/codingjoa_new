@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.codingjoa.mybatis.MybatisExecuteInterceptor;
 
-//@ComponentScan("com.codingjoa.repository")
 @MapperScan("com.codingjoa.mapper")
 @Configuration
 public class MybatisConfig {

@@ -17,6 +17,7 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.JobRepositoryFactoryBean;
 import org.springframework.batch.core.scope.JobScope;
 import org.springframework.batch.core.scope.StepScope;
+import org.springframework.batch.support.DatabaseType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -68,7 +69,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 		JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
 		factory.setDataSource(dataSource);
 		factory.setTransactionManager(getTransactionManager());
-		//factory.setDatabaseType(DatabaseType.H2.name());
+		factory.setDatabaseType(DatabaseType.H2.name());
 		//factory.setTablePrefix("BATCH_");
 	    
 	    // @@ ORA-08177: can't serialize access for this transaction
@@ -140,8 +141,7 @@ public class BatchConfig extends DefaultBatchConfigurer {
 	public static JobRegistryBeanPostProcessor jobRegistryBeanPostProcessor(@Lazy JobRegistry jobRegistry) {
 		log.info("## jobRegistryBeanPostProcessor");
 		log.info("\t > jobRegistry: {}", jobRegistry);
-		log.info("\t > proxy: {}", AopUtils.isAopProxy(jobRegistry));
-		log.info("\t > proxy type: {}", AopUtils.isJdkDynamicProxy(jobRegistry) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
+		log.info("\t > proxy: {}, {}", AopUtils.isAopProxy(jobRegistry), AopUtils.isJdkDynamicProxy(jobRegistry) ? "JDK Dynamic Proxy" : "CGLIB Proxy");
 		log.info("\t > target class: {}", AopProxyUtils.ultimateTargetClass(jobRegistry));
 		
 		JobRegistryBeanPostProcessor processor = new JobRegistryBeanPostProcessor();
