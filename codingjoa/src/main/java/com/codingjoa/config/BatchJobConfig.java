@@ -305,8 +305,8 @@ public class BatchJobConfig {
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MyBatisPagingItemReader<BoardImage> boardImagesCleanupReader() {
-		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardImage>();
+	public MybatisAdaptivePagingItemReader<BoardImage> boardImagesCleanupReader() {
+		MybatisAdaptivePagingItemReader reader = new MybatisAdaptivePagingItemReader<BoardImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);

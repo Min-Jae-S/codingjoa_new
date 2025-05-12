@@ -19,6 +19,10 @@ public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<
 		
 		if (executionContext.containsKey(PAGE_KEY)) {
 			adaptivePage = executionContext.getInt(PAGE_KEY);
+			log.info("\t > load adaptivePage from context: {}", adaptivePage);
+		} else {
+			adaptivePage = 0;
+			log.info("\t > no adaptivePage in context, initializing to: {}", adaptivePage);
 		}
 	}
 
@@ -28,7 +32,7 @@ public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<
 		super.update(executionContext);
 		
 		executionContext.putInt(PAGE_KEY, adaptivePage);
-		log.info("\t > saved adaptivePage: {}", adaptivePage);
+		log.info("\t > save adaptivePage to context: {}", adaptivePage);
 	}
 	
 	@Override
