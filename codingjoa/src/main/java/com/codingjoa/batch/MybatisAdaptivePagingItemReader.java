@@ -13,26 +13,12 @@ public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<
 	private int adaptivePage = 0;
 	
 	@Override
-	public void open(ExecutionContext executionContext) throws ItemStreamException {
-		log.info("## {}.open", this.getClass().getSimpleName());
-		super.open(executionContext);
-		
-		if (executionContext.containsKey(PAGE_KEY)) {
-			adaptivePage = executionContext.getInt(PAGE_KEY);
-			log.info("\t > load adaptivePage from context: {}", adaptivePage);
-		} else {
-			adaptivePage = 0;
-			log.info("\t > no adaptivePage in context, initializing to: {}", adaptivePage);
-		}
-	}
-
-	@Override
 	public void update(ExecutionContext executionContext) throws ItemStreamException {
 		log.info("## {}.update", this.getClass().getSimpleName());
 		super.update(executionContext);
 		
 		executionContext.putInt(PAGE_KEY, adaptivePage);
-		log.info("\t > checkpoint: save adaptivePage to context: {}", adaptivePage);
+		log.info("\t > save current adaptivePage to context: {}", adaptivePage);
 	}
 	
 	@Override
