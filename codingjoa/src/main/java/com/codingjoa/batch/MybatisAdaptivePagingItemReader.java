@@ -32,7 +32,7 @@ public class MybatisAdaptivePagingItemReader<T> extends MyBatisPagingItemReader<
 		super.update(executionContext);
 		
 		executionContext.putInt(PAGE_KEY, adaptivePage);
-		log.info("\t > save adaptivePage to context: {}", adaptivePage);
+		log.info("\t > checkpoint: save adaptivePage to context: {}", adaptivePage);
 	}
 	
 	@Override
