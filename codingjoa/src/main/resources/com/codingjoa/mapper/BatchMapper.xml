@@ -17,8 +17,8 @@
 					board_image
 				WHERE
 					board_id IS NULL
-				<if test="skippedLastId != null">
-					AND <![CDATA[ id < #{skippedLastId} ]]>
+				<if test="lastSkippedId != null">
+					AND <![CDATA[ id < #{lastSkippedId} ]]>
 				</if>					
 				ORDER BY
 					id DESC
