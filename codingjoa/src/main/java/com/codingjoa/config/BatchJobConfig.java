@@ -296,6 +296,8 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.faultTolerant()
+				.skip(Exception.class)
+				.skipLimit(Integer.MAX_VALUE)
 				.listener(boardImagesCleanupListener())
 				.build();
 	}
@@ -310,7 +312,7 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(50);
+		reader.setMaxItemCount(100);
 		return reader;
 	}
 	

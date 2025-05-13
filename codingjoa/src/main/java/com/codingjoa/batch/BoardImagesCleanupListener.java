@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.annotation.AfterChunk;
 import org.springframework.batch.core.annotation.AfterWrite;
+import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.batch.core.annotation.OnWriteError;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepSynchronizationManager;
@@ -19,24 +20,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardImagesCleanupListener {
 	
-	@AfterWrite
-	public void afterWrite(List<? extends BoardImage> items) {
-		List<Long> boardIds = items.stream()
-				.map(item -> ((BoardImage) item).getId())
-				.collect(Collectors.toList());
-		log.info("[afterWrite] items size: {}, boardIds: {}", items.size(), boardIds);
-	}
-	
 	@OnWriteError
 	public void onWriteError(Exception exception, List<? extends BoardImage> items) {
-		log.info("[onWriteError]");
-		StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
-		ExecutionContext context = stepExecution.getExecutionContext();
+		log.info("## [onWriteError] item size: {}", items.size());
+	}
+	
+	@OnSkipInWrite
+	public void onSkipInWrite(Object item, Throwable t) {
+		log.info("## [onSkipInWrite]");
+		log.info("\t > item: {}", item);
 	}
 
 	@AfterChunk
 	public void afterChunk(ChunkContext context) {
-		log.info("[afterChunk]");
+		log.info("## [afterChunk]");
 		
 		StepExecution stepExecution = context.getStepContext().getStepExecution();
 		log.info("\t > readCount: {}", stepExecution.getReadCount());

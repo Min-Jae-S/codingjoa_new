@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	private List<Long> failIds = List.of(1820L);
+	private List<Long> failIds = List.of(1820L, 1545L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -45,7 +45,7 @@ public class MybatisExecuteInterceptor implements Interceptor {
 		if ("update".equals(method)) {
 			MappedStatement ms = (MappedStatement) args[0];
 			Object parameter = args[1];
-			log.info("\t > paramter type: {}", parameter.getClass().getSimpleName());
+			log.info("\t > parameter type: {}", parameter.getClass().getSimpleName());
 			
 			if (ms.getId().endsWith("BatchMapper.deleteBoardImage")) {
 				if (!(parameter instanceof BoardImage)) {
