@@ -310,6 +310,7 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
+		reader.setMaxItemCount(50);
 		return reader;
 	}
 	

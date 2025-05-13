@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	//private List<Long> failIds = List.of(196L, 195L);
+	private List<Long> failIds = List.of(1820L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -55,9 +55,9 @@ public class MybatisExecuteInterceptor implements Interceptor {
 				Long id = ((BoardImage) parameter).getId();
 				log.info("\t > boardIamge id: {}", id);
 				
-//				if (failIds.contains(id)) {
-//					throw new SQLException("id=" + id);
-//				}
+				if (failIds.contains(id)) {
+					throw new SQLException("id=" + id);
+				}
 			}
 		}
 		

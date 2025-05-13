@@ -15,6 +15,7 @@ import com.codingjoa.entity.BoardImage;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class BoardImagesCleanupListener {
 	
@@ -30,10 +31,7 @@ public class BoardImagesCleanupListener {
 	public void onWriteError(Exception exception, List<? extends BoardImage> items) {
 		log.info("[onWriteError]");
 		StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
-        ExecutionContext context = stepExecution.getExecutionContext();
-        
-        int current = context.getInt("adaptivePage");
-        context.putInt("adaptivePage", current++);
+		ExecutionContext context = stepExecution.getExecutionContext();
 	}
 
 	@AfterChunk
