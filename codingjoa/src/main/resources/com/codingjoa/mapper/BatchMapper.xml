@@ -17,6 +17,9 @@
 					board_image
 				WHERE
 					board_id IS NULL
+				<if test="skippedLastId != null">
+					AND <![CDATA[ id < #{skippedLastId} ]]>
+				</if>					
 				ORDER BY
 					id DESC
 			) filtered_images
@@ -26,36 +29,6 @@
 		WHERE
 			paged_images.rn > ( #{_page} * #{_pagesize} )
 	</select>
-	
-	<!-- <select id="findOrphanBoardImages" resultType="BoardImage">
-		SELECT 
-			id,
-			board_id,
-			name,
-			path,
-			created_at
-		FROM (
-			SELECT
-				ROWNUM rn,
-				filtered_images.*
-			FROM (
-				SELECT 
-					/*+ INDEX_DESC(board_image pk_boardimage) */
-					board_image.*
-				FROM 
-					board_image
-				WHERE
-					board_id IS NULL
-				<if test="skippedLastId != null">
-					AND <![CDATA[ id < #{skippedLastId} ]]>
-				</if>
-				ORDER BY
-					id DESC
-			) filtered_images
-			WHERE
-				<![CDATA[ ROWNUM <= #{_pagesize} ]]>
-		)
-	</select>	 -->
 
 	<delete id="deleteBoardImage">
 		DELETE FROM board_image WHERE id = #{id}

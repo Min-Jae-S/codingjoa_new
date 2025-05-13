@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.BoardImagesCleanupListener;
-import com.codingjoa.batch.MybatisAdaptivePagingItemReader;
+import com.codingjoa.batch.MybatisRecentPagingItemReader;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -307,8 +307,8 @@ public class BatchJobConfig {
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MybatisAdaptivePagingItemReader<BoardImage> boardImagesCleanupReader() {
-		MybatisAdaptivePagingItemReader reader = new MybatisAdaptivePagingItemReader<BoardImage>();
+	public MybatisRecentPagingItemReader<BoardImage> boardImagesCleanupReader() {
+		MybatisRecentPagingItemReader reader = new MybatisRecentPagingItemReader<BoardImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);

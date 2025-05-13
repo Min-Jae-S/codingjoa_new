@@ -21,14 +21,15 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardImagesCleanupListener {
 	
 	@OnWriteError
-	public void onWriteError(Exception exception, List<? extends BoardImage> items) {
-		log.info("## [onWriteError] item size: {}", items.size());
+	public void onWriteError(Exception exception, List<BoardImage> items) {
+		log.info("## [onWriteError] error items size: {}", items.size());
 	}
 	
 	@OnSkipInWrite
-	public void onSkipInWrite(Object item, Throwable t) {
-		log.info("## [onSkipInWrite]");
-		log.info("\t > item: {}", item);
+	public void onSkipInWrite(BoardImage item, Throwable t) {
+		log.info("## [onSkipInWrite] skipped item: {}", item.getBoardId());
+		StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
+		ExecutionContext context = stepExecution.getExecutionContext();
 	}
 
 	@AfterChunk
@@ -36,10 +37,8 @@ public class BoardImagesCleanupListener {
 		log.info("## [afterChunk]");
 		
 		StepExecution stepExecution = context.getStepContext().getStepExecution();
-		log.info("\t > readCount: {}", stepExecution.getReadCount());
-		log.info("\t > writeCount: {}", stepExecution.getWriteCount());
-		log.info("\t > commitCount: {}", stepExecution.getCommitCount());
-		log.info("\t > rollbackCount: {}", stepExecution.getRollbackCount());
+		log.info("\t > readCount: {}, writeCount: {}", stepExecution.getReadCount(), stepExecution.getWriteCount());
+		log.info("\t > commitCount: {}, rollbackCount: {}", stepExecution.getCommitCount(), stepExecution.getRollbackCount());
 		log.info("\t > skipCount: {}", stepExecution.getSkipCount());
 	}
 
