@@ -1,5 +1,6 @@
 package com.codingjoa.batch;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
@@ -13,6 +14,7 @@ public class MybatisRecentPagingItemReader<T> extends MyBatisPagingItemReader<T>
 	
 	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private ExecutionContext executionContext;
+	private Map<String, Object> baseParameterValues;
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
@@ -28,16 +30,29 @@ public class MybatisRecentPagingItemReader<T> extends MyBatisPagingItemReader<T>
 				executionContext.getLong(LAST_SKIPPED_ID_KEY) : null;
 		log.info("\t > lastSkippedId: {}", lastSkippedId);
 		
-		Map<String, Object> parameters = Map.of(LAST_SKIPPED_ID_KEY, lastSkippedId);
-		setParameterValues(parameters);
+		Map<String, Object> parameters = new HashMap<>();
+		if (baseParameterValues != null) {
+			parameters.putAll(baseParameterValues);
+		}
+		parameters.put(LAST_SKIPPED_ID_KEY, lastSkippedId);
 		
+		super.setParameterValues(parameters);
 		super.doReadPage();
+	}
+	
+	@Override
+	public void setParameterValues(Map<String, Object> parameterValues) {
+		setBaseParameterValues(parameterValues);
+		super.setParameterValues(parameterValues);
+	}
+
+	private void setBaseParameterValues(Map<String, Object> baseParameterValues) {
+		this.baseParameterValues = baseParameterValues;
 	}
 	
 	@Override
 	public int getPage() {
 		return 0;
 	}
-	
 	
 }

@@ -18,13 +18,13 @@
 				WHERE
 					board_id IS NULL
 				<if test="lastSkippedId != null">
-					AND <![CDATA[ id < #{lastSkippedId} ]]>
+					AND id <![CDATA[ < ]]> #{lastSkippedId} 
 				</if>					
 				ORDER BY
 					id DESC
 			) filtered_images
 			WHERE
-				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
+				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
 		) paged_images
 		WHERE
 			paged_images.rn > ( #{_page} * #{_pagesize} )
@@ -51,11 +51,11 @@
 					id DESC
 			) sorted_users
 			WHERE
-				<![CDATA[ ROWNUM <= ( (#{_page} + 1) * #{_pagesize} ) ]]>
+				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
 		) paged_users
 		WHERE
-			<!-- paged_users.rn > #{_skiprows} -->
-			paged_users.rn > ( #{_page} * #{_pagesize} )
+			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
+			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
 	</select>
 	
 </mapper>
