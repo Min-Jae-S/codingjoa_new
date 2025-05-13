@@ -3,11 +3,9 @@ package com.codingjoa.batch;
 import java.util.List;
 
 import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.annotation.BeforeChunk;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.batch.core.annotation.OnWriteError;
-import org.springframework.batch.core.scope.context.ChunkContext;
 
 import com.codingjoa.entity.BoardImage;
 
@@ -24,14 +22,6 @@ public class BoardImagesCleanupListener {
 		this.stepExecution = stepExecution;
 	}
 	
-	@BeforeChunk
-	public void afterChunk(ChunkContext chunkContext) {
-		log.info("## [afterChunk]");
-		chunkContext.getStepContext().getStepExecutionContext().entrySet().forEach(entry -> {
-			log.info("\t > {}: {}", entry.getKey(), entry.getValue());
-		});
-	}
-	
 	@OnWriteError
 	public void onWriteError(Exception exception, List<BoardImage> items) {
 		log.info("## [onWriteError] error items size: {}", items.size());
@@ -42,9 +32,7 @@ public class BoardImagesCleanupListener {
 		log.info("## [onSkipInWrite] skipped item: {}", item.getId());
 		
 		//StepExecution stepExecution = StepSynchronizationManager.getContext().getStepExecution();
-
-		Long skippedId = item.getId();
-		stepExecution.getExecutionContext().putLong(LAST_SKIPPED_ID_KEY, skippedId);
+		stepExecution.getExecutionContext().putLong(LAST_SKIPPED_ID_KEY, item.getId());
 	}
 
 }
