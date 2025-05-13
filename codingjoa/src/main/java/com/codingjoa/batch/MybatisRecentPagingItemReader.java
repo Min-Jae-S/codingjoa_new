@@ -1,5 +1,7 @@
 package com.codingjoa.batch;
 
+import java.util.Map;
+
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
@@ -26,7 +28,8 @@ public class MybatisRecentPagingItemReader<T> extends MyBatisPagingItemReader<T>
 				executionContext.getLong(LAST_SKIPPED_ID_KEY) : null;
 		log.info("\t > lastSkippedId: {}", lastSkippedId);
 		
-		// setParams
+		Map<String, Object> parameters = Map.of(LAST_SKIPPED_ID_KEY, lastSkippedId);
+		setParameterValues(parameters);
 		
 		super.doReadPage();
 	}

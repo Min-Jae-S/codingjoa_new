@@ -34,6 +34,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.codingjoa.batch.BoardImagesCleanupListener;
 import com.codingjoa.batch.MybatisRecentPagingItemReader;
+import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -296,8 +297,7 @@ public class BatchJobConfig {
 				.reader(boardImagesCleanupReader())
 				.writer(boardImagesCleanupWriter())
 				.faultTolerant()
-				.skip(Exception.class)
-				.skipLimit(Integer.MAX_VALUE)
+				.skipPolicy(new PermissiveSkipPolicy())
 				.listener(boardImagesCleanupListener())
 				.build();
 	}
