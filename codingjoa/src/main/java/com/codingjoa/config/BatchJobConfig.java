@@ -32,7 +32,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImagesCleanupMonitoringListener;
+import com.codingjoa.batch.BoardImageCleanupChunkListener;
+import com.codingjoa.batch.BoardImageCleanupMonitoringListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
@@ -297,14 +298,15 @@ public class BatchJobConfig {
 				.writer(boardImageCleanupWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImageCleanupListener())
+				.listener(boardImageCleanupMonitoringListener())
+				.listener(boardImageCleanupChunkListener())
 				.build();
 	}
 
 	// [WARN ]  o.s.b.c.l.AbstractListenerFactoryBean    : org.springframework.batch.item.ItemReader is an interface. 
 	// The implementing class will not be queried for annotation based listener configurations.
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
-	@StepScope
+	//@StepScope
 	@Bean
 	public MybatisRecentKeysetPagingItemReader<BoardImage> boardImageCleanupReader() {
 		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardImage>();
@@ -314,7 +316,7 @@ public class BatchJobConfig {
 		return reader;
 	}
 	
-	@StepScope
+	//@StepScope
 	@Bean
 	public MyBatisBatchItemWriter<BoardImage> boardImageCleanupWriter() {
 		return new MyBatisBatchItemWriterBuilder<BoardImage>()
@@ -324,8 +326,13 @@ public class BatchJobConfig {
 	}
 
 	@Bean
-	public BoardImagesCleanupMonitoringListener boardImageCleanupListener() {
-		return new BoardImagesCleanupMonitoringListener();
+	public BoardImageCleanupMonitoringListener boardImageCleanupMonitoringListener() {
+		return new BoardImageCleanupMonitoringListener();
+	}
+
+	@Bean
+	public BoardImageCleanupChunkListener boardImageCleanupChunkListener() {
+		return new BoardImageCleanupChunkListener();
 	}
 	
 }

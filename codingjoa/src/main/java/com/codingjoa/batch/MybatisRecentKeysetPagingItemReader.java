@@ -18,6 +18,7 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
+		log.info("## {}.open", this.getClass().getSimpleName());
 		super.open(executionContext);
 		this.executionContext = executionContext;
 	}

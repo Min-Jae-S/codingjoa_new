@@ -13,7 +13,7 @@ import com.codingjoa.entity.BoardImage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BoardImagesCleanupMonitoringListener {
+public class BoardImageCleanupMonitoringListener {
 	
 	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private StepExecution stepExecution;
@@ -36,11 +36,11 @@ public class BoardImagesCleanupMonitoringListener {
 		if (items.isEmpty()) {
 			return;
 		} else if (items.size() == 1) {
-			log.info("## [onWriteError] item: {}", items.get(0).getId());
+			log.info("## [onWriteError] error item: {}", items.get(0).getId());
 		} else {
-			log.info("## [onWriteError] items: {}", items.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
+			log.info("## [onWriteError] error items: {}", 
+					items.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
 		}
-	
 	}
 
 }

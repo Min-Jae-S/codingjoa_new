@@ -93,7 +93,7 @@ public class TestBatchQuartzController {
 //	@Autowired
 //	private CompositeItemWriter boardImagesCompositeWriter;
 	
-	@Qualifier("boardImagesCleanupWriter")
+	@Qualifier("boardImageCleanupWriter")
 	@Autowired
 	private ItemWriter boardImageWriter;
 	
