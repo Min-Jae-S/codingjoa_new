@@ -15,6 +15,9 @@ import org.springframework.http.ResponseCookie;
 
 public class CookieUtils {
 	
+	// a private constructor to prevent instantiation
+	private CookieUtils() {}
+	
 	public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, long expireSeconds) {
 		// cookiePath in CookieClearingLogoutHandler
 		String cookiePath = request.getContextPath() + "/";

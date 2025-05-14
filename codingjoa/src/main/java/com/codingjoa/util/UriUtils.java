@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UriUtils {
 	
+	private UriUtils() {}
+	
 	// '/auth/login' will be allowed, '/auth/login/callback' will be disallowed
 	private static final List<String> disallowedPaths = List.of("/auth/login/*/**", "/error/**"); 
 	

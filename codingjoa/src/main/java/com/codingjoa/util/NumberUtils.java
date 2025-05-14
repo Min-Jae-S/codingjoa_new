@@ -1,6 +1,8 @@
 package com.codingjoa.util;
 
 public class NumberUtils {
+	
+	private NumberUtils() {}
 
 	public static boolean isNaturalNumber(String str) {
 		try {

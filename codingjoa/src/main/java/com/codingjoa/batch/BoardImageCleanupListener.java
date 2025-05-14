@@ -13,7 +13,7 @@ import com.codingjoa.entity.BoardImage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BoardImageCleanupMonitoringListener {
+public class BoardImageCleanupListener {
 	
 	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private StepExecution stepExecution;

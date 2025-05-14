@@ -14,6 +14,8 @@ public class RequestUtils {
 	 * 	StringBuffer: thread-safe
 	 * 	StringBuilder: single-thread
 	 */
+	
+	private RequestUtils() {}
 
 	public static String getFullURL(HttpServletRequest request) {
 		StringBuffer requestURL = request.getRequestURL();

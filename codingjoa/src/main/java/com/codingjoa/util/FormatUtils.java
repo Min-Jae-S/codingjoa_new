@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.codingjoa.converter.NullToEmptyStringSerializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -17,10 +16,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 
-import lombok.extern.slf4j.Slf4j;
-
-@SuppressWarnings("unused")
-@Slf4j
 public class FormatUtils {
 	
 	private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -39,6 +34,8 @@ public class FormatUtils {
     	// enable pretty-printing
     	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
+    
+    private FormatUtils( ) {}
 	
 	public static List<String> formatFields(Object object) {
 		if (object == null) {

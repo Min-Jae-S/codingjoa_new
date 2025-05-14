@@ -7,6 +7,8 @@ import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
 
+import com.codingjoa.util.TransactionUtils;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,6 +29,7 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	protected void doReadPage() {
 		Long lastSkippedId = executionContext.containsKey(LAST_SKIPPED_ID_KEY) ? executionContext.getLong(LAST_SKIPPED_ID_KEY) : null;
 		log.info("## {}.doReadPage, lastSkippedId: {}", this.getClass().getSimpleName(), lastSkippedId);
+		TransactionUtils.logTransaction();
 
 		Map<String, Object> parameters = new HashMap<>();
 		if (baseParameterValues != null) {

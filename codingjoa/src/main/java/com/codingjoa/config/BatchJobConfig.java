@@ -1,30 +1,23 @@
 package com.codingjoa.config;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
-import org.mybatis.spring.batch.MyBatisCursorItemReader;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
-import org.mybatis.spring.batch.builder.MyBatisBatchItemWriterBuilder;
-import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
-import org.springframework.batch.core.ChunkListener;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -32,17 +25,18 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImageCleanupChunkListener;
-import com.codingjoa.batch.BoardImageCleanupMonitoringListener;
+import com.codingjoa.batch.BoardImageCleanupListener;
+import com.codingjoa.batch.BoardImageFileCleanupWriter;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings({"unused", "rawtypes", "unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 @Slf4j
 @RequiredArgsConstructor
 @ComponentScan("com.codingjoa.batch")
@@ -295,11 +289,10 @@ public class BatchJobConfig {
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImageCleanupReader())
-				.writer(boardImageCleanupWriter())
+				.writer(compositeBoardImageCleanupWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImageCleanupMonitoringListener())
-				.listener(boardImageCleanupChunkListener())
+				.listener(boardImageCleanupListener())
 				.build();
 	}
 
@@ -316,23 +309,35 @@ public class BatchJobConfig {
 		return reader;
 	}
 	
-	//@StepScope
-	@Bean
 	public MyBatisBatchItemWriter<BoardImage> boardImageCleanupWriter() {
-		return new MyBatisBatchItemWriterBuilder<BoardImage>()
-				.sqlSessionFactory(sqlSessionFactory)
-				.statementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage")
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<>() {
+			@Override
+			public void write(List<? extends Object> items) {
+				log.info("## MyBatisBatchItemWriter.write");
+				TransactionUtils.logTransaction();
+				super.write(items);
+			}
+			
+		};
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage");
+		return writer;
+	}
+	
+	public BoardImageFileCleanupWriter<BoardImage> boardImageFileCleanupWriter() {
+		return new BoardImageFileCleanupWriter<BoardImage>();
+	}
+	
+	@Bean
+	public CompositeItemWriter<BoardImage> compositeBoardImageCleanupWriter() {
+		return new CompositeItemWriterBuilder()
+				.delegates(boardImageCleanupWriter(), boardImageFileCleanupWriter())
 				.build();
 	}
 
 	@Bean
-	public BoardImageCleanupMonitoringListener boardImageCleanupMonitoringListener() {
-		return new BoardImageCleanupMonitoringListener();
-	}
-
-	@Bean
-	public BoardImageCleanupChunkListener boardImageCleanupChunkListener() {
-		return new BoardImageCleanupChunkListener();
+	public BoardImageCleanupListener boardImageCleanupListener() {
+		return new BoardImageCleanupListener();
 	}
 	
 }
