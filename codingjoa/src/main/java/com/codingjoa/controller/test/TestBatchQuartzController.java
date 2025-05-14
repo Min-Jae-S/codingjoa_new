@@ -86,24 +86,24 @@ public class TestBatchQuartzController {
 	@Autowired
 	private ItemWriter myBatisItemWriter;
 
-	@Qualifier("boardImagesCleanupReader")
+	@Qualifier("boardImageCleanupReader")
 	@Autowired
-	private ItemReader boardImagesReader;
+	private ItemReader boardImageReader;
 	
 //	@Autowired
 //	private CompositeItemWriter boardImagesCompositeWriter;
 	
 	@Qualifier("boardImagesCleanupWriter")
 	@Autowired
-	private ItemWriter boardImagesWriter;
+	private ItemWriter boardImageWriter;
 	
 //	@Qualifier("boardImagesCleanupFileWriter")
 //	@Autowired
 //	private ItemWriter boardImagesFileWriter;
 	
-	@Qualifier("boardImagesCleanupJob")
+	@Qualifier("boardImageCleanupJob")
 	@Autowired
-	private Job boardImagesCleanupJob;
+	private Job boardImageCleanupJob;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -219,22 +219,22 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/board-images-cleanup-job/config")
-	public ResponseEntity<Object> configBoardImagesCleanupJob() throws Exception {
-		log.info("## configBoardImagesCleanupJob");
-		log.info("\t > job: {}", jobRegistry.getJob("boardImagesCleanupJob"));
+	@GetMapping("/board-image-cleanup-job/config")
+	public ResponseEntity<Object> configBoardImageCleanupJob() throws Exception {
+		log.info("## configBoardImageCleanupJob");
+		log.info("\t > job: {}", jobRegistry.getJob("boardImageCleanupJob"));
 		
-		inspect("boardImagesReader", boardImagesReader);
-		inspect("boardImagesWriter", boardImagesWriter);
+		inspect("boardImageReader", boardImageReader);
+		inspect("boardImageWriter", boardImageWriter);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/board-images-cleanup-job/run")
-	public ResponseEntity<Object> runBoardImagesCleanupJob() throws Exception {
-		log.info("## runBoardImagesCleanupJob");
+	@GetMapping("/board-image-cleanup-job/run")
+	public ResponseEntity<Object> runBoardImageCleanupJob() throws Exception {
+		log.info("## runBoardImageCleanupJob");
 		
-		Job job = jobRegistry.getJob("boardImagesCleanupJob");
+		Job job = jobRegistry.getJob("boardImageCleanupJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()

@@ -67,7 +67,7 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
-		<button class="btn btn-lg btn-warning" onclick="configBoardImagesCleanupJob()">config<br>(BoardImagesCleanupJob)</button>
+		<button class="btn btn-lg btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
 	</div>
 	<div class="test d-none mt-5">
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
@@ -130,7 +130,7 @@
 	</div>
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
-		<button class="btn btn-lg btn-primary" id="runBoardImagesCleanupJobBtn">run BoardImagesCleanupJob</button>
+		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run BoardImageCleanupJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -212,11 +212,11 @@
 			});	
 		});
 
-		$("#runBoardImagesCleanupJobBtn").on("click", function() {
-			console.log("## runBoardImagesCleanupJob");
+		$("#runBoardImageCleanupJobBtn").on("click", function() {
+			console.log("## runBoardImageCleanupJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/board-images-cleanup-job/run",
+				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {
@@ -266,11 +266,11 @@
 		});	
 	}
 
-	function configBoardImagesCleanupJob() {
-		console.log("## configBoardImagesCleanupJob");
+	function configBoardImageCleanupJob() {
+		console.log("## configBoardImageCleanupJob");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch-quartz/board-images-cleanup-job/config",
+			url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/config",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

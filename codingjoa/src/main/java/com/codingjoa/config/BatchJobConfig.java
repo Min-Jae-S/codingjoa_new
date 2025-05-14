@@ -32,8 +32,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImagesCleanupListener;
-import com.codingjoa.batch.MybatisRecentPagingItemReader;
+import com.codingjoa.batch.BoardImagesCleanupMonitoringListener;
+import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
@@ -282,22 +282,22 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 	
 	@Bean
-	public Job boardImagesCleanupJob() {
-		return jobBuilderFactory.get("boardImagesCleanupJob")
-				.start(boardImagesCleanupStep())
+	public Job boardImageCleanupJob() {
+		return jobBuilderFactory.get("boardImageCleanupJob")
+				.start(boardImageCleanupStep())
 				.build();
 	}
 
 	@Bean
-	public Step boardImagesCleanupStep() {
-		return stepBuilderFactory.get("boardImagesCleanupStep")
+	public Step boardImageCleanupStep() {
+		return stepBuilderFactory.get("boardImageCleanupStep")
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
-				.reader(boardImagesCleanupReader())
-				.writer(boardImagesCleanupWriter())
+				.reader(boardImageCleanupReader())
+				.writer(boardImageCleanupWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImagesCleanupListener())
+				.listener(boardImageCleanupListener())
 				.build();
 	}
 
@@ -306,8 +306,8 @@ public class BatchJobConfig {
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
 	@StepScope
 	@Bean
-	public MybatisRecentPagingItemReader<BoardImage> boardImagesCleanupReader() {
-		MybatisRecentPagingItemReader reader = new MybatisRecentPagingItemReader<BoardImage>();
+	public MybatisRecentKeysetPagingItemReader<BoardImage> boardImageCleanupReader() {
+		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
@@ -316,7 +316,7 @@ public class BatchJobConfig {
 	
 	@StepScope
 	@Bean
-	public MyBatisBatchItemWriter<BoardImage> boardImagesCleanupWriter() {
+	public MyBatisBatchItemWriter<BoardImage> boardImageCleanupWriter() {
 		return new MyBatisBatchItemWriterBuilder<BoardImage>()
 				.sqlSessionFactory(sqlSessionFactory)
 				.statementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage")
@@ -324,8 +324,8 @@ public class BatchJobConfig {
 	}
 
 	@Bean
-	public BoardImagesCleanupListener boardImagesCleanupListener() {
-		return new BoardImagesCleanupListener();
+	public BoardImagesCleanupMonitoringListener boardImageCleanupListener() {
+		return new BoardImagesCleanupMonitoringListener();
 	}
 	
 }

@@ -10,7 +10,7 @@ import org.springframework.batch.item.ItemStreamException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MybatisRecentPagingItemReader<T> extends MyBatisPagingItemReader<T> {
+public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemReader<T> {
 	
 	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private ExecutionContext executionContext;
