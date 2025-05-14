@@ -1,14 +1,12 @@
 package com.codingjoa.mybatis;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -20,7 +18,6 @@ import com.codingjoa.entity.BoardImage;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Intercepts({
 	@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
@@ -28,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	private List<Long> failIds = List.of(1820L, 1545L);
+	private List<Long> failIds = List.of(2685L, 2611L, 1820L, 1545L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		log.info("## {}.intercept", this.getClass().getSimpleName());
+		log.debug("## {}.intercept", this.getClass().getSimpleName());
 		String method = invocation.getMethod().getName();
 		Object[] args = invocation.getArgs();
 		
@@ -40,23 +37,19 @@ public class MybatisExecuteInterceptor implements Interceptor {
 			Arrays.stream(args)
 				.map(obj -> obj.getClass().getSimpleName())
 				.collect(Collectors.toList());
-		log.info("\t > method: {}, args: {}", method, argsClass);
+		log.debug("\t > method: {}, args: {}", method, argsClass);
 		
 		if ("update".equals(method)) {
 			MappedStatement ms = (MappedStatement) args[0];
 			Object parameter = args[1];
-			log.info("\t > parameter type: {}", parameter.getClass().getSimpleName());
+			log.debug("\t > parameter type: {}", parameter.getClass().getSimpleName());
 			
-			if (ms.getId().endsWith("BatchMapper.deleteBoardImage")) {
-				if (!(parameter instanceof BoardImage)) {
-					throw new RuntimeException("cant cast parameter to BoardImage");
-				}
-				
+			if (ms.getId().endsWith("BatchMapper.deleteBoardImage") && parameter instanceof BoardImage) {
 				Long id = ((BoardImage) parameter).getId();
-				log.info("\t > boardIamge id: {}", id);
+				log.debug("\t > boardIamge id: {}", id);
 				
 				if (failIds.contains(id)) {
-					throw new SQLException("id=" + id);
+					throw new SQLException();
 				}
 			}
 		}

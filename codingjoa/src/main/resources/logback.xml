@@ -78,6 +78,7 @@
 	<logger name="org.springframework.batch" level="INFO"/>
 	<!-- <logger name="org.springframework.batch.core.configuration.annotation" level="TRACE"/> -->
 	<logger name="org.mybatis.spring.batch" level="INFO"/>
+	<logger name="com.codingjoa.mybatis.MybatisExecuteInterceptor" level="OFF"/>
 	
 	<!-- HikariCP -->
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
