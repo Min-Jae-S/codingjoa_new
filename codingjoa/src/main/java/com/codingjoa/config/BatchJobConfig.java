@@ -22,7 +22,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImageItemListener;
+import com.codingjoa.batch.SkippedBoardImageStoringListener;
+import com.codingjoa.batch.BoardImageFileDeletionListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
@@ -274,34 +275,24 @@ public class BatchJobConfig {
 	@Bean
 	public Job cleanupBoardImageJob() {
 		return jobBuilderFactory.get("cleanupBoardImageJob")
-				.start(deleteBoardImageDbStep())
-				.next(deleteBoardImageFileStep())
+				.start(cleanupBoardImageStep())
 				.build();
 	}
 
 	@Bean
-	public Step deleteBoardImageDbStep() {
-		return stepBuilderFactory.get("deleteBoardImageDbStep")
+	public Step cleanupBoardImageStep() {
+		return stepBuilderFactory.get("cleanupBoardImageStep")
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImageItemReader())
 				.writer(boardImageItemWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImageItemListener())
+				.listener(skippedBoardImageStoringListener())
+				.listener(boardImageFileDeletionListener())
 				.build();
 	}
 	
-	@Bean
-	public Step deleteBoardImageFileStep() {
-		return stepBuilderFactory.get("deleteBoardImageFileStep")
-				.tasklet((contribution, chunkContext) -> {
-					log.info("## CleanupBoardImageFileTasklet.execute");
-					return RepeatStatus.FINISHED;
-				})
-				.build();
-	}
-
 	// [WARN ]  o.s.b.c.l.AbstractListenerFactoryBean    : org.springframework.batch.item.ItemReader is an interface. 
 	// The implementing class will not be queried for annotation based listener configurations.
 	// If using @StepScope on a @Bean method, be sure to return the implementing class so listener annotations can be used.
@@ -324,8 +315,13 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public BoardImageItemListener boardImageItemListener() {
-		return new BoardImageItemListener();
+	public SkippedBoardImageStoringListener skippedBoardImageStoringListener() {
+		return new SkippedBoardImageStoringListener();
+	}
+
+	@Bean
+	public BoardImageFileDeletionListener boardImageFileDeletionListener() {
+		return new BoardImageFileDeletionListener();
 	}
 	
 }

@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemReader<T> {
 	
-	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private ExecutionContext executionContext;
 	private Map<String, Object> baseParameterValues;
 
@@ -27,7 +26,7 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 
 	@Override
 	protected void doReadPage() {
-		Long lastSkippedId = executionContext.containsKey(LAST_SKIPPED_ID_KEY) ? executionContext.getLong(LAST_SKIPPED_ID_KEY) : null;
+		Long lastSkippedId = executionContext.containsKey("lastSkippedId") ? executionContext.getLong("lastSkippedId") : null;
 		log.info("## {}.doReadPage, lastSkippedId: {}", this.getClass().getSimpleName(), lastSkippedId);
 		TransactionUtils.logTransaction();
 
@@ -35,7 +34,7 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 		if (baseParameterValues != null) {
 			parameters.putAll(baseParameterValues);
 		}
-		parameters.put(LAST_SKIPPED_ID_KEY, lastSkippedId);
+		parameters.put("lastSkippedId", lastSkippedId);
 		
 		super.setParameterValues(parameters);
 		super.doReadPage();
