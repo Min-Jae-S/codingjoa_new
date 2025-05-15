@@ -28,7 +28,8 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	@Override
 	protected void doReadPage() {
 		Long lastSkippedId = executionContext.containsKey("lastSkippedId") ? executionContext.getLong("lastSkippedId") : null;
-		//log.info("## {}.doReadPage, lastSkippedId: {}", this.getClass().getSimpleName(), lastSkippedId);
+		log.info("## {}.doReadPage ({}), lastSkippedId: {}", 
+			this.getClass().getSimpleName(), Thread.currentThread().getName(), lastSkippedId);
 
 		Map<String, Object> parameters = new HashMap<>();
 		if (baseParameterValues != null) {

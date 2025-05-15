@@ -1,6 +1,8 @@
 package com.codingjoa.config;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
@@ -24,12 +26,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImageFileWriter;
+import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.CleanupBoardImageListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
+import com.codingjoa.service.ImageService;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +49,7 @@ public class BatchJobConfig {
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
 	private final PlatformTransactionManager transactionManager;
+	private final ImageService imageService;
 	
 	@Bean 
 	public Job multiStepsJob() {
@@ -315,15 +320,27 @@ public class BatchJobConfig {
 	}
 	
 	public MyBatisBatchItemWriter<BoardImage> boardImageItemWriter() {
-		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardImage>();
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardImage>() {
+			@Override
+			public void write(List<? extends BoardImage> items) {
+				log.info("## MyBatisBatchItemWriter.write ({})", Thread.currentThread().getName());
+				log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
+				
+				List<Long> ids = items.stream()
+						.map(item -> ((BoardImage)item).getId())
+						.collect(Collectors.toList());
+				log.info("\t > items: {}", ids);
+				
+				super.write(items);
+			}
+		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage");
 		return writer;
 	}
 
-	public BoardImageFileWriter<BoardImage> boardImageFileItemWriter() {
-		BoardImageFileWriter writer = new BoardImageFileWriter<BoardImage>();
-		return writer;
+	public BoardImageFileItemWriter boardImageFileItemWriter() {
+		return new BoardImageFileItemWriter(imageService);
 	}
 	
 	@Bean

@@ -10,6 +10,10 @@ public class TransactionUtils {
 
 	private TransactionUtils() {}
 	
+	public static boolean isTransactionAcitve() {
+		return TransactionSynchronizationManager.isActualTransactionActive();
+	}
+	
 	public static Integer getTranscationHash() {
 		Integer transacionHash = null;
 		Map<Object, Object> resources = TransactionSynchronizationManager.getResourceMap();

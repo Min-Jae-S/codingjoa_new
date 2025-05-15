@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 })
 public class MybatisExecuteInterceptor implements Interceptor {
 	
-	private List<Long> failIds = List.of(4220L, 4204L, 4203L, 4202L, 4201L, 4116L, 4114L, 4112L, 4000L);
+	private List<Long> failIds = List.of(4320L, 4319L, 4112L, 4000L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
