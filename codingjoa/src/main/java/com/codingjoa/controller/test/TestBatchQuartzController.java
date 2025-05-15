@@ -86,24 +86,17 @@ public class TestBatchQuartzController {
 	@Autowired
 	private ItemWriter myBatisItemWriter;
 
-	@Qualifier("boardImageCleanupReader")
+	@Qualifier("cleanupBoardImageJob")
 	@Autowired
-	private ItemReader boardImageCleanupReader;
+	private Job cleanupBoardImageJob;
 	
-//	@Autowired
-//	private CompositeItemWriter boardImagesCompositeWriter;
-	
-	@Qualifier("boardImageCleanupWriter")
+	@Qualifier("cleanupBoardImageRecordReader")
 	@Autowired
-	private ItemWriter boardImageCleanupWriter;
+	private ItemReader cleanupBoardImageRecordReader;
 	
-//	@Qualifier("boardImagesCleanupFileWriter")
-//	@Autowired
-//	private ItemWriter boardImagesFileWriter;
-	
-	@Qualifier("boardImageCleanupJob")
+	@Qualifier("cleanupBoardImageRecordWriter")
 	@Autowired
-	private Job boardImageCleanupJob;
+	private ItemWriter cleanupBoardImageRecordWriter;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -219,22 +212,22 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/board-image-cleanup-job/config")
-	public ResponseEntity<Object> configBoardImageCleanupJob() throws Exception {
-		log.info("## configBoardImageCleanupJob");
-		log.info("\t > job: {}", jobRegistry.getJob("boardImageCleanupJob"));
+	@GetMapping("/cleanup-board-image-job/config")
+	public ResponseEntity<Object> configCleanupBoardImageJob() throws Exception {
+		log.info("## configCleanupBoardImageJob");
+		log.info("\t > job: {}", jobRegistry.getJob("cleanupBoardImageJob"));
 		
-		inspect("boardImageCleanupReader", boardImageCleanupReader);
-		inspect("boardImageCleanupWriter", boardImageCleanupWriter);
+		inspect("cleanupBoardImageRecordReader", cleanupBoardImageRecordReader);
+		inspect("cleanupBoardImageRecordWriter", cleanupBoardImageRecordWriter);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/board-image-cleanup-job/run")
-	public ResponseEntity<Object> runBoardImageCleanupJob() throws Exception {
-		log.info("## runBoardImageCleanupJob");
+	@GetMapping("/cleanup-board-image-job/run")
+	public ResponseEntity<Object> runCleanupBoardImageJob() throws Exception {
+		log.info("## runCleanupBoardImageJob");
 		
-		Job job = jobRegistry.getJob("boardImageCleanupJob");
+		Job job = jobRegistry.getJob("cleanupBoardImageJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
