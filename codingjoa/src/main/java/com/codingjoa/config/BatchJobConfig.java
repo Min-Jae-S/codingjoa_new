@@ -15,6 +15,8 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,8 +24,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.SkippedBoardImageStoringListener;
-import com.codingjoa.batch.BoardImageFileDeletionListener;
+import com.codingjoa.batch.BoardImageFileWriter;
+import com.codingjoa.batch.CleanupBoardImageListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
@@ -285,11 +287,10 @@ public class BatchJobConfig {
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImageItemReader())
-				.writer(boardImageItemWriter())
+				.writer(compositeBoardImageItemWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(skippedBoardImageStoringListener())
-				.listener(boardImageFileDeletionListener())
+				.listener(cleanupBoardImageListener())
 				.build();
 	}
 	
@@ -307,21 +308,27 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
+	public CompositeItemWriter<BoardImage> compositeBoardImageItemWriter() {
+		return new CompositeItemWriterBuilder()
+				.delegates(boardImageItemWriter(), boardImageFileItemWriter())
+				.build();
+	}
+	
 	public MyBatisBatchItemWriter<BoardImage> boardImageItemWriter() {
 		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardImage>();
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage");
 		return writer;
 	}
+
+	public BoardImageFileWriter<BoardImage> boardImageFileItemWriter() {
+		BoardImageFileWriter writer = new BoardImageFileWriter<BoardImage>();
+		return writer;
+	}
 	
 	@Bean
-	public SkippedBoardImageStoringListener skippedBoardImageStoringListener() {
-		return new SkippedBoardImageStoringListener();
-	}
-
-	@Bean
-	public BoardImageFileDeletionListener boardImageFileDeletionListener() {
-		return new BoardImageFileDeletionListener();
+	public CleanupBoardImageListener cleanupBoardImageListener() { // skippedBoardImageStoringListener
+		return new CleanupBoardImageListener();
 	}
 	
 }

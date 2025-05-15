@@ -9,7 +9,7 @@ import com.codingjoa.entity.BoardImage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SkippedBoardImageStoringListener {
+public class CleanupBoardImageListener {
 	
 	private StepExecution stepExecution;
 	
