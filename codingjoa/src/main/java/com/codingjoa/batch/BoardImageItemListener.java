@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.AfterWrite;
 import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.core.annotation.OnSkipInWrite;
 import org.springframework.batch.core.annotation.OnWriteError;
@@ -13,7 +14,7 @@ import com.codingjoa.entity.BoardImage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CleanupBoardImageRecordListener {
+public class BoardImageItemListener {
 	
 	private static final String LAST_SKIPPED_ID_KEY = "lastSkippedId";
 	private StepExecution stepExecution;
@@ -41,6 +42,11 @@ public class CleanupBoardImageRecordListener {
 			log.info("## [onWriteError] error items: {}", 
 					items.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
 		}
+	}
+	
+	@AfterWrite
+	public void afterWrite(List<BoardImage> items) {
+		log.info("## [afterWrite]");
 	}
 
 }
