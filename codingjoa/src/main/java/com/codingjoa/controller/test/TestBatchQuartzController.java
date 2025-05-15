@@ -88,14 +88,14 @@ public class TestBatchQuartzController {
 
 	@Qualifier("boardImageCleanupReader")
 	@Autowired
-	private ItemReader boardImageReader;
+	private ItemReader boardImageCleanupReader;
 	
 //	@Autowired
 //	private CompositeItemWriter boardImagesCompositeWriter;
 	
 	@Qualifier("boardImageCleanupWriter")
 	@Autowired
-	private ItemWriter boardImageWriter;
+	private ItemWriter boardImageCleanupWriter;
 	
 //	@Qualifier("boardImagesCleanupFileWriter")
 //	@Autowired
@@ -224,8 +224,8 @@ public class TestBatchQuartzController {
 		log.info("## configBoardImageCleanupJob");
 		log.info("\t > job: {}", jobRegistry.getJob("boardImageCleanupJob"));
 		
-		inspect("boardImageReader", boardImageReader);
-		inspect("boardImageWriter", boardImageWriter);
+		inspect("boardImageCleanupReader", boardImageCleanupReader);
+		inspect("boardImageCleanupWriter", boardImageCleanupWriter);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

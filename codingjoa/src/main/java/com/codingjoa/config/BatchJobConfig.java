@@ -16,8 +16,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.support.CompositeItemWriter;
-import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -25,8 +23,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.codingjoa.batch.BoardImageCleanupListener;
-import com.codingjoa.batch.BoardImageFileCleanupWriter;
+import com.codingjoa.batch.BoardImageCleanupMonitoringListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
@@ -289,10 +286,10 @@ public class BatchJobConfig {
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImageCleanupReader())
-				.writer(compositeBoardImageCleanupWriter())
+				.writer(boardImageCleanupWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImageCleanupListener())
+				.listener(boardImageCleanupMonitoringListener())
 				.build();
 	}
 
@@ -309,6 +306,7 @@ public class BatchJobConfig {
 		return reader;
 	}
 	
+	@Bean
 	public MyBatisBatchItemWriter<BoardImage> boardImageCleanupWriter() {
 		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<>() {
 			@Override
@@ -324,20 +322,9 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
-	public BoardImageFileCleanupWriter<BoardImage> boardImageFileCleanupWriter() {
-		return new BoardImageFileCleanupWriter<BoardImage>();
-	}
-	
 	@Bean
-	public CompositeItemWriter<BoardImage> compositeBoardImageCleanupWriter() {
-		return new CompositeItemWriterBuilder()
-				.delegates(boardImageCleanupWriter(), boardImageFileCleanupWriter())
-				.build();
-	}
-
-	@Bean
-	public BoardImageCleanupListener boardImageCleanupListener() {
-		return new BoardImageCleanupListener();
+	public BoardImageCleanupMonitoringListener boardImageCleanupMonitoringListener() {
+		return new BoardImageCleanupMonitoringListener();
 	}
 	
 }
