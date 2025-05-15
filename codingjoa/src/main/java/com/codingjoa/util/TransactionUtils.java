@@ -14,14 +14,16 @@ public class TransactionUtils {
 	private TransactionUtils() {}
 	
 	public static void logTransaction() {
-		boolean isActive = TransactionSynchronizationManager.isActualTransactionActive();
+		log.info("## [TX]");
+		log.info("\t > active: {}", TransactionSynchronizationManager.isActualTransactionActive());
+		
 		Map<Object, Object> resources = TransactionSynchronizationManager.getResourceMap();
 		for (Object key : resources.keySet()) {
 			Object resource = TransactionSynchronizationManager.getResource(key);
 			if (resource instanceof ConnectionHolder) {
 				ConnectionHolder holder = (ConnectionHolder) resource;
 				Connection conn = holder.getConnection();
-				log.info("[TX] active: {}, connection hash: {}", isActive, System.identityHashCode(conn));
+				log.info("\t > connection hash: {}", System.identityHashCode(conn));
 			}
 		}
 		

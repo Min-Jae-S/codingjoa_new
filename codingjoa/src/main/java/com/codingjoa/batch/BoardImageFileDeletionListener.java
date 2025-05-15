@@ -11,6 +11,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ExecutionContext;
 
 import com.codingjoa.entity.BoardImage;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,13 +22,20 @@ public class BoardImageFileDeletionListener {
 	
 	@BeforeStep
 	public void beforeStep(StepExecution stepExecution) {
-		log.info("## [BoardImageFileDeletionListener.beforeStep]");
 		this.stepExecution = stepExecution;
 	}
 	
 	@AfterWrite
 	public void afterWrite(List<BoardImage> items) {
-		log.info("## [afterWrite] success items: {}", items);
+		log.info("## [afterWrite]");
+		TransactionUtils.logTransaction();
+
+		List<Long> ids = items.stream()
+				.map(boardImage -> boardImage.getId())
+				.collect(Collectors.toList());
+		log.info("\t > save list of successfully deleted BoardImages to ExecutionContext");
+		log.info("\t > items: {}", ids);
+		
 		ExecutionContext executionContext = stepExecution.getExecutionContext();
 		executionContext.put("deletedImages", items);
 	}
@@ -36,8 +44,14 @@ public class BoardImageFileDeletionListener {
 	@AfterChunk
 	public void afterChunk(ChunkContext context) {
 		log.info("## [afterChunk]");
+		TransactionUtils.logTransaction();
+		
 		ExecutionContext executionContext = stepExecution.getExecutionContext();
 		List<BoardImage> deleteImages = (List<BoardImage>) executionContext.get("deletedImages");
-		log.info("\t > deleteImages = {}", deleteImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
+		List<Long> ids = (deleteImages != null) ? 
+				deleteImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()) : null;
+		log.info("\t > items: {}", ids);
+		
+		executionContext.remove("deletedImages");
 	}
 }

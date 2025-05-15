@@ -15,7 +15,6 @@ public class SkippedBoardImageStoringListener {
 	
 	@BeforeStep
 	public void beforeStep(StepExecution stepExecution) {
-		log.info("## [SkippedBoardImageStoringListener.beforeStep]");
 		this.stepExecution = stepExecution;
 	}
 	

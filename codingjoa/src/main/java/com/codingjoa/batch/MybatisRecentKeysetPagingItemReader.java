@@ -11,6 +11,7 @@ import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemReader<T> {
 	
@@ -19,7 +20,7 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
-		log.info("## {}.open", this.getClass().getSimpleName());
+		//log.info("## {}.open", this.getClass().getSimpleName());
 		super.open(executionContext);
 		this.executionContext = executionContext;
 	}
@@ -27,8 +28,8 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	@Override
 	protected void doReadPage() {
 		Long lastSkippedId = executionContext.containsKey("lastSkippedId") ? executionContext.getLong("lastSkippedId") : null;
-		log.info("## {}.doReadPage, lastSkippedId: {}", this.getClass().getSimpleName(), lastSkippedId);
-		TransactionUtils.logTransaction();
+		//log.info("## {}.doReadPage, lastSkippedId: {}", this.getClass().getSimpleName(), lastSkippedId);
+		//TransactionUtils.logTransaction();
 
 		Map<String, Object> parameters = new HashMap<>();
 		if (baseParameterValues != null) {
