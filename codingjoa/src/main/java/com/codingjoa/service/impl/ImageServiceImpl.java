@@ -1,6 +1,10 @@
 package com.codingjoa.service.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -145,11 +149,22 @@ public class ImageServiceImpl implements ImageService {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
-	//@Async
+	//@Async("boardImageTaskExecutor")
 	@Override
 	public void deleteBoardImageFile(List<BoardImage> boardImages) {
 		log.info("## deleteBoardImageFile ({})", Thread.currentThread().getName());
 		log.info("\t > boardImages = {}", boardImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
+		
+		for (BoardImage boardImage : boardImages) {
+			Path path = Paths.get(boardImageDir, boardImage.getName());
+			try {
+				boolean deleted = Files.deleteIfExists(path);
+				log.info("\t > path: {}, status: {}", path, deleted ? "deleted successfully" : "no file to delete");
+			} catch (IOException e) {
+				log.info("\t > {}: error while deleting file ({})", e.getClass().getSimpleName(), path);
+				throw new RuntimeException("failed to delete file: " + path, e);
+			}
+		}
 	}
 
 }
