@@ -6,7 +6,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,7 +145,7 @@ public class ImageServiceImpl implements ImageService {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
-	@Async
+	//@Async
 	@Override
 	public void deleteBoardImageFile(List<BoardImage> boardImages) {
 		log.info("## deleteBoardImageFile ({})", Thread.currentThread().getName());
