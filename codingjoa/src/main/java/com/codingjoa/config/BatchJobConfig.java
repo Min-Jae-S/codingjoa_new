@@ -17,6 +17,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
@@ -316,7 +317,8 @@ public class BatchJobConfig {
 	@Bean
 	public CompositeItemWriter<BoardImage> compositeBoardImageItemWriter() {
 		return new CompositeItemWriterBuilder()
-				.delegates(boardImageItemWriter(), boardImageFileItemWriter())
+				//.delegates(boardImageItemWriter(), boardImageFileItemWriter())
+				.delegates(boardImageItemWriter(), itemWriterAdapter())
 				.build();
 	}
 	
@@ -338,6 +340,13 @@ public class BatchJobConfig {
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage");
 		return writer;
+	}
+	
+	public ItemWriterAdapter<BoardImage> itemWriterAdapter() {
+		ItemWriterAdapter<BoardImage> adapter = new ItemWriterAdapter<>();
+		adapter.setTargetObject(imageService);
+		adapter.setTargetMethod("deleteBoardImageFile");
+		return adapter;
 	}
 
 	public BoardImageFileItemWriter boardImageFileItemWriter() {

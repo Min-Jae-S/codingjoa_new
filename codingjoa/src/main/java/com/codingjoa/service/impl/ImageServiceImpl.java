@@ -151,8 +151,8 @@ public class ImageServiceImpl implements ImageService {
 
 	//@Async("boardImageTaskExecutor")
 	@Override
-	public void deleteBoardImageFile(List<BoardImage> boardImages) {
-		log.info("## deleteBoardImageFile ({})", Thread.currentThread().getName());
+	public void deleteBoardImageFiles(List<BoardImage> boardImages) {
+		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
 		log.info("\t > boardImages = {}", boardImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
 		
 		for (BoardImage boardImage : boardImages) {
@@ -165,6 +165,12 @@ public class ImageServiceImpl implements ImageService {
 				throw new RuntimeException("failed to delete file: " + path, e);
 			}
 		}
+	}
+
+	@Override
+	public void deleteBoardImageFile(BoardImage boardImage) {
+		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
+		log.info("\t > boardImage: {}", boardImage.getId());
 	}
 
 }
