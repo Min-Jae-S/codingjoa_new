@@ -127,9 +127,10 @@
 				<label class="form-check-label" for="check3">park</label>
 			</div>
 		</form>
+		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
 	</div>
 	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
+		<button class="btn btn-lg btn-primary" id="runBoardImageDummiesJobBtn">run BoardImageDummiesJob</button>
 		<button class="btn btn-lg btn-primary" id="runCleanupBoardImageJobBtn">run CleanupBoardImageJob</button>
 	</div>
 </div>
@@ -199,6 +200,24 @@
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/mybatis-job/run",
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+		
+		$("#runBoardImageDummiesJobBtn").on("click", function() {
+			console.log("## runBoardImageDummiesJobBtn");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/board-image-dummies-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

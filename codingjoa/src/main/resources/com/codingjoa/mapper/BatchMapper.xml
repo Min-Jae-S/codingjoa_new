@@ -34,6 +34,25 @@
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
+	<insert id="insertDummyImages">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_boardimage.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO board_image (
+			id,
+			board_id,
+			name,
+			path,
+			created_at
+		) VALUES (
+			#{id},
+			#{boardId},
+			#{name},
+			#{path},
+			SYSDATE
+		)
+	</insert>
+	
 	<select id="test" resultType="User">
 		SELECT 
 			paged_users.*

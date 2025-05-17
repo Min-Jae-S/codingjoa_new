@@ -242,6 +242,24 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
+	@GetMapping("/insert-dummy-images-job/run")
+	public ResponseEntity<Object> runInsertDummyImagesJob() throws Exception {
+		log.info("## runInsertDummyImagesJob");
+		
+		Job job = jobRegistry.getJob("insertDummyImagesJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## result: {}", jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
 	private void inspect(String beanName, Object bean) {
 		if (bean == null) {
 			log.info("\t > {}: null", beanName);

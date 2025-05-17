@@ -31,7 +31,7 @@ public class BoardImageFileItemWriter implements ItemWriter<BoardImage> {
 				.collect(Collectors.toList());
 		log.info("\t > items: {}", ids);
 		
-		imageService.deleteBoardImageFile(new ArrayList<>(items));
+		imageService.deleteBoardImageFiles(new ArrayList<>(items));
 	}
 
 }

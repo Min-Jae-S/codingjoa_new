@@ -1,7 +1,9 @@
 package com.codingjoa.config;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,6 +21,7 @@ import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.batch.item.support.CompositeItemWriter;
+import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.CleanupBoardImageListener;
@@ -279,6 +283,52 @@ public class BatchJobConfig {
 	
 	/******************************************************************************************/
 	/******************************************************************************************/
+
+	@Bean
+	public Job insertDummyImagesJob() {
+		return jobBuilderFactory.get("insertDummyImagesJob")
+				.start(insertDummyImagesStep())
+				.build();
+	}
+	
+	@Bean
+	public Step insertDummyImagesStep() {
+		return stepBuilderFactory.get("insertDummyImagesStep")
+				.<BoardImage, BoardImage>chunk(100)
+				.reader(dummyImageReader())
+				.writer(dummyImageWriter())
+				.build();	
+	}
+	
+	@Bean
+	public ItemReader<BoardImage> dummyImageReader() {
+		List<BoardImage> dummyImages = new ArrayList<>();
+		for (int i = 1; i <= 100; i++) {
+			String filename = "dummy_" + UUID.randomUUID();
+			String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
+					.buildAndExpand(filename)
+					.toUriString();
+			BoardImage boardImage = BoardImage.builder()
+					.boardId(null)
+					.name(filename)
+					.path(path)
+					.build();
+			dummyImages.add(boardImage);
+		}
+		
+		return new ListItemReader<>(dummyImages);
+	}
+
+	@Bean
+	public ItemWriter<BoardImage> dummyImageWriter() {
+		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>();
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertDummyImages");
+		return writer;
+	}
+	
+	/******************************************************************************************/
+	/******************************************************************************************/
 	
 	@Bean
 	public Job cleanupBoardImageJob() {
@@ -323,7 +373,7 @@ public class BatchJobConfig {
 	}
 	
 	public MyBatisBatchItemWriter<BoardImage> boardImageItemWriter() {
-		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardImage>() {
+		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>() {
 			@Override
 			public void write(List<? extends BoardImage> items) {
 				log.info("## MyBatisBatchItemWriter.write ({})", Thread.currentThread().getName());
@@ -354,7 +404,7 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public CleanupBoardImageListener cleanupBoardImageListener() { // skippedBoardImageStoringListener
+	public CleanupBoardImageListener cleanupBoardImageListener() {
 		return new CleanupBoardImageListener();
 	}
 	

@@ -21,6 +21,7 @@ import com.codingjoa.entity.UserImage;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,7 +102,8 @@ public class ImageServiceImpl implements ImageService {
 		log.info("\t > path = {}", path);
 		
 		// absolutePath vs canonicalPath (https://dev-handbook.tistory.com/11)
-		BoardImage boardImage = BoardImage.builder() 
+		BoardImage boardImage = BoardImage.builder()
+				.boardId(null)
 				.name(filename)
 				.path(path)
 				.build();
@@ -153,6 +155,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void deleteBoardImageFiles(List<BoardImage> boardImages) {
 		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
+		log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
 		log.info("\t > boardImages = {}", boardImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
 		
 		for (BoardImage boardImage : boardImages) {
@@ -170,6 +173,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void deleteBoardImageFile(BoardImage boardImage) {
 		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
+		log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
 		log.info("\t > boardImage: {}", boardImage.getId());
 	}
 
