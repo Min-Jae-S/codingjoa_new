@@ -170,11 +170,4 @@ public class ImageServiceImpl implements ImageService {
 		}
 	}
 
-	@Override
-	public void deleteBoardImageFile(BoardImage boardImage) {
-		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
-		log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
-		log.info("\t > boardImage: {}", boardImage.getId());
-	}
-
 }

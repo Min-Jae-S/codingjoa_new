@@ -20,7 +20,5 @@ public interface ImageService {
 	void updateBoardImages(List<Long> boardImages, Long boardId); // deactivate, activate
 	
 	void deleteBoardImageFiles(List<BoardImage> boardImages); // batch
-
-	void deleteBoardImageFile(BoardImage boardImage);
 	
 }

@@ -19,7 +19,6 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.adapter.ItemWriterAdapter;
 import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
@@ -294,6 +293,7 @@ public class BatchJobConfig {
 	@Bean
 	public Step insertDummyImagesStep() {
 		return stepBuilderFactory.get("insertDummyImagesStep")
+				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(100)
 				.reader(dummyImageReader())
 				.writer(dummyImageWriter())
@@ -360,15 +360,13 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(20);
 		return reader;
 	}
 	
 	@Bean
 	public CompositeItemWriter<BoardImage> compositeBoardImageItemWriter() {
 		return new CompositeItemWriterBuilder()
-				//.delegates(boardImageItemWriter(), boardImageFileItemWriter())
-				.delegates(boardImageItemWriter(), itemWriterAdapter())
+				.delegates(boardImageItemWriter(), boardImageFileItemWriter())
 				.build();
 	}
 	
@@ -392,13 +390,6 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
-	public ItemWriterAdapter<BoardImage> itemWriterAdapter() {
-		ItemWriterAdapter<BoardImage> adapter = new ItemWriterAdapter<>();
-		adapter.setTargetObject(imageService);
-		adapter.setTargetMethod("deleteBoardImageFile");
-		return adapter;
-	}
-
 	public BoardImageFileItemWriter boardImageFileItemWriter() {
 		return new BoardImageFileItemWriter(imageService);
 	}
