@@ -17,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class PropertiesApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> { 
-	// EnviromentPostProcessor
+public class PropertiesApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> { // EnviromentPostProcessor
 	
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {

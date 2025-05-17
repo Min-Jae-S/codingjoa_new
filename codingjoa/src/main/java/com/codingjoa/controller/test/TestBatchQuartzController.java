@@ -2,6 +2,8 @@ package com.codingjoa.controller.test;
 
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -20,6 +22,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -97,6 +100,9 @@ public class TestBatchQuartzController {
 	@Qualifier("compositeBoardImageItemWriter")
 	@Autowired
 	private ItemWriter compositeBoardImageItemWriter;
+	
+	@Value("${upload.dir.board.image}")
+	private String boardImageDir;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -251,6 +257,7 @@ public class TestBatchQuartzController {
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
+				.addString("boardImageDir", boardImageDir)
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		

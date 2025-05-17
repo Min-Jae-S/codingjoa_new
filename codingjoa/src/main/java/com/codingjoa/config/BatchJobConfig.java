@@ -1,5 +1,7 @@
 package com.codingjoa.config;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -24,6 +27,7 @@ import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.item.support.builder.CompositeItemWriterBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -284,30 +288,43 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 
 	@Bean
-	public Job insertDummyImagesJob() {
+	public Job insertDummyImagesJob(@Qualifier("insertDummyImagesStep") Step insertDummyImagesStep) {
 		return jobBuilderFactory.get("insertDummyImagesJob")
-				.start(insertDummyImagesStep())
+				.start(insertDummyImagesStep)
 				.build();
 	}
 	
 	@Bean
-	public Step insertDummyImagesStep() {
+	public Step insertDummyImagesStep(@Qualifier("dummyImageReader") ItemReader<BoardImage> dummyImageReader, 
+			@Qualifier("dummyImageWriter") ItemWriter<BoardImage> dummyImageWriter) {
 		return stepBuilderFactory.get("insertDummyImagesStep")
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(100)
-				.reader(dummyImageReader())
-				.writer(dummyImageWriter())
+				.reader(dummyImageReader)
+				.writer(dummyImageWriter)
 				.build();	
 	}
 	
+	@StepScope
 	@Bean
-	public ItemReader<BoardImage> dummyImageReader() {
+	public ListItemReader<BoardImage> dummyImageReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
+		File folder = new File(boardImageDir);
 		List<BoardImage> dummyImages = new ArrayList<>();
+		
 		for (int i = 1; i <= 100; i++) {
-			String filename = "dummy_" + UUID.randomUUID();
+			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
+			File uploadFile = new File(folder, filename);
+
+			try {
+				uploadFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
 					.buildAndExpand(filename)
 					.toUriString();
+			
 			BoardImage boardImage = BoardImage.builder()
 					.boardId(null)
 					.name(filename)
