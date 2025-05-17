@@ -24,8 +24,7 @@ public class BoardImageFileItemWriter implements ItemWriter<BoardImage> {
 	@Override
 	public void write(List<? extends BoardImage> items) throws Exception {
 		log.info("## {}.write ({})", this.getClass().getSimpleName(), Thread.currentThread().getName());
-		log.info("\t > active: {}, tx hash: {}", 
-				TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
+		log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
 
 		List<Long> ids = items.stream()
 				.map(boardImage -> boardImage.getId())
