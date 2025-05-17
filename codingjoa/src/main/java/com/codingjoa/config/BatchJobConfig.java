@@ -2,6 +2,8 @@ package com.codingjoa.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -309,18 +311,24 @@ public class BatchJobConfig {
 	@Bean
 	public ListItemReader<BoardImage> dummyImageReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
 		File folder = new File(boardImageDir);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		File baseFile = new File("src/main/resources/static//dummy-base.jpg");
+		
 		List<BoardImage> dummyImages = new ArrayList<>();
 		
 		for (int i = 1; i <= 100; i++) {
 			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
-			File uploadFile = new File(folder, filename);
-
-			try {
-				uploadFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			File copyFile = new File(folder, filename);
 			
+			try {
+				Files.copy(baseFile.toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			}
+
 			String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
 					.buildAndExpand(filename)
 					.toUriString();
