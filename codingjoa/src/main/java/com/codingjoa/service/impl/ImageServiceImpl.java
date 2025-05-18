@@ -1,15 +1,14 @@
 package com.codingjoa.service.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +20,6 @@ import com.codingjoa.entity.UserImage;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.ImageMapper;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,19 +149,16 @@ public class ImageServiceImpl implements ImageService {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
 
-	//@Async("boardImageTaskExecutor")
+	@Async
 	@Override
 	public void deleteBoardImageFiles(List<BoardImage> boardImages) {
 		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
-		log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
-		log.info("\t > boardImages = {}", boardImages.stream().map(boardImage -> boardImage.getId()).collect(Collectors.toList()));
-		
 		for (BoardImage boardImage : boardImages) {
 			Path path = Paths.get(boardImageDir, boardImage.getName());
 			try {
 				boolean deleted = Files.deleteIfExists(path);
-				log.info("\t > path: {}, status: {}", path, deleted ? "deleted successfully" : "no file to delete");
-			} catch (IOException e) {
+				log.info("\t > id: {}, path: {} ({})", boardImage.getId(), path, deleted ? "SUCCESS" : "NO FILE");
+			} catch (Exception e) {
 				log.info("\t > {}: error while deleting file ({})", e.getClass().getSimpleName(), path);
 				throw new RuntimeException("failed to delete file: " + path, e);
 			}

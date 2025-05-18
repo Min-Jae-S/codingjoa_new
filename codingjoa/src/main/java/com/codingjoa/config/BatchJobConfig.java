@@ -46,7 +46,6 @@ import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.util.TransactionUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -403,8 +402,6 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends BoardImage> items) {
 				log.info("## MyBatisBatchItemWriter.write ({})", Thread.currentThread().getName());
-				log.info("\t > active: {}, tx hash: {}", TransactionUtils.isTransactionAcitve(), TransactionUtils.getTranscationHash());
-				
 				List<Long> ids = items.stream()
 						.map(item -> ((BoardImage)item).getId())
 						.collect(Collectors.toList());
