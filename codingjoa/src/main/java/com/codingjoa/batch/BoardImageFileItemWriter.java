@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardImageFileItemWriter implements ItemWriter<BoardImage> {
 	
-	private final String boardImageDir;
+	private String boardImageDir;
 	
-	public BoardImageFileItemWriter(String boardImageDir) {
+	public void setBoardImageDir(String boardImageDir) {
 		this.boardImageDir = boardImageDir;
 	}
 

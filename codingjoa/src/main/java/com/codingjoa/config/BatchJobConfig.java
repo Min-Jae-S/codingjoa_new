@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -46,11 +47,13 @@ import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Slf4j
 @ComponentScan("com.codingjoa.batch")
+@RequiredArgsConstructor
 @Configuration
 public class BatchJobConfig {
 	
@@ -58,17 +61,7 @@ public class BatchJobConfig {
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
 	private final PlatformTransactionManager transactionManager;
-	private final String boardImageDir;
-	
-	public BatchJobConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory,
-			SqlSessionFactory sqlSessionFactory, PlatformTransactionManager transactionManager,
-			@Value("${upload.dir.board.image}") String boardImageDir) {
-		this.jobBuilderFactory = jobBuilderFactory;
-		this.stepBuilderFactory = stepBuilderFactory;
-		this.sqlSessionFactory = sqlSessionFactory;
-		this.transactionManager = transactionManager;
-		this.boardImageDir = boardImageDir;
-	}
+	private final Environment env;
 	
 	@Bean 
 	public Job multiStepsJob() {
@@ -423,7 +416,9 @@ public class BatchJobConfig {
 	}
 	
 	public BoardImageFileItemWriter boardImageFileItemWriter() {
-		return new BoardImageFileItemWriter(boardImageDir);
+		BoardImageFileItemWriter writer = new BoardImageFileItemWriter();
+		writer.setBoardImageDir(env.getProperty("upload.dir.board.image"));
+		return writer;
 	}
 	
 	@Bean
