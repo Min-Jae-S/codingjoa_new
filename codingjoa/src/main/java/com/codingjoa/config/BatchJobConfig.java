@@ -45,14 +45,11 @@ import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
-import com.codingjoa.service.ImageService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Slf4j
-@RequiredArgsConstructor
 @ComponentScan("com.codingjoa.batch")
 @Configuration
 public class BatchJobConfig {
@@ -61,7 +58,17 @@ public class BatchJobConfig {
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
 	private final PlatformTransactionManager transactionManager;
-	private final ImageService imageService;
+	private final String boardImageDir;
+	
+	public BatchJobConfig(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory,
+			SqlSessionFactory sqlSessionFactory, PlatformTransactionManager transactionManager,
+			@Value("${upload.dir.board.image}") String boardImageDir) {
+		this.jobBuilderFactory = jobBuilderFactory;
+		this.stepBuilderFactory = stepBuilderFactory;
+		this.sqlSessionFactory = sqlSessionFactory;
+		this.transactionManager = transactionManager;
+		this.boardImageDir = boardImageDir;
+	}
 	
 	@Bean 
 	public Job multiStepsJob() {
@@ -321,7 +328,7 @@ public class BatchJobConfig {
 		
 		List<BoardImage> dummyImages = new ArrayList<>();
 		
-		for (int i = 1; i <= 100; i++) {
+		for (int i = 1; i <= 200; i++) {
 			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
 			File copyFile = new File(folder, filename);
 			
@@ -401,7 +408,7 @@ public class BatchJobConfig {
 		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>() {
 			@Override
 			public void write(List<? extends BoardImage> items) {
-				log.info("## MyBatisBatchItemWriter.write ({})", Thread.currentThread().getName());
+				log.info("## MyBatisBatchItemWriter.write");
 				List<Long> ids = items.stream()
 						.map(item -> ((BoardImage)item).getId())
 						.collect(Collectors.toList());
@@ -416,12 +423,14 @@ public class BatchJobConfig {
 	}
 	
 	public BoardImageFileItemWriter boardImageFileItemWriter() {
-		return new BoardImageFileItemWriter(imageService);
+		return new BoardImageFileItemWriter(boardImageDir);
 	}
 	
 	@Bean
 	public CleanupBoardImageListener cleanupBoardImageListener() {
 		return new CleanupBoardImageListener();
 	}
+
+	
 	
 }

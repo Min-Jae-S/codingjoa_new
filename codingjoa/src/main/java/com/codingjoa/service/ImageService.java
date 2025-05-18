@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.codingjoa.dto.BoardImageDto;
-import com.codingjoa.entity.BoardImage;
 
 public interface ImageService {
 	
@@ -18,7 +17,5 @@ public interface ImageService {
 	void activateBoardImages(List<Long> boardImages, Long boardId);
 	
 	void updateBoardImages(List<Long> boardImages, Long boardId); // deactivate, activate
-	
-	void deleteBoardImageFiles(List<BoardImage> boardImages); // batch
 	
 }

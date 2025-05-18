@@ -45,8 +45,8 @@ public class AsyncConfig extends AsyncConfigurerSupport {
 	@Override
 	public Executor getAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(4); 	// 기본 스레드 수
-		executor.setMaxPoolSize(20); 	// 최대 스레드 수
+		executor.setCorePoolSize(8); 	// 기본 스레드 수
+		executor.setMaxPoolSize(40); 	// 최대 스레드 수
 		executor.setQueueCapacity(100); // 대기 큐의 용량
 		executor.setThreadNamePrefix("Async-Executor-");
 		executor.initialize();

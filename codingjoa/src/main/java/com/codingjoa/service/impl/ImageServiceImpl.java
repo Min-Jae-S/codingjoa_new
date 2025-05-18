@@ -1,14 +1,10 @@
 package com.codingjoa.service.impl;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,21 +144,4 @@ public class ImageServiceImpl implements ImageService {
 	private static String createFilename(String originalFilename) {
 		return UUID.randomUUID() + "_" + originalFilename;
 	}
-
-	@Async
-	@Override
-	public void deleteBoardImageFiles(List<BoardImage> boardImages) {
-		log.info("## deleteBoardImageFiles ({})", Thread.currentThread().getName());
-		for (BoardImage boardImage : boardImages) {
-			Path path = Paths.get(boardImageDir, boardImage.getName());
-			try {
-				boolean deleted = Files.deleteIfExists(path);
-				log.info("\t > id: {}, path: {} ({})", boardImage.getId(), path, deleted ? "SUCCESS" : "NO FILE");
-			} catch (Exception e) {
-				log.info("\t > {}: error while deleting file ({})", e.getClass().getSimpleName(), path);
-				throw new RuntimeException("failed to delete file: " + path, e);
-			}
-		}
-	}
-
 }
