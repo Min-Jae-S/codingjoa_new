@@ -2,6 +2,7 @@ package com.codingjoa.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -315,7 +318,7 @@ public class BatchJobConfig {
 			folder.mkdirs();
 		}
 		
-		File baseFile = new File("src/main/resources/static//dummy-base.jpg");
+		Resource resource = new ClassPathResource("static/dummy_base.jpg");
 		
 		List<BoardImage> dummyImages = new ArrayList<>();
 		
@@ -323,8 +326,8 @@ public class BatchJobConfig {
 			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
 			File copyFile = new File(folder, filename);
 			
-			try {
-				Files.copy(baseFile.toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			try (InputStream in = resource.getInputStream()) {
+				Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
 				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			}
