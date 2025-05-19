@@ -117,7 +117,7 @@
 		SELECT
 			/*+ ORDERED USE_NL(comments_group) USE_NL(board_like_group) */
 			final_board.id 					AS board_id,
-			NVL(comments_group.cnt, 0) 		AS read_comment_count,
+			NVL(comments_group.cnt, 0) 		AS real_comment_count,
 			NVL(board_like_group.cnt, 0) 	AS real_like_count
 		FROM			
 			final_board
@@ -130,5 +130,15 @@
 		ON	
 			final_board.id = board_like_group.board_id
 	</select>
+	
+	<update id="updateBoardCountsCorrection">
+		UPDATE
+			board
+		SET
+			comment_count = #{realCommentCount},
+			like_count = #{realLikeCount}
+		WHERE
+			id = #{boardId}
+	</update>
 	
 </mapper>

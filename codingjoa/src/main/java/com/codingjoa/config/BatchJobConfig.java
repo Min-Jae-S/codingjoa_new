@@ -40,8 +40,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.BoardImageCleanupListener;
+import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.dto.BoardCountsCorrection;
@@ -467,13 +467,13 @@ public class BatchJobConfig {
 				log.info("## MyBatisBatchItemWriter.write");
 				items.stream().forEach(boardCountsCorrection -> 
 					log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", boardCountsCorrection.getBoardId(),
-							 boardCountsCorrection.getRealCommentCount(), boardCountsCorrection.getRealCommentCount())
+							 boardCountsCorrection.getRealCommentCount(), boardCountsCorrection.getRealLikeCount())
 				);
-				//super.write(items);
+				super.write(items);
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardCountsCorrection");
 		return writer;
 	}
 	
