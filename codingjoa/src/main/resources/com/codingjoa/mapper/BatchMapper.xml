@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BatchMapper">
 
+	<select id="test" resultType="User">
+		SELECT 
+			paged_users.*
+		FROM (
+			SELECT
+				ROWNUM rn,
+				sorted_users.*
+			FROM (
+				SELECT 
+					/*+ INDEX_DESC(users pk_users) */
+					users.*
+				FROM 
+					users
+				ORDER BY
+					id DESC
+			) sorted_users
+			WHERE
+				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+		) paged_users
+		WHERE
+			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
+			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
+	</select>
+
 	<select id="findOrphanBoardImages" resultType="BoardImage">
 		SELECT 
 			paged_images.*
@@ -53,28 +77,57 @@
 		)
 	</insert>
 	
-	<select id="test" resultType="User">
-		SELECT 
-			paged_users.*
-		FROM (
-			SELECT
-				ROWNUM rn,
-				sorted_users.*
-			FROM (
+	<select id="findBoardCountsCorrection" resultType="BoardCountsCorrection">
+		WITH
+			final_board AS (
 				SELECT 
-					/*+ INDEX_DESC(users pk_users) */
-					users.*
-				FROM 
-					users
-				ORDER BY
-					id DESC
-			) sorted_users
-			WHERE
-				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
-		) paged_users
-		WHERE
-			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
-			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
+					paged_board.id
+				FROM (
+					SELECT
+						ROWNUM rn,
+						sorted_board.id
+					FROM (
+						SELECT 
+							/*+ INDEX_DESC(board pk_board) */
+							id
+						FROM 
+							board
+						ORDER BY
+							id DESC
+					) sorted_board
+					WHERE
+						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+				) paged_board
+				WHERE
+					paged_board.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
+			),
+			comments_group AS (
+				SELECT board_id, COUNT(*) cnt
+				FROM comments
+				WHERE board_id IN (SELECT id FROM final_board)
+				GROUP BY board_id
+			),
+			board_like_group AS (
+				SELECT board_id, COUNT(*) cnt
+				FROM board_like
+				WHERE board_id IN (SELECT id FROM final_board)
+				GROUP BY board_id
+			)
+			
+		SELECT
+			final_board.id 					AS board_id,
+			NVL(comments_group.cnt, 0) 		AS read_comment_count,
+			NVL(board_like_group.cnt, 0) 	AS real_like_count
+		FROM			
+			final_board
+		LEFT OUTER JOIN
+			comments_group
+		ON
+			final_board.id = comments_group.board_id
+		LEFT OUTER JOIN
+			board_like_group
+		ON	
+			final_board.id = board_like_group.board_id
 	</select>
 	
 </mapper>

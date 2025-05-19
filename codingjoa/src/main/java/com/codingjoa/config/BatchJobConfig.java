@@ -453,16 +453,23 @@ public class BatchJobConfig {
 	public MyBatisPagingItemReader<BoardCountsCorrection> boardCountsCorrectionReader() {
 		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardCountsCorrection>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
-		reader.setQueryId("");
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountsCorrection");
 		reader.setPageSize(10);
 		return reader;
 	}
 
 	@Bean
-	public MyBatisBatchItemWriter<BoardCountsCorrection> boardCountsCorrectionWriter() {
-		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountsCorrection>();
+	public ItemWriter<BoardCountsCorrection> boardCountsCorrectionWriter() {
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountsCorrection>() {
+			@Override
+			public void write(List<? extends BoardCountsCorrection> items) {
+				log.info("## MyBatisBatchItemWriter.write");
+				items.stream().forEach(boardCountsCorrection -> log.info("\t > {}", boardCountsCorrection));
+				//super.write(items);
+			}
+		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("");
+		//writer.setStatementId("");
 		return writer;
 	}
 	

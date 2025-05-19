@@ -36,7 +36,6 @@
 	</settings>
 	
 	<typeAliases>
-		<!-- entity -->
 		<typeAlias type="com.codingjoa.entity.User" alias="User"/>
 		<typeAlias type="com.codingjoa.entity.Auth" alias="Auth"/>
 		<typeAlias type="com.codingjoa.entity.SnsInfo" alias="SnsInfo"/>
@@ -47,11 +46,9 @@
 		<typeAlias type="com.codingjoa.entity.Comment" alias="Comment"/>
 		<typeAlias type="com.codingjoa.entity.BoardLike" alias="BoardLike"/>
 		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/> 
-
-		<!-- admin -->
 		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
 		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
-
+		<typeAlias type="com.codingjoa.dto.BoardCountsCorrection" alias="BoardCountsCorrection"/>
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>
 	
