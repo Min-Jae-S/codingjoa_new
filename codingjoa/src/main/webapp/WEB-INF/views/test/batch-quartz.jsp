@@ -132,6 +132,7 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runDummyImagesJobBtn">run<br>DummyImagesJob</button>
 		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
+		<button class="btn btn-lg btn-primary" id="runBoardCountsCorrectionJobBtn">run<br>BoardCountsCorrectionJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -236,6 +237,42 @@
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+
+		$("#runBoardImageCleanupJobBtn").on("click", function() {
+			console.log("## runCleanupBoardImageJobBtn");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+
+		$("#runBoardCountsCorrectionJobBtn").on("click", function() {
+			console.log("## runBoardCountsCorrectionJobBtn");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/board-counts-correction-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

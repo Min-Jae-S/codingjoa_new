@@ -228,6 +228,25 @@ public class TestBatchQuartzController {
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+	
+	@GetMapping("/dummy-images-job/run")
+	public ResponseEntity<Object> runDummyImagesJob() throws Exception {
+		log.info("## runDummyImagesJob");
+		
+		Job job = jobRegistry.getJob("dummyImagesJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.addString("boardImageDir", boardImageDir)
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## result: {}", jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 
 	@GetMapping("/board-image-cleanup-job/run")
 	public ResponseEntity<Object> runBoardImageCleanupJob() throws Exception {
@@ -248,16 +267,15 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/dummy-images-job/run")
-	public ResponseEntity<Object> runDummyImagesJob() throws Exception {
-		log.info("## runDummyImagesJob");
+	@GetMapping("/board-counts-correction-job/run")
+	public ResponseEntity<Object> runBoardCountsCorrectionJob() throws Exception {
+		log.info("## runBoardCountsCorrectionJob");
 		
-		Job job = jobRegistry.getJob("dummyImagesJob");
+		Job job = jobRegistry.getJob("boardCountsCorrectionJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
 				.addLong("timestamp", System.currentTimeMillis())
-				.addString("boardImageDir", boardImageDir)
 				.toJobParameters();
 		log.info("\t > jobParameters = {}", jobParameters);
 		

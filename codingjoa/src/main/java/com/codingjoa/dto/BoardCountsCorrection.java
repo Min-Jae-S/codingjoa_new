@@ -9,9 +9,4 @@ public class BoardCountsCorrection {
 	private int realCommentCount;
 	private int realLikeCount;
 	
-	@Override
-	public String toString() {
-		return "boardId: " + boardId + ", realCommentCount: " + realCommentCount + ", realLikeCount: " + realLikeCount;
-	}
-	
 }

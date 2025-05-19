@@ -455,6 +455,7 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountsCorrection");
 		reader.setPageSize(10);
+		reader.setMaxItemCount(500);
 		return reader;
 	}
 
@@ -464,12 +465,15 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends BoardCountsCorrection> items) {
 				log.info("## MyBatisBatchItemWriter.write");
-				items.stream().forEach(boardCountsCorrection -> log.info("\t > {}", boardCountsCorrection));
+				items.stream().forEach(boardCountsCorrection -> 
+					log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", boardCountsCorrection.getBoardId(),
+							 boardCountsCorrection.getRealCommentCount(), boardCountsCorrection.getRealCommentCount())
+				);
 				//super.write(items);
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		//writer.setStatementId("");
+		writer.setStatementId("");
 		return writer;
 	}
 	
