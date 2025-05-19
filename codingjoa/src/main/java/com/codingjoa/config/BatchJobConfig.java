@@ -41,9 +41,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.batch.BoardImageFileItemWriter;
-import com.codingjoa.batch.CleanupBoardImageListener;
+import com.codingjoa.batch.BoardImageCleanupListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
+import com.codingjoa.dto.BoardCountsCorrection;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -292,14 +293,14 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 
 	@Bean
-	public Job insertDummyImagesJob(@Qualifier("insertDummyImagesStep") Step insertDummyImagesStep) {
-		return jobBuilderFactory.get("insertDummyImagesJob")
-				.start(insertDummyImagesStep)
+	public Job dummyImagesJob(@Qualifier("dummyImagesStep") Step dummyImagesStep) {
+		return jobBuilderFactory.get("dummyImagesJob")
+				.start(dummyImagesStep)
 				.build();
 	}
 	
 	@Bean
-	public Step insertDummyImagesStep(@Qualifier("dummyImageReader") ItemReader<BoardImage> dummyImageReader, 
+	public Step dummyImagesStep(@Qualifier("dummyImageReader") ItemReader<BoardImage> dummyImageReader, 
 			@Qualifier("dummyImageWriter") ItemWriter<BoardImage> dummyImageWriter) {
 		return stepBuilderFactory.get("insertDummyImagesStep")
 				.transactionManager(transactionManager)
@@ -358,22 +359,22 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 	
 	@Bean
-	public Job cleanupBoardImageJob() {
-		return jobBuilderFactory.get("cleanupBoardImageJob")
-				.start(cleanupBoardImageStep())
+	public Job boardImageCleanupJob() {
+		return jobBuilderFactory.get("boardImageCleanupJob")
+				.start(boardImageCleanupStep())
 				.build();
 	}
 
 	@Bean
-	public Step cleanupBoardImageStep() {
-		return stepBuilderFactory.get("cleanupBoardImageStep")
+	public Step boardImageCleanupStep() {
+		return stepBuilderFactory.get("boardImageCleanupStep")
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(10)
 				.reader(boardImageItemReader())
 				.writer(compositeBoardImageItemWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(cleanupBoardImageListener())
+				.listener(boardImageCleanupListener())
 				.build();
 	}
 	
@@ -422,10 +423,49 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public CleanupBoardImageListener cleanupBoardImageListener() {
-		return new CleanupBoardImageListener();
+	public BoardImageCleanupListener boardImageCleanupListener() {
+		return new BoardImageCleanupListener();
 	}
 
+	/******************************************************************************************/
+	/******************************************************************************************/
+	
+	@Bean
+	public Job boardCountsCorrectionJob() {
+		return jobBuilderFactory.get("boardCountsCorrectionJob")
+				.start(boardCountsCorrectionStep())
+				.build();
+	}
+
+	@Bean
+	public Step boardCountsCorrectionStep() {
+		return stepBuilderFactory.get("boardCountsCorrectionStep")
+				.transactionManager(transactionManager)
+				.<BoardCountsCorrection, BoardCountsCorrection>chunk(10)
+				.reader(boardCountsCorrectionReader())
+				.writer(boardCountsCorrectionWriter())
+				.faultTolerant()
+				.skipPolicy(new PermissiveSkipPolicy())
+				.build();
+	}
+	
+	@Bean
+	public MyBatisPagingItemReader<BoardCountsCorrection> boardCountsCorrectionReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardCountsCorrection>();
+		reader.setSqlSessionFactory(sqlSessionFactory);
+		reader.setQueryId("");
+		reader.setPageSize(10);
+		return reader;
+	}
+
+	@Bean
+	public MyBatisBatchItemWriter<BoardCountsCorrection> boardCountsCorrectionWriter() {
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountsCorrection>();
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("");
+		return writer;
+	}
+	
 	
 	
 }

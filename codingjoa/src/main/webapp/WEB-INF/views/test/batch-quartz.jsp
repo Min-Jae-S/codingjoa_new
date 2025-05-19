@@ -67,7 +67,7 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
-		<button class="btn btn-lg btn-warning" onclick="configCleanupBoardImageJob()">config<br>(CleanupBoardImageJob)</button>
+		<button class="btn btn-lg btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
 	</div>
 	<div class="test d-none mt-5">
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
@@ -130,8 +130,8 @@
 		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
 	</div>
 	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-primary" id="runInsertDummyImagesJobBtn">run<br>InsertDummyImagesJob</button>
-		<button class="btn btn-lg btn-primary" id="runCleanupBoardImageJobBtn">run<br>CleanupBoardImageJob</button>
+		<button class="btn btn-lg btn-primary" id="runDummyImagesJobBtn">run<br>DummyImagesJob</button>
+		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -213,11 +213,11 @@
 			});	
 		});
 		
-		$("#runInsertDummyImagesJobBtn").on("click", function() {
+		$("#runDummyImagesJobBtn").on("click", function() {
 			console.log("## runInsertDummyImagesJobBtn");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/insert-dummy-images-job/run",
+				url : "${contextPath}/test/batch-quartz/dummy-images-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {
@@ -231,11 +231,11 @@
 			});	
 		});
 
-		$("#runCleanupBoardImageJobBtn").on("click", function() {
+		$("#runBoardImageCleanupJobBtn").on("click", function() {
 			console.log("## runCleanupBoardImageJobBtn");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/cleanup-board-image-job/run",
+				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {
@@ -285,11 +285,11 @@
 		});	
 	}
 
-	function configCleanupBoardImageJob() {
-		console.log("## configCleanupBoardImageJob");
+	function configBoardImageCleanupJob() {
+		console.log("## configBoardImageCleanupJob");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch-quartz/cleanup-board-image-job/config",
+			url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/config",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

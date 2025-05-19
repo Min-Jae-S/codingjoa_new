@@ -56,19 +56,19 @@ public class TestBatchQuartzController {
 	private JobRegistry jobRegistry;
 	
 	@Qualifier("itemReader1")
-	@Autowired
+	@Autowired(required = false)
 	private ItemReader itemReader1;
 
 	@Qualifier("itemReader2")
-	@Autowired
+	@Autowired(required = false)
 	private ItemReader itemReader2;
 
 	@Qualifier("itemProcessor")
-	@Autowired
+	@Autowired(required = false)
 	private ItemProcessor itemProcessor;
 	
 	@Qualifier("itemWriter")
-	@Autowired
+	@Autowired(required = false)
 	private ItemWriter itemWriter;
 
 	@Autowired
@@ -78,27 +78,27 @@ public class TestBatchQuartzController {
 	private StepScope stepScope;
 	
 	@Qualifier("myBatisItemReader")
-	@Autowired
+	@Autowired(required = false)
 	private ItemReader myBatisItemReader;
 
 	@Qualifier("myBatisItemProcessor")
-	@Autowired
+	@Autowired(required = false)
 	private ItemProcessor myBatisItemProcessor;
 	
 	@Qualifier("myBatisItemWriter")
-	@Autowired
+	@Autowired(required = false)
 	private ItemWriter myBatisItemWriter;
 
-	@Qualifier("cleanupBoardImageJob")
-	@Autowired
-	private Job cleanupBoardImageJob;
+	@Qualifier("boardImageCleanupJob")
+	@Autowired(required = false)
+	private Job boardImageCleanupJob;
 	
 	@Qualifier("boardImageItemReader")
-	@Autowired
+	@Autowired(required = false)
 	private ItemReader boardImageItemReader;
 	
 	@Qualifier("compositeBoardImageItemWriter")
-	@Autowired
+	@Autowired(required = false)
 	private ItemWriter compositeBoardImageItemWriter;
 	
 	@Value("${upload.dir.board.image}")
@@ -218,10 +218,10 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/cleanup-board-image-job/config")
-	public ResponseEntity<Object> configCleanupBoardImageJob() throws Exception {
-		log.info("## configCleanupBoardImageJob");
-		log.info("\t > job: {}", jobRegistry.getJob("cleanupBoardImageJob"));
+	@GetMapping("/board-image-cleanup-job/config")
+	public ResponseEntity<Object> configBoardImageCleanupJob() throws Exception {
+		log.info("## configBoardImageCleanupJob");
+		log.info("\t > job: {}", jobRegistry.getJob("boardImageCleanupJob"));
 		
 		inspect("boardImageItemReader", boardImageItemReader);
 		inspect("compositeBoardImageItemWriter", compositeBoardImageItemWriter);
@@ -229,11 +229,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/cleanup-board-image-job/run")
-	public ResponseEntity<Object> runCleanupBoardImageJob() throws Exception {
-		log.info("## runCleanupBoardImageJob");
+	@GetMapping("/board-image-cleanup-job/run")
+	public ResponseEntity<Object> runBoardImageCleanupJob() throws Exception {
+		log.info("## runBoardImageCleanupJob");
 		
-		Job job = jobRegistry.getJob("cleanupBoardImageJob");
+		Job job = jobRegistry.getJob("boardImageCleanupJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
@@ -248,11 +248,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/insert-dummy-images-job/run")
-	public ResponseEntity<Object> runInsertDummyImagesJob() throws Exception {
-		log.info("## runInsertDummyImagesJob");
+	@GetMapping("/dummy-images-job/run")
+	public ResponseEntity<Object> runDummyImagesJob() throws Exception {
+		log.info("## runDummyImagesJob");
 		
-		Job job = jobRegistry.getJob("insertDummyImagesJob");
+		Job job = jobRegistry.getJob("dummyImagesJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()

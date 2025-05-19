@@ -9,7 +9,7 @@ import com.codingjoa.entity.BoardImage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CleanupBoardImageListener {
+public class BoardImageCleanupListener {
 	
 	private StepExecution stepExecution;
 	
