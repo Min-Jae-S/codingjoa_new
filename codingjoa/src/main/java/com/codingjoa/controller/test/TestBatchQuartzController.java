@@ -284,6 +284,24 @@ public class TestBatchQuartzController {
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+
+	@GetMapping("/comment-count-column-sync-job/run")
+	public ResponseEntity<Object> runCommentCountColumnSyncJob() throws Exception {
+		log.info("## runCommentCountColumnSyncJob");
+		
+		Job job = jobRegistry.getJob("commentCountColumnSyncJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## result: {}", jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 	
 	private void inspect(String beanName, Object bean) {
 		if (bean == null) {

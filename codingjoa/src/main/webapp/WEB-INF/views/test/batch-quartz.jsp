@@ -65,16 +65,16 @@
 <div class="container my-5">
 	<p>batch-quartz.jsp</p>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
-		<button class="btn btn-lg btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
+		<button class="btn btn-warning" onclick="config()">config</button>
+		<button class="btn btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
+		<button class="btn btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
 	</div>
 	<div class="test mt-5 d-none">
-		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
-		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
+		<button class="btn btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
+		<button class="btn btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
 	<div class="test mt-5 d-none">
-		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
+		<button class="btn btn-primary" id="runJobBtn">run Job</button>
 		<div class="options">
 			<div class="form-check">
 				<input class="form-check-input" type="radio" name="jobNameOptions" id="jobRadio1" value="unregisterdJob" checked>
@@ -107,8 +107,8 @@
 		</div>
 	</div>
 	<div class="test mt-5 d-none">
-		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
-		<button class="btn btn-lg btn-primary" id="runChunkJobBtn">run ChunkJob</button>
+		<button class="btn btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
+		<button class="btn btn-primary" id="runChunkJobBtn">run ChunkJob</button>
 		<form id="chunkJobForm">
 			<div class="form-check form-switch">
 				<input class="form-check-input" type="checkbox" role="switch" id="useStepScope" name="useStepScope">
@@ -130,8 +130,12 @@
 		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-lg btn-primary" id="runBoardImageDummyJobBtn">run<br>BoardImageDummyJob</button>
-		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
+		<button class="btn btn-primary" id="runBoardImageDummyJobBtn">run<br>BoardImageDummyJob</button>
+		<button class="btn btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
+	</div>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-primary" id="runUserImageDummyJobBtn">run<br>UserImageDummyJob</button>
+		<button class="btn btn-primary" id="runUserImageCleanupJobBtn">run<br>UserImageCleanupJob</button>
 	</div>
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary" id="runBoardCountColumnSyncJobBtn">run<br>BoardCountColumnSyncJob</button>

@@ -41,8 +41,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.batch.BoardCountColumn;
-import com.codingjoa.batch.BoardImageCleanupListener;
+import com.codingjoa.batch.SkippedIdCatchListener;
 import com.codingjoa.batch.BoardImageFileItemWriter;
+import com.codingjoa.batch.CommentCountColumn;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.entity.BoardImage;
@@ -374,7 +375,7 @@ public class BatchJobConfig {
 				.writer(compositeBoardImageItemWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(boardImageCleanupListener())
+				.listener(skippedIdCatchListener())
 				.build();
 	}
 	
@@ -422,8 +423,8 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public BoardImageCleanupListener boardImageCleanupListener() {
-		return new BoardImageCleanupListener();
+	public SkippedIdCatchListener skippedIdCatchListener() {
+		return new SkippedIdCatchListener();
 	}
 
 	/******************************************************************************************/
@@ -464,14 +465,56 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends BoardCountColumn> items) {
 				log.info("## MyBatisBatchItemWriter.write");
-				items.stream().forEach(boardSynce -> log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", 
-						boardSynce.getBoardId(), boardSynce.getRealCommentCount(), boardSynce.getRealLikeCount())
-				);
+				items.stream().forEach(boardCountColumn -> log.info("\t > {}", boardCountColumn.getMismatchDetails()));
 				super.write(items);
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardCountColumn");
+		return writer;
+	}
+	
+	@Bean
+	public Job commentCountColumnSyncJob() {
+		return jobBuilderFactory.get("commentCountColumnSyncJob")
+				.start(commentCountColumnSyncStep())
+				.build();
+	}
+	
+	@Bean
+	public Step commentCountColumnSyncStep() {
+		return stepBuilderFactory.get("commentCountColumnSyncStep")
+				.transactionManager(transactionManager)
+				.<CommentCountColumn, CommentCountColumn>chunk(10)
+				.reader(commentCountColumnReader())
+				.writer(commentCountColumnWriter())
+				.faultTolerant()
+				.skipPolicy(new PermissiveSkipPolicy())
+				.build();
+	}
+	
+	@Bean
+	public MyBatisPagingItemReader<CommentCountColumn> commentCountColumnReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<CommentCountColumn>();
+		reader.setSqlSessionFactory(sqlSessionFactory);
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
+		reader.setPageSize(10);
+		reader.setMaxItemCount(50);
+		return reader;
+	}
+	
+	@Bean
+	public ItemWriter<CommentCountColumn> commentCountColumnWriter() {
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<CommentCountColumn>() {
+			@Override
+			public void write(List<? extends CommentCountColumn> items) {
+				log.info("## MyBatisBatchItemWriter.write");
+				items.stream().forEach(commentCountColumn -> log.info("\t > {}", commentCountColumn.getMismatchDetails()));
+				super.write(items);
+			}
+		};
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateCommentCountColumn");
 		return writer;
 	}
 	
