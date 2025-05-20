@@ -293,26 +293,26 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 
 	@Bean
-	public Job dummyImagesJob(@Qualifier("dummyImagesStep") Step dummyImagesStep) {
-		return jobBuilderFactory.get("dummyImagesJob")
-				.start(dummyImagesStep)
+	public Job boardImageDummyJob(@Qualifier("boardImageDummyStep") Step boardImageDummyStep) {
+		return jobBuilderFactory.get("boardImageDummyJob")
+				.start(boardImageDummyStep)
 				.build();
 	}
 	
 	@Bean
-	public Step dummyImagesStep(@Qualifier("dummyImageReader") ItemReader<BoardImage> dummyImageReader, 
-			@Qualifier("dummyImageWriter") ItemWriter<BoardImage> dummyImageWriter) {
-		return stepBuilderFactory.get("insertDummyImagesStep")
+	public Step boardImageDummyStep(@Qualifier("boardImageDummyReader") ItemReader<BoardImage> boardImageDummyReader, 
+			@Qualifier("boardImageDummyWriter") ItemWriter<BoardImage> boardImageDummyWriter) {
+		return stepBuilderFactory.get("boardImageDummyStep")
 				.transactionManager(transactionManager)
 				.<BoardImage, BoardImage>chunk(100)
-				.reader(dummyImageReader)
-				.writer(dummyImageWriter)
+				.reader(boardImageDummyReader)
+				.writer(boardImageDummyWriter)
 				.build();	
 	}
 	
 	@StepScope
 	@Bean
-	public ListItemReader<BoardImage> dummyImageReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
+	public ListItemReader<BoardImage> boardImageDummyReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
 		File folder = new File(boardImageDir);
 		if (!folder.exists()) {
 			folder.mkdirs();
@@ -348,10 +348,10 @@ public class BatchJobConfig {
 	}
 
 	@Bean
-	public ItemWriter<BoardImage> dummyImageWriter() {
+	public ItemWriter<BoardImage> boardImageDummyWriter() {
 		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>();
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertDummyImages");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertBoardImageDummy");
 		return writer;
 	}
 	
@@ -407,7 +407,6 @@ public class BatchJobConfig {
 						.map(item -> ((BoardImage)item).getId())
 						.collect(Collectors.toList());
 				log.info("\t > items: {}", ids);
-				
 				super.write(items);
 			}
 		};
@@ -455,7 +454,6 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountsCorrection");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(500);
 		return reader;
 	}
 

@@ -25,6 +25,25 @@
 			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
 			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
 	</select>
+	
+	<insert id="insertBoardImageDummy">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_boardimage.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO board_image (
+			id,
+			board_id,
+			name,
+			path,
+			created_at
+		) VALUES (
+			#{id},
+			#{boardId},
+			#{name},
+			#{path},
+			SYSDATE
+		)
+	</insert>
 
 	<select id="findOrphanBoardImages" resultType="BoardImage">
 		SELECT 
@@ -57,25 +76,6 @@
 	<delete id="deleteBoardImage">
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
-	
-	<insert id="insertDummyImages">
-		<selectKey keyProperty="id" resultType="long" order="BEFORE">
-			SELECT seq_boardimage.NEXTVAL FROM DUAL
-		</selectKey>
-		INSERT INTO board_image (
-			id,
-			board_id,
-			name,
-			path,
-			created_at
-		) VALUES (
-			#{id},
-			#{boardId},
-			#{name},
-			#{path},
-			SYSDATE
-		)
-	</insert>
 	
 	<select id="findBoardCountsCorrection" resultType="BoardCountsCorrection">
 		WITH

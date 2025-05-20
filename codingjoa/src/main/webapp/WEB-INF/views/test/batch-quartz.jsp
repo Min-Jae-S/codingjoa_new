@@ -130,7 +130,7 @@
 		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
 	</div>
 	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-primary" id="runDummyImagesJobBtn">run<br>DummyImagesJob</button>
+		<button class="btn btn-lg btn-primary" id="runBoardImageDummyJobBtn">run<br>BoardImageDummyJob</button>
 		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
 		<button class="btn btn-lg btn-primary" id="runBoardCountsCorrectionJobBtn">run<br>BoardCountsCorrectionJob</button>
 	</div>
@@ -214,11 +214,11 @@
 			});	
 		});
 		
-		$("#runDummyImagesJobBtn").on("click", function() {
-			console.log("## runInsertDummyImagesJobBtn");
+		$("#runBoardImageDummyJobBtn").on("click", function() {
+			console.log("## runBoardImageDummyJobBtn");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/dummy-images-job/run",
+				url : "${contextPath}/test/batch-quartz/board-image-dummy-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

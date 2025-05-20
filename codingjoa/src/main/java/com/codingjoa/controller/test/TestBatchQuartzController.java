@@ -229,11 +229,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/dummy-images-job/run")
-	public ResponseEntity<Object> runDummyImagesJob() throws Exception {
-		log.info("## runDummyImagesJob");
+	@GetMapping("/board-image-dummy-job/run")
+	public ResponseEntity<Object> runBoardImageDummyJob() throws Exception {
+		log.info("## runBoardImageDummyJob");
 		
-		Job job = jobRegistry.getJob("dummyImagesJob");
+		Job job = jobRegistry.getJob("boardImageDummyJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
