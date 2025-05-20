@@ -267,11 +267,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/board-counts-correction-job/run")
-	public ResponseEntity<Object> runBoardCountsCorrectionJob() throws Exception {
-		log.info("## runBoardCountsCorrectionJob");
+	@GetMapping("/board-sync-job/run")
+	public ResponseEntity<Object> runBoardSyncJob() throws Exception {
+		log.info("## runBoardSyncJob");
 		
-		Job job = jobRegistry.getJob("boardCountsCorrectionJob");
+		Job job = jobRegistry.getJob("boardSyncJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()

@@ -73,7 +73,7 @@
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
-	<div class="test d-flex mt-5">
+	<div class="test d-flex mt-5 d-none">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
 		<div class="options">
 			<div class="form-check">
@@ -106,7 +106,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="test d-flex mt-5">
+	<div class="test d-flex mt-5 d-none">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
 		<button class="btn btn-lg btn-primary" id="runChunkJobBtn">run ChunkJob</button>
 		<form id="chunkJobForm">
@@ -132,7 +132,10 @@
 	<div class="test d-flex mt-5">
 		<button class="btn btn-lg btn-primary" id="runBoardImageDummyJobBtn">run<br>BoardImageDummyJob</button>
 		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
-		<button class="btn btn-lg btn-primary" id="runBoardCountsCorrectionJobBtn">run<br>BoardCountsCorrectionJob</button>
+	</div>
+	<div>
+		<button class="btn btn-lg btn-primary" id="runBoardSyncJobBtn">run<br>BoardSyncJob</button>
+		<button class="btn btn-lg btn-primary" id="runCommentSyncJobBtn">run<br>CommentSyncJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -215,7 +218,7 @@
 		});
 		
 		$("#runBoardImageDummyJobBtn").on("click", function() {
-			console.log("## runBoardImageDummyJobBtn");
+			console.log("## runBoardImageDummyJob");
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/board-image-dummy-job/run",
@@ -233,7 +236,7 @@
 		});
 
 		$("#runBoardImageCleanupJobBtn").on("click", function() {
-			console.log("## runCleanupBoardImageJobBtn");
+			console.log("## runCleanupBoardImageJob");
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
@@ -251,7 +254,7 @@
 		});
 
 		$("#runBoardImageCleanupJobBtn").on("click", function() {
-			console.log("## runCleanupBoardImageJobBtn");
+			console.log("## runCleanupBoardImageJob");
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
@@ -268,11 +271,29 @@
 			});	
 		});
 
-		$("#runBoardCountsCorrectionJobBtn").on("click", function() {
-			console.log("## runBoardCountsCorrectionJobBtn");
+		$("#runBoardSyncJobBtn").on("click", function() {
+			console.log("## runBoardSyncJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/board-counts-correction-job/run",
+				url : "${contextPath}/test/batch-quartz/board-sync-job/run",
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
+
+		$("#runCommentSyncJobBtn").on("click", function() {
+			console.log("## runCommentSyncJob");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/comment-sync-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

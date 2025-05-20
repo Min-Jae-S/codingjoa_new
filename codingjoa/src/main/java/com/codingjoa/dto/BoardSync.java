@@ -3,7 +3,7 @@ package com.codingjoa.dto;
 import lombok.Getter;
 
 @Getter
-public class BoardCountsCorrection {
+public class BoardSync {
 	
 	private Long boardId;
 	private int realCommentCount;

@@ -44,7 +44,7 @@ import com.codingjoa.batch.BoardImageCleanupListener;
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
-import com.codingjoa.dto.BoardCountsCorrection;
+import com.codingjoa.dto.BoardSync;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -430,48 +430,47 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 	
 	@Bean
-	public Job boardCountsCorrectionJob() {
-		return jobBuilderFactory.get("boardCountsCorrectionJob")
-				.start(boardCountsCorrectionStep())
+	public Job boardSyncJob() {
+		return jobBuilderFactory.get("boardSyncJob")
+				.start(boardSyncStep())
 				.build();
 	}
 
 	@Bean
-	public Step boardCountsCorrectionStep() {
-		return stepBuilderFactory.get("boardCountsCorrectionStep")
+	public Step boardSyncStep() {
+		return stepBuilderFactory.get("boardSyncStep")
 				.transactionManager(transactionManager)
-				.<BoardCountsCorrection, BoardCountsCorrection>chunk(10)
-				.reader(boardCountsCorrectionReader())
-				.writer(boardCountsCorrectionWriter())
+				.<BoardSync, BoardSync>chunk(10)
+				.reader(boardCountColumnReader())
+				.writer(boardCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
 				.build();
 	}
 	
 	@Bean
-	public MyBatisPagingItemReader<BoardCountsCorrection> boardCountsCorrectionReader() {
-		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardCountsCorrection>();
+	public MyBatisPagingItemReader<BoardSync> boardCountColumnReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardSync>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
-		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountsCorrection");
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardSync");
 		reader.setPageSize(10);
 		return reader;
 	}
 
 	@Bean
-	public ItemWriter<BoardCountsCorrection> boardCountsCorrectionWriter() {
-		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountsCorrection>() {
+	public ItemWriter<BoardSync> boardCountColumnWriter() {
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardSync>() {
 			@Override
-			public void write(List<? extends BoardCountsCorrection> items) {
+			public void write(List<? extends BoardSync> items) {
 				log.info("## MyBatisBatchItemWriter.write");
-				items.stream().forEach(boardCountsCorrection -> 
-					log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", boardCountsCorrection.getBoardId(),
-							 boardCountsCorrection.getRealCommentCount(), boardCountsCorrection.getRealLikeCount())
+				items.stream().forEach(boardSynce -> log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", 
+						boardSynce.getBoardId(), boardSynce.getRealCommentCount(), boardSynce.getRealLikeCount())
 				);
 				super.write(items);
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardCountsCorrection");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardSync");
 		return writer;
 	}
 	
