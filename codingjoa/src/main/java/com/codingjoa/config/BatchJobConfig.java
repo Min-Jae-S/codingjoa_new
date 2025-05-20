@@ -40,11 +40,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.codingjoa.batch.BoardCountColumn;
 import com.codingjoa.batch.BoardImageCleanupListener;
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
-import com.codingjoa.dto.BoardSync;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
 
@@ -430,17 +430,17 @@ public class BatchJobConfig {
 	/******************************************************************************************/
 	
 	@Bean
-	public Job boardSyncJob() {
-		return jobBuilderFactory.get("boardSyncJob")
-				.start(boardSyncStep())
+	public Job boardCountColumnSyncJob() {
+		return jobBuilderFactory.get("boardCountColumnSyncJob")
+				.start(boardCountColumnSyncStep())
 				.build();
 	}
 
 	@Bean
-	public Step boardSyncStep() {
-		return stepBuilderFactory.get("boardSyncStep")
+	public Step boardCountColumnSyncStep() {
+		return stepBuilderFactory.get("boardCountColumnSyncStep")
 				.transactionManager(transactionManager)
-				.<BoardSync, BoardSync>chunk(10)
+				.<BoardCountColumn, BoardCountColumn>chunk(10)
 				.reader(boardCountColumnReader())
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
@@ -449,19 +449,20 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public MyBatisPagingItemReader<BoardSync> boardCountColumnReader() {
-		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardSync>();
+	public MyBatisPagingItemReader<BoardCountColumn> boardCountColumnReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
-		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardSync");
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
 		reader.setPageSize(10);
+		reader.setMaxItemCount(50);
 		return reader;
 	}
 
 	@Bean
-	public ItemWriter<BoardSync> boardCountColumnWriter() {
-		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardSync>() {
+	public ItemWriter<BoardCountColumn> boardCountColumnWriter() {
+		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountColumn>() {
 			@Override
-			public void write(List<? extends BoardSync> items) {
+			public void write(List<? extends BoardCountColumn> items) {
 				log.info("## MyBatisBatchItemWriter.write");
 				items.stream().forEach(boardSynce -> log.info("\t > boardId: {}, realCommentCount: {}, realLikeCount: {}", 
 						boardSynce.getBoardId(), boardSynce.getRealCommentCount(), boardSynce.getRealLikeCount())
@@ -470,7 +471,7 @@ public class BatchJobConfig {
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardSync");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardCountColumn");
 		return writer;
 	}
 	

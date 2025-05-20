@@ -1,9 +1,9 @@
-package com.codingjoa.dto;
+package com.codingjoa.batch;
 
 import lombok.Getter;
 
 @Getter
-public class BoardSync {
+public class BoardCountColumn {
 	
 	private Long boardId;
 	private int realCommentCount;

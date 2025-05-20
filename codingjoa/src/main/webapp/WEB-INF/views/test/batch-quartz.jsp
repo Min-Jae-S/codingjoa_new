@@ -64,16 +64,16 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>batch-quartz.jsp</p>
-	<div class="test d-flex mt-5">
+	<div class="test mt-5 d-flex">
 		<button class="btn btn-lg btn-warning" onclick="config()">config</button>
 		<button class="btn btn-lg btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
 		<button class="btn btn-lg btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
 	</div>
-	<div class="test d-none mt-5">
+	<div class="test mt-5 d-none">
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
 		<button class="btn btn-lg btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
-	<div class="test d-flex mt-5 d-none">
+	<div class="test mt-5 d-none">
 		<button class="btn btn-lg btn-primary" id="runJobBtn">run Job</button>
 		<div class="options">
 			<div class="form-check">
@@ -106,7 +106,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="test d-flex mt-5 d-none">
+	<div class="test mt-5 d-none">
 		<button class="btn btn-lg btn-primary" onclick="runTaskletJob()">run TaskletJob</button>
 		<button class="btn btn-lg btn-primary" id="runChunkJobBtn">run ChunkJob</button>
 		<form id="chunkJobForm">
@@ -129,13 +129,13 @@
 		</form>
 		<button class="btn btn-lg btn-primary" id="runMyBatisJobBtn">run MyBatisJob</button>
 	</div>
-	<div class="test d-flex mt-5">
+	<div class="test mt-5 d-flex">
 		<button class="btn btn-lg btn-primary" id="runBoardImageDummyJobBtn">run<br>BoardImageDummyJob</button>
 		<button class="btn btn-lg btn-primary" id="runBoardImageCleanupJobBtn">run<br>BoardImageCleanupJob</button>
 	</div>
-	<div>
-		<button class="btn btn-lg btn-primary" id="runBoardSyncJobBtn">run<br>BoardSyncJob</button>
-		<button class="btn btn-lg btn-primary" id="runCommentSyncJobBtn">run<br>CommentSyncJob</button>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-primary" id="runBoardCountColumnSyncJobBtn">run<br>BoardCountColumnSyncJob</button>
+		<button class="btn btn-primary" id="runCommentCountColumnSyncJobBtn">run<br>CommentCountColumnSyncJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -271,11 +271,11 @@
 			});	
 		});
 
-		$("#runBoardSyncJobBtn").on("click", function() {
-			console.log("## runBoardSyncJob");
+		$("#runBoardCountColumnSyncJobBtn").on("click", function() {
+			console.log("## runBoardCountColumnSyncJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/board-sync-job/run",
+				url : "${contextPath}/test/batch-quartz/board-count-column-sync-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {
@@ -289,11 +289,11 @@
 			});	
 		});
 
-		$("#runCommentSyncJobBtn").on("click", function() {
-			console.log("## runCommentSyncJob");
+		$("#runCommentCountColumnSyncJobBtn").on("click", function() {
+			console.log("## runCommentCountColumnSyncJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/comment-sync-job/run",
+				url : "${contextPath}/test/batch-quartz/comment-count-column-sync-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

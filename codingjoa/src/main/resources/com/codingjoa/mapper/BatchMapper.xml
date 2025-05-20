@@ -77,7 +77,7 @@
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
-	<select id="findBoardSync" resultType="BoardSync">
+	<select id="findBoardCountColumn" resultType="BoardCountColumn">
 		WITH
 			final_board AS (
 				SELECT 
@@ -102,16 +102,24 @@
 					paged_board.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
 			),
 			comments_group AS (
-				SELECT board_id, COUNT(*) cnt
-				FROM comments
-				WHERE board_id IN (SELECT id FROM final_board)
-				GROUP BY board_id
+				SELECT 
+					board_id, COUNT(*) cnt
+				FROM 
+					comments
+				WHERE 
+					board_id IN (SELECT id FROM final_board) AND status = 1
+				GROUP BY 
+					board_id
 			),
 			board_like_group AS (
-				SELECT board_id, COUNT(*) cnt
-				FROM board_like
-				WHERE board_id IN (SELECT id FROM final_board)
-				GROUP BY board_id
+				SELECT 
+					board_id, COUNT(*) cnt
+				FROM 
+					board_like
+				WHERE 
+					board_id IN (SELECT id FROM final_board)
+				GROUP BY 
+					board_id
 			)
 			
 		SELECT
@@ -131,7 +139,7 @@
 			final_board.id = board_like_group.board_id
 	</select>
 	
-	<update id="updateBoardSync">
+	<update id="updateBoardCountColumn">
 		UPDATE
 			board
 		SET

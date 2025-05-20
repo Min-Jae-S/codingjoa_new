@@ -48,7 +48,8 @@
 		<typeAlias type="com.codingjoa.entity.CommentLike" alias="CommentLike"/> 
 		<typeAlias type="com.codingjoa.entity.AdminUser" alias="AdminUser"/>
 		<typeAlias type="com.codingjoa.entity.AdminBoard" alias="AdminBoard"/>
-		<typeAlias type="com.codingjoa.dto.BoardSync" alias="BoardSync"/>
+		<typeAlias type="com.codingjoa.batch.BoardCountColumn" alias="BoardCountColumn"/>
+		<typeAlias type="com.codingjoa.batch.CommentCountColumn" alias="CommentCountColumn"/>
 		<!-- <typeAlias type="com.codingjoa.mybatis.ClobTypeHandler" alias="clobTypeHandler"/> -->
 	</typeAliases>
 	
