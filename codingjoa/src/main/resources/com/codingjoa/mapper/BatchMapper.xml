@@ -76,6 +76,14 @@
 	<delete id="deleteBoardImage">
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
+
+	<select id="findOrphanUserImages" resultType="UserImage">
+
+	</select>
+
+	<delete id="deleteUserImage">
+		DELETE FROM user_image WHERE id = #{id}
+	</delete>
 	
 	<select id="findBoardCountColumn" resultType="BoardCountColumn">
 		WITH

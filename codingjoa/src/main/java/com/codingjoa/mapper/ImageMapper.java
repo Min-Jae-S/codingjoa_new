@@ -12,6 +12,8 @@ import com.codingjoa.entity.UserImage;
 public interface ImageMapper {
 	
 	boolean insertUserImage(UserImage userImage);
+	
+	void resetUserImageLatestFlag(Long userId);
 
 	boolean insertBoardImage(BoardImage boardImage);
 	

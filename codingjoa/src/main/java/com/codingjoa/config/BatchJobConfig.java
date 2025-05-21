@@ -466,6 +466,66 @@ public class BatchJobConfig {
 	public SkippedIdCatchListener skippedIdCatchListener() {
 		return new SkippedIdCatchListener();
 	}
+	
+	@Bean
+	public Job userImageCleanupJob() {
+		return jobBuilderFactory.get("userImageCleanupJob")
+				.start(boardImageCleanupStep())
+				.build();
+	}
+
+	@Bean
+	public Step userImageCleanupStep() {
+		return stepBuilderFactory.get("userImageCleanupStep")
+				.transactionManager(transactionManager)
+				.<UserImage, UserImage>chunk(10)
+				.reader(userImageItemReader())
+				.writer(compositeUserImageItemWriter())
+				.faultTolerant()
+				.skipPolicy(new PermissiveSkipPolicy())
+				.listener(skippedIdCatchListener())
+				.build();
+	}
+	
+	@Bean
+	public MybatisRecentKeysetPagingItemReader<UserImage> userImageItemReader() {
+		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<UserImage>();
+		reader.setSqlSessionFactory(sqlSessionFactory);
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanUserImages");
+		reader.setPageSize(10);
+		reader.enableFixedPage(0);
+		return reader;
+	}
+	
+	@Bean
+	public CompositeItemWriter<UserImage> compositeUserImageItemWriter() {
+		return new CompositeItemWriterBuilder()
+				.delegates(userImageItemWriter(), userImageFileItemWriter())
+				.build();
+	}
+	
+	public MyBatisBatchItemWriter<UserImage> userImageItemWriter() {
+		MyBatisBatchItemWriter<UserImage> writer = new MyBatisBatchItemWriter<>() {
+			@Override
+			public void write(List<? extends UserImage> items) {
+				log.info("## MyBatisBatchItemWriter.write");
+				List<Long> ids = items.stream()
+						.map(item -> ((UserImage)item).getId())
+						.collect(Collectors.toList());
+				log.info("\t > items: {}", ids);
+				super.write(items);
+			}
+		};
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteUserImage");
+		return writer;
+	}
+	
+	public BoardImageFileItemWriter userImageFileItemWriter() {
+		BoardImageFileItemWriter writer = new BoardImageFileItemWriter();
+		writer.setBoardImageDir(env.getProperty("upload.dir.user.image"));
+		return writer;
+	}
 
 	/******************************************************************************************/
 	/******************************************************************************************/

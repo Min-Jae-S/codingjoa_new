@@ -62,8 +62,12 @@ public class ImageServiceImpl implements ImageService {
 				.userId(userId)
 				.name(filename)
 				.path(path)
+				.latest(true)
 				.build();
 		log.info("\t > create userImage entity = {}", userImage);
+		
+		log.info("\t > reset 'latest' flag to false for userId = {}", userId);
+		imageMapper.resetUserImageLatestFlag(userId);
 		
 		boolean isSaved = imageMapper.insertUserImage(userImage);
 		log.info("\t > saved userImage = {}", userImage);

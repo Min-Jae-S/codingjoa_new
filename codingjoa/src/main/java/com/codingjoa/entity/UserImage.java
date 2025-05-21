@@ -12,6 +12,7 @@ import lombok.ToString;
 	user_id         NUMBER              NOT NULL,
 	name            VARCHAR2(200)       NOT NULL,
     path            VARCHAR2(200)       NOT NULL,
+    latest          CHAR(1)             NOT NULL,
 	created_at      DATE                NOT NULL,
 */
 
@@ -24,14 +25,16 @@ public class UserImage {
 	private Long userId;
 	private String name;
 	private String path;
+	private Boolean latest;
 	private LocalDateTime createdAt;
 	
 	@Builder
-	private UserImage(Long id, Long userId, String name, String path, LocalDateTime createdAt) {
+	private UserImage(Long id, Long userId, String name, String path, Boolean latest, LocalDateTime createdAt) {
 		this.id = id;
 		this.userId = userId;
 		this.name = name;
 		this.path = path;
+		this.latest = latest;
 		this.createdAt = createdAt;
 	}
 	

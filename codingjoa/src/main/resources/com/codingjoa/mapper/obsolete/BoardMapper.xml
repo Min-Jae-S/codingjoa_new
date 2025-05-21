@@ -45,6 +45,7 @@
 		<id property="id" column="id" javaType="long"/>
 		<result column="category_code" property="categoryCode" javaType="int"/>
 		<result column="title" property="title" javaType="string"/>
+		<!-- <result column="content" property="content" typeHandler="clobTypeHandler"/> -->
 		<result column="content" property="content" javaType="string" jdbcType="CLOB" />
 		<result column="view_count" property="viewCount" javaType="int"/>
 		<result column="comment_count" property="commentCount" javaType="int"/>
@@ -262,6 +263,20 @@
 		</choose>
 	</select>
 	
+	<!-- <select id="findTotalCntForPaging" parameterType="map" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board
+		INNER JOIN
+			users
+		ON
+			board.user_id = users.id
+		WHERE
+			<include refid="searchCriteria"/>
+			board.category_code = #{categoryCode}
+	</select> -->
+
 	<select id="findBoardById" parameterType="long" resultType="Board">
 		SELECT
 			*
@@ -290,6 +305,29 @@
 		WHERE
 			id = #{id}
 	</delete>
+	
+	<!-- <delete id="deleteBoard" parameterType="board" statementType="CALLABLE">
+	{ 
+		CALL
+			DECLARE
+				v_board_writer_idx board.board_writer_idx%TYPE := NULL;
+				v_board_category_code board.board_category_code%TYPE := NULL;
+			BEGIN
+				DELETE FROM
+					board
+	    		WHERE 
+	        		board_idx = #{boardIdx} 
+	    		RETURNING 
+	        		board_writer_idx, 
+	        		board_category_code 
+	    		INTO
+	        		v_board_writer_idx, 
+	        		v_board_category_code;
+	        	#{boardWriterIdx, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_writer_idx;
+	        	#{boardCategoryCode, mode=OUT, jdbcType=NUMERIC, javaType=Integer} := v_board_category_code;
+			END 
+	}
+	</delete> -->
 	
 	<update id="increaseCommentCount" parameterType="long">
 		UPDATE

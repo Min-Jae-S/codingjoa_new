@@ -99,13 +99,72 @@
 			latest_user_image.path AS image_path
 		FROM
 			users
-		LEFT OUTER JOIN 
-			user_image
+		LEFT OUTER JOIN (
+			SELECT user_id, path
+			FROM (
+				SELECT 
+					user_id,
+					path,
+					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
+				FROM
+					user_image
+			)
+			WHERE rn = 1 
+		) latest_user_image
 		ON
-			users.id = user_image.user_id AND user_image = '1'
+			users.id = latest_user_image.user_id
 		WHERE
 			users.id = #{id}
 	</select>
+	
+	<!-- <select id="findAccountById" parameterType="long" resultMap="accountMap">
+		SELECT
+			users.id,
+			users.email,
+			users.password,
+			users.nickname,
+			users.zipcode,
+			users.addr,
+			users.addr_detail,
+			users.agree,
+			users.created_at,
+			users.updated_at,
+			latest_image.path AS image_path
+		FROM
+			users
+		LEFT OUTER JOIN (
+			SELECT
+				user_id, path
+			FROM
+				user_image
+			WHERE 
+				id IN ( SELECT MAX(id) FROM user_image GROUP BY user_id )
+		) latest_image
+		ON
+			users.id = latest_image.user_id
+		WHERE
+			users.id = #{id}
+	</select> -->
+	
+	<!-- <select id="findUserInfoById" parameterType="long" resultMap="userInfoMap">
+		SELECT
+			users.*,
+			b.path AS image_path
+		FROM
+			users
+		LEFT OUTER JOIN (
+			SELECT
+				user_id,
+				path,
+				ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC) AS rn
+			FROM
+				user_image
+		) b
+		ON
+			users.id = b.user_id AND b.rn = 1
+		WHERE
+			users.id = #{id}
+	</select> -->
 	
 	<resultMap id="userDetailsMap" type="map">
 		<!-- java.lang.ClassCastException: class java.math.BigDecimal cannot be cast to class java.lang.Integer -->
@@ -129,10 +188,20 @@
 			auth.role
 		FROM
 			users
-		LEFT OUTER JOIN 
-			user_image
+		LEFT OUTER JOIN (
+			SELECT user_id, path
+			FROM (
+				SELECT 
+					user_id,
+					path,
+					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
+				FROM
+					user_image
+			)
+			WHERE rn = 1 
+		) latest_user_image
 		ON
-			users.id = user_image.user_id AND user_image.latest = '1'
+			users.id = latest_user_image.user_id
 		INNER JOIN
 			auth
 		ON
@@ -147,14 +216,24 @@
 			users.email,
 			users.password,
 			users.nickname,
-			user_image.path AS image_path,
+			latest_user_image.path AS image_path,
 			auth.role
 		FROM
 			users
-		LEFT OUTER JOIN 
-			user_image
+		LEFT OUTER JOIN (
+			SELECT user_id, path
+			FROM (
+				SELECT 
+					user_id,
+					path,
+					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
+				FROM
+					user_image
+			)
+			WHERE rn = 1 
+		) latest_user_image
 		ON
-			users.id = user_image.user_id AND user_image.latest = 1
+			users.id = latest_user_image.user_id
 		INNER JOIN
 			auth
 		ON

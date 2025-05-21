@@ -53,7 +53,7 @@
 	
 	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(users) USE_NL(latest_user_image) USE_NL(board) */
+			/*+ ORDERED USE_NL(users) USE_NL(user_image) USE_NL(board) */
 			final_comment.id,
 			final_comment.content,
 			final_comment.status,
@@ -61,7 +61,7 @@
 	        final_comment.created_at,
 	        final_comment.updated_at,
 	        users.nickname 				AS writer_nickname,
-	        latest_user_image.path 		AS writer_image_path,
+	        user_image.path 			AS writer_image_path,
     		CASE
     			WHEN final_comment.user_id = #{userId} 
     			THEN 1 ELSE 0
@@ -107,19 +107,9 @@
 		ON 
 			final_comment.user_id = users.id
 		LEFT OUTER JOIN (
-			SELECT user_id, path
-			FROM (
-				SELECT 
-					user_id,
-					path,
-					ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rn
-				FROM
-					user_image
-			) 
-			WHERE rn = 1 
-		) latest_user_image
+			user_image
 		ON
-			final_comment.user_id = latest_user_image.user_id
+			final_comment.user_id = user_image.user_id AND user_image.latest = '1'
 		INNER JOIN
 			board
 		ON

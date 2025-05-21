@@ -45,6 +45,22 @@
 			code = #{code}	
 	</select>
 	
+	<!-- <select id="findCategoryOfSameParent" parameterType="int" resultType="category">
+		SELECT
+			a.category_code,
+			a.category_parent_code, 
+			a.category_name,
+			a.category_path
+		FROM
+			category a
+		INNER JOIN
+			category b
+		ON
+			a.category_parent_code = b.category_parent_code
+		WHERE
+			b.category_code = #{categoryCode}
+	</select> -->
+	
 	<select id="findBoardCategories" resultType="Category">
 		SELECT
 			code,
