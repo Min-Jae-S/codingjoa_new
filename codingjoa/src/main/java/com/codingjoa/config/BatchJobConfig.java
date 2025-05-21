@@ -41,13 +41,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.codingjoa.batch.BoardCountColumn;
-import com.codingjoa.batch.SkippedIdCatchListener;
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.CommentCountColumn;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
+import com.codingjoa.batch.SkippedIdCatchListener;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.User;
+import com.codingjoa.entity.UserImage;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -356,6 +357,44 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
+	@Bean
+	public Job userImageDummyJob(@Qualifier("userImageDummyStep") Step userImageDummyStep) {
+		return jobBuilderFactory.get("userImageDummyJob")
+				.start(userImageDummyStep)
+				.build();
+	}
+	
+	@Bean
+	public Step userImageDummyStep(@Qualifier("userImageDummyReader") ItemReader<UserImage> userImageDummyReader, 
+			@Qualifier("userImageDummyWriter") ItemWriter<UserImage> userImageDummyWriter) {
+		return stepBuilderFactory.get("userImageDummyStep")
+				.transactionManager(transactionManager)
+				.<UserImage, UserImage>chunk(100)
+				.reader(userImageDummyReader)
+				.writer(userImageDummyWriter)
+				.build();	
+	}
+	
+	@StepScope
+	@Bean
+	public ListItemReader<UserImage> userImageDummyReader(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
+		File folder = new File(userImageDir);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		List<UserImage> dummyImages = new ArrayList<>();
+		return new ListItemReader<>(dummyImages);
+	}
+	
+	@Bean
+	public ItemWriter<UserImage> userImageDummyWriter() {
+		MyBatisBatchItemWriter<UserImage> writer = new MyBatisBatchItemWriter<>();
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertUserImageDummy");
+		return writer;
+	}
+	
 	/******************************************************************************************/
 	/******************************************************************************************/
 	
@@ -389,8 +428,7 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
-		reader.setFixedPageEnabled(true);
-		reader.setFixedPage(0);
+		reader.enableFixedPage(0);
 		return reader;
 	}
 	
@@ -448,13 +486,12 @@ public class BatchJobConfig {
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(skippedIdCatchListener())
 				.build();
 	}
 	
 	@Bean
-	public MybatisRecentKeysetPagingItemReader<BoardCountColumn> boardCountColumnReader() {
-		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardCountColumn>();
+	public MyBatisPagingItemReader<BoardCountColumn> boardCountColumnReader() {
+		MyBatisPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
 		reader.setPageSize(10);
@@ -493,13 +530,12 @@ public class BatchJobConfig {
 				.writer(commentCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
-				.listener(skippedIdCatchListener())
 				.build();
 	}
 	
 	@Bean
-	public MybatisRecentKeysetPagingItemReader<CommentCountColumn> commentCountColumnReader() {
-		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<CommentCountColumn>();
+	public MyBatisPagingItemReader<CommentCountColumn> commentCountColumnReader() {
+		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<CommentCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
 		reader.setPageSize(10);

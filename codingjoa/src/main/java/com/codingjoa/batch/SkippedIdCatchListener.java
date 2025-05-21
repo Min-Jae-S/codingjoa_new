@@ -22,8 +22,6 @@ public class SkippedIdCatchListener {
 	public SkippedIdCatchListener() {
 		extractors.put("boardImageCleanupSteo", obj -> ((BoardImage) obj).getId());
 		extractors.put("userImageCleanupSteo", obj -> ((UserImage) obj).getId());
-		extractors.put("boardCountColumnSyncStep", obj -> ((BoardCountColumn) obj).getBoardId());
-		extractors.put("commentCountColumnSyncStep", obj -> ((CommentCountColumn) obj).getCommentId());
 	}
 
 	@BeforeStep

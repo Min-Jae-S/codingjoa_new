@@ -50,19 +50,12 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	
 	@Override
 	public int getPage() {
-		if (fixedPageEnabled) {
-			return fixedPage;
-		}
-		
-		return super.getPage();
+		return fixedPageEnabled ? fixedPage : super.getPage();
 	}
 
-	public void setFixedPageEnabled(boolean fixedPageEnabled) {
-		this.fixedPageEnabled = fixedPageEnabled;
-	}
-
-	public void setFixedPage(int fixedPage) {
-		this.fixedPage = fixedPage;
+	public void enableFixedPage(int page) {
+		this.fixedPageEnabled = true;
+		this.fixedPage = page;
 	}
 	
 }

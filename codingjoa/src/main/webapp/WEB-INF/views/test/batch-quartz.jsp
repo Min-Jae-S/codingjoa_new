@@ -240,7 +240,7 @@
 		});
 
 		$("#runBoardImageCleanupJobBtn").on("click", function() {
-			console.log("## runCleanupBoardImageJob");
+			console.log("## runBoardImageCleanupJob");
 			$.ajax({
 				type : "GET",
 				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
@@ -257,11 +257,11 @@
 			});	
 		});
 
-		$("#runBoardImageCleanupJobBtn").on("click", function() {
+		$("#runUserImageCleanupJobBtn").on("click", function() {
 			console.log("## runCleanupBoardImageJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/board-image-cleanup-job/run",
+				url : "${contextPath}/test/batch-quartz/user-image-cleanup-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

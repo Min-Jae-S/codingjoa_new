@@ -103,6 +103,9 @@ public class TestBatchQuartzController {
 	
 	@Value("${upload.dir.board.image}")
 	private String boardImageDir;
+
+	@Value("${upload.dir.user.image}")
+	private String userImageDir;
 	
 	@GetMapping("/config")
 	public ResponseEntity<Object> config() {
@@ -248,11 +251,49 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
+	@GetMapping("/user-image-dummy-job/run")
+	public ResponseEntity<Object> runUserImageDummyJob() throws Exception {
+		log.info("## runUserImageDummyJob");
+		
+		Job job = jobRegistry.getJob("userImageDummyJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.addString("userImageDir", userImageDir)
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		log.info("## result: {}", jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
 	@GetMapping("/board-image-cleanup-job/run")
 	public ResponseEntity<Object> runBoardImageCleanupJob() throws Exception {
 		log.info("## runBoardImageCleanupJob");
 		
 		Job job = jobRegistry.getJob("boardImageCleanupJob");
+		log.info("\t > found job = {}", job);
+		
+		JobParameters jobParameters = new JobParametersBuilder()
+				.addLong("timestamp", System.currentTimeMillis())
+				.toJobParameters();
+		log.info("\t > jobParameters = {}", jobParameters);
+		
+		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+		//JobExecution jobExecution = jobLauncher.run(boardImagesCleanupJob, jobParameters);
+		log.info("## result: {}", jobExecution.getExitStatus());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/user-image-cleanup-job/run")
+	public ResponseEntity<Object> runUserImageCleanupJob() throws Exception {
+		log.info("## runUserImageCleanupJob");
+		
+		Job job = jobRegistry.getJob("userImageCleanupJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
