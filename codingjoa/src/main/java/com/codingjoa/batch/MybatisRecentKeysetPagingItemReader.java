@@ -14,6 +14,8 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	
 	private ExecutionContext executionContext;
 	private Map<String, Object> baseParameterValues;
+	private boolean fixedPageEnabled = false;
+	private int fixedPage = 0;
 
 	@Override
 	public void open(ExecutionContext executionContext) throws ItemStreamException {
@@ -48,7 +50,19 @@ public class MybatisRecentKeysetPagingItemReader<T> extends MyBatisPagingItemRea
 	
 	@Override
 	public int getPage() {
-		return 0;
+		if (fixedPageEnabled) {
+			return fixedPage;
+		}
+		
+		return super.getPage();
+	}
+
+	public void setFixedPageEnabled(boolean fixedPageEnabled) {
+		this.fixedPageEnabled = fixedPageEnabled;
+	}
+
+	public void setFixedPage(int fixedPage) {
+		this.fixedPage = fixedPage;
 	}
 	
 }

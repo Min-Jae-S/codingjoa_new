@@ -389,6 +389,8 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanBoardImages");
 		reader.setPageSize(10);
+		reader.setFixedPageEnabled(true);
+		reader.setFixedPage(0);
 		return reader;
 	}
 	
@@ -446,12 +448,13 @@ public class BatchJobConfig {
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
+				.listener(skippedIdCatchListener())
 				.build();
 	}
 	
 	@Bean
-	public MyBatisPagingItemReader<BoardCountColumn> boardCountColumnReader() {
-		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<BoardCountColumn>();
+	public MybatisRecentKeysetPagingItemReader<BoardCountColumn> boardCountColumnReader() {
+		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
 		reader.setPageSize(10);
@@ -490,12 +493,13 @@ public class BatchJobConfig {
 				.writer(commentCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
+				.listener(skippedIdCatchListener())
 				.build();
 	}
 	
 	@Bean
-	public MyBatisPagingItemReader<CommentCountColumn> commentCountColumnReader() {
-		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<CommentCountColumn>();
+	public MybatisRecentKeysetPagingItemReader<CommentCountColumn> commentCountColumnReader() {
+		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<CommentCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
 		reader.setPageSize(10);
@@ -517,7 +521,6 @@ public class BatchJobConfig {
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateCommentCountColumn");
 		return writer;
 	}
-	
 	
 	
 }
