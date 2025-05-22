@@ -20,8 +20,8 @@ public class SkippedIdCatchListener {
 	private StepExecution stepExecution;
 	
 	public SkippedIdCatchListener() {
-		extractors.put("boardImageCleanupSteo", obj -> ((BoardImage) obj).getId());
-		extractors.put("userImageCleanupSteo", obj -> ((UserImage) obj).getId());
+		extractors.put("boardImageCleanupStep", obj -> ((BoardImage) obj).getId());
+		extractors.put("userImageCleanupStep", obj -> ((UserImage) obj).getId());
 	}
 
 	@BeforeStep

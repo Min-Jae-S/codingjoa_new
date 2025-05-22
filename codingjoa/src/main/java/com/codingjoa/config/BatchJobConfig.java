@@ -44,6 +44,7 @@ import com.codingjoa.batch.CommentCountColumn;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.batch.SkippedIdCatchListener;
+import com.codingjoa.batch.UserImageFileItemWriter;
 import com.codingjoa.entity.BoardImage;
 import com.codingjoa.entity.UserImage;
 
@@ -149,9 +150,10 @@ public class BatchJobConfig {
 		List<Long> userIds = List.of(1L, 6021L, 6041L);
 		return (contribution, chunkContext) -> {
 			log.info("## UserImageDummyTaskelet");
+			
 			SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);
-			sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetUserImageAllLatestFlag");
-				
+			sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetUserImageLatestFlag", userIds);
+			
 			File folder = new File(userImageDir);
 			if (!folder.exists()) {
 				folder.mkdirs();
@@ -262,7 +264,7 @@ public class BatchJobConfig {
 	@Bean
 	public Job userImageCleanupJob() {
 		return jobBuilderFactory.get("userImageCleanupJob")
-				.start(boardImageCleanupStep())
+				.start(userImageCleanupStep())
 				.build();
 	}
 
@@ -283,7 +285,7 @@ public class BatchJobConfig {
 	public MybatisRecentKeysetPagingItemReader<UserImage> userImageItemReader() {
 		MybatisRecentKeysetPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<UserImage>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
-		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findOrphanUserImages");
+		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findNotLatestUserImages");
 		reader.setPageSize(10);
 		reader.enableFixedPage(0);
 		return reader;
@@ -313,9 +315,9 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
-	public BoardImageFileItemWriter userImageFileItemWriter() {
-		BoardImageFileItemWriter writer = new BoardImageFileItemWriter();
-		writer.setBoardImageDir(env.getProperty("upload.dir.user.image"));
+	public UserImageFileItemWriter userImageFileItemWriter() {
+		UserImageFileItemWriter writer = new UserImageFileItemWriter();
+		writer.setUserImageDir(env.getProperty("upload.dir.user.image"));
 		return writer;
 	}
 

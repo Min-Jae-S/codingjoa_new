@@ -2,30 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codingjoa.mapper.BatchMapper">
 
-	<select id="test" resultType="User">
-		SELECT 
-			paged_users.*
-		FROM (
-			SELECT
-				ROWNUM rn,
-				sorted_users.*
-			FROM (
-				SELECT 
-					/*+ INDEX_DESC(users pk_users) */
-					users.*
-				FROM 
-					users
-				ORDER BY
-					id DESC
-			) sorted_users
-			WHERE
-				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
-		) paged_users
-		WHERE
-			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
-			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
-	</select>
-	
 	<insert id="insertBoardImageDummy">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_boardimage.NEXTVAL FROM DUAL
@@ -77,8 +53,16 @@
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
-	<update id="resetUserImageAllLatestFlag">
-		UPDATE user_image SET latest = '0'
+	<update id="resetUserImageLatestFlag" parameterType="list">
+		UPDATE 
+			user_image 
+		SET 
+			latest = '0'
+		WHERE
+			user_id IN
+		 	<foreach collection="list" item="userId" open="(" close=")" separator=",">	
+				#{userId}
+			</foreach>
 	</update>
 	
 	<insert id="insertUserImageDummy" parameterType="UserImage">
@@ -102,8 +86,32 @@
 		)
 	</insert>
 
-	<select id="findOrphanUserImages" resultType="UserImage">
-		<!-- query -->
+	<select id="findNotLatestUserImages" resultType="UserImage">
+		SELECT 
+			paged_images.*
+		FROM (
+			SELECT
+				ROWNUM rn,
+				filtered_images.*
+			FROM (
+				SELECT 
+					/*+ INDEX_DESC(user_image pk_userimage) */
+					user_image.*
+				FROM 
+					user_image
+				WHERE
+					latest = '0'
+				<if test="skippedId != null">
+					AND id <![CDATA[ < ]]> #{skippedId} 
+				</if>					
+				ORDER BY
+					id DESC
+			) filtered_images
+			WHERE
+				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+		) paged_images
+		WHERE
+			paged_images.rn > ( #{_page} * #{_pagesize} )
 	</select>
 
 	<delete id="deleteUserImage">
@@ -249,5 +257,29 @@
 		WHERE
 			id = #{commentId}
 	</update>
+	
+	<select id="test" resultType="User">
+		SELECT 
+			paged_users.*
+		FROM (
+			SELECT
+				ROWNUM rn,
+				sorted_users.*
+			FROM (
+				SELECT 
+					/*+ INDEX_DESC(users pk_users) */
+					users.*
+				FROM 
+					users
+				ORDER BY
+					id DESC
+			) sorted_users
+			WHERE
+				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+		) paged_users
+		WHERE
+			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
+			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
+	</select>
 	
 </mapper>

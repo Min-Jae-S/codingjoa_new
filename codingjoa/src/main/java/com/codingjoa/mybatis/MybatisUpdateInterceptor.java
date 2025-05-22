@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisUpdateInterceptor implements Interceptor {
 	
 	private List<Long> boardImageIdsToFail = List.of();
-	private List<Long> userImageIdsToFail = List.of();
+	private List<Long> userImageIdsToFail = List.of(620L, 581L, 571L);
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {

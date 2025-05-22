@@ -138,8 +138,8 @@
 		<button class="btn btn-primary" id="runUserImageCleanupJobBtn">run<br>UserImageCleanupJob</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary" id="runBoardCountColumnSyncJobBtn">run<br>BoardCountColumnSyncJob</button>
-		<button class="btn btn-primary" id="runCommentCountColumnSyncJobBtn">run<br>CommentCountColumnSyncJob</button>
+		<button class="btn btn-primary" id="runBoardCountColumnSyncJobBtn">run<br>BoardSyncJob</button>
+		<button class="btn btn-primary" id="runCommentCountColumnSyncJobBtn">run<br>CommentSyncJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
