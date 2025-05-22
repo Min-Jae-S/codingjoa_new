@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -323,8 +324,8 @@ public class BatchJobConfig {
 		Resource resource = new ClassPathResource("static/dummy_base.jpg");
 		
 		List<BoardImage> dummyImages = new ArrayList<>();
-		
-		for (int i = 1; i <= 200; i++) {
+		int count = 200;
+		for (int i = 1; i <= count; i++) {
 			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
 			File copyFile = new File(folder, filename);
 			
@@ -383,7 +384,35 @@ public class BatchJobConfig {
 			folder.mkdirs();
 		}
 		
+		Resource resource = new ClassPathResource("static/dummy_base.jpg");
+		
 		List<UserImage> dummyImages = new ArrayList<>();
+		int count = 200;
+		for (int i = 1; i <= count; i++) {
+			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
+			File copyFile = new File(folder, filename);
+			
+			try (InputStream in = resource.getInputStream()) {
+				Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			}
+			
+			String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
+					.buildAndExpand(filename)
+					.toUriString();
+			
+			Long userId = ThreadLocalRandom.current().nextLong(1, 3); // 1 or 2
+			UserImage userImage = UserImage.builder()
+					.userId(userId)
+					.name(filename)
+					.path(path)
+					.latest(i == count ? true : false)
+					.build();
+			
+			dummyImages.add(userImage);
+		}
+		
 		return new ListItemReader<>(dummyImages);
 	}
 	
@@ -570,7 +599,7 @@ public class BatchJobConfig {
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateBoardCountColumn");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncBoardCountColumn");
 		return writer;
 	}
 	
@@ -614,7 +643,7 @@ public class BatchJobConfig {
 			}
 		};
 		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.updateCommentCountColumn");
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncCommentCountColumn");
 		return writer;
 	}
 	

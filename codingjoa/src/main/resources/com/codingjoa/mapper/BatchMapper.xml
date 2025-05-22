@@ -76,9 +76,30 @@
 	<delete id="deleteBoardImage">
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
+	
+	<insert id="insertUserImageDummy" parameterType="UserImage">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_userimage.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO user_image (
+			id,
+			user_id,
+			name,
+			path,
+			latest,
+			created_at
+		) VALUES (
+			#{id},
+			#{userId},
+			#{name},
+			#{path},
+			#{latest},
+			SYSDATE
+		)
+	</insert>
 
 	<select id="findOrphanUserImages" resultType="UserImage">
-
+		<!-- query -->
 	</select>
 
 	<delete id="deleteUserImage">
@@ -155,7 +176,7 @@
 			final_board.id = board_like_group.board_id
 	</select>
 	
-	<update id="updateBoardCountColumn">
+	<update id="syncBoardCountColumn" parameterType="BoardCountColumn">
 		UPDATE
 			board
 		SET
@@ -216,7 +237,7 @@
 			final_comment.id = comment_like_group.comment_id
 	</select>
 	
-	<update id="updateCommentCountColumn">
+	<update id="syncCommentCountColumn" parameterType="CommentCountColumn">
 		UPDATE
 			comments
 		SET

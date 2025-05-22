@@ -106,7 +106,7 @@
 			users
 		ON 
 			final_comment.user_id = users.id
-		LEFT OUTER JOIN (
+		LEFT OUTER JOIN 
 			user_image
 		ON
 			final_comment.user_id = user_image.user_id AND user_image.latest = '1'

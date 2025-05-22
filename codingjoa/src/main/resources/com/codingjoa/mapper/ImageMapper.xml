@@ -97,22 +97,4 @@
 			board_id = #{boardId} 
 	</update>
 	
-	<select id="findTempUserImages" resultType="UserImage">
-		SELECT
-			*
-		FROM
-			user_image
-		WHERE
-			user_id IS NULL
-	</select>
-
-	<select id="findTempBoardImages" resultType="BoardImage">
-		SELECT
-			*
-		FROM
-			board_image
-		WHERE
-			board_id IS NULL
-	</select>
-	
 </mapper>

@@ -96,13 +96,13 @@
 			users.agree,
 			users.created_at,
 			users.updated_at,
-			latest_user_image.path AS image_path
+			user_image.path AS image_path
 		FROM
 			users
 		LEFT OUTER JOIN 
 			user_image
 		ON
-			users.id = user_image.user_id AND user_image = '1'
+			users.id = user_image.user_id AND user_image.latest = '1'
 		WHERE
 			users.id = #{id}
 	</select>
@@ -125,7 +125,7 @@
 			users.email,
 			users.password,
 			users.nickname,
-			latest_user_image.path AS image_path,
+			user_image.path AS image_path,
 			auth.role
 		FROM
 			users

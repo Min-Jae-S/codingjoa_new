@@ -23,8 +23,4 @@ public interface ImageMapper {
 	
 	void deactivateBoardImages(Long boardId);
 	
-	List<BoardImage> findTempBoardImages();
-	
-	List<UserImage> findTempUserImages();
-	
 }
