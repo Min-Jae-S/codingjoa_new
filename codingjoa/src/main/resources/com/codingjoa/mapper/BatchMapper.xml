@@ -77,6 +77,10 @@
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
+	<update id="resetAllUserImageLatestFlag">
+		UPDATE user_image SET latest = '0'		
+	</update>
+	
 	<insert id="insertUserImageDummy" parameterType="UserImage">
 		<selectKey keyProperty="id" resultType="long" order="BEFORE">
 			SELECT seq_userimage.NEXTVAL FROM DUAL

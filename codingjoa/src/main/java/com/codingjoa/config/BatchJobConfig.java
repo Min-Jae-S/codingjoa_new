@@ -12,7 +12,9 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.batch.MyBatisBatchItemWriter;
 import org.mybatis.spring.batch.MyBatisPagingItemReader;
 import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
@@ -366,62 +368,54 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public Step userImageDummyStep(@Qualifier("userImageDummyReader") ItemReader<UserImage> userImageDummyReader, 
-			@Qualifier("userImageDummyWriter") ItemWriter<UserImage> userImageDummyWriter) {
+	public Step userImageDummyStep(@Qualifier("userImageDummyTaskelet") Tasklet userImageDummyTaskelet) {
 		return stepBuilderFactory.get("userImageDummyStep")
 				.transactionManager(transactionManager)
-				.<UserImage, UserImage>chunk(100)
-				.reader(userImageDummyReader)
-				.writer(userImageDummyWriter)
+				.tasklet(userImageDummyTaskelet)
 				.build();	
 	}
 	
 	@StepScope
 	@Bean
-	public ListItemReader<UserImage> userImageDummyReader(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
-		File folder = new File(userImageDir);
-		if (!folder.exists()) {
-			folder.mkdirs();
-		}
-		
-		Resource resource = new ClassPathResource("static/dummy_base.jpg");
-		
-		List<UserImage> dummyImages = new ArrayList<>();
-		int count = 200;
-		for (int i = 1; i <= count; i++) {
-			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
-			File copyFile = new File(folder, filename);
-			
-			try (InputStream in = resource.getInputStream()) {
-				Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+	public Tasklet userImageDummyTaskelet(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
+		return (contribution, chunkContext) -> {
+			try (SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);) {
+				sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetAllUserImageLatestFlag");
+				
+				File folder = new File(userImageDir);
+				if (!folder.exists()) {
+					folder.mkdirs();
+				}
+				
+				Resource resource = new ClassPathResource("static/dummy_base.jpg");
+				
+				int count = 200;
+				for (int i = 1; i <= count; i++) {
+					String filename = "dummy_" + UUID.randomUUID() + ".jpg";
+					File copyFile = new File(folder, filename);
+					
+					try (InputStream in = resource.getInputStream()) {
+						Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e) {
+						log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+					}
+					
+					String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
+							.buildAndExpand(filename)
+							.toUriString();
+					
+					UserImage userImage = UserImage.builder()
+							.userId(ThreadLocalRandom.current().nextLong(1, 3)) // 1 or 2
+							.name(filename)
+							.path(path)
+							.latest(i == count ? true : false)
+							.build();
+					sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.insertUserImageDummy", userImage);
+				}
+				sqlSessionTemplate.flushStatements();
 			}
-			
-			String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
-					.buildAndExpand(filename)
-					.toUriString();
-			
-			Long userId = ThreadLocalRandom.current().nextLong(1, 3); // 1 or 2
-			UserImage userImage = UserImage.builder()
-					.userId(userId)
-					.name(filename)
-					.path(path)
-					.latest(i == count ? true : false)
-					.build();
-			
-			dummyImages.add(userImage);
-		}
-		
-		return new ListItemReader<>(dummyImages);
-	}
-	
-	@Bean
-	public ItemWriter<UserImage> userImageDummyWriter() {
-		MyBatisBatchItemWriter<UserImage> writer = new MyBatisBatchItemWriter<>();
-		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertUserImageDummy");
-		return writer;
+			return RepeatStatus.FINISHED;
+		};
 	}
 	
 	/******************************************************************************************/

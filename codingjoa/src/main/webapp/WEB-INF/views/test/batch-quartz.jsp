@@ -256,6 +256,24 @@
 				}
 			});	
 		});
+		
+		$("#runUserImageDummyJobBtn").on("click", function() {
+			console.log("## runUserImageDummyJob");
+			$.ajax({
+				type : "GET",
+				url : "${contextPath}/test/batch-quartz/user-image-dummy-job/run",
+				dataType: "json",
+				traditional : true,
+				success : function(result) {
+					console.log("%c> SUCCESS", "color:green");
+					console.log(JSON.stringify(result, null	, 2));
+				},
+				error : function(jqXHR) {
+					console.log("%c> ERROR", "color:red");
+					console.log(JSON.stringify(parseError(jqXHR), null, 2));
+				}
+			});	
+		});
 
 		$("#runUserImageCleanupJobBtn").on("click", function() {
 			console.log("## runCleanupBoardImageJob");
