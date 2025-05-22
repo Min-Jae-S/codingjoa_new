@@ -78,7 +78,7 @@
 	</delete>
 	
 	<update id="resetAllUserImageLatestFlag">
-		UPDATE user_image SET latest = '0'		
+		UPDATE user_image SET latest = '0'
 	</update>
 	
 	<insert id="insertUserImageDummy" parameterType="UserImage">

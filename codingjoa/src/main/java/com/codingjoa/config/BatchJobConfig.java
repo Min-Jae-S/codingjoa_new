@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 import org.apache.ibatis.session.ExecutorType;
@@ -326,8 +325,8 @@ public class BatchJobConfig {
 		Resource resource = new ClassPathResource("static/dummy_base.jpg");
 		
 		List<BoardImage> dummyImages = new ArrayList<>();
-		int count = 200;
-		for (int i = 1; i <= count; i++) {
+		final int MAX = 30;
+		for (int i = 1; i <= MAX; i++) {
 			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
 			File copyFile = new File(folder, filename);
 			
@@ -375,22 +374,27 @@ public class BatchJobConfig {
 				.build();	
 	}
 	
+	@SuppressWarnings("resource")
 	@StepScope
 	@Bean
 	public Tasklet userImageDummyTaskelet(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
 		return (contribution, chunkContext) -> {
-			try (SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);) {
-				sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetAllUserImageLatestFlag");
+			log.info("## UserImageDummyTaskelet.execute");
+			
+			SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);
+			sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetAllUserImageLatestFlag");
 				
-				File folder = new File(userImageDir);
-				if (!folder.exists()) {
-					folder.mkdirs();
-				}
+			File folder = new File(userImageDir);
+			if (!folder.exists()) {
+				folder.mkdirs();
+			}
 				
-				Resource resource = new ClassPathResource("static/dummy_base.jpg");
-				
-				int count = 200;
-				for (int i = 1; i <= count; i++) {
+			Resource resource = new ClassPathResource("static/dummy_base.jpg");
+			List<Long> userIds = List.of(1L, 6021L, 6041L);
+			int MAX = 10;
+			
+			for (Long userId: userIds) {
+				for (int i = 1; i <= MAX; i++) {
 					String filename = "dummy_" + UUID.randomUUID() + ".jpg";
 					File copyFile = new File(folder, filename);
 					
@@ -405,15 +409,17 @@ public class BatchJobConfig {
 							.toUriString();
 					
 					UserImage userImage = UserImage.builder()
-							.userId(ThreadLocalRandom.current().nextLong(1, 3)) // 1 or 2
+							.userId(userId)
 							.name(filename)
 							.path(path)
-							.latest(i == count ? true : false)
+							.latest(i == MAX)
 							.build();
+					
 					sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.insertUserImageDummy", userImage);
 				}
-				sqlSessionTemplate.flushStatements();
 			}
+			
+			sqlSessionTemplate.flushStatements();
 			return RepeatStatus.FINISHED;
 		};
 	}

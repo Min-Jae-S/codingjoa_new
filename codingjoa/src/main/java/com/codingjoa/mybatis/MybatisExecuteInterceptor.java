@@ -29,7 +29,7 @@ public class MybatisExecuteInterceptor implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		log.debug("## {}.intercept", this.getClass().getSimpleName());
+		log.info("## {}.intercept", this.getClass().getSimpleName());
 		String method = invocation.getMethod().getName();
 		Object[] args = invocation.getArgs();
 		
