@@ -1,4 +1,4 @@
-package com.codingjoa.batch;
+package com.codingjoa.obsolete;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;

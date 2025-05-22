@@ -77,7 +77,7 @@
 		DELETE FROM board_image WHERE id = #{id}
 	</delete>
 	
-	<update id="resetAllUserImageLatestFlag">
+	<update id="resetUserImageAllLatestFlag">
 		UPDATE user_image SET latest = '0'
 	</update>
 	

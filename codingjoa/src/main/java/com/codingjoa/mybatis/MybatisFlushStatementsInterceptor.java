@@ -19,8 +19,7 @@ public class MybatisFlushStatementsInterceptor implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		String methodName = invocation.getMethod().getName();
-		log.info("## {}.intercept, mathod {}", this.getClass().getSimpleName(), methodName);
+		log.info("## {}", this.getClass().getSimpleName());
         return invocation.proceed();
 	}
 
