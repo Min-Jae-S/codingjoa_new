@@ -362,6 +362,10 @@
 							<a href="${contextPath}/admin" class="dropdown-item admin">관리자</a>
 						</li>
 						<hr class="dropdown-divider">
+						<li>
+							<a href="${contextPath}/admin/apis" class="dropdown-item apis">REST API documentation</a>
+						</li>
+						<hr class="dropdown-divider">
 					</sec:authorize>
 					<li>
 						<a href="${contextPath}/user/messages" class="dropdown-item message">메시지</a>

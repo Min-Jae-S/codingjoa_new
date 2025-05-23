@@ -147,7 +147,9 @@ public class BatchJobConfig {
 	@StepScope
 	@Bean
 	public Tasklet userImageDummyTaskelet(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
-		List<Long> userIds = List.of(1L, 6021L, 6041L);
+		//List<Long> userIds = List.of(1L, 6021L, 6041L);
+		List<Long> userIds = List.of(1L, 2L);
+		
 		return (contribution, chunkContext) -> {
 			log.info("## UserImageDummyTaskelet");
 			
@@ -355,7 +357,6 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(50);
 		return reader;
 	}
 
@@ -401,7 +402,6 @@ public class BatchJobConfig {
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
 		reader.setPageSize(10);
-		reader.setMaxItemCount(50);
 		return reader;
 	}
 	
