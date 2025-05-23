@@ -1,4 +1,4 @@
-package com.codingjoa.config;
+package com.codingjoa.obsolete;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -18,12 +18,12 @@ import com.codingjoa.quartz.JobB;
 public class QuartzConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(ApplicationContext context) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
 		SpringBeanJobFactory jobFactory = new SpringBeanJobFactory();
-		jobFactory.setApplicationContext(context);
+		jobFactory.setApplicationContext(applicationContext);
 		
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setAutoStartup(true);

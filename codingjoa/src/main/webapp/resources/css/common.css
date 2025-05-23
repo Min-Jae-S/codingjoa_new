@@ -369,12 +369,12 @@ span.error, span.success {
 	height: 40px;
 	width: 40px;
 	padding: 0;
-	margint: 0;
+	margin: 0;
 	border: none;
 	content: "";
 	border-radius: 50%;
 	background: transparent;
-	background-position: 68% 50%;
+	background-position: 55% 50%;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     background-image: url(../images/notification.svg);
@@ -563,15 +563,11 @@ footer {
 	content: "";
 	border-radius: 50%;
 	background: transparent;
-	background-position: 68% 50%;
+	background-position: 55% 50%;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     background-image: url(../images/notification.svg);
     transition: filter;
-}
-
-.sb-topnav .navbar-nav button.notification:hover {
-    filter: brightness(100);
 }
 
 .sb-topnav .navbar-nav button.notification:hover {

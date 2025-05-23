@@ -23,8 +23,7 @@
 	}
 	
 	div.test {
-		column-gap: 2rem; 
-
+		column-gap: 1rem; 
 	}
 	
 	.options {
