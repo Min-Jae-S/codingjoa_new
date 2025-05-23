@@ -12,7 +12,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.codingjoa.quartz.AlarmDto;
+import com.codingjoa.obsolete.AlarmDto;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

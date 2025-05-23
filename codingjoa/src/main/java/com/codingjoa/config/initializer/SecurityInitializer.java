@@ -11,7 +11,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.codingjoa.filter.ErrorHandlingFilter;
 import com.codingjoa.filter.LogFilter;
-import com.codingjoa.filter.test.TestAopFilter;
+import com.codingjoa.filter.TestAopFilter;
 
 import lombok.extern.slf4j.Slf4j;
 

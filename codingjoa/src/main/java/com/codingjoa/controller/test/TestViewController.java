@@ -40,12 +40,6 @@ public class TestViewController {
 		return "test/batch";
 	}
 	
-	@GetMapping("/quartz")
-	public String quartzMain() {
-		log.info("## quartz main");
-		return "test/quartz";
-	}
-	
 	@GetMapping("/scheduler")
 	public String schedulerMain() {
 		log.info("## scheduler main");
@@ -229,10 +223,10 @@ public class TestViewController {
 		return "test/aop";
 	}
 
-	@GetMapping("/quartz2")
-	public String quartz2() {
-		log.info("## quartz2 main");
-		return "test/quartz2";
+	@GetMapping("/quartz")
+	public String quartz() {
+		log.info("## quartz main");
+		return "test/quartz";
 	}
 
 	@GetMapping("/ws")

@@ -1,4 +1,4 @@
-package com.codingjoa.quartz;
+package com.codingjoa.obsolete;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JobA implements Job {
+public class JobC implements Job {
 	
 	private final SchedulerService schedulerService;
 
@@ -22,7 +22,10 @@ public class JobA implements Job {
 		String jobName = context.getJobDetail().getKey().getName();
 		log.info("\t > jobName = {}", jobName);
 		
-		schedulerService.insert(jobName);
+		String id = context.getMergedJobDataMap().getString("id");
+		log.info("\t > id = {}", id);
+		
+		schedulerService.insert(jobName, id);
 	}
 	
 }

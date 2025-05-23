@@ -22,11 +22,13 @@
 	}
 	
 	div.test {
-		column-gap: 1rem; 
+		display: flex;
+		/* justify-content: space-between; */
+		column-gap: 35px;
 	}
 	
 	div.test button {
-		width: 250px;
+		width: 183px;
 	}
 </style>
 </head>
@@ -34,23 +36,40 @@
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
 	<p>quartz.jsp</p>
-	<div class="test d-flex mt-5">
-		<button class="btn btn-lg btn-warning mx-3" onclick="config()">config</button>
-		<button class="btn btn-lg btn-warning mx-3" onclick="state()">state</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="pausedJobs()">pausedJobs</button>
-		<button class="btn btn-lg btn-warning mx-3 invisible" onclick="#">#</button>
+	<div class="test mt-5 mb-5 px-5">
+		<button class="btn btn-warning btn-lg" onclick="config()">config</button>
+		<button class="btn btn-warning btn-lg" onclick="currentJobs()">current jobs</button>
+		<button class="btn btn-warning btn-lg" onclick="getSamples()">get samples</button>
+		<button class="btn btn-warning btn-lg" onclick="deleteSamples()">delete samples</button>
 	</div>
-	<div class="test d-flex mt-5">
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start">start All</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-a">start JobA</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-b">start JobB</button>
-		<button class="btn btn-primary btn-lg mx-3" onclick="start(this)" data-url="${contextPath}/test/quartz/start/job-quartz">start QuartzJob</button>
+	<div class="test mb-5 px-5">
+		<button class="btn btn-warning btn-lg" onclick="start()">start</button>
+		<button class="btn btn-warning btn-lg" onclick="pause()">pause</button>
+		<button class="btn btn-warning btn-lg" onclick="shutdown()">shutdown</button>
+		<button class="btn btn-warning btn-lg" onclick="clearScheduler()">clear</button>
 	</div>
-	<div class="test d-flex mt-5">
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause">pause All</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-a">pause JobA</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-b" >pause JobB</button>
-		<button class="btn btn-danger btn-lg mx-3" onclick="pause(this)" data-url="${contextPath}/test/quartz/pause/job-quartz" >pause QuartzJob</button>
+	<div class="test mb-5 px-5">
+		<div class="d-flex flex-column">
+			<button class="btn btn-primary btn-lg px-1 mb-2" onclick="scheduleJob()">
+				<span>schedule job</span>
+			</button>
+			<div class="px-3 d-flex justify-content-around">
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="job" id="jobA" value="a" checked>
+				  <label class="form-check-label" for="jobA">JobA</label>
+				</div>
+				<div class="form-check form-check-inline mr-0">
+				  <input class="form-check-input" type="radio" name="job" id="jobB" value="b">
+				  <label class="form-check-label" for="jobB">JobB</label>
+				</div>
+			</div>
+		</div>
+		<div class="input-group mb-3" style="height:100%;">
+  			<input type="text" class="form-control" id="test1Input"/>
+  			<div class="input-group-append">
+    			<button class="btn btn-primary btn-lg" type="button" onclick="test1()">test1</button>
+  			</div>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -60,77 +79,181 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/quartz/config",
+			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});		
-	}
-	
-	function state() {
-		console.log("## state");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/quartz/state",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});	
-	}
-	
-	function pausedJobs() {
-		console.log("## pausedJobs");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/quartz/paused-jobs",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
-			}
-		});	
-	}
-	
-	function start(button) {
-		console.log("## " + $(button).text());
-		$.ajax({
-			type : "GET",
-			url : $(button).data("url"),
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});
 	}
 
-	function pause(button) {
-		console.log("## " + $(button).text());
+	function currentJobs() {
+		console.log("## currentJobs");
 		$.ajax({
 			type : "GET",
-			url : $(button).data("url"),
+			url : "${contextPath}/test/quartz/current-jobs",
+			dataType : "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
-				console.log("> %s", result);
+				console.log(JSON.stringify(result, null, 2));
 			},
 			error : function(jqXHR) {
 				console.log("%c> ERROR", "color:red");
-				console.log(jqXHR);
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function clearScheduler() {
+		console.log("## clearScheduler");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/clear",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+	
+	function start() {
+		console.log("## start");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/start",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+	
+	function getSamples() {
+		console.log("## getSamples");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/samples",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function deleteSamples() {
+		console.log("## deleteSamples");
+		$.ajax({
+			type : "DELETE",
+			url : "${contextPath}/test/quartz/samples",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function scheduleJob() {
+		console.log("## scheduleJob");
+		let jobType = $("input[name='job']:checked").val();
+		if (jobType == null || jobType == "") {
+			alert("job을 선택하세요.");
+			return;
+		}
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/schedule/\${jobType}",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function pause() {
+		console.log("## pause");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/pause",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function shutdown() {
+		console.log("## shutdown");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/shutdown",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});
+	}
+
+	function test1() {
+		console.log("## test1");
+		let id = $("#test1Input").val();
+		console.log("> id = %s", id);
+		
+		if (id == null || id == "") {
+			alert("id를 입력하세요.");
+			return;
+		}
+		
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/quartz/test1?id=\${id}",
+			dataType : "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});
 	}

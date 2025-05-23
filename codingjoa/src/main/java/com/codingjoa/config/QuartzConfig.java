@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
-import com.codingjoa.quartz.JobA;
-import com.codingjoa.quartz.JobB;
+import com.codingjoa.obsolete.JobA;
+import com.codingjoa.obsolete.JobB;
 
 @Configuration
 public class QuartzConfig {

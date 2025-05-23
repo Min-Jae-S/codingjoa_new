@@ -1,4 +1,4 @@
-package com.codingjoa.quartz;
+package com.codingjoa.obsolete;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
