@@ -36,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.obsolete.AlarmDto;
 import com.codingjoa.obsolete.AlarmJob;
+import com.codingjoa.obsolete.JobA;
 import com.codingjoa.obsolete.JobC;
 import com.codingjoa.service.SchedulerService;
 import com.codingjoa.test.TestSchedulerData;
@@ -60,18 +61,6 @@ public class TestQuartzController {
 	@Autowired
 	private Scheduler scheduler;
 	
-	@Resource(name = "jobDetailA")
-	private JobDetail jobDetailA;
-
-	@Resource(name = "jobDetailB")
-	private JobDetail jobDetailB;
-	
-	@Resource(name = "triggerA")
-	private Trigger triggerA;
-	
-	@Resource(name = "triggerB")
-	private Trigger triggerB;
-
 	@Autowired
 	private SchedulerService schedulerService;
 
@@ -165,14 +154,36 @@ public class TestQuartzController {
 	@GetMapping("/schedule/{jobType}")
 	public ResponseEntity<Object> scheduleJob(@PathVariable String jobType) throws SchedulerException {
 		log.info("## scheduleJob");
+		
+		JobDetail job = null;
+		Trigger trigger = null;
+		
 		if ("a".equals(jobType)) {
-			scheduler.scheduleJob(jobDetailA, triggerA);
+			job = JobBuilder.newJob(JobA.class)
+					.withIdentity("jobA", "myJobs")
+					.storeDurably()
+					.build();
+			trigger = TriggerBuilder.newTrigger()
+					.forJob(job)
+					.withIdentity("triggerA", "myTriggers")
+					.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+					.build();
 		} else if ("b".equals(jobType)) {
-			scheduler.scheduleJob(jobDetailB, triggerB);
+			job = JobBuilder.newJob(JobA.class)
+					.withIdentity("jobB", "myJobs")
+					.storeDurably()
+					.build();
+			trigger = TriggerBuilder.newTrigger()
+					.forJob(job)
+					.withIdentity("triggerB", "myTriggers")
+					.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+					.build();
 		} else {
 			log.info("\t > invalid job type: {}", jobType);
 			throw new SchedulerException();
 		}
+		
+		scheduler.scheduleJob(job, trigger);
 		
 		if (!scheduler.isStarted()) {
 			log.info("\t > start scheduler");
