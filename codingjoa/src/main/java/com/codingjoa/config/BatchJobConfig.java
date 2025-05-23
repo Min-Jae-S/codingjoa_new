@@ -65,6 +65,15 @@ public class BatchJobConfig {
 	private final Environment env;
 	
 	@Bean
+	public SkippedIdCatchListener skippedIdCatchListener() {
+		return new SkippedIdCatchListener();
+	}
+	
+	// ===================================================
+	// 		BoardImageDummyJob, UserImageDummyJob
+	// ===================================================
+	
+	@Bean
 	public Job boardImageDummyJob(@Qualifier("boardImageDummyStep") Step boardImageDummyStep) {
 		return jobBuilderFactory.get("boardImageDummyJob")
 				.start(boardImageDummyStep)
@@ -126,8 +135,6 @@ public class BatchJobConfig {
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertBoardImageDummy");
 		return writer;
 	}
-	
-	/******************************************************************************************/
 	
 	@Bean
 	public Job userImageDummyJob(@Qualifier("userImageDummyStep") Step userImageDummyStep) {
@@ -194,8 +201,10 @@ public class BatchJobConfig {
 			return RepeatStatus.FINISHED;
 		};
 	}
-	
-	/******************************************************************************************/
+
+	// ===================================================
+	// 		BoardImageCleanupJob
+	// ===================================================
 	
 	@Bean
 	public Job boardImageCleanupJob() {
@@ -261,7 +270,9 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
-	/******************************************************************************************/
+	// ===================================================
+	// 		UserImageCleanupJob
+	// ===================================================
 	
 	@Bean
 	public Job userImageCleanupJob() {
@@ -323,14 +334,10 @@ public class BatchJobConfig {
 		return writer;
 	}
 
-	/******************************************************************************************/
 	
-	@Bean
-	public SkippedIdCatchListener skippedIdCatchListener() {
-		return new SkippedIdCatchListener();
-	}
-	
-	/******************************************************************************************/
+	// ===================================================
+	// 		BoardCountColumnSyncJob
+	// ===================================================
 	
 	@Bean
 	public Job boardCountColumnSyncJob() {
@@ -375,7 +382,9 @@ public class BatchJobConfig {
 		return writer;
 	}
 	
-	/******************************************************************************************/
+	// ===================================================
+	// 		CommentCountColumnSyncJob
+	// ===================================================
 	
 	@Bean
 	public Job commentCountColumnSyncJob() {
