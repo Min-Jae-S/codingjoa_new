@@ -1,5 +1,7 @@
 package com.codingjoa.config;
 
+import java.util.Arrays;
+
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -15,12 +17,19 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
 import com.codingjoa.quartz.UserImageCleanupQuartzJob;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
 public class QuartzConfig {
 
 	@Bean
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
 			JobDetail[] jobDetails, Trigger[] triggers) {
+		log.info("## {}.schedulerFactory", this.getClass().getSimpleName());
+		log.info("\t > jobDetails: {}", Arrays.toString(jobDetails));
+		log.info("\t > triggers: {}", Arrays.toString(triggers));
+		
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
@@ -41,7 +50,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(boardImageCleanupJobDetail())
 				.withIdentity("testTrigger", "batchTriggers")
-				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(20))
+				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
 				.build();
 	}
 	

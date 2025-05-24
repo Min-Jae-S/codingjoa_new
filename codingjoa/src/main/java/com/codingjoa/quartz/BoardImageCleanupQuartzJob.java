@@ -1,5 +1,8 @@
 package com.codingjoa.quartz;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.batch.core.Job;
@@ -24,7 +27,9 @@ public class BoardImageCleanupQuartzJob extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		log.info("## {}", this.getClass().getSimpleName());
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		log.info("## {}, performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
+
 		try {
 			JobParameters params = new JobParametersBuilder()
 					.addLong("timestamp", System.currentTimeMillis())
