@@ -71,13 +71,13 @@ public class TestQuartzController {
 	public ResponseEntity<Object> config() throws SchedulerException {
 		log.info("## config");
 		log.info("\t > schedulerFactory = {}", schedulerFactory.getClass().getSimpleName());
-		log.info("\t   - isRunning = {}", schedulerFactory.isRunning());
-		log.info("\t   - isAutoStartup = {}", schedulerFactory.isAutoStartup());
+		log.info("\t\t - isRunning = {}", schedulerFactory.isRunning());
+		log.info("\t\t - isAutoStartup = {}", schedulerFactory.isAutoStartup());
 		
 		log.info("\t > scheduler = {}", scheduler.getClass().getSimpleName());
-		log.info("\t   - isStarted = {}", scheduler.isStarted());
-		log.info("\t   - isInStandbyMode = {}", scheduler.isInStandbyMode());
-		log.info("\t   - isShutdown = {}", scheduler.isShutdown());
+		log.info("\t\t - isStarted = {}", scheduler.isStarted());
+		log.info("\t\t - isInStandbyMode = {}", scheduler.isInStandbyMode());
+		log.info("\t\t - isShutdown = {}", scheduler.isShutdown());
 		
 		return ResponseEntity.ok(SuccessResponse.builder().message("success").build());
 	}
@@ -94,16 +94,16 @@ public class TestQuartzController {
 			log.info("\t > {}", jobKey);
 			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
 				TriggerKey triggerKey = trigger.getKey();
-				log.info("\t    - trigger = {}", triggerKey);
-				log.info("\t    - state = {}", scheduler.getTriggerState(triggerKey));
+				log.info("\t\t - trigger = {}", triggerKey);
+				log.info("\t\t - state = {}", scheduler.getTriggerState(triggerKey));
 				
 				Date previousFireTime = trigger.getPreviousFireTime();
 				Date nextFireTime = trigger.getNextFireTime();
 				
 				String formattedPrevious = (previousFireTime != null) ? sdf.format(previousFireTime) : "N/A";
 				String formattedNext = (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
-				log.info("\t    - previous = {}", formattedPrevious);
-				log.info("\t    - next = {}", formattedNext);
+				log.info("\t\t - previous = {}", formattedPrevious);
+				log.info("\t\t - next = {}", formattedNext);
 			}
 		}
 		

@@ -1,6 +1,7 @@
 package com.codingjoa.config;
 
 import org.quartz.JobDetail;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
 
+@SuppressWarnings("unused")
 @Configuration
 public class QuartzConfig {
 
@@ -35,17 +37,21 @@ public class QuartzConfig {
 	}
 	
 	@Bean
-	public JobDetailFactoryBean boardImageCleanupQuartzJobFactory() {
+	public JobDetailFactoryBean boardImageCleanupQuartzJobDetail() {
 		JobDetailFactoryBean factory = new JobDetailFactoryBean();
 		factory.setJobClass(BoardImageCleanupQuartzJob.class);
+		factory.setDurability(true);
 		return factory;
 	}
 
 	@Bean
-	public CronTriggerFactoryBean boardImageCleanupQuartzTriggerFactory(JobDetail boardImageCleanupQuartzJobDetail) {
+	public CronTriggerFactoryBean boardImageCleanupQuartzTrigger(
+			@Qualifier("boardImageCleanupJobDetail") JobDetail jobDetail) {
 		CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
-		factory.setJobDetail(boardImageCleanupQuartzJobDetail);
+		factory.setJobDetail(jobDetail);
+		factory.setCronExpression("0 0 3 * * ?");
 		return factory;
 	}
+	
 	
 }

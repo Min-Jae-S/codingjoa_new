@@ -1,9 +1,19 @@
 package com.codingjoa.controller.test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -25,6 +35,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,28 +65,6 @@ public class TestBatchQuartzController {
 	
 	@Autowired
 	private JobRegistry jobRegistry;
-	
-	@Qualifier("itemReader1")
-	@Autowired(required = false)
-	private ItemReader itemReader1;
-
-	@Qualifier("itemReader2")
-	@Autowired(required = false)
-	private ItemReader itemReader2;
-
-	@Qualifier("itemProcessor")
-	@Autowired(required = false)
-	private ItemProcessor itemProcessor;
-	
-	@Qualifier("itemWriter")
-	@Autowired(required = false)
-	private ItemWriter itemWriter;
-
-	@Autowired
-	private JobScope jobScope;
-
-	@Autowired
-	private StepScope stepScope;
 	
 	@Qualifier("myBatisItemReader")
 	@Autowired(required = false)
@@ -107,9 +96,17 @@ public class TestBatchQuartzController {
 	@Value("${upload.dir.user.image}")
 	private String userImageDir;
 	
-	@GetMapping("/config")
-	public ResponseEntity<Object> config() {
-		log.info("## config");
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	
+	@Autowired
+	private SchedulerFactoryBean schedulerFactory;
+	
+	@Autowired
+	private Scheduler scheduler;
+	
+	@GetMapping("/batch/config")
+	public ResponseEntity<Object> configBatch() {
+		log.info("## configBatch");
 		log.info("\t > jobRepository = {}", jobRepository);
 		log.info("\t > jobExplorer = {}", jobExplorer);
 		log.info("\t > jobLauncher = {}", jobLauncher);
@@ -117,6 +114,39 @@ public class TestBatchQuartzController {
 		log.info("\t > registered jobs = {}", jobRegistry.getJobNames());
 		//log.info("\t > jobNames from jobExplorer = {}", jobExplorer.getJobNames());
 		//log.info("\t > jobNames from jobRegistry = {}", jobRegistry.getJobNames());
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/quartz/config")
+	public ResponseEntity<Object> configQuartz() throws SchedulerException {
+		log.info("## configQuartz");
+		log.info("\t > schedulerFactory = {} (autoSetup: {}, running: {})", 
+				schedulerFactory, schedulerFactory.isAutoStartup(), schedulerFactory.isRunning());
+		log.info("\t > scheduler = {} (started: {}, standByMode: {}, shutdown: {})", 
+				scheduler, scheduler.isStarted(), scheduler.isInStandbyMode(), scheduler.isShutdown());
+		
+		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
+		if (jobKeys.isEmpty()) {
+			log.info("\t > no scheduled jobs");
+		}
+		
+		for (JobKey jobKey : jobKeys) {
+			log.info("\t > {}", jobKey);
+			for (Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
+				TriggerKey triggerKey = trigger.getKey();
+				log.info("\t\t - trigger = {}", triggerKey);
+				log.info("\t\t - state = {}", scheduler.getTriggerState(triggerKey));
+				
+				Date previousFireTime = trigger.getPreviousFireTime();
+				Date nextFireTime = trigger.getNextFireTime();
+				
+				String formattedPrevious = (previousFireTime != null) ? sdf.format(previousFireTime) : "N/A";
+				String formattedNext = (nextFireTime != null) ? sdf.format(nextFireTime) : "N/A";
+				log.info("\t\t - previous = {}", formattedPrevious);
+				log.info("\t\t - next = {}", formattedNext);
+			}
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -146,9 +176,6 @@ public class TestBatchQuartzController {
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		log.info("## result: {}", jobExecution.getExitStatus());
 		
-//		JobExecution jobExecution = jobLauncher.run(job, new JobParameters());
-//		log.info("## result: {}", jobExecution.getExitStatus().getExitDescription());
-		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -165,17 +192,6 @@ public class TestBatchQuartzController {
 		
 		JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 		log.info("## result: {}", jobExecution.getExitStatus());
-		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
-	
-	@GetMapping("/chunk-job/config")
-	public ResponseEntity<Object> configChunkJob() throws Exception {
-		log.info("## configChunkJob");
-		log.info("\t > job: {}", jobRegistry.getJob("chunkJob1"));
-		log.info("\t > job: {}", jobRegistry.getJob("chunkJob2"));
-		inspect("itemReader1", itemReader1);
-		inspect("itemReader2", itemReader2);
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

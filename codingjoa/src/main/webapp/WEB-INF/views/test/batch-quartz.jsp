@@ -64,9 +64,11 @@
 <div class="container my-5">
 	<p>batch-quartz.jsp</p>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-warning" onclick="config()">config</button>
-		<button class="btn btn-warning" onclick="configChunkJob()">config<br>(ChunkJob)</button>
-		<button class="btn btn-warning" onclick="configBoardImageCleanupJob()">config<br>(BoardImageCleanupJob)</button>
+		<button class="btn btn-warning" onclick="configBatch()">config batch</button>
+		<button class="btn btn-warning" onclick="configBoardImageCleanupJob()">config batch<br>(BoardImageCleanupJob)</button>
+	</div>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-warning" onclick="configQuartz()">config quartz</button>
 	</div>
 	<div class="test mt-5 d-none">
 		<button class="btn btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
@@ -330,11 +332,11 @@
 		
 	});
 
-	function config() {
-		console.log("## config");
+	function configBatch() {
+		console.log("## configBatch");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/batch-quartz/config",
+			url : "${contextPath}/test/batch-quartz/batch/config",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -345,23 +347,6 @@
 				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});		
-	}
-	
-	function configChunkJob() {
-		console.log("## configChunkJob");
-		$.ajax({
-			type : "GET",
-			url : "${contextPath}/test/batch-quartz/chunk-job/config",
-			dataType: "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null	, 2));
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				console.log(JSON.stringify(parseError(jqXHR), null, 2));
-			}
-		});	
 	}
 
 	function configBoardImageCleanupJob() {
@@ -379,6 +364,23 @@
 				console.log(JSON.stringify(parseError(jqXHR), null, 2));
 			}
 		});	
+	}
+	
+	function configQuartz() {
+		console.log("## configQuartz");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/batch-quartz/quartz/config",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
 	}
 
 	function triggerNoHandler(dataType) {
