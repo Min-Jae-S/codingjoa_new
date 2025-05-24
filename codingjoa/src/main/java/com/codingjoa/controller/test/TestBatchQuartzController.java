@@ -126,8 +126,6 @@ public class TestBatchQuartzController {
 				scheduler, scheduler.isStarted(), scheduler.isInStandbyMode(), scheduler.isShutdown());
 		
 		Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyJobGroup());
-		log.info("\t > jobKeys = {}", jobKeys);
-		
 		if (jobKeys.isEmpty()) {
 			log.info("\t > no scheduled jobs");
 		}

@@ -1,28 +1,26 @@
 package com.codingjoa.config;
 
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
-import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
-
-import lombok.RequiredArgsConstructor;
+import com.codingjoa.quartz.UserImageCleanupQuartzJob;
 
 @Configuration
 public class QuartzConfig {
 
 	@Bean
-	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext,
-			JobDetail boardImageCleanupJobDetail, Trigger boardImageCleanupTrigger) {
+	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
+			JobDetail[] jobDetails, Trigger[] triggers) {
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
@@ -31,62 +29,54 @@ public class QuartzConfig {
 		
 		schedulerFactory.setJobFactory(jobFactory);
 		schedulerFactory.setAutoStartup(true);
-		
-		// only applies under specific conditions and may not always work when creating Jobs dynamically.
 		schedulerFactory.setOverwriteExistingJobs(true);
-		
-		schedulerFactory.setJobDetails(boardImageCleanupJobDetail);
-		schedulerFactory.setTriggers(boardImageCleanupTrigger);
+		schedulerFactory.setJobDetails(jobDetails);
+		schedulerFactory.setTriggers(triggers);
 		
 		return schedulerFactory;
 	}
 	
 	@Bean
-	public JobDetail boardImageCleanupJobDetails() {
+	public Trigger testTrigger() {
+		return TriggerBuilder.newTrigger()
+				.forJob(boardImageCleanupJobDetail())
+				.withIdentity("testTrigger", "batchTriggers")
+				.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(20))
+				.build();
+	}
+	
+	@Bean
+	public JobDetail boardImageCleanupJobDetail() {
 		return JobBuilder.newJob(BoardImageCleanupQuartzJob.class)
-				.withIdentity("boardImageCleanupQuartzJob", "batchJobs")
+				.withIdentity("boardImageCleanupQuartzJob", "batchJobGroup")
 				.storeDurably()
 				.build();
 	}
 	
 	@Bean
-	public Trigger triggerA() {
+	public Trigger boardImageCleanupTrigger() {
 		return TriggerBuilder.newTrigger()
-				.forJob(boardImageCleanupJobDetails())
-				.withIdentity("boardImageCleanupTrigger", "batchTriggers")
-				//.withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(10))
+				.forJob(boardImageCleanupJobDetail())
+				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.build();
+	}
+
+	@Bean
+	public JobDetail userImageCleanupJobDetail() {
+		return JobBuilder.newJob(UserImageCleanupQuartzJob.class)
+				.withIdentity("userImageCleanupQuartzJob", "batchJobGroup")
+				.storeDurably()
 				.build();
 	}
 	
 	@Bean
-	public JobDetailFactoryBean boardImageCleanupQuartzJobDetail() {
-		JobDetailFactoryBean jobFactory = new JobDetailFactoryBean();
-		jobFactory.setJobClass(BoardImageCleanupQuartzJob.class);
-		jobFactory.setGroup("cleanupJobs");
-		jobFactory.setDescription("Board Image 정리");
-		jobFactory.setDurability(true);
-		return jobFactory;
+	public Trigger userImageCleanupTrigger() {
+		return TriggerBuilder.newTrigger()
+				.forJob(userImageCleanupJobDetail())
+				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.build();
 	}
-	
-	@Bean
-	public CronTriggerFactoryBean testTrigger(
-			@Qualifier("boardImageCleanupQuartzJobDetail") JobDetail jobDetail) {
-		CronTriggerFactoryBean triggerFactory = new CronTriggerFactoryBean();
-		triggerFactory.setJobDetail(jobDetail);
-		triggerFactory.setCronExpression("0 0 3 * * ?");
-		triggerFactory.setGroup("testTriggers");
-		return triggerFactory;
-	}
-
-	@Bean
-	public CronTriggerFactoryBean boardImageCleanupQuartzTrigger(
-			@Qualifier("boardImageCleanupQuartzJobDetail") JobDetail jobDetail) {
-		CronTriggerFactoryBean triggerFactory = new CronTriggerFactoryBean();
-		triggerFactory.setJobDetail(jobDetail);
-		triggerFactory.setCronExpression("0 0 3 * * ?");
-		triggerFactory.setGroup("cleanupTriggers");
-		return triggerFactory;
-	}
-	
 	
 }
