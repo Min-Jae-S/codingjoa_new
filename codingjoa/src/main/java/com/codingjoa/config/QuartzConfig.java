@@ -1,7 +1,5 @@
 package com.codingjoa.config;
 
-import java.util.Arrays;
-
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -14,22 +12,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+import com.codingjoa.quartz.BoardSyncQuartzJob;
+import com.codingjoa.quartz.CommentSyncQuartzJob;
 import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
 import com.codingjoa.quartz.UserImageCleanupQuartzJob;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Configuration
 public class QuartzConfig {
 
 	@Bean
 	public SchedulerFactoryBean schedulerFactory(ApplicationContext applicationContext, 
 			JobDetail[] jobDetails, Trigger[] triggers) {
-		log.info("## {}.schedulerFactory", this.getClass().getSimpleName());
-		log.info("\t > jobDetails: {}", Arrays.toString(jobDetails));
-		log.info("\t > triggers: {}", Arrays.toString(triggers));
-		
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 
 		//AutowiringSpringBeanJobFactory jobFactory = new AutowiringSpringBeanJobFactory();
@@ -84,6 +77,40 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(userImageCleanupJobDetail())
 				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.build();
+	}
+	
+	@Bean
+	public JobDetail boardSyncJobDetail() {
+		return JobBuilder.newJob(BoardSyncQuartzJob.class)
+				.withIdentity("boardSyncQuartzJob", "batchJobGroup")
+				.storeDurably()
+				.build();
+	}
+	
+	@Bean
+	public Trigger boardSyncTrigger() {
+		return TriggerBuilder.newTrigger()
+				.forJob(boardSyncJobDetail())
+				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.build();
+	}
+	
+	@Bean
+	public JobDetail commentSyncJobDetail() {
+		return JobBuilder.newJob(CommentSyncQuartzJob.class)
+				.withIdentity("commentSyncJobDetail", "batchJobGroup")
+				.storeDurably()
+				.build();
+	}
+	
+	@Bean
+	public Trigger commentSyncTrigger() {
+		return TriggerBuilder.newTrigger()
+				.forJob(commentSyncJobDetail())
+				.withIdentity("commentSyncTrigger", "batchTriggerGorup")
 				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
 				.build();
 	}

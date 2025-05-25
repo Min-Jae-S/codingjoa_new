@@ -15,12 +15,12 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BoardImageCleanupQuartzJob extends QuartzJobBean {
+public class CommentSyncQuartzJob extends QuartzJobBean {
 	
 	private final JobLauncher jobLauncher;
 	private final Job job;
-	
-	public BoardImageCleanupQuartzJob(JobLauncher jobLauncher, @Qualifier("boardImageCleanupJob") Job job) {
+
+	public CommentSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("commentCountColumnSyncJob") Job job) {
 		this.jobLauncher = jobLauncher;
 		this.job = job;
 	}

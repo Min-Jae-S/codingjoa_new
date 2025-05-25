@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class UserImageCleanupQuartzJob extends QuartzJobBean {
 
 	private final JobLauncher jobLauncher;
-	private final Job userImageCleanupJob;
+	private final Job job;
 	
-	public UserImageCleanupQuartzJob(JobLauncher jobLauncher, @Qualifier("userImageCleanupJob") Job userImageCleanupJob) {
+	public UserImageCleanupQuartzJob(JobLauncher jobLauncher, @Qualifier("userImageCleanupJob") Job job) {
 		this.jobLauncher = jobLauncher;
-		this.userImageCleanupJob = userImageCleanupJob;
+		this.job = job;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class UserImageCleanupQuartzJob extends QuartzJobBean {
 			JobParameters params = new JobParametersBuilder()
 					.addLong("timestamp", System.currentTimeMillis())
 					.toJobParameters();
-			jobLauncher.run(userImageCleanupJob, params);
+			jobLauncher.run(job, params);
 		} catch (Exception e) {
 			log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 			throw new JobExecutionException(e);

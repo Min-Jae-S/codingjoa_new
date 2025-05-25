@@ -15,21 +15,21 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BoardImageCleanupQuartzJob extends QuartzJobBean {
-	
+public class BoardSyncQuartzJob extends QuartzJobBean {
+
 	private final JobLauncher jobLauncher;
 	private final Job job;
 	
-	public BoardImageCleanupQuartzJob(JobLauncher jobLauncher, @Qualifier("boardImageCleanupJob") Job job) {
+	public BoardSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("boardCountColumnSyncJob") Job job) {
 		this.jobLauncher = jobLauncher;
 		this.job = job;
 	}
-
+	
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		log.info("## {}, performed on: {}", this.getClass().getSimpleName(), LocalDateTime.now().format(dtf));
-
+		
 		try {
 			JobParameters params = new JobParametersBuilder()
 					.addLong("timestamp", System.currentTimeMillis())
