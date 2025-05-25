@@ -20,7 +20,7 @@ public class CommentSyncQuartzJob extends QuartzJobBean {
 	private final JobLauncher jobLauncher;
 	private final Job job;
 
-	public CommentSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("commentCountColumnSyncJob") Job job) {
+	public CommentSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("commentSyncJob") Job job) {
 		this.jobLauncher = jobLauncher;
 		this.job = job;
 	}

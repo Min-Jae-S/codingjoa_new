@@ -336,19 +336,19 @@ public class BatchJobConfig {
 
 	
 	// ===================================================
-	// 		BoardCountColumnSyncJob
+	// 		BoardSyncJob
 	// ===================================================
 	
 	@Bean
-	public Job boardCountColumnSyncJob() {
-		return jobBuilderFactory.get("boardCountColumnSyncJob")
-				.start(boardCountColumnSyncStep())
+	public Job boardSyncJob() {
+		return jobBuilderFactory.get("boardSyncJob")
+				.start(boardSyncStep())
 				.build();
 	}
 
 	@Bean
-	public Step boardCountColumnSyncStep() {
-		return stepBuilderFactory.get("boardCountColumnSyncStep")
+	public Step boardSyncStep() {
+		return stepBuilderFactory.get("boardSyncStep")
 				.transactionManager(transactionManager)
 				.<BoardCountColumn, BoardCountColumn>chunk(10)
 				.reader(boardCountColumnReader())
@@ -383,19 +383,19 @@ public class BatchJobConfig {
 	}
 	
 	// ===================================================
-	// 		CommentCountColumnSyncJob
+	// 		CommentSyncJob
 	// ===================================================
 	
 	@Bean
-	public Job commentCountColumnSyncJob() {
-		return jobBuilderFactory.get("commentCountColumnSyncJob")
-				.start(commentCountColumnSyncStep())
+	public Job commentSyncJob() {
+		return jobBuilderFactory.get("commentSyncJob")
+				.start(commentSyncStep())
 				.build();
 	}
 	
 	@Bean
-	public Step commentCountColumnSyncStep() {
-		return stepBuilderFactory.get("commentCountColumnSyncStep")
+	public Step commentSyncStep() {
+		return stepBuilderFactory.get("commentSyncStep")
 				.transactionManager(transactionManager)
 				.<CommentCountColumn, CommentCountColumn>chunk(10)
 				.reader(commentCountColumnReader())

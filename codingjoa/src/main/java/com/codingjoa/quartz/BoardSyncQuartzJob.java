@@ -20,7 +20,7 @@ public class BoardSyncQuartzJob extends QuartzJobBean {
 	private final JobLauncher jobLauncher;
 	private final Job job;
 	
-	public BoardSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("boardCountColumnSyncJob") Job job) {
+	public BoardSyncQuartzJob(JobLauncher jobLauncher, @Qualifier("boardSyncJob") Job job) {
 		this.jobLauncher = jobLauncher;
 		this.job = job;
 	}

@@ -139,8 +139,8 @@
 		<button class="btn btn-primary" id="runUserImageCleanupJobBtn">run<br>UserImageCleanupJob</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary" id="runBoardCountColumnSyncJobBtn">run<br>BoardSyncJob</button>
-		<button class="btn btn-primary" id="runCommentCountColumnSyncJobBtn">run<br>CommentSyncJob</button>
+		<button class="btn btn-primary" id="runBoardSyncJobBtn">run<br>BoardSyncJob</button>
+		<button class="btn btn-primary" id="runSyncJobBtn">run<br>CommentSyncJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -294,11 +294,11 @@
 			});	
 		});
 
-		$("#runBoardCountColumnSyncJobBtn").on("click", function() {
-			console.log("## runBoardCountColumnSyncJob");
+		$("#runBoardSyncJobBtn").on("click", function() {
+			console.log("## runBoardSyncJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/board-count-column-sync-job/run",
+				url : "${contextPath}/test/batch-quartz/board-sync-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {
@@ -312,11 +312,11 @@
 			});	
 		});
 
-		$("#runCommentCountColumnSyncJobBtn").on("click", function() {
-			console.log("## runCommentCountColumnSyncJob");
+		$("#runCommentSyncJobBtn").on("click", function() {
+			console.log("## runCommentSyncJob");
 			$.ajax({
 				type : "GET",
-				url : "${contextPath}/test/batch-quartz/comment-count-column-sync-job/run",
+				url : "${contextPath}/test/batch-quartz/comment-sync-job/run",
 				dataType: "json",
 				traditional : true,
 				success : function(result) {

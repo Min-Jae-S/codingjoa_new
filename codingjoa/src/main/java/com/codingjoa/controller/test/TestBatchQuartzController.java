@@ -324,11 +324,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/board-count-column-sync-job/run")
-	public ResponseEntity<Object> runBoardCountColumnSyncJob() throws Exception {
-		log.info("## runBoardCountColumnSyncJob");
+	@GetMapping("/board-sync-job/run")
+	public ResponseEntity<Object> runBoardSyncJob() throws Exception {
+		log.info("## runBoardSyncJob");
 		
-		Job job = jobRegistry.getJob("boardCountColumnSyncJob");
+		Job job = jobRegistry.getJob("boardSyncJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
@@ -342,11 +342,11 @@ public class TestBatchQuartzController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/comment-count-column-sync-job/run")
-	public ResponseEntity<Object> runCommentCountColumnSyncJob() throws Exception {
-		log.info("## runCommentCountColumnSyncJob");
+	@GetMapping("/comment-sync-job/run")
+	public ResponseEntity<Object> runCommentSyncJob() throws Exception {
+		log.info("## runCommentSyncJob");
 		
-		Job job = jobRegistry.getJob("commentCountColumnSyncJob");
+		Job job = jobRegistry.getJob("commentSyncJob");
 		log.info("\t > found job = {}", job);
 		
 		JobParameters jobParameters = new JobParametersBuilder()
