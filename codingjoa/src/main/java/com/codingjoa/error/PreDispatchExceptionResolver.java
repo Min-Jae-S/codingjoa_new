@@ -23,11 +23,11 @@ import com.codingjoa.util.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MissingHandlerMethodExceptionResolver extends ExceptionHandlerExceptionResolver {
+public class PreDispatchExceptionResolver extends ExceptionHandlerExceptionResolver {
 
 	private final ExceptionHandlerExceptionResolver baseResolver;
 
-	public MissingHandlerMethodExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
+	public PreDispatchExceptionResolver(ExceptionHandlerExceptionResolver baseResolver) {
 		this.baseResolver = baseResolver;
 	}
 	
@@ -41,15 +41,16 @@ public class MissingHandlerMethodExceptionResolver extends ExceptionHandlerExcep
 			log.info("\t > no handlerMethod, exception will be handled by this resolver: {}", this.getClass().getSimpleName());
 			
 			/*
-			 * NOTE:
 			 * 	Even though calling superclass's implementation (super.doResolveHandlerMethodException) here, 
 			 * 	the method getExceptionHandlerMethod(...) inside it will still invoke the overriden version (@Override getExceptionHandlerMethod)
 			 * 	in this class due to Java's dynamic dispatch
 			 */
 			
+			// 
 			return super.doResolveHandlerMethodException(request, response, handlerMethod, exception);
 		}
 		
+		// return null so that the next resolver in the composite chain handles them
 		log.info("\t > passing control to the next resolver: {}", baseResolver.getClass().getSimpleName());
 		return null;
 	}

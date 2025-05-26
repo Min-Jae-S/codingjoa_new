@@ -37,7 +37,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import org.springframework.web.servlet.view.BeanNameViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import com.codingjoa.error.MissingHandlerMethodExceptionResolver;
+import com.codingjoa.error.PreDispatchExceptionResolver;
 import com.codingjoa.interceptor.PasswordResetViewInterceptor;
 import com.codingjoa.interceptor.TopMenuInterceptor;
 import com.codingjoa.service.CategoryService;
@@ -152,13 +152,13 @@ public class ServletConfig implements WebMvcConfigurer {
 	@Override
 	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
 		log.info("## extendHandlerExceptionResolvers");
-		MissingHandlerMethodExceptionResolver missingHandlerMethodExceptionResolver = null;
+		PreDispatchExceptionResolver preDispatchExceptionResolver = null;
 		
 		for (HandlerExceptionResolver resolver : resolvers) {
 			if (resolver instanceof ExceptionHandlerExceptionResolver) {
 				ExceptionHandlerExceptionResolver baseResolver = (ExceptionHandlerExceptionResolver) resolver;
-				missingHandlerMethodExceptionResolver = new MissingHandlerMethodExceptionResolver(baseResolver);
-				missingHandlerMethodExceptionResolver.afterPropertiesSet();
+				preDispatchExceptionResolver = new PreDispatchExceptionResolver(baseResolver);
+				preDispatchExceptionResolver.afterPropertiesSet();
 				break;
 			}
 		}

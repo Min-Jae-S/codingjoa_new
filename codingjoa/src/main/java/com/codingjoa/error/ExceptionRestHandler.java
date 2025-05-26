@@ -52,7 +52,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice(annotations = ResponseBody.class)
 public class ExceptionRestHandler {
 	
-	//@ResponseStatus(HttpStatus.BAD_REQUEST) // HTTP status codes are explicitly set via ResponseEntity, so there's no need to use @ResponseStatus.
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleEx", this.getClass().getSimpleName());
