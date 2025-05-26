@@ -162,6 +162,14 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
+	public void increaseCommentCountWithException(Long boardId) {
+		log.info("\t > increase comment count with exception");
+		boardMapper.increaseCommentCount(boardId);
+		throw new RuntimeException();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
 	public void decreaseCommentCount(Long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);

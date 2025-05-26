@@ -70,7 +70,7 @@
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-warning" onclick="configQuartz()">config quartz</button>
 	</div>
-	<div class="test mt-5 d-none">
+	<div class="test mt-5">
 		<button class="btn btn-warning" onclick="triggerNoHandler('json')">trigger NoHandler<br>(dataType: json)</button>
 		<button class="btn btn-warning" onclick="triggerNoHandler('text/html')">trigger NoHandler<br>(dataType: text/html)</button>
 	</div>
