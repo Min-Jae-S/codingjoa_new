@@ -169,8 +169,6 @@
 					    	WHERE
 					        	<include refid="searchCriteria"/>
 								board.category_code = #{categoryCode}
-							ORDER BY
-								board.id DESC						
 					    ) filtered_board
 					    WHERE
 					    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
@@ -222,8 +220,6 @@
 					    	WHERE
 					        	<include refid="searchCriteria"/>
 								board.category_code = #{categoryCode}
-							ORDER BY
-								board.id DESC						
 					    ) filtered_board
 					    WHERE
 					    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>

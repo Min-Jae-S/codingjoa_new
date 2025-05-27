@@ -39,8 +39,6 @@
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
 				</if>					
-				ORDER BY
-					id DESC
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -104,8 +102,6 @@
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
 				</if>					
-				ORDER BY
-					id DESC
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -139,8 +135,6 @@
 							like_count
 						FROM 
 							board
-						ORDER BY
-							id DESC
 					) sorted_board
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -216,8 +210,6 @@
 							like_count
 						FROM 
 							comments
-						ORDER BY
-							id DESC
 					) sorted_comment
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 

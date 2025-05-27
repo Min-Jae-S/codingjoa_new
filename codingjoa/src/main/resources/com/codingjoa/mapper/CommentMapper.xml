@@ -93,8 +93,6 @@
 				        comments
 				    WHERE
 				    	board_id = #{boardId}
-				    ORDER BY
-				    	id DESC
 				) sorted_comment
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
