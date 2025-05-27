@@ -27,6 +27,7 @@ public class AdminController {
 	
 	@GetMapping("/**/{path:[^\\.]*}")
 	public String forwardToMain() {
+		log.info("## forwardToMain");
 		return "forward:/admin";
 	}
 	

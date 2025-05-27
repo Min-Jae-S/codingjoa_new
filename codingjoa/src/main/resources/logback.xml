@@ -15,7 +15,7 @@
 	</appender>
 	<appender name="jdbc_console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>[%-5level]  %-40.40logger{40} : %n		%msg</pattern>
+			<pattern>[%-5level]  %-40.40logger{40} : %n		%msg%n</pattern>
 		</encoder>
 	</appender>
 	<appender name="debug_console" class="ch.qos.logback.core.ConsoleAppender">
@@ -84,17 +84,17 @@
 	<logger name="com.zaxxer.hikari.HikariConfig" level="INFO"/>
 	
 	<!-- JDBC logger -->
-	<logger name="jdbc.sqlonly" additivity="false" level="INFO">
+	<logger name="jdbc.sqlonly" additivity="false" level="OFF">
 		<appender-ref ref="jdbc_console"/>
 	</logger>
  	
+  	<logger name="jdbc.sqltiming" additivity="false" level="INFO">
+  		<appender-ref ref="jdbc_console"/>
+  	</logger>
+  	
  	<logger name="jdbc.connection" additivity="false" level="OFF">
  		<appender-ref ref="jdbc_console"/>
  	</logger>
-  	
-  	<logger name="jdbc.sqltiming" additivity="false" level="OFF">
-  		<appender-ref ref="jdbc_console"/>
-  	</logger>
   	
   	<logger name="jdbc.resultsettable" additivity="false" level="OFF">
   		<appender-ref ref="jdbc_console"/>

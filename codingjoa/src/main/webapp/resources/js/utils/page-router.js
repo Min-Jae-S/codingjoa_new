@@ -28,10 +28,10 @@ class PageRouter {
 		if (handler) {
 			handler(params);
 		} else if (this.errorHandler) {
-			console.log("\t > no handler found, using errorHandler");
+			console.log("\t > no routing handler found, using errorHandler");
 			this.errorHandler();
 		} else {
-			console.log("\t > no handler found, no errorHandler set");
+			console.log("\t > no routing handler found, no errorHandler set");
 			alert("오류가 발생했습니다.");
 		}
 	}

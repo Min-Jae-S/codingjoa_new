@@ -544,15 +544,14 @@
 				Array.from(URLSerarchParams)
 					.filter(([key, value]) => value != null && value.trim() != "")
 					.map(([key, value]) => [key, value.includes(",") ? value.split(",") : value])
-				);
+			);
 		}
 		
 		function initAdminPage() {
 			console.log("## initiate admin page, routing to URL:", window.location.pathname);
 			console.log(pageRouter.getRouters());
 			let params = new URLSearchParams(window.location.search);
-			// route(routingPath, pushStatePath, params = {}, pushState = true) 
-			pageRouter.route(window.location.pathname, null, transformParams(params), false);
+			pageRouter.route(window.location.pathname, null, transformParams(params), false); // route(routingPath, pushStatePath, params = {}, pushState = true) 
 		}
 		
 		initAdminPage();
