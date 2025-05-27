@@ -548,12 +548,13 @@
 		}
 		
 		function initAdminPage() {
+			console.log("## initiate admin page, routing to URL:", window.location.pathname);
+			console.log(pageRouter.getRouters());
 			let params = new URLSearchParams(window.location.search);
 			// route(routingPath, pushStatePath, params = {}, pushState = true) 
 			pageRouter.route(window.location.pathname, null, transformParams(params), false);
 		}
 		
-		console.log("## initiate admin page, routing to URL:", window.location.pathname);
 		initAdminPage();
 		
 		$(".logout").on("click", function(e) {

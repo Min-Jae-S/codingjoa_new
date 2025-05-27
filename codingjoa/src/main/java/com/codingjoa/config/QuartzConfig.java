@@ -38,14 +38,14 @@ public class QuartzConfig {
 		return schedulerFactory;
 	}
 	
-	@Bean
-	public Trigger testTrigger() {
-		return TriggerBuilder.newTrigger()
-				.forJob(boardImageCleanupJobDetail())
-				.withIdentity("testTrigger", "batchTriggers")
-				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
-				.build();
-	}
+//	@Bean
+//	public Trigger testTrigger() {
+//		return TriggerBuilder.newTrigger()
+//				.forJob(boardImageCleanupJobDetail())
+//				.withIdentity("testTrigger", "batchTriggers")
+//				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
+//				.build();
+//	}
 	
 	@Bean
 	public JobDetail boardImageCleanupJobDetail() {

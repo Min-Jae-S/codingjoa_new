@@ -27,7 +27,7 @@ class PageRouter {
 		const handler = this.routers.get(routingPath); 
 		if (handler) {
 			handler(params);
-		} else if(this.errorHandler) {
+		} else if (this.errorHandler) {
 			console.log("\t > no handler found, using errorHandler");
 			this.errorHandler();
 		} else {
@@ -51,7 +51,6 @@ class PageRouter {
 	
 	_isSameUrl(targetUrl) {
 		const currentUrl = new URL(window.location.href);
-		
 		// sort query params for comparison
 		currentUrl.searchParams.sort();
 		targetUrl.searchParams.sort();
@@ -61,6 +60,10 @@ class PageRouter {
 	
 	setErrorHandler(handler) {
 		this.errorHandler = handler;
+	}
+	
+	getRouters() {
+		return Array.from(this.routers.keys());
 	}
 	
 }

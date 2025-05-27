@@ -212,7 +212,7 @@
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
 		<choose>
-			<!-- [1] writer 검색 포함: board + users 먼저 join -->
+			<!-- [1] writer 검색 포함: join 후 paging -->
 			<when test="types.contains('writer')">
 				SELECT
 					/*+ ORDERED USE_NL(category) */
@@ -292,7 +292,7 @@
 					final_board.category_code = category.code
 			</when>
 			
-			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
+			<!-- [2] writer 검색 미포함: paging 후 join -->
 			<otherwise>
 				SELECT
 					/*+ ORDERED USE_NL(users) USE_NL(category) */

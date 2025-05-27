@@ -24,4 +24,10 @@ public class AdminController {
 		log.info("## apis");
 		return "admin/apis";
 	}
+	
+	@GetMapping("/**/{path:[^\\.]*}")
+	public String forwardToMain() {
+		return "forward:/admin";
+	}
+	
 }
