@@ -38,7 +38,9 @@
 					board_id IS NULL
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
-				</if>					
+				</if>
+				ORDER BY
+					id DESC	
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -92,8 +94,7 @@
 				ROWNUM rn,
 				filtered_images.*
 			FROM (
-				SELECT 
-					/*+ INDEX_DESC(user_image pk_userimage) */
+				SELECT /*+ INDEX_DESC(user_image pk_userimage) */
 					user_image.*
 				FROM 
 					user_image
@@ -101,7 +102,9 @@
 					latest = '0'
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
-				</if>					
+				</if>
+				ORDER BY 
+					id DESC			
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -135,6 +138,8 @@
 							like_count
 						FROM 
 							board
+						ORDER BY 
+							id DESC	
 					) sorted_board
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -210,6 +215,8 @@
 							like_count
 						FROM 
 							comments
+						ORDER BY
+							id DESC
 					) sorted_comment
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 

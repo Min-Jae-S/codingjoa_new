@@ -92,13 +92,15 @@
 				    FROM 
 				        comments
 				    WHERE
-				    	board_id = #{boardId}
+				    	comments.board_id = #{boardId}
+				    ORDER BY
+				    	comments.id DESC
 				) sorted_comment
 				WHERE
-					<![CDATA[ ROWNUM <= ( #{commentCri.page} * #{commentCri.recordCnt} ) ]]>
+					ROWNUM <![CDATA[ <= ]]> ( #{commentCri.page} * #{commentCri.recordCnt} )
 			) paged_comment
 			WHERE
-				paged_comment.rn > ( (#{commentCri.page} - 1) * #{commentCri.recordCnt} )
+				paged_comment.rn <![CDATA[ > ]]> ( (#{commentCri.page} - 1) * #{commentCri.recordCnt} )
 		) final_comment
 		INNER JOIN
 			users

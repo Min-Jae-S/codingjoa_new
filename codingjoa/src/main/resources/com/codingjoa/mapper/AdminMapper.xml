@@ -98,7 +98,7 @@
 						users
 					<include refid="userSearchCriteria"/>	
 					ORDER BY
-						id DESC
+						users.id DESC
 				) filterd_users
 				WHERE
 					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
@@ -227,23 +227,18 @@
 							filterd_board.*
 						FROM (
 							SELECT
-							<choose>
-								<when test="'latest'.equals(sort)">
+								<if test="'latest'.equals(sort)">
 									/*+ INDEX_DESC(board pk_board) */
-								</when>
-								<when test="'popular'.equals(sort)">
+								</if>
+								<if test="'popular'.equals(sort)">
 									/*+ INDEX_DESC(board idx_board_like) */
-								</when>
-								<when test="'view'.equals(sort)">
+								</if>
+								<if test="'view'.equals(sort)">
 									/*+ INDEX_DESC(board idx_board_view) */
-								</when>
-								<when test="'comment'.equals(sort)">
+								</if>
+								<if test="'comment'.equals(sort)">
 									/*+ INDEX_DESC(board idx_board_comment) */
-								</when>
-								<otherwise>
-									/*+ INDEX_DESC(board pk_board) */ 
-								</otherwise>
-							</choose>
+								</if>
 								board.*,
 								users.id			AS users_id,
 								users.email,
@@ -261,12 +256,25 @@
 							ON
 								board.user_id = users.id
 							<include refid="boardSearchCriteria"/>
+							ORDER BY
+								<if test="'latest'.equals(sort)">
+									board.id DESC 
+								</if>
+								<if test="'popular'.equals(sort)">
+									board.like_count DESC, board.id DESC
+								</if>
+								<if test="'view'.equals(sort)">
+									board.view_count DESC, board.id DESC
+								</if>
+								<if test="'comment'.equals(sort)">
+									board.comment_count DESC, board.id DESC
+								</if>
 						) filterd_board
 						WHERE
-							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+							ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} )
 					) paged_board
 					WHERE 
-						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+						paged_board.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
 				) final_board
 				INNER JOIN
 					category
@@ -298,33 +306,41 @@
 							filterd_board.*
 						FROM (
 							SELECT
-								<choose>
-									<when test="'latest'.equals(sort)">
-										/*+ INDEX_DESC(board pk_board) */
-									</when>
-									<when test="'popular'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_like) */
-									</when>
-									<when test="'view'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_view) */
-									</when>
-									<when test="'comment'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_comment) */
-									</when>
-									<otherwise>
-										/*+ INDEX_DESC(board pk_board) */
-									</otherwise>
-								</choose>
+								<if test="'latest'.equals(sort)">
+									/*+ INDEX_DESC(board pk_board) */
+								</if>
+								<if test="'popular'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_like) */
+								</if>
+								<if test="'view'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_view) */
+								</if>
+								<if test="'comment'.equals(sort)">
+									/*+ INDEX_DESC(board idx_board_comment) */
+								</if>
 								board.*
 							FROM 
 								board
 							<include refid="boardSearchCriteria"/>
+							ORDER BY
+								<if test="'latest'.equals(sort)">
+									board.id DESC 
+								</if>
+								<if test="'popular'.equals(sort)">
+									board.like_count DESC, board.id DESC
+								</if>
+								<if test="'view'.equals(sort)">
+									board.view_count DESC, board.id DESC
+								</if>
+								<if test="'comment'.equals(sort)">
+									board.comment_count DESC, board.id DESC
+								</if>
 						) filterd_board
 						WHERE
-							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+							ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} ) 
 					) paged_board
 					WHERE 
-						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+						paged_board.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
 				) final_board
 				INNER JOIN
 					users
@@ -339,169 +355,87 @@
 	</select>
 
 	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
-		<choose>
-			[1] writer 검색 포함: join 후 paging
-			<when test="types.contains('writer')">
+		SELECT
+			/*+ ORDERED USE_NL(category) */
+			final_board.user_id,
+			final_board.category_code,
+			final_board.title,
+			final_board.content,
+			final_board.search_content,
+			final_board.view_count,
+			final_board.comment_count,
+			final_board.like_count,
+			final_board.created_at,
+			final_board.updated_at,
+			final_board.users_id,
+			final_board.email,
+			final_board.password,
+			final_board.nickname,
+			final_board.zipcode,
+			final_board.addr,
+			final_board.addr_detail,
+			final_board.agree,
+			final_board.users_created_at,
+			final_board.users_updated_at,
+			category.*
+		FROM (
+			SELECT
+				paged_board.*
+			FROM (
 				SELECT
-					/*+ ORDERED USE_NL(category) */
-					final_board.*,
-					category.*
+					ROWNUM rn,
+					filterd_board.*
 				FROM (
 					SELECT
-						paged_board.*
-					FROM (
-						SELECT
-							ROWNUM rn,
-							filterd_board.*
-						FROM (
-							SELECT
-							<choose>
-								<when test="'latest'.equals(sort)">
-									/*+ INDEX_DESC(board pk_board) */
-								</when>
-								<when test="'popular'.equals(sort)">
-									/*+ INDEX_DESC(board idx_board_like) */
-								</when>
-								<when test="'view'.equals(sort)">
-									/*+ INDEX_DESC(board idx_board_view) */
-								</when>
-								<when test="'comment'.equals(sort)">
-									/*+ INDEX_DESC(board idx_board_comment) */
-								</when>
-								<otherwise>
-									/*+ INDEX_DESC(board pk_board) */ 
-								</otherwise>
-							</choose>
-								board.*,
-								users.id			AS users_id,
-								users.email,
-								users.nickname,
-								users.zipcode,
-								users.addr,
-								users.addr_detail,
-								users.agree,
-								users.created_at 	AS users_created_at,
-								users.updated_at 	AS users_updated_at
-							FROM 
-								board
-							INNER JOIN
-								users
-							ON
-								board.user_id = users.id
-							<include refid="boardSearchCriteria"/>
-							ORDER BY
-								<choose>
-									<when test="'latest'.equals(sort)">
-										board.id DESC
-									</when>
-									<when test="'popular'.equals(sort)">
-										board.like_count DESC, board.id DESC
-									</when>
-									<when test="'view'.equals(sort)">
-										board.view_count DESC, board.id DESC
-									</when>
-									<when test="'comment'.equals(sort)">
-										board.comment_count DESC, board.id DESC
-									</when>
-									<otherwise>
-										board.id DESC 
-									</otherwise>
-								</choose>
-						) filterd_board
-						WHERE
-							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-					) paged_board
-					WHERE 
-						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
-				) final_board
-				INNER JOIN
-					category
-				ON
-					final_board.category_code = category.code
-			</when>
-			
-			[2] writer 검색 미포함: paging 후 join
-			<otherwise>
-				SELECT
-					/*+ ORDERED USE_NL(users) USE_NL(category) */
-					final_board.*,
-					users.id			AS users_id,
-					users.email,
-					users.nickname,
-					users.zipcode,
-					users.addr,
-					users.addr_detail,
-					users.agree,
-					users.created_at 	AS users_created_at,
-					users.updated_at 	AS users_updated_at,
-					category.*
-				FROM (
-					SELECT
-						paged_board.*
-					FROM (
-						SELECT
-							ROWNUM rn,
-							filterd_board.*
-						FROM (
-							SELECT
-								<choose>
-									<when test="'latest'.equals(sort)">
-										/*+ INDEX_DESC(board pk_board) */
-									</when>
-									<when test="'popular'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_like) */
-									</when>
-									<when test="'view'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_view) */
-									</when>
-									<when test="'comment'.equals(sort)">
-										/*+ INDEX_DESC(board idx_board_comment) */
-									</when>
-									<otherwise>
-										/*+ INDEX_DESC(board pk_board) */
-									</otherwise>
-								</choose>
-								*
-							FROM 
-								board
-							<include refid="boardSearchCriteria"/>
-							ORDER BY
-								<choose>
-									<when test="'latest'.equals(sort)">
-										board.id DESC
-									</when>
-									<when test="'popular'.equals(sort)">
-										board.like_count DESC, board.id DESC
-									</when>
-									<when test="'view'.equals(sort)">
-										board.view_count DESC, board.id DESC
-									</when>
-									<when test="'comment'.equals(sort)">
-										board.comment_count DESC, board.id DESC
-									</when>
-									<otherwise>
-										board.id DESC 
-									</otherwise>
-								</choose>
-						) filterd_board
-						WHERE
-							<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
-					) paged_board
-					WHERE 
-						paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
-				) final_board
-				INNER JOIN
-					users
-				ON
-					final_board.user_id = users.id
-				INNER JOIN
-					category
-				ON
-					final_board.category_code = category.code
-			</otherwise>
-		</choose>
+						/*+ INDEX_DESC(board pk_board) */
+						board.*,
+						users.id			AS users_id,
+						users.email,
+						users.nickname,
+						users.zipcode,
+						users.addr,
+						users.addr_detail,
+						users.agree,
+						users.created_at 	AS users_created_at,
+						users.updated_at 	AS users_updated_at
+					FROM 
+						board
+					INNER JOIN
+						users
+					ON
+						board.user_id = users.id
+					<include refid="boardSearchCriteria"/>
+					ORDER BY
+						<choose>
+							<when test="'latest'.equals(sort)">
+								board.id DESC
+							</when>
+							<when test="'popular'.equals(sort)">
+								board.like_count DESC, board.id DESC
+							</when>
+							<when test="'view'.equals(sort)">
+								board.view_count DESC, board.id DESC
+							</when>
+							<when test="'comment'.equals(sort)">
+								board.comment_count DESC, board.id DESC
+							</when>
+							<otherwise>
+								board.id DESC 
+							</otherwise>
+						</choose>
+				) filterd_board
+				WHERE
+					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+			) paged_board
+			WHERE 
+				paged_board.rn > ( (#{page} - 1) * #{recordCnt} )
+		) final_board
+		INNER JOIN
+			category
+		ON
+			final_board.category_code = category.code
 	</select> -->
-
+	
 	<!-- <select id="findPagedBoards" resultMap="adminBoardMap">
 		SELECT
 			/*+ ORDERED USE_NL(category) USE_NL(comment_group) USE_NL(likes_group) */

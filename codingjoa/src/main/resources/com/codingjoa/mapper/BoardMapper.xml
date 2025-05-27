@@ -169,12 +169,14 @@
 					    	WHERE
 					        	<include refid="searchCriteria"/>
 								board.category_code = #{categoryCode}
+							ORDER BY
+								board.id DESC
 					    ) filtered_board
 					    WHERE
-					    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
+					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
 					) paged_board
 				    WHERE 
-				    	paged_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 				) final_board
 			</when>
 			
@@ -220,12 +222,14 @@
 					    	WHERE
 					        	<include refid="searchCriteria"/>
 								board.category_code = #{categoryCode}
+							ORDER BY
+								board.id DESC
 					    ) filtered_board
 					    WHERE
-					    	<![CDATA[ ROWNUM <= ( #{boardCri.page} * #{boardCri.recordCnt} ) ]]>
+					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
 					) paged_board
 				    WHERE 
-				    	paged_board.rn > ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 				) final_board
 				INNER JOIN
 					users
