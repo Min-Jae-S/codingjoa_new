@@ -3,7 +3,6 @@ package com.codingjoa.config;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.springframework.context.ApplicationContext;
@@ -12,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
 import com.codingjoa.quartz.BoardSyncQuartzJob;
 import com.codingjoa.quartz.CommentSyncQuartzJob;
-import com.codingjoa.quartz.BoardImageCleanupQuartzJob;
 import com.codingjoa.quartz.UserImageCleanupQuartzJob;
 
 @Configuration

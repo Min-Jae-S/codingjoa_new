@@ -101,10 +101,10 @@
 						users.id DESC
 				) filterd_users
 				WHERE
-					<![CDATA[ ROWNUM <= ( #{page} * #{recordCnt} ) ]]>
+					ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} )
 			) paged_users
 			WHERE 
-				paged_users.rn > ( (#{page} - 1) * #{recordCnt} )
+				paged_users.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
 		) final_users
 		LEFT OUTER JOIN
 			sns_info
