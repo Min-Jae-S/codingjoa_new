@@ -22,25 +22,18 @@
 	</insert>
 
 	<select id="findOrphanBoardImages" resultType="BoardImage">
-		SELECT 
-			paged_images.*
+		SELECT paged_images.*
 		FROM (
-			SELECT
-				ROWNUM rn,
-				filtered_images.*
+			SELECT ROWNUM rn, filtered_images.*
 			FROM (
-				SELECT 
-					/*+ INDEX_DESC(board_image pk_boardimage) */
-					board_image.*
-				FROM 
-					board_image
-				WHERE
+				SELECT /*+ INDEX_DESC(board_image pk_boardimage) */ board_image.*
+				FROM board_image
+				WHERE 
 					board_id IS NULL
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
 				</if>
-				ORDER BY
-					id DESC	
+				ORDER BY id DESC	
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -87,24 +80,18 @@
 	</insert>
 
 	<select id="findNotLatestUserImages" resultType="UserImage">
-		SELECT 
-			paged_images.*
+		SELECT paged_images.*
 		FROM (
-			SELECT
-				ROWNUM rn,
-				filtered_images.*
+			SELECT ROWNUM rn, filtered_images.*
 			FROM (
-				SELECT /*+ INDEX_DESC(user_image pk_userimage) */
-					user_image.*
-				FROM 
-					user_image
+				SELECT /*+ INDEX_DESC(user_image pk_userimage) */ user_image.*
+				FROM  user_image
 				WHERE
 					latest = '0'
 				<if test="skippedId != null">
 					AND id <![CDATA[ < ]]> #{skippedId} 
 				</if>
-				ORDER BY 
-					id DESC			
+				ORDER BY id DESC			
 			) filtered_images
 			WHERE
 				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -131,15 +118,9 @@
 						sorted_board.comment_count,
 						sorted_board.like_count
 					FROM (
-						SELECT 
-							/*+ INDEX_DESC(board pk_board) */
-							id, 
-							comment_count, 
-							like_count
-						FROM 
-							board
-						ORDER BY 
-							id DESC	
+						SELECT /*+ INDEX_DESC(board pk_board) */ id, comment_count, like_count
+						FROM board
+						ORDER BY id DESC	
 					) sorted_board
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -147,44 +128,37 @@
 				WHERE
 					paged_board.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
 			),
-			comments_group AS (
-				SELECT 
-					board_id, COUNT(*) cnt
-				FROM 
-					comments
-				WHERE 
-					board_id IN (SELECT id FROM final_board) AND status = 1
-				GROUP BY 
-					board_id
+			comment_group AS (
+				SELECT board_id, COUNT(*) cnt
+				FROM comments
+				WHERE board_id IN (SELECT id FROM final_board) AND status = 1
+				GROUP BY board_id
 			),
 			board_like_group AS (
-				SELECT 
-					board_id, COUNT(*) cnt
-				FROM 
-					board_like
-				WHERE 
-					board_id IN (SELECT id FROM final_board)
-				GROUP BY 
-					board_id
+				SELECT board_id, COUNT(*) cnt
+				FROM board_like
+				WHERE board_id IN (SELECT id FROM final_board)
+				GROUP BY board_id
 			)
 			
 		SELECT
-			/*+ ORDERED USE_NL(comments_group) USE_NL(board_like_group) */
 			final_board.id 					AS board_id,
 			final_board.comment_count,
 			final_board.like_count,
-			NVL(comments_group.cnt, 0) 		AS real_comment_count,
+			NVL(comment_group.cnt, 0) 		AS real_comment_count,
 			NVL(board_like_group.cnt, 0) 	AS real_like_count
 		FROM			
 			final_board
 		LEFT OUTER JOIN
-			comments_group
+			comment_group
 		ON
-			final_board.id = comments_group.board_id
+			final_board.id = comment_group.board_id
 		LEFT OUTER JOIN
 			board_like_group
 		ON	
 			final_board.id = board_like_group.board_id
+		ORDER BY
+			final_board.id DESC
 	</select>
 	
 	<update id="syncBoardCountColumn" parameterType="BoardCountColumn">
@@ -209,14 +183,9 @@
 						sorted_comment.id,
 						sorted_comment.like_count
 					FROM (
-						SELECT 
-							/*+ INDEX_DESC(comments pk_comments) */
-							id, 
-							like_count
-						FROM 
-							comments
-						ORDER BY
-							id DESC
+						SELECT /*+ INDEX_DESC(comments pk_comments) */ id, like_count
+						FROM comments
+						ORDER BY id DESC
 					) sorted_comment
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
@@ -225,18 +194,13 @@
 					paged_comment.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
 			),
 			comment_like_group AS (
-				SELECT 
-					comment_id, COUNT(*) cnt
-				FROM 
-					comment_like
-				WHERE 
-					comment_id IN (SELECT id FROM final_comment)
-				GROUP BY 
-					comment_id
+				SELECT comment_id, COUNT(*) cnt
+				FROM comment_like
+				WHERE comment_id IN (SELECT id FROM final_comment)
+				GROUP BY comment_id
 			)
 			
 		SELECT
-			/*+ ORDERED USE_NL(comment_like_group) */
 			final_comment.id 				AS comment_id,
 			final_comment.like_count,
 			NVL(comment_like_group.cnt, 0) 	AS real_like_count
@@ -246,6 +210,8 @@
 			comment_like_group
 		ON
 			final_comment.id = comment_like_group.comment_id
+		ORDER BY
+			final_comment.id DESC
 	</select>
 	
 	<update id="syncCommentCountColumn" parameterType="CommentCountColumn">

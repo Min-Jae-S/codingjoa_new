@@ -59,8 +59,8 @@
 			final_comment.like_count,
 	        final_comment.created_at,
 	        final_comment.updated_at,
-	        users.nickname 				AS writer_nickname,
-	        user_image.path 			AS writer_image_path,
+	        users.nickname 	AS writer_nickname,
+	        user_image.path AS writer_image_path,
     		CASE
     			WHEN final_comment.user_id = #{userId} 
     			THEN 1 ELSE 0
@@ -108,6 +108,64 @@
 		ORDER BY 
 			final_comment.id DESC
 	</select>
+	
+	<!-- <select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
+		SELECT
+			final_comment.id,
+			final_comment.content,
+			final_comment.status,
+			final_comment.like_count,
+	        final_comment.created_at,
+	        final_comment.updated_at,
+	        users.nickname 	AS writer_nickname,
+	        user_image.path AS writer_image_path,
+    		CASE
+    			WHEN final_comment.user_id = #{userId} 
+    			THEN 1 ELSE 0
+    		END AS is_writer,
+    		CASE
+    			WHEN EXISTS ( 
+    				SELECT 1 
+    				FROM comment_like
+    				WHERE comment_like.comment_id = final_comment.id 
+    				AND comment_like.user_id = #{userId} 
+    			) THEN 1 ELSE 0
+    		END AS is_liked,
+    		CASE
+    			WHEN final_comment.user_id = board.user_id 
+    			THEN 1 ELSE 0
+    		END AS is_board_writer
+		FROM (
+			SELECT paged_comment.*
+			FROM (
+				SELECT ROWNUM rn, sorted_comment.*
+				FROM (
+					SELECT /*+ INDEX_DESC(comments pk_comments) */ *
+				    FROM comments
+				    WHERE board_id = #{boardId}
+				    ORDER BY id DESC
+				) sorted_comment
+				WHERE 
+					ROWNUM <![CDATA[ <= ]]> ( #{commentCri.page} * #{commentCri.recordCnt} )
+			) paged_comment
+			WHERE
+				paged_comment.rn <![CDATA[ > ]]> ( (#{commentCri.page} - 1) * #{commentCri.recordCnt} )
+		) final_comment
+		INNER JOIN 
+			users 
+		ON 
+			final_comment.user_id = users.id
+		LEFT OUTER JOIN 
+			user_image 
+		ON 
+			final_comment.user_id = user_image.user_id AND user_image.latest = '1'
+		INNER JOIN
+			board 
+		ON 
+			final_comment.board_id = board.id
+		ORDER BY 
+			final_comment.id DESC
+	</select> -->
 	
 	<select id="findTotalCntForPaging" resultType="int">
 		SELECT

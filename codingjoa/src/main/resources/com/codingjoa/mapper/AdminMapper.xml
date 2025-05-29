@@ -233,6 +233,21 @@
 			board.comment_count DESC, board.id DESC
 		</if>
 	</sql>
+	
+	<sql id="finalOrderByClause">
+		<if test="'latest'.equals(sort)">
+			final_board.id DESC 
+		</if>
+		<if test="'popular'.equals(sort)">
+			final_board.like_count DESC, final_board.id DESC
+		</if>
+		<if test="'view'.equals(sort)">
+			final_board.view_count DESC, final_board.id DESC
+		</if>
+		<if test="'comment'.equals(sort)">
+			final_board.comment_count DESC, final_board.id DESC
+		</if>
+	</sql>
 
 	<select id="findPagedBoards" resultMap="adminBoardMap">
 		<choose>
@@ -271,7 +286,7 @@
 				ON
 					final_board.category_code = category.code
 				ORDER BY
-					final_board.id DESC
+					<include refid="finalOrderByClause"/>
 			</when>
 			
 			<!-- [2] writer 검색 미포함: paging 후 join -->
@@ -294,7 +309,7 @@
 						SELECT ROWNUM rn, filterd_board.*
 						FROM (
 							SELECT <include refid="sortHint"/> board.*
-							FROM board
+							FROM board 
 							<include refid="boardSearchCriteria"/>
 							ORDER BY <include refid="orderByClause"/>
 						) filterd_board
@@ -313,7 +328,7 @@
 				ON
 					final_board.category_code = category.code
 				ORDER BY
-					final_board.id DESC
+					<include refid="finalOrderByClause"/>
 			</otherwise>
 		</choose>
 	</select>

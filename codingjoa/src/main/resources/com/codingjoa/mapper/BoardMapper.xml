@@ -69,6 +69,40 @@
 			board.updated_at,
 			users.nickname AS writer_nickname,
 			CASE
+				WHEN board.user_id = #{userId} 
+				THEN 1 ELSE 0
+			END AS is_writer,
+			CASE
+				WHEN board_like.user_id IS NOT NULL 
+				THEN 1 ELSE 0
+    		END AS is_liked
+		FROM
+			board
+		INNER JOIN
+			users
+		ON
+			board.user_id = users.id
+		LEFT OUTER JOIN
+			board_like
+		ON
+			board.id = board_like.board_id AND board_like.user_id = #{userId} 
+		WHERE
+			board.id = #{boardId}
+	</select>
+	
+	<!-- <select id="findBoardDetailsById" parameterType="map" resultMap="boardDetailsMap">
+		SELECT 
+			board.id,
+			board.category_code,
+			board.title,
+			board.content,
+			board.view_count,
+			board.comment_count,
+			board.like_count,
+			board.created_at,
+			board.updated_at,
+			users.nickname AS writer_nickname,
+			CASE
 				WHEN board.user_id = #{userId} THEN 1 
 				ELSE 0
 			END AS is_writer,
@@ -89,7 +123,7 @@
 			board.user_id = users.id
 		WHERE
 			board.id = #{boardId}
-	</select>
+	</select> -->
 
 	<update id="increaseViewCount" parameterType="long">
 		UPDATE
@@ -123,7 +157,106 @@
 
 	<select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
 		<choose>
-			<!-- [1] writer 검색 포함: board + users 먼저 join -->
+			<!-- [1] writer 검색 포함: 먼저 users와 join -->
+			<when test="boardCri.types.contains('writer')">
+				SELECT
+					final_board.id,
+					final_board.category_code,
+					final_board.title,
+					final_board.content,
+					final_board.view_count,
+					final_board.comment_count,
+					final_board.like_count,
+					final_board.created_at,
+					final_board.updated_at,
+					final_board.nickname AS writer_nickname,
+					CASE
+						WHEN final_board.user_id = #{userId} 
+						THEN 1 ELSE 0
+					END AS is_writer,
+					CASE
+						WHEN board_like.user_id IS NOT NULL
+						THEN 1 ELSE 0
+					END AS is_liked
+				FROM (
+					SELECT paged_board.*
+					FROM (
+					    SELECT ROWNUM rn, filtered_board.*
+					    FROM (
+							SELECT /*+ INDEX_DESC(board pk_board) */ board.*, users.nickname
+					    	FROM board
+					        INNER JOIN users ON board.user_id = users.id
+					    	WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
+							ORDER BY board.id DESC
+					    ) filtered_board
+					    WHERE
+					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
+					) paged_board
+				    WHERE 
+				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+				) final_board
+				LEFT OUTER JOIN
+					board_like
+				ON
+					final_board.id = board_like.board_id AND board_like.user_id = #{userId}
+				ORDER BY 
+					final_board.id DESC
+			</when>
+			
+			<!-- [2] writer 검색 미포함: 나중에 users와 join  -->
+			<otherwise>
+				SELECT
+					final_board.id,
+					final_board.category_code,
+					final_board.title,
+					final_board.content,
+					final_board.view_count,
+					final_board.comment_count,
+					final_board.like_count,
+					final_board.created_at,
+					final_board.updated_at,
+					users.nickname AS writer_nickname,
+					CASE
+						WHEN final_board.user_id = #{userId} 
+						THEN 1 ELSE 0
+					END AS is_writer,
+					CASE
+						WHEN board_like.user_id IS NOT NULL
+						THEN 1 ELSE 0
+					END AS is_liked
+				FROM (
+					SELECT paged_board.*
+					FROM (
+					    SELECT ROWNUM rn, filtered_board.*
+					    FROM (
+							SELECT /*+ INDEX_DESC(board pk_board) */ *
+					    	FROM board
+					    	WHERE <include refid="searchCriteria"/> category_code = #{categoryCode}
+							ORDER BY id DESC
+					    ) filtered_board
+					    WHERE
+					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
+					) paged_board
+				    WHERE 
+				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
+				) final_board
+				INNER JOIN
+					users
+				ON
+					final_board.user_id = users.id
+				LEFT OUTER JOIN
+					board_like
+				ON
+					final_board.id = board_like.board_id AND board_like.user_id = #{userId} 					
+				ORDER BY 
+					final_board.id DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- <select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
+		<choose>
+			[1] writer 검색 포함: board + users 먼저 join
 			<when test="boardCri.types.contains('writer')">
 				SELECT
 					final_board.id,
@@ -156,9 +289,7 @@
 							SELECT /*+ INDEX_DESC(board pk_board) */ board.*, users.nickname
 					    	FROM board
 					        INNER JOIN users ON board.user_id = users.id
-					    	WHERE
-					        	<include refid="searchCriteria"/>
-								board.category_code = #{categoryCode}
+					    	WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
 							ORDER BY board.id DESC
 					    ) filtered_board
 					    WHERE
@@ -169,7 +300,7 @@
 				) final_board
 			</when>
 			
-			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
+			[2] writer 검색 미포함: board만 먼저 -> 나중에 users join 
 			<otherwise>
 				SELECT
 					final_board.id,
@@ -201,9 +332,7 @@
 					    FROM (
 							SELECT /*+ INDEX_DESC(board pk_board) */ *
 					    	FROM board
-					    	WHERE
-					        	<include refid="searchCriteria"/>
-								category_code = #{categoryCode}
+					    	WHERE <include refid="searchCriteria"/> category_code = #{categoryCode}
 							ORDER BY id DESC
 					    ) filtered_board
 					    WHERE
@@ -220,7 +349,7 @@
 					final_board.id DESC
 			</otherwise>
 		</choose>
-	</select>
+	</select> -->
 
 	<select id="findTotalCntForPaging" parameterType="map" resultType="int">
 		<choose>
@@ -229,18 +358,14 @@
 				SELECT COUNT(*)
 				FROM board
 				INNER JOIN users ON board.user_id = users.id
-				WHERE
-					<include refid="searchCriteria"/>
-					board.category_code = #{categoryCode}
+				WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
 			</when>
 			
 			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
 			<otherwise>
 				SELECT COUNT(*)
 				FROM board
-				WHERE
-					<include refid="searchCriteria"/>
-					board.category_code = #{categoryCode}
+				WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
 			</otherwise>
 		</choose>
 	</select>
