@@ -149,28 +149,17 @@
 						) THEN 1 ELSE 0 
     				END AS is_liked
 				FROM (
-					SELECT
-						paged_board.*
+					SELECT paged_board.*
 					FROM (
-					    SELECT
-					    	ROWNUM rn,
-					    	filtered_board.*
+					    SELECT ROWNUM rn, filtered_board.*
 					    FROM (
-							SELECT 
-								/*+ INDEX_DESC(board pk_board) */
-					        	board.*,
-					        	users.nickname
-					    	FROM 
-					        	board
-					        INNER JOIN
-					        	users
-					        ON
-					        	board.user_id = users.id
+							SELECT /*+ INDEX_DESC(board pk_board) */ board.*, users.nickname
+					    	FROM board
+					        INNER JOIN users ON board.user_id = users.id
 					    	WHERE
 					        	<include refid="searchCriteria"/>
 								board.category_code = #{categoryCode}
-							ORDER BY
-								board.id DESC
+							ORDER BY board.id DESC
 					    ) filtered_board
 					    WHERE
 					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
@@ -183,7 +172,6 @@
 			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
 			<otherwise>
 				SELECT
-					/*+ ORDERED USE_NL(users) */
 					final_board.id,
 					final_board.category_code,
 					final_board.title,
@@ -207,23 +195,16 @@
 						) THEN 1 ELSE 0 
     				END AS is_liked
 				FROM (
-					SELECT
-						paged_board.*
+					SELECT paged_board.*
 					FROM (
-					    SELECT
-					    	ROWNUM rn,
-					    	filtered_board.*
+					    SELECT ROWNUM rn, filtered_board.*
 					    FROM (
-							SELECT 
-								/*+ INDEX_DESC(board pk_board) */
-					        	board.*
-					    	FROM 
-					        	board
+							SELECT /*+ INDEX_DESC(board pk_board) */ *
+					    	FROM board
 					    	WHERE
 					        	<include refid="searchCriteria"/>
-								board.category_code = #{categoryCode}
-							ORDER BY
-								board.id DESC
+								category_code = #{categoryCode}
+							ORDER BY id DESC
 					    ) filtered_board
 					    WHERE
 					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
@@ -235,6 +216,8 @@
 					users
 				ON
 					final_board.user_id = users.id
+				ORDER BY 
+					final_board.id DESC
 			</otherwise>
 		</choose>
 	</select>

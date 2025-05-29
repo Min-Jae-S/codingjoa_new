@@ -53,7 +53,6 @@
 	
 	<select id="findPagedComments" parameterType="map" resultMap="commentDetailsMap">
 		SELECT
-			/*+ ORDERED USE_NL(users) USE_NL(user_image) USE_NL(board) */
 			final_comment.id,
 			final_comment.content,
 			final_comment.status,
@@ -79,41 +78,35 @@
     			THEN 1 ELSE 0
     		END AS is_board_writer
 		FROM (
-			SELECT
-				paged_comment.*
+			SELECT paged_comment.*
 			FROM (
-				SELECT
-					ROWNUM rn,
-					sorted_comment.*
+				SELECT ROWNUM rn, sorted_comment.*
 				FROM (
-					SELECT 
-						/*+ INDEX_DESC(comments pk_comments) */ 
-						comments.*
-				    FROM 
-				        comments
-				    WHERE
-				    	comments.board_id = #{boardId}
-				    ORDER BY
-				    	comments.id DESC
+					SELECT /*+ INDEX_DESC(comments pk_comments) */ *
+				    FROM comments
+				    WHERE board_id = #{boardId}
+				    ORDER BY id DESC
 				) sorted_comment
-				WHERE
+				WHERE 
 					ROWNUM <![CDATA[ <= ]]> ( #{commentCri.page} * #{commentCri.recordCnt} )
 			) paged_comment
 			WHERE
 				paged_comment.rn <![CDATA[ > ]]> ( (#{commentCri.page} - 1) * #{commentCri.recordCnt} )
 		) final_comment
-		INNER JOIN
-			users
+		INNER JOIN 
+			users 
 		ON 
 			final_comment.user_id = users.id
 		LEFT OUTER JOIN 
-			user_image
-		ON
+			user_image 
+		ON 
 			final_comment.user_id = user_image.user_id AND user_image.latest = '1'
 		INNER JOIN
-			board
-		ON
+			board 
+		ON 
 			final_comment.board_id = board.id
+		ORDER BY 
+			final_comment.id DESC
 	</select>
 	
 	<select id="findTotalCntForPaging" resultType="int">
