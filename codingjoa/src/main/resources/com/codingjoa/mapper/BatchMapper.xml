@@ -84,7 +84,7 @@
 		FROM (
 			SELECT ROWNUM rn, filtered_images.*
 			FROM (
-				SELECT /*+ INDEX_DESC(user_image pk_userimage) */ user_image.*
+				SELECT /*+ INDEX_DESC(user_image pk_userimage) */ *
 				FROM  user_image
 				WHERE
 					latest = '0'
@@ -224,27 +224,17 @@
 	</update>
 	
 	<select id="test" resultType="User">
-		SELECT 
-			paged_users.*
+		SELECT *
 		FROM (
-			SELECT
-				ROWNUM rn,
-				sorted_users.*
+			SELECT ROWNUM rn, sorted_users.*
 			FROM (
-				SELECT 
-					/*+ INDEX_DESC(users pk_users) */
-					users.*
-				FROM 
-					users
-				ORDER BY
-					id DESC
+				SELECT /*+ INDEX_DESC(users pk_users) */*
+				FROM users
+				ORDER BY id DESC
 			) sorted_users
-			WHERE
-				ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
-		) paged_users
-		WHERE
-			<!-- paged_users.rn <![CDATA[> #{_skiprows} -->
-			paged_users.rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} )
+			WHERE 0OWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+		) 
+		WHERE rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} ) <!-- rn <![CDATA[> #{_skiprows} -->
 	</select>
 	
 </mapper>

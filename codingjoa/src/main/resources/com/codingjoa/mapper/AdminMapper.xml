@@ -87,7 +87,7 @@
 			FROM (
 				SELECT ROWNUM rn, filterd_users.*
 				FROM (
-					SELECT /*+ INDEX_DESC(users pk_users) */ users.*
+					SELECT /*+ INDEX_DESC(users pk_users) */ *
 					FROM users
 					<include refid="userSearchCriteria"/>	
 					ORDER BY id DESC
