@@ -14,6 +14,10 @@ public class TransactionUtils {
 		return TransactionSynchronizationManager.isActualTransactionActive();
 	}
 	
+	public static String getCurrentTransactionName() {
+		return TransactionSynchronizationManager.getCurrentTransactionName();
+	}
+	
 	public static Integer getTranscationHash() {
 		Integer transacionHash = null;
 		Map<Object, Object> resources = TransactionSynchronizationManager.getResourceMap();

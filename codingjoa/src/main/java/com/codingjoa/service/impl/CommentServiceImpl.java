@@ -18,6 +18,7 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,6 +64,8 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
+		log.info("## active: {}, tx name: {}, tx hash: {}", 
+				TransactionUtils.isTransactionAcitve(), TransactionUtils.getCurrentTransactionName(), TransactionUtils.getTranscationHash());
 		log.info("\t > prior to inserting comment, find board");
 		Board board = boardService.getBoard(commentDto.getBoardId());
 		

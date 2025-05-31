@@ -19,6 +19,7 @@ import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.ImageService;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -163,6 +164,8 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseCommentCountWithException(Long boardId) {
+		log.info("## active: {}, tx name: {}, tx hash: {}", 
+				TransactionUtils.isTransactionAcitve(), TransactionUtils.getCurrentTransactionName(), TransactionUtils.getTranscationHash());
 		log.info("\t > increase comment count with exception");
 		boardMapper.increaseCommentCount(boardId);
 		throw new RuntimeException();
