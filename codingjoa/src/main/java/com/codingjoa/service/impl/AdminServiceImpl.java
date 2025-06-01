@@ -21,6 +21,7 @@ import com.codingjoa.dto.AdminUserRegistrationDto;
 import com.codingjoa.dto.AgreeDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.NicknameDto;
+import com.codingjoa.entity.AdminBoard;
 import com.codingjoa.entity.AdminUser;
 import com.codingjoa.entity.Auth;
 import com.codingjoa.entity.User;
@@ -280,21 +281,28 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
-		log.info("\t > find pagedBoards (V1)");
-		return adminMapper.findPagedBoardsV2(adminBoardCri)
-				.stream()
+//		String version = "v1";
+		String version = "v2";
+//		Stirng version = "optimized";
+		
+		log.info("\t > find pagedBoards ({})", version);
+		List<AdminBoard> boards;
+		switch (version) {
+			case "v1":
+				boards = adminMapper.findPagedBoardsV1(adminBoardCri);
+				break;
+			case "v2":
+				boards = adminMapper.findPagedBoardsV2(adminBoardCri);
+				break;
+			case "optimized":
+			default:
+				boards = adminMapper.findPagedBoards(adminBoardCri);
+				break;
+		}
+		
+		return boards.stream()
 				.map(adminBoard -> AdminBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
-//		log.info("\t > find pagedBoards (V2)");
-//		return adminMapper.findPagedBoards(adminBoardCri)
-//				.stream()
-//				.map(adminBoard -> AdminBoardDto.from(adminBoard))
-//				.collect(Collectors.toList());
-//		log.info("\t > find pagedBoards");
-//		return adminMapper.findPagedBoardsV1(adminBoardCri)
-//				.stream()
-//				.map(adminBoard -> AdminBoardDto.from(adminBoard))
-//				.collect(Collectors.toList());
 	}
 
 	@Override

@@ -157,54 +157,8 @@
 
 	<select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
 		<choose>
-			<!-- [1] writer 검색 포함: 먼저 users와 join -->
-			<when test="boardCri.types.contains('writer')">
-				SELECT
-					final_board.id,
-					final_board.category_code,
-					final_board.title,
-					final_board.content,
-					final_board.view_count,
-					final_board.comment_count,
-					final_board.like_count,
-					final_board.created_at,
-					final_board.updated_at,
-					final_board.nickname AS writer_nickname,
-					CASE
-						WHEN final_board.user_id = #{userId} 
-						THEN 1 ELSE 0
-					END AS is_writer,
-					CASE
-						WHEN board_like.user_id IS NOT NULL
-						THEN 1 ELSE 0
-					END AS is_liked
-				FROM (
-					SELECT paged_board.*
-					FROM (
-					    SELECT ROWNUM rn, filtered_board.*
-					    FROM (
-							SELECT /*+ INDEX_DESC(board pk_board) */ board.*, users.nickname
-					    	FROM board
-					        INNER JOIN users ON board.user_id = users.id
-					    	WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
-							ORDER BY board.id DESC
-					    ) filtered_board
-					    WHERE
-					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
-					) paged_board
-				    WHERE 
-				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
-				) final_board
-				LEFT OUTER JOIN
-					board_like
-				ON
-					final_board.id = board_like.board_id AND board_like.user_id = #{userId}
-				ORDER BY 
-					final_board.id DESC
-			</when>
-			
-			<!-- [2] writer 검색 미포함: 나중에 users와 join  -->
-			<otherwise>
+			<!-- not including writer search -->
+			<when test="!boardCri.types.contains('writer')">
 				SELECT
 					final_board.id,
 					final_board.category_code,
@@ -250,14 +204,9 @@
 					final_board.id = board_like.board_id AND board_like.user_id = #{userId} 					
 				ORDER BY 
 					final_board.id DESC
-			</otherwise>
-		</choose>
-	</select>
-	
-	<!-- <select id="findPagedBoards" parameterType="map" resultMap="boardDetailsMap">
-		<choose>
-			[1] writer 검색 포함: board + users 먼저 join
-			<when test="boardCri.types.contains('writer')">
+			</when>
+			<!-- including writer search -->
+			<otherwise>
 				SELECT
 					final_board.id,
 					final_board.category_code,
@@ -274,13 +223,9 @@
 						THEN 1 ELSE 0
 					END AS is_writer,
 					CASE
-						WHEN EXISTS ( 
-							SELECT 1 
-							FROM board_like 
-							WHERE board_like.board_id = final_board.id 
-							AND board_like.user_id = #{userId} 
-						) THEN 1 ELSE 0 
-    				END AS is_liked
+						WHEN board_like.user_id IS NOT NULL
+						THEN 1 ELSE 0
+					END AS is_liked
 				FROM (
 					SELECT paged_board.*
 					FROM (
@@ -298,73 +243,29 @@
 				    WHERE 
 				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
 				) final_board
-			</when>
-			
-			[2] writer 검색 미포함: board만 먼저 -> 나중에 users join 
-			<otherwise>
-				SELECT
-					final_board.id,
-					final_board.category_code,
-					final_board.title,
-					final_board.content,
-					final_board.view_count,
-					final_board.comment_count,
-					final_board.like_count,
-					final_board.created_at,
-					final_board.updated_at,
-					users.nickname AS writer_nickname,
-					CASE
-						WHEN final_board.user_id = #{userId} 
-						THEN 1 ELSE 0
-					END AS is_writer,
-					CASE
-						WHEN EXISTS ( 
-							SELECT 1 
-							FROM board_like 
-							WHERE board_like.board_id = final_board.id 
-							AND board_like.user_id = #{userId} 
-						) THEN 1 ELSE 0 
-    				END AS is_liked
-				FROM (
-					SELECT paged_board.*
-					FROM (
-					    SELECT ROWNUM rn, filtered_board.*
-					    FROM (
-							SELECT /*+ INDEX_DESC(board pk_board) */ *
-					    	FROM board
-					    	WHERE <include refid="searchCriteria"/> category_code = #{categoryCode}
-							ORDER BY id DESC
-					    ) filtered_board
-					    WHERE
-					    	ROWNUM <![CDATA[ <= ]]> ( #{boardCri.page} * #{boardCri.recordCnt} )
-					) paged_board
-				    WHERE 
-				    	paged_board.rn <![CDATA[ > ]]> ( (#{boardCri.page} - 1) * #{boardCri.recordCnt} )
-				) final_board
-				INNER JOIN
-					users
+				LEFT OUTER JOIN
+					board_like
 				ON
-					final_board.user_id = users.id
+					final_board.id = board_like.board_id AND board_like.user_id = #{userId}
 				ORDER BY 
 					final_board.id DESC
 			</otherwise>
 		</choose>
-	</select> -->
-
+	</select>
+	
 	<select id="findTotalCntForPaging" parameterType="map" resultType="int">
 		<choose>
-			<!-- [1] writer 검색 포함: board + users 먼저 join -->
-			<when test="boardCri.types.contains('writer')">
+			<!-- not including writer search -->
+			<when test="!boardCri.types.contains('writer')">
 				SELECT COUNT(*)
 				FROM board
-				INNER JOIN users ON board.user_id = users.id
 				WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
 			</when>
-			
-			<!-- [2] writer 검색 미포함: board만 먼저 -> 나중에 users join  -->
+			<!-- including writer search -->
 			<otherwise>
 				SELECT COUNT(*)
 				FROM board
+				INNER JOIN users ON board.user_id = users.id
 				WHERE <include refid="searchCriteria"/> board.category_code = #{categoryCode}
 			</otherwise>
 		</choose>
