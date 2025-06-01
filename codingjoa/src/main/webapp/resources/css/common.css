@@ -374,7 +374,7 @@ span.error, span.success {
 	content: "";
 	border-radius: 50%;
 	background: transparent;
-	background-position: 55% 50%;
+	background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     background-image: url(../images/notification.svg);
@@ -512,6 +512,7 @@ footer {
 	flex-direction: column;
 	flex: 1;
 	background-color: #f1f3f5;
+	justify-content: center;
 }
 
 .sb-topnav {
@@ -563,7 +564,7 @@ footer {
 	content: "";
 	border-radius: 50%;
 	background: transparent;
-	background-position: 55% 50%;
+	background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     background-image: url(../images/notification.svg);

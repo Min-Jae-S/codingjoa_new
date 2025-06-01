@@ -280,11 +280,21 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
-		log.info("\t > find pagedBoards");
-		return adminMapper.findPagedBoards(adminBoardCri)
+		log.info("\t > find pagedBoards (V1)");
+		return adminMapper.findPagedBoardsV2(adminBoardCri)
 				.stream()
 				.map(adminBoard -> AdminBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
+//		log.info("\t > find pagedBoards (V2)");
+//		return adminMapper.findPagedBoards(adminBoardCri)
+//				.stream()
+//				.map(adminBoard -> AdminBoardDto.from(adminBoard))
+//				.collect(Collectors.toList());
+//		log.info("\t > find pagedBoards");
+//		return adminMapper.findPagedBoardsV1(adminBoardCri)
+//				.stream()
+//				.map(adminBoard -> AdminBoardDto.from(adminBoard))
+//				.collect(Collectors.toList());
 	}
 
 	@Override
