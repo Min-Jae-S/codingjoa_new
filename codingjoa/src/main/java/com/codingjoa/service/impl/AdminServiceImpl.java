@@ -281,8 +281,8 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
-//		String version = "v1";
-		String version = "v2";
+		String version = "v1";
+//		String version = "v2";
 //		Stirng version = "optimized";
 		
 		log.info("\t > find pagedBoards ({})", version);

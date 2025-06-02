@@ -120,7 +120,7 @@
 					FROM (
 						SELECT /*+ INDEX_DESC(board pk_board) */ id, comment_count, like_count
 						FROM board
-						ORDER BY id DESC	
+						ORDER BY id DESC
 					) sorted_board
 					WHERE
 						ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
