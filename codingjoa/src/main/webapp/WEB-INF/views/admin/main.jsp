@@ -119,6 +119,7 @@
 	.welcome {
 		font-size: 50px;
 		font-weight: bold;
+		margin-bottom: auto;
 	}
 	
 	#contentContainer .error-wrap {
