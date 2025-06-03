@@ -381,54 +381,48 @@
 		) final_board
 	</select>
 	
-	<!-- paging-then-join + nomalized -->
+	<!-- join-then-paging + denomalized -->
 	<select id="findPagedBoardsV2" resultMap="adminBoardMap">
-		WITH
-			comment_group 	AS ( SELECT board_id, COUNT(*) cnt FROM comments WHERE status = 1 GROUP BY board_id ),
-			like_group 		AS ( SELECT board_id, COUNT(*) cnt FROM board_like GROUP BY board_id )
-		SELECT 
-			final_board.id,
-			final_board.user_id,
-			final_board.category_code,
-			final_board.title,
-			final_board.content,
-			final_board.search_content,
-			final_board.view_count,
-			final_board.created_at,
-			final_board.updated_at,
-			users.id					AS users_id,
-			users.email,
-			users.nickname,
-			users.zipcode,
-			users.addr,
-			users.addr_detail,
-			users.agree,
-			users.created_at 			AS users_created_at,
-			users.updated_at 			AS users_updated_at,
-			category.*,
-			NVL(comment_group.cnt, 0) 	AS comment_count,
-			NVL(like_group.cnt, 0) 		AS like_count
+		SELECT *
 		FROM (
 			SELECT paged_board.*
 			FROM (
 				SELECT ROWNUM rn, filtered_board.*
 				FROM (
-					SELECT *
-					FROM board
+					SELECT <include refid="sortHint"/> 
+						board.id,
+						board.user_id,
+						board.category_code,
+						board.title,
+						board.content,
+						board.search_content,
+						board.view_count,
+						board.comment_count,
+						board.like_count,
+						board.created_at,
+						board.updated_at,
+						users.id					AS users_id,
+						users.email,
+						users.nickname,
+						users.zipcode,
+						users.addr,
+						users.addr_detail,
+						users.agree,
+						users.created_at 			AS users_created_at,
+						users.updated_at 			AS users_updated_at,
+						category.*,
+					FROM board 
+					INNER JOIN users ON board.user_id = users.id
+					INNER JOIN category ON board.category_code = category.code
 					<include refid="boardSearchCriteria"/>
 					ORDER BY <include refid="orderByClause"/>
 				) filtered_board
 				WHERE
-					ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} )
+					ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} ) 
 			) paged_board
 			WHERE 
 				paged_board.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
 		) final_board
-		INNER JOIN users ON final_board.user_id = users.id
-		INNER JOIN category ON final_board.category_code = category.code
-		LEFT OUTER JOIN comment_group ON final_board.id = comment_group.board_id
-		LEFT OUTER JOIN like_group ON final_board.id = like_group.board_id
-		ORDER BY <include refid="finalOrderByClause"/>
 	</select>
 	
 	<select id="findTotalCntForBoardPaging" resultType="int">
@@ -448,18 +442,6 @@
 			</otherwise>
 		</choose>
 	</select>
-	
-	<!-- <select id="findTotalCntForBoardPaging" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			board
-		INNER JOIN
-			users
-		ON
-			board.user_id = users.id
-		<include refid="boardSearchCriteria"/>
-	</select> -->
 	
 	<delete id="deleteBoards" parameterType="list">
 		DELETE FROM 

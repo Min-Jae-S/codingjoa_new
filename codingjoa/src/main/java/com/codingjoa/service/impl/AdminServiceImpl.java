@@ -286,21 +286,21 @@ public class AdminServiceImpl implements AdminService {
 //		Stirng version = "optimized";
 		
 		log.info("\t > find pagedBoards ({})", version);
-		List<AdminBoard> boards;
+		List<AdminBoard> adminBoards;
 		switch (version) {
 			case "v1":
-				boards = adminMapper.findPagedBoardsV1(adminBoardCri);
+				adminBoards = adminMapper.findPagedBoardsV1(adminBoardCri);
 				break;
 			case "v2":
-				boards = adminMapper.findPagedBoardsV2(adminBoardCri);
+				adminBoards = adminMapper.findPagedBoardsV2(adminBoardCri);
 				break;
 			case "optimized":
 			default:
-				boards = adminMapper.findPagedBoards(adminBoardCri);
+				adminBoards = adminMapper.findPagedBoards(adminBoardCri);
 				break;
 		}
 		
-		return boards.stream()
+		return adminBoards.stream()
 				.map(adminBoard -> AdminBoardDto.from(adminBoard))
 				.collect(Collectors.toList());
 	}
