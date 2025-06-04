@@ -253,7 +253,7 @@
 		<choose>
 			<!-- not including writer search -->
 			<when test="!types.contains('writer')">
-				SELECT
+				SELECT /*+ ORDERED USE_NL(users) USE_NL(category) */
 					final_board.*,
 					users.id			AS users_id,
 					users.email,
@@ -294,7 +294,7 @@
 			</when>
 			<!-- including writer search -->
 			<otherwise>
-				SELECT final_board.*, category.*
+				SELECT /*+ ORDERED USE_NL(users) USE_NL(category) */ final_board.*, category.*
 				FROM (
 					SELECT paged_board.*
 					FROM (
@@ -335,8 +335,8 @@
 	<!-- join-then-paging + nomalized -->
 	<select id="findPagedBoardsV1" resultMap="adminBoardMap">
 		WITH
-			comment_group 	AS ( SELECT board_id, COUNT(*) cnt FROM comments WHERE status = 1 GROUP BY board_id ),
-			like_group 		AS ( SELECT board_id, COUNT(*) cnt FROM board_like GROUP BY board_id )
+			comment_group AS ( SELECT board_id, COUNT(*) cnt FROM comments WHERE status = 1 GROUP BY board_id ),
+			like_group AS ( SELECT board_id, COUNT(*) cnt FROM board_like GROUP BY board_id )
 		SELECT *
 		FROM (
 			SELECT paged_board.*
@@ -378,51 +378,7 @@
 			) paged_board
 			WHERE 
 				paged_board.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
-		) final_board
-	</select>
-	
-	<!-- join-then-paging + denomalized -->
-	<select id="findPagedBoardsV2" resultMap="adminBoardMap">
-		SELECT *
-		FROM (
-			SELECT paged_board.*
-			FROM (
-				SELECT ROWNUM rn, filtered_board.*
-				FROM (
-					SELECT <include refid="sortHint"/> 
-						board.id,
-						board.user_id,
-						board.category_code,
-						board.title,
-						board.content,
-						board.search_content,
-						board.view_count,
-						board.comment_count,
-						board.like_count,
-						board.created_at,
-						board.updated_at,
-						users.id					AS users_id,
-						users.email,
-						users.nickname,
-						users.zipcode,
-						users.addr,
-						users.addr_detail,
-						users.agree,
-						users.created_at 			AS users_created_at,
-						users.updated_at 			AS users_updated_at,
-						category.*,
-					FROM board 
-					INNER JOIN users ON board.user_id = users.id
-					INNER JOIN category ON board.category_code = category.code
-					<include refid="boardSearchCriteria"/>
-					ORDER BY <include refid="orderByClause"/>
-				) filtered_board
-				WHERE
-					ROWNUM <![CDATA[ <= ]]> ( #{page} * #{recordCnt} ) 
-			) paged_board
-			WHERE 
-				paged_board.rn <![CDATA[ > ]]> ( (#{page} - 1) * #{recordCnt} )
-		) final_board
+		)
 	</select>
 	
 	<select id="findTotalCntForBoardPaging" resultType="int">

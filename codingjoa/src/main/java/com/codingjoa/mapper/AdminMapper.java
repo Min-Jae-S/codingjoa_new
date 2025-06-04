@@ -22,8 +22,6 @@ public interface AdminMapper {
 	
 	List<AdminBoard> findPagedBoardsV1(AdminBoardCriteria adminBoardCri); 	// join-then-paging + nomalized
 	
-	List<AdminBoard> findPagedBoardsV2(AdminBoardCriteria adminBoardCri); 	// paging-then-join + nomalized
-	
 	List<AdminBoard> findPagedBoards(AdminBoardCriteria adminBoardCri);		// paging-then-join + denomalized
 	
 	int findTotalCntForBoardPaging(AdminBoardCriteria adminBoardCri);

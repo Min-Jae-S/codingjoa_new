@@ -282,7 +282,6 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<AdminBoardDto> getPagedBoards(AdminBoardCriteria adminBoardCri) {
 		String version = "v1";
-//		String version = "v2";
 //		Stirng version = "optimized";
 		
 		log.info("\t > find pagedBoards ({})", version);
@@ -290,9 +289,6 @@ public class AdminServiceImpl implements AdminService {
 		switch (version) {
 			case "v1":
 				adminBoards = adminMapper.findPagedBoardsV1(adminBoardCri);
-				break;
-			case "v2":
-				adminBoards = adminMapper.findPagedBoardsV2(adminBoardCri);
 				break;
 			case "optimized":
 			default:

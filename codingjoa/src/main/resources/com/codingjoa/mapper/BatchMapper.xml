@@ -232,7 +232,7 @@
 				FROM users
 				ORDER BY id DESC
 			) sorted_users
-			WHERE 0OWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
+			WHERE ROWNUM <![CDATA[ <= ]]> ( (#{_page} + 1) * #{_pagesize} ) 
 		) 
 		WHERE rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} ) <!-- rn <![CDATA[> #{_skiprows} -->
 	</select>
