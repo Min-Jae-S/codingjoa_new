@@ -64,8 +64,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
-		log.info("## active: {}, tx name: {}, tx hash: {}", 
-				TransactionUtils.isTransactionAcitve(), TransactionUtils.getCurrentTransactionName(), TransactionUtils.getTranscationHash());
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		log.info("\t > prior to inserting comment, find board");
 		Board board = boardService.getBoard(commentDto.getBoardId());
 		
