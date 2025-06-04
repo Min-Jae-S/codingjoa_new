@@ -217,7 +217,7 @@ public class BatchJobConfig {
 	public Step boardImageCleanupStep() {
 		return stepBuilderFactory.get("boardImageCleanupStep")
 				.transactionManager(transactionManager)
-				.<BoardImage, BoardImage>chunk(10)
+				.<BoardImage, BoardImage>chunk(100)
 				.reader(boardImageItemReader())
 				.writer(compositeBoardImageItemWriter())
 				.faultTolerant()
@@ -285,7 +285,7 @@ public class BatchJobConfig {
 	public Step userImageCleanupStep() {
 		return stepBuilderFactory.get("userImageCleanupStep")
 				.transactionManager(transactionManager)
-				.<UserImage, UserImage>chunk(10)
+				.<UserImage, UserImage>chunk(100)
 				.reader(userImageItemReader())
 				.writer(compositeUserImageItemWriter())
 				.faultTolerant()
@@ -397,7 +397,7 @@ public class BatchJobConfig {
 	public Step commentSyncStep() {
 		return stepBuilderFactory.get("commentSyncStep")
 				.transactionManager(transactionManager)
-				.<CommentCountColumn, CommentCountColumn>chunk(10)
+				.<CommentCountColumn, CommentCountColumn>chunk(100)
 				.reader(commentCountColumnReader())
 				.writer(commentCountColumnWriter())
 				.faultTolerant()

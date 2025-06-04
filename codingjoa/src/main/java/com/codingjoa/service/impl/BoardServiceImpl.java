@@ -158,17 +158,30 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void increaseCommentCount(Long boardId) {
 		log.info("\t > increase comment count");
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseCommentCount(boardId);
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseCommentCountWithException(Long boardId) {
-		log.info("## active: {}, tx name: {}, tx hash: {}", 
-				TransactionUtils.isTransactionAcitve(), TransactionUtils.getCurrentTransactionName(), TransactionUtils.getTranscationHash());
 		log.info("\t > increase comment count with exception");
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseCommentCount(boardId);
 		throw new RuntimeException();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@Override
+	public void increaseCommentCountWithDelay(Long boardId) {
+		log.info("\t > increase comment count with delay");
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
+		boardMapper.increaseCommentCount(boardId);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
