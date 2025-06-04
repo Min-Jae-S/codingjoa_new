@@ -11,6 +11,7 @@ import com.codingjoa.mapper.LikeMapper;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.service.LikeService;
+import com.codingjoa.util.TransactionUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class LikeServiceImpl implements LikeService {
 	
 	@Override
 	public boolean toggleBoardLike(Long boardId, Long userId) {
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		log.info("\t > prior to toggling boardLike, find board");
 		Board board = boardService.getBoard(boardId);
 	

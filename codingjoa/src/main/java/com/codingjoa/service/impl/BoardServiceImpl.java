@@ -178,7 +178,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseCommentCount(boardId);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(5000); // 5s
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -195,6 +195,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void increaseLikeCount(Long boardId) {
 		log.info("\t > increase like count");
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseLikeCount(boardId);
 	}
 
@@ -202,6 +203,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void decreaseLikeCount(Long boardId) {
 		log.info("\t > decrease like count");
+		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.decreaseLikeCount(boardId);
 	}
 	

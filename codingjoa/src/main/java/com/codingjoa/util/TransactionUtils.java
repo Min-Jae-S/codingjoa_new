@@ -35,7 +35,7 @@ public class TransactionUtils {
 	}
 	
 	public static String getTranscationDetails() {
-		return String.format("txActive: %s, txName: %s, txHash: %s", isTransactionAcitve(), getCurrentTransactionName(), getTranscationHash());
+		return String.format("txActive: %s, txHash: %s, txName: %s", isTransactionAcitve(), getTranscationHash(), getCurrentTransactionName());
 	}
 	
 }
