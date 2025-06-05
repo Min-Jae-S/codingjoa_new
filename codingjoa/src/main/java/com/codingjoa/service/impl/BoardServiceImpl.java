@@ -178,9 +178,9 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseCommentCount(boardId);
 		try {
-			Thread.sleep(5000); // 5s
+			Thread.sleep(300); // 0.3s
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 

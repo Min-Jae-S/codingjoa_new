@@ -78,9 +78,9 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-		boardService.increaseCommentCount(board.getId()); // Propagation.REQUIRES_NEW
-		//boardService.increaseCommentCountWithException(board.getId());
-		//boardService.increaseCommentCountWithDelay(board.getId());
+//		boardService.increaseCommentCount(board.getId()); // Propagation.REQUIRES_NEW
+//		boardService.increaseCommentCountWithException(board.getId());
+		boardService.increaseCommentCountWithDelay(board.getId());
 	}
 
 	@Override

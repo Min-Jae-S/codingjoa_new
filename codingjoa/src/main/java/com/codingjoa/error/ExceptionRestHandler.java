@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -98,20 +99,6 @@ public class ExceptionRestHandler {
 		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorResponse);
 	}
 	
-	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<Object> handleHttpMessageNotReadableEx(HttpMessageNotReadableException e, HttpServletRequest request) {
-		log.info("## {}.handleHttpMessageNotReadableEx", this.getClass().getSimpleName());
-		log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
-		
-		ErrorResponse errorResponse = ErrorResponse.builder()
-				.status(HttpStatus.BAD_REQUEST)
-				.messageByCode("error.notValidFormat")
-				.build();
-		
-		log.info("\t > respond with errorResponse in JSON format");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-	}
-	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<Object> handleMethodArgumentNotValidEx(MethodArgumentNotValidException e, HttpServletRequest request) {
 		log.info("## {}.handleMethodArgumentNotValidEx", this.getClass().getSimpleName());
@@ -149,6 +136,8 @@ public class ExceptionRestHandler {
 	@ExceptionHandler(value =  {
 		MissingPathVariableException.class,			// api/comments/
 		MethodArgumentTypeMismatchException.class,	// api/comments/aa
+		HttpMessageNotReadableException.class,
+		HttpMediaTypeNotSupportedException.class
 	})
 	protected ResponseEntity<Object> handleInvalidFormatEx(Exception e, HttpServletRequest request) {
 		log.info("## {}.handleInvalidFormatEx", this.getClass().getSimpleName());

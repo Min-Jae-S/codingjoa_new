@@ -163,9 +163,9 @@ public class ServletConfig implements WebMvcConfigurer {
 			}
 		}
 		
-//		if (missingHandlerMethodExceptionResolver != null) {
-//			resolvers.add(0, missingHandlerMethodExceptionResolver);
-//		}
+		if (preDispatchExceptionResolver != null) {
+			resolvers.add(0, preDispatchExceptionResolver);
+		}
 		
 		resolvers.forEach(resolver -> log.info("\t > {}", resolver.getClass().getSimpleName()));
 	}
