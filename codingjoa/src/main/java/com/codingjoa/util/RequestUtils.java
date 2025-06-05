@@ -5,9 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public class RequestUtils {
 	
 	/*
@@ -64,11 +61,10 @@ public class RequestUtils {
 
 	public static boolean isApiPath(HttpServletRequest request) {
 		String uri = request.getRequestURI();
-		return (uri != null) && uri.startsWith("/api/");
+		return (uri != null) && uri.startsWith(request.getContextPath() + "/api/");
 	}
 	
 	public static boolean isRestApiRequest(HttpServletRequest request) {
-		log.info("\t > accept: {}, URI: {}", request.getHeader(HttpHeaders.ACCEPT), request.getRequestURI());
 		return isApiPath(request) || isJsonAccept(request);
 	}
 	
