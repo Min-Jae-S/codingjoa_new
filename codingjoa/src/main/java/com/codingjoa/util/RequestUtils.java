@@ -61,10 +61,15 @@ public class RequestUtils {
 		String contentType = request.getContentType();
 		return (contentType != null) && contentType.startsWith(MediaType.APPLICATION_JSON_VALUE);
 	}
+
+	public static boolean isApiPath(HttpServletRequest request) {
+		String uri = request.getRequestURI();
+		return (uri != null) && uri.startsWith("/api/");
+	}
 	
 	public static boolean isRestApiRequest(HttpServletRequest request) {
-		log.info("\t > accept: {}", request.getHeader(HttpHeaders.ACCEPT));
-		return isJsonAccept(request);
+		log.info("\t > accept: {}, URI: {}", request.getHeader(HttpHeaders.ACCEPT), request.getRequestURI());
+		return isApiPath(request) || isJsonAccept(request);
 	}
 	
 }
