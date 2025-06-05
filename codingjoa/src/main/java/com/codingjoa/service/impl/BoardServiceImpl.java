@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.BoardDetailsDto;
@@ -19,7 +18,6 @@ import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.ImageService;
-import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -70,7 +68,6 @@ public class BoardServiceImpl implements BoardService {
 		return BoardDetailsDto.from(boardDetailsMap);
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseViewCount(Long boardId) {
 		log.info("\t > increase view count");
@@ -154,56 +151,27 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseCommentCount(Long boardId) {
 		log.info("\t > increase comment count");
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseCommentCount(boardId);
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	@Override
-	public void increaseCommentCountWithException(Long boardId) {
-		log.info("\t > increase comment count with exception");
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
-		boardMapper.increaseCommentCount(boardId);
-		throw new RuntimeException();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
-	@Override
-	public void increaseCommentCountWithDelay(Long boardId) {
-		log.info("\t > increase comment count with delay");
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
-		boardMapper.increaseCommentCount(boardId);
-		try {
-			Thread.sleep(300); // 0.3s
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void decreaseCommentCount(Long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void increaseLikeCount(Long boardId) {
 		log.info("\t > increase like count");
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.increaseLikeCount(boardId);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@Override
 	public void decreaseLikeCount(Long boardId) {
 		log.info("\t > decrease like count");
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		boardMapper.decreaseLikeCount(boardId);
 	}
 	

@@ -27,6 +27,7 @@ import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.security.dto.PrincipalDetails;
+import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.validator.CommentValidator;
 
@@ -39,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 // REST : 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
 @Api(tags = "Comment API")
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -46,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentRestController {
 	
 	private final CommentService commentService;
+	private final BoardService boardService;
 	
 	// https://stackoverflow.com/questions/31680960/spring-initbinder-on-requestbody
 	// @InitBinder doesn't work with @RequestBody, it can work with @ModelAttribute Annotation.
@@ -89,6 +92,7 @@ public class CommentRestController {
 		log.info("\t > commentDto = {}", commentDto);
 		
 		commentService.saveComment(commentDto);
+		//boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.comment.write")

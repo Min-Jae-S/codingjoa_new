@@ -30,10 +30,6 @@ public interface BoardService {
 	
 	void increaseCommentCount(Long boardId);
 	
-	void increaseCommentCountWithException(Long boardId);
-	
-	void increaseCommentCountWithDelay(Long boardId);
-	
 	void decreaseCommentCount(Long boardId);
 	
 	void increaseLikeCount(Long boardId);

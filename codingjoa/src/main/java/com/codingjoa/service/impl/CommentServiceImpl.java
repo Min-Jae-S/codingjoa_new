@@ -18,7 +18,6 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
-import com.codingjoa.util.TransactionUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,7 +63,6 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
-		log.info("\t > {}", TransactionUtils.getTranscationDetails());
 		log.info("\t > prior to inserting comment, find board");
 		Board board = boardService.getBoard(commentDto.getBoardId());
 		
@@ -78,9 +76,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-//		boardService.increaseCommentCount(board.getId()); // Propagation.REQUIRES_NEW
-//		boardService.increaseCommentCountWithException(board.getId());
-		boardService.increaseCommentCountWithDelay(board.getId());
+		boardService.increaseCommentCount(board.getId());
 	}
 
 	@Override
