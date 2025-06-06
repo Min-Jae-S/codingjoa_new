@@ -38,12 +38,12 @@ public class LikeServiceImpl implements LikeService {
 		if (boardLike == null) {
 			log.info("\t > insert boardLike");
 			likeMapper.insertBoardLike(board.getId(), userId);
-			boardService.increaseLikeCount(board.getId());
+			//boardService.increaseLikeCount(board.getId());
 			return true;
 		} else {
 			log.info("\t > delete boardLike");
 			likeMapper.deleteBoardLike(boardLike.getId());
-			boardService.decreaseLikeCount(board.getId());
+			//boardService.decreaseLikeCount(board.getId());
 			return false;
 		}
 	}

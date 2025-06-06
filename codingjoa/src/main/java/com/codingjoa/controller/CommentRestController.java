@@ -92,7 +92,7 @@ public class CommentRestController {
 		log.info("\t > commentDto = {}", commentDto);
 		
 		commentService.saveComment(commentDto);
-		//boardService.increaseCommentCount(commentDto.getBoardId());
+		boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.comment.write")
