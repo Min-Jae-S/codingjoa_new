@@ -12,6 +12,7 @@ import com.codingjoa.annotation.PrivateApi;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.BoardService;
+import com.codingjoa.service.CommentService;
 import com.codingjoa.service.LikeService;
 
 import io.swagger.annotations.Api;
@@ -28,6 +29,7 @@ public class LikeRestController {
 	
 	private final LikeService likeService;
 	private final BoardService boardService;
+	private final CommentService commentService;
 
 	@PrivateApi
 	@ApiOperation(value = "게시글 좋아요 토글", notes = "게시글에 좋아요 또는 좋아요 취소를 수행한다. (인증 필요)")
@@ -70,8 +72,17 @@ public class LikeRestController {
 	public ResponseEntity<Object> toggleCommentLike(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
 		
+		String code;
 		boolean isCommentLiked = likeService.toggleCommentLike(commentId, principal.getId());
-		String code = (isCommentLiked) ? "success.like.comment" : "success.dislike.comment";
+		if (isCommentLiked) {
+			commentService.increaseLikeCount(commentId);
+			code = "success.like.comment";
+		} else {
+			commentService.decreaseLikeCount(commentId);
+			code = "success.dislike.comment";
+		}
+		
+		//String code = (isCommentLiked) ? "success.like.comment" : "success.dislike.comment";
 
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)

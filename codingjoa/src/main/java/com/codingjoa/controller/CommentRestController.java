@@ -89,9 +89,8 @@ public class CommentRestController {
 
 		commentDto.setUserId(principal.getId());
 		commentDto.setStatus(true);
-		log.info("\t > commentDto = {}", commentDto);
-		
 		commentService.saveComment(commentDto);
+		
 		boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -108,8 +107,6 @@ public class CommentRestController {
 		
 		commentDto.setId(commentId);
 		commentDto.setUserId(principal.getId());
-		log.info("\t > commentDto = {}", commentDto);
-
 		commentService.updateComment(commentDto);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -126,6 +123,7 @@ public class CommentRestController {
 	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
 		commentService.deleteComment(commentId, principal.getId()); // update status
+		boardService.decreaseCommentCount(commentId);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.comment.delete")
