@@ -40,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 // REST : 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
 
 @Api(tags = "Comment API")
-@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor

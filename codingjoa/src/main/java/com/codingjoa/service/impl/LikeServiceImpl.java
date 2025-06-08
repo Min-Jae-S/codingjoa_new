@@ -59,12 +59,12 @@ public class LikeServiceImpl implements LikeService {
 		if (commentLike == null) {
 			log.info("\t > insert commentLike");
 			likeMapper.insertCommentLike(comment.getId(), userId);
-			commentService.increaseLikeCount(comment.getId());
+			//commentService.increaseLikeCount(comment.getId());
 			return true;
 		} else {
 			log.info("\t > delete commentLike");
 			likeMapper.deleteCommentLike(commentLike.getId());
-			commentService.decreaseLikeCount(comment.getId());
+			//commentService.decreaseLikeCount(comment.getId());
 			return false;
 		}
 	}
