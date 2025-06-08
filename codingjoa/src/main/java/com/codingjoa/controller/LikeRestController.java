@@ -101,4 +101,4 @@ public class LikeRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikeCnt).build());
 	}
 	
-}
+}	

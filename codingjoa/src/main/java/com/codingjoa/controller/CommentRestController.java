@@ -115,10 +115,7 @@ public class CommentRestController {
 	}
 
 	@PrivateApi
-	@ApiOperation(
-		value = "댓글 삭제", 
-		notes = "삭제할 댓글의 ID(Long commentId)를 전달받아 기존의 댓글을 삭제한다. (인증 필요)"
-	)
+	@ApiOperation(value = "댓글 삭제", notes = "제할 댓글의 ID(Long commentId)를 전달받아 기존의 댓글을 삭제한다. (인증 필요)")
 	@DeleteMapping("/comments/{commentId}") //@DeleteMapping(value = { "/comments/", "/comments/{commentId}" })
 	public ResponseEntity<Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## delete, commentId = {}", commentId);
