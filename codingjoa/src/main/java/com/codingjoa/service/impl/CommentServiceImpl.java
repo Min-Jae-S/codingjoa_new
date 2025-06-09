@@ -74,8 +74,6 @@ public class CommentServiceImpl implements CommentService {
 		if (!isSaved) {
 			throw new ExpectedException("error.comment.save");
 		}
-		
-		//boardService.increaseCommentCount(board.getId());
 	}
 
 	@Override
@@ -120,8 +118,6 @@ public class CommentServiceImpl implements CommentService {
 		if (!isDeleted) {
 			throw new ExpectedException("error.comment.delete");
 		}
-		
-		//boardService.decreaseCommentCount(comment.getBoardId());
 	}
 
 	@Override

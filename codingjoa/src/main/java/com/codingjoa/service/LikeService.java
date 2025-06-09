@@ -6,7 +6,7 @@ public interface LikeService {
 	
 	boolean toggleCommentLike(Long commentId, Long userId);
 	
-	int getBoardLikeCnt(Long boardId);
-
-	int getCommentLikeCnt(Long commentId);
+//	int getBoardLikeCnt(Long boardId);
+//
+//	int getCommentLikeCnt(Long commentId);
 }
