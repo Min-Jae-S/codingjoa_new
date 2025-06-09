@@ -653,9 +653,14 @@
 		$("#boardLikeBtn").on("click", function() {
 			likeService.toggleBoardLike(boardId, function(result) {
 				alert(result.message);
-				let iconClass = result.data.liked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
+				let liked = result.data;
+				let iconClass = liked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
 				$("#boardLikeBtn .icon").html(`<i class="\${iconClass}"></i>`);
-				$(".board-like-cnt").text(result.data.likeCount);
+				
+				let $cntElement = $(".board-like-cnt");
+				let currentLikeCnt = parseInt($cntElement.text());
+				let newLikeCnt = liked ? currentLikeCnt + 1 : currentLikeCnt - 1;
+				$cntElement.text(newLikeCnt);
 			});
 		});
 		
@@ -666,9 +671,14 @@
 			
 			likeService.toggleCommentLike(commentId, function(result) {
 				alert(result.message);
-				let iconClass = result.data.liked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
+				let liked = result.data;
+				let iconClass = liked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
 				$this.find(".icon").html(`<i class="\${iconClass}"></i>`);
-				$this.find(".comment-like-cnt").text(result.data.likeCount);
+				
+				let $cntElement = $this.find(".comment-like-cnt");
+				let currentLikeCnt = parseInt($cntElement.text());
+				let newLikeCnt = liked ? currentLikeCnt + 1 : currentLikeCnt - 1;
+				$cntElement.text(newLikeCnt);
 			});
 		});
 		

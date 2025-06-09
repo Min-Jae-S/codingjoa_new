@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.annotation.PrivateApi;
-import com.codingjoa.dto.BoardLikeDto;
-import com.codingjoa.dto.CommentLikeDto;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.security.dto.PrincipalDetails;
 import com.codingjoa.service.BoardService;
@@ -39,8 +37,8 @@ public class LikeRestController {
 		log.info("## toggleBoardLike, boardId = {}", boardId);
 		
 		String code;
-		BoardLikeDto boardLikeDto = likeService.toggleBoardLike(boardId, principal.getId());
-		if (boardLikeDto.isLiked()) {
+		boolean liked = likeService.toggleBoardLike(boardId, principal.getId());
+		if (liked) {
 			boardService.increaseLikeCount(boardId);
 			code = "success.like.board";
 		} else {
@@ -50,7 +48,7 @@ public class LikeRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
-				.data(boardLikeDto)
+				.data(liked)
 				.build());
 	}
 	
@@ -61,8 +59,8 @@ public class LikeRestController {
 		log.info("## toggleCommentLike, commentId = {}", commentId);
 		
 		String code;
-		CommentLikeDto commentLikeDto = likeService.toggleCommentLike(commentId, principal.getId());
-		if (commentLikeDto.isLiked()) {
+		boolean liked = likeService.toggleCommentLike(commentId, principal.getId());
+		if (liked) {
 			commentService.increaseLikeCount(commentId);
 			code = "success.like.comment";
 		} else {
@@ -72,7 +70,7 @@ public class LikeRestController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode(code)
-				.data(commentLikeDto)
+				.data(liked)
 				.build());
 	}
 	
