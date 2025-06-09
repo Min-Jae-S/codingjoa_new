@@ -174,5 +174,10 @@ public class BoardServiceImpl implements BoardService {
 		log.info("\t > decrease like count");
 		boardMapper.decreaseLikeCount(boardId);
 	}
+
+	@Override
+	public int getLikeCount(Long boardId) {
+		return getBoard(boardId).getLikeCount();
+	}
 	
 }

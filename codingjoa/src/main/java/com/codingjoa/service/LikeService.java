@@ -1,12 +1,12 @@
 package com.codingjoa.service;
 
+import com.codingjoa.dto.BoardLikeDto;
+import com.codingjoa.dto.CommentLikeDto;
+
 public interface LikeService {
 
-	boolean toggleBoardLike(Long boardId, Long userId);
+	BoardLikeDto toggleBoardLike(Long boardId, Long userId);
 	
-	boolean toggleCommentLike(Long commentId, Long userId);
+	CommentLikeDto toggleCommentLike(Long commentId, Long userId);
 	
-//	int getBoardLikeCnt(Long boardId);
-//
-//	int getCommentLikeCnt(Long commentId);
 }

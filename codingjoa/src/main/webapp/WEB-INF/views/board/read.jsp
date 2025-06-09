@@ -653,13 +653,9 @@
 		$("#boardLikeBtn").on("click", function() {
 			likeService.toggleBoardLike(boardId, function(result) {
 				alert(result.message);
-				let boardLiked = result.data;
-				let iconClass = boardLiked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
+				let iconClass = result.data.liked ? "fa-heart fa-fw fa-solid text-danger" : "fa-heart fa-fw fa-regular";
 				$("#boardLikeBtn .icon").html(`<i class="\${iconClass}"></i>`);
-				
-				likeService.getBoardLikeCnt(boardId, function(result) {
-					$(".board-like-cnt").text(result.data);
-				});
+				$(".board-like-cnt").text(result.data.likeCount);
 			});
 		});
 		
@@ -670,13 +666,9 @@
 			
 			likeService.toggleCommentLike(commentId, function(result) {
 				alert(result.message);
-				let commentLiked = result.data;
-				let iconClass = commentLiked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
+				let iconClass = result.data.liked ? "fa-thumbs-up fa-fw fa-regular text-primary" : "fa-thumbs-up fa-fw fa-regular";
 				$this.find(".icon").html(`<i class="\${iconClass}"></i>`);
-				
-				likeService.getCommentLikeCnt(commentId, function(result) {
-					$this.find(".comment-like-cnt").text(result.data);
-				});
+				$this.find(".comment-like-cnt").text(result.data.likeCount);
 			});
 		});
 		

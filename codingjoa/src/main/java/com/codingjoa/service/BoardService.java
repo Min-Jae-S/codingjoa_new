@@ -36,4 +36,6 @@ public interface BoardService {
 	
 	void decreaseLikeCount(Long boardId);
 	
+	int getLikeCount(Long boardId);
+	
 }

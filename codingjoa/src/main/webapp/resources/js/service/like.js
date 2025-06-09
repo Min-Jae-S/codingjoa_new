@@ -37,47 +37,9 @@ let likeService = (function() {
 		});
 	}
 	
-	function getBoardLikeCnt(boardId, callback) {
-		console.log("## getBoardLikeCnt");
-		$.ajax({
-			type : "GET",
-			url : `${contextPath}/api/boards/${boardId}/likes`,
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				handleError(parseError(jqXHR));
-			}
-		});
-	}
-
-	function getCommentLikeCnt(commentId, callback) {
-		console.log("## getCommentLikeCnt");
-		$.ajax({
-			type : "GET",
-			url : `${contextPath}/api/comments/${commentId}/likes`,
-			dataType : "json",
-			success : function(result) {
-				console.log("%c> SUCCESS", "color:green");
-				console.log(JSON.stringify(result, null, 2));
-				callback(result);
-			},
-			error : function(jqXHR) {
-				console.log("%c> ERROR", "color:red");
-				handleError(parseError(jqXHR));
-			}
-		});
-	}
-	
 	return {
 		toggleBoardLike:toggleBoardLike,
-		toggleCommentLike:toggleCommentLike,
-		getBoardLikeCnt:getBoardLikeCnt,
-		getCommentLikeCnt:getCommentLikeCnt
+		toggleCommentLike:toggleCommentLike
 	};
 	
 })();

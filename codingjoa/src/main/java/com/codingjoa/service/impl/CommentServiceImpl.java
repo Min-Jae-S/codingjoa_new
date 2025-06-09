@@ -144,4 +144,9 @@ public class CommentServiceImpl implements CommentService {
 		commentMapper.decreaseLikeCount(commentId);
 	}
 
+	@Override
+	public int getLikeCount(Long commnetId) {
+		return getComment(commnetId).getLikeCount();
+	}
+
 }

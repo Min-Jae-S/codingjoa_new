@@ -25,4 +25,7 @@ public interface CommentService {
 	void increaseLikeCount(Long commentId);
 	
 	void decreaseLikeCount(Long commentId);
+	
+	int getLikeCount(Long commnetId);
+	
 }

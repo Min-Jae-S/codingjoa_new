@@ -36,9 +36,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// https://velog.io/@yoojkim/Rest-API-RESTful%ED%95%98%EA%B2%8C-URL-%EC%84%A4%EA%B3%84%ED%95%98%EA%B8%B0
-// REST : 자원(HTTP URI), 행위(HTTP Method), 표현(HTTP Message Payload)
-
 @Api(tags = "Comment API")
 @Slf4j
 @RequestMapping("/api")
@@ -85,11 +82,9 @@ public class CommentRestController {
 	public ResponseEntity<Object> write(@Valid @RequestBody CommentDto commentDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## write");
-
 		commentDto.setUserId(principal.getId());
 		commentDto.setStatus(true);
 		commentService.saveComment(commentDto);
-		
 		boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
@@ -103,7 +98,6 @@ public class CommentRestController {
 	public ResponseEntity<Object> modify(@PathVariable Long commentId, 
 			@Valid @RequestBody CommentDto commentDto, @AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## modify, commentId = {}", commentId);
-		
 		commentDto.setId(commentId);
 		commentDto.setUserId(principal.getId());
 		commentService.updateComment(commentDto);
