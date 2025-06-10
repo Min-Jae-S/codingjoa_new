@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
-import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.CommentMapper;
@@ -38,11 +37,11 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Override
 	public List<CommentDetailsDto> getPagedComments(Long boardId, CommentCriteria commentCri, Long userId) {
-		log.info("\t > prior to finding pagedComments, find board");
-		Board board = boardService.getBoard(boardId);
+		log.info("\t > prior to finding pagedComments, validating existence of board");
+		boardService.getBoard(boardId);
 		
 		log.info("\t > find pagedComments");
-		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(board.getId(), commentCri, userId)
+		List<CommentDetailsDto> pagedComments = commentMapper.findPagedComments(boardId, commentCri, userId)
 				.stream()
 				.map(commentDetailsmap -> {
 					CommentDetailsDto commentDetails = CommentDetailsDto.from(commentDetailsmap);
@@ -62,28 +61,28 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void saveComment(CommentDto commentDto) {
-		log.info("\t > prior to inserting comment, find board");
-		Board board = boardService.getBoard(commentDto.getBoardId());
+		log.info("\t > prior to inserting comment, validating existence of board");
+		//Board board = boardService.getBoard(commentDto.getBoardId());
+		boardService.getBoard(commentDto.getBoardId());
 		
 		Comment comment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
 		boolean isSaved = commentMapper.insertComment(comment);
-		log.info("\t > saved comment id: {}", comment.getId());
-
 		if (!isSaved) {
 			throw new ExpectedException("error.comment.save");
 		}
 		
 		// additional update of the denormalized comment_count column
-		int count = board.getCommentCount() + 1;
-		boardService.updateCommentCount(count, board.getId());
+		//int count = board.getCommentCount() + 1;
+		//boardService.updateCommentCount(count, board.getId()); 	// UPDATE ... SET comment_count = #{commentCount}
+		
+		boardService.increaseCommentCount(commentDto.getBoardId()); 	// UPDATE ... SET comment_count = comment_count + 1
 	}
 
 	@Override
 	public void updateComment(CommentDto commentDto) {
 		Comment comment = getComment(commentDto.getId());
-		
 		if (!comment.getStatus()) {
 			throw new ExpectedException("error.comment.alreadyDeleted");
 		}
@@ -93,8 +92,6 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		Comment modifyComment = commentDto.toEntity();
-		log.info("\t > convert commentDto to comment entity = {}", modifyComment);
-		
 		boolean isUpdated = commentMapper.updateComment(modifyComment);
 		if (!isUpdated) {
 			throw new ExpectedException("error.comment.update");
@@ -104,7 +101,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void deleteComment(Long commentId, Long userId) {
 		Comment comment = getComment(commentId);
-		
 		if (!comment.getStatus()) {
 			throw new ExpectedException("error.comment.alreadyDeleted");
 		}
@@ -127,8 +123,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment getComment(Long commentId) {
 		Comment comment = commentMapper.findCommentById(commentId);
-		log.info("\t > found comment = {}", comment);
-		
 		if (comment == null) {
 			throw new ExpectedException("error.comment.notFound");
 		}
@@ -147,10 +141,4 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > decrease like count");
 		commentMapper.decreaseLikeCount(commentId);
 	}
-
-	@Override
-	public int getLikeCount(Long commnetId) {
-		return getComment(commnetId).getLikeCount();
-	}
-
 }

@@ -45,8 +45,6 @@ public class BoardServiceImpl implements BoardService {
 
 		Board board = boardDto.toEntity();
 		boolean isSaved = boardMapper.insertBoard(board);
-		log.info("\t > saved board id: {}", board.getId());
-
 		if (!isSaved) {
 			throw new ExpectedException("error.board.save");
 		}
@@ -59,8 +57,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDetailsDto getBoardDetails(Long boardId, Long userId) {
 		Map<String, Object> boardDetailsMap = boardMapper.findBoardDetailsById(boardId, userId);
-		log.info("\t > found boardDetailsMap = {}", boardDetailsMap);
-		
 		if (boardDetailsMap == null) {
 			throw new ExpectedException("error.board.notFound");
 		}
@@ -92,7 +88,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto getModifyBoard(Long boardId, Long userId) {
 		Board board = getBoard(boardId);
-		
 		if (!board.getUserId().equals(userId)) {
 			throw new ExpectedException("error.board.notWriter");
 		}
@@ -103,7 +98,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board modifyBoard(BoardDto boardDto) {
 		Board board = getBoard(boardDto.getId());
-		
 		if (board.getUserId() != boardDto.getUserId()) {
 			throw new ExpectedException("error.board.notWriter");
 		}
@@ -126,7 +120,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board deleteBoard(Long boardId, Long userId) {
 		Board board = getBoard(boardId);
-		
 		if (!board.getUserId().equals(userId)) {
 			throw new ExpectedException("error.board.notWriter");
 		}
