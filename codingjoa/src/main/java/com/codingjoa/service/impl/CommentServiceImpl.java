@@ -75,6 +75,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
+		// additional update of the denormalized comment_count column
 		boardService.updateCommentCount(board.getCommentCount() + 1, board.getId());
 	}
 

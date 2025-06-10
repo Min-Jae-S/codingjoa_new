@@ -156,12 +156,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void updateCommentCount(int count, Long boardId) {
-		log.info("\t > update comment count");
-		boardMapper.updateCommentCount(count, boardId);
-	}
-	
-	@Override
 	public void increaseCommentCountWithDelay(Long boardId) {
 		log.info("\t > increase comment count with delay");
 		delay();
@@ -180,6 +174,12 @@ public class BoardServiceImpl implements BoardService {
 	public void decreaseCommentCount(Long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);
+	}
+	
+	@Override
+	public void updateCommentCount(int count, Long boardId) {
+		log.info("\t > update comment count, count: {}", count);
+		boardMapper.updateCommentCount(count, boardId);
 	}
 
 	@Override

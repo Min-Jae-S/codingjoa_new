@@ -34,7 +34,7 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>cncurrency.jsp</p>
+	<p>concurrency.jsp</p>
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>

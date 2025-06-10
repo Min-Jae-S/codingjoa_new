@@ -14,6 +14,7 @@ import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.HikariPoolMXBean;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +28,10 @@ public class TestConcurrencyController {
 	@Autowired
 	private HikariConfig hikariConfig;
 
+	@Qualifier("mainDataSource")
+	@Autowired
+	private DataSource dataSource;
+
 	@Autowired
 	private CommentService commentService;
 	
@@ -36,8 +41,16 @@ public class TestConcurrencyController {
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
 		log.info("## test1");
-		log.info("\t > connection timeout: {}", hikariConfig.getConnectionTimeout());
-		log.info("\t > maximum pool size: {}", hikariConfig.getMaximumPoolSize());
+		log.info("\t > conn timeout: {}", hikariConfig.getConnectionTimeout());
+		log.info("\t > max pool size: {}", hikariConfig.getMaximumPoolSize());
+		
+		if (dataSource instanceof HikariDataSource) {
+			HikariDataSource hikari = (HikariDataSource) dataSource;
+			HikariPoolMXBean poolProxy = hikari.getHikariPoolMXBean();
+			log.info("\t > HikariCP pool, total: {}, active: {}, idle: {}, wating: {}", 
+					poolProxy.getTotalConnections(), poolProxy.getActiveConnections(), poolProxy.getIdleConnections(), poolProxy.getThreadsAwaitingConnection());
+		}
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
