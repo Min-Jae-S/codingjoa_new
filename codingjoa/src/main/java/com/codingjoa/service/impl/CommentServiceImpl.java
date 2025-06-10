@@ -76,7 +76,8 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		// additional update of the denormalized comment_count column
-		boardService.updateCommentCount(board.getCommentCount() + 1, board.getId());
+		int count = board.getCommentCount() + 1;
+		boardService.updateCommentCount(count, board.getId());
 	}
 
 	@Override

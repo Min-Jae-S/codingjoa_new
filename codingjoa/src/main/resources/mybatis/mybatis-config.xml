@@ -33,6 +33,9 @@
 		<!-- userDetailsMap(memberImageName) -->
 		<setting name="callSettersOnNulls" value="true"/>
 		<!-- <setting name="cacheEnabled" value="false"/> -->
+		
+		<!-- lock timeout, java.sql.SQLTimeoutException -->
+		<setting name="defaultStatementTimeout" value="10"/>
 	</settings>
 	
 	<typeAliases>

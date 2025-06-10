@@ -1,5 +1,7 @@
 package com.codingjoa.controller.test;
 
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class TestConcurrencyController {
 
 	@Qualifier("mainDataSource")
 	@Autowired
-	private DataSource dataSource;
+	private HikariDataSource hikariDataSource;
 
 	@Autowired
 	private CommentService commentService;
@@ -43,15 +45,19 @@ public class TestConcurrencyController {
 		log.info("## test1");
 		log.info("\t > conn timeout: {}", hikariConfig.getConnectionTimeout());
 		log.info("\t > max pool size: {}", hikariConfig.getMaximumPoolSize());
+
+		HikariPoolMXBean poolProxy = hikariDataSource.getHikariPoolMXBean();
+		log.info("\t > HikariCP pool, total: {}, active: {}, idle: {}, wating: {}", 
+				poolProxy.getTotalConnections(), poolProxy.getActiveConnections(), poolProxy.getIdleConnections(), poolProxy.getThreadsAwaitingConnection());
 		
-		if (dataSource instanceof HikariDataSource) {
-			HikariDataSource hikari = (HikariDataSource) dataSource;
-			HikariPoolMXBean poolProxy = hikari.getHikariPoolMXBean();
-			log.info("\t > HikariCP pool, total: {}, active: {}, idle: {}, wating: {}", 
-					poolProxy.getTotalConnections(), poolProxy.getActiveConnections(), poolProxy.getIdleConnections(), poolProxy.getThreadsAwaitingConnection());
-		}
+		Map<String, Object> data = Map.of(
+			"total", poolProxy.getTotalConnections(),
+			"active", poolProxy.getActiveConnections(),
+			"idle", poolProxy.getIdleConnections(),
+			"wating", poolProxy.getThreadsAwaitingConnection()
+		);
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
 
 	@GetMapping("/test2")

@@ -36,7 +36,7 @@
 <div class="container my-5">
 	<p>concurrency.jsp</p>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary btn-lg" onclick="test1()">test1</button>
+		<button class="btn btn-warning btn-lg" onclick="test1()">HikariCP pool</button>
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
 	</div>
 </div>
