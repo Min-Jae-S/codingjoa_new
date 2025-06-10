@@ -29,8 +29,12 @@ public interface BoardService {
 	Board getBoard(Long boardId);
 	
 	void increaseCommentCount(Long boardId);
+
+	void increaseCommentCountWithDelay(Long boardId);
 	
 	void decreaseCommentCount(Long boardId);
+	
+	void updateCommentCount(int count, Long boardId);
 	
 	void increaseLikeCount(Long boardId);
 	

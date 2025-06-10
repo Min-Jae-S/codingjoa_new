@@ -33,6 +33,8 @@ public interface BoardMapper {
 	
 	void decreaseCommentCount(Long boardId);
 	
+	void updateCommentCount(@Param("count") int count, @Param("id") Long boardId);
+	
 	void increaseLikeCount(Long boardId);
 	
 	void decreaseLikeCount(Long boardId);

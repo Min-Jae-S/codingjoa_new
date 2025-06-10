@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void saveComment(CommentDto commentDto) {
 		log.info("\t > prior to inserting comment, find board");
-		boardService.getBoard(commentDto.getBoardId());
+		Board board = boardService.getBoard(commentDto.getBoardId());
 		
 		Comment comment = commentDto.toEntity();
 		log.info("\t > convert commentDto to comment entity = {}", comment);
@@ -75,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-		boardService.increaseCommentCount(commentDto.getBoardId());
+		boardService.updateCommentCount(board.getCommentCount() + 1, board.getId());
 	}
 
 	@Override

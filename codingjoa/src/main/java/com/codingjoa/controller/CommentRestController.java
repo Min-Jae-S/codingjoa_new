@@ -86,6 +86,7 @@ public class CommentRestController {
 		commentDto.setStatus(true);
 		commentService.saveComment(commentDto);
 		//boardService.increaseCommentCount(commentDto.getBoardId());
+		//boardService.increaseCommentCountWithDelay(commentDto.getBoardId());
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.comment.write")
