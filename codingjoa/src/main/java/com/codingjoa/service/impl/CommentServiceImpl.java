@@ -74,6 +74,8 @@ public class CommentServiceImpl implements CommentService {
 		if (!isSaved) {
 			throw new ExpectedException("error.comment.save");
 		}
+		
+		boardService.increaseCommentCount(commentDto.getBoardId());
 	}
 
 	@Override
