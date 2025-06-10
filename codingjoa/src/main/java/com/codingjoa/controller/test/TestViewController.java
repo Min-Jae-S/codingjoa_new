@@ -258,5 +258,11 @@ public class TestViewController {
 		log.info("## batchQuartz main");
 		return "test//batch-quartz";
 	}
+
+	@GetMapping("/concurrency")
+	public String concurrency() {
+		log.info("## concurrency main");
+		return "test/concurrency";
+	}
 	
 }

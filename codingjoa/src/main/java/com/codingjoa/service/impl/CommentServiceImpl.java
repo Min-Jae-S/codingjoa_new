@@ -69,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > convert commentDto to comment entity = {}", comment);
 		
 		boolean isSaved = commentMapper.insertComment(comment);
-		log.info("\t > saved comment = {}", comment);
+		log.info("\t > saved comment id: {}", comment.getId());
 
 		if (!isSaved) {
 			throw new ExpectedException("error.comment.save");

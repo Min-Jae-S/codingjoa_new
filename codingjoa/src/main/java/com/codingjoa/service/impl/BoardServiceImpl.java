@@ -45,7 +45,7 @@ public class BoardServiceImpl implements BoardService {
 
 		Board board = boardDto.toEntity();
 		boolean isSaved = boardMapper.insertBoard(board);
-		log.info("\t > saved board = {}", board.getId());
+		log.info("\t > saved board id: {}", board.getId());
 
 		if (!isSaved) {
 			throw new ExpectedException("error.board.save");
@@ -142,8 +142,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board getBoard(Long boardId) {
 		Board board = boardMapper.findBoardById(boardId);
-		log.info("\t > found board = {}", board);
-		
 		if (board == null) {
 			throw new ExpectedException("error.board.notFound");
 		}
