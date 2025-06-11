@@ -1,12 +1,16 @@
 package com.codingjoa.controller.test;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +39,10 @@ public class TestRedisConcurrencyController {
 	@Qualifier("mainDataSource")
 	@Autowired
 	private HikariDataSource hikariDataSource;
-
+	
+	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
+	
 	@Autowired
 	private CommentService commentService;
 	
@@ -45,9 +52,9 @@ public class TestRedisConcurrencyController {
 	@Autowired
 	private RedisService redisService;
 	
-	@GetMapping("/test1")
-	public ResponseEntity<Object> test1() {
-		log.info("## test1");
+	@GetMapping("/hikari")
+	public ResponseEntity<Object> hikariInfo() {
+		log.info("## hikariInfo");
 		log.info("\t > conn timeout: {}", hikariConfig.getConnectionTimeout());
 		log.info("\t > max pool size: {}", hikariConfig.getMaximumPoolSize());
 
@@ -66,35 +73,58 @@ public class TestRedisConcurrencyController {
 	}
 	
 	@GetMapping("/redis")
-	public ResponseEntity<Object> redisTest() {
-		log.info("## redisTest");
-		String key = UUID.randomUUID().toString();
-		log.info("\t > key: {}", key);
-		log.info("\t > initial value: {}", redisService.get(key));
-		
-		log.info("\t > save \"ABC\"");
-		redisService.save(key, "ABC");
-		log.info("\t\t - value: {}", redisService.get(key));
-
-		log.info("\t > save 123");
-		redisService.save(key, 123);
-		log.info("\t\t - value: {}", redisService.get(key));
+	public ResponseEntity<Object> redisInfo() {
+		log.info("## redisInfo");
+		log.info("\t > {}", redisTemplate.getClass().getSimpleName());
+		log.info("\t\t - key serializer: {}", redisTemplate.getKeySerializer());
+		log.info("\t\t - value serializer: {}", redisTemplate.getValueSerializer());
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/redis/init")
+	public ResponseEntity<Object> initRedis() {
+		log.info("## initRedis");
+		redisTemplate.getConnectionFactory().getConnection().flushAll();
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/incr")
-	public ResponseEntity<Object> incrTest() {
-		log.info("## incrTest");
+	@GetMapping("/redis/keys")
+	public ResponseEntity<Object> redisKeys() {
+		log.info("## redisKeys");
+		Set<String> keys = redisService.keys("*");
+		log.info("\t > keys: {}", keys);
+		return ResponseEntity.ok(SuccessResponse.builder().data(keys).build());
+	}
+	
+	@GetMapping("/redis/sample")
+	public ResponseEntity<Object> redisSample() {
+		log.info("## redisSample");
+		String key = UUID.randomUUID().toString().replace("-", "");
+		log.info("\t > key: {}", key);
+		log.info("\t > initial value: {}", redisService.get(key));
+		
+		redisService.save(key, "ABC");
+		log.info("\t > saved \"ABC\", value: {}",  redisService.get(key));
+		
+		redisService.save(key, 123);
+		log.info("\t > saved 123, value: {}", redisService.get(key));
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/redis/incr")
+	public ResponseEntity<Object> redisIncr() {
+		log.info("## redisIncr");
 		Long boardId = 197481L;
 		String key = String.format("board:%s:comment_delta", boardId);
-		log.info("\t > initial: {} [ {} ]", redisService.get(key), key);
+		log.info("\t > key: {}, hasKey: {}", key, redisService.hasKey(key));
+		log.info("\t > initial: {}", redisService.get(key));
 		
-		log.info("\t > start adjust count (10 trials)");
 		for (int i = 0; i < 10; i++) {
-			redisService.adjustCount(key, 1);
+			redisService.increment(key, 1);
 		}
 		
-		log.info("\t > final: {} [ {} ]", redisService.get(key), key);
+		log.info("\t > final: {}", redisService.get(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}

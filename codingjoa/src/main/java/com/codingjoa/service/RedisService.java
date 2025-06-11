@@ -1,6 +1,7 @@
 package com.codingjoa.service;
 
 import java.time.Duration;
+import java.util.Set;
 
 public interface RedisService {
 	
@@ -14,6 +15,8 @@ public interface RedisService {
 	
 	void delete(String key);
 	
-	void adjustCount(String key, long delta);
+	void increment(String key, long delta);
+	
+	Set<String> keys(String pattern);
 	
 }

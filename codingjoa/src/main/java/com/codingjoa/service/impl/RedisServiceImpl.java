@@ -1,9 +1,12 @@
 package com.codingjoa.service.impl;
 
 import java.time.Duration;
+import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.service.RedisService;
@@ -46,16 +49,20 @@ public class RedisServiceImpl implements RedisService {
 	
 	@Override
 	public void delete(String key) {
-		Boolean result = redisTemplate.delete(key);
-		if (result == null) {
+		Boolean deleted = redisTemplate.delete(key);
+		if (deleted == null) {
 			throw new RedisSystemException("delete() returned unexpected null for key:" + key, null);
 		}
 	}
 
 	@Override
-	public void adjustCount(String key, long delta) {
+	public void increment(String key, long delta) {
 		redisTemplate.opsForValue().increment(key, delta);
 	}
-	
+
+	@Override
+	public Set<String> keys(String pattern) {
+		return redisTemplate.keys(pattern);
+	}
 
 }
