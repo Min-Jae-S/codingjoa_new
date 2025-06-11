@@ -121,7 +121,7 @@ public class UserRestController {
 		log.info("\t > authCode = {}", authCode);
 		
 		emailService.send(email, MailType.EMAIL_UPDATE, authCode);
-		redisService.saveKeyAndValue(email, authCode);
+		redisService.save(email, authCode);
 		
 		return ResponseEntity.ok(SuccessResponse.builder()
 				.messageByCode("success.user.sendAuthCode")
@@ -153,7 +153,7 @@ public class UserRestController {
 		log.info("\t > emailAuthDto = {}", emailAuthDto);
 		
 		userService.updateEmail(emailAuthDto, principal.getId());
-		redisService.deleteKey(emailAuthDto.getEmail());
+		redisService.delete(emailAuthDto.getEmail());
 		
 		PrincipalDetails newPrincipal = userService.getUserDetailsById(principal.getId());
 		refreshJwt(newPrincipal, request, response);

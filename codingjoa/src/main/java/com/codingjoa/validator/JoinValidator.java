@@ -62,7 +62,7 @@ public class JoinValidator implements Validator {
 			return;
 		} 
 		
-		String savedCode = (String) redisService.findValueByKey(email);
+		String savedCode = (String) redisService.get(email);
 		if (!authCode.equals(savedCode)) {
 			errors.rejectValue("authCode", "NotValid");
 			return;

@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
 		//int count = board.getCommentCount() + 1;
 		//boardService.updateCommentCount(count, board.getId()); 	// UPDATE ... SET comment_count = #{commentCount}
 		
-		boardService.increaseCommentCount(commentDto.getBoardId()); 	// UPDATE ... SET comment_count = comment_count + 1
+		boardService.increaseCommentCount(commentDto.getBoardId()); // UPDATE ... SET comment_count = comment_count + 1
 	}
 
 	@Override

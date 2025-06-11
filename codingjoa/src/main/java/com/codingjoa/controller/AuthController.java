@@ -68,7 +68,7 @@ public class AuthController {
 		}
 		
 		userService.saveUser(joinDto);
-		redisService.deleteKey(joinDto.getEmail());
+		redisService.delete(joinDto.getEmail());
 		
 		request.setAttribute("message", MessageUtils.getMessage("success.auth.join"));
 		request.setAttribute("continueUrl", UriUtils.buildDefaultLoginUrl(request));

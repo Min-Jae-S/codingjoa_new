@@ -20,11 +20,10 @@ public class RedisServiceImpl implements RedisService {
 	private final RedisTemplate<String, Object> redisTemplate;
 
 	@Override
-	public void saveKeyAndValue(String key, Object value) {
-		log.info("## saveKeyAndValue");
-		log.info("\t > key = {}, value = {}", key, value);
-		ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-		valueOperations.set(key, value, KEY_EXPIRATION);
+	public void save(String key, Object value) {
+		log.info("## save redis key: {}, value: {}", key, value);
+		ValueOperations<String, Object> ops = redisTemplate.opsForValue();
+		ops.set(key, value, KEY_EXPIRATION);
 	}
 
 	@Override
@@ -33,14 +32,13 @@ public class RedisServiceImpl implements RedisService {
 	}
 	
 	@Override
-	public Object findValueByKey(String key) {
-		log.info("## findValueByKey, key = {}", key);
-		ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-		return valueOperations.get(key);
+	public Object get(String key) {
+		log.info("## find redis value by key: {}", key);
+		return redisTemplate.opsForValue().get(key);
 	}
 	
 	@Override
-	public void deleteKey(String key) {
+	public void delete(String key) {
 		redisTemplate.delete(key);
 	}
 
