@@ -1,6 +1,7 @@
 package com.codingjoa.controller.test;
 
 import java.util.Map;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -23,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @SuppressWarnings("unused")
 @Slf4j
-@RequestMapping("/test/concurrency")
+@RequestMapping("/test/redis-concurrency")
 @RestController
-public class TestConcurrencyController {
+public class TestRedisConcurrencyController {
 
 	@Qualifier("mainHikariConfig")
 	@Autowired
@@ -63,10 +64,38 @@ public class TestConcurrencyController {
 		
 		return ResponseEntity.ok(SuccessResponse.builder().data(data).build());
 	}
+	
+	@GetMapping("/redis")
+	public ResponseEntity<Object> redisTest() {
+		log.info("## redisTest");
+		String key = UUID.randomUUID().toString();
+		log.info("\t > key: {}", key);
+		log.info("\t > initial value: {}", redisService.get(key));
+		
+		log.info("\t > save \"ABC\"");
+		redisService.save(key, "ABC");
+		log.info("\t\t - value: {}", redisService.get(key));
 
-	@GetMapping("/test2")
-	public ResponseEntity<Object> test2() {
-		log.info("## test2");
+		log.info("\t > save 123");
+		redisService.save(key, 123);
+		log.info("\t\t - value: {}", redisService.get(key));
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/incr")
+	public ResponseEntity<Object> incrTest() {
+		log.info("## incrTest");
+		Long boardId = 197481L;
+		String key = String.format("board:%s:comment_delta", boardId);
+		log.info("\t > initial: {} [ {} ]", redisService.get(key), key);
+		
+		log.info("\t > start adjust count (10 trials)");
+		for (int i = 0; i < 10; i++) {
+			redisService.adjustCount(key, 1);
+		}
+		
+		log.info("\t > final: {} [ {} ]", redisService.get(key), key);
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	

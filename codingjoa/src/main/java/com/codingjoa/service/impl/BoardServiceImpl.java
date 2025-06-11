@@ -149,21 +149,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void increaseCommentCountWithDelay(Long boardId) {
-		log.info("\t > increase comment count with delay");
-		delay();
-		boardMapper.increaseCommentCount(boardId);
-	}
-	
-	private void delay() {
-		try {  
-	        Thread.sleep((long)(Math.random() * 1000));  
-	    } catch (InterruptedException e) {  
-	        throw new RuntimeException(e);  
-	    }
-	}
-	
-	@Override
 	public void decreaseCommentCount(Long boardId) {
 		log.info("\t > decrease comment count");
 		boardMapper.decreaseCommentCount(boardId);

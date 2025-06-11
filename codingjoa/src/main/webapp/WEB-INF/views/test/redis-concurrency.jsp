@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>concurrency.jsp</title>
+<title>redis-concurrency.jsp</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,10 +34,13 @@
 <body>
 <c:import url="/WEB-INF/views/include/top-menu.jsp"/>
 <div class="container my-5">
-	<p>concurrency.jsp</p>
+	<p>redis-concurrency.jsp</p>
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-warning btn-lg" onclick="test1()">HikariCP pool</button>
-		<button class="btn btn-primary btn-lg" onclick="test2()">test2</button>
+	</div>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-primary btn-lg" onclick="redisTest()">redis test</button>
+		<button class="btn btn-primary btn-lg" onclick="incrTest()">redis INCR test</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -50,7 +53,41 @@
 		console.log("## test1");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/concurrency/test1",
+			url : "${contextPath}/test/redis-concurrency/test1",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+	
+	function redisTest() {
+		console.log("## incrTest");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/redis",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function incrTest() {
+		console.log("## incrTest");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/incr",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

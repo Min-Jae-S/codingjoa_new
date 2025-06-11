@@ -70,8 +70,6 @@ public class CommentServiceImpl implements CommentService {
 		boardService.getBoard(commentDto.getBoardId());
 		
 		Comment comment = commentDto.toEntity();
-		log.info("\t > convert commentDto to comment entity = {}", comment);
-		
 		boolean isSaved = commentMapper.insertComment(comment);
 		if (!isSaved) {
 			throw new ExpectedException("error.comment.save");

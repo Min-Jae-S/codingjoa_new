@@ -11,6 +11,7 @@ import com.codingjoa.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -26,7 +27,6 @@ public class RedisServiceImpl implements RedisService {
 	
 	@Override
 	public void save(String key, Object value, Duration expiration) {
-		log.info("## save redis key: {}, value: {}", key, value);
 		redisTemplate.opsForValue().set(key, value, expiration);
 	}
 	
@@ -41,7 +41,6 @@ public class RedisServiceImpl implements RedisService {
 	
 	@Override
 	public Object get(String key) {
-		log.info("## find redis value by key: {}", key);
 		return redisTemplate.opsForValue().get(key);
 	}
 	

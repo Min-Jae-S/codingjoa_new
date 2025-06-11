@@ -259,10 +259,10 @@ public class TestViewController {
 		return "test//batch-quartz";
 	}
 
-	@GetMapping("/concurrency")
-	public String concurrency() {
-		log.info("## concurrency main");
-		return "test/concurrency";
+	@GetMapping("/redis-concurrency")
+	public String redisConcurrency() {
+		log.info("## redisConcurrency main");
+		return "test/redis-concurrency";
 	}
 	
 }
