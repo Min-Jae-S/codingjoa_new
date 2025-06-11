@@ -40,12 +40,18 @@
 		<button class="btn btn-warning btn-lg" onclick="redisInfo()">Redis info</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary btn-lg" onclick="initRedis()">init redis</button>
-		<button class="btn btn-primary btn-lg" onclick="redisKeys()">redis keys</button>
+		<button class="btn btn-outline-primary btn-lg" onclick="initRedis()">initiate redis</button>
+		<button class="btn btn-outline-primary btn-lg" onclick="redisSample()">redis sample</button>
+		<button class="btn btn-outline-primary btn-lg" onclick="redisEntries()">redis entries</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary btn-lg" onclick="redisSample()">redis sample test</button>
-		<button class="btn btn-primary btn-lg" onclick="redisIncr()">redis INCR test</button>
+		<button class="btn btn-primary btn-lg" onclick="redisIncr()">redis INCR</button>
+		<button class="btn btn-primary btn-lg" onclick="redisIncr2()">redis INCR2</button>
+		<button class="btn btn-primary btn-lg" onclick="redisIncr3()">redis INCR3</button>
+	</div>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-primary btn-lg" onclick="test1()">test1<br>(no CountDownLatch)</button>
+		<button class="btn btn-primary btn-lg" onclick="test2()">test2<br>(CountDownLatch)</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -105,11 +111,11 @@
 		});
 	}
 	
-	function redisKeys() {
-		console.log("## redisKeys");
+	function redisEntries() {
+		console.log("## redisEntries");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/redis-concurrency/redis/keys",
+			url : "${contextPath}/test/redis-concurrency/redis/entries",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -144,6 +150,74 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/redis-concurrency/redis/incr",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+	
+	function redisIncr2() {
+		console.log("## redisIncr2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/redis/incr2",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function redisIncr3() {
+		console.log("## redisIncr3");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/redis/incr3",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+
+	function test1() {
+		console.log("## test1");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/test1",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});		
+	}
+	
+	function test2() {
+		console.log("## test2");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/test2",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

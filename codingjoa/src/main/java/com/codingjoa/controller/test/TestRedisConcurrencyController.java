@@ -1,8 +1,12 @@
 package com.codingjoa.controller.test;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.sql.DataSource;
 
@@ -88,19 +92,27 @@ public class TestRedisConcurrencyController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
-	@GetMapping("/redis/keys")
-	public ResponseEntity<Object> redisKeys() {
-		log.info("## redisKeys");
+	@GetMapping("/redis/entries")
+	public ResponseEntity<Object> redisEntries() {
+		log.info("## redisEntries");
+		Map<String, Object> map = new HashMap<>();
+		
 		Set<String> keys = redisService.keys("*");
-		log.info("\t > keys: {}", keys);
-		return ResponseEntity.ok(SuccessResponse.builder().data(keys).build());
+		log.info("\t > keys = {}", keys);
+		
+		for (String key : keys) {
+			Object value = redisService.get(key);
+			log.info("\t > key = {}, value = {} [{}]", key, value, value.getClass().getSimpleName());
+			map.put(key, value);
+		}
+		return ResponseEntity.ok(SuccessResponse.builder().data(map).build());
 	}
 	
 	@GetMapping("/redis/sample")
 	public ResponseEntity<Object> redisSample() {
 		log.info("## redisSample");
 		String key = UUID.randomUUID().toString().replace("-", "");
-		log.info("\t > key: {}", key);
+		log.info("\t > key = {}", key);
 		log.info("\t > initial value: {}", redisService.get(key));
 		
 		redisService.save(key, "ABC");
@@ -115,21 +127,104 @@ public class TestRedisConcurrencyController {
 	@GetMapping("/redis/incr")
 	public ResponseEntity<Object> redisIncr() {
 		log.info("## redisIncr");
-		Long boardId = 197481L;
-		String key = String.format("board:%s:comment_delta", boardId);
-		log.info("\t > key: {}, hasKey: {}", key, redisService.hasKey(key));
+		String key = "test:incr1:count";
 		log.info("\t > initial: {}", redisService.get(key));
 		
 		for (int i = 0; i < 10; i++) {
 			redisService.increment(key, 1);
 		}
-		
 		log.info("\t > final: {}", redisService.get(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
+	@GetMapping("/redis/incr2")
+	public ResponseEntity<Object> redisIncr2() throws InterruptedException {
+		log.info("## redisIncr2");
+		String key = "test:incr2:count";
+		redisService.delete(key);
+		log.info("\t > initial: {}", redisService.get(key));
+		
+		int threadCount = 50;
+		CountDownLatch latch = new CountDownLatch(threadCount);
+		ExecutorService executor = Executors.newFixedThreadPool(10);
+		
+		for (int i = 0; i < threadCount; i++) {
+			executor.submit(() -> {
+				try {
+					log.info("\t > threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+					redisService.increment(key, 1);
+				} catch (Exception e) {
+					log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
+				} finally {
+					latch.countDown();
+				}
+			});
+		}
+		
+		latch.await();
+		log.info("\t > final: {}", redisService.get(key));
+		executor.shutdown();
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/redis/incr3")
+	public ResponseEntity<Object> redisIncr3() {
+		log.info("## redisIncr3");
+		String key = "test:incr3:count";
+		redisService.increment(key, 1);
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/test1")
+	public ResponseEntity<Object> test1() {
+		log.info("## test1: not CountDownLatch");
+		log.info("\t > [start] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+
+		int threadCount = 5;
+		
+		for (int i = 1; i <= threadCount; i++) {
+			new Thread(() -> {
+				try {
+					log.info("\t > [ing...] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}).start();
+		}
+		
+		log.info("\t > [finish] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 	
-	
+	@GetMapping("/test2")
+	public ResponseEntity<Object> test2() throws InterruptedException {
+		log.info("## test2: CountDownLatch");
+		log.info("\t > [start] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+		
+		int threadCount = 5;
+		CountDownLatch latch = new CountDownLatch(threadCount);
+		
+		for (int i = 1; i <= threadCount; i++) {
+			new Thread(() -> {
+				try {
+					log.info("\t > [ing...] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} finally {
+					latch.countDown();
+				}
+			}).start();
+		}
+		
+		latch.await();
+		log.info("\t > [finish] threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 	
 }

@@ -118,7 +118,8 @@ public class AuthRestController {
 			throw new ExpectedException("error.auth.reset-password.notValidToken");
 		}
 		
-		Long userId = (Long) redisService.get(token);
+		//Long userId = (Long) redisService.get(token);
+		Long userId = ((Integer) redisService.get(token)).longValue(); // Long -> Integer auto-conversion by GenericJackson2JsonRedisSerializer
 		userService.resetPassword(passwordResetDto.getNewPassword(), userId);
 		
 		redisService.delete(token);
@@ -133,7 +134,7 @@ public class AuthRestController {
 	public ResponseEntity<Object> createPasswordResetToken() {
 		log.info("## createPasswordResetToken");
 		
-		long userId = 1;
+		Long userId = 1L;
 		String token = UUID.randomUUID().toString().replace("-", "");
 		log.info("\t > created token = {}", token);
 		
