@@ -16,9 +16,11 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @Service
@@ -26,12 +28,14 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentMapper commentMapper;
 	private final BoardService boardService;
+	private final RedisService redisService;
 	private final int pageRange;
 	
-	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService, RedisService redisService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;
 		this.boardService = boardService;
+		this.redisService = redisService;
 		this.pageRange = pageRange;
 	}
 	

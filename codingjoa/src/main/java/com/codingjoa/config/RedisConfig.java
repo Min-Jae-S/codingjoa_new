@@ -23,26 +23,11 @@ public class RedisConfig {
 		return new LettuceConnectionFactory(host, port);
 	}
 	
-	
 	@Bean
 	public RedisTemplate<?, ?> redistTemplate() {
 		RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		return redisTemplate;
 	}
-	
-//	@Bean
-//	public RedisSerializer<?> redisSerializer() {
-//		return new StringRedisSerializer();
-//	}
-	
-//	@Bean
-//	public RedisTemplate<String, String> redisTemplate() {
-//		RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory());
-//        redisTemplate.setDefaultSerializer(redisSerializer());
-//
-//        return redisTemplate;
-//	}
 	
 }

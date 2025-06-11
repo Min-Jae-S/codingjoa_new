@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.service.RedisService;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
@@ -39,6 +40,9 @@ public class TestConcurrencyController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private RedisService redisService;
 	
 	@GetMapping("/test1")
 	public ResponseEntity<Object> test1() {
