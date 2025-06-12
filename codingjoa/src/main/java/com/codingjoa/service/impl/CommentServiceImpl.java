@@ -16,7 +16,6 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
-import com.codingjoa.service.CountService;
 import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +28,14 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentMapper commentMapper;
 	private final BoardService boardService;
-	private final CountService countService;
+	private final RedisService redisService;
 	private final int pageRange;
 	
-	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService, CountService countService,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService, RedisService redisService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;
 		this.boardService = boardService;
-		this.countService = countService;
+		this.redisService = redisService;
 		this.pageRange = pageRange;
 	}
 	
@@ -85,8 +84,9 @@ public class CommentServiceImpl implements CommentService {
 		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1
 		boardService.increaseCommentCount(commentDto.getBoardId());
 		
-		// 3) update using Redis + scheduler
-		//countService.incrementCommentCount(commentDto.getBoardId());
+		// 3) update using redis + scheduler
+		//String key = String.format("board:%d:comment_count", commentDto.getBoardId());
+		//redisService.applyDelta(key, 1);
 	}
 
 	@Override

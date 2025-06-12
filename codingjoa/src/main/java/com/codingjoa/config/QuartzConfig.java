@@ -37,15 +37,6 @@ public class QuartzConfig {
 		return schedulerFactory;
 	}
 	
-//	@Bean
-//	public Trigger testTrigger() {
-//		return TriggerBuilder.newTrigger()
-//				.forJob(boardImageCleanupJobDetail())
-//				.withIdentity("testTrigger", "batchTriggers")
-//				.withSchedule(SimpleScheduleBuilder.repeatMinutelyForever(5))
-//				.build();
-//	}
-	
 	@Bean
 	public JobDetail boardImageCleanupJobDetail() {
 		return JobBuilder.newJob(BoardImageCleanupQuartzJob.class)
@@ -59,7 +50,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(boardImageCleanupJobDetail())
 				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 4 * * ?"))
 				.build();
 	}
 
@@ -76,7 +67,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(userImageCleanupJobDetail())
 				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 4 * * ?"))
 				.build();
 	}
 	
@@ -93,7 +84,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(boardSyncJobDetail())
 				.withIdentity("boardImageCleanupTrigger", "batchTriggerGorup")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 4 * * ?"))
 				.build();
 	}
 	
@@ -110,7 +101,7 @@ public class QuartzConfig {
 		return TriggerBuilder.newTrigger()
 				.forJob(commentSyncJobDetail())
 				.withIdentity("commentSyncTrigger", "batchTriggerGorup")
-				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 3 * * ?"))
+				.withSchedule(CronScheduleBuilder.cronSchedule("0 0 4 * * ?"))
 				.build();
 	}
 	

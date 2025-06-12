@@ -28,6 +28,7 @@ import com.codingjoa.config.MybatisConfig;
 import com.codingjoa.config.OAuth2Config;
 import com.codingjoa.config.QuartzConfig;
 import com.codingjoa.config.RedisConfig;
+import com.codingjoa.config.SchedulingConfig;
 import com.codingjoa.config.SecurityConfig;
 import com.codingjoa.config.ServletConfig;
 import com.codingjoa.config.SwaggerConfig;
@@ -54,7 +55,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 				BatchConfig.class,
 				BatchJobConfig.class,
 				OAuth2Config.class,
-				AopConfig.class
+				AopConfig.class,
+				SchedulingConfig.class
 		};
 	}
 

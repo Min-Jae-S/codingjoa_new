@@ -1,6 +1,8 @@
 package com.codingjoa.scheduler;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,17 +21,18 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class CountFlushScheduler {
 
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	private final RedisService redisService;
-	private final BoardService boardSerivce;
+	private final BoardService boardService;
 	private final CommentService commentService;
 	
 	@Scheduled(cron = "0 0/1 * * * ?")
+	//@Scheduled(fixedRate = 30000)
 	public void flushCommentCount() {
-		log.info("## flushCommentCount, executed at: {}", LocalDateTime.now());
+		log.info("## flushCommentCount, executed at: {}", LocalDateTime.now().format(formatter));
 		
 		Set<String> keys = redisService.keys("board:*:comment_count");
 		if (keys == null || keys.isEmpty()) {
-			log.info("\t > no comment count for flush");
 			return;
 		}
 		
@@ -39,8 +42,8 @@ public class CountFlushScheduler {
 				continue;
 			}
 			
-			Long boardId = extractBoardId(key);
-			boardSerivce.applyCommentCountDelta(countDelta, boardId);
+			Long boardId = extractEntityId(key);
+			boardService.applyCommentCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
 			log.info("\t > flushed '{}', countDelta: {}, boardId: {}", countDelta, boardId);
@@ -48,7 +51,15 @@ public class CountFlushScheduler {
 		
 	}
 	
-	private Long extractBoardId(String key) {
+	public void flushBoardLikeCount() {
+		log.info("## flushBoardLikeCount, executed at: {}", LocalDateTime.now().format(formatter));
+	}
+	
+	public void flushCommentLikeCount() {
+		log.info("## flushCommentLikeCount, executed at: {}", LocalDateTime.now().format(formatter));
+	}
+	
+	private Long extractEntityId(String key) {
 		String[] parts = key.split(":"); // "board:123:comment_count" --> [ "board", "123", "comment_count" ]
 		return Long.parseLong(parts[1]);
 	}

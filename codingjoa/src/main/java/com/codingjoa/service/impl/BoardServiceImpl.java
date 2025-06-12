@@ -178,7 +178,6 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.decreaseLikeCount(boardId);
 	}
 
-
 	@Override
 	public void applyLikeCountDelta(Integer countDelta, Long boardId) {
 		log.info("\t > apply like count");
