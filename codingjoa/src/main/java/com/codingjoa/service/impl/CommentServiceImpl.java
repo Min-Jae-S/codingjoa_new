@@ -75,11 +75,18 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-		// additional update of the denormalized comment_count column
-		//int count = board.getCommentCount() + 1;
-		//boardService.updateCommentCount(count, board.getId()); 	// UPDATE ... SET comment_count = #{commentCount}
+		/* additional update of the denormalized comment_count column */
 		
-		boardService.increaseCommentCount(commentDto.getBoardId()); // UPDATE ... SET comment_count = comment_count + 1
+		// 1) non-atomic update: UPDATE ... SET comment_count = #{commentCount} )
+		//int count = board.getCommentCount() + 1;
+		//boardService.updateCommentCount(count, board.getId());
+		
+		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1 )
+		boardService.increaseCommentCount(commentDto.getBoardId());
+		
+		// 3) update using Redis + scheduler
+		//String key = String.format("board:%s:comment_count", commentDto.getBoardId());
+		//redisService.increment(key, 1);
 	}
 
 	@Override
@@ -143,4 +150,5 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > decrease like count");
 		commentMapper.decreaseLikeCount(commentId);
 	}
+	
 }

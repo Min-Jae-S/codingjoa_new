@@ -118,7 +118,7 @@ public class TestRedisConcurrencyController {
 		redisService.save(key, "ABC");
 		log.info("\t > saved \"ABC\", value: {}",  redisService.get(key));
 		
-		redisService.save(key, 123);
+		redisService.save(key, 123L);
 		log.info("\t > saved 123, value: {}", redisService.get(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create());
@@ -127,14 +127,8 @@ public class TestRedisConcurrencyController {
 	@GetMapping("/redis/incr")
 	public ResponseEntity<Object> redisIncr() {
 		log.info("## redisIncr");
-		String key = "test:incr1:count";
-		log.info("\t > initial: {}", redisService.get(key));
-		
-		for (int i = 0; i < 10; i++) {
-			redisService.increment(key, 1);
-		}
-		log.info("\t > final: {}", redisService.get(key));
-		
+		String key = "test:incr:count";
+		redisService.increment(key, 1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -166,14 +160,6 @@ public class TestRedisConcurrencyController {
 		log.info("\t > final: {}", redisService.get(key));
 		executor.shutdown();
 		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
-
-	@GetMapping("/redis/incr3")
-	public ResponseEntity<Object> redisIncr3() {
-		log.info("## redisIncr3");
-		String key = "test:incr3:count";
-		redisService.increment(key, 1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
