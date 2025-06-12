@@ -29,14 +29,18 @@ public interface BoardMapper {
 
 	boolean deleteBoard(Board board);
 	
+	void updateCommentCount(@Param("count") int count, @Param("id") Long boardId);
+	
 	void increaseCommentCount(Long boardId);
 	
 	void decreaseCommentCount(Long boardId);
 	
-	void updateCommentCount(@Param("count") int count, @Param("id") Long boardId);
+	void applyCommentCountDelta(@Param("countDelta") Integer countDelta, @Param("id") Long boardId);
 	
 	void increaseLikeCount(Long boardId);
 	
 	void decreaseLikeCount(Long boardId);
+	
+	void applyLikeCountDelta(@Param("countDelta") Integer countDelta, @Param("id") Long boardId);
 
 }

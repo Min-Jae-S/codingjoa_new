@@ -28,14 +28,18 @@ public interface BoardService {
 	
 	Board getBoard(Long boardId);
 	
+	void updateCommentCount(int count, Long boardId);
+	
 	void increaseCommentCount(Long boardId);
 
 	void decreaseCommentCount(Long boardId);
 	
-	void updateCommentCount(int count, Long boardId);
+	void applyCommentCountDelta(Integer countDelta, Long boardId);
 	
 	void increaseLikeCount(Long boardId);
 	
 	void decreaseLikeCount(Long boardId);
+	
+	void applyLikeCountDelta(Integer countDelta, Long boardId);
 	
 }

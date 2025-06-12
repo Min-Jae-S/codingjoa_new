@@ -128,7 +128,7 @@ public class TestRedisConcurrencyController {
 	public ResponseEntity<Object> redisIncr() {
 		log.info("## redisIncr");
 		String key = "test:incr:count";
-		redisService.increment(key, 1);
+		redisService.applyDelta(key, 1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -147,7 +147,7 @@ public class TestRedisConcurrencyController {
 			executor.submit(() -> {
 				try {
 					log.info("\t > threadName: {}, threadId: {}", Thread.currentThread().getName(), Thread.currentThread().getId());
-					redisService.increment(key, 1);
+					redisService.applyDelta(key, 1);
 				} catch (Exception e) {
 					log.info("\t > {}: {}", e.getClass().getSimpleName(), e.getMessage());
 				} finally {

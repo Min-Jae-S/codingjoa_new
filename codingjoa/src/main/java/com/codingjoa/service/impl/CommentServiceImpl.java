@@ -16,6 +16,7 @@ import com.codingjoa.pagination.CommentCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
+import com.codingjoa.service.CountService;
 import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +29,14 @@ public class CommentServiceImpl implements CommentService {
 
 	private final CommentMapper commentMapper;
 	private final BoardService boardService;
-	private final RedisService redisService;
+	private final CountService countService;
 	private final int pageRange;
 	
-	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService, RedisService redisService,
+	public CommentServiceImpl(CommentMapper commentMapper, BoardService boardService, CountService countService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.commentMapper = commentMapper;
 		this.boardService = boardService;
-		this.redisService = redisService;
+		this.countService = countService;
 		this.pageRange = pageRange;
 	}
 	
@@ -66,8 +67,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void saveComment(CommentDto commentDto) {
 		log.info("\t > prior to inserting comment, validating existence of board");
-		//Board board = boardService.getBoard(commentDto.getBoardId());
 		boardService.getBoard(commentDto.getBoardId());
+		//Board board = boardService.getBoard(commentDto.getBoardId());
 		
 		Comment comment = commentDto.toEntity();
 		boolean isSaved = commentMapper.insertComment(comment);
@@ -75,18 +76,17 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.save");
 		}
 		
-		/* additional update of the denormalized comment_count column */
+		/* additional update of the denormalized count column */
 		
-		// 1) non-atomic update: UPDATE ... SET comment_count = #{commentCount} )
+		// 1) non-atomic update: UPDATE ... SET comment_count = #{commentCount}
 		//int count = board.getCommentCount() + 1;
 		//boardService.updateCommentCount(count, board.getId());
 		
-		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1 )
+		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1
 		boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		// 3) update using Redis + scheduler
-		//String key = String.format("board:%s:comment_count", commentDto.getBoardId());
-		//redisService.increment(key, 1);
+		//countService.incrementCommentCount(commentDto.getBoardId());
 	}
 
 	@Override

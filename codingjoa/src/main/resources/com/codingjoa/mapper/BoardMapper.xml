@@ -300,6 +300,15 @@
 			id = #{id}
 	</delete>
 	
+	<update id="updateCommentCount" parameterType="map">
+		UPDATE
+			board
+		SET
+			comment_count = #{count}
+		WHERE
+			id = #{id}
+	</update>
+	
 	<update id="increaseCommentCount" parameterType="long">
 		UPDATE
 			board
@@ -317,16 +326,16 @@
 		WHERE
 			id = #{id}
 	</update>
-
-	<update id="updateCommentCount" parameterType="map">
+	
+	<update id="applyCommentCountDelta" parameterType="map">
 		UPDATE
 			board
 		SET
-			comment_count = #{count}
+			comment_count = comment_count + ( #{countDelta} )
 		WHERE
 			id = #{id}
 	</update>
-	
+
 	<update id="increaseLikeCount" parameterType="long">
 		UPDATE
 			board
@@ -341,6 +350,15 @@
 			board
 		SET
 			like_count = like_count - 1
+		WHERE
+			id = #{id}
+	</update>
+	
+	<update id="applyLikeCountDelta" parameterType="map">
+		UPDATE
+			board
+		SET
+			like_count = like_count + ( #{countDelta} )
 		WHERE
 			id = #{id}
 	</update>

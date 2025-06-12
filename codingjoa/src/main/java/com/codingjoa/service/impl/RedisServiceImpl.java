@@ -1,21 +1,16 @@
 package com.codingjoa.service.impl;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.codingjoa.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RedisServiceImpl implements RedisService {
@@ -56,7 +51,7 @@ public class RedisServiceImpl implements RedisService {
 	}
 
 	@Override
-	public void increment(String key, long delta) {
+	public void applyDelta(String key, long delta) {
 		redisTemplate.opsForValue().increment(key, delta);
 	}
 

@@ -143,6 +143,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public void updateCommentCount(int count, Long boardId) {
+		log.info("\t > update comment count, count: {}", count);
+		boardMapper.updateCommentCount(count, boardId);
+	}
+	
+	@Override
 	public void increaseCommentCount(Long boardId) {
 		log.info("\t > increase comment count");
 		boardMapper.increaseCommentCount(boardId);
@@ -155,9 +161,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public void updateCommentCount(int count, Long boardId) {
-		log.info("\t > update comment count, count: {}", count);
-		boardMapper.updateCommentCount(count, boardId);
+	public void applyCommentCountDelta(Integer countDelta, Long boardId) {
+		log.info("\t > apply comment count");
+		boardMapper.applyCommentCountDelta(countDelta, boardId);
 	}
 
 	@Override
@@ -170,6 +176,13 @@ public class BoardServiceImpl implements BoardService {
 	public void decreaseLikeCount(Long boardId) {
 		log.info("\t > decrease like count");
 		boardMapper.decreaseLikeCount(boardId);
+	}
+
+
+	@Override
+	public void applyLikeCountDelta(Integer countDelta, Long boardId) {
+		log.info("\t > apply like count");
+		boardMapper.applyLikeCountDelta(countDelta, boardId);
 	}
 	
 }

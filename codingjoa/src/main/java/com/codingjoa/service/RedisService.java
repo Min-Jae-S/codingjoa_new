@@ -15,7 +15,7 @@ public interface RedisService {
 	
 	void delete(String key);
 	
-	void increment(String key, long delta);
+	void applyDelta(String key, long delta);
 	
 	Set<String> keys(String pattern);
 	
