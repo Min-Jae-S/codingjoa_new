@@ -162,7 +162,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public void applyCommentCountDelta(Integer countDelta, Long boardId) {
-		log.info("\t > apply comment count");
+		log.info("\t > apply comment count delta");
 		boardMapper.applyCommentCountDelta(countDelta, boardId);
 	}
 
@@ -180,7 +180,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void applyLikeCountDelta(Integer countDelta, Long boardId) {
-		log.info("\t > apply like count");
+		log.info("\t > apply like count delta");
 		boardMapper.applyLikeCountDelta(countDelta, boardId);
 	}
 	

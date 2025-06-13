@@ -150,5 +150,11 @@ public class CommentServiceImpl implements CommentService {
 		log.info("\t > decrease like count");
 		commentMapper.decreaseLikeCount(commentId);
 	}
+
+	@Override
+	public void applyLikeCountDelta(Integer countDelta, Long commentId) {
+		log.info("\t > apply like count delta");
+		commentMapper.applyLikeCountDelta(countDelta, commentId);
+	}
 	
 }

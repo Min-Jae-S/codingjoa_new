@@ -234,4 +234,13 @@
 			id = #{id}
 	</update>
 	
+	<update id="applyLikeCountDelta" parameterType="map">
+		UPDATE
+			comments
+		SET
+			like_count = like_count + ( #{countDelta} )
+		WHERE
+			id = #{id}
+	</update>
+	
 </mapper>

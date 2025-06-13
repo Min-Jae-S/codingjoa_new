@@ -31,4 +31,6 @@ public interface CommentMapper {
 	
 	void decreaseLikeCount(Long commentId);
 	
+	void applyLikeCountDelta(@Param("countDelta") Integer countDelta, @Param("id") Long commentId);
+	
 }

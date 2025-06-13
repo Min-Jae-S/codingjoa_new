@@ -48,7 +48,7 @@
 		<button class="btn btn-primary btn-lg" onclick="redisIncr2()">redis INCR2</button>
 		<button class="btn btn-primary btn-lg" onclick="redisEntries()">redis entries</button>
 	</div>
-	<div class="test mt-5 d-flex">
+	<div class="test mt-5 d-none">
 		<button class="btn btn-primary btn-lg" onclick="test1()">test1<br>(no CountDownLatch)</button>
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2<br>(CountDownLatch)</button>
 	</div>

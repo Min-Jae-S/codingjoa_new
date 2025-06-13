@@ -25,4 +25,6 @@ public interface CommentService {
 	void increaseLikeCount(Long commentId);
 	
 	void decreaseLikeCount(Long commentId);
+	
+	void applyLikeCountDelta(Integer countDelta, Long commentId);
 }
