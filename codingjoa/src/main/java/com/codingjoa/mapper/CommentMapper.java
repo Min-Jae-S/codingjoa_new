@@ -19,8 +19,6 @@ public interface CommentMapper {
 	
 	int findTotalCntForPaging(Long boardId);
 	
-	int findValidCntForPaging(Long boardId);
-	
 	Comment findCommentById(Long commentId);
 	
 	boolean updateComment(Comment comment);

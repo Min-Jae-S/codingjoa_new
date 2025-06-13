@@ -225,6 +225,14 @@ public class TestRedisConcurrencyController {
 		redisService.applyDelta(key, 1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+
+	@GetMapping("/decr/comment_count/board/{boardId}")
+	public ResponseEntity<Object> decrCommentCountByBoardId(@PathVariable Long boardId) {
+		log.info("## decrCommentCountByBoardId");
+		String key = String.format("board:%d:comment_count", boardId);
+		redisService.applyDelta(key, -1);
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 	
 	@GetMapping("/flush/comment_count")
 	public ResponseEntity<Object> flushCommentCount() {
@@ -237,15 +245,14 @@ public class TestRedisConcurrencyController {
 		for (String key: initialKeys) {
 			Integer countDelta = (Integer) redisService.get(key);
 			Long boardId = extractEntityId(key);
-			log.info("\t > countDelta = {}, boardId = {}", boardId, countDelta);
+			log.info("\t > countDelta = {}, boardId = {}", countDelta, boardId);
 			
 			Board initialBoard = boardService.getBoard(boardId);
-			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
-			
 			boardService.applyCommentCountDelta(countDelta, boardId);
 			redisService.delete(key);
 			
 			Board finalBoard = boardService.getBoard(boardId);
+			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
 			log.info("\t\t - [final] commentCount: {}", finalBoard.getCommentCount());
 		}
 		

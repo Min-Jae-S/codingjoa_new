@@ -54,6 +54,7 @@
 	</div>
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="incrCommentCountByBoardId()">INCR<br>comment_count</button>
+		<button class="btn btn-primary btn-lg" onclick="decrCommentCountByBoardId()">DECR<br>comment_count</button>
 		<button class="btn btn-primary btn-lg" onclick="flushCommentCount()">flush<br>comment_count</button>
 	</div>
 </div>
@@ -221,6 +222,23 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/redis-concurrency/incr/comment_count/board/1058121",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
+	function decrCommentCountByBoardId() {
+		console.log("## decrCommentCountByBoardId");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/decr/comment_count/board/1058121",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");

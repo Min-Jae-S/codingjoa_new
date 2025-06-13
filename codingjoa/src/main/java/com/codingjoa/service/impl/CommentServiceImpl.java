@@ -20,7 +20,6 @@ import com.codingjoa.service.RedisService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @Transactional
 @Service
@@ -59,8 +58,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Pagination getPagination(Long boardId, CommentCriteria commentCri) {
 		int totalCnt = commentMapper.findTotalCntForPaging(boardId);
-		int validCnt = commentMapper.findValidCntForPaging(boardId);
-		return (totalCnt > 0) ? new Pagination(totalCnt, validCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
+		return (totalCnt > 0) ? new Pagination(totalCnt, commentCri.getPage(), commentCri.getRecordCnt(), pageRange) : null;
 	}
 
 	@Override

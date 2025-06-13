@@ -542,8 +542,6 @@
 				let pagination = result.data.pagination;
 				let paginationHtml = createPaginationHtml(pagination);
 				$commentPageDiv.html(paginationHtml);
-				
-				$(".comment-cnt").text(pagination.validCnt);
 			});
 		}
 		
@@ -609,6 +607,7 @@
 			
 			commentService.writeComment(comment, function(result) {
 				alert(result.message);
+				updateCommentCount(1);
 				getPagedComments(boardId, currentPage);
 				
 				$form.trigger("reset");
@@ -640,9 +639,17 @@
 			
 			commentService.deleteComment(commentId, function(result) {
 				alert(result.message);
+				updateCommentCount(-1);
 				getPagedComments(boardId, currentPage);
 			});
 		});
+		
+		function updateCommentCount(delta) {
+			console.log("## updateCommentCount");
+			let $cntElement = $(".comment-cnt");
+			let currentCommentCnt = parseInt($cntElement.first().text());
+			$cntElement.text(currentCommentCnt + delta);
+		}
 		
 		// pagination
 		$(document).on("click", ".comment-pagination .page-link", function() {
