@@ -1,6 +1,7 @@
 package com.codingjoa.service.impl;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.data.redis.RedisSystemException;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.codingjoa.service.RedisService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RedisServiceImpl implements RedisService {
@@ -57,7 +60,13 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public Set<String> keys(String pattern) {
-		return redisTemplate.keys(pattern);
+		Set<String> keys = redisTemplate.keys(pattern);
+		if (keys == null) {
+			log.info("## redis used in pipeline / transaction, returning empty set");
+			return Collections.emptySet();
+		}
+		
+		return keys;
 	}
 
 }

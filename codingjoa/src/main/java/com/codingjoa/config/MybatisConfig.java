@@ -11,9 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.codingjoa.mybatis.MybatisFlushStatementsInterceptor;
-import com.codingjoa.mybatis.MybatisUpdateInterceptor;
-
 @MapperScan("com.codingjoa.mapper")
 @Configuration
 public class MybatisConfig {
@@ -32,7 +29,7 @@ public class MybatisConfig {
 		factoryBean.setDataSource(dataSource);
 		factoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/com/codingjoa/mapper/**.xml"));
-		factoryBean.setPlugins(new MybatisUpdateInterceptor(), new MybatisFlushStatementsInterceptor());
+		//factoryBean.setPlugins(new MybatisUpdateInterceptor(), new MybatisFlushStatementsInterceptor());
 		factoryBean.afterPropertiesSet();
 		return factoryBean.getObject();
 	}

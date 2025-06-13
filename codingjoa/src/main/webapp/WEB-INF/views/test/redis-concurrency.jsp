@@ -42,15 +42,19 @@
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="initRedis()">initiate redis</button>
 		<button class="btn btn-primary btn-lg" onclick="redisSample()">redis sample</button>
+		<button class="btn btn-primary btn-lg" onclick="redisEntries()">redis entries</button>
 	</div>
 	<div class="test mt-5 d-flex">
-		<button class="btn btn-primary btn-lg" onclick="redisIncr()">redis INCR</button>
+		<button class="btn btn-primary btn-lg" onclick="redisIncr()">redis INCR1</button>
 		<button class="btn btn-primary btn-lg" onclick="redisIncr2()">redis INCR2</button>
-		<button class="btn btn-primary btn-lg" onclick="redisEntries()">redis entries</button>
 	</div>
 	<div class="test mt-5 d-none">
 		<button class="btn btn-primary btn-lg" onclick="test1()">test1<br>(no CountDownLatch)</button>
 		<button class="btn btn-primary btn-lg" onclick="test2()">test2<br>(CountDownLatch)</button>
+	</div>
+	<div class="test mt-5 d-flex">
+		<button class="btn btn-primary btn-lg" onclick="incrCommentCountByBoardId()">INCR<br>comment_count</button>
+		<button class="btn btn-primary btn-lg" onclick="flushCommentCount()">flush<br>comment_count</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -144,11 +148,11 @@
 		});		
 	}
 
-	function redisIncr() {
-		console.log("## redisIncr");
+	function redisIncr1() {
+		console.log("## redisInc1r");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/redis-concurrency/redis/incr",
+			url : "${contextPath}/test/redis-concurrency/redis/incr1",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
@@ -211,6 +215,41 @@
 			}
 		});		
 	}
+	
+	function incrCommentCountByBoardId() {
+		console.log("## incrCommentCountByBoardId");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/incr/comment_count/board/1058121",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
+	function flushCommentCount() {
+		console.log("## flushCommentCount");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/flush/comment_count",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
 </script>
 </body>
 </html>

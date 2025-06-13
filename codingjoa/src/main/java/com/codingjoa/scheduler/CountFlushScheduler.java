@@ -14,6 +14,7 @@ import com.codingjoa.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -25,12 +26,13 @@ public class CountFlushScheduler {
 	private final CommentService commentService;
 	
 	//@Scheduled(fixedRate = 30000)
-	@Scheduled(cron = "0 0/1 * * * ?")
+	//@Scheduled(cron = "0 0/1 * * * ?")
 	public void flushCommentCount() {
 		log.info("## flushCommentCount, performed at: {}", LocalDateTime.now().format(formatter));
+		logRedisEntries();
 		
 		Set<String> keys = redisService.keys("board:*:comment_count");
-		if (keys == null || keys.isEmpty()) {
+		if (keys.isEmpty()) {
 			return;
 		}
 		
@@ -44,16 +46,17 @@ public class CountFlushScheduler {
 			boardService.applyCommentCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
-			log.info("\t > flushed '{}', countDelta: {}, boardId: {}", countDelta, boardId);
+			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
 		}
 		
+		logRedisEntries();
 	}
 	
 	//@Scheduled(cron = "0 0/1 * * * ?")
 	public void flushBoardLikeCount() {
 		log.info("## flushBoardLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("board:*:like_count");
-		if (keys == null || keys.isEmpty()) {
+		if (keys.isEmpty()) {
 			return;
 		}
 		
@@ -67,7 +70,7 @@ public class CountFlushScheduler {
 			boardService.applyLikeCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
-			log.info("\t > flushed '{}', countDelta: {}, boardId: {}", countDelta, boardId);
+			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
 		}
 	}
 	
@@ -75,7 +78,7 @@ public class CountFlushScheduler {
 	public void flushCommentLikeCount() {
 		log.info("## flushCommentLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("comment:*:like_count");
-		if (keys == null || keys.isEmpty()) {
+		if (keys.isEmpty()) {
 			return;
 		}
 		
@@ -89,13 +92,26 @@ public class CountFlushScheduler {
 			commentService.applyLikeCountDelta(countDelta, commentId);
 			
 			redisService.delete(key);
-			log.info("\t > flushed '{}', countDelta: {}, commentId: {}", countDelta, commentId);
+			log.info("\t > flushed countDelta: {}, commentId: {}", countDelta, commentId);
 		}
 	}
 	
 	private Long extractEntityId(String key) {
 		String[] parts = key.split(":"); // "board:123:comment_count" --> [ "board", "123", "comment_count" ]
 		return Long.parseLong(parts[1]);
+	}
+	
+	private void logRedisEntries() {
+		Set<String> keys = redisService.keys("*");
+		if (keys.isEmpty()) {
+			log.info("\t > no keys in redis");
+			return;
+		}
+		
+		for (String key : keys) {
+			Object value = redisService.get(key);
+			log.info("\t > key = {}, value = {} [{}]", key, value, value.getClass().getSimpleName());
+		}
 	}
 	
 }

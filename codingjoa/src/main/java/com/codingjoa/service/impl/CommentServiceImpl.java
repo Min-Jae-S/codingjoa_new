@@ -82,11 +82,11 @@ public class CommentServiceImpl implements CommentService {
 		//boardService.updateCommentCount(count, board.getId());
 		
 		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1
-		boardService.increaseCommentCount(commentDto.getBoardId());
+		//boardService.increaseCommentCount(commentDto.getBoardId());
 		
 		// 3) update using redis + scheduler
-		//String key = String.format("board:%d:comment_count", commentDto.getBoardId());
-		//redisService.applyDelta(key, 1);
+		String key = String.format("board:%d:comment_count", commentDto.getBoardId());
+		redisService.applyDelta(key, 1);
 	}
 
 	@Override
