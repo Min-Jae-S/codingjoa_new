@@ -79,22 +79,5 @@
 			id = #{id}
 	</delete>
 
-	<select id="findBoardLikeCnt" parameterType="long" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			board_like
-		WHERE
-			board_id = #{boardId}
-	</select>
-
-	<select id="findCommentLikeCnt" parameterType="long" resultType="int">
-		SELECT
-			COUNT(*)
-		FROM
-			comment_like
-		WHERE
-			comment_id = #{commentId}
-	</select>
 	
 </mapper>

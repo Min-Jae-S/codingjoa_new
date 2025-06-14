@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.entity.Board;
+import com.codingjoa.entity.Comment;
 import com.codingjoa.service.BoardService;
+import com.codingjoa.service.CommentService;
 import com.codingjoa.service.RedisService;
 import com.codingjoa.util.RedisKeyUtils;
 import com.zaxxer.hikari.HikariConfig;
@@ -46,6 +48,9 @@ public class TestRedisConcurrencyController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@Autowired
 	private RedisService redisService;
@@ -227,28 +232,6 @@ public class TestRedisConcurrencyController {
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
-	@GetMapping("/flush/comment_count")
-	public ResponseEntity<Object> flushCommentCount() {
-		log.info("## flushCommentCount");
-		
-		Set<String> keys = redisService.keys("board:*:comment_count");
-		for (String key: keys) {
-			int countDelta = redisService.getDelta(key);
-			Long boardId = RedisKeyUtils.extractEntityId(key);
-			log.info("\t > countDelta: {}, boardId: {}", countDelta, boardId);
-			
-			Board initialBoard = boardService.getBoard(boardId);
-			boardService.applyCommentCountDelta(countDelta, boardId);
-			redisService.delete(key);
-			
-			Board finalBoard = boardService.getBoard(boardId);
-			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
-			log.info("\t\t - [final]   commentCount: {}", finalBoard.getCommentCount());
-		}
-		
-		return ResponseEntity.ok(SuccessResponse.create());
-	}
-
 	@GetMapping("/flush/view_count")
 	public ResponseEntity<Object> flushViewCount() {
 		log.info("## flushViewCount");
@@ -256,19 +239,87 @@ public class TestRedisConcurrencyController {
 		Set<String> keys = redisService.keys("board:*:view_count");
 		for (String key: keys) {
 			int countDelta = redisService.getDelta(key);
-			Long boardId = RedisKeyUtils.extractEntityId(key);
-			log.info("\t > countDelta: {}, boardId: {}", countDelta, boardId);
-			
-			Board initialBoard = boardService.getBoard(boardId);
-			boardService.applyViewCountDelta(countDelta, boardId);
+			log.info("\t > current delta: {}", countDelta);
+
+			Long entityId = RedisKeyUtils.extractEntityId(key);
+			Board initialBoard = boardService.getBoard(entityId);
+			boardService.applyViewCountDelta(countDelta, entityId);
 			redisService.delete(key);
 			
-			Board finalBoard = boardService.getBoard(boardId);
+			Board finalBoard = boardService.getBoard(entityId);
 			log.info("\t\t - [initial] viewCount: {}", initialBoard.getViewCount());
 			log.info("\t\t - [final]   viewCount: {}", finalBoard.getViewCount());
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+	
+	@GetMapping("/flush/comment_count")
+	public ResponseEntity<Object> flushCommentCount() {
+		log.info("## flushCommentCount");
+		
+		Set<String> keys = redisService.keys("board:*:comment_count");
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			log.info("\t > current delta: {}", countDelta);
+			
+			Long entityId = RedisKeyUtils.extractEntityId(key);
+			Board initialBoard = boardService.getBoard(entityId);
+			boardService.applyCommentCountDelta(countDelta, entityId);
+			redisService.delete(key);
+			
+			Board finalBoard = boardService.getBoard(entityId);
+			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
+			log.info("\t\t - [final]   commentCount: {}", finalBoard.getCommentCount());
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/flush/board_like_count")
+	public ResponseEntity<Object> flushBoardLikeCount() {
+		log.info("## flushBoardLikeCount");
+		
+		Set<String> keys = redisService.keys("board:*:like_count");
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			log.info("\t > current delta: {}", countDelta);
+			
+			Long entityId = RedisKeyUtils.extractEntityId(key);
+			Board initialBoard = boardService.getBoard(entityId);
+			boardService.applyLikeCountDelta(countDelta, entityId);
+			redisService.delete(key);
+			
+			Board finalBoard = boardService.getBoard(entityId);
+			log.info("\t\t - [initial] likeCount: {}", initialBoard.getLikeCount());
+			log.info("\t\t - [final]   likeCount: {}", finalBoard.getLikeCount());
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+	
+	@GetMapping("/flush/comment_like_count")
+	public ResponseEntity<Object> flushCommentLikeCount() {
+		log.info("## flushCommentLikeCount");
+		
+		Set<String> keys = redisService.keys("comment:*:like_count");
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			log.info("\t > current delta: {}", countDelta);
+			
+			Long entityId = RedisKeyUtils.extractEntityId(key);
+			Comment initialComment = commentService.getComment(entityId);
+			commentService.applyLikeCountDelta(countDelta, entityId);
+			redisService.delete(key);
+			
+			Comment finalComment = commentService.getComment(entityId);
+			log.info("\t\t - [initial] likeCount: {}", initialComment.getLikeCount());
+			log.info("\t\t - [final]   likeCount: {}", finalComment.getLikeCount());
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+
+	}
+	
 	
 }

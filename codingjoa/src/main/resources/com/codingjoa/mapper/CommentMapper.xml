@@ -147,24 +147,6 @@
 			id = #{id}
 	</delete>
 	
-	<update id="increaseLikeCount" parameterType="long">
-		UPDATE
-			comments
-		SET
-			like_count = like_count + 1
-		WHERE
-			id = #{id}
-	</update>
-
-	<update id="decreaseLikeCount" parameterType="long">
-		UPDATE
-			comments
-		SET
-			like_count = like_count - 1
-		WHERE
-			id = #{id}
-	</update>
-	
 	<update id="applyLikeCountDelta" parameterType="map">
 		UPDATE
 			comments

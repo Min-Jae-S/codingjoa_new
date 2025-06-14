@@ -21,7 +21,4 @@ public interface LikeMapper {
 	
 	void deleteCommentLike(Long commentLikeId);
 	
-	int findBoardLikeCnt(Long boardId);
-
-	int findCommentLikeCnt(Long commentId);
 }

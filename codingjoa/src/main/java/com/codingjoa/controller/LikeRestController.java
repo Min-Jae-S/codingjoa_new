@@ -56,26 +56,4 @@ public class LikeRestController {
 				.build());
 	}
 	
-//	@ApiOperation(value = "게시글 좋아요 수 조회", notes = "특정 게시글의 총 좋아요 수를 반환한다.")
-//	@GetMapping("/boards/{boardId}/likes")
-//	public ResponseEntity<Object> getBoardLikeCnt(@PathVariable Long boardId) {
-//		log.info("## getBoardLikeCnt, boardId = {}", boardId);
-//		
-//		int boardLikeCnt = likeService.getBoardLikeCnt(boardId);
-//		log.info("\t > boardLikeCnt = {}", boardLikeCnt);
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder().data(boardLikeCnt).build());
-//	}
-
-//	@ApiOperation(value = "댓글 좋아요 수 조회", notes = "특정 댈글의 총 좋아요 수를 반환한다.")
-//	@GetMapping("/comments/{commentId}/likes")
-//	public ResponseEntity<Object> getCommentLikeCnt(@PathVariable Long commentId) {
-//		log.info("## getCommentLikeCnt, commentId = {}", commentId);
-//		
-//		int commentLikeCnt = likeService.getCommentLikeCnt(commentId);
-//		log.info("\t > commentLikeCnt = {}", commentLikeCnt);
-//		
-//		return ResponseEntity.ok(SuccessResponse.builder().data(commentLikeCnt).build());
-//	}
-	
 }	

@@ -47,7 +47,6 @@ public class CountFlushScheduler {
 		}
 	}
 	
-	//@Scheduled(cron = "0 0/1 * * * ?")
 	public void flushBoardLikeCount() {
 		log.info("## flushBoardLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("board:*:like_count");
@@ -69,7 +68,6 @@ public class CountFlushScheduler {
 		}
 	}
 	
-	//@Scheduled(cron = "0 0/1 * * * ?")
 	public void flushCommentLikeCount() {
 		log.info("## flushCommentLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("comment:*:like_count");
@@ -91,5 +89,25 @@ public class CountFlushScheduler {
 		}
 	}
 	
+	public void flushViewCount() {
+		log.info("## flushViewCount, performed at: {}", LocalDateTime.now().format(formatter));
+		Set<String> keys = redisService.keys("board:*:view_count");
+		if (keys.isEmpty()) {
+			return;
+		}
+		
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
+				continue;
+			}
+			
+			Long boardId = RedisKeyUtils.extractEntityId(key);
+			boardService.applyViewCountDelta(countDelta, boardId);
+			
+			redisService.delete(key);
+			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
+		}
+	}
 	
 }

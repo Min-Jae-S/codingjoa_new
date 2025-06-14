@@ -55,8 +55,12 @@
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="incrCommentCountByBoardId()">INCR<br>comment_count</button>
 		<button class="btn btn-primary btn-lg" onclick="decrCommentCountByBoardId()">DECR<br>comment_count</button>
-		<button class="btn btn-primary btn-lg" onclick="flushCommentCount()">flush<br>comment_count</button>
+	</div>
+	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="flushViewCount()">flush<br>view_count</button>
+		<button class="btn btn-primary btn-lg" onclick="flushCommentCount()">flush<br>comment_count</button>
+		<button class="btn btn-primary btn-lg" onclick="flushBoardLikeCount()">flush<br>board_like_count</button>
+		<button class="btn btn-primary btn-lg" onclick="flushCommentLikeCount()">flush<br>comment_like_count</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
@@ -252,6 +256,23 @@
 		});	
 	}
 	
+	function flushViewCount() {
+		console.log("## flushViewCount");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/flush/view_count",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
 	function flushCommentCount() {
 		console.log("## flushCommentCount");
 		$.ajax({
@@ -268,12 +289,29 @@
 			}
 		});	
 	}
-
-	function flushViewCount() {
-		console.log("## flushViewCount");
+	
+	function flushBoardLikeCount() {
+		console.log("## flushBoardLikeCount");
 		$.ajax({
 			type : "GET",
-			url : "${contextPath}/test/redis-concurrency/flush/view_count",
+			url : "${contextPath}/test/redis-concurrency/flush/board_like_count",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+
+	function flushCommentLikeCount() {
+		console.log("## flushCommentLikeCount");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/test/redis-concurrency/flush/comment_like_count",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
