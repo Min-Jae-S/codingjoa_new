@@ -127,7 +127,7 @@ public class CommentServiceImpl implements CommentService {
 			throw new ExpectedException("error.comment.delete");
 		}
 		
-		String key = RedisKeyUtils.createCommentCountKey(commentId);
+		String key = RedisKeyUtils.createCommentCountKey(comment.getBoardId());
 		redisService.applyDelta(key, -1);
 	}
 

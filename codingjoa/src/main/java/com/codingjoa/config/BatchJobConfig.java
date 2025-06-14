@@ -350,7 +350,7 @@ public class BatchJobConfig {
 	public Step boardSyncStep() {
 		return stepBuilderFactory.get("boardSyncStep")
 				.transactionManager(transactionManager)
-				.<BoardCountColumn, BoardCountColumn>chunk(10)
+				.<BoardCountColumn, BoardCountColumn>chunk(1000)
 				.reader(boardCountColumnReader())
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
@@ -363,7 +363,7 @@ public class BatchJobConfig {
 		MyBatisPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
-		reader.setPageSize(10);
+		reader.setPageSize(1000);
 		return reader;
 	}
 
@@ -372,8 +372,16 @@ public class BatchJobConfig {
 		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<BoardCountColumn>() {
 			@Override
 			public void write(List<? extends BoardCountColumn> items) {
-				log.info("## BoardCountColumnWriter");
-				items.stream().forEach(boardCountColumn -> log.info("\t > {}", boardCountColumn.getMismatchDetails()));
+				items.stream().forEach(boardCountColumn -> {
+					Long boardId = boardCountColumn.getBoardId();
+					if (boardCountColumn.hasCommentCountMismatch()) {
+						log.info("## [BoardCountColumnWriter] commentCount mismatch, boardId: {}", boardId);
+					}
+					
+					if (boardCountColumn.hasLikeCountMismatch()) {
+						log.info("## [BoardCountColumnWriter] likeCount mismatch, boardId: {}", boardId);
+					}
+				});
 				super.write(items);
 			}
 		};
@@ -397,7 +405,7 @@ public class BatchJobConfig {
 	public Step commentSyncStep() {
 		return stepBuilderFactory.get("commentSyncStep")
 				.transactionManager(transactionManager)
-				.<CommentCountColumn, CommentCountColumn>chunk(100)
+				.<CommentCountColumn, CommentCountColumn>chunk(1000)
 				.reader(commentCountColumnReader())
 				.writer(commentCountColumnWriter())
 				.faultTolerant()
@@ -410,7 +418,7 @@ public class BatchJobConfig {
 		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<CommentCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
-		reader.setPageSize(10);
+		reader.setPageSize(1000);
 		return reader;
 	}
 	
@@ -419,8 +427,9 @@ public class BatchJobConfig {
 		MyBatisBatchItemWriter writer = new MyBatisBatchItemWriter<CommentCountColumn>() {
 			@Override
 			public void write(List<? extends CommentCountColumn> items) {
-				log.info("## CommentCountColumnWriter");
-				items.stream().forEach(commentCountColumn -> log.info("\t > {}", commentCountColumn.getMismatchDetails()));
+				items.stream().forEach(commentCountColumn -> {
+					log.info("## [CommentCountColumnWriter] likeCount mismatch, commentId: {}", commentCountColumn.getCommentId());
+				});
 				super.write(items);
 			}
 		};
@@ -428,6 +437,5 @@ public class BatchJobConfig {
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncCommentCountColumn");
 		return writer;
 	}
-	
 	
 }

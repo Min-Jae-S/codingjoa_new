@@ -140,7 +140,7 @@
 	</div>
 	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary" id="runBoardSyncJobBtn">run<br>BoardSyncJob</button>
-		<button class="btn btn-primary" id="runSyncJobBtn">run<br>CommentSyncJob</button>
+		<button class="btn btn-primary" id="runCommentSyncJobBtn">run<br>CommentSyncJob</button>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
