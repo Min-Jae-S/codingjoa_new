@@ -635,7 +635,7 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends BoardCountColumn> items) {
 				log.info("## MyBatisBatchItemWriter.write");
-				items.stream().forEach(boardCountColumn -> log.info("\t > {}", boardCountColumn.getMismatchDetails()));
+				//items.stream().forEach(boardCountColumn -> log.info("\t > {}", boardCountColumn.getMismatchDetails()));
 				super.write(items);
 			}
 		};
@@ -682,7 +682,7 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends CommentCountColumn> items) {
 				log.info("## MyBatisBatchItemWriter.write");
-				items.stream().forEach(commentCountColumn -> log.info("\t > {}", commentCountColumn.getMismatchDetails()));
+				//items.stream().forEach(commentCountColumn -> log.info("\t > {}", commentCountColumn.getMismatchDetails()));
 				super.write(items);
 			}
 		};

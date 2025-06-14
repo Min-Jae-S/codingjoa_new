@@ -373,13 +373,12 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends BoardCountColumn> items) {
 				items.stream().forEach(boardCountColumn -> {
-					Long boardId = boardCountColumn.getBoardId();
 					if (boardCountColumn.hasCommentCountMismatch()) {
-						log.info("## [BoardCountColumnWriter] commentCount mismatch, boardId: {}", boardId);
+						log.info("## [BoardCountColumnWriter] detected commentCount mismatch, boardId: {}", boardCountColumn.getBoardId());
 					}
 					
 					if (boardCountColumn.hasLikeCountMismatch()) {
-						log.info("## [BoardCountColumnWriter] likeCount mismatch, boardId: {}", boardId);
+						log.info("## [BoardCountColumnWriter] detected likeCount mismatch, boardId: {}", boardCountColumn.getBoardId());
 					}
 				});
 				super.write(items);
@@ -428,7 +427,7 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends CommentCountColumn> items) {
 				items.stream().forEach(commentCountColumn -> {
-					log.info("## [CommentCountColumnWriter] likeCount mismatch, commentId: {}", commentCountColumn.getCommentId());
+					log.info("## [CommentCountColumnWriter] detected likeCount mismatch, commentId: {}", commentCountColumn.getCommentId());
 				});
 				super.write(items);
 			}
