@@ -106,12 +106,7 @@ public class BoardController {
 		log.info("\t > userId = {}", userId);
 		
 		BoardDetailsDto boardDetails = boardService.getBoardDetails(id, userId);
-		log.info("\t > boardDetails = {}", boardDetails);
-		
 		Category category = categoryService.getCategoryByCode(boardDetails.getCategoryCode());
-
-		// prevent duplicate view count using cookies (https://mighty96.github.io/til/view)
-		boardService.increaseViewCount(id); 
 
 		model.addAttribute("boardCri", boardCri);
 		model.addAttribute("boardDetails", boardDetails);

@@ -22,9 +22,5 @@ public interface CommentService {
 	
 	Comment getComment(Long commentId);
 	
-	void increaseLikeCount(Long commentId);
-	
-	void decreaseLikeCount(Long commentId);
-	
 	void applyLikeCountDelta(Integer countDelta, Long commentId);
 }

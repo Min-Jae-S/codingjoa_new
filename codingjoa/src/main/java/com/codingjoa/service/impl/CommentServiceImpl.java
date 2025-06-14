@@ -143,20 +143,8 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void increaseLikeCount(Long commentId) {
-		log.info("\t > increase like count");
-		commentMapper.increaseLikeCount(commentId);
-	}
-
-	@Override
-	public void decreaseLikeCount(Long commentId) {
-		log.info("\t > decrease like count");
-		commentMapper.decreaseLikeCount(commentId);
-	}
-
-	@Override
 	public void applyLikeCountDelta(Integer countDelta, Long commentId) {
-		log.info("\t > apply like count delta");
+		log.info("\t > apply likeCount delta");
 		commentMapper.applyLikeCountDelta(countDelta, commentId);
 	}
 	

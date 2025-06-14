@@ -65,13 +65,22 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.board.notFound");
 		}
 		
+		addViewCountCache(boardId);
+		
 		BoardDetailsDto boardDetails = BoardDetailsDto.from(boardDetailsMap);
-		applyCountDelta(boardDetails, boardId);
+		applyCountDelta(boardDetails);
 		
 		return boardDetails;
 	}
 	
-	private void applyCountDelta(BoardDetailsDto boardDetails, Long boardId) {
+	private void addViewCountCache(Long boardId) {
+		// TODO: Implement duplicate view prevention logic later
+		String key = RedisKeyUtils.createViewCountKey(boardId);
+		redisService.applyDelta(key, 1);
+	}
+	
+	private void applyCountDelta(BoardDetailsDto boardDetails) {
+		Long boardId = boardDetails.getId();
 		int commentCountDelta = redisService.getDelta(RedisKeyUtils.createCommentCountKey(boardId));
 		int likeCountDelta = redisService.getDelta(RedisKeyUtils.createBoardLikeCountKey(boardId));
 		int viewCountDelta = redisService.getDelta(RedisKeyUtils.createViewCountKey(boardId));
@@ -79,12 +88,6 @@ public class BoardServiceImpl implements BoardService {
 		boardDetails.setCommentCount(boardDetails.getCommentCount() + commentCountDelta);
 		boardDetails.setLikeCount(boardDetails.getLikeCount() + likeCountDelta);
 		boardDetails.setViewCount(boardDetails.getViewCount() + viewCountDelta);
-	}
-	
-	@Override
-	public void increaseViewCount(Long boardId) {
-		log.info("\t > increase view count");
-		boardMapper.increaseViewCount(boardId);
 	}
 	
 	@Override
@@ -159,46 +162,43 @@ public class BoardServiceImpl implements BoardService {
 		return board;
 	}
 
+	@Deprecated
 	@Override
 	public void updateCommentCount(int count, Long boardId) {
-		log.info("\t > update comment count, count: {}", count);
+		log.info("\t > update commentCount");
 		boardMapper.updateCommentCount(count, boardId);
 	}
-	
+
+	@Deprecated
 	@Override
 	public void increaseCommentCount(Long boardId) {
-		log.info("\t > increase comment count");
+		log.info("\t > increase commentCount");
 		boardMapper.increaseCommentCount(boardId);
 	}
 
+	@Deprecated
 	@Override
 	public void decreaseCommentCount(Long boardId) {
-		log.info("\t > decrease comment count");
+		log.info("\t > decrease commentCount");
 		boardMapper.decreaseCommentCount(boardId);
 	}
 	
 	@Override
 	public void applyCommentCountDelta(Integer countDelta, Long boardId) {
-		log.info("\t > apply comment count delta");
+		log.info("\t > apply commentCount delta");
 		boardMapper.applyCommentCountDelta(countDelta, boardId);
 	}
 
 	@Override
-	public void increaseLikeCount(Long boardId) {
-		log.info("\t > increase like count");
-		boardMapper.increaseLikeCount(boardId);
-	}
-
-	@Override
-	public void decreaseLikeCount(Long boardId) {
-		log.info("\t > decrease like count");
-		boardMapper.decreaseLikeCount(boardId);
-	}
-
-	@Override
 	public void applyLikeCountDelta(Integer countDelta, Long boardId) {
-		log.info("\t > apply like count delta");
+		log.info("\t > apply likeCount delta");
 		boardMapper.applyLikeCountDelta(countDelta, boardId);
+	}
+	
+	@Override
+	public void applyViewCountDelta(Integer countDelta, Long boardId) {
+		log.info("\t > apply viewCount delta");
+		boardMapper.applyViewCountDelta(countDelta, boardId);
 	}
 	
 }

@@ -125,15 +125,6 @@
 			board.id = #{boardId}
 	</select> -->
 
-	<update id="increaseViewCount" parameterType="long">
-		UPDATE
-			board
-		SET
-			view_count = view_count + 1
-		WHERE
-			id = #{id}
-	</update>
-
 	<sql id="searchCriteria">
 		<if test='boardCri.keyword != ""'>
 			<trim prefix="(" suffix=") AND " suffixOverrides="OR">
@@ -359,6 +350,15 @@
 			board
 		SET
 			like_count = like_count + ( #{countDelta} )
+		WHERE
+			id = #{id}
+	</update>
+	
+	<update id="applyViewCountDelta" parameterType="map">
+		UPDATE
+			board
+		SET
+			view_count = view_count + ( #{countDelta} )
 		WHERE
 			id = #{id}
 	</update>

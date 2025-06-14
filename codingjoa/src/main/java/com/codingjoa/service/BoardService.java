@@ -14,8 +14,6 @@ public interface BoardService {
 	
 	BoardDetailsDto getBoardDetails(Long boardId, Long userId);
 	
-	void increaseViewCount(Long boardId);
-	
 	List<BoardDetailsDto> getPagedBoards(int categoryCode, BoardCriteria boardCri, Long userId);
 
 	Pagination getPagination(int categoryCode, BoardCriteria boardCri);
@@ -36,10 +34,8 @@ public interface BoardService {
 	
 	void applyCommentCountDelta(Integer countDelta, Long boardId);
 	
-	void increaseLikeCount(Long boardId);
-	
-	void decreaseLikeCount(Long boardId);
-	
 	void applyLikeCountDelta(Integer countDelta, Long boardId);
+	
+	void applyViewCountDelta(Integer countDelta, Long boardId);
 	
 }

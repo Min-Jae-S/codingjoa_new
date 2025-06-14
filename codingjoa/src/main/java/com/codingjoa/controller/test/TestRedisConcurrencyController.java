@@ -214,6 +214,7 @@ public class TestRedisConcurrencyController {
 		log.info("## incrCommentCountByBoardId");
 		String key = RedisKeyUtils.createCommentCountKey(boardId);
 		redisService.applyDelta(key, 1);
+		log.info("\t > after applying delta: {}", redisService.getDelta(key));
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 
@@ -222,6 +223,7 @@ public class TestRedisConcurrencyController {
 		log.info("## decrCommentCountByBoardId");
 		String key = RedisKeyUtils.createCommentCountKey(boardId);
 		redisService.applyDelta(key, -1);
+		log.info("\t > after applying delta: {}", redisService.getDelta(key));
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
 	
@@ -242,6 +244,28 @@ public class TestRedisConcurrencyController {
 			Board finalBoard = boardService.getBoard(boardId);
 			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
 			log.info("\t\t - [final]   commentCount: {}", finalBoard.getCommentCount());
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
+
+	@GetMapping("/flush/view_count")
+	public ResponseEntity<Object> flushViewCount() {
+		log.info("## flushViewCount");
+		
+		Set<String> keys = redisService.keys("board:*:view_count");
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			Long boardId = RedisKeyUtils.extractEntityId(key);
+			log.info("\t > countDelta: {}, boardId: {}", countDelta, boardId);
+			
+			Board initialBoard = boardService.getBoard(boardId);
+			boardService.applyViewCountDelta(countDelta, boardId);
+			redisService.delete(key);
+			
+			Board finalBoard = boardService.getBoard(boardId);
+			log.info("\t\t - [initial] viewCount: {}", initialBoard.getViewCount());
+			log.info("\t\t - [final]   viewCount: {}", finalBoard.getViewCount());
 		}
 		
 		return ResponseEntity.ok(SuccessResponse.create());

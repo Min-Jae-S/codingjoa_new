@@ -16,8 +16,6 @@ public interface BoardMapper {
 
 	Map<String, Object> findBoardDetailsById(@Param("boardId") Long boardId, @Param("userId") Long userId);
 
-	void increaseViewCount(Long boardId);
-
 	List<Map<String, Object>> findPagedBoards(@Param("categoryCode") int categoryCode, 
 			@Param("boardCri") BoardCriteria boardCri, @Param("userId") Long userId);
 
@@ -42,5 +40,7 @@ public interface BoardMapper {
 	void decreaseLikeCount(Long boardId);
 	
 	void applyLikeCountDelta(@Param("countDelta") Integer countDelta, @Param("id") Long boardId);
+	
+	void applyViewCountDelta(@Param("countDelta") Integer countDelta, @Param("id") Long boardId);
 
 }

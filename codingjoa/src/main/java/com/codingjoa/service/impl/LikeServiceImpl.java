@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.entity.BoardLike;
 import com.codingjoa.entity.CommentLike;
+import com.codingjoa.mapper.BoardMapper;
+import com.codingjoa.mapper.CommentMapper;
 import com.codingjoa.mapper.LikeMapper;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
@@ -20,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LikeServiceImpl implements LikeService {
 
 	private final LikeMapper likeMapper;
+	private final BoardMapper boardMapper;
+	private final CommentMapper commentMapper;
 	private final BoardService boardService;
 	private final CommentService commentService;
 	
@@ -33,10 +37,12 @@ public class LikeServiceImpl implements LikeService {
 		if (boardLike == null) {
 			log.info("\t > insert boardLike");
 			likeMapper.insertBoardLike(boardId, userId);
+			boardMapper.increaseLikeCount(boardId);
 			return true;
 		} else {
 			log.info("\t > delete boardLike");
 			likeMapper.deleteBoardLike(boardLike.getId());
+			boardMapper.decreaseLikeCount(boardId);
 			return false;
 		}
 	}
@@ -51,10 +57,12 @@ public class LikeServiceImpl implements LikeService {
 		if (commentLike == null) {
 			log.info("\t > insert commentLike");
 			likeMapper.insertCommentLike(commentId, userId);
+			commentMapper.increaseLikeCount(commentId);
 			return true;
 		} else {
 			log.info("\t > delete commentLike");
 			likeMapper.deleteCommentLike(commentLike.getId());
+			commentMapper.decreaseLikeCount(commentId);
 			return false;
 		}
 	}
