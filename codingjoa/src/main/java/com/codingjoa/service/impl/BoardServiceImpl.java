@@ -61,7 +61,9 @@ public class BoardServiceImpl implements BoardService {
 			throw new ExpectedException("error.board.notFound");
 		}
 		
-		return BoardDetailsDto.from(boardDetailsMap);
+		BoardDetailsDto boardDetails = BoardDetailsDto.from(boardDetailsMap);
+		
+		return boardDetails;
 	}
 	
 	@Override

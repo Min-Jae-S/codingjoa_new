@@ -125,6 +125,10 @@ public class CommentServiceImpl implements CommentService {
 		if (!isDeleted) {
 			throw new ExpectedException("error.comment.delete");
 		}
+		
+		//boardService.decreaseCommentCount(comment.getBoardId());
+		String key = String.format("board:%d:comment_count", comment.getBoardId());
+		redisService.applyDelta(key, -1);
 	}
 
 	@Override

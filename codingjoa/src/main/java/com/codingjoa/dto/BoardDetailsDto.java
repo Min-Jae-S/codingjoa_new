@@ -83,7 +83,19 @@ public class BoardDetailsDto {
 	private String escapeContent() {
 		return (content != null) ? content.replace("\r\n", "\\r\\n") : null;
 	}
+	
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
+	}
 
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	
 	@Override
 	public String toString() {
 		return "BoardDetailsDto [id=" + id + ", categoryCode=" + categoryCode + ", title=" + title + ", content="
@@ -91,6 +103,8 @@ public class BoardDetailsDto {
 				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", writerNickname=" + writerNickname + ", isWriter="
 				+ isWriter + ", isLiked=" + isLiked + "]";
 	}
+
+	
 
 	
 }
