@@ -57,6 +57,12 @@ public class RedisServiceImpl implements RedisService {
 	public void applyDelta(String key, long delta) {
 		redisTemplate.opsForValue().increment(key, delta);
 	}
+	
+	@Override
+	public int getDelta(String key) {
+		Integer delta = (Integer) get(key);
+		return (delta == null) ? 0 : delta;
+	}
 
 	@Override
 	public Set<String> keys(String pattern) {

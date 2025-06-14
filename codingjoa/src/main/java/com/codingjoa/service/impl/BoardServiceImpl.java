@@ -18,6 +18,8 @@ import com.codingjoa.pagination.BoardCriteria;
 import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.ImageService;
+import com.codingjoa.service.RedisService;
+import com.codingjoa.util.RedisKeyUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,12 +30,14 @@ public class BoardServiceImpl implements BoardService {
 
 	private final BoardMapper boardMapper;
 	private final ImageService imageService;
+	private final RedisService redisService;
 	private final int pageRange;
 	
-	public BoardServiceImpl(BoardMapper boardMapper, ImageService imageService,
+	public BoardServiceImpl(BoardMapper boardMapper, ImageService imageService, RedisService redisService,
 			@Value("${pagination.pageRange}") int pageRange) {
 		this.boardMapper = boardMapper;
 		this.imageService = imageService;
+		this.redisService = redisService;
 		this.pageRange = pageRange;
 	}
 
@@ -62,8 +66,19 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		BoardDetailsDto boardDetails = BoardDetailsDto.from(boardDetailsMap);
+		applyCountDelta(boardDetails, boardId);
 		
 		return boardDetails;
+	}
+	
+	private void applyCountDelta(BoardDetailsDto boardDetails, Long boardId) {
+		int commentCountDelta = redisService.getDelta(RedisKeyUtils.createCommentCountKey(boardId));
+		int likeCountDelta = redisService.getDelta(RedisKeyUtils.createBoardLikeCountKey(boardId));
+		int viewCountDelta = redisService.getDelta(RedisKeyUtils.createViewCountKey(boardId));
+		
+		boardDetails.setCommentCount(boardDetails.getCommentCount() + commentCountDelta);
+		boardDetails.setLikeCount(boardDetails.getLikeCount() + likeCountDelta);
+		boardDetails.setViewCount(boardDetails.getViewCount() + viewCountDelta);
 	}
 	
 	@Override

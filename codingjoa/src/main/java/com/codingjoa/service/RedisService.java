@@ -17,6 +17,8 @@ public interface RedisService {
 	
 	void applyDelta(String key, long delta);
 	
+	int getDelta(String key); 
+	
 	Set<String> keys(String pattern);
 	
 }

@@ -4,17 +4,16 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.RedisKeyUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -29,27 +28,23 @@ public class CountFlushScheduler {
 	//@Scheduled(cron = "0 0/1 * * * ?")
 	public void flushCommentCount() {
 		log.info("## flushCommentCount, performed at: {}", LocalDateTime.now().format(formatter));
-		logRedisEntries();
-		
 		Set<String> keys = redisService.keys("board:*:comment_count");
 		if (keys.isEmpty()) {
 			return;
 		}
 		
 		for (String key: keys) {
-			Integer countDelta = (Integer) redisService.get(key);
-			if (countDelta == null || countDelta == 0) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
 				continue;
 			}
 			
-			Long boardId = extractEntityId(key);
+			Long boardId = RedisKeyUtils.extractEntityId(key);
 			boardService.applyCommentCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
 			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
 		}
-		
-		logRedisEntries();
 	}
 	
 	//@Scheduled(cron = "0 0/1 * * * ?")
@@ -61,12 +56,12 @@ public class CountFlushScheduler {
 		}
 		
 		for (String key: keys) {
-			Integer countDelta = (Integer) redisService.get(key);
-			if (countDelta == null || countDelta == 0) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
 				continue;
 			}
 			
-			Long boardId = extractEntityId(key);
+			Long boardId = RedisKeyUtils.extractEntityId(key);
 			boardService.applyLikeCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
@@ -82,13 +77,13 @@ public class CountFlushScheduler {
 			return;
 		}
 		
-		for (String key: keys) {
-			Integer countDelta = (Integer) redisService.get(key);
-			if (countDelta == null || countDelta == 0) {
+		for (String key : keys) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
 				continue;
 			}
 			
-			Long commentId = extractEntityId(key);
+			Long commentId = RedisKeyUtils.extractEntityId(key);
 			commentService.applyLikeCountDelta(countDelta, commentId);
 			
 			redisService.delete(key);
@@ -96,22 +91,5 @@ public class CountFlushScheduler {
 		}
 	}
 	
-	private Long extractEntityId(String key) {
-		String[] parts = key.split(":"); // "board:123:comment_count" --> [ "board", "123", "comment_count" ]
-		return Long.parseLong(parts[1]);
-	}
-	
-	private void logRedisEntries() {
-		Set<String> keys = redisService.keys("*");
-		if (keys.isEmpty()) {
-			log.info("\t > no keys in redis");
-			return;
-		}
-		
-		for (String key : keys) {
-			Object value = redisService.get(key);
-			log.info("\t > key = {}, value = {} [{}]", key, value, value.getClass().getSimpleName());
-		}
-	}
 	
 }

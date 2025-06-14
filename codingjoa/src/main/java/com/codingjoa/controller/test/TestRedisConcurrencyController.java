@@ -7,15 +7,10 @@ import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,15 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codingjoa.dto.SuccessResponse;
 import com.codingjoa.entity.Board;
 import com.codingjoa.service.BoardService;
-import com.codingjoa.service.CommentService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.RedisKeyUtils;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping("/test/redis-concurrency")
 @RestController
@@ -49,9 +43,6 @@ public class TestRedisConcurrencyController {
 	
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
-	
-	@Autowired
-	private CommentService commentService;
 	
 	@Autowired
 	private BoardService boardService;
@@ -162,8 +153,8 @@ public class TestRedisConcurrencyController {
 		}
 		
 		latch.await();
-		log.info("\t > final: {}", redisService.get(key));
 		executor.shutdown();
+		log.info("\t > final: {}", redisService.get(key));
 		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -221,7 +212,7 @@ public class TestRedisConcurrencyController {
 	@GetMapping("/incr/comment_count/board/{boardId}")
 	public ResponseEntity<Object> incrCommentCountByBoardId(@PathVariable Long boardId) {
 		log.info("## incrCommentCountByBoardId");
-		String key = String.format("board:%d:comment_count", boardId);
+		String key = RedisKeyUtils.createCommentCountKey(boardId);
 		redisService.applyDelta(key, 1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -229,7 +220,7 @@ public class TestRedisConcurrencyController {
 	@GetMapping("/decr/comment_count/board/{boardId}")
 	public ResponseEntity<Object> decrCommentCountByBoardId(@PathVariable Long boardId) {
 		log.info("## decrCommentCountByBoardId");
-		String key = String.format("board:%d:comment_count", boardId);
+		String key = RedisKeyUtils.createCommentCountKey(boardId);
 		redisService.applyDelta(key, -1);
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
@@ -238,14 +229,11 @@ public class TestRedisConcurrencyController {
 	public ResponseEntity<Object> flushCommentCount() {
 		log.info("## flushCommentCount");
 		
-		String pattern = "board:*:comment_count";
-		Set<String> initialKeys = redisService.keys(pattern);
-		log.info("\t > initialKeys by pattern = {}", initialKeys);
-		
-		for (String key: initialKeys) {
-			Integer countDelta = (Integer) redisService.get(key);
-			Long boardId = extractEntityId(key);
-			log.info("\t > countDelta = {}, boardId = {}", countDelta, boardId);
+		Set<String> keys = redisService.keys("board:*:comment_count");
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			Long boardId = RedisKeyUtils.extractEntityId(key);
+			log.info("\t > countDelta: {}, boardId: {}", countDelta, boardId);
 			
 			Board initialBoard = boardService.getBoard(boardId);
 			boardService.applyCommentCountDelta(countDelta, boardId);
@@ -253,18 +241,10 @@ public class TestRedisConcurrencyController {
 			
 			Board finalBoard = boardService.getBoard(boardId);
 			log.info("\t\t - [initial] commentCount: {}", initialBoard.getCommentCount());
-			log.info("\t\t - [final] commentCount: {}", finalBoard.getCommentCount());
+			log.info("\t\t - [final]   commentCount: {}", finalBoard.getCommentCount());
 		}
 		
-		Set<String> finalKeys = redisService.keys(pattern);
-		log.info("\t > finalKeys by pattern = {}", finalKeys);
-		
 		return ResponseEntity.ok(SuccessResponse.create());
-	}
-	
-	private Long extractEntityId(String key) {
-		String[] parts = key.split(":");
-		return Long.parseLong(parts[1]);
 	}
 	
 }

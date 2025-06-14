@@ -17,6 +17,7 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.service.BoardService;
 import com.codingjoa.service.CommentService;
 import com.codingjoa.service.RedisService;
+import com.codingjoa.util.RedisKeyUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,15 +76,15 @@ public class CommentServiceImpl implements CommentService {
 		
 		/* additional update of the denormalized count column */
 		
-		// 1) non-atomic update: UPDATE ... SET comment_count = #{commentCount}
+		// 1) non-atomic update (UPDATE ... SET comment_count = #{commentCount})
 		//int count = board.getCommentCount() + 1;
-		//boardService.updateCommentCount(count, board.getId());
+		//boardService.updateCommentCount(count, comment.getBoardId());
 		
-		// 2) atomic update: UPDATE ... SET comment_count = comment_count + 1
-		//boardService.increaseCommentCount(commentDto.getBoardId());
+		// 2) atomic update (UPDATE ... SET comment_count = comment_count + 1)
+		//boardService.increaseCommentCount(comment.getBoardId());
 		
 		// 3) update using redis + scheduler
-		String key = String.format("board:%d:comment_count", commentDto.getBoardId());
+		String key = RedisKeyUtils.createCommentCountKey(comment.getBoardId());
 		redisService.applyDelta(key, 1);
 	}
 
@@ -127,7 +128,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		
 		//boardService.decreaseCommentCount(comment.getBoardId());
-		String key = String.format("board:%d:comment_count", comment.getBoardId());
+		String key = RedisKeyUtils.createCommentCountKey(comment.getBoardId());
 		redisService.applyDelta(key, -1);
 	}
 
