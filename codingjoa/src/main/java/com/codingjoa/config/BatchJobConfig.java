@@ -41,6 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codingjoa.batch.BoardCountColumn;
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.CommentCountColumn;
+import com.codingjoa.batch.CountSyncProgressListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.batch.SkippedIdCatchListener;
@@ -64,143 +65,20 @@ public class BatchJobConfig {
 	private final PlatformTransactionManager transactionManager;
 	private final Environment env;
 	
+	// ===================================================
+	// 		Listeners
+	// ===================================================
+	
 	@Bean
 	public SkippedIdCatchListener skippedIdCatchListener() {
 		return new SkippedIdCatchListener();
 	}
 	
-	// ===================================================
-	// 		BoardImageDummyJob, UserImageDummyJob
-	// ===================================================
-	
 	@Bean
-	public Job boardImageDummyJob(@Qualifier("boardImageDummyStep") Step boardImageDummyStep) {
-		return jobBuilderFactory.get("boardImageDummyJob")
-				.start(boardImageDummyStep)
-				.build();
+	public CountSyncProgressListener countSyncProgressListener() {
+		return new CountSyncProgressListener();
 	}
 	
-	@Bean
-	public Step boardImageDummyStep(@Qualifier("boardImageDummyReader") ItemReader<BoardImage> boardImageDummyReader, 
-			@Qualifier("boardImageDummyWriter") ItemWriter<BoardImage> boardImageDummyWriter) {
-		return stepBuilderFactory.get("boardImageDummyStep")
-				.transactionManager(transactionManager)
-				.<BoardImage, BoardImage>chunk(100)
-				.reader(boardImageDummyReader)
-				.writer(boardImageDummyWriter)
-				.build();	
-	}
-	
-	@StepScope
-	@Bean
-	public ListItemReader<BoardImage> boardImageDummyReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
-		File folder = new File(boardImageDir);
-		if (!folder.exists()) {
-			folder.mkdirs();
-		}
-		
-		Resource resource = new ClassPathResource("static/dummy_base.jpg");
-		
-		List<BoardImage> dummyImages = new ArrayList<>();
-		final int MAX = 30;
-		for (int i = 1; i <= MAX; i++) {
-			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
-			File copyFile = new File(folder, filename);
-			
-			try (InputStream in = resource.getInputStream()) {
-				Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
-			}
-
-			String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
-					.buildAndExpand(filename)
-					.toUriString();
-			
-			BoardImage boardImage = BoardImage.builder()
-					.boardId(null)
-					.name(filename)
-					.path(path)
-					.build();
-			dummyImages.add(boardImage);
-		}
-		
-		return new ListItemReader<>(dummyImages);
-	}
-
-	@Bean
-	public ItemWriter<BoardImage> boardImageDummyWriter() {
-		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>();
-		writer.setSqlSessionFactory(sqlSessionFactory);
-		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertBoardImageDummy");
-		return writer;
-	}
-	
-	@Bean
-	public Job userImageDummyJob(@Qualifier("userImageDummyStep") Step userImageDummyStep) {
-		return jobBuilderFactory.get("userImageDummyJob")
-				.start(userImageDummyStep)
-				.build();
-	}
-	
-	@Bean
-	public Step userImageDummyStep(@Qualifier("userImageDummyTaskelet") Tasklet userImageDummyTaskelet) {
-		return stepBuilderFactory.get("userImageDummyStep")
-				.transactionManager(transactionManager)
-				.tasklet(userImageDummyTaskelet)
-				.build();	
-	}
-	
-	@StepScope
-	@Bean
-	public Tasklet userImageDummyTaskelet(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
-		//List<Long> userIds = List.of(1L, 6021L, 6041L);
-		List<Long> userIds = List.of(1L, 2L);
-		
-		return (contribution, chunkContext) -> {
-			log.info("## UserImageDummyTaskelet");
-			
-			SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);
-			sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetUserImageLatestFlag", userIds);
-			
-			File folder = new File(userImageDir);
-			if (!folder.exists()) {
-				folder.mkdirs();
-			}
-				
-			Resource resource = new ClassPathResource("static/dummy_base.jpg");
-			final int MAX = 10;
-			
-			for (Long userId: userIds) {
-				for (int i = 1; i <= MAX; i++) {
-					String filename = "dummy_" + UUID.randomUUID() + ".jpg";
-					File copyFile = new File(folder, filename);
-					
-					try (InputStream in = resource.getInputStream()) {
-						Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					} catch (IOException e) {
-						log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
-					}
-					
-					String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
-							.buildAndExpand(filename)
-							.toUriString();
-					
-					UserImage userImage = UserImage.builder()
-							.userId(userId)
-							.name(filename)
-							.path(path)
-							.latest(i == MAX)
-							.build();
-					
-					sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.insertUserImageDummy", userImage);
-				}
-			}
-			
-			sqlSessionTemplate.flushStatements();
-			return RepeatStatus.FINISHED;
-		};
-	}
 
 	// ===================================================
 	// 		BoardImageCleanupJob
@@ -435,6 +313,139 @@ public class BatchJobConfig {
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncCommentCountColumn");
 		return writer;
+	}
+	
+	// ===================================================
+	// 		BoardImageDummyJob, UserImageDummyJob
+	// ===================================================
+		
+	@Bean
+	public Job boardImageDummyJob(@Qualifier("boardImageDummyStep") Step boardImageDummyStep) {
+		return jobBuilderFactory.get("boardImageDummyJob")
+				.start(boardImageDummyStep)
+				.build();
+	}
+		
+	@Bean
+	public Step boardImageDummyStep(@Qualifier("boardImageDummyReader") ItemReader<BoardImage> boardImageDummyReader, 
+			@Qualifier("boardImageDummyWriter") ItemWriter<BoardImage> boardImageDummyWriter) {
+		return stepBuilderFactory.get("boardImageDummyStep")
+				.transactionManager(transactionManager)
+				.<BoardImage, BoardImage>chunk(100)
+				.reader(boardImageDummyReader)
+				.writer(boardImageDummyWriter)
+				.build();	
+	}
+		
+	@StepScope
+	@Bean
+	public ListItemReader<BoardImage> boardImageDummyReader(@Value("#{jobParameters['boardImageDir']}") String boardImageDir) {
+		File folder = new File(boardImageDir);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		Resource resource = new ClassPathResource("static/dummy_base.jpg");
+		
+		List<BoardImage> dummyImages = new ArrayList<>();
+		final int MAX = 30;
+		for (int i = 1; i <= MAX; i++) {
+			String filename = "dummy_" + UUID.randomUUID() + ".jpg";
+			File copyFile = new File(folder, filename);
+			
+			try (InputStream in = resource.getInputStream()) {
+				Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+				log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+			}
+
+			String path = UriComponentsBuilder.fromPath("/board/images/{filename}")
+					.buildAndExpand(filename)
+					.toUriString();
+			
+			BoardImage boardImage = BoardImage.builder()
+					.boardId(null)
+					.name(filename)
+					.path(path)
+					.build();
+			dummyImages.add(boardImage);
+		}
+		
+		return new ListItemReader<>(dummyImages);
+	}
+
+	@Bean
+	public ItemWriter<BoardImage> boardImageDummyWriter() {
+		MyBatisBatchItemWriter<BoardImage> writer = new MyBatisBatchItemWriter<>();
+		writer.setSqlSessionFactory(sqlSessionFactory);
+		writer.setStatementId("com.codingjoa.mapper.BatchMapper.insertBoardImageDummy");
+		return writer;
+	}
+	
+	@Bean
+	public Job userImageDummyJob(@Qualifier("userImageDummyStep") Step userImageDummyStep) {
+		return jobBuilderFactory.get("userImageDummyJob")
+				.start(userImageDummyStep)
+				.build();
+	}
+	
+	@Bean
+	public Step userImageDummyStep(@Qualifier("userImageDummyTaskelet") Tasklet userImageDummyTaskelet) {
+		return stepBuilderFactory.get("userImageDummyStep")
+				.transactionManager(transactionManager)
+				.tasklet(userImageDummyTaskelet)
+				.build();	
+	}
+	
+	@StepScope
+	@Bean
+	public Tasklet userImageDummyTaskelet(@Value("#{jobParameters['userImageDir']}") String userImageDir) {
+		//List<Long> userIds = List.of(1L, 6021L, 6041L);
+		List<Long> userIds = List.of(1L, 2L);
+		
+		return (contribution, chunkContext) -> {
+			log.info("## UserImageDummyTaskelet");
+			
+			SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory, ExecutorType.BATCH);
+			sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.resetUserImageLatestFlag", userIds);
+			
+			File folder = new File(userImageDir);
+			if (!folder.exists()) {
+				folder.mkdirs();
+			}
+				
+			Resource resource = new ClassPathResource("static/dummy_base.jpg");
+			final int MAX = 10;
+			
+			for (Long userId: userIds) {
+				for (int i = 1; i <= MAX; i++) {
+					String filename = "dummy_" + UUID.randomUUID() + ".jpg";
+					File copyFile = new File(folder, filename);
+					
+					try (InputStream in = resource.getInputStream()) {
+						Files.copy(in, copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					} catch (IOException e) {
+						log.info("## {}: {}", e.getClass().getSimpleName(), e.getMessage());
+					}
+					
+					String path = UriComponentsBuilder.fromPath("/user/images/{filename}")
+							.buildAndExpand(filename)
+							.toUriString();
+					
+					UserImage userImage = UserImage.builder()
+							.userId(userId)
+							.name(filename)
+							.path(path)
+							.latest(i == MAX)
+							.build();
+					
+					sqlSessionTemplate.update("com.codingjoa.mapper.BatchMapper.insertUserImageDummy", userImage);
+				}
+			}
+			
+			sqlSessionTemplate.flushStatements();
+			return RepeatStatus.FINISHED;
+		};
 	}
 	
 }
