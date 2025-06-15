@@ -59,6 +59,9 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 public class BatchJobConfig {
 	
+	private final static int IMAGE_CLEAN_CHUNK = 10;
+	private final static int BOARD_SYNC_CHUNK = 10000;
+	private final static int COMMENT_SYNC_CHUNK = 200;
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
@@ -104,7 +107,7 @@ public class BatchJobConfig {
 	public Step boardImageCleanupStep() {
 		return stepBuilderFactory.get("boardImageCleanupStep")
 				.transactionManager(transactionManager)
-				.<BoardImage, BoardImage>chunk(100)
+				.<BoardImage, BoardImage>chunk(IMAGE_CLEAN_CHUNK)
 				.reader(boardImageItemReader())
 				.writer(compositeBoardImageItemWriter())
 				.faultTolerant()
@@ -172,7 +175,7 @@ public class BatchJobConfig {
 	public Step userImageCleanupStep() {
 		return stepBuilderFactory.get("userImageCleanupStep")
 				.transactionManager(transactionManager)
-				.<UserImage, UserImage>chunk(100)
+				.<UserImage, UserImage>chunk(IMAGE_CLEAN_CHUNK)
 				.reader(userImageItemReader())
 				.writer(compositeUserImageItemWriter())
 				.faultTolerant()
@@ -237,7 +240,7 @@ public class BatchJobConfig {
 	public Step boardSyncStep() {
 		return stepBuilderFactory.get("boardSyncStep")
 				.transactionManager(transactionManager)
-				.<BoardCountColumn, BoardCountColumn>chunk(1000)
+				.<BoardCountColumn, BoardCountColumn>chunk(BOARD_SYNC_CHUNK)
 				.reader(boardCountColumnReader())
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
@@ -251,7 +254,7 @@ public class BatchJobConfig {
 		MyBatisPagingItemReader reader = new MybatisRecentKeysetPagingItemReader<BoardCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardCountColumn");
-		reader.setPageSize(1000);
+		reader.setPageSize(BOARD_SYNC_CHUNK);
 		return reader;
 	}
 
@@ -262,11 +265,11 @@ public class BatchJobConfig {
 			public void write(List<? extends BoardCountColumn> items) {
 				items.stream().forEach(boardCountColumn -> {
 					if (boardCountColumn.hasCommentCountMismatch()) {
-						log.info("## [BoardCountColumnWriter] detected commentCount mismatch, boardId: {}", boardCountColumn.getBoardId());
+						log.info("\t > detected commentCount mismatch, boardId: {}", boardCountColumn.getBoardId());
 					}
 					
 					if (boardCountColumn.hasLikeCountMismatch()) {
-						log.info("## [BoardCountColumnWriter] detected likeCount mismatch, boardId: {}", boardCountColumn.getBoardId());
+						log.info("\t > detected likeCount mismatch, boardId: {}", boardCountColumn.getBoardId());
 					}
 				});
 				super.write(items);
@@ -292,7 +295,7 @@ public class BatchJobConfig {
 	public Step commentSyncStep() {
 		return stepBuilderFactory.get("commentSyncStep")
 				.transactionManager(transactionManager)
-				.<CommentCountColumn, CommentCountColumn>chunk(1000)
+				.<CommentCountColumn, CommentCountColumn>chunk(COMMENT_SYNC_CHUNK)
 				.reader(commentCountColumnReader())
 				.writer(commentCountColumnWriter())
 				.faultTolerant()
@@ -306,7 +309,7 @@ public class BatchJobConfig {
 		MyBatisPagingItemReader reader = new MyBatisPagingItemReader<CommentCountColumn>();
 		reader.setSqlSessionFactory(sqlSessionFactory);
 		reader.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentCountColumn");
-		reader.setPageSize(1000);
+		reader.setPageSize(COMMENT_SYNC_CHUNK);
 		return reader;
 	}
 	
@@ -316,7 +319,9 @@ public class BatchJobConfig {
 			@Override
 			public void write(List<? extends CommentCountColumn> items) {
 				items.stream().forEach(commentCountColumn -> {
-					log.info("## [CommentCountColumnWriter] detected likeCount mismatch, commentId: {}", commentCountColumn.getCommentId());
+					if (commentCountColumn.hasLikeCountMismatch()) {
+						log.info("\t > detected likeCount mismatch, commentId: {}", commentCountColumn.getCommentId());
+					}
 				});
 				super.write(items);
 			}
