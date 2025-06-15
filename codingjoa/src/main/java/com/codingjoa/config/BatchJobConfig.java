@@ -41,7 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codingjoa.batch.BoardCountColumn;
 import com.codingjoa.batch.BoardImageFileItemWriter;
 import com.codingjoa.batch.CommentCountColumn;
-import com.codingjoa.batch.CountSyncProgressListener;
+import com.codingjoa.batch.CountSyncMonitoringListener;
 import com.codingjoa.batch.MybatisRecentKeysetPagingItemReader;
 import com.codingjoa.batch.PermissiveSkipPolicy;
 import com.codingjoa.batch.SkippedIdCatchListener;
@@ -62,6 +62,7 @@ public class BatchJobConfig {
 	private final JobBuilderFactory jobBuilderFactory;
 	private final StepBuilderFactory stepBuilderFactory;
 	private final SqlSessionFactory sqlSessionFactory;
+	private final SqlSessionTemplate sqlSessionTemplate;
 	private final PlatformTransactionManager transactionManager;
 	private final Environment env;
 	
@@ -75,11 +76,19 @@ public class BatchJobConfig {
 	}
 	
 	@Bean
-	public CountSyncProgressListener countSyncProgressListener() {
-		return new CountSyncProgressListener();
+	public CountSyncMonitoringListener boardSyncMonitoringListener() {
+		CountSyncMonitoringListener listener = new CountSyncMonitoringListener(sqlSessionTemplate);
+		listener.setQueryId("com.codingjoa.mapper.BatchMapper.findBoardTotalCountForSync");
+		return listener;
+	}
+
+	@Bean
+	public CountSyncMonitoringListener commentSyncMonitoringListener() {
+		CountSyncMonitoringListener listener = new CountSyncMonitoringListener(sqlSessionTemplate);
+		listener.setQueryId("com.codingjoa.mapper.BatchMapper.findCommentTotalCountForSync");
+		return listener;
 	}
 	
-
 	// ===================================================
 	// 		BoardImageCleanupJob
 	// ===================================================
@@ -233,6 +242,7 @@ public class BatchJobConfig {
 				.writer(boardCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
+				.listener(boardSyncMonitoringListener())
 				.build();
 	}
 	
@@ -287,6 +297,7 @@ public class BatchJobConfig {
 				.writer(commentCountColumnWriter())
 				.faultTolerant()
 				.skipPolicy(new PermissiveSkipPolicy())
+				.listener(commentSyncMonitoringListener())
 				.build();
 	}
 	

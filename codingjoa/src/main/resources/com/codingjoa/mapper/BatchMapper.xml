@@ -237,4 +237,12 @@
 		WHERE rn <![CDATA[ > ]]> ( #{_page} * #{_pagesize} ) <!-- rn <![CDATA[> #{_skiprows} -->
 	</select>
 	
+	<select id="findBoardTotalCountForSync" resultType="int">
+		SELECT COUNT(*) FROM board
+	</select>
+
+	<select id="findCommentTotalCountForSync" resultType="int">
+		SELECT COUNT(*) FROM comments
+	</select>
+	
 </mapper>
