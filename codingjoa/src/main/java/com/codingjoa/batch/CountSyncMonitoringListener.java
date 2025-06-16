@@ -67,8 +67,11 @@ public class CountSyncMonitoringListener {
 	@AfterStep
 	public ExitStatus afterStep(StepExecution stepExecution) {
 		isCompleted = true;
-		log.info("\t > {} 진행 중... {} ( {} / {} )", 
-				jobName, percentFormat.format(1.0), numberFormat.format(totalCount), numberFormat.format(totalCount));
+		try {
+            monitoringThread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 		
 		int writeCount = stepExecution.getWriteCount();
 		int skipCount = stepExecution.getSkipCount();
