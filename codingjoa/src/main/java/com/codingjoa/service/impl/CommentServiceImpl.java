@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codingjoa.dto.CommentDetailsDto;
 import com.codingjoa.dto.CommentDto;
-import com.codingjoa.entity.Board;
 import com.codingjoa.entity.Comment;
 import com.codingjoa.error.ExpectedException;
 import com.codingjoa.mapper.CommentMapper;
@@ -66,8 +65,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public void saveComment(CommentDto commentDto) {
 		log.info("\t > prior to inserting comment, validating existence of board");
-		//boardService.getBoard(commentDto.getBoardId());
-		Board board = boardService.getBoard(commentDto.getBoardId());
+		boardService.getBoard(commentDto.getBoardId());
+		//Board board = boardService.getBoard(commentDto.getBoardId());
 		
 		Comment comment = commentDto.toEntity();
 		boolean isSaved = commentMapper.insertComment(comment);
@@ -78,15 +77,16 @@ public class CommentServiceImpl implements CommentService {
 		/* additional update of the denormalized count column */
 		
 		// 1) non-atomic update (UPDATE ... SET comment_count = #{commentCount})
-		int count = board.getCommentCount() + 1;
-		boardService.updateCommentCount(count, comment.getBoardId());
+		//Board board = boardService.getBoard(commentDto.getBoardId());
+ 		//int newCount = board.getCommentCount() + 1;
+		//boardService.updateCommentCount(newCount, board.getId());
 		
 		// 2) atomic update (UPDATE ... SET comment_count = comment_count + 1)
 		//boardService.increaseCommentCount(comment.getBoardId());
 		
 		// 3) update using redis + scheduler
-		//String key = RedisKeyUtils.createCommentCountKey(comment.getBoardId());
-		//redisService.applyDelta(key, 1);
+		String key = RedisKeyUtils.createCommentCountKey(comment.getBoardId());
+		redisService.applyDelta(key, 1);
 	}
 
 	@Override

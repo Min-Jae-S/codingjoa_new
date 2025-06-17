@@ -47,6 +47,7 @@ public class CountFlushScheduler {
 		}
 	}
 	
+	//@Scheduled(fixedRate = 30000)
 	public void flushBoardLikeCount() {
 		log.info("## flushBoardLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("board:*:like_count");
@@ -68,6 +69,7 @@ public class CountFlushScheduler {
 		}
 	}
 	
+	//@Scheduled(fixedRate = 30000)
 	public void flushCommentLikeCount() {
 		log.info("## flushCommentLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("comment:*:like_count");
@@ -89,6 +91,7 @@ public class CountFlushScheduler {
 		}
 	}
 	
+	//@Scheduled(fixedRate = 30000)
 	public void flushViewCount() {
 		log.info("## flushViewCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("board:*:view_count");
