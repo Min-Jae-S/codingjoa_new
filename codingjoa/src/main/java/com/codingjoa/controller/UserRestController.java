@@ -15,8 +15,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -130,7 +130,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "내 정보 수정(닉네임)", notes = "자신의 닉네임을 수정한다. (인증 필요)")
-	@PutMapping("/me/nickname")
+	@PatchMapping("/me/nickname")
 	public ResponseEntity<Object> updateNickname(@Valid @RequestBody NicknameDto nicknameDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateNickname");
@@ -147,7 +147,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "내 정보 수정(이메일)", notes = "자신의 이메일(인증된 이메일)을 수정한다. (인증 필요)")
-	@PutMapping("/me/email")
+	@PatchMapping("/me/email")
 	public ResponseEntity<Object> updateEmail(@Valid @RequestBody EmailAuthDto emailAuthDto,
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updateEmail");
@@ -165,7 +165,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "내 정보 수정(주소)", notes = "자신의 주소(우편번호, 기본주소, 상세주소)를 수정한다. (인증 필요)")
-	@PutMapping("/me/address")
+	@PatchMapping("/me/address")
 	public ResponseEntity<Object> updateAddress(@Valid @RequestBody AddrDto addrDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAddress");
@@ -179,7 +179,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "내 정보 수정(수신 동의)", notes = "수신 동의를 수정한다. (인증 필요)")
-	@PutMapping("/me/agree")
+	@PatchMapping("/me/agree")
 	public ResponseEntity<Object> updateAgree(@RequestBody AgreeDto agreeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal) {
 		log.info("## updateAgree");
@@ -209,7 +209,7 @@ public class UserRestController {
 	}
 	
 	@ApiOperation(value = "내 정보 수정(비밀번호)", notes = "기존 비밀번호를 수정한다. (인증 필요)")
-	@PutMapping("/me/password")
+	@PatchMapping("/me/password")
 	public ResponseEntity<Object> updatePassword(@Valid @RequestBody PasswordChangeDto passwordChangeDto, 
 			@AuthenticationPrincipal PrincipalDetails principal, HttpServletRequest request, HttpServletResponse response) {
 		log.info("## updatePassword");

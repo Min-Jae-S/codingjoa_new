@@ -46,7 +46,7 @@ let userService = (function() {
 		console.log("## updateNickname");
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
-			type : "PUT",
+			type : "PATCH",
 			url : `${contextPath}/api/users/me/nickname`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
@@ -69,7 +69,7 @@ let userService = (function() {
 		console.log("## updateEmail");
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
-			type : "PUT",
+			type : "PATCH",
 			url : `${contextPath}/api/users/me/email`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
@@ -92,7 +92,7 @@ let userService = (function() {
 		console.log("## updateAddr");
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
-			type : "PUT",
+			type : "PATCH",
 			url : `${contextPath}/api/users/me/address`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
@@ -115,7 +115,7 @@ let userService = (function() {
 		console.log("## updateAgree");
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
-			type : "PUT",
+			type : "PATCH",
 			url : `${contextPath}/api/users/me/agree`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
@@ -159,7 +159,7 @@ let userService = (function() {
 		console.log("## updatePassword");
 		console.log(JSON.stringify(obj, null, 2));
 		$.ajax({
-			type : "PUT",
+			type : "PATCH",
 			url : `${contextPath}/api/users/me/password`,
 			data : JSON.stringify(obj),
 			contentType : "application/json; charset=utf-8",
