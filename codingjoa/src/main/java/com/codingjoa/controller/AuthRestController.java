@@ -36,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(tags = "Main API")
+@Api(tags = "Auth API", description = "AuthRestController")
 @Slf4j
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor

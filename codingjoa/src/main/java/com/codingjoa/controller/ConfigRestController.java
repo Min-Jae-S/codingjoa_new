@@ -46,7 +46,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
 
-@ApiIgnore @Api(tags = "Configuration API")
+@ApiIgnore 
+@Api(tags = "Configuration API", description = "ConfigRestController")
 @Slf4j
 @RequestMapping("/api/config")
 @RequiredArgsConstructor

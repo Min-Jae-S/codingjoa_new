@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "Board API")
+@Api(tags = "Board API",description = "BoardRestController")
 @Slf4j
 @RequestMapping("/api/board")
 @RequiredArgsConstructor

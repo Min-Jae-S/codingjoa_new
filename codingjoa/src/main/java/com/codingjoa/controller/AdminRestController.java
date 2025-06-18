@@ -50,7 +50,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@PrivateApi @Api(tags = "Admin API")
+@PrivateApi @Api(tags = "Admin API", description = "AdminRestController")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")

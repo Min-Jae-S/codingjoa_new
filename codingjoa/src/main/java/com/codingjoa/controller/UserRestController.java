@@ -52,7 +52,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@PrivateApi @Api(tags = "User API")
+@PrivateApi 
+@Api(tags = "User API", description = "UserRestController")
 @Slf4j
 @RequestMapping("/api/users")
 @RequiredArgsConstructor

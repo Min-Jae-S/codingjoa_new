@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Api(tags = "Category API")
+@Api(tags = "Category API", description = "CategoryRestController")
 @Slf4j
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
