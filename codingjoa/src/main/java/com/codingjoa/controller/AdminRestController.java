@@ -11,9 +11,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -129,7 +129,7 @@ public class AdminRestController {
 	}
 	
 	@ApiOperation(value = "회원 닉네임 수정", notes = "회원 ID(Long userId)와 닉네임 정보를 전달받아 닉네임을 수정한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/nickname")
+	@PatchMapping("/users/{userId}/nickname")
 	public ResponseEntity<Object> updateNickname(@PathVariable Long userId, @Valid @RequestBody NicknameDto nicknameDto) {
 		log.info("## updateNickname");
 		log.info("\t > userId = {}", userId);
@@ -143,7 +143,7 @@ public class AdminRestController {
 	}
 	
 	@ApiOperation(value = "회원 이메일 수정", notes = "회원 ID(Long userId)와 이메일 정보를 전달받아 이메일을 수정한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/email")
+	@PatchMapping("/users/{userId}/email")
 	public ResponseEntity<Object> updateEmail(@PathVariable Long userId, @Valid @RequestBody EmailDto emailDto) {
 		log.info("## updateEmail");
 		log.info("\t > userId = {}", userId);
@@ -157,7 +157,7 @@ public class AdminRestController {
 	}
 	
 	@ApiOperation(value = "회원 주소 수정", notes = "회원 ID(Long userId)와 주소 정보(우편번호, 기본주소, 상세주소)를 전달받아 주소를 수정한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/address")
+	@PatchMapping("/users/{userId}/address")
 	public ResponseEntity<Object> updateAddress(@PathVariable Long userId, @Valid @RequestBody AdminUserAddrDto adminUserAddrDto) {
 		log.info("## updateAddress");
 		log.info("\t > userId = {}", userId);
@@ -171,7 +171,7 @@ public class AdminRestController {
 	}
 	
 	@ApiOperation(value = "회원 동의 정보 수정", notes = "회원 ID(Long userId)와 동의 정보를 동의 여부를 수정한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/agree")
+	@PatchMapping("/users/{userId}/agree")
 	public ResponseEntity<Object> updateAgree(@PathVariable Long userId, @RequestBody AgreeDto agreeDto) {
 		log.info("## updateAgree");
 		log.info("\t > userId = {}", userId);
@@ -185,7 +185,7 @@ public class AdminRestController {
 	}
 	
 	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원 ID(Long userId)와 비밀번호 정보를 전달받아 기존 비밀번호를 수정한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/password")
+	@PatchMapping("/users/{userId}/password")
 	public ResponseEntity<Object> updatePassword(@PathVariable Long userId, @Valid @RequestBody AdminUserPasswordChangeDto adminUserPasswordChangeDto) {
 		log.info("## updatePassword");
 		log.info("\t > userId = {}", userId);
@@ -199,7 +199,7 @@ public class AdminRestController {
 	}
 
 	@ApiOperation(value = "회원 권한 수정", notes = "회원 ID(Long userId)와 권한 정보를 전달받아 회원의 권한을 부여하거나 삭제한다. (관리자 권한 필요)")
-	@PutMapping("/users/{userId}/auth")
+	@PatchMapping("/users/{userId}/auth")
 	public ResponseEntity<Object> updateAuth(@PathVariable Long userId, @Valid @RequestBody AdminUserAuthDto adminUserAuthDto) {
 		log.info("## updateAuth");
 		log.info("\t > userId = {}", userId);
