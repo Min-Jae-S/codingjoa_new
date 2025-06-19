@@ -57,7 +57,7 @@ public class AuthRestController {
 		binder.addValidators(new PasswordResetValidator());
 	}
 	
-	@ApiOperation(value = "회원 가입용 인증코드 전송", notes = "회원 가입시 이메일 인증을 위해 인증코드가 포함된 메일을 발송한다.")
+	@ApiOperation(value = "회원 가입 이메일 인증코드 전송", notes = "회원 가입시 이메일 인증을 위해 인증코드가 포함된 메일을 발송한다.")
 	@PostMapping("/join/auth-code/send")
 	public ResponseEntity<Object> sendAuthCodeForJoin(@RequestBody @Valid EmailDto emailDto) {
 		log.info("## sendAuthCodeForJoin");
