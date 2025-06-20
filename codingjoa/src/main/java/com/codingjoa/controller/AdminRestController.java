@@ -302,5 +302,11 @@ public class AdminRestController {
 				.messageByCode("success.admin.deleteBoards", deletedRows)
 				.build());
 	}
+	
+	@GetMapping("/cache/counts")
+	public ResponseEntity<Object> getCacheCount() {
+		log.info("## getCacheCount");
+		return ResponseEntity.ok(SuccessResponse.create());
+	}
 
 }

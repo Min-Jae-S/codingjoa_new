@@ -73,7 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 * 		LoginAuthenticationFilter*
 	 * 		OAuth2AuthorizationRequestRedirectFilter
 	 * 		OAuth2AppLoginAuthenticationFilter*
-	 * 		OAuth2LoginAuthenticationFilter
 	 * 		JwtAuthenticationFilter*
 	 * 		RequestCacheAwareFilter
 	 * 		SecurityContextHolderAwareRequestFilter
