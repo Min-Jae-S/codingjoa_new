@@ -2,7 +2,7 @@ package com.codingjoa.util;
 
 public class RedisKeyUtils {
 
-	public static Long extractEntityId(String key) {
+	public static long extractEntityId(String key) {
 		// "board:123:comment_count" --> [ "board", "123", "comment_count" ]
 		String[] parts = key.split(":"); 
 		return Long.parseLong(parts[1]);

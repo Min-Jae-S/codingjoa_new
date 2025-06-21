@@ -1,9 +1,9 @@
 package com.codingjoa.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-@Builder
+@Setter
 @Getter
 public class BoardCacheCountDto {
 	
@@ -11,14 +11,5 @@ public class BoardCacheCountDto {
 	private int viewCount;
 	private int commentCount;
 	private int likeCount;
-	
-	public static BoardCacheCountDto of(long id, int viewCount, int commentCount, int likeCount) {
-		return BoardCacheCountDto.builder()
-				.id(id)
-				.viewCount(viewCount)
-				.commentCount(commentCount)
-				.likeCount(likeCount)
-				.build();
-	}
 
 }

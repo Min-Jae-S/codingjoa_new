@@ -313,18 +313,32 @@ public class AdminRestController {
 	@GetMapping("/redis/board/count")
 	public ResponseEntity<Object> getBoardCacheCount() {
 		log.info("## getBoardCacheCount");
-		List<BoardCacheCountDto> boardCacheCount = new ArrayList<>();
+		Map<Long, BoardCacheCountDto> map = new HashMap<>();
 		
 		Set<String> keys = redisService.keys("board:*:*");
 		for (String key : keys) {
 			String[] parts = key.split(":");
+			
 			Long boardId = Long.parseLong(parts[1]);
+			BoardCacheCountDto dto = map.computeIfAbsent(boardId, k -> {
+				BoardCacheCountDto newDto = new BoardCacheCountDto();
+				newDto.setId(boardId);
+				return newDto;
+			});
+			
 			String countType = parts[2];
 			int countDelta = redisService.getDelta(key);
 			
+			if ("view_count".equals(countType)) {
+				dto.setViewCount(countDelta);
+			} else if ("comment_count".equals(countType)) {
+				dto.setCommentCount(countDelta);
+			} else if ("like_count".equals(countType)) {
+				dto.setLikeCount(countDelta);
+			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(boardCacheCount));
+		return ResponseEntity.ok(SuccessResponse.builder().data(map.values()));
 	}
 	
 	@GetMapping("/redis/comment/count")
