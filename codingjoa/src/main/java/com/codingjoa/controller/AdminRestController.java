@@ -1,8 +1,10 @@
 package com.codingjoa.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -28,6 +30,8 @@ import com.codingjoa.dto.AdminUserDto;
 import com.codingjoa.dto.AdminUserPasswordChangeDto;
 import com.codingjoa.dto.AdminUserRegistrationDto;
 import com.codingjoa.dto.AgreeDto;
+import com.codingjoa.dto.BoardCacheCountDto;
+import com.codingjoa.dto.CommentCacheCountDto;
 import com.codingjoa.dto.EmailDto;
 import com.codingjoa.dto.NicknameDto;
 import com.codingjoa.dto.SuccessResponse;
@@ -37,7 +41,9 @@ import com.codingjoa.pagination.Pagination;
 import com.codingjoa.resolver.AdminBoardCriResolver;
 import com.codingjoa.resolver.AdminUserCriResolver;
 import com.codingjoa.service.AdminService;
+import com.codingjoa.service.RedisService;
 import com.codingjoa.service.UserService;
+import com.codingjoa.util.RedisKeyUtils;
 import com.codingjoa.validator.AdminUserAddrValidator;
 import com.codingjoa.validator.AdminUserAuthValidator;
 import com.codingjoa.validator.AdminUserPasswordChangeValidator;
@@ -61,6 +67,7 @@ public class AdminRestController {
 	private final UserService userService;
 	private final AdminUserCriResolver adminUserCriResolver;
 	private final AdminBoardCriResolver adminBoardCriResolver;
+	private final RedisService redisService;
 	
 	@InitBinder("emailDto")
 	public void InitBinderAdminUserEmail(WebDataBinder binder) {
@@ -303,11 +310,36 @@ public class AdminRestController {
 				.build());
 	}
 	
-	@GetMapping("/redis/count")
-	public ResponseEntity<Object> getCacheCount() {
-		log.info("## getCacheCount");
+	@GetMapping("/redis/board/count")
+	public ResponseEntity<Object> getBoardCacheCount() {
+		log.info("## getBoardCacheCount");
+		List<BoardCacheCountDto> boardCacheCount = new ArrayList<>();
 		
-		return ResponseEntity.ok(SuccessResponse.create());
+		Set<String> keys = redisService.keys("board:*:*");
+		for (String key : keys) {
+			String[] parts = key.split(":");
+			Long boardId = Long.parseLong(parts[1]);
+			String countType = parts[2];
+			int countDelta = redisService.getDelta(key);
+			
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(boardCacheCount));
+	}
+	
+	@GetMapping("/redis/comment/count")
+	public ResponseEntity<Object> getCommentCacheCount() {
+		log.info("## getCommentCacheCount");
+		List<CommentCacheCountDto> commentCacheCount = new ArrayList<>();
+		
+		Set<String> keys = redisService.keys("comment:*:like_count");
+		for (String key : keys) {
+			Long commentId = RedisKeyUtils.extractEntityId(key);
+			int countDelta = redisService.getDelta(key);
+			commentCacheCount.add(CommentCacheCountDto.of(commentId, countDelta));
+		}
+		
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentCacheCount));
 	}
 	
 
