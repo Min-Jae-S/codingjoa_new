@@ -303,10 +303,12 @@ public class AdminRestController {
 				.build());
 	}
 	
-	@GetMapping("/cache/counts")
+	@GetMapping("/redis/count")
 	public ResponseEntity<Object> getCacheCount() {
 		log.info("## getCacheCount");
+		
 		return ResponseEntity.ok(SuccessResponse.create());
 	}
+	
 
 }
