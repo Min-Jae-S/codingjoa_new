@@ -1,6 +1,5 @@
 class UploadAdapter {
     constructor(loader) {
-    	console.log("## UploadAdapter.constructor");
         this.loader = loader;
     }
     
@@ -42,20 +41,14 @@ class UploadAdapter {
         	const readyStatus = xhr.readyState;
         	const status = xhr.status;
         	
-        	if (status == 200) {
-        		console.log("%c> SUCCESS", "color:green");
-        		console.log(JSON.stringify(response, null, 2)); 
-        	}
-        	
-         	// This example assumes the XHR server's "response" object will come with an "error" 
-         	// which has its own "message" that can be passed to reject() in the upload promise.
-            // Your integration may handle upload errors in a different way so make sure it is done properly.
-            // The reject() function must be called when the upload fails.
-            if (!response || response.error) {
-            	console.log("%c> ERROR", "color:red");
+        	if (status >= 400) {
+        		console.log("%c> ERROR", "color:red");
             	console.log(response);
-                return reject(response && response.error ? response.error.message : genericErrorText);
-            }
+                return reject(response ? response.message : genericErrorText);
+        	} 
+        	
+            console.log("%c> SUCCESS", "color:green");
+    		console.log(JSON.stringify(response, null, 2)); 
          	
          	// If the upload is successful, resolve the upload promise with an object 
          	// containing at least the "default" URL, pointing to the image on the server.
@@ -80,6 +73,10 @@ class UploadAdapter {
      	// This is the right place to implement security mechanisms like authentication and CSRF protection. 
      	// For instance, you can use XMLHttpRequest.setRequestHeader() to set the request headers 
      	// containing the CSRF token generated earlier by your application.
+        const token = localStorage.getItem("ACCESS_TOKEN");
+		if (token) {
+			this.xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+		}
 
         // Send the request.
         this.xhr.send(data);
