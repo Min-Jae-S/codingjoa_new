@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.codingjoa.service.BoardService;
@@ -14,6 +15,7 @@ import com.codingjoa.util.RedisKeyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@SuppressWarnings("unused")
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -24,76 +26,9 @@ public class CountFlushScheduler {
 	private final BoardService boardService;
 	private final CommentService commentService;
 	
-	//@Scheduled(fixedRate = 30000)
-	//@Scheduled(cron = "0 0/1 * * * ?")
-	public void flushCommentCount() {
-		log.info("## flushCommentCount, performed at: {}", LocalDateTime.now().format(formatter));
-		Set<String> keys = redisService.keys("board:*:comment_count");
-		if (keys.isEmpty()) {
-			return;
-		}
-		
-		for (String key: keys) {
-			int countDelta = redisService.getDelta(key);
-			if (countDelta == 0) {
-				continue;
-			}
-			
-			Long boardId = RedisKeyUtils.extractEntityId(key);
-			boardService.applyCommentCountDelta(countDelta, boardId);
-			
-			redisService.delete(key);
-			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
-		}
-	}
-	
-	//@Scheduled(fixedRate = 30000)
-	public void flushBoardLikeCount() {
-		log.info("## flushBoardLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
-		Set<String> keys = redisService.keys("board:*:like_count");
-		if (keys.isEmpty()) {
-			return;
-		}
-		
-		for (String key: keys) {
-			int countDelta = redisService.getDelta(key);
-			if (countDelta == 0) {
-				continue;
-			}
-			
-			Long boardId = RedisKeyUtils.extractEntityId(key);
-			boardService.applyLikeCountDelta(countDelta, boardId);
-			
-			redisService.delete(key);
-			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
-		}
-	}
-	
-	//@Scheduled(fixedRate = 30000)
-	public void flushCommentLikeCount() {
-		log.info("## flushCommentLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
-		Set<String> keys = redisService.keys("comment:*:like_count");
-		if (keys.isEmpty()) {
-			return;
-		}
-		
-		for (String key : keys) {
-			int countDelta = redisService.getDelta(key);
-			if (countDelta == 0) {
-				continue;
-			}
-			
-			Long commentId = RedisKeyUtils.extractEntityId(key);
-			commentService.applyLikeCountDelta(countDelta, commentId);
-			
-			redisService.delete(key);
-			log.info("\t > flushed countDelta: {}, commentId: {}", countDelta, commentId);
-		}
-	}
-	
-	//@Scheduled(fixedRate = 30000)
+	@Scheduled(fixedRate = 60000)
 	public void flushViewCount() {
-		log.info("## flushViewCount, performed at: {}", LocalDateTime.now().format(formatter));
+		//log.info("## flushViewCount, performed at: {}", LocalDateTime.now().format(formatter));
 		Set<String> keys = redisService.keys("board:*:view_count");
 		if (keys.isEmpty()) {
 			return;
@@ -109,8 +44,76 @@ public class CountFlushScheduler {
 			boardService.applyViewCountDelta(countDelta, boardId);
 			
 			redisService.delete(key);
-			log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
+			//log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
 		}
 	}
+	
+	@Scheduled(fixedRate = 60000)
+	public void flushCommentCount() {
+		//log.info("## flushCommentCount, performed at: {}", LocalDateTime.now().format(formatter));
+		Set<String> keys = redisService.keys("board:*:comment_count");
+		if (keys.isEmpty()) {
+			return;
+		}
+		
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
+				continue;
+			}
+			
+			Long boardId = RedisKeyUtils.extractEntityId(key);
+			boardService.applyCommentCountDelta(countDelta, boardId);
+			
+			redisService.delete(key);
+			//log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
+		}
+	}
+	
+	@Scheduled(fixedRate = 60000)
+	public void flushBoardLikeCount() {
+		//log.info("## flushBoardLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
+		Set<String> keys = redisService.keys("board:*:like_count");
+		if (keys.isEmpty()) {
+			return;
+		}
+		
+		for (String key: keys) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
+				continue;
+			}
+			
+			Long boardId = RedisKeyUtils.extractEntityId(key);
+			boardService.applyLikeCountDelta(countDelta, boardId);
+			
+			redisService.delete(key);
+			//log.info("\t > flushed countDelta: {}, boardId: {}", countDelta, boardId);
+		}
+	}
+	
+	@Scheduled(fixedRate = 60000)
+	public void flushCommentLikeCount() {
+		//log.info("## flushCommentLikeCount, performed at: {}", LocalDateTime.now().format(formatter));
+		Set<String> keys = redisService.keys("comment:*:like_count");
+		if (keys.isEmpty()) {
+			return;
+		}
+		
+		for (String key : keys) {
+			int countDelta = redisService.getDelta(key);
+			if (countDelta == 0) {
+				continue;
+			}
+			
+			Long commentId = RedisKeyUtils.extractEntityId(key);
+			commentService.applyLikeCountDelta(countDelta, commentId);
+			
+			redisService.delete(key);
+			//log.info("\t > flushed countDelta: {}, commentId: {}", countDelta, commentId);
+		}
+	}
+	
+	
 	
 }
