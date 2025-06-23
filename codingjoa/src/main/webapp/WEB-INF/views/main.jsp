@@ -15,8 +15,8 @@
 <script src="${contextPath}/resources/fontawesome/js/all.js"></script>
 <style>
 	.main-wrap {
-		width: 860px;
-		min-width: 860px;
+		width: 760px;
+		min-width: 620px;
 		margin: 0 auto;
 	}
 	
@@ -81,7 +81,69 @@
 
 <div class="container main-container">
 	<div class="main-wrap">
-		<!-- boards -->
+		<c:forEach var="board" items="${boards}" varStatus="status">
+			<h3 class="font-weight-bold"><c:out value="${boardCategories[status.index].name}"/></h3>
+			<div class="table-container">
+				<table class="table">
+					<thead>
+						<tr>
+							<th class="d-md-table-cell">번호</th>
+							<th class="d-md-table-cell w-40">제목</th>
+							<th class="d-md-table-cell">작성자</th>
+							<th class="d-md-table-cell">작성일</th>
+							<th class="d-md-table-cell">조회</th>
+							<th class="d-md-table-cell">좋아요</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:choose>
+							<c:when test="${not empty board}">
+								<c:forEach var="boardDetails" items="${board}">
+									<tr>
+										<td class="d-md-table-cell">
+											<span><c:out value="${boardDetails.id}"/></span>
+										</td>
+										<td class="d-md-table-cell text-left">
+											<a class="board-title" href="${contextPath}/board/read?id=${boardDetails.id}">
+												<c:out value="${boardDetails.title}"/><!--
+										 --></a>
+											<c:if test="${boardDetails.commentCount > 0}">
+												<span class="comment-cnt"><c:out value="${boardDetails.commentCount}"/></span>
+											</c:if>
+										</td>
+										<td class="d-md-table-cell">
+											<span><c:out value="${boardDetails.writerNickname}"/></span>
+										</td>
+										<td class="d-md-table-cell">
+											<span><c:out value="${boardDetails.createdAt}"/></span>
+										</td>
+										<td class="d-md-table-cell">
+											<span><c:out value="${boardDetails.viewCount}"/></span>
+										</td>
+										<td class="d-md-table-cell">
+											<i class="fa-heart fa-fw ${boardDetails.liked ? 'fa-solid text-danger' : 'fa-regular'}"></i>
+											<span><c:out value="${boardDetails.likeCount}"/></span>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<tr>
+									<td colspan="6">
+										<div class="no-results">일치하는 결과가 없습니다.</div>
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					</tbody>
+				</table>
+				<div>
+					<a href="${contextPath}/board/?categoryCode=${boardCategories[status.index].code}" class="btn btn-primary rounded-md">
+						게시판 가기
+					</a>
+				</div>
+			</div>
+		</c:forEach>
 	</div>
 </div>
 

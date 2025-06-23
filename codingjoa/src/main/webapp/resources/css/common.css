@@ -121,14 +121,14 @@ html * {
 	align-items: center;
 }
 
-.main-container, .login-container, .error-container {
+.login-container, .error-container {
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 	display: flex;
 	align-items: center;
 }
 
-.boards-container, .board-container {
+.main-container, .boards-container, .board-container {
 	/* display: flex;
 	align-items: center; */
 	margin-top: 6rem;
