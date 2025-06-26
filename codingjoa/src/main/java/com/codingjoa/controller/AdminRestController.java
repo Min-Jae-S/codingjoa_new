@@ -310,9 +310,9 @@ public class AdminRestController {
 				.build());
 	}
 	
-	@GetMapping("/redis/board/count")
-	public ResponseEntity<Object> getBoardCacheCount() {
-		log.info("## getBoardCacheCount");
+	@GetMapping("/redis/count/board")
+	public ResponseEntity<Object> getCacheCountInBoard() {
+		log.info("## getCacheCountInBoard");
 		Map<Long, BoardCacheCountDto> map = new HashMap<>();
 		
 		Set<String> keys = redisService.keys("board:*:*");
@@ -341,9 +341,9 @@ public class AdminRestController {
 		return ResponseEntity.ok(SuccessResponse.builder().data(map.values()));
 	}
 	
-	@GetMapping("/redis/comment/count")
-	public ResponseEntity<Object> getCommentCacheCount() {
-		log.info("## getCommentCacheCount");
+	@GetMapping("/redis/count/comment")
+	public ResponseEntity<Object> getCacheCountInComment() {
+		log.info("## getCacheCountInComment");
 		List<CommentCacheCountDto> commentCacheCount = new ArrayList<>();
 		
 		Set<String> keys = redisService.keys("comment:*:like_count");

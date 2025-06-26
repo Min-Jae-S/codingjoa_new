@@ -62,6 +62,10 @@
 		<button class="btn btn-primary btn-lg" onclick="flushBoardLikeCount()">flush<br>board_like_count</button>
 		<button class="btn btn-primary btn-lg" onclick="flushCommentLikeCount()">flush<br>comment_like_count</button>
 	</div>
+	<div>
+		<button class="btn btn-primary btn-lg" onclick="getCacheCountInBoard()">cache count<br>(board)</button>
+		<button class="btn btn-primary btn-lg" onclick="getCacheCountInComment()">cache count<br>(comment)</button>
+	</div>
 </div>
 <c:import url="/WEB-INF/views/include/bottom-menu.jsp"/>
 <script>
@@ -312,6 +316,40 @@
 		$.ajax({
 			type : "GET",
 			url : "${contextPath}/test/redis-concurrency/flush/comment_like_count",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
+	function getCacheCountInBoard() {
+		console.log("## getCacheCountInBoard");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/api/admin/redis/count/board",
+			dataType: "json",
+			success : function(result) {
+				console.log("%c> SUCCESS", "color:green");
+				console.log(JSON.stringify(result, null	, 2));
+			},
+			error : function(jqXHR) {
+				console.log("%c> ERROR", "color:red");
+				console.log(JSON.stringify(parseError(jqXHR), null, 2));
+			}
+		});	
+	}
+	
+	function getCacheCountInComment() {
+		console.log("## getCacheCountInComment");
+		$.ajax({
+			type : "GET",
+			url : "${contextPath}/api/admin/redis/count/comment",
 			dataType: "json",
 			success : function(result) {
 				console.log("%c> SUCCESS", "color:green");
