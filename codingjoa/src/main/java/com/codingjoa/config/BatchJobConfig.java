@@ -149,6 +149,7 @@ public class BatchJobConfig {
 				super.write(items);
 			}
 		};
+		
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteBoardImage");
 		return writer;
@@ -213,6 +214,7 @@ public class BatchJobConfig {
 				super.write(items);
 			}
 		};
+		
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.deleteUserImage");
 		return writer;
@@ -275,6 +277,7 @@ public class BatchJobConfig {
 				super.write(items);
 			}
 		};
+		
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncBoardCountColumn");
 		return writer;
@@ -326,6 +329,7 @@ public class BatchJobConfig {
 				super.write(items);
 			}
 		};
+		
 		writer.setSqlSessionFactory(sqlSessionFactory);
 		writer.setStatementId("com.codingjoa.mapper.BatchMapper.syncCommentCountColumn");
 		return writer;

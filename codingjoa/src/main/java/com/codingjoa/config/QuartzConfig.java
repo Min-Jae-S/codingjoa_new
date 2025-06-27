@@ -33,7 +33,6 @@ public class QuartzConfig {
 		schedulerFactory.setOverwriteExistingJobs(true);
 		schedulerFactory.setJobDetails(jobDetails);
 		schedulerFactory.setTriggers(triggers);
-		
 		return schedulerFactory;
 	}
 	
