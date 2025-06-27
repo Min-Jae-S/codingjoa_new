@@ -338,7 +338,7 @@ public class AdminRestController {
 			}
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(map.values()));
+		return ResponseEntity.ok(SuccessResponse.builder().data(map.values()).build());
 	}
 	
 	@GetMapping("/redis/count/comment")
@@ -353,7 +353,7 @@ public class AdminRestController {
 			commentCacheCount.add(CommentCacheCountDto.of(commentId, countDelta));
 		}
 		
-		return ResponseEntity.ok(SuccessResponse.builder().data(commentCacheCount));
+		return ResponseEntity.ok(SuccessResponse.builder().data(commentCacheCount).build());
 	}
 	
 

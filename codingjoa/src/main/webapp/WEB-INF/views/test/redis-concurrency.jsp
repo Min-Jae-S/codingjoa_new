@@ -62,7 +62,7 @@
 		<button class="btn btn-primary btn-lg" onclick="flushBoardLikeCount()">flush<br>board_like_count</button>
 		<button class="btn btn-primary btn-lg" onclick="flushCommentLikeCount()">flush<br>comment_like_count</button>
 	</div>
-	<div>
+	<div class="test mt-5 d-flex">
 		<button class="btn btn-primary btn-lg" onclick="getCacheCountInBoard()">cache count<br>(board)</button>
 		<button class="btn btn-primary btn-lg" onclick="getCacheCountInComment()">cache count<br>(comment)</button>
 	</div>
