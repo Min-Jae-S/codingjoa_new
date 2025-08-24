@@ -134,6 +134,7 @@ public class ServletConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new PasswordResetViewInterceptor(redisService))
 				.addPathPatterns("/auth/password/reset");
 	}
+	
 
 	@Override
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
