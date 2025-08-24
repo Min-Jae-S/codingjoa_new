@@ -107,7 +107,7 @@ public class OAuth2Attributes {
 	private static OAuth2Attributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
 		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 		return getBuilder(userNameAttributeName, attributes)
-				.id(Objects.toString(attributes.get("id"), null))
+				.id(Objects.toString(response.get("id"), null))
 				.email((String) response.get("email"))
 				.nickname((String) response.get("nickname"))
 				.provider("naver")
