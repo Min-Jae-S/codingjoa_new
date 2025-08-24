@@ -97,7 +97,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read(@RequestParam long id, @BoardCri BoardCriteria boardCri,
+	public String read(@RequestParam Long id, @BoardCri BoardCriteria boardCri,
 			@AuthenticationPrincipal PrincipalDetails principal, Model model) {
 		log.info("## read, id = {}", id);
 		log.info("\t > boardCri = {}", boardCri);
